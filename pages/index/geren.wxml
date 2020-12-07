@@ -1,0 +1,13 @@
+<!--pages/index/geren.wxml-->
+<image class="img" src="../../img/geren.jpg"></image>
+<view class="title">慧节税●个人代开</view>
+<view class="body">
+  <text space="emsp" decode="{{true}}">&emsp;&emsp;</text>代办自然人税务局代开普票，500万以内综合税率是1.56%（1%增值税、0.5%恒定个税，0.06%附加税），没有额外服务费用，300万以内可一次性开出。
+
+<view><text space="emsp" decode="{{true}}">&emsp;&emsp;</text>自然人税务局代开普票可以开具的品目：</view>
+<view>1、服务费，即发票品名显示就是“服务费”三个字</view>
+<view>2、商贸类：商品名称+销售，</view>
+<view>3、建筑类：搬运费</view>
+<view>4、物流业：运输费</view>
+<view>5、工程类：工程款，安装费，维修费，房屋修缮费</view>
+</view>

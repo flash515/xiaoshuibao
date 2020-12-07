@@ -1,0 +1,27 @@
+{
+  "pages":[
+   "pages/index/index",
+   "pages/index/qiye",
+   "pages/index/geren",
+   "forms/qiye/formqiye",
+   "forms/tuijian/formtuijian"
+  ],
+  "tabBar": {  
+   "color": "#a9b7b7",  
+ "selectedColor": "#11cd6e",  
+ "backgroundColor": "gray",
+   "borderStyle": "black" ,
+   "list": [{  
+       "pagePath": "pages/index/index",  
+       "text": "首页"  
+      }, {  
+         "pagePath": "pages/index/qiye",  
+         "text": "企业托管"  
+        },{  
+         "pagePath": "pages/index/geren",  
+         "text": "个人代开"  
+        }
+        ]  
+     } ,
+  "sitemapLocation": "sitemap.json"
+}
