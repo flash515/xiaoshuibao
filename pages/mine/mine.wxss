@@ -1,0 +1,8 @@
+.btn-area{
+  background-color: #e4e4e4;
+  width: 30%;
+  margin: auto; /*居中處理*/
+  border-radius: 20rpx;
+  margin-top: 10px;
+
+}

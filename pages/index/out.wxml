@@ -1,0 +1,3 @@
+<!--pages/index/out.wxml该页面的webview需要在非个人版本并配置业务域名后使用-->
+<text>pages/index/out.wxml</text>
+<web-view src="{{url}}"></web-view>

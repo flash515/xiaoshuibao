@@ -1,27 +1,113 @@
 {
-  "pages":[
-   "pages/index/index",
-   "pages/index/qiye",
-   "pages/index/geren",
-   "forms/qiye/formqiye",
-   "forms/tuijian/formtuijian"
+  "pages": [
+    "pages/index/index",
+    "pages/index/home",
+    "pages/index/calculate",
+    "pages/index/aboutus",
+    "pages/product/product",
+    "pages/product/personaldetail",
+    "pages/product/indibusinessdetail",
+    "pages/product/soleproprietordetail",
+    "pages/product/companydetail",
+    "pages/manage/productedit",
+    "pages/manage/productview",
+    "pages/manage/scheme",
+    "pages/manage/manageindex",
+    "pages/manage/messgae",
+    "pages/order/newpersonal",
+    "pages/order/newindibusiness",
+    "pages/order/newsoleproprietor",
+    "pages/order/newcompany",
+    "pages/order/orderhistory",
+    "pages/order/paymenthistory",
+    "pages/order/orderdetail",
+    "pages/order/client",
+    "pages/order/address",
+    "pages/order/individual",
+    "pages/order/enterprise",
+    "pages/order/pay",
+    "pages/order/delegateissue",
+    "pages/mine/mine",
+    "pages/mine/minicode",
+    "pages/mine/poster",
+    "pages/mine/databass",
+    "pages/mine/regist",
+    "pages/mine/userinfo",
+    "pages/mine/shareuser",
+    "pages/mine/sharevalue",
+    "pages/mine/sms",
+    "pages/scheme/schemelist",
+    "pages/index/out",
+    "pages/tools/meetingroom/mettingroom",
+    "pages/tools/meetingroom/meetingroom1",
+    "pages/tools/meetingroom/meetingroom2",
+    "pages/tools/meetingroom/meetingroom3",
+    "pages/tools/meetingroom/meetingroom4",
+    "pages/tools/test",
+    "pages/tools/test1",
+    "pages/tools/sort"
   ],
-  "tabBar": {  
-   "color": "#a9b7b7",  
- "selectedColor": "#11cd6e",  
- "backgroundColor": "gray",
-   "borderStyle": "black" ,
-   "list": [{  
-       "pagePath": "pages/index/index",  
-       "text": "首页"  
-      }, {  
-         "pagePath": "pages/index/qiye",  
-         "text": "企业托管"  
-        },{  
-         "pagePath": "pages/index/geren",  
-         "text": "个人代开"  
-        }
-        ]  
-     } ,
+  "permission": {
+    "scope.userLocation": {
+      "desc": "请点击确定"
+    }
+  },
+  "usingComponents": {
+    "l-list": "/miniprogram_npm/lin-ui/list/index",
+    "l-price": "/miniprogram_npm/lin-ui/price/index",
+    "l-textarea": "/miniprogram_npm/lin-ui/textarea/index",
+    "l-button": "/miniprogram_npm/lin-ui/button/index",
+    "l-input": "/miniprogram_npm/lin-ui/input/index",
+    "l-card": "/miniprogram_npm/lin-ui/card/index",
+    "l-image-picker": "/miniprogram_npm/lin-ui/image-picker/index",
+    "l-segment": "/miniprogram_npm/lin-ui/segment/index",
+    "l-segment-item": "/miniprogram_npm/lin-ui/segment-item/index",
+    "l-tabs": "/miniprogram_npm/lin-ui/tabs/index",
+    "l-tabpanel": "/miniprogram_npm/lin-ui/tabpanel/index",
+    "l-grid": "/miniprogram_npm/lin-ui/grid/index",
+    "l-grid-item": "/miniprogram_npm/lin-ui/grid-item/index",
+    "l-icon": "/miniprogram_npm/lin-ui/icon/index",
+    "l-radio-group": "/miniprogram_npm/lin-ui/radio-group/index",
+    "l-radio": "/miniprogram_npm/lin-ui/radio/index",
+    "l-notice-bar": "/miniprogram_npm/lin-ui/notice-bar/index",
+    "l-transition": "/miniprogram_npm/lin-ui/transition/index",
+    "l-search-bar": "/miniprogram_npm/lin-ui/search-bar/index",
+    "l-rate": "/miniprogram_npm/lin-ui/rate/index",
+    "l-collapse":"/miniprogram_npm/lin-ui/collapse/index",
+    "l-collapse-item": "/miniprogram_npm/lin-ui/collapse-item/index"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "backgroundColor": "white",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/home",
+        "iconPath": "/img/home.png",
+        "selectedIconPath": "/img/home1.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/order/orderhistory",
+        "iconPath": "/img/order.png",
+        "selectedIconPath": "/img/order1.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/order/paymenthistory",
+        "iconPath": "/img/payment.png",
+        "selectedIconPath": "/img/payment1.png",
+        "text": "收付款"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "/img/me.png",
+        "selectedIconPath": "/img/me1.png",
+        "text": "我的"
+      }
+    ]
+  },
   "sitemapLocation": "sitemap.json"
 }

@@ -1,0 +1,190 @@
+<!--pages/scheme/schemelist.wxml-->
+<!-- 轮播头图 -->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<l-tabs bind:linchange="changeTabs">
+  <l-tabpanel tab="增值税" key="one" slot="one">
+    <view class="title">增值税筹划</view>
+    <view class="body">
+      <view wx:for="{{shemearrayA}}" wx:key="key">
+        <view class="title1">适用场景</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Condition}}</text>
+        </view>
+        <view class="title1">筹划方案</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
+        </view>
+        <view class="title1">产品推荐</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
+        </view>
+      </view>
+      <!-- 问答模块 -->
+      <label class="title1">项目问答：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <view wx:for="{{qaarray1}}" wx:key="key">
+            <label class="title1">问：{{item.Question}}</label>
+            <text>\n</text>
+            <label class="title1">答：{{item.Answer}}</label>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <!-- 留言模块 -->
+      <label class="title1">留言咨询：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <text>\n</text>
+          <view>
+            <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
+              bind:lininput="bvQuestion1"></l-textarea>
+          </view>
+          <view>
+            <l-button class='submit' bind:lintap='bvSubmit1' plain="{{true}}">发送留言</l-button>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+    </view>
+
+  </l-tabpanel>
+  <l-tabpanel tab="企业所得税" key="two" slot="two" bind:linchange="changeGT">
+    <view class="title">企业所得税筹划</view>
+    <view class="body">
+      <view wx:for="{{shemearrayB}}" wx:key="key">
+        <view class="title1">适用场景</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Condition}}</text>
+        </view>
+        <view class="title1">筹划方案</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
+        </view>
+        <view class="title1">产品推荐</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
+        </view>
+      </view>
+      <!-- 问答模块 -->
+      <label class="title1">项目问答：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <view wx:for="{{qaarray2}}" wx:key="key">
+            <label class="title1">问：{{item.Question}}</label>
+            <text>\n</text>
+            <label class="title1">答：{{item.Answer}}</label>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <!-- 留言模块 -->
+      <label class="title1">留言咨询：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <view>
+            <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
+              bind:lininput="bvQuestion2"></l-textarea>
+          </view>
+          <view>
+            <l-button class='submit' bind:lintap='bvSubmit2' plain="{{true}}">发送留言</l-button>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="个人所得税" key="three" slot="three" bind:linchange="changeGT">
+    <view class="title">个人所得税筹划</view>
+    <view class="body">
+      <view wx:for="{{shemearrayC}}" wx:key="key">
+        <view class="title1">适用场景</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Condition}}</text>
+        </view>
+        <view class="title1">筹划方案</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
+        </view>
+        <view class="title1">产品推荐</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
+        </view>
+      </view>
+      <!-- 问答模块 -->
+      <label class="title1">项目问答：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <view wx:for="{{qaarray3}}" wx:key="key">
+            <label class="title1">问：{{item.Question}}</label>
+            <text>\n</text>
+            <label class="title1">答：{{item.Answer}}</label>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <!-- 留言模块 -->
+      <label class="title1">留言咨询：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <view>
+            <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
+              bind:lininput="bvQuestion3"></l-textarea>
+          </view>
+          <view>
+            <l-button class='submit' bind:lintap='bvSubmit3' plain="{{true}}">发送留言</l-button>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="股权转让个税" key="four" slot="four" bind:linchange="changeGS">
+    <view class="title">股权转让个税筹划</view>
+    <view class="body">
+      <view wx:for="{{shemearrayD}}" wx:key="key">
+        <view class="title1">适用场景</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Condition}}</text>
+        </view>
+        <view class="title1">筹划方案</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
+        </view>
+        <view class="title1">产品推荐</view>
+        <view>
+          <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
+        </view>
+      </view>
+      <!-- 问答模块 -->
+
+      <label class="title1">项目问答：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <view wx:for="{{qaarray4}}" wx:key="key">
+            <label class="title1">问：{{item.Question}}</label>
+            <text>\n</text>
+            <label class="title1">答：{{item.Answer}}</label>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <!-- 留言模块 -->
+      <label class="title1">留言咨询：</label>
+      <l-collapse>
+        <l-collapse-item title="折叠/展开">
+          <view>
+            <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
+              bind:lininput="bvQuestion4"></l-textarea>
+          </view>
+          <view>
+            <l-button class='submit' bind:lintap='bvSubmit4' plain="{{true}}">发送留言</l-button>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+    </view>
+  </l-tabpanel>
+</l-tabs>

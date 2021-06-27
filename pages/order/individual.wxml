@@ -1,0 +1,58 @@
+<!--pages/order/individual开票人资料-->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<l-card type="primary" plaintext="{{true}}">
+<text class="info" space="emsp">  提示：提交的个人信息将用于小税宝接受用户委托，代办自然人税局代开发票业务时使用，小税宝承诺该信息不会用于其他用途，并且用户可随时删除有关个人信息。</text>
+<view>
+  <l-input type="text" name="adddate" label="登记日期" placeholder="{{adddate}}" disabled="{{true}}"></l-input>
+</view>
+<view>
+  <l-input type="text" name="individualname" label="开票人姓名" placeholder="{{individualname}}" bind:lininput="bvIndividualName"></l-input>
+</view>
+<view>
+  <l-input type="text" name="individualphone" label="开票人手机" placeholder="{{individualphone}}" bind:lininput="bvIndividualPhone">
+  </l-input>
+</view>
+<view>
+  <l-input type="text" name="individualaddress" label="开票人地址" placeholder="{{individualaddress}}" bind:lininput="bvIndividualAddress">
+  </l-input>
+</view>
+<view>
+  <l-input type="text" name="taxaccount" label="电子税局账号" placeholder="{{taxaccount}}" bind:lininput="bvTaxAccount"></l-input>
+</view>
+<view>
+  <l-input type="text" name="taxpassword" label="电子税局密码" placeholder="{{taxpassword}}" bind:lininput="bvTaxPassword">
+  </l-input>
+</view>
+<view>
+  <l-input type="text" name="updatedate" label="更新日期" placeholder="{{updatedate}}" disabled="{{true}}"></l-input>
+</view>
+<text>\t\t</text>
+  <!-- 显示选择的图片 -->
+<view>
+  <label class="text">请选取或拍摄委托书等授权资料</label>
+  <l-image-picker size="4" count="4" bind:linchange="onChangeTap" bind:linremove="onRemoveAttachmentImage" urls="{{attachmentview}}"/>
+  <l-button plain="{{true}}" bind:lintap="onUploadAttachmentImage">上传附件</l-button>
+</view>
+
+<view wx:if="{{pageParam._id.length}}">
+  <text>\t\n</text>
+  <l-button type="default" bind:lintap="updateData">更新信息</l-button>
+  <text>\t\t</text>
+  <l-button type="default" bind:lintap="delData">删除信息</l-button>
+</view>
+<view wx:else>
+  <text>\t\n</text>
+  <l-button type="default" bind:lintap="addData">提交信息</l-button>
+</view>
+</l-card>

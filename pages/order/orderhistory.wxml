@@ -1,0 +1,46 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="title">
+  <text>订单记录</text>
+</view>
+<l-tabs bind:linchange="changeTabs">
+  <l-tabpanel tab="自然人代开订单" key="one" slot="one">
+  <view wx:for="{{orderhistory}}" wx:key="key">
+    <l-card type="primary" plaintext="{{true}}">
+      <view class="content">
+        <view>订单日期：{{item.AddDate}}</view>
+        <view>开票人：{{item.SellerName}}</view>
+        <view>受票企业：{{item.BuyerName}}</view>
+        <view>开票项目：{{item.ItemName}}</view>
+        <view>开票金额：{{item.TotalAmount}}</view>
+        <!-- <view>ID：{{item._id}}</view> -->
+        <view>
+          <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail">订单详情</l-button>
+        </view>
+      </view>
+    </l-card>
+  </view>
+</l-tabpanel>
+  <l-tabpanel tab="企业注册订单" key="two" slot="two">
+    <l-card type="primary" plaintext="{{true}}">
+    
+    
+    </l-card>
+  </l-tabpanel>
+  <l-tabpanel tab="折扣卡订单" key="three" slot="three">
+    <l-card type="primary" plaintext="{{true}}">
+    
+    
+    </l-card>
+  </l-tabpanel>
+</l-tabs>

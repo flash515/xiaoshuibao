@@ -1,0 +1,152 @@
+<!--产品新增页面-->
+<view class="title">产品新增/编辑</view>
+<text>\n</text>
+<l-search-bar placeholder="模糊搜索办理地、产品类型、产品状态" bind:linconfirm="onSearch" />
+<text>\n</text>
+<view>
+  <l-input type="text" placeholder="{{adddate}}" label="录入日期:" disabled="{{true}}"></l-input>
+</view>
+<view>
+  <l-input type="text" label="更新日期:" placeholder="{{updatedate}}" disabled="{{true}}"></l-input>
+</view>
+<view>
+  <l-list title="当前产品展示状态：" is-link="{{false}}" gap="20">
+    <view slot="right-section">
+      <switch checked="{{onsalechecked}}" bindchange="onsaleChange" style='zoom:.6;' />
+    </view>
+   </l-list>
+</view>
+<view>
+  <l-input type="text" value="{{productid}}" label="产品编号:" bind:lininput="bvProductId"></l-input>
+</view>
+<view>
+  <l-input type="text" value="{{producttype}}" label="产品类型:" bind:lininput="bvProductType"></l-input>
+</view>
+<view>
+  <l-input type="text" value="{{productname}}" label="产品名称:" bind:lininput="bvProductName"></l-input>
+</view>
+<view>
+  <label class="text">产品概要:</label>
+  <l-textarea type="text" name="outline" value="{{outline}}" bind:lininput="bvOutline"></l-textarea>
+</view>
+<view>
+  <label class="text">产品具体说明:</label>
+  <l-textarea type="text" value="{{description}}" bind:lininput="bvDescription"></l-textarea>
+</view>
+
+<view>
+  <label class="text">适用情况:</label>
+  <l-textarea type="text" value="{{situation}}" bind:lininput="bvSituation"></l-textarea>
+</view>
+<view>
+  <label class="text">限制性事项:</label>
+  <l-textarea type="text" value="{{forbid}}" bind:lininput="bvForbid"></l-textarea>
+</view>
+<view>
+  <label class="text">资料清单:</label>
+  <l-textarea type="text" value="{{doclist}}" bind:lininput="bvDocList"></l-textarea>
+</view>
+<view>
+  <label class="text">税收奖励:</label>
+  <l-textarea type="text" value="{{reward}}" bind:lininput="bvReward"></l-textarea>
+</view>
+<view>
+  <label class="text">奖励时间:</label>
+  <l-textarea type="text" value="{{rewardtime}}" bind:lininput="bvRewardTime"></l-textarea>
+</view>
+<view>
+  <l-input type="text" value="{{issuedplace}}" label="办理地点:" bind:lininput="bvIssuedPlace"></l-input>
+</view>
+<view>
+  <l-input type="text" label="办理部门:" value="{{issuedby}}" bind:lininput="bvIssuedBy"></l-input>
+</view>
+<view>
+  <l-input type="text" label="办理时长:" value="{{processingtime}}" bind:lininput="bvProcessingTime"></l-input>
+</view>
+<view>
+  <l-input type="text" label="服务商:" value="{{provider}}" bind:lininput="bvProvider"></l-input>
+</view>
+<view>
+  <l-input type="text" label="服务商报价:" value="{{supplyprice}}" bind:lininput="bvSupplyPrice"></l-input>
+</view>
+<view>
+  <l-input type="digit" label="服务商计算费率:" value="{{supplycountprice}}" bind:lininput="bvSupplyCountPrice"></l-input>
+</view>
+<view>
+  <l-input type="text" label="渠道客户报价:" value="{{distributorprice}}" bind:lininput="bvDistributorPrice"></l-input>
+</view>
+<view>
+  <l-input type="digit" label="渠道客户计算费率:" value="{{distributorcountprice}}" bind:lininput="bvDistributorCountPrice">
+  </l-input>
+</view>
+<view>
+  <l-input type="text" label="VIP会员报价:" value="{{vipprice}}" bind:lininput="bvVIPPrice"></l-input>
+</view>
+<view>
+  <l-input type="digit" label="VIP计算费率:" value="{{vipcountprice}}" bind:lininput="bvVIPCountPrice"></l-input>
+</view>
+<view>
+  <l-input type="text" label="会员客户报价:" value="{{memberprice}}" bind:lininput="bvMemberPrice"></l-input>
+</view>
+<view>
+  <l-input type="digit" label="会员计算费率:" value="{{membercountprice}}" bind:lininput="bvMemberCountPrice"></l-input>
+</view>
+<view>
+  <l-input type="text" label="普通客户报价:" value="{{normalprice}}" bind:lininput="bvNormalPrice"></l-input>
+</view>
+<view>
+  <l-input type="digit" label="普客计算费率:" value="{{normalcountprice}}" bind:lininput="bvNormalCountPrice"></l-input>
+</view>
+<view>
+  <l-input type="text" label="推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
+</view>
+<picker mode="date" value="{{startdate}}" start="2015-09-01" end="2022-09-01" bindchange="bvStartDate">
+  <view class="picker">
+    <text class="text">起售日期: {{startdate}}</text>
+  </view>
+</picker>
+<picker mode="date" value="{{enddate}}" start="2021-01-01" end="2021-12-31" bindchange="bvEndDate">
+  <view class="picker">
+    <text class="text">止售日期: {{enddate}}</text>
+  </view>
+</picker>
+<!-- 附件展示 -->
+<label class="text">其他资料：</label>
+<!-- 显示选择的图片 -->
+<view>
+  <label class="text">图片附件：</label>
+  <l-image-picker size="4" count="4" bind:linchange="onChangeTap" bind:linremove="bvRemoveImage"
+    urls="{{attachmentview}}" />
+  <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
+</view>
+
+<!-- 附件上传 -->
+<text>\n</text>
+<label class="text">文件附件：</label>
+<text>\n</text>
+<view wx:for="{{attachmentfile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
+  <l-button data-link="{{value}}" bind:lintap="" plain="{{true}}">{{key}}</l-button>
+</view>
+<text>\n</text>
+<view wx:for="{{tempFilePaths}}" wx:key="key">{{tempFilePaths[index].name}}
+</view>
+<l-button bind:lintap="bvChooseFile" plain="{{true}}">选择文件</l-button>
+<text>\t\t</text>
+<l-button bind:lintap="bvUploadFile" plain="{{true}}">上传文件</l-button>
+<view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
+  <l-button data-link="{{value}}" bind:lintap="bvUploadFile" plain="{{true}}">{{key}}</l-button>
+</view>
+<text>\n\n</text>
+<view>
+  <l-button type="default" bind:lintap="addData">提交信息</l-button>
+  <text>\t\t</text>
+  <l-button type="default" bind:lintap="updateData">更新信息</l-button>
+  <text>\t\t</text>
+  <l-button type="default" bind:lintap="delData">删除信息</l-button>
+</view>
+<text>\n</text>
+<view wx:if="{{recordcontral==true}}">
+  <l-button type="default" bind:lintap="onPreviousClick" shape="circle" plain="{{true}}">上一条</l-button>
+  <text>\t\t</text>
+  <l-button type="default" bind:lintap="onNextClick" shape="circle" plain="{{true}}">下一条</l-button>
+</view>

@@ -1,0 +1,80 @@
+<!-- 轮播头图 -->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<!-- 页面内容 -->
+<!-- 直接分享 -->
+<l-grid row-num="2">
+  <l-grid-item key="one" slot="one">
+    <l-price 
+    unit="￥"
+    value='{{direct30value}}'
+    reserve-digit="2"
+    unit-color="#3963bc"
+size="50"
+  ></l-price>
+    <view class="text">30天直接分享价值</view>
+  </l-grid-item>
+  <l-grid-item key="two" slot="two">
+    <l-price 
+    unit="￥"
+    value='{{directvalue}}'
+    reserve-digit="2"
+    unit-color="#3963bc"
+size="50"
+  ></l-price>
+    <view class="text">累计直接分享价值</view>
+  </l-grid-item>
+</l-grid>
+<!-- 间接分享 -->
+<l-grid row-num="2">
+  <l-grid-item key="one" slot="one">
+    <l-price 
+    unit="￥"
+    value='{{indirect30value}}'
+    reserve-digit="2"
+    unit-color="#3963bc"
+size="50"
+  ></l-price>
+    <view class="text">30天间接分享价值</view>
+  </l-grid-item>
+  <l-grid-item key="two" slot="two">
+    <l-price 
+    unit="￥"
+    value='{{indirectvalue}}'
+    reserve-digit="2"
+    unit-color="#3963bc"
+size="50"
+  ></l-price>
+    <view class="text">累计间接分享价值</view>
+  </l-grid-item>
+</l-grid>
+<!-- 直接分享明细 -->
+<l-tabs bind:linchange="changeTabs">
+  <l-tabpanel tab="30天直接分享价值" key="one" slot="one" dot-badge="{{dotbadge}}">
+    <view wx:for="{{direct30order}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{item.AddDate}}</view>
+        <view>订单金额：{{item.TotalFee}}</view>
+        <view>推广奖励：{{item.Charge1}}</view>
+      </l-card>
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="累计直接分享价值" key="two" slot="two">
+    <view wx:for="{{directorder}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{item.AddDate}}</view>
+        <view>订单金额：{{item.TotalFee}}</view>
+        <view>推广奖励：{{item.Charge1}}</view>
+      </l-card>
+    </view>
+  </l-tabpanel>
+</l-tabs>

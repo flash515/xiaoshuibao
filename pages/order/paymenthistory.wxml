@@ -1,0 +1,43 @@
+<!--pages/order/paymenthistory.wxml-->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="title">
+  <text>收付款记录</text>
+</view>
+<l-tabs bind:linchange="changeTabs">
+  <l-tabpanel tab="付款记录" key="one" slot="one">
+  <view wx:for="{{orderhistory}}" wx:key="key">
+    <l-card type="primary" plaintext="{{true}}">
+      <view class="content">
+        <view>订单日期：{{item.AddDate}}</view>
+        <view>订单类型：{{item.ProductType}}</view>
+        <view>订单费用：{{item.TotalFee}}</view>
+        <view>是否支付：{{item.PaymentStatus}}</view>
+        <!-- <view>ID：{{item._id}}</view> -->
+        <view>
+          <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail">订单详情</l-button>
+          <text>\t\t</text>
+          <l-button data-id="{{item._id}}" bind:lintap="bvToPay">支付费用</l-button>
+        </view>
+      </view>
+    </l-card>
+  </view>
+
+  </l-tabpanel>
+  <l-tabpanel tab="收款记录" key="two" slot="two">
+    <l-card type="primary" plaintext="{{true}}">
+    
+    
+    </l-card>
+  </l-tabpanel>
+</l-tabs>

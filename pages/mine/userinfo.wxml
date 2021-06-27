@@ -1,0 +1,83 @@
+<!-- 轮播头图 -->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<l-tabs bind:linchange="changeTabs">
+  <l-tabpanel tab="邀请人信息" key="one" slot="one">
+<l-card type="primary" plaintext="{{true}}">
+
+<view>
+    <l-input type="text" label="邀请人企业名" placeholder="{{invitercompanyname}}"  disabled="{{true}}" ></l-input>
+</view>
+<view>
+    <l-input type="text" label="邀请人姓名" placeholder="{{inviterusername}}"  disabled="{{true}}" ></l-input>
+</view>
+</l-card>
+</l-tabpanel>
+<l-tabpanel tab="本人信息" key="two" slot="two">
+  <l-card type="primary" plaintext="{{true}}">
+  <view>
+    <l-input type="text" label="注册日期" placeholder="{{adddate}}"  disabled="{{true}}" ></l-input>
+</view>
+<view>
+    <l-input type="text" label="更新日期" placeholder="{{updatedate}}"  disabled="{{true}}" ></l-input>
+</view>
+<view>
+    <l-input type="text" label="我的姓名" placeholder="{{username}}" bind:lininput="bvUserName"></l-input>
+</view>
+<view>
+    <l-input type="number" label="我的手机" placeholder="{{userphone}}" bind:lininput="bvUserPhone"></l-input>
+</view>
+<view>
+  <l-input type="text" label="就职企业名称" placeholder="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
+</view>
+<view>
+    <l-input type="text" label="就职企业代码" placeholder="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
+</view>
+<view>
+    <l-input type="text" label="就职企业业务" placeholder="{{businessscope}}" bind:lininput="bvBusinessScope"></l-input>
+</view>
+<view>
+    <l-input type="text" label="就职企业规模" placeholder="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
+</view>
+</l-card>
+</l-tabpanel>
+<l-tabpanel tab="会员等级" key="three" slot="three">
+  <l-card type="primary" plaintext="{{true}}">
+<view>
+    <l-input type="text" label="当前会员等级" placeholder="{{usertype}}" disabled="{{true}}"></l-input>
+</view>
+</l-card>
+</l-tabpanel>
+<l-tabpanel tab="价格等级" key="four" slot="four">
+  <l-card type="primary" plaintext="{{true}}" title="阶段价格等级">
+    <l-input type="text" label="当前价格等级" placeholder="{{pricelevel}}"></l-input>
+    <l-input type="text" label="生效日期" placeholder="{{pricestartdate}}"></l-input>
+    <l-input type="text" label="到期日期" placeholder="{{priceenddate}}"></l-input>
+  </l-card>
+  <l-card type="primary" plaintext="{{true}}" title="临时价格等级">
+    <l-input type="text" label="当前价格等级" placeholder="{{pricelevel}}"></l-input>
+    <l-button bind:lintap="pricecheck" plain="{{true}}">查询即时价格等级</l-button>
+  </l-card>
+</l-tabpanel>
+<l-tabpanel tab="收款账号" key="five" slot="five">
+  <l-card type="primary" plaintext="{{true}}">
+    <l-input type="text" label="户    名：" placeholder="{{accountname}}" bind:lininput="bvAccountName"></l-input>
+    <l-input type="text" label="开户银行：" placeholder="{{bankname}}" bind:lininput="bvBankName"></l-input>
+    <l-input type="text" label="银行账号：" placeholder="{{account}}" bind:lininput="bvAccount"></l-input>
+  </l-card>
+</l-tabpanel>
+</l-tabs>
+<l-card type="primary" plaintext="{{true}}">
+<view>
+  <l-button type="default" bind:lintap="UpdateData">更改信息</l-button>
+</view>
+</l-card>

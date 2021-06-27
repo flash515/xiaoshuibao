@@ -1,0 +1,170 @@
+<!--pages/order/delegateissue.wxml-->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<!-- 分页展示 -->
+<l-tabs>
+  <!-- 销货企业 -->
+  <l-tabpanel tab="销货企业" key="one" slot="one" bind:linchange="submitdisable">
+    <l-card type="primary" plaintext="{{true}}">
+      <l-list title="从常客信息中选取销货企业" is-link="{{false}}" gap="20">
+        <view slot="right-section">
+          <switch checked="{{sellerswitchChecked}}" bindchange="sellerswitchChange" style='zoom:.6;' />
+        </view>
+      </l-list>
+      <view class="section">
+        <view wx:if="{{sellerswitchChecked==true}}">
+          <picker bindchange="bindPickerSeller" value="{{index}}" range="{{enterprisearray}}"
+            range-key="EnterpriseName">
+            <view class="picker">
+              <text class="text">选择销货企业：</text>{{enterprisearray[index].EnterpriseName}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <!-- 常规输入 -->
+      <l-input label="销货企业名称：" type="text" label-layout="left" label-width="270" clear="{{true}}"
+        placeholder="{{sellername}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerName" />
+      <l-input label="销货企业认别号：" placeholder="{{sellerid}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerId" />
+      <l-input label="销货企业地址：" placeholder="{{selleraddress}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerAddress" />
+      <l-input label="销货企业电话：" placeholder="{{sellerphone}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerPhone" />
+      <l-input label="企业开户银行：" placeholder="{{sellerbank}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerBank" />
+      <l-input label="企业银行账号：" placeholder="{{sellerbankaccount}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerBankAccount" />
+    </l-card>
+  </l-tabpanel>
+  <!-- 购货企业 -->
+  <l-tabpanel tab="购货企业" key="two" slot="two" bind:linchange="submitdisable">
+    <l-card type="primary" plaintext="{{true}}">
+      <l-list title="从常客信息中选取购货企业" is-link="{{false}}" gap="20">
+        <view slot="right-section">
+          <switch checked="{{buyerswitchChecked}}" bindchange="buyerswitchChange" style='zoom:.6;' />
+        </view>
+      </l-list>
+      <view class="section">
+        <view wx:if="{{buyerswitchChecked==true}}">
+          <picker bindchange="bindPickerBuyer" value="{{index}}" range="{{enterprisearray}}" range-key="EnterpriseName">
+            <view class="picker">
+              <text class="text">选择购货企业：</text>{{enterprisearray[index].EnterpriseName}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <!-- 常规输入 -->
+      <l-input label="购货企业名称：" type="text" label-layout="left" label-width="270" clear="{{true}}"
+        placeholder="{{buyername}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerName" />
+      <l-input label="购货企业证号：" placeholder="{{buyerid}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerId" />
+      <l-input label="购货企业地址：" placeholder="{{buyeraddress}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerAddress" />
+      <l-input label="购货企业电话：" placeholder="{{buyerphone}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerPhone" />
+      <l-input label="企业开户银行：" placeholder="{{buyerbank}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerBank" />
+      <l-input label="企业银行账号：" placeholder="{{buyerbankaccount}}" type="text" label-layout="left" label-width="270"
+        clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerBankAccount" />
+    </l-card>
+  </l-tabpanel>
+  <!-- 开票项目 -->
+  <l-tabpanel tab="开票信息" key="three" slot="three" bind:linchange="submitdisable">
+    <l-card type="primary" plaintext="{{true}}">
+      <text class="text">选择开票类型：</text>
+      <l-radio-group current="{{invoicetype}}" none-checked="{{false}}" placement="row"
+        bind:linchange="bvInvoiceChange">
+        <l-radio key="1%专票">1%专票</l-radio>
+        <l-radio key="1%普票">1%普票</l-radio>
+        <l-radio key="3%专票">3%专票</l-radio>
+        <l-radio key="3%普票">3%普票</l-radio>
+      </l-radio-group>
+      <l-input name="itemname" label="开票项目名称：" type="text" label-layout="left" label-width="270" clear="{{true}}"
+        placeholder="{{itemname}}" bind:lininput="bvItemName" required="{{true}}" />
+      <l-input name="itemmodel" label="规格型号：" type="text" label-layout="left" label-width="270" clear="{{true}}"
+        placeholder="{{itemmodel}}" bind:lininput="bvItemModel" />
+      <l-input name="itemunit" label="计量单位：" type="text" label-layout="left" label-width="270" clear="{{true}}"
+        placeholder="{{itemunit}}" bind:lininput="bvItemUnit" />
+      <l-input name="quantity" label="数量：" type="number" label-layout="left" label-width="270" clear="{{true}}"
+        placeholder="{{quantity}}" bind:lininput="bvQuantity" />
+      <l-input name="unitprice" label="单价（元）：" type="number" label-layout="left" label-width="270" disabled="{{true}}"
+        placeholder="{{unitprice}}" />
+      <l-input name="totalprice" label="总价（不含税）：" type="number" label-layout="left" label-width="270"
+        disabled="{{true}}" placeholder="{{totalprice}}" />
+      <l-input name="totalamount" label="开票总金额（元）：" type="number" label-layout="left" label-width="270"
+        required="{{true}}" placeholder="{{totalamount}}" bind:lininput="bvTotalAmount" />
+      <l-input name="vat" label="增值税（元）：" type="number" label-layout="left" label-width="270" placeholder="{{vat}}"
+        disabled="{{true}}" />
+      <l-input name="supertax" label="附加税（元）：" type="number" label-layout="left" label-width="270"
+        placeholder="{{supertax}}" disabled="{{true}}" />
+      <l-input name="inditax" label="个人所得税（元）：" type="number" label-layout="left" label-width="270"
+        placeholder="{{inditax}}" disabled="{{true}}" />
+      <text class="text">发票备注（体现在发票上）：</text>
+      <l-textarea name="invoremark" placeholder="{{invoremark}}" auto-height="{{true}}" bind:lininput="bvInvoRemark" />
+      <text class="text">业务备注（不体现在发票上）：</text>
+      <l-textarea name="remark" placeholder="{{remark}}" auto-height="{{true}}" bind:lininput="bvRemark" />
+      <l-input name="totalfee" label="办理费用（元）：" type="number" label-layout="left" label-width="270"
+        placeholder="{{totalfee}}" disabled="{{true}}" />
+    </l-card>
+  </l-tabpanel>
+  <l-tabpanel tab="附件上传" key="four" slot="four" bind:linchange="submitdisable">
+    <l-card type="primary" plaintext="{{true}}">
+      <view>
+        <label class="text">请选取或拍摄需要上传的图片（委托书、业务合同、转账记录等）</label>
+        <l-image-picker size="3" count="9" bind:linchange="onChangeImgTap" bind:linremove="onRemoveImage"
+          urls="{{attachmentview}}" />
+
+        <l-button plain="{{true}}" bind:lintap="onUploadImage">上传图片</l-button>
+      </view>
+    </l-card>
+  </l-tabpanel>
+  <l-tabpanel tab="收件地址" key="five" slot="five" bind:linchange="submitenable">
+    <l-card type="primary" plaintext="{{true}}">
+      <l-list title="从常客信息中选取发票收件人地址" is-link="{{false}}" gap="20">
+        <view slot="right-section">
+          <switch checked="{{addressswitchChecked}}" bindchange="addressswitchChange" style='zoom:.6;' />
+        </view>
+      </l-list>
+      <view class="section">
+        <view wx:if="{{addressswitchChecked==true}}">
+          <picker bindchange="bindPickerAddress" value="{{index}}" range="{{addressarray}}" range-key="Addressee">
+            <view class="picker">
+              <text class="text">选取发票收件人地址：</text>{{addressarray[index].Addressee}}
+            </view>
+          </picker>
+        </view>
+        <l-input name="addressee" label="收件人姓名：" placeholder="{{addressee}}" type="text" label-layout="left"
+          label-width="270" clear="{{true}}" required="{{true}}" disabled="{{addressdisable}}"
+          bind:lininput="bvAddressee" />
+        <l-input name="addresseephone" label="收件人电话：" placeholder="{{addresseephone}}" type="text" label-layout="left"
+          label-width="270" clear="{{true}}" required="{{true}}" disabled="{{addressdisable}}"
+          bind:lininput="bvAddresseePhone" />
+        <l-input name="address" label="收件人地址：" placeholder="{{address}}" type="text" label-layout="left"
+          label-width="270" clear="{{true}}" required="{{true}}" disabled="{{addressdisable}}"
+          bind:lininput="bvAddress" />
+      </view>
+    </l-card>
+  </l-tabpanel>
+</l-tabs>
+<text>\r\n</text>
+<l-card type="primary" plaintext="{{true}}">
+  <view wx:if="{{!submitted}}">
+    <l-button type="default" bindtap="bvTempStorage">暂存</l-button>
+    <text>\t\t</text>
+    <l-button type="default" bindtap="addData" disabled="{{submitbtndisable}}">提交</l-button>
+    <text>\t\t</text>
+  </view>
+  <view wx:else>
+    <l-button type="default" data-totalfee="totalfee={{totalfee}}" bindtap="pay">支付费用</l-button>
+  </view>
+</l-card>

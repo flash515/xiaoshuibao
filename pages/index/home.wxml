@@ -1,0 +1,69 @@
+<!--pages/index/home.wxml-->
+<!-- 轮播头图 -->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view  wx:if="{{avatarUrl=='' || nickName==''}}">
+  <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+</view>
+<view wx:else class="userinfo">
+  <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
+  <!-- <view> -->
+    <view class="userinfo-nickname" >{{nickName}}</view>
+  <!-- </view> -->
+</view>
+<!-- 通知栏 -->
+<l-notice-bar show="{{true}}" 
+              type="swip" speed="2000" front-icon-name="notification" front-icon-size="20"
+    front-icon-color="#3683D6" bind:lintap="onNoticeView"
+              swip-arr="{{noticearray}}">
+</l-notice-bar>
+
+<l-grid show-border="true" row-num="2">
+  <l-grid-item key='one' slot='one'>
+    <navigator url='../scheme/schemelist'>
+      <l-icon name='order' />
+      <view class="text">税筹项目</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key='two' slot='two'>
+    <navigator url='../product/product'>
+      <l-icon name='order' />
+      <view class="text">税筹产品</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key='three' slot='three'>
+    <navigator url='../order/newpersonal'>
+      <l-icon name='order' />
+      <view class="text">自然人代开票</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key='four' slot='four'>
+    <navigator url='../order/delegateissue'>
+      <l-icon name='order' />
+      <view class="text">托管企业出票</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key='five' slot='five'>
+    <navigator url='../order/client'>
+      <l-icon name='user' />
+      <view class="text">常客信息管理</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key='six' slot='six'>
+    <navigator url='../tools/meetingroom/meetingroom'>
+      <l-icon name='comment' />
+      <view class="text">快捷会议室</view>
+    </navigator>
+  </l-grid-item>
+</l-grid>
+
+

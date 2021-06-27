@@ -1,0 +1,49 @@
+<!--pages/order/pay.wxml-->
+<!-- 轮播头图 -->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+
+
+  <l-card type="primary" plaintext="{{true}}">
+  <text>\n\n</text>
+  <label class="title1">订单总金额:</label>
+  <l-price size="50" color="#3963bc" unit="￥" value='{{totalfee}}' reserve-digit="2" autofix='true'></l-price>
+  <text>\n</text>
+  <text>注明：以上办理费用为不含税费用，如需开票，须额外支付6%增值税款</text>
+  </l-card>
+<text>\n</text>
+<l-card type="primary" plaintext="{{true}}">
+  <label>微信扫码支付：</label>
+  <image
+    src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png"
+    mode="aspectFit" bindtap="enlarge"
+    data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png">
+  </image>
+</l-card>
+<text>\n</text>
+<l-card type="primary" plaintext="{{true}}">
+  <label>支付宝扫码支付：</label>
+  <image
+    src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg"
+    mode="aspectFit" bindtap="enlarge"
+    data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg">
+  </image>
+</l-card>
+<text>\n</text>
+<l-card type="primary" plaintext="{{true}}">
+  <label>通过银行转账：</label>
+  <view>
+    <text user-select="true" space="emsp">户 名：吴翟</text>
+  </view>
+  <view><text user-select="true" space="emsp">卡 号：6217921104017465</text></view>
+  <view><text user-select="true" space="emsp">开户行：浦发银行深圳沙井支行</text></view>
+</l-card>

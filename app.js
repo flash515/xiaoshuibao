@@ -1,11 +1,25 @@
 //app.js
 App({
   onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+    } else {
+      wx.cloud.init({
+        // env 参数说明：
+        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
+        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
+        //   如不填则使用默认环境（第一个创建的环境）
+        env: 'xsbmain-9gvsp7vo651fd1a9',
+        traceUser: true,
+      })
+    }
+    // this.globalData = {}
+    // 清除本地存储数据,调试发布后可去除
+    // wx.clearStorage({
+    //   success: (res) => {
+    //     console.log("清除本地存储数据成功")
+    //   },
+    // })
     // 登录
     wx.login({
       success: res => {
@@ -32,8 +46,59 @@ App({
         }
       }
     })
+    if (wx.canIUse('getUpdateManager')) {
+      const updateManager = wx.getUpdateManager()
+      updateManager.onCheckForUpdate(function (res) {
+        console.log('onCheckForUpdate====', res)
+        // 请求完新版本信息的回调
+        if (res.hasUpdate) {
+          console.log('res.hasUpdate====')
+          updateManager.onUpdateReady(function () {
+            wx.showModal({
+              title: '更新提示',
+              content: '小税宝新版本已经准备好，请重启小程序',
+              success: function (res) {
+                console.log('success====', res)
+                // res: {errMsg: "showModal: ok", cancel: false, confirm: true}
+                if (res.confirm) {
+                  // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+                  updateManager.applyUpdate()
+                }
+              }
+            })
+          })
+          updateManager.onUpdateFailed(function () {
+            // 新的版本下载失败
+            wx.showModal({
+              title: '已经有新的版本',
+              content: '小税宝新版本已经上线，请删除当前小程序，重新搜索并打开'
+            })
+          })
+        }
+      })
+    }
   },
   globalData: {
-    userInfo: null
+    // 小程序用户信息
+    GuserInfo: [],
+    // 用户小程序id 
+    Gopenid: "",
+    //用户本人信息
+    Gcompanyname: "",
+    Gusername: "",
+    GnickName: "",
+    GavatarUrl: "",
+    // 用户类型
+    Gusertype: "",
+    //轮播图
+    Gimagearray:[],
+    //用户设置
+    Gpriceshow:'',
+    Gdirectvalueshow:'',
+    Gindirectvalueshow:'',
+    Gdirectusershow:'',
+    Gindirectusershow:'',
+    Gvaluedetailshow:'',
+    Guserdetailshow:''
   }
 })

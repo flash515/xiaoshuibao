@@ -1,0 +1,13 @@
+/* pages/tools/test1.wxss */
+
+.btn{
+background: #EC6128;
+height: 60rpx;
+width: 500rpx;
+border-radius: 20rpx;
+margin: 0 auto;
+margin-top: 20rpx;
+color: #fff;
+text-align: center;
+line-height: 60rpx;
+}

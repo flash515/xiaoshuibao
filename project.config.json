@@ -6,7 +6,7 @@
   "setting": {
     "urlCheck": true,
     "es6": true,
-    "enhance": false,
+    "enhance": true,
     "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,
@@ -21,8 +21,9 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
+    "useMultiFrameRuntime": true,
     "useApiHook": true,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -30,18 +31,16 @@
     },
     "enableEngineNative": false,
     "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
-    "bundle": false
+    "showES6CompileOption": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.0.4",
-  "appid": "wx8946c1a2fb4b1be9",
-  "projectname": "miniprogram-2",
+  "libVersion": "2.17.0",
+  "appid": "wx810b87f0575b9a47",
+  "projectname": "小税宝",
   "debugOptions": {
     "hidedInDevtools": []
   },
@@ -49,6 +48,8 @@
   "isGameTourist": false,
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
+  "cloudfunctionRoot": "cloundfunctions/",
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "plugin": {
       "list": []
@@ -62,26 +63,44 @@
     "miniprogram": {
       "list": [
         {
-          "name": "forms/geren/formgrdk",
-          "pathName": "forms/geren/formgrdk",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "forms/geren/formgrcp",
-          "pathName": "forms/geren/formgrcp",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "forms/geren/formgrsp",
-          "pathName": "forms/geren/formgrsp",
-          "query": "",
-          "scene": null
-        },
-        {
           "name": "pages/index/index",
           "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/regist",
+          "pathName": "pages/mine/regist",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/order",
+          "pathName": "pages/order/order",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/qrcode",
+          "pathName": "pages/mine/qrcode",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/kaipiaoren",
+          "pathName": "pages/order/kaipiaoren",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/shoupiaofang",
+          "pathName": "pages/order/shoupiaofang",
           "query": "",
           "scene": null
         }
