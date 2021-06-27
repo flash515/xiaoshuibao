@@ -2,8 +2,11 @@
   <text>税筹项目管理</text>
 </view>
 <text>\n</text>
+<l-card type="primary" plaintext="{{true}}">
 <l-search-bar placeholder="搜索" bind:linconfirm="onsearch" />
+</l-card>
 <text>\n</text>
+<l-card type="primary" plaintext="{{true}}">
 <l-input label="上线日期：" type="text" label-layout="left" placeholder="{{adddate}}"></l-input>
 <l-input label="更新日期：" type="text" label-layout="left" placeholder="{{updatedate}}" disable="true"></l-input>
 <l-input label="方案类型：" type="text" label-layout="left" value="{{schemetype}}" bindinput="getSchemeType"></l-input>
@@ -35,3 +38,4 @@
 <l-button type="default" bindtap="addData">新增</l-button>
 <text>\t</text>
 <l-button type="default" bindtap="updateData">更新</l-button>
+</l-card>

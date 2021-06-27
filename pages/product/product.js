@@ -7,6 +7,7 @@ Page({
     GSarray: [],
     productarray: [],
     usertype: "",
+    pricelevel:"",
     priceshow:"",
     avatarUrl:"",
     nickName:"",
@@ -210,6 +211,7 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray,
       usertype: app.globalData.Gusertype,
+      pricelevel:app.globalData.Gpricelevel,
       priceshow: app.globalData.Gpriceshow,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,

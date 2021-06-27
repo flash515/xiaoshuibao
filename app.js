@@ -90,6 +90,7 @@ App({
     GavatarUrl: "",
     // 用户类型
     Gusertype: "",
+    Gpricelevel: "",
     //轮播图
     Gimagearray:[],
     //用户设置

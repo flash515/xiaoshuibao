@@ -2,14 +2,16 @@
   <text>管理员功能</text>
 </view>
 <text>\n</text>
+<l-card type="primary" plaintext="{{true}}">
 <label class="title1">全局设置</label>
 <label class="text">当前报价展示状态：
   <switch checked="{{onpriceshowchecked}}" bindchange="onpriceshowChange" style='zoom:.6;' />
 </label>
-<view>
+</l-card>
+<l-card type="primary" plaintext="{{true}}">
+
   <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
   <l-list title="产品管理" icon="setting" url="../manage/productview" />
   <l-list title="订阅消息管理" icon="setting" url="../manage/messgae" />
   <l-list title="测试页面" icon="address" url="../tools/test" />
-
-</view>
+</l-card>

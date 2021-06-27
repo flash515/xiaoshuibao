@@ -121,7 +121,8 @@ Page({
                   InviterOpenId: this.data.inviterid,
                   InviterCompanyName: this.data.invitercompanyname,
                   InviterUserName: this.data.inviterusername,
-                  UserType: "normal",
+                  UserType: "client",
+                  PriceLevel:"PL4",
                   priceshow: false,
                   directvalueshow: false,
                   indirectvalueshow: false,
@@ -131,7 +132,8 @@ Page({
                   userdetailshow: false,
                 }
               })
-              app.globalData.Gusertype = "normal"
+              app.globalData.Gusertype = "client"
+              app.globalData.Gpricelevel="PL4"
               app.globalData.Gpriceshow = false
               app.globalData.Gdirectvalueshow = false
               app.globalData.Gindirectvalueshow = false
@@ -145,6 +147,7 @@ Page({
               app.globalData.GnickName = this.data.userinfo.nickName
               app.globalData.GavatarUrl = this.data.userinfo.avatarUrl
               app.globalData.Gusertype = this.data.userinfo.UserType
+              app.globalData.Gpricelevel = this.data.userinfo.PriceLevel
               app.globalData.Gpriceshow = this.data.userinfo.priceshow
               app.globalData.Gdirectvalueshow = this.data.userinfo.directvalueshow
               app.globalData.Gindirectvalueshow = this.data.userinfo.indirectvalueshow
@@ -163,7 +166,6 @@ Page({
   },
 
   onShow: function () {
-
     // 延时跳转
     setTimeout(function () {
       wx.switchTab({

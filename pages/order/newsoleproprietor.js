@@ -123,28 +123,28 @@ Page({
           }
         }
         console.log(fliter);
-        if (app.globalData.Gusertype == 'vip') {
+        if (app.globalData.Gpricelevel == 'PL1') {
           this.setData({
-            clientcountprice: fliter[0].VIPCountPrice,
-            clientprice: fliter[0].VIPPrice
+            clientcountprice: fliter[0].Price1Count,
+            clientprice: fliter[0].Price1
           })
         }
-        if (app.globalData.Gusertype == 'member') {
+        if (app.globalData.Gpricelevel == 'PL2') {
           this.setData({
-            clientcountprice: fliter[0].MemberCountPrice,
-            clientprice: fliter[0].MemberPrice
+            clientcountprice: fliter[0].Price2Count,
+            clientprice: fliter[0].Price2
           })
         }
-        if (app.globalData.Gusertype == 'normal') {
+        if (app.globalData.Gpricelevel == 'PL3') {
           this.setData({
-            clientcountprice: fliter[0].NormalCountPrice,
-            clientprice: fliter[0].NormalPrice
+            clientcountprice: fliter[0].Price3Count,
+            clientprice: fliter[0].Price3
           })
         }
-        if (app.globalData.Gusertype == '') {
+        if (app.globalData.Gpricelevel == 'PL4') {
           this.setData({
-            clientcountprice: fliter[0].NormalCountPrice,
-            clientprice: fliter[0].NormalPrice
+            clientcountprice: fliter[0].Price4Count,
+            clientprice: fliter[0].Price4
           })
         }
         console.log("客户价格", this.data.clientprice)

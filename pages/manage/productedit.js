@@ -25,16 +25,16 @@ Page({
     doclist: "",
     processingtime: "",
     provider: "",
-    supplyprice: "",
-    distributorprice: "",
-    vipprice: "",
-    memberprice: "",
-    normalprice: "",
-    supplycountprice: 0,
-    distributorcountprice: 0,
-    vipcountprice: 0,
-    membercountprice: 0,
-    normalcountprice: 0,
+    providerprice: "",
+    price1: "",
+    price2: "",
+    price3: "",
+    price4: "",
+    providercountprice: 0,
+    price1count: 0,
+    price2count: 0,
+    price3count: 0,
+    price4count: 0,
     reward: "",
     rewardtime: "",
     startdate: "",
@@ -137,16 +137,16 @@ if(res.data.length>1){
       reward: this.data.productarray[this.data.x].Reward,
       rewardtime: this.data.productarray[this.data.x].RewardTime,
       provider: this.data.productarray[this.data.x].Provider,
-      supplyprice: this.data.productarray[this.data.x].SupplyPrice,
-      supplycountprice: this.data.productarray[this.data.x].SupplyCountPrice,
-      distributorprice: this.data.productarray[this.data.x].DistributorPrice,
-      distributorcountprice: this.data.productarray[this.data.x].DistributorCountPrice,
-      vipprice: this.data.productarray[this.data.x].VIPPrice,
-      vipcountprice: this.data.productarray[this.data.x].VIPCountPrice,
-      memberprice: this.data.productarray[this.data.x].MemberPrice,
-      membercountprice: this.data.productarray[this.data.x].MemberCountPrice,
-      normalprice: this.data.productarray[this.data.x].NormalPrice,
-      normalcountprice: this.data.productarray[this.data.x].NormalCountPrice,
+      providerprice: this.data.productarray[this.data.x].ProviderPrice,
+      providercountprice: this.data.productarray[this.data.x].ProviderCountPrice,
+      price1: this.data.productarray[this.data.x].Price1,
+      price1count: this.data.productarray[this.data.x].Price1Count,
+      price2: this.data.productarray[this.data.x].Price2,
+      price2count: this.data.productarray[this.data.x].Price2Count,
+      price3: this.data.productarray[this.data.x].Price3,
+      price3count: this.data.productarray[this.data.x].Price3Count,
+      price4: this.data.productarray[this.data.x].Price4,
+      price4count: this.data.productarray[this.data.x].Price4Count,
       score: this.data.productarray[this.data.x].Score,
       updatedate: this.data.productarray[this.data.x].UpdateDate,
       attachmentimage: this.data.productarray[this.data.x].AttachmentImage,
@@ -261,54 +261,54 @@ if(res.data.length>1){
       provider: e.detail.value
     })
   },
-  bvSupplyPrice(e) {
+  bvProviderPrice(e) {
     this.setData({
-      supplyprice: e.detail.value
+      providerprice: e.detail.value
     })
   },
-  bvSupplyCountPrice(e) {
+  bvProviderCountPrice(e) {
     this.setData({
-      supplycountprice: e.detail.value
+      providercountprice: e.detail.value
     })
   },
-  bvDistributorPrice(e) {
+  bvPrice1(e) {
     this.setData({
-      distributorprice: e.detail.value
+      price1: e.detail.value
     })
   },
-  bvDistributorCountPrice(e) {
+  bvPrice1Count(e) {
     this.setData({
-      distributorcountprice: e.detail.value
+      price1count: e.detail.value
     })
   },
-  bvVIPPrice(e) {
+  bvPrice2(e) {
     this.setData({
-      vipprice: e.detail.value
+      price2: e.detail.value
     })
   },
-  bvVIPCountPrice(e) {
+  bvPrice2Count(e) {
     this.setData({
-      vipcountprice: e.detail.value
+      price2count: e.detail.value
     })
   },
-  bvMemberPrice(e) {
+  bvPrice3(e) {
     this.setData({
-      memberprice: e.detail.value
+      price3: e.detail.value
     })
   },
-  bvMemberCountPrice(e) {
+  bvPrice3Count(e) {
     this.setData({
-      membercountprice: e.detail.value
+      price3count: e.detail.value
     })
   },
-  bvNormalPrice(e) {
+  bvPrice4(e) {
     this.setData({
-      normalprice: e.detail.value
+      price4: e.detail.value
     })
   },
-  bvNormalCountPrice(e) {
+  bvPrice4Count(e) {
     this.setData({
-      normalcountprice: e.detail.value
+      price4count: e.detail.value
     })
   },
   bvReward(e) {
@@ -479,16 +479,16 @@ if(res.data.length>1){
             Reward: this.data.reward,
             RewardTime: this.data.rewardtime,
             Provider: this.data.provider,
-            SupplyPrice: this.data.supplyprice,
-            SupplyCountPrice: this.data.supplycountprice,
-            DistributorPrice: this.data.distributorprice,
-            DistributorCountPrice: this.data.distributorcountprice,
-            VIPPrice: this.data.vipprice,
-            VIPCountPrice: this.data.vipcountprice,
-            MemberPrice: this.data.memberprice,
-            MemberCountPrice: this.data.membercountprice,
-            NormalPrice: this.data.normalprice,
-            NormalCountPrice: this.data.normalcountprice,
+            ProviderPrice: this.data.providerprice,
+            ProviderCountPrice: this.data.providercountprice,
+            Price1: this.data.price1,
+            Price1Count: this.data.price1count,
+            Price2: this.data.price2,
+            Price2Count: this.data.price2count,
+            Price3: this.data.price3,
+            Price3Count: this.data.price3count,
+            Price4: this.data.price4,
+            Price4Count: this.data.price4count,
             Score: this.data.score,
             AttachmentImage: this.data.attachmentimage,
             AttachmentFile: this.data.attachmentfile,
@@ -538,16 +538,16 @@ if(res.data.length>1){
         Reward: this.data.reward,
         RewardTime: this.data.rewardtime,
         Provider: this.data.provider,
-        SupplyPrice: this.data.supplyprice,
-        SupplyCountPrice: this.data.supplycountprice,
-        DistributorPrice: this.data.distributorprice,
-        DistributorCountPrice: this.data.distributorcountprice,
-        VIPPrice: this.data.vipprice,
-        VIPCountPrice: this.data.vipcountprice,
-        MemberPrice: this.data.memberprice,
-        MemberCountPrice: this.data.membercountprice,
-        NormalPrice: this.data.normalprice,
-        NormalCountPrice: this.data.normalcountprice,
+        ProviderPrice: this.data.providerprice,
+        ProviderCountPrice: this.data.providercountprice,
+        Price1: this.data.price1,
+        Price1Count: this.data.price1count,
+        Price2: this.data.price2,
+        Price2Count: this.data.price2count,
+        Price3: this.data.price3,
+        Price3Count: this.data.price3count,
+        Price4: this.data.price4,
+        Price4Count: this.data.price4count,
         AttachmentImage: this.data.attachmentimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
@@ -629,16 +629,16 @@ if(res.data.length>1){
           reward: fliter[0].Reward,
           rewardtime: fliter[0].RewardTime,
           provider: fliter[0].Provider,
-          supplyprice: fliter[0].SupplyPrice,
-          supplycountprice: fliter[0].SupplyCountPrice,
-          distributorprice: fliter[0].DistributorPrice,
-          distributorcountprice: fliter[0].DistributorCountPrice,
-          vipprice: fliter[0].VIPPrice,
-          vipcountprice: fliter[0].VIPCountPrice,
-          memberprice: fliter[0].MemberPrice,
-          membercountprice: fliter[0].MemberCountPrice,
-          normalprice: fliter[0].NormalPrice,
-          normalcountprice: fliter[0].NormalCountPrice,
+          providerprice: fliter[0].ProviderPrice,
+          providercountprice: fliter[0].ProviderCountPrice,
+          price1: fliter[0].Price1,
+          price1count: fliter[0].Price1Count,
+          price2: fliter[0].Price2,
+          price2count: fliter[0].Price2Count,
+          price3: fliter[0].Price3,
+          price3count: fliter[0].Price3Count,
+          price4: fliter[0].Price4,
+          price4count: fliter[0].Price4Count,
           score: fliter[0].Score,
           updatedate: fliter[0].UpdateDate,
           attachmentimage: fliter[0].AttachmentImage,

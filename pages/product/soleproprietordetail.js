@@ -3,6 +3,7 @@ Page({
   data: {
     pageParam: [],
     usertype: "",
+    pricelevel:"",
     procudtarray: [],
     procudtdetail: [],
     array: [],
@@ -294,6 +295,7 @@ Page({
   onShow: function () {
     this.setData({
       usertype: app.globalData.Gusertype,
+      pricelevel:app.globalData.Gpricelevel,
       image:app.globalData.Gimagearray,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,

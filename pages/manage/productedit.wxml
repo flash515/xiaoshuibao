@@ -67,35 +67,35 @@
   <l-input type="text" label="服务商:" value="{{provider}}" bind:lininput="bvProvider"></l-input>
 </view>
 <view>
-  <l-input type="text" label="服务商报价:" value="{{supplyprice}}" bind:lininput="bvSupplyPrice"></l-input>
+  <l-input type="text" label="服务商报价:" value="{{providerprice}}" bind:lininput="bvProviderPrice"></l-input>
 </view>
 <view>
-  <l-input type="digit" label="服务商计算费率:" value="{{supplycountprice}}" bind:lininput="bvSupplyCountPrice"></l-input>
+  <l-input type="digit" label="服务商计算费率:" value="{{providercountprice}}" bind:lininput="bvProviderCountPrice"></l-input>
 </view>
 <view>
-  <l-input type="text" label="渠道客户报价:" value="{{distributorprice}}" bind:lininput="bvDistributorPrice"></l-input>
+  <l-input type="text" label="PL1钻石级价格:" value="{{price1}}" bind:lininput="bvPrice1"></l-input>
 </view>
 <view>
-  <l-input type="digit" label="渠道客户计算费率:" value="{{distributorcountprice}}" bind:lininput="bvDistributorCountPrice">
+  <l-input type="digit" label="PL1钻石级计算费率:" value="{{price1count}}" bind:lininput="bvPrice1Count">
   </l-input>
 </view>
 <view>
-  <l-input type="text" label="VIP会员报价:" value="{{vipprice}}" bind:lininput="bvVIPPrice"></l-input>
+  <l-input type="text" label="PL2白金级价格:" value="{{price2}}" bind:lininput="bvPrice2"></l-input>
 </view>
 <view>
-  <l-input type="digit" label="VIP计算费率:" value="{{vipcountprice}}" bind:lininput="bvVIPCountPrice"></l-input>
+  <l-input type="digit" label="PL2白金级计算费率:" value="{{price2count}}" bind:lininput="bvPrice2Count"></l-input>
 </view>
 <view>
-  <l-input type="text" label="会员客户报价:" value="{{memberprice}}" bind:lininput="bvMemberPrice"></l-input>
+  <l-input type="text" label="PL3黄金级价格:" value="{{price3}}" bind:lininput="bvPrice3"></l-input>
 </view>
 <view>
-  <l-input type="digit" label="会员计算费率:" value="{{membercountprice}}" bind:lininput="bvMemberCountPrice"></l-input>
+  <l-input type="digit" label="PL3黄金级计算费率:" value="{{price3count}}" bind:lininput="bvPrice3Count"></l-input>
 </view>
 <view>
-  <l-input type="text" label="普通客户报价:" value="{{normalprice}}" bind:lininput="bvNormalPrice"></l-input>
+  <l-input type="text" label="PL4白银级价格:" value="{{price4}}" bind:lininput="bvPrice4"></l-input>
 </view>
 <view>
-  <l-input type="digit" label="普客计算费率:" value="{{normalcountprice}}" bind:lininput="bvNormalCountPrice"></l-input>
+  <l-input type="digit" label="PL4白银级计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
 </view>
 <view>
   <l-input type="text" label="推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
