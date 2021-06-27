@@ -1,9 +1,0 @@
-<!--pages/index/qiye.wxml-->
-<image class="img" src="../../img/qiye.jpg"></image>
-<view class="title">慧节税●企业托管</view>
-<view class="body"><text space="emsp" decode="{{true}}">&emsp;&emsp;</text>
-在园区注册的个独/合伙企业可申请一般纳税人的所得税核定征收（服务类个独/合伙企业按开票额10%核定应税所得额再按五级累进税率征收），同时增值税奖励实缴额的20%，个税奖励实缴额的16%，完税后次月税收奖励兑现到账，并且税收奖励不设门槛和台阶，有缴就有奖返。
-</view>
-<view>
-园区提供企业注册、代理记账、报税、领票开票服务，只收取企业托管费用（小规模企业5000元/年，一般纳税人企业7000元/年）。
-</view>

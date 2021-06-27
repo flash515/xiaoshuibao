@@ -1,4 +1,4 @@
-// pages/index/geren.js
+// pages/order/memberpolicy.js
 Page({
 
   /**

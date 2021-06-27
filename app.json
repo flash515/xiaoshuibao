@@ -26,6 +26,8 @@
     "pages/order/individual",
     "pages/order/enterprise",
     "pages/order/pay",
+    "pages/order/pricepolicy",
+    "pages/order/memberpolicy",
     "pages/order/delegateissue",
     "pages/mine/mine",
     "pages/mine/minicode",

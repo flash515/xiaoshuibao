@@ -1,11 +1,19 @@
-// forms/formtuijian.js
+// pages/order/pricepolicy.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    listData:[
+      {"code":"惠员价","text":"前溯一年内本人自然人代开票金额","type":"--"},
+      {"code":"优惠价","text":"text2","type":"type2"},
+      {"code":"巨惠价","text":"text3","type":"type3"},
+      {"code":"特惠价","text":"text4","type":"type4"},
+      {"code":"05","text":"text5","type":"type5"},
+      {"code":"06","text":"text6","type":"type6"},
+      {"code":"07","text":"text7","type":"type7"}
+      ]
   },
 
   /**

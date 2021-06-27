@@ -1,0 +1,21 @@
+
+
+<view class="table">
+ <view class="tr bg-w">
+ <view class="th">价格分类</view>
+ <view class="th">绩优单次优惠方案</view>
+ <view class="th ">折扣卡期间优惠方案</view>
+ </view>
+ <block wx:for="{{listData}}" wx:key="{[code]}">
+ <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+ <view class="td">{{item.code}}</view>
+ <view class="td">{{item.text}}</view>
+ <view class="td">{{item.type}}</view>
+ </view>
+ <view class="tr" wx:else>
+ <view class="td">{{item.code}}</view>
+ <view class="td">{{item.text}}</view>
+ <view class="td">{{item.type}}</view>
+ </view>
+ </block>
+</view>
