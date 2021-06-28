@@ -56,14 +56,17 @@ Page({
       success: res => {
         console.log("res.data", res.data)
         wx.setStorageSync('LSetting', res.data[0]);
-        //异步获取图片生成轮播图地址
+         //异步获取图片生成轮播图地址
+         console.log("res.data[0].swiper.length",res.data[0].swiper.length)
         for (let i = 0; i < res.data[0].swiper.length; i++) {
           wx.getImageInfo({
             //把图片地址转换为本地地址
             src: res.data[0].swiper[i],
-            success: function (res) {
+            success (res) {
+              console.log("res",res)
               that.data.tempimage.push(res.path)
               app.globalData.Gimagearray = that.data.tempimage
+              // console.log("Gimagearray",app.globalData.Gimagearray)
             }
           })
         }
