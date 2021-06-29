@@ -15,44 +15,53 @@
 <!-- 直接分享 -->
 <l-grid row-num="2">
   <l-grid-item key="one" slot="one">
-    <view class="num">{{direct30user.length}}人</view>
-    <view class="text">30天直接分享</view>
+    <view class="num">{{directvaliduser.length}}人</view>
+    <view class="text">直接推广有效人数</view>
   </l-grid-item>
   <l-grid-item key="two" slot="two">
     <view class="num">{{directuser.length}}人</view>
-    <view class="text">累计直接分享</view>
+    <view class="text">直接推广总人数</view>
   </l-grid-item>
 </l-grid>
 <!-- 间接分享 -->
+<view wx:if="{{promoterlevel=='platinum'}}">
 <l-grid row-num="2">
   <l-grid-item key="one" slot="one" bind:linitemtap="IndirectUser">
-    <view class="num">{{indirect30user.length}}人</view>
-    <view class="text">30天间接分享</view>
+    <view class="num">{{indirectvaliduser.length}}人</view>
+    <view class="text">间接推广有效人数</view>
   </l-grid-item>
   <l-grid-item key="two" slot="two" bind:linitemtap="Indirect30User">
     <view class="num">{{indirectuser.length}}人</view>
-    <view class="text">累计间接分享</view>
+    <view class="text">间接推广总人数</view>
   </l-grid-item>
 </l-grid>
+</view>
 <!-- 直接分享明细 -->
+
 <l-tabs bind:linchange="changeTabs">
-  <l-tabpanel tab="30天直接分享" key="one" slot="one" dot-badge=
+  <l-tabpanel tab="有效直接推广明细" key="one" slot="one" dot-badge=
   "true">
-    <view wx:for="{{direct30user}}" wx:key="key">
+    <view wx:for="{{directvaliduser}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>日期：{{item.AddDate}}</view>
-        <view>受邀人企业：{{item.CompanyName}}</view>
         <view>受邀人姓名：{{item.UserName}}</view>
+        <view>受邀人昵称：{{item.nickName}}</view>
       </l-card>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="累计直接分享" key="two" slot="two">
-    <view wx:for="{{directuser}}" wx:key="key">
+
+  <l-tabpanel tab="有效间接推广明细" key="two" slot="two">
+  <view wx:if="{{promoterlevel=='platinum'}}">
+    <view wx:for="{{indirectvaliduser}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>日期：{{item.AddDate}}</view>
-        <view>受邀人企业：{{item.CompanyName}}</view>
         <view>受邀人姓名：{{item.UserName}}</view>
+        <view>受邀人昵称：{{item.nickName}}</view>
       </l-card>
+    </view>
+    </view>
+    <view wx:else>
+    <view text-align:center>尚未获得铂金推广大使资格</view>
     </view>
   </l-tabpanel>
 </l-tabs>

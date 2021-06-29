@@ -24,9 +24,9 @@ Page({
     // 办理地点
     issuedplace: "",
     // 订单费用标准（根据客户身份赋值）
-    clientprice: "",
+    orderprice: "",
     // 订单费用计算标准（根据客户身份赋值）
-    clientcountprice: 0,
+    orderpricecount: 0,
     investorname: "",
     investorphone: "",
     investoraddress: "",
@@ -124,30 +124,30 @@ Page({
         console.log(fliter);
         if (app.globalData.Gpricelevel == 'PL1') {
           this.setData({
-            clientcountprice: fliter[0].Price1Count,
-            clientprice: fliter[0].Price1
+            orderpricecount: fliter[0].Price1Count,
+            orderprice: fliter[0].Price1
           })
         }
         if (app.globalData.Gpricelevel == 'PL2') {
           this.setData({
-            clientcountprice: fliter[0].Price2Count,
-            clientprice: fliter[0].Price2
+            orderpricecount: fliter[0].Price2Count,
+            orderprice: fliter[0].Price2
           })
         }
         if (app.globalData.Gpricelevel == 'PL3') {
           this.setData({
-            clientcountprice: fliter[0].Price3Count,
-            clientprice: fliter[0].Price3
+            orderpricecount: fliter[0].Price3Count,
+            orderprice: fliter[0].Price3
           })
         }
         if (app.globalData.Gpricelevel == 'PL4') {
           this.setData({
-            clientcountprice: fliter[0].Price4Count,
-            clientprice: fliter[0].Price4
+            orderpricecount: fliter[0].Price4Count,
+            orderprice: fliter[0].Price4
           })
         }
-        console.log("客户价格", this.data.clientprice)
-        console.log("客户计算价格", this.data.clientcountprice)
+        console.log("客户价格", this.data.orderprice)
+        console.log("客户计算价格", this.data.orderpricecount)
       },
     })
     // 读取本地暂存数据
@@ -346,13 +346,13 @@ Page({
       // 获取数据库引用
       const db = wx.cloud.database()
       // 新增数据
-      db.collection("ORDER").add({
+      db.collection("ZCORDER").add({
           data: {
             ProductId: this.data.productid,
             ProductName: this.data.productname,
             IssuedPlace: this.data.issuedplace,
-            ClientCountPrice: this.data.clientcountprice,
-            ClientPrice: this.data.clientprice,
+            OrderPriceCount: this.data.orderpricecount,
+            OrderPrice: this.data.orderprice,
 
             BusinessName: this.data.businessname,
             AlternateNam: this.data.alternatename,

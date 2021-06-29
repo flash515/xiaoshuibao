@@ -3,21 +3,10 @@ Page({
   data: {
     //inviterid接收传入的参数
     inviterid: "",
-    imagearray: [
-      // 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/1.jpg',
-      // 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/2.jpg',
-      // 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/3.jpg',
-      // 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/4.jpg',
-      // 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/5.jpg',
-      // 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/6.jpg'
-    ],
-    tempimage: [],
-    userinfo: [],
-    productarray: [],
     invitercompanyname: "",
     inviterusername: "",
-    usertype: "",
-
+    tempimage: [],
+    userinfo: [],
   },
   onLoad: function (options) {
     let that = this
@@ -54,16 +43,13 @@ Page({
       currentstatus: "effect"
     }).get({
       success: res => {
-        console.log("res.data", res.data)
         wx.setStorageSync('LSetting', res.data[0]);
          //异步获取图片生成轮播图地址
-         console.log("res.data[0].swiper.length",res.data[0].swiper.length)
         for (let i = 0; i < res.data[0].swiper.length; i++) {
           wx.getImageInfo({
             //把图片地址转换为本地地址
             src: res.data[0].swiper[i],
             success (res) {
-              console.log("res",res)
               that.data.tempimage.push(res.path)
               app.globalData.Gimagearray = that.data.tempimage
               // console.log("Gimagearray",app.globalData.Gimagearray)
@@ -126,6 +112,7 @@ Page({
                   InviterUserName: this.data.inviterusername,
                   UserType: "client",
                   PriceLevel:"PL4",
+                  PromoterLevel:"normal",
                   priceshow: false,
                   directvalueshow: false,
                   indirectvalueshow: false,
@@ -137,6 +124,7 @@ Page({
               })
               app.globalData.Gusertype = "client"
               app.globalData.Gpricelevel="PL4"
+              app.globalData.Gpromoterlevel="null"
               app.globalData.Gpriceshow = false
               app.globalData.Gdirectvalueshow = false
               app.globalData.Gindirectvalueshow = false
@@ -151,6 +139,7 @@ Page({
               app.globalData.GavatarUrl = this.data.userinfo.avatarUrl
               app.globalData.Gusertype = this.data.userinfo.UserType
               app.globalData.Gpricelevel = this.data.userinfo.PriceLevel
+              app.globalData.Gpromoterlevel = this.data.userinfo.PromoterLevel
               app.globalData.Gpriceshow = this.data.userinfo.priceshow
               app.globalData.Gdirectvalueshow = this.data.userinfo.directvalueshow
               app.globalData.Gindirectvalueshow = this.data.userinfo.indirectvalueshow

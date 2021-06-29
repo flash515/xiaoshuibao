@@ -5,11 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    promoterlevel:"",
     // 全部直接推荐人数
     directuser: [],
     // 直接推荐用户数组
     // 30天直接推荐人数
     direct30user: [],
+    directvaliduser: [],
     // 直接推荐价值
     indirectuser: [],
     indirect30user: [],
@@ -30,13 +32,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({image:app.globalData.Gimagearray})
+    this.setData({
+      image: app.globalData.Gimagearray,
+      promoterlevel: app.globalData.Gpromoterlevel
+    })
     //查询直接用户及30天内直接用户
     wx.getStorage({
       key: 'LDirectUser',
       success: res => {
         this.setData({
           directuser: res.data,
+        })
+        var directvalidfliter = [];
+        for (var i = 0; i < this.data.directuser.length; i++) {
+          if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
+            directvalidfliter.push(this.data.directuser[i]);
+          }
+        }
+        this.setData({
+          directvaliduser: directvalidfliter,
         })
         var direct30fliter = [];
         for (var i = 0; i < this.data.directuser.length; i++) {
@@ -61,6 +75,15 @@ Page({
         })
         // *直接查询结果
         console.log("间接用户人数", res.data.length);
+        var indirectvalidfliter = [];
+        for (var i = 0; i < this.data.indirectuser.length; i++) {
+          if (this.data.indirectuser[i].avatarUrl != "" && this.data.indirectuser[i].avatarUrl != undefined) {
+            indirectvalidfliter.push(this.data.indirectuser[i]);
+          }
+        }
+        this.setData({
+          indirectvaliduser: indirectvalidfliter,
+        })
         // 筛选特定时间注册人数
         var indirect30fliter = [];
         for (var i = 0; i < res.data.length; i++) {
@@ -75,7 +98,7 @@ Page({
         wx.setStorageSync('LIndirect30User', indirect30fliter);
       }
     })
-    
+
   },
 
 

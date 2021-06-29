@@ -31,7 +31,7 @@ Page({
     })
     // 从本地存储中读取
     wx.getStorage({
-      key: 'LOrderHistory',
+      key: 'LZCOrderHistory',
       success: res => {
         this.setData({
           orderarray: res.data

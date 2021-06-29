@@ -6,7 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orderhistory: [],
+    dkorderhistory: [],
+    zcorderhistory:[],
+    discountorderhistory:[],
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -19,29 +21,76 @@ Page({
     nextMargin: 0
   },
   // 转到订单详情
-  bvOrdertDetail(e) {
+  bvDKOrdertDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '../order/orderdetail?_id=' + e.currentTarget.dataset.id
+      url: '../order/dkorderdetail?_id=' + e.currentTarget.dataset.id
     })
   },
-
+  bvZCOrdertDetail(e) {
+    console.log(e.currentTarget.dataset.id)
+    wx.navigateTo({
+      url: '../order/zcorderdetail?_id=' + e.currentTarget.dataset.id
+    })
+  },
+  bvDiscountOrdertDetail(e) {
+    console.log(e.currentTarget.dataset.id)
+    wx.navigateTo({
+      url: '../order/discountorderdetail?_id=' + e.currentTarget.dataset.id
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({image:app.globalData.Gimagearray})
     wx.cloud.callFunction({
-      name: 'OrderHistoryQuery',
+      name: 'DKOrderQuery',
       data: {
         userid: app.globalData.Gopenid,
       },
       success: res => {
         console.log("云函数查询", res.result.data)
-        wx.setStorageSync('LOrderHistory', res.result.data);
+        wx.setStorageSync('LDKOrderHistory', res.result.data);
         this.setData({
           // 列表渲染
-          orderhistory: res.result.data
+          dkorderhistory: res.result.data
+        })
+      },
+      complete: res => {
+        console.log("云函数查询完成")
+      }
+
+    })
+    wx.cloud.callFunction({
+      name: 'ZCOrderQuery',
+      data: {
+        userid: app.globalData.Gopenid,
+      },
+      success: res => {
+        console.log("云函数查询", res.result.data)
+        wx.setStorageSync('LZCOrderHistory', res.result.data);
+        this.setData({
+          // 列表渲染
+          zcorderhistory: res.result.data
+        })
+      },
+      complete: res => {
+        console.log("云函数查询完成")
+      }
+
+    })
+    wx.cloud.callFunction({
+      name: 'DiscountOrderQuery',
+      data: {
+        userid: app.globalData.Gopenid,
+      },
+      success: res => {
+        console.log("云函数查询", res.result.data)
+        wx.setStorageSync('LDiscountOrderHistory', res.result.data);
+        this.setData({
+          // 列表渲染
+          discountorderhistory: res.result.data
         })
       },
       complete: res => {

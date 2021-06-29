@@ -1,0 +1,41 @@
+<!-- pages/order/orderdetail.wxml -->
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<!--订单详情页面-->
+
+<l-card type="primary" plaintext="{{true}}">
+  <view wx:for="{{orderdetail}}" wx:key="key">
+    <label class="title1">订单日期：</label>
+    <view>{{item.AddDate}}</view>
+    <label class="title1">订单类型：</label>
+    <view>{{item.OrderType}}</view>
+    <label class="title1">折扣卡编号：</label>
+    <view>{{item.DiscountId}}</view>
+    <label class="title1">折扣卡名称：</label>
+    <view>{{item.DiscountName}}</view>
+    <label class="title1">折扣起始日期：</label>
+    <view>{{item.StartDate}}</view>
+    <label class="title1">折扣终止日期：</label>
+    <view>{{item.EndDate}}</view>
+    <label class="title1">办理费用：</label>
+    <view>{{item.TotalFee}}</view>
+
+    <!-- <view>
+      <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&price={{price}}"
+        bind:lintap="bvOrderModify">修改订单</l-button>
+      <text>\t\t</text>
+      <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&price={{price}}"
+        bind:lintap="bvOrderDel">删除订单</l-button>
+    </view> -->
+  </view>
+</l-card>

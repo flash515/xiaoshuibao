@@ -35,6 +35,7 @@ size="50"
   </l-grid-item>
 </l-grid>
 <!-- 间接分享 -->
+<view wx:if="{{promoterlevel=='platinum'}}">
 <l-grid row-num="2">
   <l-grid-item key="one" slot="one">
     <l-price 
@@ -57,9 +58,10 @@ size="50"
     <view class="text">累计间接分享价值</view>
   </l-grid-item>
 </l-grid>
+</view>
 <!-- 直接分享明细 -->
 <l-tabs bind:linchange="changeTabs">
-  <l-tabpanel tab="30天直接分享价值" key="one" slot="one" dot-badge="{{dotbadge}}">
+  <l-tabpanel tab="直接推广\n自然人代开明细" key="one" slot="one" dot-badge="{{dotbadge}}">
     <view wx:for="{{direct30order}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>订单日期：{{item.AddDate}}</view>
@@ -68,7 +70,7 @@ size="50"
       </l-card>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="累计直接分享价值" key="two" slot="two">
+  <l-tabpanel tab="直接推广\n企业注册明细" key="two" slot="two">
     <view wx:for="{{directorder}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>订单日期：{{item.AddDate}}</view>
@@ -76,5 +78,30 @@ size="50"
         <view>推广奖励：{{item.Charge1}}</view>
       </l-card>
     </view>
+  </l-tabpanel>
+  <l-tabpanel tab="间接推广\n自然人代开明细" key="three" slot="three" dot-badge="{{dotbadge}}">
+    <view wx:if="{{promoterlevel=='platinum'}}">
+    <view wx:for="{{direct30order}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{item.AddDate}}</view>
+        <view>订单金额：{{item.TotalFee}}</view>
+        <view>推广奖励：{{item.Charge1}}</view>
+      </l-card>
+    </view>
+  </view>
+  <view wx:else text-align:center>尚未获得铂金推广大使资格</view>
+
+  </l-tabpanel>
+  <l-tabpanel tab="间接推广\n企业注册明细" key="four" slot="four">
+    <view wx:if="{{promoterlevel=='platinum'}}">
+    <view wx:for="{{directorder}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{item.AddDate}}</view>
+        <view>订单金额：{{item.TotalFee}}</view>
+        <view>推广奖励：{{item.Charge1}}</view>
+      </l-card>
+    </view>
+  </view>
+  <view wx:else text-align:center>尚未获得铂金推广大使资格</view>
   </l-tabpanel>
 </l-tabs>

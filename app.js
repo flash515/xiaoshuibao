@@ -79,8 +79,6 @@ App({
     }
   },
   globalData: {
-    // 小程序用户信息
-    GuserInfo: [],
     // 用户小程序id 
     Gopenid: "",
     //用户本人信息
@@ -91,6 +89,7 @@ App({
     // 用户类型
     Gusertype: "",
     Gpricelevel: "",
+    Gpromoterlevel: "",
     //轮播图
     Gimagearray:[],
     //用户设置

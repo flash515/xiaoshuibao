@@ -27,9 +27,9 @@ Page({
     // 办理地点
     issuedplace: "",
     // 订单费用标准（根据客户身份赋值）
-    clientprice: "",
+    orderprice: "",
     // 订单费用计算标准（根据客户身份赋值）
-    clientcountprice: 0,
+    orderpricecount: 0,
     sellername: "",
     sellerphone: "",
     selleraddress: "",
@@ -175,30 +175,30 @@ Page({
         console.log(fliter);
         if (app.globalData.Gpricelevel == 'PL1') {
           this.setData({
-            clientcountprice: fliter[0].Price1Count,
-            clientprice: fliter[0].Price1
+            orderpricecount: fliter[0].Price1Count,
+            orderprice: fliter[0].Price1
           })
         }
         if (app.globalData.Gpricelevel == 'PL2') {
           this.setData({
-            clientcountprice: fliter[0].Price2Count,
-            clientprice: fliter[0].Price2
+            orderpricecount: fliter[0].Price2Count,
+            orderprice: fliter[0].Price2
           })
         }
         if (app.globalData.Gpricelevel == 'PL3') {
           this.setData({
-            clientcountprice: fliter[0].Price3Count,
-            clientprice: fliter[0].Price3
+            orderpricecount: fliter[0].Price3Count,
+            orderprice: fliter[0].Price3
           })
         }
         if (app.globalData.Gpricelevel == 'PL4') {
           this.setData({
-            clientcountprice: fliter[0].Price4Count,
-            clientprice: fliter[0].Price4
+            orderpricecount: fliter[0].Price4Count,
+            orderprice: fliter[0].Price4
           })
         }
-        console.log("客户价格", this.data.clientprice)
-        console.log("客户计算价格", this.data.clientcountprice)
+        console.log("客户价格", this.data.orderprice)
+        console.log("客户计算价格", this.data.orderpricecount)
       },
     })
     // 读取本地暂存数据
@@ -546,7 +546,7 @@ Page({
       unitprice: (e.detail.value / 1.01 / this.data.quantity).toFixed(2),
       vat: (e.detail.value / 1.01 * 0.01).toFixed(2),
       inditax: (e.detail.value / 1.01 * 0.005).toFixed(2),
-      totalfee: (e.detail.value * this.data.clientcountprice).toFixed(2),
+      totalfee: (e.detail.value * this.data.orderpricecount).toFixed(2),
     })
     // 附加税计算,潍坊适用
     if (e.detail.value < 100000) {
@@ -722,13 +722,13 @@ Page({
       // 获取数据库引用
       const db = wx.cloud.database()
       // 新增数据
-      db.collection("ORDER").add({
+      db.collection("DKORDER").add({
           data: {
             ProductId: this.data.productid,
             ProductName: this.data.productname,
             IssuedAddress: this.data.issuedaddress,
-            ClientPrice: this.data.clientprice,
-            ClientCountPrice: this.data.clientcountprice,
+            OrderPrice: this.data.orderprice,
+            OrderPriceCount: this.data.orderpricecount,
 
             SellerName: this.data.sellername,
             SellerPhone: this.data.sellerphone,

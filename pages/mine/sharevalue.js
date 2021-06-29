@@ -6,6 +6,7 @@ Page({
    */
   data: {
     user: [],
+    promoterlevel:"",
     directorder: [],
     direct30order: [],
     direct30value: 0,
@@ -28,7 +29,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({image:app.globalData.Gimagearray})
+    this.setData({
+      image:app.globalData.Gimagearray,
+      promoterlevel:app.globalData.Gpromoterlevel
+    })
         // 直接分享价值查询
     // 从本地存储中读取
     wx.getStorage({

@@ -10,7 +10,7 @@ const MAX_LIMIT = 100
 // 云函数入口函数
 exports.main = async (event, context) => {
   //先取符合条件的记录总数
-  const countResult = await db.collection('ORDER').where({
+  const countResult = await db.collection('DKORDER').where({
     //传入的条件参数
     _openid:event.userid,
   }).count()
@@ -20,7 +20,7 @@ exports.main = async (event, context) => {
 // 承载所有读操作的 promise 的数组
 const tasks = []
 for (let i = 0; i < batchTimes; i++) {
-  const promise = db.collection('ORDER').where({
+  const promise = db.collection('DKORDER').where({
     //传入的条件参数
     _openid:event.userid,
   }).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()

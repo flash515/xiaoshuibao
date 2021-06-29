@@ -10,17 +10,17 @@
   </swiper>
 </view>
 <l-grid show-border="true" row-num="3">
-  <l-grid-item key="one" slot="one">
-    <navigator url="../mine/shareuser">
+  <l-grid-item key="one" slot="one" >
+  <navigator url="../mine/shareuser">
       <l-icon name="user" />
-      <view class="text">分享人数</view>
+      <view class="text">推广人数</view>
     </navigator>
   </l-grid-item>
-  <l-grid-item key="two" slot="two">
-    <navigator url="../mine/sharevalue">
+  <l-grid-item key="two" slot="two" bind:linitemtap="bvGoToShareValue">
+    <!-- <navigator url="../mine/sharevalue"> -->
       <l-icon name="address" />
-      <view class="text">分享价值</view>
-    </navigator>
+      <view class="text">推广价值</view>
+    <!-- </navigator> -->
   </l-grid-item>
   <l-grid-item key="three" slot="three">
     <l-button special="{{true}}" open-type="contact">
@@ -35,6 +35,7 @@
 <l-list title="小程序码" icon="picture" url="../mine/minicode" />
 <l-list title="我的海报" icon="picture" url="../mine/poster" />
 <l-list title="我的订阅" icon="setting" bind:lintap="bvSubMessage"/>
+<l-list title="价格优惠" icon="setting" url="../mine/pricelevel"/>
 <view wx:if="{{usertype == 'admin'}}">
   <l-list title="管理员功能" icon="setting" url="../manage/manageindex" />
 </view>
