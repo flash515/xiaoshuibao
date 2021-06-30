@@ -305,6 +305,12 @@
           "pathName": "pages/order/pricepolicy",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/mine/pricepolicy",
+          "pathName": "pages/mine/pricepolicy",
+          "query": "",
+          "scene": null
         }
       ]
     }

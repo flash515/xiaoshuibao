@@ -1,0 +1,115 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="title">
+  <text>价格政策</text>
+</view>
+<l-collapse>
+  <l-collapse-item title="查看价格政策">
+<image src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/价格政策.jpg" style='width:{{windowW}}px;height:{{windowH}}px;margin: 0 auto;padding: 0;display:block;'></image>
+</l-collapse-item>
+</l-collapse>
+
+<l-card type="primary" plaintext="{{true}}">
+  <l-input type="text" label="当前价格名称:" placeholder="{{plname}}" disabled="{{true}}"></l-input>
+  <l-input type="text" label="生效日期:" placeholder="{{plstartdate}}" disabled="{{true}}"></l-input>
+  <l-input type="text" label="失效日期：" placeholder="{{plenddate}}" disabled="{{true}}"></l-input>
+</l-card>
+
+<view class="title1">
+  <text>购买价格优惠卡</text>
+</view>
+<l-collapse>
+  <l-collapse-item title="优惠价系列">
+    <l-card type="primary" plaintext="{{true}}">
+      <text>优惠价半年卡--有效期180天--450元</text>
+      <picker mode="date" value="{{pl3_180startdate}}" start="{{startdate}}" bindchange="bvPL3_180">
+        <view class="picker">
+          <text class="text">设定生效日期：</text> {{pl3_180startdate}}
+        </view>
+      </picker>
+      <text class="text">失效日期：{{pl3_180enddate}}</text>
+      <l-button type="default" bind:lintap="bvPL3_180Buy">购买</l-button>
+    </l-card>
+
+    <l-card type="primary" plaintext="{{true}}">
+      <text>优惠价季卡--有效期90天--300元</text>
+      <picker mode="date" value="{{pl3_90startdate}}" start="{{startdate}}" bindchange="bvPL3_90">
+        <view class="picker">
+          <text class="text">设定生效日期：</text> {{pl3_90startdate}}
+        </view>
+      </picker>
+      <text class="text">失效日期：{{pl3_90enddate}}</text>
+      <l-button type="default" bind:lintap="bvPL3_90Buy">购买</l-button>
+    </l-card>
+  </l-collapse-item>
+</l-collapse>
+<l-collapse>
+  <l-collapse-item title="巨惠价系列">
+    <l-card type="primary" plaintext="{{true}}">
+      <text>巨惠价年卡--有效期360天--1800元</text>
+      <picker mode="date" value="{{pl2_360startdate}}" start="{{startdate}}" bindchange="bvPL2_360">
+        <view class="picker">
+          <text class="text">设定生效日期：</text> {{pl2_360startdate}}
+        </view>
+      </picker>
+      <text class="text">失效日期：{{pl2_360enddate}}</text>
+      <l-button type="default" bind:lintap="bvPL2_360Buy">购买</l-button>
+    </l-card>
+
+    <l-card type="primary" plaintext="{{true}}">
+      <text>巨惠价半年卡--有效期180天--1300元</text>
+      <picker mode="date" value="{{pl2_180startdate}}" start="{{startdate}}" bindchange="bvPL2_180">
+        <view class="picker">
+          <text class="text">设定生效日期：</text> {{pl2_180startdate}}
+        </view>
+      </picker>
+      <text class="text">失效日期： {{pl2_180enddate}}</text>
+      <l-button type="default" bind:lintap="bvPL2_180Buy">购买</l-button>
+    </l-card>
+
+    <l-card type="primary" plaintext="{{true}}">
+      <text>巨惠价季卡--有效期90天--900元</text>
+      <picker mode="date" value="{{pl2_90startdate}}" start="{{startdate}}" bindchange="bvPL2_90">
+        <view class="picker">
+          <text class="text">设定生效日期：</text> {{pl2_90startdate}}
+        </view>
+      </picker>
+      <text class="text">失效日期：{{pl2_90enddate}}</text>
+      <l-button type="default" bind:lintap="bvPL2_90Buy">购买</l-button>
+    </l-card>
+  </l-collapse-item>
+</l-collapse>
+<l-collapse>
+  <l-collapse-item title="特惠价系列">
+    <l-card type="primary" plaintext="{{true}}">
+      <text>特惠价年卡--有效期360天--3000元</text>
+      <picker mode="date" value="{{pl1_360startdate}}" start="{{startdate}}" bindchange="bvPL1_360">
+        <view class="picker">
+          <text class="text">设定生效日期：</text> {{pl1_360startdate}}
+        </view>
+      </picker>
+      <text class="text">失效日期：{{pl1_360enddate}}</text>
+      <l-button type="default" bind:lintap="bvPL1_360Buy">购买</l-button>
+    </l-card>
+
+    <l-card type="primary" plaintext="{{true}}">
+      <text>特惠价半年卡--有效期180天--2200元</text>
+      <picker mode="date" value="{{pl1_180startdate}}" start="{{startdate}}" bindchange="bvPL1_180">
+        <view class="picker">
+          <text class="text">设定生效日期：</text> {{pl1_180startdate}}
+        </view>
+      </picker>
+      <text class="text">失效日期：{{pl1_180enddate}}</text>
+      <l-button type="default" bind:lintap="bvPL1_180Buy">购买</l-button>
+    </l-card>
+  </l-collapse-item>
+</l-collapse>

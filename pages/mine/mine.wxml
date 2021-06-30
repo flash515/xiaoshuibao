@@ -35,7 +35,8 @@
 <l-list title="小程序码" icon="picture" url="../mine/minicode" />
 <l-list title="我的海报" icon="picture" url="../mine/poster" />
 <l-list title="我的订阅" icon="setting" bind:lintap="bvSubMessage"/>
-<l-list title="价格优惠" icon="setting" url="../mine/pricelevel"/>
+<l-list title="推广等级" icon="setting" url="../mine/promoterpolicy"/>
+<l-list title="价格优惠" icon="setting" url="../mine/pricepolicy"/>
 <view wx:if="{{usertype == 'admin'}}">
   <l-list title="管理员功能" icon="setting" url="../manage/manageindex" />
 </view>
