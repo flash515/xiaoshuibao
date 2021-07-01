@@ -394,7 +394,7 @@ Page({
             console.log("新增数据失败", res)
             wx.showToast({
               title: '新增数据失败',
-              icon: 'fail',
+              icon: 'error',
               duration: 2000 //持续的时间
             })
           }

@@ -301,14 +301,14 @@
           "scene": null
         },
         {
-          "name": "pages/order/pricepolicy",
-          "pathName": "pages/order/pricepolicy",
+          "name": "pages/mine/pricepolicy",
+          "pathName": "pages/mine/pricepolicy",
           "query": "",
           "scene": null
         },
         {
-          "name": "pages/mine/pricepolicy",
-          "pathName": "pages/mine/pricepolicy",
+          "name": "pages/mine/promoterpolicy",
+          "pathName": "pages/mine/promoterpolicy",
           "query": "",
           "scene": null
         }

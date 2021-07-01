@@ -1,4 +1,6 @@
-const { dateLater } = require("../../utils/getDates.js")
+const {
+  dateLater
+} = require("../../utils/getDates.js")
 const app = getApp()
 Page({
 
@@ -6,15 +8,21 @@ Page({
    * 页面的初始数据
    */
   data: {
+    startdate: "",
+    pl3startdate: "",
+    pl3enddate: "",
+    pl2startdate: "",
+    pl2enddate: "",
+    pl1startdate: "",
+    pl1enddate: "",
+    pricelevel: "",
+    discountid: "",
+    dstartdate: "",
+    denddate: "",
+    dprice: "",
+    buylock: false,
     // 轮播参数
     image: [],
-    startdate: "",
-    pl3startdate:"",
-    pl3enddate:"",
-    pl2startdate:"",
-    pl2enddate:"",
-    pl1startdate:"",
-    pl1enddate:"",
     indicatorDots: true,
     vertical: false,
     autoplay: true,
@@ -23,56 +31,115 @@ Page({
     duration: 500,
     previousMargin: 0,
     nextMargin: 0,
-    windowW: "", // 画布宽度
-    windowH: "", // 画布高
+
   },
   bvPL3_180(e) {
     this.setData({
       pl3_180startdate: e.detail.value,
-      pl3_180enddate:dateLater(e.detail.value,180).year+'-'+dateLater(e.detail.value,180).newdates
+      pl3_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
     })
   },
   bvPL3_90(e) {
     this.setData({
       pl3_90startdate: e.detail.value,
-      pl3_90enddate:dateLater(e.detail.value,90).year+'-'+dateLater(e.detail.value,90).newdates
+      pl3_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
   },
   bvPL2_360(e) {
     this.setData({
       pl2_360startdate: e.detail.value,
-      pl2_360enddate:dateLater(e.detail.value,360).year+'-'+dateLater(e.detail.value,360).newdates
+      pl2_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
     })
   },
   bvPL2_180(e) {
     this.setData({
       pl2_180startdate: e.detail.value,
-      pl2_180enddate:dateLater(e.detail.value,180).year+'-'+dateLater(e.detail.value,180).newdates
+      pl2_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
     })
   },
   bvPL2_90(e) {
     this.setData({
       pl2_90startdate: e.detail.value,
-      pl2_90enddate:dateLater(e.detail.value,90).year+'-'+dateLater(e.detail.value,90).newdates
+      pl2_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
   },
   bvPL1_360(e) {
     this.setData({
       pl1_360startdate: e.detail.value,
-      pl1_360enddate:dateLater(e.detail.value,360).year+'-'+dateLater(e.detail.value,360).newdates
+      pl1_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
     })
   },
   bvPL1_180(e) {
     this.setData({
       pl1_180startdate: e.detail.value,
-      pl1_180enddate:dateLater(e.detail.value,180).year+'-'+dateLater(e.detail.value,180).newdates
+      pl1_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
     })
   },
   bvPL1_90(e) {
     this.setData({
       pl1_90startdate: e.detail.value,
-      pl1_90enddate:dateLater(e.detail.value,90).year+'-'+dateLater(e.detail.value,90).newdates
+      pl1_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
+  },
+  bvBuy(e) {
+    let that = this
+    this.setData({
+      pricelevel: e.currentTarget.dataset.level,
+      discountid: e.currentTarget.dataset.id,
+      dstartdate: e.currentTarget.dataset.startdate,
+      denddate: e.currentTarget.dataset.enddate,
+      dprice: e.currentTarget.dataset.price,
+    })
+    if (this.data.buylock) {
+      wx.showToast({
+        title: '当前已有生效的优惠卡，无需重复购买',
+        icon: 'none',
+        duration: 2000 //持续的时间
+      })
+    } else {
+
+      if (this.data.dstartdate == "" || this.data.dstartdate == undefined) {
+        wx.showToast({
+          title: '请选择生效日期',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
+      } else {
+        const db = wx.cloud.database()
+        // 新增数据
+        db.collection("DISCOUNTORDER").add({
+          data: {
+            PriceLevel: this.data.pricelevel,
+            DiscountId: this.data.discountid,
+            DStartDate: this.data.dstartdate,
+            DEndDate: this.data.denddate,
+            DPrice: this.data.dprice,
+            PaymentStatus: "uncheck",
+            AddDate: new Date().toLocaleDateString(),
+          },
+          success(res) {
+            that.setData({
+              buylock: true
+            })
+            wx.showToast({
+              title: '订单提交成功',
+              icon: 'success',
+              duration: 2000 //持续的时间
+            })
+            wx.navigateTo({
+              url: '../order/pay?totalfee=' + that.data.dprice
+            })
+          },
+          fail(res) {
+            wx.showToast({
+              title: '订单提交失败',
+              icon: 'error',
+              duration: 2000 //持续的时间
+            })
+          }
+        })
+      }
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -86,24 +153,25 @@ Page({
 
     console.log(this.data.startdate)
     // let that=this
-    wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
-      success: res => {
-        this.setData({
-          windowW: (res.windowWidth - 40),
-          windowH: (res.windowWidth - 40) * 1.4
-        })
-      }
-    })
     const db = wx.cloud.database()
-    db.collection('DISCOUNTORDER').where({
-      _openid: this.data.inviterid,
-
-    }).get({
+    const _ = db.command
+    db.collection('DISCOUNTORDER').where(_.and([
+      {
+        _openid: app.globalData.Gopenid,
+      },
+      {
+        DStartDate: _.lte(new Date())
+      },
+      {
+        DEndDate: _.gte(new Date())
+      }
+    ])).get({
       success: res => {
+        console.log(res)
         if (res.data.length != 0 && res.data.length != undefined) {
           this.setData({
-            plstartdate: res.data[0].PLStartDate,
-            plenddate: res.data[0].PLEndDate
+            plstartdate: res.data[0].DStartDate,
+            plenddate: res.data[0].DEndDate
           })
           if (res.data[0].PriceLevel == "PL1") {
             this.setData({
