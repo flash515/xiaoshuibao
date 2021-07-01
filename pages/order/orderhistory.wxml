@@ -52,10 +52,11 @@
     <l-card type="primary" plaintext="{{true}}">
       <view class="content">
         <view>订单日期：{{item.AddDate}}</view>
+        <view>折扣卡编号：{{item.DiscountId}}</view>
         <view>折扣卡名称：{{item.DiscountName}}</view>
-        <view>折扣起始日：{{item.StartDate}}</view>
-        <view>折扣终止日：{{item.EndDate}}</view>
-        <view>折扣卡费用：{{item.Fee}}</view>
+        <view>折扣起始日：{{item.DStartDate}}</view>
+        <view>折扣终止日：{{item.DEndDate}}</view>
+        <view>折扣卡费用：{{item.DTotalFee}}</view>
         <!-- <view>ID：{{item._id}}</view> -->
         <view>
           <l-button data-id="{{item._id}}" bind:lintap="bvDiscountOrdertDetail">订单详情</l-button>

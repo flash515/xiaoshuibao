@@ -17,9 +17,10 @@ Page({
     pl1enddate: "",
     pricelevel: "",
     discountid: "",
+    discountname: "",
     dstartdate: "",
     denddate: "",
-    dprice: "",
+    dtotalfee: "",
     buylock: false,
     // 轮播参数
     image: [],
@@ -86,9 +87,10 @@ Page({
     this.setData({
       pricelevel: e.currentTarget.dataset.level,
       discountid: e.currentTarget.dataset.id,
+      discountname: e.currentTarget.dataset.name,
       dstartdate: e.currentTarget.dataset.startdate,
       denddate: e.currentTarget.dataset.enddate,
-      dprice: e.currentTarget.dataset.price,
+      dtotalfee: e.currentTarget.dataset.price,
     })
     if (this.data.buylock) {
       wx.showToast({
@@ -111,9 +113,10 @@ Page({
           data: {
             PriceLevel: this.data.pricelevel,
             DiscountId: this.data.discountid,
+            DiscountName: this.data.discountname,
             DStartDate: this.data.dstartdate,
             DEndDate: this.data.denddate,
-            DPrice: this.data.dprice,
+            DTotalFee: this.data.dtotalfee,
             PaymentStatus: "uncheck",
             AddDate: new Date().toLocaleDateString(),
           },
@@ -127,7 +130,7 @@ Page({
               duration: 2000 //持续的时间
             })
             wx.navigateTo({
-              url: '../order/pay?totalfee=' + that.data.dprice
+              url: '../order/pay?totalfee=' + that.data.dtotalfee
             })
           },
           fail(res) {
