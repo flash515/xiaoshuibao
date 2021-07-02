@@ -5,9 +5,15 @@ Page({
    * 页面的初始数据
    */
   data: {
+    startdate: "",
+    startdate1: "",
+    startdate2: "",
+    startdate3: "",
     plstartdate: "",
-    promoterlevel:"",
-    promotername:"",
+    promoterlevel: "",
+    promotername: "",
+    totalfee: "",
+    applylock: false,
     image: [],
     indicatorDots: true,
     vertical: false,
@@ -18,10 +24,78 @@ Page({
     previousMargin: 0,
     nextMargin: 0,
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  bvStartDate1(e) {
+    this.setData({
+      startdate1: e.detail.value,
+    })
+  },
+  bvStartDate2(e) {
+    this.setData({
+      startdate2: e.detail.value,
+    })
+  },
+  bvStartDate3(e) {
+    this.setData({
+      startdate3: e.detail.value,
+    })
+  },
+  bvApply(e) {
+    let that = this
+    this.setData({
+      promoterlevel: e.currentTarget.dataset.level,
+      promotername: e.currentTarget.dataset.name,
+      plstartdate: e.currentTarget.dataset.startdate,
+      totalfee: e.currentTarget.dataset.price,
+    })
+    if (this.data.applylock) {
+      wx.showToast({
+        title: '请勿重复提交',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
+    } else {
+      if (this.data.plstartdate == "" || this.data.plstartdate == undefined) {
+        wx.showToast({
+          title: '请选择生效日期',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
+      } else {
+        const db = wx.cloud.database()
+        // 新增数据
+        db.collection("PROMOTERORDER").add({
+          data: {
+            PromoterLevel: this.data.promoterlevel,
+            PromoterName: this.data.promotername,
+            PLStartDate: this.data.plstartdate,
+            TotalFee: this.data.totalfee,
+            PaymentStatus: "unchecked",
+            AddDate: new Date().toLocaleDateString(),
+          },
+          success(res) {
+            that.setData({
+              applylock: true
+            })
+            wx.showToast({
+              title: '申请提交成功',
+              icon: 'success',
+              duration: 2000 //持续的时间
+            })
+            wx.navigateTo({
+              url: '../order/pay?totalfee=' + that.data.totalfee
+            })
+          },
+          fail(res) {
+            wx.showToast({
+              title: '申请提交失败',
+              icon: 'error',
+              duration: 2000 //持续的时间
+            })
+          }
+        })
+      }
+    }
+  },
   onLoad: function (options) {
     var str = new Date()
     this.setData({
@@ -36,12 +110,9 @@ Page({
     db.collection('PROMOTERORDER').where(_.and([{
         _openid: app.globalData.Gopenid,
       },
-      {
-        DStartDate: _.lte(new Date())
-      },
-      {
-        DEndDate: _.gte(new Date())
-      }
+      // {
+      //   PLStartDate: _.lte(new Date())
+      // },
     ])).get({
       success: res => {
         console.log(res)
@@ -69,7 +140,7 @@ Page({
           }
         } else {
           this.setData({
-            promotername: "普客价",
+            promotername: "普客",
           })
         }
       }

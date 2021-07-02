@@ -1,0 +1,35 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}"
+    vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
+    next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="title">
+  <text>我的预约</text>
+</view>
+<view wx:for="{{bookingarray}}" wx:key="key">
+<l-card type="primary" plaintext="{{true}}">
+    <view>创建日期：{{item.AddDate}}</view>
+    <view>预约事项：{{item.BookingContent}}</view>
+    <view>预约日期：{{item.BookingDate}}</view>
+    <view>预约时间：{{item.BookingTime}}</view>
+    <view>联系人：{{item.Contacts}}</view>
+    <view>联系电话：{{item.Phone}}</view>
+    <view>预约地点：{{item.Address}}</view>
+    <view wx:if="{{item.BookingStatus=='unchecked'}}">预约状态：待确认</view>
+    <view wx:if="{{item.BookingStatus=='checked'}}">预约状态：已确认</view>
+    <view wx:if="{{item.BookingStatus=='canceled'}}">预约状态：已取消</view>
+    <view>
+      <l-button bind:lintap="bvBookingCancel" data_id="item._id" size="mini" shape="semicircle" plain="{{true}}">取消预约</l-button>
+  <text>\t\t</text>
+      <l-button bind:lintap="bvBookingChenge" size="mini" shape="semicircle" plain="{{true}}">修改预约</l-button>
+      <text>\t\t</text>
+      <l-button bind:lintap="bvBookingApply" size="mini" shape="semicircle" plain="{{true}}">重新预约</l-button>
+    </view>
+</l-card>
+</view>

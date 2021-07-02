@@ -5,6 +5,12 @@ Page({
    * 页面的初始数据
    */
   data: {
+    booklock:false,
+    address:"",
+    phone:"",
+    contacts:"",
+    data:"",
+    time:"",
     tatalfee: 0,
     // 轮播头图
     image: [],
@@ -17,6 +23,19 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
+    // 保存到手机
+    saveImage: function (event) {
+      wx.saveImageToPhotosAlbum({
+        filePath: event.currentTarget.dataset.src,
+        success(result) {
+          wx.showToast({
+            title: '推广码保存成功',
+            icon: 'success',
+            duration: 2000
+          })
+        }
+      })
+    },
   //图片点击事件
   enlarge: function (event) {
     var src = event.currentTarget.dataset.src; //获取data-src
@@ -30,13 +49,84 @@ Page({
       urls: imgList // 需要预览的图片http链接列表
     })
   },
+  bvTime(e){
+    this.setData({
+      time: e.detail.value,
+    })
+  },
+  bvDate(e){
+    this.setData({
+      date: e.detail.value,
+    })
+  },
+  bvContacts(e){
+    this.setData({
+      contacts: e.detail.value,
+    })
+  },
+  bvPhone(e){
+    this.setData({
+      phone: e.detail.value,
+    })
+  },
+  bvAddress(e){
+    this.setData({
+      address: e.detail.value,
+    })
+  },
+  bvBook(){
+          // 判断是否重复提交
+          if (this.data.booklock) {
+            // 锁定时很执行
+            wx.showToast({
+              title: '请勿重复提交',
+              icon: 'error',
+              duration: 2000 //持续的时间
+            })
+          } else {
+            // 未锁定时执行
+            // 获取数据库引用
+            const db = wx.cloud.database()
+            db.collection('BOOKING').add({
+                data: {
+                  Address: this.data.address,
+                  Phone: this.data.phone,
+                  Contacts: this.data.contacts,
+                  BookingDate:this.data.date,
+                  BookingTime:this.data.time,
+                  BookingContent: "上门取款服务",
+                  BookingStatus:"unchecked",
+                  AddDate: new Date().toLocaleDateString()
+                },
+                success(res) {
+                  console.log('预约提交成功', res.data)
+                  wx.showToast({
+                    title: '预约提交成功',
+                    icon: 'success',
+                    duration: 2000 //持续的时间
+                  })
+                },
+                fail(res) {
+                  console.log("提交失败", res)
+                  wx.showToast({
+                    title: '预约提交失败',
+                    icon: 'error',
+                    duration: 2000 //持续的时间
+                  })
+                }
+              }),
+              this.data.booklock = true // 修改上传状态为锁定
+          }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var str = new Date()
     this.setData({
       totalfee: options.totalfee,
-      image:app.globalData.Gimagearray
+      image:app.globalData.Gimagearray,
+      startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
   },
 

@@ -25,8 +25,8 @@
     <view>{{item.DStartDate}}</view>
     <label class="title1">折扣终止日期：</label>
     <view>{{item.DEndDate}}</view>
-    <label class="title1">办理费用：</label>
-    <view>{{item.DTotalFee}}</view>
+    <label class="title1">折扣卡费用：</label>
+    <view>{{item.TotalFee}}</view>
 
     <!-- <view>
       <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&price={{price}}"

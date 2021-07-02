@@ -11,6 +11,13 @@
     </block>
   </swiper>
 </view>
+<!-- 通知栏 -->
+<l-notice-bar show="{{true}}" 
+              type="swip" speed="2000" front-icon-name="notification" front-icon-size="20"
+    front-icon-color="#3683D6" bind:lintap="onNoticeView"
+              swip-arr="{{noticearray}}">
+</l-notice-bar>
+
 <view  wx:if="{{avatarUrl=='' || nickName==''}}">
   <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
 </view>
@@ -20,12 +27,6 @@
     <view class="userinfo-nickname" >{{nickName}}</view>
   <!-- </view> -->
 </view>
-<!-- 通知栏 -->
-<l-notice-bar show="{{true}}" 
-              type="swip" speed="2000" front-icon-name="notification" front-icon-size="20"
-    front-icon-color="#3683D6" bind:lintap="onNoticeView"
-              swip-arr="{{noticearray}}">
-</l-notice-bar>
 
 <l-grid show-border="true" row-num="2">
   <l-grid-item key='one' slot='one'>

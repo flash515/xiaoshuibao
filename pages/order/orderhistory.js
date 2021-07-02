@@ -57,10 +57,6 @@ Page({
           dkorderhistory: res.result.data
         })
       },
-      complete: res => {
-        console.log("云函数查询完成")
-      }
-
     })
     wx.cloud.callFunction({
       name: 'ZCOrderQuery',
@@ -75,10 +71,6 @@ Page({
           zcorderhistory: res.result.data
         })
       },
-      complete: res => {
-        console.log("云函数查询完成")
-      }
-
     })
     wx.cloud.callFunction({
       name: 'DiscountOrderQuery',
@@ -93,10 +85,6 @@ Page({
           discountorderhistory: res.result.data
         })
       },
-      complete: res => {
-        console.log("云函数查询完成")
-      }
-
     })
   },
 

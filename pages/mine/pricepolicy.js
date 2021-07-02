@@ -90,7 +90,7 @@ Page({
       discountname: e.currentTarget.dataset.name,
       dstartdate: e.currentTarget.dataset.startdate,
       denddate: e.currentTarget.dataset.enddate,
-      dtotalfee: e.currentTarget.dataset.price,
+      totalfee: e.currentTarget.dataset.price,
     })
     if (this.data.buylock) {
       wx.showToast({
@@ -116,8 +116,8 @@ Page({
             DiscountName: this.data.discountname,
             DStartDate: this.data.dstartdate,
             DEndDate: this.data.denddate,
-            DTotalFee: this.data.dtotalfee,
-            PaymentStatus: "uncheck",
+            TotalFee: this.data.totalfee,
+            PaymentStatus: "unchecked",
             AddDate: new Date().toLocaleDateString(),
           },
           success(res) {
@@ -130,7 +130,7 @@ Page({
               duration: 2000 //持续的时间
             })
             wx.navigateTo({
-              url: '../order/pay?totalfee=' + that.data.dtotalfee
+              url: '../order/pay?totalfee=' + that.data.totalfee
             })
           },
           fail(res) {

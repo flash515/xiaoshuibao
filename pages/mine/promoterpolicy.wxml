@@ -15,7 +15,7 @@
 <l-collapse>
   <l-collapse-item title="查看推广政策">
     <l-card type="primary" plaintext="{{true}}">
-      <text space="emsp" decode='true'>  小税宝提供了客户通过推广并获得相应业绩奖励的方式回报客户，客户在符合相应推广人数要求后，仅需支付1元并申请通过即可获得白银、黄金、铂金推广大使资格，资格申请通过之后的业绩奖励按新标准计算，资格申请通过之前的业绩奖励仍按原标准计算。\n</text>
+      <text space="emsp" decode='true'>  小税宝为协助推广的客户提供了相应的业绩奖励，客户在符合相应推广人数要求后，仅需支付1元并申请通过即可获得白银、黄金、铂金推广大使资格，资格申请通过之后的业绩奖励按新标准计算，资格申请通过之前的业绩奖励仍按原标准计算。</text>
     </l-card>
   </l-collapse-item>
 </l-collapse>
@@ -33,10 +33,17 @@
     </l-collapse>
     <l-collapse>
       <l-collapse-item title="白银推广大使">
-        <l-card type="primary" plaintext="{{true}}" title="白银推广大使资格获取">
-          <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
-          <text decode='true'>企业注册：第一级推荐用户代办的企业注册每户300元；</text>
-          <text decode='true'>税收奖励：其本人代办的企业的税收奖励；</text>
+        <l-card type="avatar" plaintext="{{true}}" title="白银推广大使资格获取">
+          <text decode='true'>1人≦有效直接推广人数；</text>
+          <text decode='true'>申请并支付1元获得白银推广大使资格；</text>
+          <picker mode="date" value="{{startdate1}}" start="{{startdate}}" bindchange="bvStartDate1">
+            <view class="picker">
+              <text class="text">选择生效日期：{{startdate1}}</text>
+            </view>
+          </picker>
+          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使"
+            data-startdate="{{startdate1}}" data-price="1" shape="semicircle"
+            plain="true">申请并支付</l-button>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="白银推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -47,9 +54,17 @@
     </l-collapse>
     <l-collapse>
       <l-collapse-item title="黄金推广大使">
-        <l-card type="primary" plaintext="{{true}}" title="黄金推广大使资格获取">
+        <l-card type="avatar" plaintext="{{true}}" title="黄金推广大使资格获取">
           <text decode='true'>100人≦有效直接推广人数；</text>
-          <text decode='true'>申请并支付1元获得黄金推广大使资格*；</text>
+          <text decode='true'>申请并支付1元获得黄金推广大使资格；</text>
+          <picker mode="date" value="{{startdate2}}" start="{{startdate}}" bindchange="bvStartDate2">
+            <view class="picker">
+              <text class="text">选择生效日期：{{startdate2}}</text>
+            </view>
+          </picker>
+          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使"
+            data-startdate="{{startdate2}}" data-price="1" shape="semicircle"
+            plain="true">申请并支付</l-button>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="黄金推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -60,9 +75,17 @@
     </l-collapse>
     <l-collapse>
       <l-collapse-item title="铂金推广大使">
-        <l-card type="primary" plaintext="{{true}}" title="铂金推广大使资格获取">
+        <l-card type="avatar" plaintext="{{true}}" title="铂金推广大使资格获取">
           <text decode='true'>300人≦有效直接推广人数；</text>
-          <text decode='true'>申请并支付1元获得铂金推广大使资格*；</text>
+          <text decode='true'>申请并支付1元获得铂金推广大使资格；</text>
+          <picker mode="date" value="{{startdate3}}" start="{{startdate}}" bindchange="bvStartDate3">
+            <view class="picker">
+              <text class="text">选择生效日期：{{startdate3}}</text>
+            </view>
+          </picker>
+          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="platinum" data-name="白金推广大使"
+            data-startdate="{{startdate3}}" data-price="1" shape="semicircle"
+            plain="true">申请并支付</l-button>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="铂金推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>

@@ -24,7 +24,7 @@
         <view>办理费用：{{item.TotalFee}}</view>
         <!-- <view>ID：{{item._id}}</view> -->
         <view>
-          <l-button data-id="{{item._id}}" bind:lintap="bvDKOrdertDetail">订单详情</l-button>
+          <l-button data-id="{{item._id}}" bind:lintap="bvDKOrdertDetail" size="mini" shape="semicircle" plain="{{true}}">订单详情</l-button>
         </view>
       </view>
     </l-card>
@@ -40,7 +40,7 @@
         <view>办理费用：{{item.TotalFee}}</view>
         <!-- <view>ID：{{item._id}}</view> -->
         <view>
-          <l-button data-id="{{item._id}}" bind:lintap="bvZCOrdertDetail">订单详情</l-button>
+          <l-button data-id="{{item._id}}" bind:lintap="bvZCOrdertDetail" size="mini" shape="semicircle" plain="{{true}}">订单详情</l-button>
         </view>
       </view>
     
@@ -54,12 +54,12 @@
         <view>订单日期：{{item.AddDate}}</view>
         <view>折扣卡编号：{{item.DiscountId}}</view>
         <view>折扣卡名称：{{item.DiscountName}}</view>
-        <view>折扣起始日：{{item.DStartDate}}</view>
-        <view>折扣终止日：{{item.DEndDate}}</view>
-        <view>折扣卡费用：{{item.DTotalFee}}</view>
+        <view>折扣起始日期：{{item.DStartDate}}</view>
+        <view>折扣终止日期：{{item.DEndDate}}</view>
+        <view>折扣卡费用：{{item.TotalFee}}</view>
         <!-- <view>ID：{{item._id}}</view> -->
         <view>
-          <l-button data-id="{{item._id}}" bind:lintap="bvDiscountOrdertDetail">订单详情</l-button>
+          <l-button data-id="{{item._id}}" bind:lintap="bvDiscountOrdertDetail" size="mini" shape="semicircle" plain="{{true}}">订单详情</l-button>
         </view>
       </view>
     
