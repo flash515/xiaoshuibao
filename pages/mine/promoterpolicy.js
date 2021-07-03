@@ -71,6 +71,8 @@ Page({
             TotalFee: this.data.totalfee,
             PaymentStatus: "unchecked",
             AddDate: new Date().toLocaleDateString(),
+            PaymentStatus:"unchecked",
+            ApplyStatus:"unchecked",
           },
           success(res) {
             that.setData({

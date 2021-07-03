@@ -22,8 +22,8 @@
         <view>订单日期：{{item.AddDate}}</view>
         <view>订单类型：{{item.ProductType}}</view>
         <view>订单费用：{{item.TotalFee}}</view>
-        <view>是否支付：{{item.PaymentStatus}}</view>
-        <!-- <view>ID：{{item._id}}</view> -->
+        <view>付款状态：{{item.PaymentStatus}}</view>
+        <view>订单状态：{{item.OrderStatus}}</view>
         <view>
           <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail">订单详情</l-button>
           <text>\t\t</text>

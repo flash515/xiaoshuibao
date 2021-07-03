@@ -15,35 +15,76 @@
 
 <l-card type="primary" plaintext="{{true}}">
   <view wx:for="{{orderdetail}}" wx:key="key">
-    <label class="title1">订单日期：</label>
-    <view>{{item.AddDate}}</view>
-    <label class="title1">开票人：</label>
-    <view>{{item.SellerName}}</view>
-    <label class="title1">受票企业名称：</label>
-    <view>{{item.BuyerName}}</view>
-    <label class="title1">受票企业认别号：</label>
-    <view>{{item.BuyerId}}</view>
-    <label class="title1">开票项目：</label>
-    <view>{{item.ItemName}}</view>
-    <label class="title1">型号：</label>
-    <view>{{item.ItemModel}}</view>
-    <label class="title1">单位：</label>
-    <view>{{item.ItemUnit}}</view>
-    <label class="title1">数量：</label>
-    <view>{{item.Quantity}}</view>
-    <label class="title1">单价：</label>
-    <view>{{item.UnitPrice}}</view>
-    <label class="title1">总价：</label>
-    <view>{{item.TotalPrice}}</view>
-    <label class="title1">发票备注：</label>
-    <view>{{item.Invoremarks}}</view>
-    <label class="title1">订单备注：</label>
-    <view>{{item.Remarks}}</view>
-    <label class="title1">办理地点：</label>
-    <view>{{item.Place}}</view>
-    <label class="title1">办理费用：</label>
-    <view>{{item.TotalFee}}</view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">订单日期：</label>
+      <view>{{item.AddDate}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">开票人：</label>
+      <view>{{item.SellerName}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">受票企业名称：</label>
+      <view>{{item.BuyerName}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">受票企业认别号：</label>
+      <view>{{item.BuyerId}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">开票项目：</label>
+      <view>{{item.ItemName}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">型号：</label>
+      <view>{{item.ItemModel}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">单位：</label>
+      <view>{{item.ItemUnit}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">数量：</label>
+      <view>{{item.Quantity}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">单价：</label>
+      <view>{{item.UnitPrice}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">总价：</label>
+      <view>{{item.TotalPrice}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">发票备注：</label>
+      <view>{{item.Invoremarks}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">订单备注：</label>
+      <view>{{item.Remarks}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">办理地点：</label>
+      <view>{{item.Place}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">办理费用：</label>
+      <view>{{item.TotalFee}}</view>
+    </view>
+
     <label class="title1">图片附件：</label>
+
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">付款状态：</label>
+      <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
+      <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
+      <label class="title1">订单状态：</label>
+      <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
+      <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
+    </view>
+
     <l-image-picker size="3" count="9" urls="{{item.AttachmentImage}}" />
     <!-- <view>
       <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&price={{price}}"

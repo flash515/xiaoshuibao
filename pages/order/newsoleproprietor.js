@@ -380,7 +380,9 @@ Page({
             Charge2: this.data.charge2,
 
             SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleDateString(),
+            PaymentStatus:"unchecked",
+            OrderStatus:"unchecked",
           },
           success(res) {
             console.log('新增数据成功', res.data)

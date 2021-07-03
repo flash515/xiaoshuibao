@@ -770,7 +770,9 @@ Page({
             IdAddress: this.data.idaddress,
 
             SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleDateString(),
+            PaymentStatus:"unchecked",
+            OrderStatus:"unchecked",
           },
           success(res) {
             console.log('新增数据成功', res)

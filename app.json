@@ -14,6 +14,7 @@
     "pages/manage/scheme",
     "pages/manage/manageindex",
     "pages/manage/messgae",
+    "pages/manage/pending",
     "pages/order/newpersonal",
     "pages/order/newindibusiness",
     "pages/order/newsoleproprietor",

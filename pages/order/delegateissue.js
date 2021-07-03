@@ -531,7 +531,7 @@ Page({
       // 获取数据库引用
       const db = wx.cloud.database()
       // 新增数据
-      db.collection("ORDER").add({
+      db.collection("DELEGATEISSUE").add({
           data: {
             SellerName: this.data.sellername,
             SellerId: this.data.sellerid,
@@ -570,7 +570,9 @@ Page({
             Addresseephone: this.data.addresseephone,
             Address: this.data.address,
             SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleDateString(),
+            PaymentStatus:"unchecked",
+            OrderStatus:"unchecked",
           },
           success(res) {
             console.log('新增数据成功', res)

@@ -29,11 +29,36 @@ Page({
         filePath: event.currentTarget.dataset.src,
         success(result) {
           wx.showToast({
-            title: '推广码保存成功',
-            icon: 'success',
+            title: '支付码保存成功，请从手机相册打开并扫码支付',
             duration: 2000
           })
+        },
+        fail: function (err) {
+          console.log(err);
+          if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny") {
+            console.log("用户一开始拒绝了，我们想再次发起授权")
+            alert('打开设置窗口')
+            wx.openSetting({
+              success(settingdata) {
+                console.log(settingdata)
+                if (settingdata.authSetting['scope.writePhotosAlbum']) {
+                  wx.showToast({
+                    title: '需要保存支付码到本地相册才可以扫码识别',
+                    duration: 2000
+                  })
+                  console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
+                } else {
+                  wx.showToast({
+                    title: '需要保存二维码到本地相册才可以扫码识别',
+                    duration: 2000
+                  })
+                  console.log('获取权限失败，给出不给权限就无法正常使用的提示')
+                }
+              }
+            }
+          )
         }
+      }
       })
     },
   //图片点击事件

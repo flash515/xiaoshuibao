@@ -117,8 +117,9 @@ Page({
             DStartDate: this.data.dstartdate,
             DEndDate: this.data.denddate,
             TotalFee: this.data.totalfee,
-            PaymentStatus: "unchecked",
             AddDate: new Date().toLocaleDateString(),
+            PaymentStatus:"unchecked",
+            OrderStatus:"unchecked",
           },
           success(res) {
             that.setData({

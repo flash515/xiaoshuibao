@@ -1,0 +1,121 @@
+<l-tabs bind:linchange="changeTabs">
+  <l-tabpanel tab="代开订单" key="one" slot="one">
+    <view wx:for="{{dkorderuncheckarray}}" wx:key="key" wx:for-item='cell'>
+      <l-collapse>
+        <l-collapse-item title="查看订单详情">
+          <view wx:for="{{cell}}" wx:for-index="key" wx:for-item="value">
+            <view>{{key}}:{{value}}</view>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{cell.AddDate}}</view>
+        <view>应付金额：{{cell.TotalFee}}</view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>付款状态：</view>
+          <switch checked="{{cell.PaymentStatus=='checked'}}" bindchange="onPaymentStatusChange" style='zoom:.6;' />
+        </view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>订单状态：</view>
+          <switch checked="{{cell.OrderStatus=='checked'}}" bindchange="onOrderStatusChange" style='zoom:.6;' />
+        </view>
+        <l-button data-id="value._id" bind:lintap="bvDKUpdate">状态更新</l-button>
+      </l-card>
+
+    </view>
+  </l-tabpanel>
+
+  <l-tabpanel tab="注册订单" key="two" slot="two" bind:linchange="changeGT">
+    <view wx:for="{{zcorderuncheckarray}}" wx:key="key" wx:for-item='cell'>
+      <l-collapse>
+        <l-collapse-item title="查看订单详情">
+          <view wx:for="{{cell}}" wx:for-index="key" wx:for-item="value">
+            <view>{{key}}:{{value}}</view>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{cell.AddDate}}</view>
+        <view>应付金额：{{cell.TotalFee}}</view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>付款状态：</view>
+          <switch checked="{{cell.PaymentStatus=='checked'}}" bindchange="onPaymentStatusChange" style='zoom:.6;' />
+        </view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>订单状态：</view>
+          <switch checked="{{cell.OrderStatus=='checked'}}" bindchange="onOrderStatusChange" style='zoom:.6;' />
+        </view>
+        <l-button data-id="value._id" bind:lintap="bvDKUpdate">状态更新</l-button>
+      </l-card>
+    </view>
+
+  </l-tabpanel>
+  <l-tabpanel tab="推广等级" key="three" slot="three" bind:linchange="changeGT">
+    <view wx:for="{{promoteruncheckarray}}" wx:key="key" wx:for-item='cell'>
+      <l-collapse>
+        <l-collapse-item title="查看订单详情">
+          <view wx:for="{{cell}}" wx:for-index="key" wx:for-item="value">
+            <view>{{key}}:{{value}}</view>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{cell.AddDate}}</view>
+        <view>应付金额：{{cell.TotalFee}}</view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>付款状态：</view>
+          <switch checked="{{cell.PaymentStatus=='checked'}}" bindchange="onPaymentStatusChange" style='zoom:.6;' />
+        </view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>申请状态：</view>
+          <switch checked="{{cell.ApplyStatus=='checked'}}" bindchange="onApplyStatusChange" style='zoom:.6;' />
+        </view>
+        <l-button data-id="cell._id" bind:lintap="bvPromoterUpdate">状态更新</l-button>
+
+      </l-card>
+    </view>
+
+  </l-tabpanel>
+  <l-tabpanel tab="折扣卡" key="four" slot="four" bind:linchange="changeGT">
+    <view wx:for="{{discountuncheckarray}}" wx:key="key" wx:for-item='cell'>
+      <l-collapse>
+        <l-collapse-item title="查看订单详情">
+          <view wx:for="{{cell}}" wx:for-index="key" wx:for-item="value">
+            <view>{{key}}:{{value}}</view>
+          </view>
+        </l-collapse-item>
+      </l-collapse>
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{cell.AddDate}}</view>
+        <view>应付金额：{{cell.TotalFee}}</view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>付款状态：</view>
+          <switch checked="{{cell.PaymentStatus=='checked'}}" bindchange="onPaymentStatusChange" style='zoom:.6;' />
+        </view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>订单状态：</view>
+          <switch checked="{{cell.OrderStatus=='checked'}}" bindchange="onOrderStatusChange" style='zoom:.6;' />
+        </view>
+        <l-button data-id="cell._id" bind:lintap="bvDKUpdate">状态更新</l-button>
+      </l-card>
+    </view>
+
+  </l-tabpanel>
+  <l-tabpanel tab="上门预约" key="five" slot="five" bind:linchange="changeGT">
+    <view wx:for="{{bookingarray}}" wx:key="key" wx:for-item='cell'>
+      <l-card type="primary" plaintext="{{true}}">
+        <view>创建日期：{{cell.AddDate}}</view>
+        <view>预约时间：{{cell.BookingDate}}  {{cell.BookingTime}}</view>
+        <view>联系人：{{cell.Contacts}}</view>
+        <view>联系电话：{{cell.Phone}}</view>
+        <view>地址：{{cell.Address}}</view>
+        <view style="display:flex; flex-direction:row; justify-content:space-between;">
+          <view>预约状态：</view>
+          <switch checked="{{cell.BookingStatus=='checked'}}" bindchange="onBookingStatusChange" style='zoom:.6;' />
+        </view>
+        <l-button data-id="cell._id" bind:lintap="bvBookingUpdate">状态更新</l-button>
+      </l-card>
+    </view>
+
+  </l-tabpanel>
+</l-tabs>
