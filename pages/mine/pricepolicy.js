@@ -159,42 +159,51 @@ Page({
     // let that=this
     const db = wx.cloud.database()
     const _ = db.command
-    db.collection('DISCOUNTORDER').where(_.and([
-      {
+    db.collection('DISCOUNTORDER').where({
         _openid: app.globalData.Gopenid,
-      },
-      {
-        DStartDate: _.lte(new Date())
-      },
-      {
-        DEndDate: _.gte(new Date())
-      }
-    ])).get({
+        PaymentStatus:"checked",
+        OrderStatus:"checked"
+      }).get({
       success: res => {
         console.log(res)
         if (res.data.length != 0 && res.data.length != undefined) {
+          var tempfliter = []
+          for (var i = 0; i < res.data.length; i++) {
+            if (new Date(res.data[i].DStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DEndDate).getTime() >= new Date().getTime()) {
+              tempfliter.push(res.data[i]);
+            }
+          }
+          if(tempfliter.length !=0  && tempfliter.length != undefined){
+                    console.log(tempfliter)
           this.setData({
-            plstartdate: res.data[0].DStartDate,
-            plenddate: res.data[0].DEndDate
+            plstartdate: tempfliter[0].DStartDate,
+            plenddate: tempfliter[0].DEndDate
           })
-          if (res.data[0].PriceLevel == "PL1") {
+          if (tempfliter[0].PriceLevel == "PL1") {
             this.setData({
               plname: "特惠价"
             })
-          } else if (res.data[0].PriceLevel == "PL2") {
+          } else if (tempfliter[0].PriceLevel == "PL2") {
             this.setData({
               plname: "巨惠价"
             })
-          } else if (res.data[0].PriceLevel == "PL3") {
+          } else if (tempfliter[0].PriceLevel == "PL3") {
             this.setData({
               plname: "优惠价"
             })
-          } else if (res.data[0].PriceLevel == "PL4") {
+          } else if (tempfliter[0].PriceLevel == "PL4") {
+            this.setData({
+              plname: "普客价"
+            })
+          }
+        } else{
+            //卡券已过期
             this.setData({
               plname: "普客价"
             })
           }
         } else {
+          //没有卡券
           this.setData({
             plname: "普客价",
           })

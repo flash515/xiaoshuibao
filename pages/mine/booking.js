@@ -49,7 +49,7 @@ Page({
     const db = wx.cloud.database()
     db.collection('BOOKING').where({
       _openid: app.globalData.Gopenid,
-
+      // BookingStatus:"checked"
     }).get({
       success: res => {
         this.setData({

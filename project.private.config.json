@@ -317,6 +317,12 @@
           "pathName": "pages/manage/pending",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/tools/test2",
+          "pathName": "pages/tools/test2",
+          "query": "",
+          "scene": null
         }
       ]
     }

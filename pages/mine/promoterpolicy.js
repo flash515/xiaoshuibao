@@ -71,8 +71,8 @@ Page({
             TotalFee: this.data.totalfee,
             PaymentStatus: "unchecked",
             AddDate: new Date().toLocaleDateString(),
-            PaymentStatus:"unchecked",
-            ApplyStatus:"unchecked",
+            PaymentStatus: "unchecked",
+            ApplyStatus: "unchecked",
           },
           success(res) {
             that.setData({
@@ -104,38 +104,42 @@ Page({
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
-
     console.log(this.data.startdate)
     // let that=this
     const db = wx.cloud.database()
     const _ = db.command
-    db.collection('PROMOTERORDER').where(_.and([{
-        _openid: app.globalData.Gopenid,
-      },
-      // {
-      //   PLStartDate: _.lte(new Date())
-      // },
-    ])).get({
+    db.collection('PROMOTERORDER').where({
+      _openid: app.globalData.Gopenid,
+      PaymentStatus:"checked",
+      AppleyStatus:"checked"
+    }).get({
       success: res => {
         console.log(res)
         if (res.data.length != 0 && res.data.length != undefined) {
+          var tempfliter = []
+          for (var i = 0; i < res.data.length; i++) {
+            if (new Date(res.data[i].PLStartDate).getTime() <= new Date().getTime()) {
+              tempfliter.push(res.data[i]);
+            }
+          }
+          console.log(tempfliter)
           this.setData({
-            plstartdate: res.data[0].PLStartDate,
-            promoterlevel: res.data[0].PromoterLevel,
+            plstartdate: tempfliter[0].PLStartDate,
+            promoterlevel: tempfliter[0].PromoterLevel,
           })
-          if (res.data[0].PromoterLevel == "sliver") {
+          if (tempfliter[0].PromoterLevel == "sliver") {
             this.setData({
               promotername: "白银推广大使"
             })
-          } else if (res.data[0].PromoterLevel == "gold") {
+          } else if (tempfliter[0].PromoterLevel == "gold") {
             this.setData({
               promotername: "黄金推广大使"
             })
-          } else if (res.data[0].PromoterLevel == "platinum") {
+          } else if (tempfliter[0].PromoterLevel == "platinum") {
             this.setData({
               promotername: "铂金推广大使"
             })
-          } else if (res.data[0].PromoterLevel == "normal") {
+          } else if (tempfliter[0].PromoterLevel == "normal") {
             this.setData({
               promotername: "普客"
             })

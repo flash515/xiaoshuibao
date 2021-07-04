@@ -5,99 +5,172 @@ Page({
    * 页面的初始数据
    */
   data: {
-    dkorderuncheckarray:[],
-    zcorderuncheckarray:[],
-    delegateissuearray:[],
-    promoteruncheckarray:[],
-    discountuncheckarray:[],
-    bookingarray:[],
+    dkorderuncheckarray: [],
+    zcorderuncheckarray: [],
+    delegateissuearray: [],
+    promoteruncheckarray: [],
+    discountuncheckarray: [],
+    bookingarray: [],
   },
+  onPaymentStatusChange(e){
+    if (e.detail.value == true) {
+      this.setData({
+        status: "在售",
+        onsalechecked: true
+      })
+      wx.showToast({
+        title: '已开启在售开关',
+        icon: 'none',
+        duration: 2000 //持续的时间
+      })
+    } else {
+      this.setData({
+        status: "停售",
+        onsalechecked: false
+      })
+      wx.showToast({
+        title: '已关闭在售开关',
+        icon: 'none',
+        duration: 2000 //持续的时间
+      })
+    }
+  },
+  onOrderStatusChange(e){
 
+  },
+  onApplyStatusChange(e){
+
+  },
+  onBookingStatusChange(e){
+
+  },
+  bvDKUpdate(e){
+
+  },
+  bvZCUpdate(e){
+
+  },
+  bvPromoterUpdate(e){
+
+  },
+  bvDiscountUpdate(e){
+
+  },
+  bvBookingUpdate(e){
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     const db = wx.cloud.database()
-    const _ = db.command
-    db.collection("DKORDER").where(_.or([
-      {
-        PaymentStatus:"unchecked",
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "DKORDER",
+        command: "or",
+        where: [{
+          PaymentStatus: "unchecked"
+        }, {
+          OrderStatus: "unchecked"
+        }]
+
       },
-      {
-        OrderStatus:"unchecked",
+      success: res => {
+        this.setData({
+          dkorderuncheckarray: res.result.data
+        })
       }
-    ])).get({
+    })
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "ZCORDER",
+        command: "or",
+        where: [{
+          PaymentStatus: "unchecked"
+        }, {
+          OrderStatus: "unchecked"
+        }]
+
+      },
       success: res => {
         this.setData({
-          dkorderuncheckarray: res.data
+          zcorderuncheckarray: res.result.data
         })
-      },
-    })
-    db.collection("ZCORDER").where(_.or([
-      {
-        PaymentStatus:"unchecked",
-      },
-      {
-        OrderStatus:"unchecked",
       }
-    ])).get({
+    })
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "DELEGATEISSUE",
+        command: "or",
+        where: [{
+          PaymentStatus: "unchecked"
+        }, {
+          OrderStatus: "unchecked"
+        }]
+
+      },
       success: res => {
         this.setData({
-          zcorderuncheckarray: res.data
+          delegateissuearray: res.result.data
         })
-      },
-    })
-    db.collection("DELEGATEISSUE").where(_.or([
-      {
-        PaymentStatus:"unchecked",
-      },
-      {
-        OrderStatus:"unchecked",
       }
-    ])).get({
+    })
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PROMOTERORDER",
+        command: "or",
+        where: [{
+          PaymentStatus: "unchecked"
+        }, {
+          ApplyStatus: "unchecked"
+        }]
+
+      },
       success: res => {
         this.setData({
-          delegateissuearray: res.data
+          promoteruncheckarray: res.result.data
         })
-      },
-    })
-    db.collection("PROMOTERORDER").where(_.or([
-      {
-        PaymentStatus:"unchecked",
-      },
-      {
-        ApplyStatus:"unchecked",
       }
-    ])).get({
+    })
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "DISCOUNTORDER",
+        command: "or",
+        where: [{
+          PaymentStatus: "unchecked"
+        }, {
+          OrderStatus: "unchecked"
+        }]
+
+      },
       success: res => {
         this.setData({
-          promoteruncheckarray: res.data
+          discountuncheckarray: res.result.data
         })
-      },
-    })
-    db.collection("DISCOUNTORDER").where(_.or([
-      {
-        PaymentStatus:"unchecked",
-      },
-      {
-        OrderStatus:"unchecked",
       }
-    ])).get({
+    })
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "BOOKING",
+        command: "",
+        where: [{
+          BookingStatus: "unchecked"
+        }]
+
+      },
       success: res => {
         this.setData({
-          discountuncheckarray: res.data
+          bookingarray: res.result.data
         })
-      },
+      }
     })
-    db.collection("BOOKING").where({
-        BookingStatus:"unchecked",
-    }).get({
-      success: res => {
-        this.setData({
-          bookingarray: res.data
-        })
-      },
-    })
+
   },
 
   /**

@@ -51,6 +51,7 @@
     "pages/tools/meetingroom/meetingroom4",
     "pages/tools/test",
     "pages/tools/test1",
+    "pages/tools/test2",
     "pages/tools/sort"
   ],
   "permission": {
