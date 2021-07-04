@@ -28,9 +28,7 @@
       </view>
       <view wx:else>
       <l-input label="办理费率：" type="text" label-layout="left" label-width="270"
-        placeholder="{{clientprice}}" disabled="{{true}}" />
-        <l-input label="办理费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left"
-    label-width="270" placeholder="{{totalfee}}" disabled="{{true}}" />
+        placeholder="{{orderprice}}" disabled="{{true}}" />
   </view>
     </l-card>
   </l-tabpanel>
@@ -80,16 +78,22 @@
         label-width="270" clear="{{true}}" bind:lininput="bvAddresseePhone" />
     </l-card>
   </l-tabpanel>
+  <l-tabpanel tab="办理费用" key="six" slot="six" bind:linchange="submitdisable">
+    <l-card type="primary" plaintext="{{true}}">
+      <l-input label="办理费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left"
+          label-width="270" disabled="{{true}}" />
+    </l-card>
+  </l-tabpanel>
 </l-tabs>
 <l-card type="primary" plaintext="{{true}}">
 
   <!-- 以下管理员显示内容 -->
   <view wx:if="{{usertype == 'admin'}}">
-    <l-input name="fee" label="净服务费（元）：" type="number" label-layout="left" label-width="270" placeholder="{{fee}}"
+    <l-input label="净服务费（元）：" type="number" label-layout="left" label-width="270" placeholder="{{fee}}"
       disabled="{{true}}" />
-    <l-input name="charge1" label="直接推荐奖励（元）：" type="number" label-layout="left" label-width="270"
+    <l-input label="直接推荐奖励（元）：" type="number" label-layout="left" label-width="270"
       placeholder="{{charge1}}" disabled="{{true}}" />
-    <l-input name="charge2" label="间接推荐奖励（元）" type="number" label-layout="left" label-width="270"
+    <l-input label="间接推荐奖励（元）" type="number" label-layout="left" label-width="270"
       placeholder="{{charge2}}" disabled="{{true}}" />
   </view>
 </l-card>
