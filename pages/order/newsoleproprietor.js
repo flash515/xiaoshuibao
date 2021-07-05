@@ -48,6 +48,8 @@ Page({
     attachmentview: [], //本地临时地址
     attachmentimage: [], //上传后的网络地址
     imageuploadlock: false,
+    submitted:false,
+    btnhidden:true
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -100,7 +102,18 @@ Page({
       nickName: app.globalData.GnickName,
     })
   },
-
+  changeTabs(e) {
+    console.log(e.detail)
+    if(e.detail.activeKey=="six"){
+      this.setData({
+        btnhidden: false
+      })
+    }else{
+      this.setData({
+        btnhidden: true
+      })
+    }
+  },
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
     this.setData({
@@ -337,6 +350,7 @@ Page({
     },
   // 异步新增数据方法
   addData() {
+    var thispage = this
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
@@ -385,11 +399,26 @@ Page({
             OrderStatus:"unchecked",
           },
           success(res) {
-            console.log('新增数据成功', res.data)
-            wx.showToast({
-              title: '新增数据成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
+            thispage.setData({
+              submitted: true // 修改上传状态并返回前端
+            })
+            db.collection("PAYMENT").add({
+              data: {
+                ProductId: this.data.productid,
+                ProductName: this.data.productname,
+                IssuedPlace: this.data.issuedplace,
+                TotalFee: this.data.totalfee,
+                SysAddDate: new Date().getTime(),
+                AddDate: new Date().toLocaleDateString(),
+                PaymentStatus:"unchecked",
+              },
+              success(res) {
+                wx.showToast({
+                  title: '新增数据成功',
+                  icon: 'success',
+                  duration: 2000 //持续的时间
+                })
+              }
             })
           },
           fail(res) {
@@ -401,6 +430,7 @@ Page({
             })
           }
         }),
+
         // 以上新增数据结束
         wx.removeStorage({
           key: 'LTemp' + this.data.productid,
@@ -411,9 +441,9 @@ Page({
       this.data.sublock = true // 修改上传状态为锁定
     }
   },
-  pay() {
+  pay(e) {
     wx.navigateTo({
-      url: 'pay'
+      url: '../order/pay?' + e.currentTarget.dataset.totalfee
     })
   }
 })

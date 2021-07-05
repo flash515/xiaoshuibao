@@ -13,8 +13,8 @@
   </swiper>
 </view>
 <!-- 传入的产品信息 -->
-<l-tabs>
-  <l-tabpanel tab="产品信息" key="one" slot="one" bind:linchange="submitdisable">
+<l-tabs bind:linchange="changeTabs" equal-width="{{false}}" scrollable="{{true}}">
+  <l-tabpanel tab="产品信息" key="one" slot="one" >
     <l-card type="primary" plaintext="{{true}}">
       <l-input label="产品编号：" type="text" label-layout="left" label-width="270"
         placeholder="{{productid}}" disabled="{{true}}" />
@@ -33,7 +33,7 @@
     </l-card>
   </l-tabpanel>
   <!-- 需填写的资料 -->
-  <l-tabpanel tab="投资人信息" key="two" slot="two" bind:linchange="submitdisable">
+  <l-tabpanel tab="投资人信息" key="two" slot="two" >
     <l-card type="primary" plaintext="{{true}}">
       <l-input label="投资人姓名：" placeholder="{{investorname}}" type="text" label-layout="left"
         label-width="270" clear="{{true}}" bind:lininput="bvInvestorName" />
@@ -43,7 +43,7 @@
         <l-input label="投资人邮箱：" type="text" label-layout="left" label-width="270" placeholder="{{investoremail}}" clear="{{true}}" bind:lininput="bvInvestorEmail"/>
     </l-card>
   </l-tabpanel>
-  <l-tabpanel tab="注册信息" key="three" slot="three" bind:linchange="submitdisable">
+  <l-tabpanel tab="注册信息" key="three" slot="three" >
     <l-card type="primary" plaintext="{{true}}">
       <l-input label="商号名称：" type="text" label-layout="left" label-width="270"
         placeholder="{{businessname}}" clear="{{true}}" bind:lininput="bvBusinessName" />
@@ -58,7 +58,7 @@
     </l-card>
   </l-tabpanel>
   <!-- 图片附件 -->
-  <l-tabpanel tab="附件资料" key="four" slot="four" bind:linchange="submitdisable">
+  <l-tabpanel tab="附件资料" key="four" slot="four" >
     <l-card type="primary" plaintext="{{true}}">
       <view>
         <label class="text">请选取或拍摄需要上传的图片（委托书、业务合同、转账记录等）</label>
@@ -68,7 +68,7 @@
       </view>
     </l-card>
   </l-tabpanel>
-  <l-tabpanel tab="收件地址" key="five" slot="five" bind:linchange="submitdisable">
+  <l-tabpanel tab="收件地址" key="five" slot="five" >
     <l-card type="primary" plaintext="{{true}}">
       <l-input label="快递收件人：" type="text" placeholder="{{addressee}}" label-layout="left"
         label-width="270" clear="{{true}}" bind:lininput="bvAddressee" />
@@ -78,7 +78,7 @@
         label-width="270" clear="{{true}}" bind:lininput="bvAddresseePhone" />
     </l-card>
   </l-tabpanel>
-  <l-tabpanel tab="办理费用" key="six" slot="six" bind:linchange="submitdisable">
+  <l-tabpanel tab="办理费用" key="six" slot="six" >
     <l-card type="primary" plaintext="{{true}}">
       <l-input label="办理费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left"
           label-width="270" disabled="{{true}}" />
@@ -98,13 +98,17 @@
   </view>
 </l-card>
 <l-card type="primary" plaintext="{{true}}">
-  <view wx:if="{{!submitted}}">
+
+  <view wx:if="{{!submitted}}" style="display:flex; flex-direction:row;">
     <l-button type="default" bindtap="bvTempStorage">暂存</l-button>
-    <text>\t\t</text>
-    <l-button type="default" bindtap="addData" disabled="{{submitbtndisable}}">提交</l-button>
-    <text>\t\t</text>
+    <view><text space="emsp" decode="{{true}}">&emsp;</text></view>
+    <view wx:if="{{!btnhidden}}">
+    <l-button type="default" bind:lintap="addData">提交</l-button>
+    <view><text space="emsp" decode="{{true}}">&emsp;</text></view>
+  </view>
   </view>
   <view wx:else>
     <l-button type="default" data-totalfee="totalfee={{totalfee}}" bindtap="pay">支付费用</l-button>
   </view>
+
 </l-card>

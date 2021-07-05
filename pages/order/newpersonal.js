@@ -2,8 +2,8 @@ const app = getApp()
 Page({
 
   data: {
-    avatarUrl:"",
-    nickName:"",
+    avatarUrl: "",
+    nickName: "",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -75,9 +75,9 @@ Page({
     // 业务备注
     remark: "",
     sublock: false,
-    attachmentview: [],//本地临时地址
-    attachment: [],//常客名单中的附件名
-    attachmentimage: [],//上传后的网络地址
+    attachmentview: [], //本地临时地址
+    attachment: [], //常客名单中的附件名
+    attachmentimage: [], //上传后的网络地址
     imageuploadlock: false,
     docaddressee: "",
     docaddresseephone: "",
@@ -98,7 +98,7 @@ Page({
     address1pickershow: true,
     address2pickershow: true,
     submitted: false,
-    submitbtndisable: true
+    btnhidden: true
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -109,8 +109,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
+        app.globalData.GavatarUrl = res.userInfo.avatarUrl
+        app.globalData.GnickName = res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -129,7 +129,7 @@ Page({
         })
         // 以上更新数据结束
         wx.showToast({
-          icon:'success',
+          icon: 'success',
           title: '登录成功',
         })
         return;
@@ -146,7 +146,7 @@ Page({
   },
   onShow: function () {
     this.setData({
-      image:app.globalData.Gimagearray,
+      image: app.globalData.Gimagearray,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
@@ -208,14 +208,14 @@ Page({
         console.log("LTemp", res.data)
         if (!res.data) {} else {
           this.setData({
-            imageuploadlock:res.data.imageuploadlock,
+            imageuploadlock: res.data.imageuploadlock,
             // 开票人
             sellername: res.data.sellername,
             sellerphone: res.data.sellerphone,
             selleraddress: res.data.selleraddress,
             sellertaxaccount: res.data.sellertaxaccount,
             sellertaxpassword: res.data.sellertaxpassword,
-            attachmentview:res.data.attachmentview,
+            attachmentview: res.data.attachmentview,
             // 受票企业
             buyername: res.data.buyername,
             buyerid: res.data.buyerid,
@@ -301,13 +301,13 @@ Page({
 
   changeTabs(e) {
     console.log(e.detail)
-    if(e.detail.activeKey=="six"){
+    if (e.detail.activeKey == "seven") {
       this.setData({
-        submitbtndisable: false
+        btnhidden: false
       })
-    }else{
+    } else {
       this.setData({
-        submitbtndisable: true
+        btnhidden: true
       })
     }
   },
@@ -430,9 +430,9 @@ Page({
         src: this.data.sellerarray[e.detail.value].Attachment[i],
         success: (res) => {
           this.setData({
-          attachmentview:this.data.attachmentview.concat(res.path)
+            attachmentview: this.data.attachmentview.concat(res.path)
           })
-          console.log("attachmentview",this.data.attachmentview)
+          console.log("attachmentview", this.data.attachmentview)
         }
       })
     }
@@ -660,7 +660,7 @@ Page({
     wx.setStorage({
       key: 'LTemp' + this.data.productid,
       data: {
-        imageuploadlock:this.data.imageuploadlock,
+        imageuploadlock: this.data.imageuploadlock,
         sellername: this.data.sellername,
         sellerphone: this.data.sellerphone,
         selleraddress: this.data.selleraddress,
@@ -757,7 +757,7 @@ Page({
             TotalFee: this.data.totalfee,
             Charge1: this.data.charge1,
             Charge2: this.data.charge2,
-            Invoremark: this.data.invoremark,
+            InvoRemark: this.data.invoremark,
             Remark: this.data.remark,
 
             AttachmentImage: this.data.attachmentimage,
@@ -771,20 +771,30 @@ Page({
 
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
-            PaymentStatus:"unchecked",
-            OrderStatus:"unchecked",
+            PaymentStatus: "unchecked",
+            OrderStatus: "unchecked",
           },
           success(res) {
-            console.log('新增数据成功', res)
             thispage.setData({
               submitted: true // 修改上传状态并返回前端
             })
-            console.log('thispage', thispage.data.submitted)
-            console.log('this', this.data.submitted)
-            wx.showToast({
-              title: '新增数据成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
+            db.collection("PAYMENT").add({
+              data: {
+                ProductId: this.data.productid,
+                ProductName: this.data.productname,
+                IssuedPlace: this.data.issuedplace,
+                TotalFee: this.data.totalfee,
+                SysAddDate: new Date().getTime(),
+                AddDate: new Date().toLocaleDateString(),
+                PaymentStatus: "unchecked",
+              },
+              success(res) {
+                wx.showToast({
+                  title: '新增数据成功',
+                  icon: 'success',
+                  duration: 2000 //持续的时间
+                })
+              }
             })
           },
           fail(res) {

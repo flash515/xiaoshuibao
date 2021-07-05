@@ -23,7 +23,6 @@
     "pages/order/paymenthistory",
     "pages/order/dkorderdetail",
     "pages/order/zcorderdetail",
-    "pages/order/discountorderdetail",
     "pages/order/client",
     "pages/order/address",
     "pages/order/individual",

@@ -68,6 +68,8 @@ Page({
     charge2: 0,
     sublock: false,
     imageuploadlock: false,
+    submitted:false,
+    btnhidden:true
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -112,6 +114,18 @@ Page({
         return;
       }
     })
+  },
+  changeTabs(e) {
+    console.log(e.detail)
+    if(e.detail.activeKey=="seven"){
+      this.setData({
+        btnhidden: false
+      })
+    }else{
+      this.setData({
+        btnhidden: true
+      })
+    }
   },
   onShow: function () {
     this.setData({
@@ -464,6 +478,7 @@ Page({
 
   // 异步新增数据方法
   addData() {
+    var thispage = this
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
@@ -526,11 +541,26 @@ Page({
             OrderStatus:"unchecked",
           },
           success(res) {
-            console.log('新增数据成功', res.data)
-            wx.showToast({
-              title: '新增数据成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
+            thispage.setData({
+              submitted: true // 修改上传状态并返回前端
+            })
+            db.collection("PAYMENT").add({
+              data: {
+                ProductId: this.data.productid,
+                ProductName: this.data.productname,
+                IssuedPlace: this.data.issuedplace,
+                TotalFee: this.data.totalfee,
+                SysAddDate: new Date().getTime(),
+                AddDate: new Date().toLocaleDateString(),
+                PaymentStatus:"unchecked",
+              },
+              success(res) {
+                wx.showToast({
+                  title: '新增数据成功',
+                  icon: 'success',
+                  duration: 2000 //持续的时间
+                })
+              }
             })
           },
           fail(res) {

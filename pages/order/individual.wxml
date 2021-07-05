@@ -14,28 +14,28 @@
 <l-card type="primary" plaintext="{{true}}">
 <text class="info" space="emsp">  提示：提交的个人信息将用于小税宝接受用户委托，代办自然人税局代开发票业务时使用，小税宝承诺该信息不会用于其他用途，并且用户可随时删除有关个人信息。</text>
 <view>
-  <l-input type="text" name="adddate" label="登记日期" placeholder="{{adddate}}" disabled="{{true}}"></l-input>
+  <l-input type="text" label="登记日期：" value="{{adddate}}" disabled="{{true}}"></l-input>
 </view>
 <view>
-  <l-input type="text" name="individualname" label="开票人姓名" placeholder="{{individualname}}" bind:lininput="bvIndividualName"></l-input>
+  <l-input type="text" label="开票人姓名：" value="{{individualname}}" bind:lininput="bvIndividualName"></l-input>
 </view>
 <view>
-  <l-input type="text" name="individualphone" label="开票人手机" placeholder="{{individualphone}}" bind:lininput="bvIndividualPhone">
+  <l-input type="text" label="开票人手机：" value="{{individualphone}}" bind:lininput="bvIndividualPhone">
   </l-input>
 </view>
 <view>
-  <l-input type="text" name="individualaddress" label="开票人地址" placeholder="{{individualaddress}}" bind:lininput="bvIndividualAddress">
+  <l-input type="text" label="开票人地址：" value="{{individualaddress}}" bind:lininput="bvIndividualAddress">
   </l-input>
 </view>
 <view>
-  <l-input type="text" name="taxaccount" label="电子税局账号" placeholder="{{taxaccount}}" bind:lininput="bvTaxAccount"></l-input>
+  <l-input type="text" label="电子税局账号：" value="{{taxaccount}}" bind:lininput="bvTaxAccount"></l-input>
 </view>
 <view>
-  <l-input type="text" name="taxpassword" label="电子税局密码" placeholder="{{taxpassword}}" bind:lininput="bvTaxPassword">
+  <l-input type="text" label="电子税局密码：" value="{{taxpassword}}" bind:lininput="bvTaxPassword">
   </l-input>
 </view>
 <view>
-  <l-input type="text" name="updatedate" label="更新日期" placeholder="{{updatedate}}" disabled="{{true}}"></l-input>
+  <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
 </view>
 <text>\t\t</text>
   <!-- 显示选择的图片 -->

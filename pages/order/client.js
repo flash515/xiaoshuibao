@@ -41,6 +41,20 @@ Page({
    */
   onLoad: function (options) {
     this.setData({image:app.globalData.Gimagearray})
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
     const db = wx.cloud.database()
     // 查询当前用户所有的INDIVIDUAL
     db.collection('INDIVIDUAL').where({
@@ -84,20 +98,6 @@ Page({
         })
       }
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
   },
 
   /**

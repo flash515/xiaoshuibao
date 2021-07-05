@@ -2,8 +2,8 @@ const app = getApp()
 Page({
 
   data: {
-    avatarUrl:"",
-    nickName:"",
+    avatarUrl: "",
+    nickName: "",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -47,6 +47,8 @@ Page({
     attachmentview: [], //本地临时地址
     attachmentimage: [],
     imageuploadlock: false,
+    submitted:false,
+    btnhidden: true
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -57,8 +59,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
+        app.globalData.GavatarUrl = res.userInfo.avatarUrl
+        app.globalData.GnickName = res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -77,7 +79,7 @@ Page({
         })
         // 以上更新数据结束
         wx.showToast({
-          icon:'success',
+          icon: 'success',
           title: '登录成功',
         })
         return;
@@ -92,9 +94,21 @@ Page({
       }
     })
   },
+  changeTabs(e) {
+    console.log(e.detail)
+    if (e.detail.activeKey == "six") {
+      this.setData({
+        btnhidden: false
+      })
+    } else {
+      this.setData({
+        btnhidden: true
+      })
+    }
+  },
   onShow: function () {
     this.setData({
-      image:app.globalData.Gimagearray,
+      image: app.globalData.Gimagearray,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
@@ -333,6 +347,7 @@ Page({
   },
   // 异步新增数据方法
   addData() {
+    var thispage = this
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
@@ -377,15 +392,30 @@ Page({
 
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
-            PaymentStatus:"unchecked",
-            OrderStatus:"unchecked",
+            PaymentStatus: "unchecked",
+            OrderStatus: "unchecked",
           },
           success(res) {
-            console.log('新增数据成功', res.data)
-            wx.showToast({
-              title: '新增数据成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
+            thispage.setData({
+              submitted: true // 修改上传状态并返回前端
+            })
+            db.collection("PAYMENT").add({
+              data: {
+                ProductId: this.data.productid,
+                ProductName: this.data.productname,
+                IssuedPlace: this.data.issuedplace,
+                TotalFee: this.data.totalfee,
+                SysAddDate: new Date().getTime(),
+                AddDate: new Date().toLocaleDateString(),
+                PaymentStatus: "unchecked",
+              },
+              success(res) {
+                wx.showToast({
+                  title: '新增数据成功',
+                  icon: 'success',
+                  duration: 2000 //持续的时间
+                })
+              }
             })
           },
           fail(res) {

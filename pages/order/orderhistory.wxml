@@ -23,7 +23,7 @@
           <view>开票人：{{item.SellerName}}</view>
           <view>办理费用：{{item.TotalFee}}</view>
           <view style="display:flex; flex-direction:row;">
-          <view>付款状态：</view>
+            <view>付款状态：</view>
             <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
             <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
           </view>
@@ -68,14 +68,14 @@
     </view>
   </l-tabpanel>
   <l-tabpanel tab="折扣卡订单" key="three" slot="three">
-    <view wx:for="{{discountorderhistory}}" wx:key="key">
+    <view wx:for="{{discounthistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
           <view>订单日期：{{item.AddDate}}</view>
           <view>折扣卡编号：{{item.DiscountId}}</view>
           <view>折扣卡名称：{{item.DiscountName}}</view>
-          <view>折扣起始日期：{{item.DStartDate}}</view>
-          <view>折扣终止日期：{{item.DEndDate}}</view>
+          <view>折扣起始日期：{{item.DLStartDate}}</view>
+          <view>折扣终止日期：{{item.DLEndDate}}</view>
           <view>折扣卡费用：{{item.TotalFee}}</view>
           <view style="display:flex; flex-direction:row;">
           <view>付款状态：</view>
@@ -87,12 +87,28 @@
             <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
             <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
           </view>
-          <view>
-            <l-button data-id="{{item._id}}" bind:lintap="bvDiscountOrdertDetail" size="mini" shape="semicircle"
-              plain="{{true}}">订单详情</l-button>
-          </view>
         </view>
       </l-card>
     </view>
   </l-tabpanel>
+  <l-tabpanel tab="推广等级订单" key="four" slot="four">
+    <view wx:for="{{promoterhistory}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
+        <view>订单日期：{{item.AddDate}}</view>
+          <view>推广等级：{{item.PromoterName}}</view>
+          <view>起始日期：{{item.PLStartDate}}</view>
+          <view style="display:flex; flex-direction:row;">
+          <view>付款状态：</view>
+            <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
+            <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
+          </view>
+          <view style="display:flex; flex-direction:row;">
+          <view>申请状态：</view>
+            <view wx:if="{{item.ApplyStatus =='unchecked'}}">待确认</view>
+            <view wx:if="{{item.ApplyStatus =='checked'}}">已确认</view>
+          </view>
+      </l-card>
+    </view>
+  </l-tabpanel>
+
 </l-tabs>

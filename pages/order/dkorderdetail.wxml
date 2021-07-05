@@ -56,8 +56,12 @@
       <view>{{item.TotalPrice}}</view>
     </view>
     <view style="display:flex; flex-direction:row;">
+      <label class="title1">含税总价：</label>
+      <view>{{item.TotalAmount}}</view>
+    </view>
+    <view style="display:flex; flex-direction:row;">
       <label class="title1">发票备注：</label>
-      <view>{{item.Invoremarks}}</view>
+      <view>{{item.InvoRemarks}}</view>
     </view>
     <view style="display:flex; flex-direction:row;">
       <label class="title1">订单备注：</label>
@@ -71,9 +75,6 @@
       <label class="title1">办理费用：</label>
       <view>{{item.TotalFee}}</view>
     </view>
-
-    <label class="title1">图片附件：</label>
-
     <view style="display:flex; flex-direction:row;">
       <label class="title1">付款状态：</label>
       <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
@@ -84,7 +85,7 @@
       <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
       <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
     </view>
-
+    <label class="title1">图片附件：</label>
     <l-image-picker size="3" count="9" urls="{{item.AttachmentImage}}" />
     <!-- <view>
       <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&price={{price}}"

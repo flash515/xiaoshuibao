@@ -41,12 +41,10 @@ Page({
   },
   bvApply(e) {
     let that = this
-    this.setData({
-      promoterlevel: e.currentTarget.dataset.level,
-      promotername: e.currentTarget.dataset.name,
-      plstartdate: e.currentTarget.dataset.startdate,
-      totalfee: e.currentTarget.dataset.price,
-    })
+      this.data.promoterlevel=e.currentTarget.dataset.level
+      this.data.promotername=e.currentTarget.dataset.name
+      this.data.plstartdate= e.currentTarget.dataset.startdate
+      this.data.totalfee= e.currentTarget.dataset.price
     if (this.data.applylock) {
       wx.showToast({
         title: '请勿重复提交',
@@ -126,6 +124,8 @@ Page({
           this.setData({
             plstartdate: tempfliter[0].PLStartDate,
             promoterlevel: tempfliter[0].PromoterLevel,
+            paymentstatus: tempfliter[0].PaymentStatus,
+            applystatus: tempfliter[0].ApplyStatus,
           })
           if (tempfliter[0].PromoterLevel == "sliver") {
             this.setData({

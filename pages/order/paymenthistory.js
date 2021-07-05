@@ -17,17 +17,11 @@ Page({
       previousMargin: 0,
       nextMargin: 0
   },
-// 转到订单详情
-bvOrdertDetail(e) {
-  console.log(e.currentTarget.dataset.id)
-  wx.navigateTo({
-    url: '../order/orderdetail?_id=' + e.currentTarget.dataset.id
-  })
-},
+
 bvToPay(e) {
-  console.log(e.currentTarget.dataset.id)
+
   wx.navigateTo({
-    url: '../order/pay?_id=' + e.currentTarget.dataset.id
+    url: '../order/pay?totalfee=' + e.currentTarget.dataset.totalfee
   })
 },
   /**
@@ -36,16 +30,16 @@ bvToPay(e) {
   onLoad: function (options) {
     this.setData({image:app.globalData.Gimagearray})
     const db = wx.cloud.database()
-    // 查询当前用户所有的订单,数据库已做权限设置，用户本地只能查询本人订单
-    db.collection('ORDER').get({
+    // 查询当前用户所有的订单,数据库已做权限设置，用户只能查询本人订单
+    db.collection('PAYMENT').get({
       success: res => {
         console.log(res);
-        wx.setStorageSync('LOrderList', res.data);
+        wx.setStorageSync('LPaymentList', res.data);
         this.setData({
           // 列表渲染
-          orderhistory:res.data
+          paymenthistory:res.data
         })
-        console.log(this.data.orderhistory);
+        console.log(this.data.paymenthistory);
       }})
   },
 

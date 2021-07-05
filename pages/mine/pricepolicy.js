@@ -18,8 +18,8 @@ Page({
     pricelevel: "",
     discountid: "",
     discountname: "",
-    dstartdate: "",
-    denddate: "",
+    dlstartdate: "",
+    dlenddate: "",
     dtotalfee: "",
     buylock: false,
     // 轮播参数
@@ -84,14 +84,12 @@ Page({
   },
   bvBuy(e) {
     let that = this
-    this.setData({
-      pricelevel: e.currentTarget.dataset.level,
-      discountid: e.currentTarget.dataset.id,
-      discountname: e.currentTarget.dataset.name,
-      dstartdate: e.currentTarget.dataset.startdate,
-      denddate: e.currentTarget.dataset.enddate,
-      totalfee: e.currentTarget.dataset.price,
-    })
+      this.data.pricelevel= e.currentTarget.dataset.level
+      this.data.discountid= e.currentTarget.dataset.id
+      this.data.discountname= e.currentTarget.dataset.name
+      this.data.dlstartdate= e.currentTarget.dataset.startdate
+      this.data.dlenddate= e.currentTarget.dataset.enddate
+      this.data.totalfee= e.currentTarget.dataset.price
     if (this.data.buylock) {
       wx.showToast({
         title: '当前已有生效的优惠卡，无需重复购买',
@@ -100,7 +98,7 @@ Page({
       })
     } else {
 
-      if (this.data.dstartdate == "" || this.data.dstartdate == undefined) {
+      if (this.data.dlstartdate == "" || this.data.dlstartdate == undefined) {
         wx.showToast({
           title: '请选择生效日期',
           icon: 'error',
@@ -114,8 +112,8 @@ Page({
             PriceLevel: this.data.pricelevel,
             DiscountId: this.data.discountid,
             DiscountName: this.data.discountname,
-            DStartDate: this.data.dstartdate,
-            DEndDate: this.data.denddate,
+            DLStartDate: this.data.dlstartdate,
+            DLEndDate: this.data.dlenddate,
             TotalFee: this.data.totalfee,
             AddDate: new Date().toLocaleDateString(),
             PaymentStatus:"unchecked",
@@ -169,15 +167,17 @@ Page({
         if (res.data.length != 0 && res.data.length != undefined) {
           var tempfliter = []
           for (var i = 0; i < res.data.length; i++) {
-            if (new Date(res.data[i].DStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DEndDate).getTime() >= new Date().getTime()) {
+            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
               tempfliter.push(res.data[i]);
             }
           }
           if(tempfliter.length !=0  && tempfliter.length != undefined){
                     console.log(tempfliter)
           this.setData({
-            plstartdate: tempfliter[0].DStartDate,
-            plenddate: tempfliter[0].DEndDate
+            plstartdate: tempfliter[0].DLStartDate,
+            plenddate: tempfliter[0].DLEndDate,
+            paymentstatus: tempfliter[0].PaymentStatus,
+            orderstatus: tempfliter[0].OrderStatus,
           })
           if (tempfliter[0].PriceLevel == "PL1") {
             this.setData({

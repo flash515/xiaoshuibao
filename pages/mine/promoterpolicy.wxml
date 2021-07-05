@@ -42,8 +42,7 @@
             </view>
           </picker>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使"
-            data-startdate="{{startdate1}}" data-price="1" shape="semicircle"
-            plain="true">申请并支付</l-button>
+            data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">申请并支付</l-button>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="白银推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -63,8 +62,7 @@
             </view>
           </picker>
           <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使"
-            data-startdate="{{startdate2}}" data-price="1" shape="semicircle"
-            plain="true">申请并支付</l-button>
+            data-startdate="{{startdate2}}" data-price="1" shape="semicircle" plain="true">申请并支付</l-button>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="黄金推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -83,9 +81,9 @@
               <text class="text">选择生效日期：{{startdate3}}</text>
             </view>
           </picker>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="platinum" data-name="白金推广大使"
-            data-startdate="{{startdate3}}" data-price="1" shape="semicircle"
-            plain="true">申请并支付</l-button>
+          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="platinum"
+            data-name="铂金推广大使" data-startdate="{{startdate3}}" data-price="1" shape="semicircle" plain="true">申请并支付
+          </l-button>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="铂金推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -99,4 +97,14 @@
 <l-card type="primary" plaintext="{{true}}">
   <text>当前推广资格：{{promotername}}</text>
   <text>资格生效日期：{{plstartdate}}</text>
+  <view style="display:flex; flex-direction:row;">
+  <view>付款状态：</view>
+  <view wx:if="{{paymentstatus =='unchecked'}}">待确认</view>
+  <view wx:if="{{paymentstatus =='checked'}}">已确认</view>
+  </view>
+  <view style="display:flex; flex-direction:row;">
+    <view>申请状态：</view>
+    <view wx:if="{{applystatus =='unchecked'}}">待确认</view>
+    <view wx:if="{{applystatus =='checked'}}">已确认</view>
+  </view>
 </l-card>

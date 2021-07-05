@@ -14,29 +14,29 @@
 <l-card type="primary" plaintext="{{true}}">
 <text class="info" space="emsp">  提示：提交的个人信息将用于小税宝接受用户委托，代办自然人税局代开发票业务时使用，小税宝承诺该信息不会用于其他用途，并且用户可随时删除有关个人信息。</text>
 <view>
-    <l-input type="text" name="adddate" label="登记日期" placeholder="{{adddate}}" disabled="{{true}}"></l-input>
+    <l-input type="text" label="登记日期：" value="{{adddate}}" disabled="{{true}}"></l-input>
 </view>
 <view>
-<l-input type="text" name="enterprisename" label="企业名称" placeholder="{{enterprisename}}"  bind:lininput="bvEnterpriseName"></l-input>
+<l-input type="text" label="企业名称：" value="{{enterprisename}}"  bind:lininput="bvEnterpriseName"></l-input>
 </view>
 <view>
-<l-input type="text" name="enterpriseid" label="纳税人识别号" placeholder="{{enterpriseid}}"  bind:lininput="bvEnterpriseId"></l-input>
+<l-input type="text" label="纳税人识别号：" value="{{enterpriseid}}"  bind:lininput="bvEnterpriseId"></l-input>
 </view>
 <view>
-<l-input type="text" name="enterpriseaddress" label="企业地址" placeholder="{{enterpriseaddress}}"  bind:lininput="bvEnterpriseAddress"></l-input>
+<l-input type="text" label="企业地址：" value="{{enterpriseaddress}}"  bind:lininput="bvEnterpriseAddress"></l-input>
 </view>
 <view>
-<l-input type="text" name="enterprisephone" label="企业电话" placeholder="{{enterprisephone}}"  bind:lininput="bvEnterprisePhone"></l-input>
+<l-input type="text" label="企业电话：" value="{{enterprisephone}}"  bind:lininput="bvEnterprisePhone"></l-input>
 </view>
 <view>
-<l-input type="text" name="enterprisebank" label="开户银行" placeholder="{{enterprisebank}}"  bind:lininput="bvEnterpriseBank"></l-input>
+<l-input type="text" label="开户银行：" value="{{enterprisebank}}"  bind:lininput="bvEnterpriseBank"></l-input>
 </view>
 <view>
-<l-input type="text" name="enterpriseaccount" label="银行账号" placeholder="{{enterpriseaccount}}"  bind:lininput="bvEnterpriseAccount"></l-input>
+<l-input type="text" label="银行账号：" value="{{enterpriseaccount}}"  bind:lininput="bvEnterpriseAccount"></l-input>
 </view>
 
 <view>
-    <l-input type="text" name="updatedate" label="更新日期" placeholder="{{updatedate}}" disabled="{{true}}"></l-input>
+    <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
 </view>
 <view>
   <view wx:if="{{pageParam._id.length}}" > 
