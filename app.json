@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/index/home",
-    "pages/index/calculate",
     "pages/index/aboutus",
     "pages/product/product",
     "pages/product/personaldetail",
@@ -42,7 +41,6 @@
     "pages/mine/sharevalue",
     "pages/mine/sms",
     "pages/scheme/schemelist",
-    "pages/index/out",
     "pages/tools/meetingroom/mettingroom",
     "pages/tools/meetingroom/meetingroom1",
     "pages/tools/meetingroom/meetingroom2",
