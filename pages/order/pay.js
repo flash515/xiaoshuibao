@@ -5,13 +5,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    booklock:false,
-    address:"",
-    phone:"",
-    contacts:"",
-    data:"",
-    time:"",
+    booklock: false,
+    address: "",
+    phone: "",
+    contacts: "",
+    data: "",
+    time: "",
     tatalfee: 0,
+    openSettingBtnHidden:true,
     // 轮播头图
     image: [],
     indicatorDots: true,
@@ -23,44 +24,60 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-    // 保存到手机
-    saveImage: function (event) {
-      wx.saveImageToPhotosAlbum({
-        filePath: event.currentTarget.dataset.src,
-        success(result) {
-          wx.showToast({
-            title: '支付码保存成功，请从手机相册打开并扫码支付',
-            duration: 2000
-          })
-        },
-        fail: function (err) {
-          console.log(err);
-          if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny") {
-            console.log("用户一开始拒绝了，我们想再次发起授权")
-            alert('打开设置窗口')
-            wx.openSetting({
-              success(settingdata) {
-                console.log(settingdata)
-                if (settingdata.authSetting['scope.writePhotosAlbum']) {
-                  wx.showToast({
-                    title: '需要保存支付码到本地相册才可以扫码识别',
-                    duration: 2000
-                  })
-                  console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
-                } else {
-                  wx.showToast({
-                    title: '需要保存二维码到本地相册才可以扫码识别',
-                    duration: 2000
-                  })
-                  console.log('获取权限失败，给出不给权限就无法正常使用的提示')
-                }
-              }
+  // 保存到手机
+  saveImage: function (event) {
+    let that=this
+    wx.getImageInfo({
+      src: event.currentTarget.dataset.src,
+      success: (res) => {
+        wx.saveImageToPhotosAlbum({
+          filePath: res.path,
+          success: (res) => {
+            wx.showToast({
+              title: '支付码保存成功，请从手机相册打开并扫码支付',
+              duration: 2000
+            })
+          },
+          fail: (err) => {
+            console.log(err);
+            if (err.errMsg === 'saveImageToPhotosAlbum:fail auth deny') {
+              // this.openSettingBtnHidden = false
+              that.setData({
+                openSettingBtnHidden: false
+              })
+              wx.showToast({
+                title: '缺少授权，请点击授权',
+                icon: 'none',
+                duration: 2000
+              })
+              // this.$apply()
+            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail cancel') {
+              // this.openSettingBtnHidden = false
+              that.setData({
+                openSettingBtnHidden: true
+              })
+              wx.showToast({
+                title: '取消保存',
+                icon: 'none',
+                duration: 2000
+              })
+              // this.$apply()
+            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail:auth denied') {
+              // this.openSettingBtnHidden = false
+              that.setData({
+                openSettingBtnHidden: false
+              })
+              wx.showToast({
+                title: '已拒绝授权，请点击重新授权',
+                icon: 'none',
+                duration: 2000
+              })
             }
-          )
-        }
+          }
+        })
       }
-      })
-    },
+    })
+  },
   //图片点击事件
   enlarge: function (event) {
     var src = event.currentTarget.dataset.src; //获取data-src
@@ -74,74 +91,74 @@ Page({
       urls: imgList // 需要预览的图片http链接列表
     })
   },
-  bvTime(e){
+  bvTime(e) {
     this.setData({
       time: e.detail.value,
     })
   },
-  bvDate(e){
+  bvDate(e) {
     this.setData({
       date: e.detail.value,
     })
   },
-  bvContacts(e){
+  bvContacts(e) {
     this.setData({
       contacts: e.detail.value,
     })
   },
-  bvPhone(e){
+  bvPhone(e) {
     this.setData({
       phone: e.detail.value,
     })
   },
-  bvAddress(e){
+  bvAddress(e) {
     this.setData({
       address: e.detail.value,
     })
   },
-  bvBook(){
-          // 判断是否重复提交
-          if (this.data.booklock) {
-            // 锁定时很执行
+  bvBook() {
+    // 判断是否重复提交
+    if (this.data.booklock) {
+      // 锁定时很执行
+      wx.showToast({
+        title: '请勿重复提交',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
+    } else {
+      // 未锁定时执行
+      // 获取数据库引用
+      const db = wx.cloud.database()
+      db.collection('BOOKING').add({
+          data: {
+            Address: this.data.address,
+            Phone: this.data.phone,
+            Contacts: this.data.contacts,
+            BookingDate: this.data.date,
+            BookingTime: this.data.time,
+            BookingContent: "上门取款服务",
+            BookingStatus: "unchecked",
+            AddDate: new Date().toLocaleDateString()
+          },
+          success(res) {
+            console.log('预约提交成功', res.data)
             wx.showToast({
-              title: '请勿重复提交',
+              title: '预约提交成功',
+              icon: 'success',
+              duration: 2000 //持续的时间
+            })
+          },
+          fail(res) {
+            console.log("提交失败", res)
+            wx.showToast({
+              title: '预约提交失败',
               icon: 'error',
               duration: 2000 //持续的时间
             })
-          } else {
-            // 未锁定时执行
-            // 获取数据库引用
-            const db = wx.cloud.database()
-            db.collection('BOOKING').add({
-                data: {
-                  Address: this.data.address,
-                  Phone: this.data.phone,
-                  Contacts: this.data.contacts,
-                  BookingDate:this.data.date,
-                  BookingTime:this.data.time,
-                  BookingContent: "上门取款服务",
-                  BookingStatus:"unchecked",
-                  AddDate: new Date().toLocaleDateString()
-                },
-                success(res) {
-                  console.log('预约提交成功', res.data)
-                  wx.showToast({
-                    title: '预约提交成功',
-                    icon: 'success',
-                    duration: 2000 //持续的时间
-                  })
-                },
-                fail(res) {
-                  console.log("提交失败", res)
-                  wx.showToast({
-                    title: '预约提交失败',
-                    icon: 'error',
-                    duration: 2000 //持续的时间
-                  })
-                }
-              }),
-              this.data.booklock = true // 修改上传状态为锁定
           }
+        }),
+        this.data.booklock = true // 修改上传状态为锁定
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -150,7 +167,7 @@ Page({
     var str = new Date()
     this.setData({
       totalfee: options.totalfee,
-      image:app.globalData.Gimagearray,
+      image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
   },

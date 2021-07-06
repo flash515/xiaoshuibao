@@ -11,7 +11,7 @@
     </block>
   </swiper>
 </view>
-<l-tabs bind:linchange="changeTabs">
+<l-tabs equal-width="{{false}}" scrollable="{{true}}">
   <l-tabpanel tab="增值税" key="one" slot="one">
     <view class="title">增值税筹划</view>
     <view class="body">
@@ -57,7 +57,7 @@
     </view>
 
   </l-tabpanel>
-  <l-tabpanel tab="企业所得税" key="two" slot="two" bind:linchange="changeGT">
+  <l-tabpanel tab="企业所得税" key="two" slot="two">
     <view class="title">企业所得税筹划</view>
     <view class="body">
       <view wx:for="{{shemearrayB}}" wx:key="key">
@@ -100,7 +100,7 @@
       </l-collapse>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="个人所得税" key="three" slot="three" bind:linchange="changeGT">
+  <l-tabpanel tab="个人所得税" key="three" slot="three" >
     <view class="title">个人所得税筹划</view>
     <view class="body">
       <view wx:for="{{shemearrayC}}" wx:key="key">
@@ -143,7 +143,7 @@
       </l-collapse>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="股权转让个税" key="four" slot="four" bind:linchange="changeGS">
+  <l-tabpanel tab="股权转让个税" key="four" slot="four" >
     <view class="title">股权转让个税筹划</view>
     <view class="body">
       <view wx:for="{{shemearrayD}}" wx:key="key">

@@ -97,6 +97,8 @@ Page({
     buyerpickershow: true,
     address1pickershow: true,
     address2pickershow: true,
+    ordersublock: false,
+    paymentsublock: false,
     submitted: false,
     btnhidden: true
   },
@@ -708,16 +710,9 @@ Page({
   // 异步新增数据方法
   addData() {
     // 多层嵌套的this需提前定义中转变量
-    var thispage = this
+    var that = this
     // 判断是否重复提交
-    if (this.data.sublock) {
-      // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
+    if (this.data.ordersublock) {} else {
       // 未锁定时执行
       // 获取数据库引用
       const db = wx.cloud.database()
@@ -775,9 +770,28 @@ Page({
             OrderStatus: "unchecked",
           },
           success(res) {
-            thispage.setData({
-              submitted: true // 修改上传状态并返回前端
+            that.setData({
+              ordersublock: true // 修改上传状态并返回前端
             })
+            wx.removeStorage({
+              key: 'LTemp' + that.data.productid,
+              success(res) {
+                console.log("删除缓存", res)
+              }
+            })
+          },
+          fail(res) {
+            wx.showToast({
+              title: '提交失败请重试',
+              icon: 'fail',
+              duration: 2000 //持续的时间
+            })
+          }
+       
+        })
+      }
+      if (this.data.paymentsublock) {} else {
+        const db = wx.cloud.database()
             db.collection("PAYMENT").add({
               data: {
                 ProductId: this.data.productid,
@@ -789,36 +803,33 @@ Page({
                 PaymentStatus: "unchecked",
               },
               success(res) {
+                that.setData({
+                  paymentsublock: true
+                })
+              },
+              fail(res) {
                 wx.showToast({
-                  title: '新增数据成功',
-                  icon: 'success',
+                  title: '提交失败请重试',
+                  icon: 'error',
                   duration: 2000 //持续的时间
                 })
               }
             })
-          },
-          fail(res) {
-            console.log("新增数据失败", res)
+          }
+          if (this.data.ordersublock == true && this.data.paymentsublock == true) {
             wx.showToast({
-              title: '新增数据失败',
-              icon: 'fail',
-              duration: 2000 //持续的时间
+              title: '订单提交成功',
+              icon: 'success',
+              duration: 2000, //持续的时间
+            })
+            this.setData({
+              submitted:true
             })
           }
-        }),
-        // 以上新增数据结束
-        wx.removeStorage({
-          key: 'LTemp' + this.data.productid,
-          complete(res) {
-            console.log("删除缓存", res)
-          }
-        })
-      this.data.sublock = true // 修改上传状态为锁定
-    }
   },
-  pay(e) {
+  bvPay(e) {
     wx.navigateTo({
-      url: '../order/pay?' + e.currentTarget.dataset.totalfee
+      url: '../order/pay?totalfee=' + this.data.totalfee
     })
   }
 })

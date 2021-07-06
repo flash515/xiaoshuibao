@@ -13,53 +13,52 @@
 <l-tabs bind:linchange="changeTabs">
   <l-tabpanel tab="邀请人信息" key="one" slot="one">
 <l-card type="primary" plaintext="{{true}}">
-
 <view>
-    <l-input type="text" label="邀请人企业名" placeholder="{{invitercompanyname}}"  disabled="{{true}}" ></l-input>
+    <l-input type="text" label="邀请人企业：" value="{{invitercompanyname}}"  disabled="{{true}}" ></l-input>
 </view>
 <view>
-    <l-input type="text" label="邀请人姓名" placeholder="{{inviterusername}}"  disabled="{{true}}" ></l-input>
+    <l-input type="text" label="邀请人姓名：" value="{{inviterusername}}"  disabled="{{true}}" ></l-input>
 </view>
 </l-card>
 </l-tabpanel>
 <l-tabpanel tab="本人信息" key="two" slot="two">
   <l-card type="primary" plaintext="{{true}}">
   <view>
-    <l-input type="text" label="注册日期" placeholder="{{adddate}}"  disabled="{{true}}" ></l-input>
+    <l-input type="text" label="注册日期：" value="{{adddate}}"  disabled="{{true}}" ></l-input>
 </view>
 <view>
-    <l-input type="text" label="更新日期" placeholder="{{updatedate}}"  disabled="{{true}}" ></l-input>
+    <l-input type="text" label="更新日期：" value="{{updatedate}}"  disabled="{{true}}" ></l-input>
 </view>
 <view>
-    <l-input type="text" label="我的姓名" placeholder="{{username}}" bind:lininput="bvUserName"></l-input>
+    <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName"></l-input>
 </view>
 <view>
-    <l-input type="number" label="我的手机" placeholder="{{userphone}}" bind:lininput="bvUserPhone"></l-input>
+    <l-input type="number" label="我的手机：" value="{{userphone}}" bind:lininput="bvUserPhone"></l-input>
 </view>
 <view>
-  <l-input type="text" label="就职企业名称" placeholder="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
+  <l-input type="text" label="就职企业名称" value="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
 </view>
 <view>
-    <l-input type="text" label="就职企业代码" placeholder="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
+    <l-input type="text" label="就职企业代码" value="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
 </view>
 <view>
-    <l-input type="text" label="就职企业业务" placeholder="{{businessscope}}" bind:lininput="bvBusinessScope"></l-input>
+    <l-input type="text" label="就职企业业务" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-input>
 </view>
 <view>
-    <l-input type="text" label="就职企业规模" placeholder="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
+    <l-input type="text" label="就职企业规模" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
 </view>
 </l-card>
 </l-tabpanel>
 <l-tabpanel tab="收款账号" key="three" slot="three">
   <l-card type="primary" plaintext="{{true}}">
-    <l-input type="text" label="户    名：" placeholder="{{accountname}}" bind:lininput="bvAccountName"></l-input>
-    <l-input type="text" label="开户银行：" placeholder="{{bankname}}" bind:lininput="bvBankName"></l-input>
-    <l-input type="text" label="银行账号：" placeholder="{{account}}" bind:lininput="bvAccount"></l-input>
+    <l-input type="text" label="户    名：" value="{{accountname}}" bind:lininput="bvAccountName"></l-input>
+    <l-input type="text" label="开户银行：" value="{{bankname}}" bind:lininput="bvBankName"></l-input>
+    <l-input type="text" label="银行账号：" value="{{account}}" bind:lininput="bvAccount"></l-input>
   </l-card>
 </l-tabpanel>
 </l-tabs>
 <l-card type="primary" plaintext="{{true}}">
 <view>
-  <l-button type="default" bind:lintap="UpdateData">更改信息</l-button>
+  <l-button type="default" bind:lintap="UpdateData">更新信息</l-button>
 </view>
 </l-card>

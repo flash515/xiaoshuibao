@@ -47,7 +47,9 @@ Page({
     attachmentview: [], //本地临时地址
     attachmentimage: [],
     imageuploadlock: false,
-    submitted:false,
+    ordersublock: false,
+    paymentsublock: false,
+    submitted: false,
     btnhidden: true
   },
   getUserProfile: function (e) {
@@ -347,99 +349,108 @@ Page({
   },
   // 异步新增数据方法
   addData() {
-    var thispage = this
+    var that = this
     // 判断是否重复提交
-    if (this.data.sublock) {
-      // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
+    if (this.data.ordersublock) {} else {
       // 未锁定时执行
       // 获取数据库引用
       const db = wx.cloud.database()
       // 新增数据
       db.collection("ZCORDER").add({
-          data: {
-            ProductId: this.data.productid,
-            ProductName: this.data.productname,
-            IssuedPlace: this.data.issuedplace,
-            OrderPriceCount: this.data.orderpricecount,
-            OrderPrice: this.data.orderprice,
+        data: {
+          ProductId: this.data.productid,
+          ProductName: this.data.productname,
+          IssuedPlace: this.data.issuedplace,
+          OrderPriceCount: this.data.orderpricecount,
+          OrderPrice: this.data.orderprice,
 
-            BusinessName: this.data.businessname,
-            AlternateNam: this.data.alternatename,
-            BusinessScope: this.data.businessscope,
-            Investment: this.data.investment,
+          BusinessName: this.data.businessname,
+          AlternateNam: this.data.alternatename,
+          BusinessScope: this.data.businessscope,
+          Investment: this.data.investment,
 
-            InvestorName: this.data.investorname,
-            InvestorPhone: this.data.investorphone,
-            InvestorAddress: this.data.investoraddress,
-            InvestorEmail: this.data.investoremail,
-            //附件
-            AttachmentImage: this.data.attachmentimage,
-            // 收件地址
-            Addressee: this.data.addressee,
-            Address: this.data.address,
-            AddresseePhone: this.data.addresseephone,
-            //费用
-            Fee: this.data.fee,
-            TotalFee: this.data.totalfee,
-            Charge1: this.data.charge1,
-            Charge2: this.data.charge2,
+          InvestorName: this.data.investorname,
+          InvestorPhone: this.data.investorphone,
+          InvestorAddress: this.data.investoraddress,
+          InvestorEmail: this.data.investoremail,
+          //附件
+          AttachmentImage: this.data.attachmentimage,
+          // 收件地址
+          Addressee: this.data.addressee,
+          Address: this.data.address,
+          AddresseePhone: this.data.addresseephone,
+          //费用
+          Fee: this.data.fee,
+          TotalFee: this.data.totalfee,
+          Charge1: this.data.charge1,
+          Charge2: this.data.charge2,
 
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString(),
-            PaymentStatus: "unchecked",
-            OrderStatus: "unchecked",
-          },
-          success(res) {
-            thispage.setData({
-              submitted: true // 修改上传状态并返回前端
-            })
-            db.collection("PAYMENT").add({
-              data: {
-                ProductId: this.data.productid,
-                ProductName: this.data.productname,
-                IssuedPlace: this.data.issuedplace,
-                TotalFee: this.data.totalfee,
-                SysAddDate: new Date().getTime(),
-                AddDate: new Date().toLocaleDateString(),
-                PaymentStatus: "unchecked",
-              },
-              success(res) {
-                wx.showToast({
-                  title: '新增数据成功',
-                  icon: 'success',
-                  duration: 2000 //持续的时间
-                })
-              }
-            })
-          },
-          fail(res) {
-            console.log("新增数据失败", res)
-            wx.showToast({
-              title: '新增数据失败',
-              icon: 'fail',
-              duration: 2000 //持续的时间
-            })
-          }
-        }),
-        // 以上新增数据结束
-        wx.removeStorage({
-          key: 'LTemp' + this.data.productid,
-          complete(res) {
-            console.log("删除缓存", res)
-          }
-        })
-      this.data.sublock = true // 修改上传状态为锁定
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleDateString(),
+          PaymentStatus: "unchecked",
+          OrderStatus: "unchecked",
+        },
+        success(res) {
+          that.setData({
+            ordersublock: true // 修改上传状态并返回前端
+          })
+          wx.removeStorage({
+            key: 'LTemp' + that.data.productid,
+            success(res) {
+              console.log("删除缓存", res)
+            }
+          })
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'fail',
+            duration: 2000 //持续的时间
+          })
+        }
+
+      })
+    }
+    if (this.data.paymentsublock) {} else {
+      const db = wx.cloud.database()
+      db.collection("PAYMENT").add({
+        data: {
+          ProductId: this.data.productid,
+          ProductName: this.data.productname,
+          IssuedPlace: this.data.issuedplace,
+          TotalFee: this.data.totalfee,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleDateString(),
+          PaymentStatus: "unchecked",
+        },
+        success(res) {
+          that.setData({
+            paymentsublock: true
+          })
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    }
+    if (this.data.ordersublock == true && this.data.paymentsublock == true) {
+      wx.showToast({
+        title: '订单提交成功',
+        icon: 'success',
+        duration: 2000, //持续的时间
+      })
+      this.setData({
+        submitted: true
+      })
     }
   },
-  pay() {
+  bvPay() {
     wx.navigateTo({
-      url: 'pay'
+      url: '../order/pay?totalfee=' + this.data.totalfee
     })
   }
 })

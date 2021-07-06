@@ -32,7 +32,6 @@
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">
 <l-list title="我的信息" icon="user" url="../mine/userinfo" />
-<l-list title="小税宝账户" icon="user" url="../mine/account" />
 <l-list title="推广等级" icon="setting" url="../mine/promoterpolicy"/>
 <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy"/>
 <l-list title="服务预约" icon="picture" url="../mine/booking" />

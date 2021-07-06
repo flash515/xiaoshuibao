@@ -11,7 +11,7 @@
   </swiper>
 </view>
 
-<l-tabs bind:linchange="changeTabs">
+<l-tabs equal-width="{{false}}" scrollable="{{true}}">
   <l-tabpanel tab="自然人代开" key="one" slot="one">
     <view class="tab-content">
       <view>
@@ -54,7 +54,7 @@
       </view>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="个体工商" key="two" slot="two" bind:linchange="changeGT">
+  <l-tabpanel tab="个体工商" key="two" slot="two">
     <view class="tab-content">
       <view wx:for="{{GTarray}}" wx:key="key">
         <l-card type="primary" plaintext="{{true}}">
@@ -96,7 +96,7 @@
     </view>
 
   </l-tabpanel>
-  <l-tabpanel tab="个独/合伙企业" key="three" slot="three" bind:linchange="changeGT">
+  <l-tabpanel tab="个独/合伙企业" key="three" slot="three" >
     <view class="tab-content">
       <view>
         <view wx:for="{{GDarray}}" wx:key="key">
@@ -139,7 +139,7 @@
       </view>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="有限公司" key="four" slot="four" bind:linchange="changeGS">
+  <l-tabpanel tab="有限公司" key="four" slot="four" >
     <view class="tab-content">
       <view>
         <view wx:for="{{GSarray}}" wx:key="key">

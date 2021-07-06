@@ -41,8 +41,10 @@
               <text class="text">选择生效日期：{{startdate1}}</text>
             </view>
           </picker>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使"
+          <view hidden="{{btn1hidden}}" slot="more">
+          <l-button size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银推广大使"
             data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">申请并支付</l-button>
+          </view>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="白银推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -61,8 +63,10 @@
               <text class="text">选择生效日期：{{startdate2}}</text>
             </view>
           </picker>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使"
+          <view hidden="{{btn2hidden}}" slot="more">
+          <l-button size="mini" type="default" bind:lintap="bvApply" data-level="gold" data-name="黄金推广大使"
             data-startdate="{{startdate2}}" data-price="1" shape="semicircle" plain="true">申请并支付</l-button>
+          </view>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="黄金推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -81,9 +85,11 @@
               <text class="text">选择生效日期：{{startdate3}}</text>
             </view>
           </picker>
-          <l-button slot="more" size="mini" type="default" bind:lintap="bvApply" data-level="platinum"
+          <view hidden="{{btn3hidden}}" slot="more">
+          <l-button size="mini" type="default" bind:lintap="bvApply" data-level="platinum"
             data-name="铂金推广大使" data-startdate="{{startdate3}}" data-price="1" shape="semicircle" plain="true">申请并支付
           </l-button>
+          </view>
         </l-card>
         <l-card type="primary" plaintext="{{true}}" title="铂金推广大使推广业绩奖励">
           <text decode='true'>自然人代开：第一级推荐用户代办的自然人代开票金额的0.03%；</text>
@@ -96,6 +102,7 @@
 </l-collapse>
 <l-card type="primary" plaintext="{{true}}">
   <text>当前推广资格：{{promotername}}</text>
+  <text>资格申请日期：{{adddate}}</text>
   <text>资格生效日期：{{plstartdate}}</text>
   <view style="display:flex; flex-direction:row;">
   <view>付款状态：</view>

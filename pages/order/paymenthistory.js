@@ -17,9 +17,31 @@ Page({
       previousMargin: 0,
       nextMargin: 0
   },
-
+  bvRefresh(e){
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: e.currentTarget.dataset.name,
+        command: "and",
+        where: [{
+          _openid: app.globalData.Gopenid
+        }]
+      },
+      success: res => {
+        if(e.currentTarget.dataset.name=="PAYMENT"){
+          this.setData({
+            paymenthistory: res.result.data
+          })
+        }
+        else if(e.currentTarget.dataset.name=="REWARD"){
+          this.setData({
+            rewardhistory: res.result.data
+          })
+        }
+      }
+    })
+  },
 bvToPay(e) {
-
   wx.navigateTo({
     url: '../order/pay?totalfee=' + e.currentTarget.dataset.totalfee
   })

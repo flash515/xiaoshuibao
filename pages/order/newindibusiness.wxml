@@ -110,7 +110,7 @@
   </view>
 </view>
 <view wx:else>
-  <l-button type="default" data-totalfee="totalfee={{totalfee}}" bindtap="pay">支付费用</l-button>
+  <l-button type="default" bindtap="bvPay">支付费用</l-button>
 </view>
 
 </l-card>

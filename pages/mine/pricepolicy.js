@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    adddate:"",
     startdate: "",
     pl3startdate: "",
     pl3enddate: "",
@@ -21,7 +22,8 @@ Page({
     dlstartdate: "",
     dlenddate: "",
     dtotalfee: "",
-    buylock: false,
+    ordersublock: false,
+    paymentsublock: false,
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -90,13 +92,6 @@ Page({
       this.data.dlstartdate= e.currentTarget.dataset.startdate
       this.data.dlenddate= e.currentTarget.dataset.enddate
       this.data.totalfee= e.currentTarget.dataset.price
-    if (this.data.buylock) {
-      wx.showToast({
-        title: '当前已有生效的优惠卡，无需重复购买',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
 
       if (this.data.dlstartdate == "" || this.data.dlstartdate == undefined) {
         wx.showToast({
@@ -105,6 +100,7 @@ Page({
           duration: 2000 //持续的时间
         })
       } else {
+        if (this.data.ordersublock) {} else {
         const db = wx.cloud.database()
         // 新增数据
         db.collection("DISCOUNTORDER").add({
@@ -115,29 +111,60 @@ Page({
             DLStartDate: this.data.dlstartdate,
             DLEndDate: this.data.dlenddate,
             TotalFee: this.data.totalfee,
+            SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
             PaymentStatus:"unchecked",
             OrderStatus:"unchecked",
           },
           success(res) {
             that.setData({
-              buylock: true
-            })
-            wx.showToast({
-              title: '订单提交成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
-            wx.navigateTo({
-              url: '../order/pay?totalfee=' + that.data.totalfee
+              ordersublock: true
             })
           },
           fail(res) {
             wx.showToast({
-              title: '订单提交失败',
+              title: '提交失败请重试',
               icon: 'error',
               duration: 2000 //持续的时间
             })
+          }
+        })
+      }
+      if (this.data.paymentsublock) {} else {
+        const db = wx.cloud.database()
+        db.collection("PAYMENT").add({
+          data: {
+            ProductId: this.data.discountid,
+            ProductName: this.data.discountname,
+            TotalFee: this.data.totalfee,
+            AddDate: new Date().toLocaleDateString(),
+            PaymentStatus: "unchecked",
+          },
+          success(res) {
+            that.setData({
+              paymentsublock: true
+            })
+          },
+          fail(res) {
+            wx.showToast({
+              title: '提交失败请重试',
+              icon: 'error',
+              duration: 2000 //持续的时间
+            })
+          }
+        })
+      }
+      if (this.data.ordersublock == true && this.data.paymentsublock == true) {
+        wx.showToast({
+          title: '成功提交转支付',
+          icon: 'success',
+          duration: 2000, //持续的时间
+          success: function () {
+            setTimeout(function () {
+              wx.navigateTo({
+                url: '../order/pay?totalfee=' + that.data.totalfee
+              })
+            }, 2000);
           }
         })
       }
@@ -161,10 +188,10 @@ Page({
         _openid: app.globalData.Gopenid,
         PaymentStatus:"checked",
         OrderStatus:"checked"
-      }).get({
+      }).orderBy('SysAddDate','desc').get({
       success: res => {
         console.log(res)
-        if (res.data.length != 0 && res.data.length != undefined) {
+        if (res.data.length != 0) {
           var tempfliter = []
           for (var i = 0; i < res.data.length; i++) {
             if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
@@ -210,7 +237,7 @@ Page({
         }
       }
     })
-
+  
   },
 
   /**

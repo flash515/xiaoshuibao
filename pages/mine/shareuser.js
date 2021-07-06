@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    promoterlevel:"",
+promoterlevel:"",
     // 全部直接推荐人数
     directuser: [],
     // 直接推荐用户数组
@@ -34,7 +34,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      promoterlevel: app.globalData.Gpromoterlevel
+      promoterlevel: app.globalData.Gpromoterlevel,
     })
     //查询直接用户及30天内直接用户
     wx.getStorage({
@@ -52,17 +52,17 @@ Page({
         this.setData({
           directvaliduser: directvalidfliter,
         })
-        var direct30fliter = [];
-        for (var i = 0; i < this.data.directuser.length; i++) {
-          if (this.data.directuser[i].SysAddDate > (new Date().getTime() - 30 * 86400000)) {
-            direct30fliter.push(this.data.directuser[i]);
+
+        //查询一年有效用户
+        var direct1yearfliter = [];
+        for (var i = 0; i < this.data.directvaliduser.length; i++) {
+          if (this.data.directvaliduser[i].SysAddDate > (new Date().getTime() - 365 * 86400000)) {
+            direct1yearfliter.push(this.data.directvaliduser[i]);
           }
         }
-        this.setData({
-          direct30user: direct30fliter,
-        })
-        console.log("3  30天内分享的用户人数", this.data.direct30user.length);
-        wx.setStorageSync('LDirect30User', this.data.direct30user);
+        app.globalData.Gdirect1yearvaliduser=direct1yearfliter.length
+        console.log("3  一年有效用户人数", app.globalData.Gdirect1yearvaliduser);
+        wx.setStorageSync('LDirect1YearValidUser', direct1yearfliter);
       }
     })
     //查询间接用户及30天内间接用户，放在分享数量页面onload

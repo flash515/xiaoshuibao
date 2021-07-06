@@ -156,7 +156,8 @@
   </l-collapse-item>
 </l-collapse>
 <l-card type="primary" plaintext="{{true}}">
-  <text>当前价格名称：{{plname}}</text>
+  <text>当前价格等级：{{plname}}</text>
+  <text>卡券购买日期：{{adddate}}</text>
   <text>卡券生效日期：{{plstartdate}}</text>
   <text>卡券失效日期：{{plenddate}}</text>
   <view style="display:flex; flex-direction:row;">

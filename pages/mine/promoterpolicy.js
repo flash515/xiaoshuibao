@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    adddate:"",
     startdate: "",
     startdate1: "",
     startdate2: "",
@@ -13,7 +14,11 @@ Page({
     promoterlevel: "",
     promotername: "",
     totalfee: "",
-    applylock: false,
+    applysublock: false,
+    paymentsublock: false,
+    btn1hidden: true,
+    btn2hidden: true,
+    btn3hidden: true,
     image: [],
     indicatorDots: true,
     vertical: false,
@@ -41,24 +46,19 @@ Page({
   },
   bvApply(e) {
     let that = this
-      this.data.promoterlevel=e.currentTarget.dataset.level
-      this.data.promotername=e.currentTarget.dataset.name
-      this.data.plstartdate= e.currentTarget.dataset.startdate
-      this.data.totalfee= e.currentTarget.dataset.price
-    if (this.data.applylock) {
+    this.data.promoterlevel = e.currentTarget.dataset.level
+    this.data.promotername = e.currentTarget.dataset.name
+    this.data.plstartdate = e.currentTarget.dataset.startdate
+    this.data.totalfee = e.currentTarget.dataset.price
+
+    if (this.data.plstartdate == "" || this.data.plstartdate == undefined) {
       wx.showToast({
-        title: '请勿重复提交',
+        title: '请选择生效日期',
         icon: 'error',
         duration: 2000 //持续的时间
       })
     } else {
-      if (this.data.plstartdate == "" || this.data.plstartdate == undefined) {
-        wx.showToast({
-          title: '请选择生效日期',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      } else {
+      if (this.data.applysublock) {} else {
         const db = wx.cloud.database()
         // 新增数据
         db.collection("PROMOTERORDER").add({
@@ -67,36 +67,97 @@ Page({
             PromoterName: this.data.promotername,
             PLStartDate: this.data.plstartdate,
             TotalFee: this.data.totalfee,
-            PaymentStatus: "unchecked",
             AddDate: new Date().toLocaleDateString(),
+            SysAddDate: new Date().getTime(),
             PaymentStatus: "unchecked",
             ApplyStatus: "unchecked",
           },
           success(res) {
+            console.log("promoter成功")
             that.setData({
-              applylock: true
-            })
-            wx.showToast({
-              title: '申请提交成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
-            wx.navigateTo({
-              url: '../order/pay?totalfee=' + that.data.totalfee
+              applysublock: true
             })
           },
           fail(res) {
             wx.showToast({
-              title: '申请提交失败',
+              title: '提交失败请重试',
               icon: 'error',
               duration: 2000 //持续的时间
             })
           }
         })
       }
+      if (this.data.paymentsublock) {} else {
+        const db = wx.cloud.database()
+        db.collection("PAYMENT").add({
+          data: {
+            ProductId: this.data.promoterlevel,
+            ProductName: this.data.promotername,
+            TotalFee: this.data.totalfee,
+            AddDate: new Date().toLocaleDateString(),
+            PaymentStatus: "unchecked",
+          },
+          success(res) {
+            console.log("payment成功")
+            that.setData({
+              paymentsublock: true
+            })
+          },
+          fail(res) {
+            wx.showToast({
+              title: '提交失败请重试',
+              icon: 'error',
+              duration: 2000 //持续的时间
+            })
+          }
+        })
+      }
+      if (this.data.applysublock == true && this.data.paymentsublock == true) {
+        wx.showToast({
+          title: '成功提交转支付',
+          icon: 'success',
+          duration: 2000, //持续的时间
+          success: function () {
+            setTimeout(function () {
+              wx.navigateTo({
+                url: '../order/pay?totalfee=' + that.data.totalfee
+              })
+            }, 2000);
+          }
+        })
+
+      }
     }
+
   },
   onLoad: function (options) {
+    wx.getStorage({
+      key: 'LDirectUser',
+      success: res => {
+        this.setData({
+          directuser: res.data,
+        })
+        var directvalidfliter = [];
+        for (var i = 0; i < this.data.directuser.length; i++) {
+          if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
+            directvalidfliter.push(this.data.directuser[i]);
+          }
+        }
+        if (directvalidfliter.length >= 1 && directvalidfliter.length < 100) {
+          this.setData({
+            btn1hidden: false
+          })
+        } else if (directvalidfliter.length >= 100 && directvalidfliter.length < 300) {
+          this.setData({
+            btn2hidden: false
+          })
+        } else if (directvalidfliter.length >= 300) {
+          this.setData({
+            btn3hidden: false
+          })
+        }
+      }
+    })
     var str = new Date()
     this.setData({
       image: app.globalData.Gimagearray,
@@ -108,49 +169,65 @@ Page({
     const _ = db.command
     db.collection('PROMOTERORDER').where({
       _openid: app.globalData.Gopenid,
-      PaymentStatus:"checked",
-      AppleyStatus:"checked"
-    }).get({
+      PaymentStatus: "checked",
+      ApplyStatus: "checked",
+    }).orderBy('SysAddDate','desc').limit(1).get({
       success: res => {
-        console.log(res)
-        if (res.data.length != 0 && res.data.length != undefined) {
-          var tempfliter = []
-          for (var i = 0; i < res.data.length; i++) {
-            if (new Date(res.data[i].PLStartDate).getTime() <= new Date().getTime()) {
-              tempfliter.push(res.data[i]);
-            }
-          }
-          console.log(tempfliter)
+        console.log(res.data.length)
+        if (res.data.length != 0) {
           this.setData({
-            plstartdate: tempfliter[0].PLStartDate,
-            promoterlevel: tempfliter[0].PromoterLevel,
-            paymentstatus: tempfliter[0].PaymentStatus,
-            applystatus: tempfliter[0].ApplyStatus,
+            adddate: res.data[0].AddDate,
+            plstartdate: res.data[0].PLStartDate,
+            promoterlevel: res.data[0].PromoterLevel,
+            paymentstatus: res.data[0].PaymentStatus,
+            applystatus: res.data[0].ApplyStatus,
+            promotername: res.data[0].PromoterName,
           })
-          if (tempfliter[0].PromoterLevel == "sliver") {
-            this.setData({
-              promotername: "白银推广大使"
-            })
-          } else if (tempfliter[0].PromoterLevel == "gold") {
-            this.setData({
-              promotername: "黄金推广大使"
-            })
-          } else if (tempfliter[0].PromoterLevel == "platinum") {
-            this.setData({
-              promotername: "铂金推广大使"
-            })
-          } else if (tempfliter[0].PromoterLevel == "normal") {
-            this.setData({
-              promotername: "普客"
-            })
-          }
-        } else {
+        }else{
           this.setData({
             promotername: "普客",
           })
         }
+      },
+      fail: res =>  {
+        wx.showToast({
+          title: '查询失败请刷新',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
       }
     })
+
+
+    // db.collection('PROMOTERORDER').where({
+    //   _openid: app.globalData.Gopenid,
+    //   PaymentStatus: "checked",
+    //   ApplyStatus: "checked"
+    // }).get({
+    //   success: res => {
+    //     console.log(res)
+    //     if (res.data.length != 0 && res.data.length != undefined) {
+    //       var tempfliter = []
+    //       for (var i = 0; i < res.data.length; i++) {
+    //         if (new Date(res.data[i].PLStartDate).getTime() <= new Date().getTime()) {
+    //           tempfliter.push(res.data[i]);
+    //         }
+    //       }
+    //       console.log(tempfliter)
+    //       this.setData({
+    //         plstartdate: tempfliter[0].PLStartDate,
+    //         promoterlevel: tempfliter[0].PromoterLevel,
+    //         paymentstatus: tempfliter[0].PaymentStatus,
+    //         applystatus: tempfliter[0].ApplyStatus,
+    //         promotername: tempfliter[0].PromoterName,
+    //       })
+    //     } else {
+    //       this.setData({
+    //         promotername: "普客",
+    //       })
+    //     }
+    //   }
+    // })
 
   },
 

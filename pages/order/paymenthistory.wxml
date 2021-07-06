@@ -11,16 +11,14 @@
   </swiper>
 </view>
 <view class="title">
-  <text>我的账户</text>
+  <text>收付款记录</text>
 </view>
 <l-card type="primary" plaintext="{{true}}">
   <view>账户余额：{{balance}}</view>
 </l-card>
-<view class="title1">
-  <text>收付款记录</text>
-</view>
 <l-tabs bind:linchange="changeTabs">
   <l-tabpanel tab="付款记录" key="one" slot="one">
+    <l-button data-name="PAYMENT" bind:lintap="bvRefresh" size="mini" shape="semicircle" plain="{{true}}">刷新</l-button>
     <view wx:for="{{paymenthistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
@@ -28,8 +26,12 @@
           <view>产品编号：{{item.ProductId}}</view>
           <view>产品名称：{{item.ProductName}}</view>
           <view>订单费用：{{item.TotalFee}}</view>
-          <view>付款状态：{{item.PaymentStatus}}</view>
-          <view>
+          <view style="display:flex; flex-direction:row;">
+            <view>付款状态：</view>
+            <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
+            <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
+          </view>
+           <view>
             <l-button data-id="{{item._id}}" data-totalfee="{{item.TotalFee}}" bind:lintap="bvToPay">支付费用</l-button>
           </view>
         </view>
@@ -38,9 +40,15 @@
 
   </l-tabpanel>
   <l-tabpanel tab="收款记录" key="two" slot="two">
-    <l-card type="primary" plaintext="{{true}}">
+    <l-button data-name="REWARD" bind:lintap="bvRefresh" size="mini" shape="semicircle" plain="{{true}}">刷新</l-button>
+    <view wx:for="{{rewardhistory}}" wx:key="key">
+      <l-card type="primary" plaintext="{{true}}">
 
-
-    </l-card>
+        <view>奖励日期：{{item.AddDate}}</view>
+        <view>奖励事由：{{item.ProductId}}</view>
+        <view>奖励金额：{{item.ProductId}}</view>
+        <view>入账状态：{{item.PaymentStatus}}</view>
+      </l-card>
+    </view>
   </l-tabpanel>
 </l-tabs>

@@ -53,16 +53,10 @@ Page({
     })
   },
   bvUserPhone(e) {
-    if (!/^1(3|4|5|7|8)\d{9}$/.test(e.detail.value)) {
-      wx.showModal({
-          title: '提示',
-          content: '你输入的电话不符，请重新检查填写',
-          showCancel: false
-      })}else{
         this.setData({
-          userphone: Number(e.detail.value)
+          userphone: e.detail.value
         })
-      }
+      
   },
   /**
    * 生命周期函数--监听页面加载
@@ -114,10 +108,18 @@ Page({
         UpdateDate: new Date().toLocaleDateString()
       },
       success(res) {
-        console.log('修改更新数据成功', res.data)
+        wx.showToast({
+          title: '更新信息成功',
+          icon: 'success',
+          duration: 2000 //持续的时间
+        })
       },
       fail(res) {
-        console.log("修改更新数据失败", res)
+        wx.showToast({
+          title: '更新信息失败',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
       }
     })
   },

@@ -34,6 +34,40 @@ Page({
       url: '../order/zcorderdetail?_id=' + e.currentTarget.dataset.id
     })
   },
+  bvRefresh(e){
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: e.currentTarget.dataset.name,
+        command: "and",
+        where: [{
+          _openid: app.globalData.Gopenid
+        }]
+      },
+      success: res => {
+        if(e.currentTarget.dataset.name=="DKORDER"){
+          this.setData({
+            dkorderhistory: res.result.data
+          })
+        }
+        else if(e.currentTarget.dataset.name=="ZCORDER"){
+          this.setData({
+            zcorderhistory: res.result.data
+          })
+        }
+        else if(e.currentTarget.dataset.name=="DISCOUNTORDER"){
+          this.setData({
+            discounthistory: res.result.data
+          })
+        }
+        else if(e.currentTarget.dataset.name=="PROMOTERORDER"){
+          this.setData({
+            promoterhistory: res.result.data
+          })
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

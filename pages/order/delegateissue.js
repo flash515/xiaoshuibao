@@ -79,8 +79,20 @@ Page({
     sellerdisable:true,
     buyerdisable:true,
     addressdisable:true,
-    submitted: false,
-    submitbtndisable: true
+    btnhidden: true,
+    sublock:false
+  },
+  changeTabs(e) {
+    console.log(e.detail)
+    if(e.detail.activeKey=="five"){
+      this.setData({
+        btnhidden: false
+      })
+    }else{
+      this.setData({
+        btnhidden: true
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -173,16 +185,7 @@ Page({
       }
     })
   },
-  submitenable(e) {
-    this.setData({
-      submitbtndisable: false
-    })
-  },
-  submitdisable(e) {
-    this.setData({
-      submitbtndisable: true
-    })
-  },
+
   sellerswitchChange(e) {
     if (e.detail.value == true) {
       this.setData({
@@ -517,7 +520,7 @@ Page({
   // 异步新增数据方法
   addData() {
     // 多层嵌套的this需提前定义中转变量
-    var thispage = this
+    var that = this
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
@@ -575,43 +578,34 @@ Page({
             OrderStatus:"unchecked",
           },
           success(res) {
-            console.log('新增数据成功', res)
-            thispage.setData({
-              submitted: true // 修改上传状态并返回前端
+            console.log("信息提交成功", res)
+             that.setData({
+              sublock: true // 修改上传状态并返回前端
             })
-            console.log('thispage', thispage.data.submitted)
-            console.log('this', this.data.submitted)
             wx.showToast({
-              title: '新增数据成功',
+              title: '信息提交成功',
               icon: 'success',
               duration: 2000 //持续的时间
             })
+            wx.removeStorage({
+              key: 'LTempDelegateIssue',
+              success(res) {
+                console.log("删除缓存", res)
+              }
+            })
           },
           fail(res) {
-            console.log("新增数据失败", res)
+            console.log("信息提交失败", res)
             wx.showToast({
-              title: '新增数据失败',
-              icon: 'fail',
+              title: '信息提交失败',
+              icon: 'error',
               duration: 2000 //持续的时间
             })
           }
-        }),
-        // 以上新增数据结束
-        wx.removeStorage({
-          key: 'LTempDelegateIssue',
-          success(res) {
-            console.log("删除缓存", res)
-          }
         })
-      this.data.sublock = true // 修改上传状态为锁定
-    }
+      }
+  
   },
-  pay(e) {
-    wx.navigateTo({
-      url: '../order/pay?' + e.currentTarget.dataset.totalfee
-    })
-  },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

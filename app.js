@@ -15,11 +15,13 @@ App({
     }
     this.globalData = {}
     // 清除本地存储数据,调试发布后可去除
-    wx.clearStorage({
-      success: (res) => {
-        console.log("清除本地存储数据成功")
-      },
-    })
+
+    // wx.clearStorage({
+    //   success: (res) => {
+    //     console.log("清除本地存储数据成功")
+    //   },
+    // })
+
     // 登录
     wx.login({
       success: res => {
@@ -88,6 +90,7 @@ App({
     GavatarUrl: "",
     // 用户类型
     Gusertype: "",
+    Gdirect1yearvaliduser:"",
     Gpricelevel: "",
     Gpromoterlevel: "",
     //轮播图
