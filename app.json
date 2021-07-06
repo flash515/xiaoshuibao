@@ -113,5 +113,9 @@
       }
     ]
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "window":{
+    "enablePullDownRefresh": true,
+    "backgroundTextStyle": "dark"
+  }
 }

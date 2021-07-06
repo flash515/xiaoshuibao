@@ -34,7 +34,7 @@
       <!-- 常规输入 -->
       <l-input label="销货企业名称：" type="text" label-layout="left" label-width="270" clear="{{true}}"
         value="{{sellername}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerName" />
-      <l-input label="销货企业认别号：" value="{{sellerid}}" type="text" label-layout="left" label-width="270"
+      <l-input label="销货企业代码：" value="{{sellerid}}" type="text" label-layout="left" label-width="270"
         clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerId" />
       <l-input label="销货企业地址：" value="{{selleraddress}}" type="text" label-layout="left" label-width="270"
         clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerAddress" />
@@ -66,7 +66,7 @@
       <!-- 常规输入 -->
       <l-input label="购货企业名称：" type="text" label-layout="left" label-width="270" clear="{{true}}"
         value="{{buyername}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerName" />
-      <l-input label="购货企业证号：" value="{{buyerid}}" type="text" label-layout="left" label-width="270"
+      <l-input label="购货企业代码：" value="{{buyerid}}" type="text" label-layout="left" label-width="270"
         clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerId" />
       <l-input label="购货企业地址：" value="{{buyeraddress}}" type="text" label-layout="left" label-width="270"
         clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerAddress" />

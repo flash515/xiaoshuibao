@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    banlance:0,
     orderhistory: [],
     // 轮播参数
     image: [],
@@ -97,7 +98,28 @@ bvToPay(e) {
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: e.currentTarget.dataset.name,
+        command: "and",
+        where: [{
+          _openid: app.globalData.Gopenid
+        }]
+      },
+      success: res => {
+        if(e.currentTarget.dataset.name=="PAYMENT"){
+          this.setData({
+            paymenthistory: res.result.data
+          })
+        }
+        else if(e.currentTarget.dataset.name=="REWARD"){
+          this.setData({
+            rewardhistory: res.result.data
+          })
+        }
+      }
+    })
   },
 
   /**

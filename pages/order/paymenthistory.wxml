@@ -18,7 +18,7 @@
 </l-card>
 <l-tabs bind:linchange="changeTabs">
   <l-tabpanel tab="付款记录" key="one" slot="one">
-    <l-button data-name="PAYMENT" bind:lintap="bvRefresh" size="mini" shape="semicircle" plain="{{true}}">刷新</l-button>
+    <!-- <l-button data-name="PAYMENT" bind:lintap="bvRefresh" size="mini" shape="semicircle" plain="{{true}}">刷新</l-button> -->
     <view wx:for="{{paymenthistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view class="content">
