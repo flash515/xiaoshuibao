@@ -103,12 +103,12 @@
               bind:lininput="bvQuestion"></l-textarea>
           </view>
           <view>
-            <l-button class='submit' bind:lintap='bvSubmit' plain="{{true}}">发送留言</l-button>
+            <l-button icon="to-top" icon-color="blue" shape="semicircle" bind:lintap='bvSubmit' plain="{{true}}">发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
       <text>\n</text>
-      <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+      <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}" icon="order" icon-color="white" shape="semicircle"
         bind:lintap="bvNewOrder">我要办理</l-button>
     </view>
   </view>

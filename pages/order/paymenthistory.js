@@ -5,20 +5,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    banlance:0,
+    balance: 0,
     orderhistory: [],
     // 轮播参数
     image: [],
-      indicatorDots: true,
-      vertical: false,
-      autoplay: true,
-      circular: true,
-      interval: 4000,
-      duration: 500,
-      previousMargin: 0,
-      nextMargin: 0
+    indicatorDots: true,
+    vertical: false,
+    autoplay: true,
+    circular: true,
+    interval: 4000,
+    duration: 500,
+    previousMargin: 0,
+    nextMargin: 0
   },
-  bvRefresh(e){
+  bvRefresh(e) {
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
@@ -29,12 +29,11 @@ Page({
         }]
       },
       success: res => {
-        if(e.currentTarget.dataset.name=="PAYMENT"){
+        if (e.currentTarget.dataset.name == "PAYMENT") {
           this.setData({
             paymenthistory: res.result.data
           })
-        }
-        else if(e.currentTarget.dataset.name=="REWARD"){
+        } else if (e.currentTarget.dataset.name == "REWARD") {
           this.setData({
             rewardhistory: res.result.data
           })
@@ -42,16 +41,18 @@ Page({
       }
     })
   },
-bvToPay(e) {
-  wx.navigateTo({
-    url: '../order/pay?totalfee=' + e.currentTarget.dataset.totalfee
-  })
-},
+  bvToPay(e) {
+    wx.navigateTo({
+      url: '../order/pay?totalfee=' + e.currentTarget.dataset.totalfee
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({image:app.globalData.Gimagearray})
+    this.setData({
+      image: app.globalData.Gimagearray
+    })
     const db = wx.cloud.database()
     // 查询当前用户所有的订单,数据库已做权限设置，用户只能查询本人订单
     db.collection('PAYMENT').get({
@@ -60,10 +61,11 @@ bvToPay(e) {
         wx.setStorageSync('LPaymentList', res.data);
         this.setData({
           // 列表渲染
-          paymenthistory:res.data
+          paymenthistory: res.data
         })
         console.log(this.data.paymenthistory);
-      }})
+      }
+    })
   },
 
   /**
@@ -101,25 +103,34 @@ bvToPay(e) {
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
-        collectionName: e.currentTarget.dataset.name,
+        collectionName: "PAYMENT",
         command: "and",
         where: [{
           _openid: app.globalData.Gopenid
         }]
       },
       success: res => {
-        if(e.currentTarget.dataset.name=="PAYMENT"){
-          this.setData({
-            paymenthistory: res.result.data
-          })
-        }
-        else if(e.currentTarget.dataset.name=="REWARD"){
-          this.setData({
-            rewardhistory: res.result.data
-          })
-        }
+        this.setData({
+          paymenthistory: res.result.data
+        })
       }
     })
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "REWARD",
+        command: "and",
+        where: [{
+          _openid: app.globalData.Gopenid
+        }]
+      },
+      success: res => {
+        this.setData({
+          rewardhistory: res.result.data
+        })
+      }
+    })
+    wx.stopPullDownRefresh()
   },
 
   /**

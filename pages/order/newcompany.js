@@ -159,30 +159,30 @@ Page({
         console.log(fliter);
         if (app.globalData.Gpricelevel == 'PL1') {
           this.setData({
-            orderpricecount: fliter[0].Price1Count,
+            totalfee: fliter[0].Price1Count,
             orderprice: fliter[0].Price1
           })
         }
-        if (app.globalData.Gpricelevel == 'PL2') {
+        else if (app.globalData.Gpricelevel == 'PL2') {
           this.setData({
-            orderpricecount: fliter[0].Price2Count,
+            totalfee: fliter[0].Price2Count,
             orderprice: fliter[0].Price2
           })
         }
-        if (app.globalData.Gpricelevel == 'PL3') {
+        else if (app.globalData.Gpricelevel == 'PL3') {
           this.setData({
-            orderpricecount: fliter[0].Price3Count,
+            totalfee: fliter[0].Price3Count,
             orderprice: fliter[0].Price3
           })
         }
-        if (app.globalData.Gpricelevel == 'PL4') {
+        else if (app.globalData.Gpricelevel == 'PL4') {
           this.setData({
-            orderpricecount: fliter[0].Price4Count,
+            totalfee: fliter[0].Price4Count,
             orderprice: fliter[0].Price4
           })
         }
         console.log("客户价格", this.data.orderprice)
-        console.log("客户计算价格", this.data.orderpricecount)
+        console.log("客户价格", this.data.totalfee)
       },
 
     })

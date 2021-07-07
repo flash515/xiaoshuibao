@@ -13,8 +13,8 @@
 </view>
 <!--订单详情页面-->
 
-<l-card type="primary" plaintext="{{true}}">
-  <view wx:for="{{orderdetail}}" wx:key="key">
+
+  <view wx:for="{{orderdetail}}" wx:key="key" calss="mainframe">
 
     <view style="display:flex; flex-direction:row;">
       <label class="title1">订单日期：</label>
@@ -149,4 +149,3 @@
         bind:lintap="bvOrderDel">删除订单</l-button>
     </view> -->
   </view>
-</l-card>

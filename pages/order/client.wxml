@@ -13,27 +13,22 @@
 <view class="title">
   <text>常客信息管理</text>
 </view>
-
-
-<l-tabs bind:linchange="changeTabs">
+<view class="mainframe">
+<l-tabs bind:linchange="changeTabs" >
   <l-tabpanel tab="个人常客" key="one" slot="one" bind:linchange="changeIndividual">
     <view class="tab-content">
       <view>
         <navigator url="../order/individual">
-          <l-button type="default">新增个人常客</l-button>
+          <l-button class="mainbtn" icon="add" icon-color="blue" type="default" shape="semicircle" plain="{{true}}" width="600">新增个人常客</l-button>
         </navigator>
         <view wx:for="{{individualarray}}" wx:key="key">
-          <l-card type="primary" plaintext="{{true}}">
-            <view class="content">
-              <view>客户姓名：{{item.IndividualName}}</view>
+                     <view>客户姓名：{{item.IndividualName}}</view>
               <view>客户手机：{{item.IndividualPhone}}</view>
               <view>客户地址：{{item.IndividualAddress}}</view>
               <view>税局账号：{{item.TaxAccount}}</view>
               <view>税局密码：{{item.TaxPassword}}</view>
               <!-- <view>ID：{{item._id}}</view> -->
-              <l-button icon="edit" icon-color="#fff" data-editid="_id={{item._id}}" bindtap="editIndividual">修改信息</l-button>
-            </view>
-          </l-card>
+              <l-button bindtap="editIndividual" data-editid="_id={{item._id}}" icon="edit" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}">修改信息</l-button>
         </view>
       </view>
     </view>
@@ -42,21 +37,19 @@
     <view class="tab-content">
       <view>
         <navigator url="../order/enterprise">
-          <l-button type="default">新增企业常客</l-button>
+          <l-button class="mainbtn" icon="add" icon-color="blue" type="default" shape="semicircle" plain="{{true}}" width="600">新增企业常客</l-button>
         </navigator>
         <view wx:for="{{enterprisearray}}" wx:key="key">
-          <l-card type="primary" plaintext="{{true}}">
-            <view class="content">
+
               <view>企业名称：{{item.EnterpriseName}}</view>
           <view>企业识别号码：{{item.EnterpriseId}}</view>
           <view>企业地址：{{item.EnterpriseAddress}}</view>
           <view>企业电话：{{item.EnterprisePhone}}</view>
           <view>开户银行：{{item.EnterpriseBank}}</view>
           <view>银行账号：{{item.EnterpriseAccount}}</view>
-          <!-- <view>ID：{{item._id}}</view> -->
-          <l-button icon="edit" icon-color="#fff" data-editid="_id={{item._id}}" bindtap="editEnterprise">修改信息</l-button>
-            </view>
-          </l-card>            
+
+          <l-button icon="edit" icon-color="blue" data-editid="_id={{item._id}}" bindtap="editEnterprise" size="medium" shape="semicircle" plain="{{true}}">修改信息</l-button>
+      
         </view>
       </view>
     </view>
@@ -65,20 +58,18 @@
     <view class="tab-content">
       <view>
   <navigator url="../order/address">
-    <l-button type="default">新增地址</l-button>
+    <l-button class="mainbtn" icon="add" icon-color="blue" type="default" shape="semicircle" plain="{{true}}" width="600" >新增地址</l-button>
   </navigator>
   <view wx:for="{{addressarray}}" wx:key="key">
-    <l-card type="primary" plaintext="{{true}}">
-      <view class="content">
+
         <view>收件人姓名：{{item.Addressee}}</view>
         <view>收件人手机：{{item.AddresseePhone}}</view>
         <view>收件人地址：{{item.Address}}</view>
-        <!-- <view>ID：{{item._id}}</view> -->
-        <l-button icon="edit" icon-color="#fff" data-editid="_id={{item._id}}" bindtap="editAddress">修改信息</l-button>
-      </view>
-    </l-card>
+        <l-button icon="edit" icon-color="blue" data-editid="_id={{item._id}}" bindtap="editAddress" size="medium" shape="semicircle" plain="{{true}}">修改信息</l-button>
+
   </view>
 </view>
     </view>
   </l-tabpanel>
 </l-tabs>
+</view>

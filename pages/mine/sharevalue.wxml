@@ -12,6 +12,7 @@
 </view>
 <!-- 页面内容 -->
 <!-- 直接分享 -->
+<view class="mainframe">
 <l-grid row-num="2">
   <l-grid-item key="one" slot="one">
     <l-price 
@@ -105,3 +106,4 @@ size="50"
   <view wx:else text-align:center>尚未获得铂金推广大使资格</view>
   </l-tabpanel>
 </l-tabs>
+</view>

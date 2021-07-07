@@ -10,177 +10,146 @@
     </block>
   </swiper>
 </view>
-
-<l-tabs equal-width="{{false}}" scrollable="{{true}}">
-  <l-tabpanel tab="自然人代开" key="one" slot="one">
-    <view class="tab-content">
-      <view>
-        <view wx:for="{{DKarray}}" wx:key="key">
-          <l-card type="primary" plaintext="{{true}}">
-            <view class="content">
-              <view class="title1">
-                {{item.ProductName}}
-              </view>
-              <label class="title1">编号{{item.ProductId}}</label>
-              <view>
-                {{item.Outline}}
-              </view>
-              <label class="title1">办理费用：</label>
-              <view wx:if="{{avatarUrl=='' || nickName==''}}">
-                <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
-              </view>
-              <view wx:else>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
-                </view>
-              </view>
-              <label class="title1">推荐程度：</label>
-              <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
-              <view>
-                <l-button data-id="_id={{item._id}}" bind:lintap="bvPersonalDetail" plain="{{true}}">详细介绍</l-button>
-                <text>\t\t</text>
-                <l-button
-                  data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
-                  bind:lintap="bvNewPersonal">我要办理</l-button>
-              </view>
+<view class="mainframe">
+  <l-tabs equal-width="{{false}}" scrollable="{{true}}">
+    <l-tabpanel tab="自然人代开" key="one" slot="one">
+      <view wx:for="{{DKarray}}" wx:key="key">
+          <view class="title1">
+            {{item.ProductName}}
+          </view>
+          <label class="title1">编号{{item.ProductId}}</label>
+          <view>
+            {{item.Outline}}
+          </view>
+          <label class="title1">办理费用：</label>
+          <view wx:if="{{avatarUrl=='' || nickName==''}}">
+            <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+          </view>
+          <view wx:else>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
             </view>
-          </l-card>
-        </view>
-      </view>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="个体工商" key="two" slot="two">
-    <view class="tab-content">
-      <view wx:for="{{GTarray}}" wx:key="key">
-        <l-card type="primary" plaintext="{{true}}">
-          <view class="content">
-            <view class="title1">
-              {{item.ProductName}}
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
             </view>
-            <label class="title1">编号{{item.ProductId}}</label>
-            <view>
-              {{item.Outline}}
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
             </view>
-            <label class="title1">办理费用：</label>
-            <view wx:if="{{avatarUrl=='' || nickName==''}}">
-              <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
-            </view>
-            <view wx:else>
-              <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
-                </view>
-            </view>
-
-            <label class="title1">推荐程度：</label>
-            <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
-            <view>
-              <l-button data-id="_id={{item._id}}" bind:lintap="bvIndiBusinessDetail" plain="{{true}}">详细介绍</l-button>
-              <text>\t\t</text>
-              <l-button
-                data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
-                bind:lintap="bvNewIndibusiness">我要办理</l-button>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
             </view>
           </view>
-        </l-card>
+          <label class="title1">推荐程度：</label>
+          <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+          <view style="display:flex; flex-direction:row;">
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvPersonalDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue">详细介绍</l-button>
+            <view><text decode="{{true}}">&emsp;</text></view>
+            <l-button icon="order" icon-color="white"
+              data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+              bind:lintap="bvNewPersonal" shape="semicircle">我要办理</l-button>
+          </view>
       </view>
-    </view>
-
-  </l-tabpanel>
-  <l-tabpanel tab="个独/合伙企业" key="three" slot="three" >
-    <view class="tab-content">
-      <view>
-        <view wx:for="{{GDarray}}" wx:key="key">
-          <l-card type="primary" plaintext="{{true}}">
-            <view class="content">
-              <view class="title1">
-                {{item.ProductName}}
-              </view>
-              <label class="title1">编号{{item.ProductId}}</label>
-              <view>
-                {{item.Outline}}
-              </view>
-              <label class="title1">办理费用：</label>
-              <view wx:if="{{avatarUrl=='' || nickName==''}}">
-                <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
-              </view>
-              <view wx:else>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
-                </view>
-              </view>
-              <label class="title1">推荐程度：</label>
-              <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
-              <view>
-                <l-button data-id="_id={{item._id}}" bind:lintap="bvSoleproprietorDetail" plain="{{true}}">详细介绍
-                </l-button>
-                <text>\t\t</text>
-                <l-button
-                  data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
-                  bind:lintap="bvNewSoleproprietor">我要办理</l-button>
-              </view>
+    </l-tabpanel>
+    <l-tabpanel tab="个体工商" key="two" slot="two">
+      <view wx:for="{{GTarray}}" wx:key="key">
+          <view class="title1">
+            {{item.ProductName}}
+          </view>
+          <label class="title1">编号{{item.ProductId}}</label>
+          <view>
+            {{item.Outline}}
+          </view>
+          <label class="title1">办理费用：</label>
+          <view wx:if="{{avatarUrl=='' || nickName==''}}">
+            <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+          </view>
+          <view wx:else>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
             </view>
-          </l-card>
-        </view>
-      </view>
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="有限公司" key="four" slot="four" >
-    <view class="tab-content">
-      <view>
-        <view wx:for="{{GSarray}}" wx:key="key">
-          <l-card type="primary" plaintext="{{true}}">
-            <view class="content">
-              <view class="title1">
-                {{item.ProductName}}
-              </view>
-              <label class="title1">编号{{item.ProductId}}</label>
-              <view>
-                {{item.Outline}}
-              </view>
-              <label class="title1">办理费用：</label>
-              <view wx:if="{{avatarUrl=='' || nickName==''}}">
-                <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
-              </view>
-              <view wx:else>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
-                </view>
-                <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
-                </view>
-              </view>
-              <label class="title1">推荐程度：</label>
-              <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
-              <!-- <view>{{item._id}}</view> -->
-              <view>
-                <l-button data-id="_id={{item._id}}" bind:lintap="bvCompanyDetail" plain="{{true}}">详细介绍</l-button>
-                <text>\t\t</text>
-                <l-button
-                  data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
-                  bind:lintap="bvNewCompany">我要办理</l-button>
-              </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
             </view>
-          </l-card>
-        </view>
-      </view>
-    </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
+            </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
+            </view>
+          </view>
 
-  </l-tabpanel>
-</l-tabs>
+          <label class="title1">推荐程度：</label>
+          <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+          <view style="display:flex; flex-direction:row;">
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvIndiBusinessDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue">详细介绍</l-button>
+            <view><text decode="{{true}}">&emsp;</text></view>
+            <l-button icon="order" icon-color="white"
+              data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+              bind:lintap="bvNewIndibusiness" shape="semicircle">我要办理</l-button>
+          </view>
+      </view>
+    </l-tabpanel>
+    <l-tabpanel tab="个独/合伙企业" key="three" slot="three">
+      <view wx:for="{{GDarray}}" wx:key="key">
+          <view class="title1">
+            {{item.ProductName}}
+          </view>
+          <label class="title1">编号{{item.ProductId}}</label>
+          <view>
+            {{item.Outline}}
+          </view>
+          <label class="title1">办理费用：</label>
+          <view wx:if="{{avatarUrl=='' || nickName==''}}">
+            <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+          </view>
+          <view wx:else>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
+            </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
+            </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
+            </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
+            </view>
+          </view>
+          <label class="title1">推荐程度：</label>
+          <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
+          <view style="display:flex; flex-direction:row;">
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvSoleproprietorDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue">详细介绍
+            </l-button>
+            <view><text decode="{{true}}">&emsp;</text></view>
+            <l-button icon="order" icon-color="white"
+              data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+              bind:lintap="bvNewSoleproprietor" shape="semicircle">我要办理</l-button>
+          </view>
+      </view>
+    </l-tabpanel>
+    <l-tabpanel tab="有限公司" key="four" slot="four">
+      <view wx:for="{{GSarray}}" wx:key="key">
+          <view class="title1">
+            {{item.ProductName}}
+          </view>
+          <label class="title1">编号{{item.ProductId}}</label>
+          <view>
+            {{item.Outline}}
+          </view>
+          <label class="title1">办理费用：</label>
+          <view wx:if="{{avatarUrl=='' || nickName==''}}">
+            <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+          </view>
+          <view wx:else>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}}
+            </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}}
+            </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}}
+            </view>
+            <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}
+            </view>
+          </view>
+          <label class="title1">推荐程度：</label>
+          <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+          <!-- <view>{{item._id}}</view> -->
+          <view style="display:flex; flex-direction:row;">
+            <l-button data-id="_id={{item._id}}" bind:lintap="bvCompanyDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue">详细介绍</l-button>
+            <view><text decode="{{true}}">&emsp;</text></view>
+            <l-button icon="order" icon-color="white"
+              data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+              bind:lintap="bvNewCompany" shape="semicircle">我要办理</l-button>
+          </view>
+      </view>
+    </l-tabpanel>
+  </l-tabs>
+</view>

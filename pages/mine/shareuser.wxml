@@ -13,6 +13,7 @@
 </view>
 <!-- 页面内容 -->
 <!-- 直接分享 -->
+<view class="mainframe">
 <l-grid row-num="2">
   <l-grid-item key="one" slot="one">
     <view class="num">{{directvaliduser.length}}人</view>
@@ -65,3 +66,4 @@
     </view>
   </l-tabpanel>
 </l-tabs>
+</view>

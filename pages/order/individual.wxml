@@ -11,7 +11,7 @@
     </block>
   </swiper>
 </view>
-<l-card type="primary" plaintext="{{true}}">
+<view class="mainframe">
 <text class="info" space="emsp">  提示：提交的个人信息将用于小税宝接受用户委托，代办自然人税局代开发票业务时使用，小税宝承诺该信息不会用于其他用途，并且用户可随时删除有关个人信息。</text>
 <view>
   <l-input type="text" label="登记日期：" value="{{adddate}}" disabled="{{true}}"></l-input>
@@ -28,10 +28,10 @@
   </l-input>
 </view>
 <view>
-  <l-input type="text" label="电子税局账号：" value="{{taxaccount}}" bind:lininput="bvTaxAccount"></l-input>
+  <l-input type="text" label="税局账号：" value="{{taxaccount}}" bind:lininput="bvTaxAccount"></l-input>
 </view>
 <view>
-  <l-input type="text" label="电子税局密码：" value="{{taxpassword}}" bind:lininput="bvTaxPassword">
+  <l-input type="text" label="税局密码：" value="{{taxpassword}}" bind:lininput="bvTaxPassword">
   </l-input>
 </view>
 <view>
@@ -42,17 +42,17 @@
 <view>
   <label class="text">请选取或拍摄委托书等授权资料</label>
   <l-image-picker size="4" count="4" bind:linchange="onChangeTap" bind:linremove="onRemoveAttachmentImage" urls="{{attachmentview}}"/>
-  <l-button plain="{{true}}" bind:lintap="onUploadAttachmentImage">上传附件</l-button>
+  <l-button plain="{{true}}" bind:lintap="onUploadAttachmentImage" icon="to-top" icon-color="blue" shape="semicircle">上传附件</l-button>
 </view>
 
 <view wx:if="{{pageParam._id.length}}">
   <text>\t\n</text>
-  <l-button type="default" bind:lintap="updateData">更新信息</l-button>
+  <l-button type="default" bind:lintap="updateData" icon="to-top" icon-color="white" shape="semicircle">更新信息</l-button>
   <text>\t\t</text>
-  <l-button type="default" bind:lintap="delData">删除信息</l-button>
+  <l-button type="default" bind:lintap="delData" icon="delete" icon-color="white" shape="semicircle">删除信息</l-button>
 </view>
 <view wx:else>
   <text>\t\n</text>
-  <l-button type="default" bind:lintap="addData">提交信息</l-button>
+  <l-button type="default" bind:lintap="addData" icon="to-top" icon-color="white" shape="semicircle">提交信息</l-button>
 </view>
-</l-card>
+</view>

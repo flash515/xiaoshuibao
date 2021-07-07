@@ -12,10 +12,11 @@
   </swiper>
 </view>
 <!-- 分页展示 -->
+<view class="mainframe">
 <l-tabs bind:linchange="changeTabs">
   <!-- 销货企业 -->
   <l-tabpanel tab="销货企业" key="one" slot="one">
-    <l-card type="primary" plaintext="{{true}}">
+
       <l-list title="从常客信息中选取销货企业" is-link="{{false}}" gap="20">
         <view slot="right-section">
           <switch checked="{{sellerswitchChecked}}" bindchange="sellerswitchChange" style='zoom:.6;' />
@@ -44,11 +45,11 @@
         clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerBank" />
       <l-input label="企业银行账号：" value="{{sellerbankaccount}}" type="text" label-layout="left" label-width="270"
         clear="{{true}}" required="{{true}}" disabled="{{sellerdisable}}" bind:lininput="bvSellerBankAccount" />
-    </l-card>
+
   </l-tabpanel>
   <!-- 购货企业 -->
   <l-tabpanel tab="购货企业" key="two" slot="two">
-    <l-card type="primary" plaintext="{{true}}">
+
       <l-list title="从常客信息中选取购货企业" is-link="{{false}}" gap="20">
         <view slot="right-section">
           <switch checked="{{buyerswitchChecked}}" bindchange="buyerswitchChange" style='zoom:.6;' />
@@ -76,11 +77,10 @@
         clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerBank" />
       <l-input label="企业银行账号：" value="{{buyerbankaccount}}" type="text" label-layout="left" label-width="270"
         clear="{{true}}" required="{{true}}" disabled="{{buyerdisable}}" bind:lininput="bvBuyerBankAccount" />
-    </l-card>
+
   </l-tabpanel>
   <!-- 开票项目 -->
   <l-tabpanel tab="开票信息" key="three" slot="three">
-    <l-card type="primary" plaintext="{{true}}">
       <text class="text">选择开票类型：</text>
       <l-radio-group current="{{invoicetype}}" none-checked="{{false}}" placement="row"
         bind:linchange="bvInvoiceChange">
@@ -115,21 +115,20 @@
       <l-textarea value="{{remark}}" auto-height="{{true}}" bind:lininput="bvRemark" />
       <l-input label="办理费用（元）：" type="number" label-layout="left" label-width="270"
         value="{{totalfee}}" disabled="{{true}}" />
-    </l-card>
   </l-tabpanel>
   <l-tabpanel tab="附件上传" key="four" slot="four">
-    <l-card type="primary" plaintext="{{true}}">
+
       <view>
         <label class="text">请选取或拍摄需要上传的图片（委托书、业务合同、转账记录等）</label>
         <l-image-picker size="3" count="9" bind:linchange="onChangeImgTap" bind:linremove="onRemoveImage"
           urls="{{attachmentview}}" />
 
-        <l-button plain="{{true}}" bind:lintap="onUploadImage">上传图片</l-button>
+        <l-button plain="{{true}}" bind:lintap="onUploadImage" icon="to-top" icon-color="blue" shape="semicircle">上传图片</l-button>
       </view>
-    </l-card>
+
   </l-tabpanel>
   <l-tabpanel tab="收件地址" key="five" slot="five">
-    <l-card type="primary" plaintext="{{true}}">
+
       <l-list title="从常客信息中选取发票收件人地址" is-link="{{false}}" gap="20">
         <view slot="right-section">
           <switch checked="{{addressswitchChecked}}" bindchange="addressswitchChange" style='zoom:.6;' />
@@ -153,16 +152,17 @@
           label-width="270" clear="{{true}}" required="{{true}}" disabled="{{addressdisable}}"
           bind:lininput="bvAddress" />
       </view>
-    </l-card>
+
   </l-tabpanel>
 </l-tabs>
 <text>\r\n</text>
-<l-card type="primary" plaintext="{{true}}">
+
   <view  style="display:flex; flex-direction:row;">
-    <l-button type="default" bindtap="bvTempStorage">暂存</l-button>
+    <l-button type="default" bindtap="bvTempStorage" icon="download" icon-color="white" shape="semicircle">暂存</l-button>
     <view><text space="emsp" decode="{{true}}">&emsp;</text></view>
     <view wx:if="{{!btnhidden}}">
-    <l-button type="default" bindtap="addData">提交</l-button>
+    <l-button type="default" bindtap="addData" icon="to-top" icon-color="white" shape="semicircle">提交</l-button>
   </view>
 </view>
-</l-card>
+
+</view>

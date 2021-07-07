@@ -33,6 +33,16 @@ font-weight: bold;
 }
 .body{
   text-align: justify;
-  padding:25px;
+  padding:10rpx;
   line-height: 2;
+}
+.mainframe{
+  margin:20rpx 20rpx;
+  padding:10rpx
+}
+.mainbtn {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -12,6 +12,7 @@
 <view class="title">
   <text>推广政策</text>
 </view>
+<view class="mainframe">
 <l-collapse>
   <l-collapse-item title="查看推广政策">
     <l-card type="primary" plaintext="{{true}}">
@@ -115,3 +116,4 @@
     <view wx:if="{{applystatus =='checked'}}">已确认</view>
   </view>
 </l-card>
+</view>

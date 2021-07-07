@@ -72,10 +72,6 @@
       <view>{{item.Place}}</view>
     </view>
     <view style="display:flex; flex-direction:row;">
-      <label class="title1">办理费用：</label>
-      <view>{{item.TotalFee}}</view>
-    </view>
-    <view style="display:flex; flex-direction:row;">
       <label class="title1">付款状态：</label>
       <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
       <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>

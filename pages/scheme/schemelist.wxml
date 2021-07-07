@@ -11,6 +11,7 @@
     </block>
   </swiper>
 </view>
+<view class="mainframe">
 <l-tabs equal-width="{{false}}" scrollable="{{true}}">
   <l-tabpanel tab="增值税" key="one" slot="one">
     <view class="title">增值税筹划</view>
@@ -50,7 +51,7 @@
               bind:lininput="bvQuestion1"></l-textarea>
           </view>
           <view>
-            <l-button class='submit' bind:lintap='bvSubmit1' plain="{{true}}">发送留言</l-button>
+            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit1' >发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -94,7 +95,7 @@
               bind:lininput="bvQuestion2"></l-textarea>
           </view>
           <view>
-            <l-button class='submit' bind:lintap='bvSubmit2' plain="{{true}}">发送留言</l-button>
+            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit2'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -137,7 +138,7 @@
               bind:lininput="bvQuestion3"></l-textarea>
           </view>
           <view>
-            <l-button class='submit' bind:lintap='bvSubmit3' plain="{{true}}">发送留言</l-button>
+            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit3'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -181,10 +182,11 @@
               bind:lininput="bvQuestion4"></l-textarea>
           </view>
           <view>
-            <l-button class='submit' bind:lintap='bvSubmit4' plain="{{true}}">发送留言</l-button>
+            <l-button icon="to-top" icon-color="blue" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit4'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
     </view>
   </l-tabpanel>
 </l-tabs>
+</view>
