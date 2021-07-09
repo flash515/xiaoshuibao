@@ -12,6 +12,7 @@ Page({
     data: "",
     time: "",
     status: "",
+    btnhidden:false,
     // 轮播头图
     image: [],
     indicatorDots: true,
@@ -24,12 +25,17 @@ Page({
     nextMargin: 0
   },
   bvBookingCancel(e) {
+    console.log(e.currentTarget.dataset.id)
     const db = wx.cloud.database()
     db.collection('BOOKING').doc(e.currentTarget.dataset.id).update({
-        date: {
+        data: {
           BookingStatus: "canceled"
         },
       success: res => {
+        console.log(res)
+        this.setData({
+          btnhidden:true
+        })
         wx.showToast({
           title: '当前预约已取消',
           icon: 'success',
@@ -38,18 +44,27 @@ Page({
       }
     })
   },
+  bvNewBooking(e){
+wx.navigateTo({
+  url: '../mine/newbooking',
+})
+  },
+  bvBookingChange(e) {
+    console.log(e.currentTarget.dataset.id)
+    wx.navigateTo({
+      url: '../mine/newbooking?id=' + e.currentTarget.dataset.id
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let that = this
     this.setData({
       image: app.globalData.Gimagearray,
     })
     const db = wx.cloud.database()
     db.collection('BOOKING').where({
       _openid: app.globalData.Gopenid,
-      // BookingStatus:"checked"
     }).get({
       success: res => {
         this.setData({
@@ -91,7 +106,17 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    const db = wx.cloud.database()
+    db.collection('BOOKING').where({
+      _openid: app.globalData.Gopenid,
+    }).get({
+      success: res => {
+        this.setData({
+          bookingarray: res.data,
+        })
+      },
+    })
+    wx.stopPullDownRefresh()
   },
 
   /**

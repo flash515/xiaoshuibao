@@ -15,6 +15,11 @@
 <l-tabs bind:linchange="changeTabs" equal-width="{{false}}" scrollable="{{true}}">
   <!-- 传入的产品信息 -->
   <l-tabpanel tab="产品" key="one" slot="one">
+    <picker bindchange="bindPickerProduct" value="{{index}}" range="{{dkarray}}" range-key="{{'ProductId'}}">
+            <view hidden="{{productpickerhidden}}">
+              <text class="text">选择自然人代开产品：</text>{{dkarray[index].ProductId}}
+            </view>
+          </picker>
       <l-input label="产品编号：" type="text" label-layout="left" label-width="270"
         value="{{productid}}" disabled="{{true}}" />
       <l-input label="产品名称：" type="text" label-layout="left" label-width="270"
@@ -22,7 +27,7 @@
       <l-input label="办理地点：" type="text" label-layout="left" label-width="270"
         value="{{issuedplace}}" disabled="{{true}}" />
       <view wx:if="{{avatarUrl=='' || nickName==''}}">
-        <label class="text">办理费用：</label>
+        <label class="text">办理费率：</label>
         <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
       </view>
       <view wx:else>
@@ -37,14 +42,14 @@
           <switch checked="{{sellerswitchChecked}}" bindchange="sellerswitchChange" style='zoom:.6;' />
         </view>
       </l-list>
-      <view class="section">
+      <!-- <view class="section"> -->
         <view wx:if="{{sellerpickershow==true}}">
           <picker bindchange="bindPickerSeller" value="{{index}}" range="{{sellerarray}}" range-key="IndividualName">
-            <view class="picker">
+            <!-- <view class="picker"> -->
               <text class="text">选择开票人：</text>{{sellerarray[index].IndividualName}}
-            </view>
+            <!-- </view> -->
           </picker>
-        </view>
+        <!-- </view> -->
       </view>
       <!-- 常规输入 -->
       <l-input label="开票人：" type="text" label-layout="left" label-width="270" clear="{{true}}"
@@ -68,14 +73,14 @@
           <switch checked="{{buyerswitchChecked}}" bindchange="buyerswitchChange" style='zoom:.6;' />
         </view>
       </l-list>
-      <view class="section">
+      <!-- <view class="section"> -->
         <view wx:if="{{buyerpickershow==true}}">
           <picker bindchange="bindPickerBuyer" value="{{index}}" range="{{buyerarray}}" range-key="EnterpriseName">
-            <view class="picker">
+            <!-- <view class="picker"> -->
               <text class="text">选择受票企业：</text>{{buyerarray[index].EnterpriseName}}
-            </view>
+            <!-- </view> -->
           </picker>
-        </view>
+        <!-- </view> -->
       </view>
       <!-- 常规输入 -->
       <l-input label="企业名称：" value="{{buyername}}" type="text" label-layout="left"
@@ -128,12 +133,12 @@
           <switch checked="{{address1switchChecked}}" bindchange="address1switchChange" style='zoom:.6;' />
         </view>
       </l-list>
-      <view class="section">
+      <!-- <view class="section"> -->
         <view wx:if="{{address1pickershow==true}}">
           <picker bindchange="bindPickerAddress1" value="{{index}}" range="{{addressarray}}" range-key="Addressee">
-            <view class="picker">
+            <!-- <view class="picker"> -->
               <text class="text">选取发票收件人地址：</text>{{addressarray[index].Addressee}}
-            </view>
+            <!-- </view> -->
           </picker>
         </view>
         <l-input label="收件人姓名：" value="{{docaddressee}}" type="text" label-layout="left"
@@ -145,19 +150,19 @@
         <l-input label="收件人地址：" value="{{docaddress}}" type="text" label-layout="left"
           label-width="270" clear="{{true}}" required="{{true}}" disabled="{{address1disable}}"
           bind:lininput="bvDocAddress" />
-      </view>
+      <!-- </view> -->
       <text>\n\n</text>
       <l-list title="从常客名单中选取身份证收件人地址" is-link="{{false}}" gap="20">
         <view slot="right-section">
           <switch checked="{{address2switchChecked}}" bindchange="address2switchChange" style='zoom:.6;' />
         </view>
       </l-list>
-      <view class="section">
+      <!-- <view class="section"> -->
         <view wx:if="{{address2pickershow==true}}">
           <picker bindchange="bindPickerAddress2" value="{{index}}" range="{{addressarray}}" range-key="Addressee">
-            <view class="picker">
+            <!-- <view class="picker"> -->
               <text class="text">选取身份证收件人地址：</text>{{addressarray[index].Addressee}}
-            </view>
+            <!-- </view> -->
           </picker>
         </view>
         <l-input label="收件人姓名：" value="{{idaddressee}}" type="text" label-layout="left"
@@ -169,11 +174,17 @@
         <l-input label="收件人地址：" value="{{idaddress}}" type="text" label-layout="left"
           label-width="270" clear="{{true}}" required="{{true}}" disabled="{{address2disable}}"
           bind:lininput="bvIdAddress" />
-      </view>
+      <!-- </view> -->
   </l-tabpanel>
   <l-tabpanel tab="办理费用" key="seven" slot="seven" >
+    <view wx:if="{{avatarUrl=='' || nickName==''}}">
+        <label class="text">办理费用：</label>
+        <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+      </view>
+      <view wx:else>
       <l-input label="办理费用（元）：" value="{{totalfee}}" type="number" label-layout="left"
           label-width="270" disabled="{{true}}" />
+          </view>
   </l-tabpanel>
 </l-tabs>
   <!-- 以下管理员显示内容 -->
@@ -194,7 +205,7 @@
 
   <view wx:if="{{!submitted}}" style="display:flex; flex-direction:row;">
     <l-button type="default" bind:lintap="bvTempStorage" icon="download" icon-color="white" shape="semicircle">暂存</l-button>
-    <view><text space="emsp" decode="{{true}}">&emsp;</text></view>
+    <view><text decode="{{true}}">&emsp;</text></view>
     <view wx:if="{{!btnhidden}}">
     <l-button type="default" bind:lintap="addData" icon="to-top" icon-color="white" shape="semicircle">提交</l-button>
     <view><text space="emsp" decode="{{true}}">&emsp;</text></view>

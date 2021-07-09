@@ -33,15 +33,14 @@
   <l-input type="text" label="更新日期：" value="{{updatedate}}" >
   </l-input>
 </view>
+<text>\n</text>
 <view  style="display:flex; flex-direction:row;">
 <view wx:if="{{pageParam._id.length}}">
-<text>\n\n</text>
   <l-button type="default" bind:lintap="updateData" icon="to-top" icon-color="white" shape="semicircle">更新信息</l-button>
-  <text>\t\t</text>
+  <text decode="{{true}}">&emsp;</text>
   <l-button type="default" bind:lintap="delData" icon="delete" icon-color="white" shape="semicircle">删除信息</l-button>
 </view>
 <view wx:else>
-  <text>\n\n</text>
   <l-button type="default" bind:lintap="addData" icon="to-top" icon-color="white" shape="semicircle">提交信息</l-button>
 </view>
 </view>

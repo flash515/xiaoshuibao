@@ -52,7 +52,7 @@ Page({
             success (res) {
               that.data.tempimage.push(res.path)
               app.globalData.Gimagearray = that.data.tempimage
-              // console.log("Gimagearray",app.globalData.Gimagearray)
+
             }
           })
         }
@@ -113,25 +113,12 @@ Page({
                   UserType: "client",
                   PriceLevel:"PL4",
                   PromoterLevel:"normal",
-                  priceshow: false,
-                  directvalueshow: false,
-                  indirectvalueshow: false,
-                  directusershow: false,
-                  indirectusershow: false,
-                  valuedetailshow: false,
-                  userdetailshow: false,
                 }
               })
               app.globalData.Gusertype = "client"
               app.globalData.Gpricelevel="PL4"
               app.globalData.Gpromoterlevel="null"
-              app.globalData.Gpriceshow = false
-              app.globalData.Gdirectvalueshow = false
-              app.globalData.Gindirectvalueshow = false
-              app.globalData.Gdirectusershow = false
-              app.globalData.Gindirectusershow = false
-              app.globalData.Gvaluedetailshow = false
-              app.globalData.Guserdetailshow = false
+
             } else {
               app.globalData.Gcompanyname = this.data.userinfo.CompanyName
               app.globalData.Gusername = this.data.userinfo.UserName
@@ -140,13 +127,6 @@ Page({
               app.globalData.Gusertype = this.data.userinfo.UserType
               app.globalData.Gpricelevel = this.data.userinfo.PriceLevel
               app.globalData.Gpromoterlevel = this.data.userinfo.PromoterLevel
-              app.globalData.Gpriceshow = this.data.userinfo.priceshow
-              app.globalData.Gdirectvalueshow = this.data.userinfo.directvalueshow
-              app.globalData.Gindirectvalueshow = this.data.userinfo.indirectvalueshow
-              app.globalData.Gdirectusershow = this.data.userinfo.directusershow
-              app.globalData.Gindirectusershow = this.data.userinfo.indirectusershow
-              app.globalData.Gvaluedetailshow = this.data.userinfo.valuedetailshow
-              app.globalData.Guserdetailshow = this.data.userinfo.userdetailshow
             }
             // 判断是否新用户并提交数据库的代码框结束
           }

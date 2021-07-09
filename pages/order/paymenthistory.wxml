@@ -14,7 +14,9 @@
   <text>收付款记录</text>
 </view>
 <l-card type="primary" plaintext="{{true}}">
-  <view>账户余额：{{balance}}</view>
+  <view>账户余额：<l-price unit="￥" reserve-digit="2"
+unit-color="#3963bc"
+size="50" value="{{balance}}"></l-price></view>
 </l-card>
 <view class="mainframe">
 <l-tabs bind:linchange="changeTabs">

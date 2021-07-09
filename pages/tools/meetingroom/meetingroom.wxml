@@ -12,43 +12,49 @@
     </block>
   </swiper>
 </view>
-<l-card type="primary" plaintext="{{true}}">
+<view class="mainframe">
   <l-list title="快捷会议室一" icon="comment" tag-content="{{room1status}}" tagShape="circle" tag-position="right"
     tag-color="{{room1color}}" is-link="{{false}}" />
+<l-card type="primary" plaintext="{{true}}">
+
   <l-input label="设置管理密码" label-layout="left" placeholder="请输入管理密码" bind:lininput="CleanPassword1">
-    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room1Clean">清空会议室内容</l-button>
+    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room1Clean" size="mini">清空会议室内容</l-button>
   </l-input>
   <l-input label="输入进场密码" label-layout="left" placeholder="请输入进场密码" bind:lininput="EnterPassword1">
-    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room1login">进入当前会议室</l-button>
+    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room1login" size="mini">进入当前会议室</l-button>
   </l-input>
 </l-card>
-<l-card type="primary" plaintext="{{true}}">
-  <l-list title="快捷会议室二" icon="comment" tag-content="{{room2status}}" tagShape="circle" tag-position="right"
+<l-list title="快捷会议室二" icon="comment" tag-content="{{room2status}}" tagShape="circle" tag-position="right"
     tag-color="{{room2color}}" is-link="{{false}}" />
+<l-card type="primary" plaintext="{{true}}">
+
   <l-input label="设置管理密码" label-layout="left" placeholder="请输入管理密码" bind:lininput="CleanPassword2">
-    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room2Clean">清空会议室内容</l-button>
+    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room2Clean" size="mini">清空会议室内容</l-button>
   </l-input>
   <l-input label="输入进场密码" label-layout="left" placeholder="请输入进场密码" bind:lininput="EnterPassword2">
-    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room2login">进入当前会议室</l-button>
+    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room2login" size="mini">进入当前会议室</l-button>
   </l-input>
 </l-card>
-<l-card type="primary" plaintext="{{true}}">
-  <l-list title="快捷会议室三" icon="comment" tag-content="{{room3status}}" tagShape="circle" tag-position="right"
+<l-list title="快捷会议室三" icon="comment" tag-content="{{room3status}}" tagShape="circle" tag-position="right"
     tag-color="{{room3color}}" is-link="{{false}}" />
+<l-card type="primary" plaintext="{{true}}">
+
   <l-input label="设置管理密码" label-layout="left" placeholder="请输入管理密码" bind:lininput="CleanPassword3">
-    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room3Clean">清空会议室内容</l-button>
+    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room3Clean" size="mini">清空会议室内容</l-button>
   </l-input>
   <l-input label="输入进场密码" label-layout="left" placeholder="请输入进场密码" bind:lininput="EnterPassword3">
-    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room3login">进入当前会议室</l-button>
+    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room3login" size="mini">进入当前会议室</l-button>
   </l-input>
 </l-card>
-<l-card type="primary" plaintext="{{true}}">
-  <l-list title="快捷会议室四" icon="comment" tag-content="{{room4status}}" tagShape="circle" tag-position="right"
+<l-list title="快捷会议室四" icon="comment" tag-content="{{room4status}}" tagShape="circle" tag-position="right"
     tag-color="{{room4color}}" is-link="{{false}}" />
+<l-card type="primary" plaintext="{{true}}">
+
   <l-input label="设置管理密码" label-layout="left" placeholder="请输入管理密码" bind:lininput="CleanPassword4">
-    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room4Clean">清空会议室内容</l-button>
+    <l-button slot="right" shape="semicircle" icon="delete" icon-color="blue" plain="{{true}}" bind:lintap="Room4Clean" size="mini">清空会议室内容</l-button>
   </l-input>
   <l-input label="输入进场密码" label-layout="left" placeholder="请输入进场密码" bind:lininput="EnterPassword4">
-    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room4login">进入当前会议室</l-button>
+    <l-button slot="right" shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Room4login" size="mini">进入当前会议室</l-button>
   </l-input>
 </l-card>
+</view>

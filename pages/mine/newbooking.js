@@ -6,13 +6,13 @@ Page({
    */
   data: {
     booklock: false,
+    adddate: "",
     address: "",
     phone: "",
     contacts: "",
-    data: "",
+    date: "",
     time: "",
-    tatalfee: 0,
-    openSettingBtnHidden:true,
+    content: "",
     // 轮播头图
     image: [],
     indicatorDots: true,
@@ -23,73 +23,6 @@ Page({
     duration: 500,
     previousMargin: 0,
     nextMargin: 0
-  },
-  // 保存到手机
-  saveImage: function (event) {
-    let that=this
-    wx.getImageInfo({
-      src: event.currentTarget.dataset.src,
-      success: (res) => {
-        wx.saveImageToPhotosAlbum({
-          filePath: res.path,
-          success: (res) => {
-            wx.showToast({
-              title: '支付码保存成功，请从手机相册打开并扫码支付',
-              duration: 2000
-            })
-          },
-          fail: (err) => {
-            console.log(err);
-            if (err.errMsg === 'saveImageToPhotosAlbum:fail auth deny') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: false
-              })
-              wx.showToast({
-                title: '缺少授权，请点击授权',
-                icon: 'none',
-                duration: 2000
-              })
-              // this.$apply()
-            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail cancel') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: true
-              })
-              wx.showToast({
-                title: '取消保存',
-                icon: 'none',
-                duration: 2000
-              })
-              // this.$apply()
-            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail:auth denied') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: false
-              })
-              wx.showToast({
-                title: '已拒绝授权，请点击重新授权',
-                icon: 'none',
-                duration: 2000
-              })
-            }
-          }
-        })
-      }
-    })
-  },
-  //图片点击事件
-  enlarge: function (event) {
-    var src = event.currentTarget.dataset.src; //获取data-src
-    var imgList = [
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png',
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg'
-    ]
-    //图片预览
-    wx.previewImage({
-      current: src, // 当前显示图片的http链接
-      urls: imgList // 需要预览的图片http链接列表
-    })
   },
   bvTime(e) {
     this.setData({
@@ -116,7 +49,13 @@ Page({
       address: e.detail.value,
     })
   },
-  bvBooking(e) {
+  bvContent(e) {
+    console.log(e.detail)
+    this.setData({
+      content: e.detail.key,
+    })
+  },
+  bvBooking() {
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
@@ -136,7 +75,7 @@ Page({
             Contacts: this.data.contacts,
             BookingDate: this.data.date,
             BookingTime: this.data.time,
-            BookingContent: "上门取款服务",
+            BookingContent: this.data.content,
             BookingStatus: "unchecked",
             AddDate: new Date().toLocaleDateString()
           },
@@ -160,18 +99,72 @@ Page({
         this.data.booklock = true // 修改上传状态为锁定
     }
   },
+  bvUpdateData(){
+    const db = wx.cloud.database()
+    db.collection('BOOKING').doc(this.data.pageParam.id).update({
+        data: {
+          BookingContent: this.data.content,
+          Address: this.data.address,
+          Phone: this.data.phone,
+          Contacts: this.data.contacts,
+          BookingDate: this.data.date,
+          BookingTime: this.data.time,
+          BookingStatus: "unchecked",
+          UpdateDate: new Date().toLocaleDateString()
+        },
+        success(res) {
+          console.log('预约更新成功', res.data)
+          wx.showToast({
+            title: '预约更新成功',
+            icon: 'success',
+            duration: 2000 //持续的时间
+          })
+        },
+        fail(res) {
+          console.log("更新失败", res)
+          wx.showToast({
+            title: '预约更新失败',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     var str = new Date()
     this.setData({
-      totalfee: options.totalfee,
+      pageParam: options,
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
+    console.log(this.data.pageParam.id.length)
+    if (this.data.pageParam.id.length != 0 && this.data.pageParam.id.length != null) {
+      const db = wx.cloud.database()
+      db.collection('BOOKING').doc(this.data.pageParam.id).get({
+        success: res => {
+          console.log(res)
+          this.setData({
+            adddate: res.data.AddDate,
+            content: res.data.BookingContent,
+            date: res.data.BookingDate,
+            time: res.data.BookingTime,
+            contacts: res.data.Contacts,
+            phone: res.data.Phone,
+            address: res.data.Address,
+            status: res.data.BookingStatus,
+          })
+        },
+      })
+    } else {
+      this.setData({
+        content: "业务沟通拜访"
+      })
+    }
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

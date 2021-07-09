@@ -77,11 +77,11 @@
             <text class="text">预约上门收款时间：{{time}}</text>
           </view>
         </picker>
-        <l-input type="text" label="联系人：" placeholder="{{contacts}}" bind:lininput="bvContacts"></l-input>
-        <l-input type="text" label="联系电话：" placeholder="{{phone}}" bind:lininput="bvPhone"></l-input>
-        <l-input type="text" label="预约地址：" placeholder="{{address}}" bind:lininput="bvAddress"></l-input>
+        <l-input type="text" label="联系人：" value="{{contacts}}" bind:lininput="bvContacts"></l-input>
+        <l-input type="text" label="联系电话：" value="{{phone}}" bind:lininput="bvPhone"></l-input>
+        <l-input type="text" label="预约地址：" value="{{address}}" bind:lininput="bvAddress"></l-input>
       </view>
-      <l-button type="default" bindtap="bvBook" size="mini" shape="semicircle" plain="{{true}}">预约确定</l-button>
+      <l-button type="default" icon="success" icon-color="blue" bindtap="bvBooking" size="mini" shape="semicircle" plain="{{true}}">预约确定</l-button>
     </l-card>
   </l-collapse-item>
 </l-collapse>

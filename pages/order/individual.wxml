@@ -37,22 +37,24 @@
 <view>
   <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
 </view>
-<text>\t\t</text>
+
   <!-- 显示选择的图片 -->
-<view>
+
   <label class="text">请选取或拍摄委托书等授权资料</label>
   <l-image-picker size="4" count="4" bind:linchange="onChangeTap" bind:linremove="onRemoveAttachmentImage" urls="{{attachmentview}}"/>
+  <text>\n</text>
+  <view style="display:flex; flex-direction:row;">
   <l-button plain="{{true}}" bind:lintap="onUploadAttachmentImage" icon="to-top" icon-color="blue" shape="semicircle">上传附件</l-button>
+  <view wx:if="{{pageParam._id.length}}">
+    <text decode="{{true}}">&emsp;</text>
+  <l-button type="default" bind:lintap="updateData" icon="to-top" icon-color="white" shape="semicircle">更新信息</l-button>
+  <text decode="{{true}}">&emsp;</text>
+  <l-button type="default" bind:lintap="delData" icon="delete" icon-color="white" shape="semicircle">删除信息</l-button>
+  </view>
+<view wx:else>
+  <view><text decode="{{true}}">&emsp;</text>
+  <l-button type="default" bind:lintap="addData" icon="to-top" icon-color="white" shape="semicircle">提交信息</l-button></view>
+</view>
+</view>
 </view>
 
-<view wx:if="{{pageParam._id.length}}">
-  <text>\t\n</text>
-  <l-button type="default" bind:lintap="updateData" icon="to-top" icon-color="white" shape="semicircle">更新信息</l-button>
-  <text>\t\t</text>
-  <l-button type="default" bind:lintap="delData" icon="delete" icon-color="white" shape="semicircle">删除信息</l-button>
-</view>
-<view wx:else>
-  <text>\t\n</text>
-  <l-button type="default" bind:lintap="addData" icon="to-top" icon-color="white" shape="semicircle">提交信息</l-button>
-</view>
-</view>

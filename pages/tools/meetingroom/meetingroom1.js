@@ -76,8 +76,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: '邀请您进入小税宝临时会议室',
-      path: '/pages/tools/meetingroom/meetingroom2',
+      title: '邀请您进入小税宝快捷会议室',
+      path: '/pages/tools/meetingroom/meetingroom1',
       imageUrl: 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/index.png', //封面
         }
   },

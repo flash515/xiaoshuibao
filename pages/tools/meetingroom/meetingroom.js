@@ -85,7 +85,7 @@ Page({
     if (this.data.room1status == "使用中") {
       if (this.data.enterpassword1 == this.data.room1enterpassword) {
         wx.navigateTo({
-          url: '../tools/meetingroom/meetingroom1',
+          url: '../meetingroom/meetingroom1',
         })
       } else {
         wx.showToast({
@@ -113,7 +113,7 @@ Page({
           },
           success: res => {
             wx.navigateTo({
-              url: '../tools/meetingroom/meetingroom1',
+              url: '../meetingroom/meetingroom1',
             })
           }
         })
@@ -268,7 +268,7 @@ Page({
     if (this.data.room2status == "使用中") {
       if (this.data.enterpassword2 == this.data.room2enterpassword) {
         wx.navigateTo({
-          url: '../tools/meetingroom/meetingroom2',
+          url: '../meetingroom/meetingroom2',
         })
       } else {
         wx.showToast({
@@ -296,7 +296,7 @@ Page({
           },
           success: res => {
             wx.navigateTo({
-              url: '../tools/meetingroom/meetingroom2',
+              url: '../meetingroom/meetingroom2',
             })
           }
         })
@@ -307,7 +307,7 @@ Page({
     if (this.data.room3status == "使用中") {
       if (this.data.enterpassword3 == this.data.room3enterpassword) {
         wx.navigateTo({
-          url: '../tools/meetingroom/meetingroom3',
+          url: '../meetingroom/meetingroom3',
         })
       } else {
         wx.showToast({
@@ -335,7 +335,7 @@ Page({
           },
           success: res => {
             wx.navigateTo({
-              url: '../tools/meetingroom/meetingroom3',
+              url: '../meetingroom/meetingroom3',
             })
           }
         })
@@ -346,7 +346,7 @@ Page({
     if (this.data.room4status == "使用中") {
       if (this.data.enterpassword4 == this.data.room4enterpassword) {
         wx.navigateTo({
-          url: '../tools/meetingroom/meetingroom4',
+          url: '../meetingroom/meetingroom4',
         })
       } else {
         wx.showToast({
@@ -374,7 +374,7 @@ Page({
           },
           success: res => {
             wx.navigateTo({
-              url: '../tools/meetingroom/meetingroom4',
+              url: '../meetingroom/meetingroom4',
             })
           }
         })

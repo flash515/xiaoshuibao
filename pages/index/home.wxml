@@ -17,7 +17,7 @@
     front-icon-color="#3683D6" bind:lintap="onNoticeView"
               swip-arr="{{noticearray}}">
 </l-notice-bar>
-
+<view class="mainframe">
 <view  wx:if="{{avatarUrl=='' || nickName==''}}">
   <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
 </view>
@@ -42,29 +42,30 @@
     </navigator>
   </l-grid-item>
   <l-grid-item key='three' slot='three'>
-    <navigator url='../order/newpersonal'>
-      <l-icon name='order' />
-      <view class="text">自然人代开票</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='four' slot='four'>
-    <navigator url='../order/delegateissue'>
-      <l-icon name='order' />
-      <view class="text">托管企业出票</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key='five' slot='five'>
     <navigator url='../order/client'>
       <l-icon name='user' />
       <view class="text">常客信息管理</view>
     </navigator>
   </l-grid-item>
-  <l-grid-item key='six' slot='six'>
+  <l-grid-item key='four' slot='four'>
+    <navigator url='../order/newpersonal'>
+      <l-icon name='order' />
+      <view class="text">自然人代开票</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key='five' slot='five'>
+    <navigator url='../mine/booking'>
+      <l-icon name='comment' />
+      <view class="text">预约管理</view>
+    </navigator>
+  </l-grid-item>
+<l-grid-item key='six' slot='six'>
     <navigator url='../tools/meetingroom/meetingroom'>
       <l-icon name='comment' />
       <view class="text">快捷会议室</view>
     </navigator>
   </l-grid-item>
 </l-grid>
+</view>
 
 

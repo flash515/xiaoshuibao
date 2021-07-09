@@ -20,6 +20,7 @@ Page({
     sellerarray: [],
     buyerarray: [],
     addressarray: [],
+    dkarray: [],
     // 产品编号
     productid: "",
     // 产品名称
@@ -100,7 +101,8 @@ Page({
     ordersublock: false,
     paymentsublock: false,
     submitted: false,
-    btnhidden: true
+    btnhidden: true,
+    productpickerhidden: false,
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -153,14 +155,7 @@ Page({
       nickName: app.globalData.GnickName,
     })
   },
-  onLoad: function (options) {
-    //页面初始化 options为页面跳转所带来的参数
-    this.setData({
-      pageParam: options,
-      productid: options.productid,
-      productname: options.productname,
-      issuedplace: options.issuedplace,
-    })
+  bvOrderPrice() {
     // 从本地存储中读取客户价格
     wx.getStorage({
       key: 'LProductList',
@@ -169,9 +164,9 @@ Page({
         // 筛选指定记录
         var fliter = [];
         // var _this = this
-        for (var i = 0; i < res.data.length; i++) {
-          if (res.data[i].ProductId == this.data.pageParam.productid) {
-            fliter.push(res.data[i]);
+        for (var x = 0; x < res.data.length; x++) {
+          if (res.data[x].ProductId == this.data.productid) {
+            fliter.push(res.data[x]);
           }
         }
         console.log(fliter);
@@ -203,6 +198,37 @@ Page({
         console.log("客户计算价格", this.data.orderpricecount)
       },
     })
+  },
+  onLoad: function (options) {
+    //页面初始化 options为页面跳转所带来的参数
+    console.log(Object.keys(options).length)
+//判断是否有参数的方法很好
+      if (Object.keys(options).length === 0) {}else{
+      this.setData({
+        pageParam: options,
+        productid: options.productid,
+        productname: options.productname,
+        issuedplace: options.issuedplace,
+        productpickerhidden: true,
+      })
+    }
+
+    wx.getStorage({
+      key: 'LProductList',
+      success: res => {
+        console.log("产品数组", res.data)
+        var dkfliter = [];
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].ProductType == "自然人代开" && res.data[i].Status == "在售") {
+            dkfliter.push(res.data[i]);
+          }
+        }
+        this.setData({
+          dkarray: dkfliter
+        })
+      }
+    })
+
     // 读取本地暂存数据
     wx.getStorage({
       key: 'LTemp' + options.productid,
@@ -299,13 +325,15 @@ Page({
         console.log("address查询", res.result.data)
       }
     })
+    this.bvOrderPrice(this.data.productid)
   },
 
   changeTabs(e) {
     console.log(e.detail)
-    if (e.detail.activeKey == "seven") {
+    if (e.detail.activeKey == "seven" && this.data.avatarUrl != '') {
       this.setData({
-        btnhidden: false
+        btnhidden: false,
+        totalfee: (this.data.orderpricecount * this.data.totalamount).toFixed(2)
       })
     } else {
       this.setData({
@@ -417,6 +445,14 @@ Page({
     }
     console.log("address2disable", this.data.address2disable)
     console.log("address2pickershow", this.data.address2pickershow)
+  },
+  bindPickerProduct(e) {
+    this.setData({
+      productid: this.data.dkarray[e.detail.value].ProductId,
+      productname: this.data.dkarray[e.detail.value].ProductName,
+      issuedplace: this.data.dkarray[e.detail.value].IssuedPlace,
+    })
+    this.bvOrderPrice()
   },
   bindPickerSeller(e) {
     this.setData({
@@ -718,114 +754,114 @@ Page({
       const db = wx.cloud.database()
       // 新增数据
       db.collection("DKORDER").add({
-          data: {
-            ProductId: this.data.productid,
-            ProductName: this.data.productname,
-            IssuedAddress: this.data.issuedaddress,
-            OrderPrice: this.data.orderprice,
-            OrderPriceCount: this.data.orderpricecount,
+        data: {
+          ProductId: this.data.productid,
+          ProductName: this.data.productname,
+          IssuedAddress: this.data.issuedaddress,
+          OrderPrice: this.data.orderprice,
+          OrderPriceCount: this.data.orderpricecount,
 
-            SellerName: this.data.sellername,
-            SellerPhone: this.data.sellerphone,
-            SellerAddress: this.data.selleraddress,
-            SellerTaxAccount: this.data.sellertaxaccount,
-            SellerTaxPassword: this.data.sellertaxpassword,
+          SellerName: this.data.sellername,
+          SellerPhone: this.data.sellerphone,
+          SellerAddress: this.data.selleraddress,
+          SellerTaxAccount: this.data.sellertaxaccount,
+          SellerTaxPassword: this.data.sellertaxpassword,
 
-            BuyerPhone: this.data.buyerphone,
-            BuyerAddress: this.data.buyeraddress,
-            BuyerBank: this.data.buyerbank,
-            BuyerBankAccount: this.data.buyerbankaccount,
-            BuyerName: this.data.buyername,
-            BuyerId: this.data.buyerid,
+          BuyerPhone: this.data.buyerphone,
+          BuyerAddress: this.data.buyeraddress,
+          BuyerBank: this.data.buyerbank,
+          BuyerBankAccount: this.data.buyerbankaccount,
+          BuyerName: this.data.buyername,
+          BuyerId: this.data.buyerid,
 
-            ItemName: this.data.itemname,
-            ItemModel: this.data.itemmodel,
-            ItemUnit: this.data.itemunit,
-            Quantity: this.data.quantity,
-            UintPrice: this.data.unitprice,
-            TotalPrice: this.data.totalprice,
-            TotalAmount: this.data.totalamount,
-            Vat: this.data.vat,
-            Supertax: this.data.supertax,
-            Inditax: this.data.inditax,
-            Fee: this.data.fee,
-            TotalFee: this.data.totalfee,
-            Charge1: this.data.charge1,
-            Charge2: this.data.charge2,
-            InvoRemark: this.data.invoremark,
-            Remark: this.data.remark,
+          ItemName: this.data.itemname,
+          ItemModel: this.data.itemmodel,
+          ItemUnit: this.data.itemunit,
+          Quantity: this.data.quantity,
+          UintPrice: this.data.unitprice,
+          TotalPrice: this.data.totalprice,
+          TotalAmount: this.data.totalamount,
+          Vat: this.data.vat,
+          Supertax: this.data.supertax,
+          Inditax: this.data.inditax,
+          Fee: this.data.fee,
+          TotalFee: this.data.totalfee,
+          Charge1: this.data.charge1,
+          Charge2: this.data.charge2,
+          InvoRemark: this.data.invoremark,
+          Remark: this.data.remark,
 
-            AttachmentImage: this.data.attachmentimage,
+          AttachmentImage: this.data.attachmentimage,
 
-            DocAddressee: this.data.docaddressee,
-            DocAddresseePhone: this.data.docaddresseephone,
-            DocAddress: this.data.docaddress,
-            IdAddressee: this.data.idaddressee,
-            IdAddresseePhone: this.data.idaddresseephone,
-            IdAddress: this.data.idaddress,
+          DocAddressee: this.data.docaddressee,
+          DocAddresseePhone: this.data.docaddresseephone,
+          DocAddress: this.data.docaddress,
+          IdAddressee: this.data.idaddressee,
+          IdAddresseePhone: this.data.idaddresseephone,
+          IdAddress: this.data.idaddress,
 
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString(),
-            PaymentStatus: "unchecked",
-            OrderStatus: "unchecked",
-          },
-          success(res) {
-            that.setData({
-              ordersublock: true // 修改上传状态并返回前端
-            })
-            wx.removeStorage({
-              key: 'LTemp' + that.data.productid,
-              success(res) {
-                console.log("删除缓存", res)
-              }
-            })
-          },
-          fail(res) {
-            wx.showToast({
-              title: '提交失败请重试',
-              icon: 'fail',
-              duration: 2000 //持续的时间
-            })
-          }
-       
-        })
-      }
-      if (this.data.paymentsublock) {} else {
-        const db = wx.cloud.database()
-            db.collection("PAYMENT").add({
-              data: {
-                ProductId: this.data.productid,
-                ProductName: this.data.productname,
-                IssuedPlace: this.data.issuedplace,
-                TotalFee: this.data.totalfee,
-                SysAddDate: new Date().getTime(),
-                AddDate: new Date().toLocaleDateString(),
-                PaymentStatus: "unchecked",
-              },
-              success(res) {
-                that.setData({
-                  paymentsublock: true
-                })
-              },
-              fail(res) {
-                wx.showToast({
-                  title: '提交失败请重试',
-                  icon: 'error',
-                  duration: 2000 //持续的时间
-                })
-              }
-            })
-          }
-          if (this.data.ordersublock == true && this.data.paymentsublock == true) {
-            wx.showToast({
-              title: '订单提交成功',
-              icon: 'success',
-              duration: 2000, //持续的时间
-            })
-            this.setData({
-              submitted:true
-            })
-          }
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleDateString(),
+          PaymentStatus: "unchecked",
+          OrderStatus: "unchecked",
+        },
+        success(res) {
+          that.setData({
+            ordersublock: true // 修改上传状态并返回前端
+          })
+          wx.removeStorage({
+            key: 'LTemp' + that.data.productid,
+            success(res) {
+              console.log("删除缓存", res)
+            }
+          })
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'fail',
+            duration: 2000 //持续的时间
+          })
+        }
+
+      })
+    }
+    if (this.data.paymentsublock) {} else {
+      const db = wx.cloud.database()
+      db.collection("PAYMENT").add({
+        data: {
+          ProductId: this.data.productid,
+          ProductName: this.data.productname,
+          IssuedPlace: this.data.issuedplace,
+          TotalFee: this.data.totalfee,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleDateString(),
+          PaymentStatus: "unchecked",
+        },
+        success(res) {
+          that.setData({
+            paymentsublock: true
+          })
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    }
+    if (this.data.ordersublock == true && this.data.paymentsublock == true) {
+      wx.showToast({
+        title: '订单提交成功',
+        icon: 'success',
+        duration: 2000, //持续的时间
+      })
+      this.setData({
+        submitted: true
+      })
+    }
   },
   bvPay(e) {
     wx.navigateTo({

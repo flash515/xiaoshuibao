@@ -58,10 +58,9 @@
 
 </l-tabpanel>
 </l-tabs>
-
+<text>\n</text>
 <view>
   <l-button type="default" bind:lintap="UpdateData" shape="semicircle" icon="to-top"
 icon-color="white">更新信息</l-button>
 </view>
-
 </view>
