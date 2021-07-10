@@ -37,7 +37,7 @@
         </view>
         <label class="title1">推荐程度：</label>
         <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
-        <view style="display:flex; flex-direction:row;">
+        <view style="display:flex; flex-direction:row; " >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvPersonalDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue">详细介绍</l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
@@ -74,7 +74,7 @@
 
         <label class="title1">推荐程度：</label>
         <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
-        <view style="display:flex; flex-direction:row;">
+        <view style="display:flex; flex-direction:row;" >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvIndiBusinessDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue">详细介绍</l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
@@ -110,7 +110,7 @@
         </view>
         <label class="title1">推荐程度：</label>
         <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
-        <view style="display:flex; flex-direction:row;">
+        <view style="display:flex; flex-direction:row;" >
           <l-button data-id="_id={{item._id}}" bind:lintap="bvSoleproprietorDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue">详细介绍
           </l-button>

@@ -5,30 +5,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    room1status: "",
-    room2status: "",
-    room3status: "",
-    room4status: "",
-    room1color: "",
-    room2color: "",
-    room3color: "",
-    room4color: "",
-    enterpassword1: "",
-    enterpassword2: "",
-    enterpassword3: "",
-    enterpassword4: "",
-    cleanpassword1: "",
-    cleanpassword2: "",
-    cleanpassword3: "",
-    cleanpassword4: "",
-    room1enterpassword: "",
-    room2enterpassword: "",
-    room3enterpassword: "",
-    room4enterpassword: "",
-    room1cleanpassword: "",
-    room2cleanpassword: "",
-    room3cleanpassword: "",
-    room4cleanpassword: "",
+    room1key: "",
+    room2key: "",
+    room3key: "",
+    room4key: "",
+    room1password: "",
+    room2password: "",
+    room3password: "",
+    room4password: "",
+    using1: "",
+    using2: "",
+    using3: "",
+    using4: "",
+
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -41,101 +30,120 @@ Page({
     nextMargin: 0
 
   },
-  EnterPassword1(e) {
+  Room1Password(e) {
     this.setData({
-      enterpassword1: e.detail.value
+      room1password: e.detail.value
     })
   },
-  EnterPassword2(e) {
+  Room2Password(e) {
     this.setData({
-      enterpassword2: e.detail.value
+      room2password: e.detail.value
     })
   },
-  EnterPassword3(e) {
+  Room3Password(e) {
     this.setData({
-      enterpassword3: e.detail.value
+      room3password: e.detail.value
     })
   },
-  EnterPassword4(e) {
+  Room4Password(e) {
     this.setData({
-      enterpassword4: e.detail.value
+      room4password: e.detail.value
     })
   },
-  CleanPassword1(e) {
+  Room1Key(e) {
     this.setData({
-      cleanpassword1: e.detail.value
+      room1key: e.detail.value
     })
   },
-  CleanPassword2(e) {
+  Room2Key(e) {
     this.setData({
-      cleanpassword2: e.detail.value
+      room2key: e.detail.value
     })
   },
-  CleanPassword3(e) {
+  Room3Key(e) {
     this.setData({
-      cleanpassword3: e.detail.value
+      room3key: e.detail.value
     })
   },
-  CleanPassword4(e) {
+  Room4Key(e) {
     this.setData({
-      cleanpassword4: e.detail.value
+      room4key: e.detail.value
     })
   },
-  Room1login() {
-    if (this.data.room1status == "使用中") {
-      if (this.data.enterpassword1 == this.data.room1enterpassword) {
-        wx.navigateTo({
-          url: '../meetingroom/meetingroom1',
-        })
-      } else {
-        wx.showToast({
-          title: '密码不正确',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      }
+  RoomApply(e) {
+    // 调用云函数
+    if (e.target.dataset.value == "") {
+      wx.showToast({
+        title: '请设置密码',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
     } else {
-      if (this.data.enterpassword1 == "" || this.data.cleanpassword1 == "") {
-        wx.showToast({
-          title: '需输入两个密码',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      } else {
-        // 调用云函数
-        wx.cloud.callFunction({
-          name: 'MeetingRoomSetting',
-          data: {
-            key1: "Room1EnterPassword",
-            value1: this.data.enterpassword1,
-            key2: "Room1CleanPassword",
-            value2: this.data.cleanpassword1,
-          },
-          success: res => {
-            wx.navigateTo({
-              url: '../meetingroom/meetingroom1',
+      wx.cloud.callFunction({
+        name: 'MeetingRoomSetting',
+        data: {
+          key1: e.target.dataset.id,
+          value1: e.target.dataset.value,
+        },
+        success: res => {
+          if (e.target.dataset.id == "Room1Password") {
+            this.setData({
+              using1: true
+            })
+          } else if (e.target.dataset.id == "Room2Password") {
+            this.setData({
+              using2: true
+            })
+          } else if (e.target.dataset.id == "Room3Password") {
+            this.setData({
+              using3: true
+            })
+          } else if (e.target.dataset.id == "Room4Password") {
+            this.setData({
+              using4: true
             })
           }
-        })
-      }
+          wx.navigateTo({
+            url: e.target.dataset.url,
+          })
+        }
+      })
     }
   },
-  Room1Clean() {
-    if (this.data.cleanpassword1 == this.data.room1cleanpassword) {
+  Roomlogin(e) {
+    console.log(e.target.dataset.value)
+    console.log(e.target.dataset.password)
+    if (e.target.dataset.value == e.target.dataset.password) {
+      wx.navigateTo({
+        url: e.target.dataset.url,
+      })
+    } else {
+      wx.showToast({
+        title: '密码不正确',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
+    }
+  },
+  RoomClean(e) {
+    var that=this
+    console.log(e.target.dataset.value)
+    console.log(e.target.dataset.password)
+    console.log(e.target.dataset.room)
+    console.log(e.target.dataset.key)
+    if (e.target.dataset.value == e.target.dataset.password) {
       // 调用云函数
       wx.cloud.callFunction({
         name: 'MeetingRoomClean',
         data: {
-          collection: "MeetingRoom1"
+          collection: e.target.dataset.room
         },
         success: res => {
           wx.cloud.callFunction({
             name: 'MeetingRoomSetting',
             data: {
-              key1: "Room1EnterPassword",
-              key2: "Room1CleanPassword",
+              key1: e.target.dataset.key,
               value1: "",
-              value2: "",
             },
             success: res => {
               wx.showToast({
@@ -143,6 +151,31 @@ Page({
                 icon: 'success',
                 duration: 2000 //持续的时间
               })
+              if (e.target.dataset.room == "MeetingRoom1") {
+                this.setData({
+                  using1: false,
+                  room1key: "",
+                  room1password:""
+                })
+              } else if (e.target.dataset.room == "MeetingRoom2") {
+                this.setData({
+                  using2: false,
+                  room2key: "",
+                  room2password:""
+                })
+              } else if (e.target.dataset.room == "MeetingRoom3") {
+                this.setData({
+                  using3: false,
+                  room3key: "",
+                  room3password:""
+                })
+              } else if (e.target.dataset.room == "MeetingRoom4") {
+                this.setData({
+                  using4: false,
+                  room4key: "",
+                  room4password:""
+                })
+              }
             }
           })
         }
@@ -156,231 +189,7 @@ Page({
     }
 
   },
-  Room2Clean() {
-    if (this.data.cleanpassword2 == this.data.room2cleanpassword) {
-      // 调用云函数
-      wx.cloud.callFunction({
-        name: 'MeetingRoomClean',
-        data: {
-          collection: "MeetingRoom1"
-        },
-        success: res => {
-          wx.cloud.callFunction({
-            name: 'MeetingRoomSetting',
-            data: {
-              key1: "Room2EnterPassword",
-              key2: "Room2CleanPassword",
-              value1: "",
-              value2: "",
-            },
-            success: res => {
-              wx.showToast({
-                title: '内容清除成功',
-                icon: 'success',
-                duration: 2000 //持续的时间
-              })
-            }
-          })
-        }
-      })
-    } else {
-      wx.showToast({
-        title: '密码不正确',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
-    }
 
-  },
-  Room3Clean() {
-    if (this.data.cleanpassword3 == this.data.room3cleanpassword) {
-      // 调用云函数
-      wx.cloud.callFunction({
-        name: 'MeetingRoomClean',
-        data: {
-          collection: "MeetingRoom1"
-        },
-        success: res => {
-          wx.cloud.callFunction({
-            name: 'MeetingRoomSetting',
-            data: {
-              key1: "Room3EnterPassword",
-              key2: "Room3CleanPassword",
-              value1: "",
-              value2: "",
-            },
-            success: res => {
-              wx.showToast({
-                title: '内容清除成功',
-                icon: 'success',
-                duration: 2000 //持续的时间
-              })
-            }
-          })
-        }
-      })
-    } else {
-      wx.showToast({
-        title: '密码不正确',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
-    }
-
-  },
-  Room4Clean() {
-    if (this.data.cleanpassword4 == this.data.room4cleanpassword) {
-      // 调用云函数
-      wx.cloud.callFunction({
-        name: 'MeetingRoomClean',
-        data: {
-          collection: "MeetingRoom4"
-        },
-        success: res => {
-          wx.cloud.callFunction({
-            name: 'MeetingRoomSetting',
-            data: {
-              key1: "Room4EnterPassword",
-              key2: "Room4CleanPassword",
-              value1: "",
-              value2: "",
-            },
-            success: res => {
-              wx.showToast({
-                title: '内容清除成功',
-                icon: 'success',
-                duration: 2000 //持续的时间
-              })
-            }
-          })
-        }
-      })
-    } else {
-      wx.showToast({
-        title: '密码不正确',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
-    }
-
-  },
-  Room2login() {
-    if (this.data.room2status == "使用中") {
-      if (this.data.enterpassword2 == this.data.room2enterpassword) {
-        wx.navigateTo({
-          url: '../meetingroom/meetingroom2',
-        })
-      } else {
-        wx.showToast({
-          title: '密码不正确',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      }
-    } else {
-      if (this.data.enterpassword2 == "" || this.data.cleanpassword2 == "") {
-        wx.showToast({
-          title: '需输入两个密码',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      } else {
-        // 调用云函数
-        wx.cloud.callFunction({
-          name: 'MeetingRoomSetting',
-          data: {
-            key1: "Room2EnterPassword",
-            value1: this.data.enterpassword2,
-            key2: "Room2CleanPassword",
-            value2: this.data.cleanpassword2,
-          },
-          success: res => {
-            wx.navigateTo({
-              url: '../meetingroom/meetingroom2',
-            })
-          }
-        })
-      }
-    }
-  },
-  Room3login() {
-    if (this.data.room3status == "使用中") {
-      if (this.data.enterpassword3 == this.data.room3enterpassword) {
-        wx.navigateTo({
-          url: '../meetingroom/meetingroom3',
-        })
-      } else {
-        wx.showToast({
-          title: '密码不正确',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      }
-    } else {
-      if (this.data.enterpassword3 == "" || this.data.cleanpassword3 == "") {
-        wx.showToast({
-          title: '需输入两个密码',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      } else {
-        // 调用云函数
-        wx.cloud.callFunction({
-          name: 'MeetingRoomSetting',
-          data: {
-            key1: "Room3EnterPassword",
-            value1: this.data.enterpassword3,
-            key2: "Room3CleanPassword",
-            value2: this.data.cleanpassword3,
-          },
-          success: res => {
-            wx.navigateTo({
-              url: '../meetingroom/meetingroom3',
-            })
-          }
-        })
-      }
-    }
-  },
-  Room4login() {
-    if (this.data.room4status == "使用中") {
-      if (this.data.enterpassword4 == this.data.room4enterpassword) {
-        wx.navigateTo({
-          url: '../meetingroom/meetingroom4',
-        })
-      } else {
-        wx.showToast({
-          title: '密码不正确',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      }
-    } else {
-      if (this.data.enterpassword4 == "" || this.data.cleanpassword4 == "") {
-        wx.showToast({
-          title: '需输入两个密码',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-      } else {
-        // 调用云函数
-        wx.cloud.callFunction({
-          name: 'MeetingRoomSetting',
-          data: {
-            key1: "Room4EnterPassword",
-            value1: this.data.enterpassword4,
-            key2: "Room4CleanPassword",
-            value2: this.data.cleanpassword4,
-          },
-          success: res => {
-            wx.navigateTo({
-              url: '../meetingroom/meetingroom4',
-            })
-          }
-        })
-      }
-    }
-  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -388,7 +197,53 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray
     })
-
+    const db = wx.cloud.database()
+    db.collection('setting').where({
+      currentstatus: "effect"
+    }).get({
+      success: res => {
+        if (res.data[0].Room1Password == "") {
+          this.setData({
+            using1: false,
+          })
+        } else {
+          this.setData({
+            using1: true,
+            room1password: res.data.Room1Password
+          })
+        }
+        if (res.data[0].Room2Password == "") {
+          this.setData({
+            using2: false,
+          })
+        } else {
+          this.setData({
+            using2: true,
+            room2password: res.data.Room2Password
+          })
+        }
+        if (res.data[0].Room3Password == "") {
+          this.setData({
+            using3: false,
+          })
+        } else {
+          this.setData({
+            using3: true,
+            room3password: res.data.Room3Password
+          })
+        }
+        if (res.data[0].Room4Password == "") {
+          this.setData({
+            using4: false,
+          })
+        } else {
+          this.setData({
+            using4: true,
+            room4password: res.data.Room4Password
+          })
+        }
+      }
+    })
   },
 
   /**
@@ -402,85 +257,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let that = this
-    const db = wx.cloud.database()
-    db.collection('MeetingRoom1').get({
-      success: res => {
-        if (res.data.length > 0) {
-          this.setData({
-            room1color: "red",
-            room1status: "使用中"
-          })
-        } else {
-          this.setData({
-            room1color: "green",
-            room1status: "未使用"
-          })
-        }
-      }
-    })
-    db.collection('MeetingRoom2').get({
-      success: res => {
-        if (res.data.length > 0) {
-          this.setData({
-            room2color: "red",
-            room2status: "使用中"
-          })
-        } else {
-          this.setData({
-            room2color: "green",
-            room2status: "未使用"
-          })
-        }
-      }
-    })
-    db.collection('MeetingRoom3').get({
-      success: res => {
-        if (res.data.length > 0) {
-          this.setData({
-            room3color: "red",
-            room3status: "使用中"
-          })
-        } else {
-          this.setData({
-            room3color: "green",
-            room3status: "未使用"
-          })
-        }
-      }
-    })
-    db.collection('MeetingRoom4').get({
-      success: res => {
-        if (res.data.length > 0) {
-          this.setData({
-            room4color: "red",
-            room4status: "使用中"
-          })
-        } else {
-          this.setData({
-            room4color: "green",
-            room4status: "未使用"
-          })
-        }
-      }
-    })
 
-    db.collection('setting').get({
-      success(res) {
-        that.setData({
-          room1enterpassword: res.data[0].Room1EnterPassword,
-          room2enterpassword: res.data[0].Room2EnterPassword,
-          room3enterpassword: res.data[0].Room3EnterPassword,
-          room4enterpassword: res.data[0].Room4EnterPassword,
-          room1cleanpassword: res.data[0].Room1CleanPassword,
-          room2cleanpassword: res.data[0].Room2CleanPassword,
-          room3cleanpassword: res.data[0].Room3CleanPassword,
-          room4cleanpassword: res.data[0].Room4CleanPassword,
-        })
-
-      }
-    })
-    console.log(this.data.room1enterpassword)
   },
 
   /**
