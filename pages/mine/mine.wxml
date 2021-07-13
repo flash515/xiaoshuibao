@@ -37,7 +37,9 @@
 <l-list title="消息订阅" icon="notification" bind:lintap="bvSubMessage"/>
 <l-list title="小程序码" icon="picture" url="../mine/minicode" />
 <l-list title="我的海报" icon="picture" url="../mine/poster" />
-
+<view wx:if="{{usertype == 'provider'}}">
+  <l-list title="服务商功能" icon="setting" url="../manage/providerindex" />
+</view>
 <view wx:if="{{usertype == 'admin'}}">
   <l-list title="管理员功能" icon="setting" url="../manage/manageindex" />
 </view>
