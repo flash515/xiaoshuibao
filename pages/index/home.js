@@ -29,7 +29,7 @@ Page({
     }
     return {
       title: app.globalData.Gcompanyname + app.globalData.Gusername + '邀请您体验：',
-      path: '/pages/index/index?userid=' + app.globalData.GopenId,
+      path: '/pages/index/index?userid=' + app.globalData.Gopenid,
       imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/omLS75Xib_obyxkVAahnBffPytcA/sharepic.png?sign=9064611f2619d44b847ebdb2e02dc988&t=1621407312', //封面
       success: function (res) {
         // 转发成功之后的回调
