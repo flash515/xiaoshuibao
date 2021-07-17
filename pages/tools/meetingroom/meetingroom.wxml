@@ -13,7 +13,7 @@
   </swiper>
 </view>
 <view class="mainframe">
-  <view style="display:flex; flex-direction:row;justify-content:space-between;">
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
     <label class="title1">快捷会议室一</label>
     <text decode="{{true}}">&emsp;&emsp;</text>
     <view hidden="{{using1}}">
@@ -24,7 +24,7 @@
     </view>
   </view>
   <view hidden="{{using1}}">
-  <view style="display:flex; flex-direction:row; justify-content:space-between;">
+  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
     <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room1Password" clear="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room1Password"
       data-value="{{room1password}}"  data-url="../meetingroom/meetingroom1">确定</l-button>
@@ -43,7 +43,7 @@
     </view>
   </view>
 <text>\n</text>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;">
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
     <label class="title1">快捷会议室二</label>
     <text decode="{{true}}">&emsp;&emsp;</text>
     <view hidden="{{using2}}">
@@ -54,7 +54,7 @@
     </view>
   </view>
   <view hidden="{{using2}}">
-  <view style="display:flex; flex-direction:row; justify-content:space-between;">
+  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
     <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room2Password" clear="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room2Password"
       data-value="{{room2password}}"  data-url="../meetingroom/meetingroom2">确定</l-button>
@@ -73,7 +73,7 @@
     </view>
   </view>
   <text>\n</text>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;">
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
     <label class="title1">快捷会议室三</label>
     <text decode="{{true}}">&emsp;&emsp;</text>
     <view hidden="{{using3}}">
@@ -84,7 +84,7 @@
     </view>
   </view>
   <view hidden="{{using3}}">
-  <view style="display:flex; flex-direction:row; justify-content:space-between;">
+  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
     <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room3Password" clear="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room3Password"
       data-value="{{room3password}}"  data-url="../meetingroom/meetingroom3">确定</l-button>
@@ -103,7 +103,7 @@
     </view>
   </view>
   <text>\n</text>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;">
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
     <label class="title1">快捷会议室四</label>
     <text decode="{{true}}">&emsp;&emsp;</text>
     <view hidden="{{using4}}">
@@ -114,7 +114,7 @@
     </view>
   </view>
   <view hidden="{{using4}}">
-  <view style="display:flex; flex-direction:row; justify-content:space-between;">
+  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
     <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room4Password" clear="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room4Password"
       data-value="{{room4password}}"  data-url="../meetingroom/meetingroom4">确定</l-button>

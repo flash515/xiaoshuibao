@@ -21,11 +21,12 @@
 <view  wx:if="{{avatarUrl=='' || nickName==''}}">
   <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
 </view>
-<view wx:else class="userinfo">
+<view wx:else class="userinfo"  style="display:flex; flex-direction:row; justify-content:space-between">
+<view style="display:flex; flex-direction:row;align-items:center">
   <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
-  <!-- <view> -->
     <view class="userinfo-nickname" >{{nickName}}</view>
-  <!-- </view> -->
+  </view>
+  <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-clolr="blue" open-type="share">点击分享小税宝</l-button>
 </view>
 
 <l-grid show-border="true" row-num="2">
@@ -50,7 +51,7 @@
   <l-grid-item key='four' slot='four'>
     <navigator url='../order/newpersonal'>
       <l-icon name='order' />
-      <view class="text">自然人代开票</view>
+      <view class="text">自然人开票</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key='five' slot='five'>

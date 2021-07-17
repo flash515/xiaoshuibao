@@ -219,7 +219,7 @@ Page({
         console.log("产品数组", res.data)
         var dkfliter = [];
         for (let i = 0; i < res.data.length; i++) {
-          if (res.data[i].ProductType == "自然人代开" && res.data[i].Status == "在售") {
+          if (res.data[i].ProductType == "自然人开票" && res.data[i].Status == "在售") {
             dkfliter.push(res.data[i]);
           }
         }

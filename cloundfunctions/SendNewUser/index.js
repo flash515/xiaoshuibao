@@ -8,6 +8,7 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
+
     const result = await cloud.openapi.subscribeMessage.send({
       touser: event.openid,
       page: '../../pages/index/index',
@@ -26,6 +27,7 @@ exports.main = async (event, context) => {
       templateId: 'Ap6SsQZ-fj8SZkyVv9ZvIg8EcJ5b1jgmMQko_o4LyAw',
       miniprogramState: 'developer'
     })
+
     console.log(result)
     return result
   } catch (err) {

@@ -12,12 +12,9 @@ Page({
     let that = this
     // 接收参数方法一开始
     if (options.userid) {
-      // let that = this;
-      // let inviterid = options.userid;
-      this.setData({
-        inviterid: options.userid
-      })
-      console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", options.userid);
+
+this.data.inviterid = options.userid;
+      console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
       // 接收参数方法一结束
     } else {
       // 接收参数方法二开始，scene中只有参数值
@@ -26,15 +23,12 @@ Page({
         //可以连接多个参数值，&是我们定义的参数链接方式
         // let inviterid = scene.split('&')[0];
         // let userId = scene.split("&")[1];
-        this.setData({
-          inviterid: scene.split('&')[0]
-        })
-        console.log("方法二接到的参数:", this.data.inviterid);
+        this.data.inviterid=scene.split('&')[0]
+        console.log("扫码参数:", this.data.inviterid);
       } else {
         // 两种都不带参数，则是搜索小程序进入，推荐人指定
-        this.setData({
-          inviterid: "omLS75T9_sWFA7pBwdg0uL6AUtcI"
-        })
+        this.data.inviterid="omLS75T9_sWFA7pBwdg0uL6AUtcI"
+        console.log("搜索进入参数:", this.data.inviterid);
       }
     }
     //获取小程序全局设置
@@ -78,7 +72,16 @@ Page({
         })
       }
     })
-
+    // 查询在售的产品并存入本地
+    db.collection('PRODUCT').where({
+      // 状态为在售的产品
+      Status: "在售"
+    }).get({
+      success: res => {
+        //括号1开始
+        wx.setStorageSync('LProductList', res.data)
+      }
+    })
     // 通过云函数获取用户本人的小程序ID
     wx.cloud.callFunction({
       name: 'login',
@@ -113,7 +116,27 @@ Page({
                   UserType: "client",
                   PriceLevel:"PL4",
                   PromoterLevel:"normal",
-                }
+                },
+                success: res => {
+                  wx.cloud.callFunction({
+                    name: 'SendNewUser',
+                    data: {
+                      openid:this.data.inviterid,
+                      date1:new Date().toLocaleString(),
+                      phrase2:"新用户",
+                      thing3:"有新的用户通过您的分享开启小税宝"
+                    }
+                  })
+                  wx.cloud.callFunction({
+                    name: 'SendNewUser',
+                    data: {
+                      openid:"omLS75Xib_obyxkVAahnBffPytcA",
+                      date1:new Date().toLocaleString(),
+                      phrase2:"新用户",
+                      thing3:"有新的用户开启小税宝"
+                    }
+                  })
+                },
               })
               app.globalData.Gusertype = "client"
               app.globalData.Gpricelevel="PL4"

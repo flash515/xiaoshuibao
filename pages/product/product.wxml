@@ -12,7 +12,7 @@
 </view>
 <view class="mainframe">
   <l-tabs equal-width="{{false}}" scrollable="{{true}}">
-    <l-tabpanel tab="自然人代开" key="one" slot="one">
+    <l-tabpanel tab="自然人开票" key="one" slot="one">
       <view wx:for="{{DKarray}}" wx:key="key">
         <view class="title1">
           {{item.ProductName}}{{item.ProductId}}

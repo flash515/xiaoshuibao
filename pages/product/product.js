@@ -7,10 +7,10 @@ Page({
     GSarray: [],
     productarray: [],
     usertype: "",
-    pricelevel:"",
-    priceshow:"",
-    avatarUrl:"",
-    nickName:"",
+    pricelevel: "",
+    priceshow: "",
+    avatarUrl: "",
+    nickName: "",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -31,8 +31,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
+        app.globalData.GavatarUrl = res.userInfo.avatarUrl
+        app.globalData.GnickName = res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -51,7 +51,7 @@ Page({
         })
         // 以上更新数据结束
         wx.showToast({
-          icon:'success',
+          icon: 'success',
           title: '登录成功',
         })
         return;
@@ -71,78 +71,64 @@ Page({
    */
   onLoad: function (options) {
 
-    // 查询在售的产品并存入本地
-    const db = wx.cloud.database()
-    db.collection('PRODUCT').where({
-      // 状态为在售的产品
-      Status: "在售"
-    }).get({
-      success: res => {
-        //括号1开始
-        wx.setStorageSync('LProductList', res.data)
-        console.log("打印数据库查询反回结果", res)
-        this.setData({
-          productarray: res.data,
-        })
-        console.log(this.data.productarray)
-        // 从本地存储中读取产品
-        wx.getStorage({
-          key: 'LProductList',
-          success: res => {
-            console.log("打印调用本地产品列表反回结果", res)
-            this.setData({
-              productarray: res.data
-            })
-            console.log("产品数组", this.data.productarray)
-            // 筛选自然人代开
-            var DKfliter = [];
-            for (var i = 0; i < this.data.productarray.length; i++) {
-              if (this.data.productarray[i].ProductType == "自然人代开") {
-                DKfliter.push(this.data.productarray[i]);
-              }
-            }
-            console.log(DKfliter);
-            // 筛选个体工商
-            var GTfliter = [];
-            for (var i = 0; i < this.data.productarray.length; i++) {
-              if (this.data.productarray[i].ProductType == "个体工商") {
-                GTfliter.push(this.data.productarray[i]);
-              }
-            }
-            console.log(GTfliter);
-            // 筛选个独/合伙企业
-            var GDfliter = [];
-            for (var i = 0; i < this.data.productarray.length; i++) {
-              if (this.data.productarray[i].ProductType == "个独/合伙企业") {
-                GDfliter.push(this.data.productarray[i]);
-              }
-            }
-            console.log(GDfliter);
-            // 筛选有限公司
-            var GSfliter = [];
-            for (var i = 0; i < this.data.productarray.length; i++) {
-              if (this.data.productarray[i].ProductType == "有限公司") {
-                GSfliter.push(this.data.productarray[i]);
-              }
-            }
-            console.log(GSfliter);
-            this.setData({
-              DKarray: DKfliter,
-              GTarray: GTfliter,
-              GDarray: GDfliter,
-              GSarray: GSfliter
-            })
-            // 打印数组
-            console.log("代开产品", this.data.DKarray)
-            console.log("个体产品", this.data.GTarray)
-            console.log("个独/合伙", this.data.GDarray)
-            console.log("有限公司", this.data.GSarray)
-          }
 
+    // 从本地存储中读取产品
+    wx.getStorage({
+      key: 'LProductList',
+      success: res => {
+        console.log("打印调用本地产品列表反回结果", res)
+        this.setData({
+          productarray: res.data
         })
-        //括号1结束
+        console.log("产品数组", this.data.productarray)
+        // 筛选自然人代开
+        var DKfliter = [];
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].ProductType == "自然人开票") {
+            DKfliter.push(this.data.productarray[i]);
+          }
+        }
+        console.log(DKfliter);
+        // 筛选个体工商
+        var GTfliter = [];
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].ProductType == "个体工商") {
+            GTfliter.push(this.data.productarray[i]);
+          }
+        }
+        console.log(GTfliter);
+        // 筛选个独/合伙企业
+        var GDfliter = [];
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].ProductType == "个独/合伙企业") {
+            GDfliter.push(this.data.productarray[i]);
+          }
+        }
+        console.log(GDfliter);
+        // 筛选有限公司
+        var GSfliter = [];
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].ProductType == "有限公司") {
+            GSfliter.push(this.data.productarray[i]);
+          }
+        }
+        console.log(GSfliter);
+        this.setData({
+          DKarray: DKfliter,
+          GTarray: GTfliter,
+          GDarray: GDfliter,
+          GSarray: GSfliter
+        })
+        // 打印数组
+        console.log("代开产品", this.data.DKarray)
+        console.log("个体产品", this.data.GTarray)
+        console.log("个独/合伙", this.data.GDarray)
+        console.log("有限公司", this.data.GSarray)
       }
+
     })
+    //括号1结束
+
   },
 
   bvPersonalDetail(e) {
@@ -211,7 +197,7 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray,
       usertype: app.globalData.Gusertype,
-      pricelevel:app.globalData.Gpricelevel,
+      pricelevel: app.globalData.Gpricelevel,
       priceshow: app.globalData.Gpriceshow,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,

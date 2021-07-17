@@ -17,7 +17,7 @@
   <l-tabpanel tab="产品" key="one" slot="one">
     <picker bindchange="bindPickerProduct" value="{{index}}" range="{{dkarray}}" range-key="{{'ProductId'}}">
             <view hidden="{{productpickerhidden}}">
-              <text class="text">选择自然人代开产品：</text>{{dkarray[index].ProductId}}
+              <text class="text">选择自然人开票产品：</text>{{dkarray[index].ProductId}}
             </view>
           </picker>
       <l-input label="产品编号：" type="text" label-layout="left" label-width="270"

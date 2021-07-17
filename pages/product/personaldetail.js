@@ -224,6 +224,7 @@ Page({
           }
         }),
         this.data.sublock = true // 修改上传状态为锁定
+        //订阅咨询回复消息
       wx.requestSubscribeMessage({
         tmplIds: ['tXhFEK36Dqkasd9Cmmuh5EKZ6LZycrWfgn4xqBreQz4'],
       })

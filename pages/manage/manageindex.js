@@ -7,7 +7,14 @@ Page({
   data: {
 
   },
+  bvSubMessage(e) {
+    wx.requestSubscribeMessage({ //获取下发权限
+      tmplIds: ['FZCOVekfZayJruqd5W5FazMZ8o4OidK-ZDXGulCswRg','WKThYCNZRZ4yOlxQVOZljN0EAXX42_fH9vCgqVoYKnw'], 
+      success: (res) => {
 
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
