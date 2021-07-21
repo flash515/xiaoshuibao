@@ -1,2 +1,20 @@
 <!--pages/tools/test2.wxml-->
 <text>pages/tools/test2.wxml</text>
+<l-button plain="{{true}}" bind:lintap="onSendSMS">发送短信</l-button>
+<view class="box">    
+
+<text>请输入您的手机号码</text>
+
+<input class="input" type="number" bindblur="getPhone"></input>
+
+<text>请输入验证码</text>
+
+<input class="input" type="text" bindblur="getSms"></input>
+
+<text>状态:{{result}}</text>
+
+<button type="primary" bindtap="send">点击发送</button>
+
+<button type="primary" bindtap="check">点击验证</button>
+
+</view>

@@ -6,7 +6,7 @@
     next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
       <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="aspectFill" />
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
         <!-- <view class="swiper-item {{item.url}}"></view> -->
       </swiper-item>
     </block>
@@ -25,13 +25,13 @@
   </view>
   <view hidden="{{using1}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room1Password" clear="{{true}}"></l-input>
+    <l-input label="设置密码" placeholder="请设置会议室密码" bind:lininput="Room1Password" clear="{{true}}" required="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room1Password"
       data-value="{{room1password}}"  data-url="../meetingroom/meetingroom1">确定</l-button>
   </view>
 </view> 
   <view hidden="{{!using1}}">
-    <l-input label="输入密码" label-layout="left" placeholder="请输入密码" bind:lininput="Room1Key" clear="{{true}}"></l-input>
+    <l-input label="输入密码" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room1Key" clear="{{true}}" required="{{true}}"></l-input>
     <view style="display:flex; flex-direction:row; justify-content:space-around;">
       <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
         data-value="{{room1key}}" data-password="{{room1password}}" data-room="MeetingRoom1" data-key="Room1Password">
@@ -55,13 +55,13 @@
   </view>
   <view hidden="{{using2}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room2Password" clear="{{true}}"></l-input>
+    <l-input label="设置密码" placeholder="请设置会议室密码" bind:lininput="Room2Password" clear="{{true}}" required="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room2Password"
       data-value="{{room2password}}"  data-url="../meetingroom/meetingroom2">确定</l-button>
   </view>
 </view> 
   <view hidden="{{!using2}}">
-    <l-input label="输入密码" label-layout="left" placeholder="请输入密码" bind:lininput="Room2Key" clear="{{true}}"></l-input>
+    <l-input label="输入密码" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room2Key" clear="{{true}}" required="{{true}}"></l-input>
     <view style="display:flex; flex-direction:row; justify-content:space-around;">
       <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
         data-value="{{room2key}}" data-password="{{room2password}}" data-room="MeetingRoom2" data-key="Room2Password">
@@ -85,13 +85,13 @@
   </view>
   <view hidden="{{using3}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room3Password" clear="{{true}}"></l-input>
+    <l-input label="设置密码" placeholder="请设置会议室密码" bind:lininput="Room3Password" clear="{{true}}" required="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room3Password"
       data-value="{{room3password}}"  data-url="../meetingroom/meetingroom3">确定</l-button>
   </view>
 </view> 
   <view hidden="{{!using3}}">
-    <l-input label="输入密码" label-layout="left" placeholder="请输入密码" bind:lininput="Room3Key" clear="{{true}}"></l-input>
+    <l-input label="输入密码" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room3Key" clear="{{true}}" required="{{true}}"></l-input>
     <view style="display:flex; flex-direction:row; justify-content:space-around;">
       <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
         data-value="{{room3key}}" data-password="{{room3password}}" data-room="MeetingRoom3" data-key="Room3Password">
@@ -115,13 +115,13 @@
   </view>
   <view hidden="{{using4}}">
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-    <l-input label="设置密码" placeholder="请设置密码" bind:lininput="Room4Password" clear="{{true}}"></l-input>
+    <l-input label="设置密码" placeholder="请设置会议室密码" bind:lininput="Room4Password" clear="{{true}}" required="{{true}}"></l-input>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="RoomApply" size="mini" data-id="Room4Password"
       data-value="{{room4password}}"  data-url="../meetingroom/meetingroom4">确定</l-button>
   </view>
 </view> 
   <view hidden="{{!using4}}">
-    <l-input label="输入密码" label-layout="left" placeholder="请输入密码" bind:lininput="Room4Key" clear="{{true}}"></l-input>
+    <l-input label="输入密码" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room4Key" clear="{{true}}" required="{{true}}"></l-input>
     <view style="display:flex; flex-direction:row; justify-content:space-around;">
       <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini"
         data-value="{{room4key}}" data-password="{{room4password}}" data-room="MeetingRoom4" data-key="Room4Password">

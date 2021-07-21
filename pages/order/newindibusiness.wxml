@@ -85,6 +85,7 @@
     <l-input name="charge2" label="间接推荐奖励（元）" type="number" label-layout="left" label-width="270"
       placeholder="{{charge2}}" disabled="{{true}}" />
   </view>
+  <text>\n</text>
 <view wx:if="{{!submitted}}" style="display:flex; flex-direction:row;">
   <l-button type="default" bindtap="bvTempStorage" icon="download" icon-color="white" shape="semicircle">暂存</l-button>
   <view><text space="emsp" decode="{{true}}">&emsp;</text></view>

@@ -23,6 +23,7 @@ Page({
     companyscale: "",
     username: "",
     userphone: "",
+    result:"未发送",
     usertype: "",
     adddate: "",
     updatedate: ""
@@ -53,23 +54,56 @@ Page({
     })
   },
   bvUserPhone(e) {
-        this.setData({
-          userphone: e.detail.value
-        })
-      
+    this.setData({
+      userphone: e.detail.value
+    })
   },
+  bvSendCode() {
+    let _this = this;
+    wx.cloud.callFunction({
+      name: 'sendsms',
+      data: {
+        mobile: _this.data.userphone,
+        nationcode: '86'
+      },
+      success: res => {
+        let code = res.result.res.body.params[0];
+        let result = res.errMsg;
+        if (result == "cloud.callFunction:ok") {
+          _this.setData({
+            result: "发送成功",
+            s_phonecode: code
+          })
+        } else {
+          _this.setData({
+            result: "发送失败"
+          })
+        }
+      },
+      fail: err => {
+        console.error('[云函数] [sendsms] 调用失败', err)
+      }
+    })
+  },
+bvPhoneCode(e){
+  this.setData({
+    u_phonecode: e.detail.value
+})
+},
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({image:app.globalData.Gimagearray})
+    this.setData({
+      image: app.globalData.Gimagearray
+    })
     // 从本地存储中读取
     wx.getStorage({
       key: 'LInviterUser',
       success: res => {
         this.setData({
-          invitercompanyname: res.data[0].CompanyName,
-          inviterusername: res.data[0].UserName,
+          invitercompanyname: res.data.CompanyName,
+          inviterusername: res.data.UserName,
         })
       }
     })
@@ -77,15 +111,15 @@ Page({
       key: 'LUserInfo',
       success: res => {
         this.setData({
-          companyname: res.data[0].CompanyName,
-          companyid: res.data[0].CompanyId,
-          businessscope: res.data[0].BusinessScope,
-          companyscale: res.data[0].CompanyScale,
-          username: res.data[0].UserName,
-          userphone: res.data[0].UserPhone,
-          usertype: res.data[0].UserType,
-          adddate: res.data[0].AddDate,
-          updatedate: res.data[0].UpdateDate
+          companyname: res.data.CompanyName,
+          companyid: res.data.CompanyId,
+          businessscope: res.data.BusinessScope,
+          companyscale: res.data.CompanyScale,
+          username: res.data.UserName,
+          userphone: res.data.UserPhone,
+          usertype: res.data.UserType,
+          adddate: res.data.AddDate,
+          updatedate: res.data.UpdateDate
         })
       }
     })
@@ -93,7 +127,8 @@ Page({
   // 更新信息
   //修改数据操作
   UpdateData() {
-    console.log('调用修改更新数据的方法')
+    if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode !="") {
+    console.log('手机验证码正确')
     const db = wx.cloud.database()
     db.collection('USER').where({
       _openid: this.data.openid
@@ -122,6 +157,14 @@ Page({
         })
       }
     })
+
+  } else {
+    wx.showToast({
+        title: '验证码错误',
+        icon: 'error',
+        duration: 2000
+    })
+}
   },
 
   /**

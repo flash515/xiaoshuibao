@@ -13,7 +13,7 @@ Page({
     // 接收参数方法一开始
     if (options.userid) {
 
-this.data.inviterid = options.userid;
+      this.data.inviterid = options.userid;
       console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
       // 接收参数方法一结束
     } else {
@@ -23,11 +23,12 @@ this.data.inviterid = options.userid;
         //可以连接多个参数值，&是我们定义的参数链接方式
         // let inviterid = scene.split('&')[0];
         // let userId = scene.split("&")[1];
-        this.data.inviterid=scene.split('&')[0]
+        this.data.inviterid = scene.split('&')[0]
         console.log("扫码参数:", this.data.inviterid);
       } else {
         // 两种都不带参数，则是搜索小程序进入，推荐人指定
-        this.data.inviterid="omLS75T9_sWFA7pBwdg0uL6AUtcI"
+        this.data.inviterid = "omLS75T9_sWFA7pBwdg0uL6AUtcI"
+        // this.data.inviterid = "omLS75Xib_obyxkVAahnBffPytcA"
         console.log("搜索进入参数:", this.data.inviterid);
       }
     }
@@ -38,12 +39,12 @@ this.data.inviterid = options.userid;
     }).get({
       success: res => {
         wx.setStorageSync('LSetting', res.data[0]);
-         //异步获取图片生成轮播图地址
+        //异步获取图片生成轮播图地址
         for (let i = 0; i < res.data[0].swiper.length; i++) {
           wx.getImageInfo({
             //把图片地址转换为本地地址
             src: res.data[0].swiper[i],
-            success (res) {
+            success(res) {
               that.data.tempimage.push(res.path)
               app.globalData.Gimagearray = that.data.tempimage
 
@@ -114,33 +115,33 @@ this.data.inviterid = options.userid;
                   InviterCompanyName: this.data.invitercompanyname,
                   InviterUserName: this.data.inviterusername,
                   UserType: "client",
-                  PriceLevel:"PL4",
-                  PromoterLevel:"normal",
+                  PriceLevel: "PL4",
+                  PromoterLevel: "normal",
                 },
                 success: res => {
                   wx.cloud.callFunction({
                     name: 'SendNewUser',
                     data: {
-                      openid:this.data.inviterid,
-                      date1:new Date().toLocaleString(),
-                      phrase2:"新用户",
-                      thing3:"有新的用户通过您的分享开启小税宝"
+                      openid: this.data.inviterid,
+                      date1: new Date().toLocaleString(),
+                      phrase2: "新用户",
+                      thing3: "有新的用户通过您的分享开启小税宝"
                     }
                   })
                   wx.cloud.callFunction({
                     name: 'SendNewUser',
                     data: {
-                      openid:"omLS75Xib_obyxkVAahnBffPytcA",
-                      date1:new Date().toLocaleString(),
-                      phrase2:"新用户",
-                      thing3:"有新的用户开启小税宝"
+                      openid: "omLS75Xib_obyxkVAahnBffPytcA",
+                      date1: new Date().toLocaleString(),
+                      phrase2: "新用户",
+                      thing3: "有新的用户开启小税宝"
                     }
                   })
                 },
               })
               app.globalData.Gusertype = "client"
-              app.globalData.Gpricelevel="PL4"
-              app.globalData.Gpromoterlevel="null"
+              app.globalData.Gpricelevel = "PL4"
+              app.globalData.Gpromoterlevel = "null"
 
             } else {
               app.globalData.Gcompanyname = this.data.userinfo.CompanyName

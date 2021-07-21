@@ -126,7 +126,7 @@
       value="{{charge2}}" disabled="{{true}}" />
   </view>
   <view style="white-space:pre-wrap"> </view>
-
+  <text>\n</text>
   <view wx:if="{{!submitted}}" style="display:flex; flex-direction:row;">
     <l-button type="default" bindtap="bvTempStorage" icon="download" icon-color="white" shape="semicircle">暂存</l-button>
     <view><text space="emsp" decode="{{true}}">&emsp;</text></view>

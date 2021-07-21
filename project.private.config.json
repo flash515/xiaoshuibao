@@ -285,7 +285,7 @@
         {
           "name": "pages/index/index",
           "pathName": "pages/index/index",
-          "query": "userid=85748574",
+          "query": "",
           "scene": null
         },
         {
@@ -333,6 +333,12 @@
         {
           "name": "pages/tools/meetingroom/meetingroom",
           "pathName": "pages/tools/meetingroom/meetingroom",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/tools/test3",
+          "pathName": "pages/tools/test3",
           "query": "",
           "scene": null
         }

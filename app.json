@@ -51,6 +51,7 @@
     "pages/tools/test",
     "pages/tools/test1",
     "pages/tools/test2",
+    "pages/tools/test3",
     "pages/tools/sort"
   ],
   "permission": {

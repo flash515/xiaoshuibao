@@ -13,6 +13,7 @@
 <view class="title">
   <text>收付款记录</text>
 </view>
+<text>\n</text>
 <l-card type="primary" plaintext="{{true}}">
   <view>账户余额：<l-price unit="￥" reserve-digit="2"
 unit-color="#3963bc"

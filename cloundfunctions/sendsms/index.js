@@ -1,18 +1,27 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 const QcloudSms = require("qcloudsms_js")
-const appid = 140000001 // 替换成您申请的云短信 AppID 以及 AppKey
-const appkey = "abcdefghijkl123445"
-const templateId = 985130 // 替换成您所申请模板 ID
+const appid = "1400531781" // 替换成您申请的云短信 AppID 以及 AppKey
+const appkey = "acb976a3b5503d9ac47d84384f3dd90c"
+const templateId = "985130" // 替换成您所申请模板 ID
 const smsSign = "小税宝" // 替换成您所申请的签名
 
-cloud.init()
+cloud.init({
+  env: 'xsbmain-9gvsp7vo651fd1a9',
+  traceUser: true,
+})
+ // 生成6位数验证码 
+var code = "";
+for (var i = 0; i < 6; i++) {
+    var radom = Math.floor(Math.random() * 10);
+    code += radom;
+ }
 // 云函数入口函数
 exports.main = async (event, context) => new Promise((resolve, reject) => {    
  /*单发短信示例为完整示例，更多功能请直接替换以下代码*/
  var qcloudsms = QcloudSms(appid, appkey);
  var ssender = qcloudsms.SmsSingleSender();
- var params = ["5678"];
+ var params = [code];
  // 获取发送短信的手机号码
  var mobile = event.mobile
  // 获取手机号国家/地区码
