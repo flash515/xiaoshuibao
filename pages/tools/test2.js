@@ -1,225 +1,123 @@
-// pages/tools/test2.js
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    result: "未发送"
+    slideVal: 5, // slide滑块默认初始值
+    showSlide: false, // slide滑块默认显示
+    showInput: true, // input表单默认隐藏
+    onOff: true, // 其他金额切换开关
   },
-  getPhone: function(e) {
-
-    let phone = e.detail.value;
-
-    this.setData({
-
-        phone
-
-    })
-
-},
-getSms: function(e) {
-
-  let sms = e.detail.value;
-
-  this.setData({
-
-      u_sms: sms
-
-  })
-
-},
-check: function() {
-
-  let s_sms = this.data.s_sms;
-
-  let u_sms = this.data.u_sms;
-
-  if (s_sms == u_sms) {
-
-      wx.showToast({
-
-          title: '验证成功',
-
-          icon: 'success',
-
-          duration: 2000
-
-      })
-
-  } else {
-
-      wx.showToast({
-
-          title: '验证码输入错误',
-
-          icon: 'none',
-
-          duration: 2000
-
-      })
-
-  }
-
-},
-send: function() {
-
-  let _this = this;
-
-  wx.cloud.callFunction({
-
-      name: 'sendsms',
-
-      data: {
-
-          mobile: _this.data.phone,
-
-          nationcode: '86'
-
-      },
-
-      success: res => {
-
-          let sms = res.result.res.body.params[0];
-
-          let result = res.errMsg;
-
-          if (result == "cloud.callFunction:ok") {
-
-              _this.setData({
-
-                  result: "发送成功",
-
-                  s_sms: sms
-
-              })
-
-          } else {
-
-              _this.setData({
-
-                  result: "发送失败"
-
-              })
-
-          }
-
-      },
-
-      fail: err => {
-
-          console.error('[云函数] [sendsms] 调用失败', err)
-
-      }
-
-  })
-
-},
-
-
-
+ 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    const db = wx.cloud.database()
-    const $ = db.command.or
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "DKORDER",
-        command: "or",
-        where: [{
-          PaymentStatus: "unchecked"
-        }, {
-          OrderStatus: "unchecked"
-        }]
-
-      },
-      success: res => {
-        this.setData({
-          dkorderuncheckarray: res.data
-        })
-      }
-    })
+  onLoad: function(options) {},
+ 
+  // 滑动滑块
+  sliderChange(event) {
+    const slideVal = event.detail.value;
+    this.setData({
+      slideVal,
+    });
   },
-  onSendSMS() {
-    let that = this
-    wx.cloud.callFunction({
-      name: "sendsms",
-      data: {
+ 
+  // 点击其他金额进行切换
+  onOtherPayTap() {
+    const onOff = this.data.onOff;
+    if (onOff) {
+      this.toggleChange(false, true);
+    } else {
+      this.toggleChange(true, false);
+    }
+    this.setData({
+      onOff: !onOff,
+    });
+  },
+ 
+  toggleChange(showSlide, showInput) {
+    this.setData({
+      showSlide,
+      showInput,
+    });
+  },
+ 
+  // 点击支付按钮,发起支付
+questionPay(event) {
+    const { sliderVal, value } = event.detail.value;
+    const showSlide = this.data.showSlide;
+    const goodsnum = this._getGoodsRandomNumber();
+    const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
+    const body = '解锁探秘';
+    const sliderPayVal = sliderVal * 100;
+    const inputPayVal = value * 100;
+    if (showSlide === false) {
+      this._callWXPay(body, goodsnum, subMchId, sliderPayVal);
+    } else {
+      if (value) {
+        this._callWXPay(body, goodsnum, subMchId, inputPayVal);
+      } else {
+        wx.showToast({
+          icon: 'none',
+          title: '亲,您没有输入任何数额,无法解锁哦',
+          duration: 2000,
+        });
+      }
+    }
+  },
+ 
+  // 请求questionPay云函数,调用支付能力
+  _callWXPay(body, goodsnum, subMchId, payVal) {
+    wx.cloud
+      .callFunction({
+        name: 'WXPay',
         data: {
-          mobile: "13025400559",
-          nationcode: "0086"
+          // 需要将data里面的参数传给WXPay云函数
+          body,
+          goodsnum, // 商品订单号不能重复
+          subMchId, // 子商户号,微信支付商户号,必填
+          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
         },
-      },
-      success: res => {
-        console.log(res)
-        let sms = res.result.res.body.params[0];
-        let result = res.errMsg;
-        if (result == "cloud.callFunction:ok") {
-          that.setData({
-            result: "发送成功",
-            s_sms: sms
-          })
-
-        } else {
-          that.setData({
-            result: "发送失败"
-          })
-        }
-      },
-      fail: err => {
-        console.error('[云函数] [sendsms] 调用失败', err)
-      }
-    })
+      })
+      .then((res) => {
+        console.log(res);
+        const payment = res.result.payment;
+        console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
+        wx.requestPayment({
+          // 根据获取到的参数调用支付 API 发起支付
+          ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
+          success: (res) => {
+            console.log('支付成功', res);
+          },
+          fail: (err) => {
+            console.error('支付失败', err);
+          },
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+ 
+  // 随机生成商品订单号,订单号不能重复
+  _getGoodsRandomNumber() {
+    const date = new Date(); // 当前时间
+    let Year = `${date.getFullYear()}`; // 获取年份
+    let Month = `${
+      date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    }`; // 获取月
+    let Day = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`; // 获取天
+    let hour = `${
+      date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+    }`; // 获取小时
+    let min = `${
+      date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+    }`; // 获取分钟
+    let sec = `${
+      date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+    }`; // 获取秒
+    let formateDate = `${Year}${Month}${Day}${hour}${min}${sec}`; // 时间
+    return `${Math.round(Math.random() * 1000)}${formateDate +
+      Math.round(Math.random() * 89 + 100).toString()}`;
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
-})
+});

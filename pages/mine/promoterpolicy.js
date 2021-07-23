@@ -14,6 +14,8 @@ Page({
     promoterlevel: "",
     promotername: "",
     totalfee: "",
+    paymentid:"",
+    productname:"",
     applysublock: false,
     paymentsublock: false,
     btn1hidden: true,
@@ -50,7 +52,7 @@ Page({
     this.data.promotername = e.currentTarget.dataset.name
     this.data.plstartdate = e.currentTarget.dataset.startdate
     this.data.totalfee = e.currentTarget.dataset.price
-
+    this.data.paymentid = this._getGoodsRandomNumber();
     if (this.data.plstartdate == "" || this.data.plstartdate == undefined) {
       wx.showToast({
         title: '请选择生效日期',
@@ -69,6 +71,7 @@ Page({
             TotalFee: this.data.totalfee,
             AddDate: new Date().toLocaleDateString(),
             SysAddDate: new Date().getTime(),
+            PaymentId:this.data.paymentid,
             PaymentStatus: "unchecked",
             ApplyStatus: "unchecked",
           },
@@ -102,6 +105,7 @@ Page({
             that.setData({
               paymentsublock: true
             })
+
           },
           fail(res) {
             wx.showToast({
@@ -120,7 +124,7 @@ Page({
           success: function () {
             setTimeout(function () {
               wx.navigateTo({
-                url: '../order/pay?totalfee=' + that.data.totalfee
+                url: '../order/pay?totalfee=' + that.data.totalfee + '&productname=' +that.data.promotername+'&paymentid='+that.data.paymentid
               })
             }, 2000);
           }
@@ -130,6 +134,27 @@ Page({
     }
 
   },
+  // 随机生成支付订单号,订单号不能重复
+_getGoodsRandomNumber() {
+  const date = new Date(); // 当前时间
+  let Year = `${date.getFullYear()}`; // 获取年份
+  let Month = `${
+    date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+  }`; // 获取月
+  let Day = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`; // 获取天
+  let hour = `${
+    date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+  }`; // 获取小时
+  let min = `${
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+  }`; // 获取分钟
+  let sec = `${
+    date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+  }`; // 获取秒
+  let formateDate = `${Year}${Month}${Day}${hour}${min}${sec}`; // 时间
+  return `${Math.round(Math.random() * 1000)}${formateDate +
+    Math.round(Math.random() * 89 + 100).toString()}`;
+},
   onLoad: function (options) {
     wx.getStorage({
       key: 'LDirectUser',

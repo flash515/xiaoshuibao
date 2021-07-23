@@ -1,13 +1,29 @@
 /* pages/tools/test1.wxss */
 
-.btn{
-background: #EC6128;
-height: 60rpx;
-width: 500rpx;
-border-radius: 20rpx;
-margin: 0 auto;
-margin-top: 20rpx;
-color: #fff;
-text-align: center;
-line-height: 60rpx;
+.wrap {
+  height: auto;
+  background: #fff;
+  text-align: center;
+  font-size: 32rpx;
+}
+ 
+.show-input-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 40rpx;
+}
+ 
+.other-pay-count {
+  font-size: 30rpx;
+  color: #34bfa3;
+  margin: 40rpx 0;
+}
+ 
+.pay-btn {
+  outline: none;
+  border: none;
+  background: #d43c33;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 0;
 }
