@@ -34,8 +34,8 @@ size="50" value="{{balance}}"></l-price></view>
             <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
             <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
           </view>
-           <view>
-            <l-button data-id="{{item._id}}" data-totalfee="{{item.TotalFee}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" >支付费用</l-button>
+           <view hidden="{{item.PaymentStatus =='checked'}}">
+            <l-button data-paymentid="{{item.PaymentId}}" data-productname="{{item.ProductName}}" data-totalfee="{{item.TotalFee}}" data-database="{{item.Database}}" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle" >支付费用</l-button>
           </view>
       </l-card>
     </view>

@@ -43,7 +43,7 @@ Page({
   },
   bvToPay(e) {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + e.currentTarget.dataset.totalfee
+      url: '../order/pay?totalfee=' + e.currentTarget.dataset.totalfee + '&productname=' + e.currentTarget.dataset.productname + '&paymentid=' + e.currentTarget.dataset.paymentid+'&database='+e.currentTarget.dataset.database
     })
   },
   /**

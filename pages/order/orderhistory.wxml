@@ -110,8 +110,8 @@ icon-color="blue" plain="{{true}}">订单详情</l-button>
           </view>
           <view style="display:flex; flex-direction:row;">
           <view>申请状态：</view>
-            <view wx:if="{{item.ApplyStatus =='unchecked'}}">待确认</view>
-            <view wx:if="{{item.ApplyStatus =='checked'}}">已确认</view>
+            <view wx:if="{{item.OrderStatus =='unchecked'}}">待确认</view>
+            <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
           </view>
       </l-card>
     </view>

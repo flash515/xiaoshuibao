@@ -28,6 +28,18 @@ Page({
     adddate: "",
     updatedate: ""
   },
+  changeTabs(e) {
+    console.log(e.detail)
+    if(e.detail.activeKey=="three"){
+      this.setData({
+        btnhidden: true
+      })
+    }else{
+      this.setData({
+        btnhidden: false
+      })
+    }
+  },
   bvCompanyName(e) {
     this.setData({
       companyname: e.detail.value

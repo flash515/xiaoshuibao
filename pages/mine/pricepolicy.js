@@ -93,6 +93,7 @@ Page({
       this.data.dlenddate= e.currentTarget.dataset.enddate
       this.data.totalfee= e.currentTarget.dataset.price
 
+      this.data.paymentid = this._getGoodsRandomNumber();
       if (this.data.dlstartdate == "" || this.data.dlstartdate == undefined) {
         wx.showToast({
           title: '请选择生效日期',
@@ -113,6 +114,7 @@ Page({
             TotalFee: this.data.totalfee,
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
+            PaymentId: this.data.paymentid,
             PaymentStatus:"unchecked",
             OrderStatus:"unchecked",
           },
@@ -120,6 +122,7 @@ Page({
             that.setData({
               ordersublock: true
             })
+            that._paymentadd()
           },
           fail(res) {
             wx.showToast({
@@ -130,45 +133,66 @@ Page({
           }
         })
       }
-      if (this.data.paymentsublock) {} else {
-        const db = wx.cloud.database()
-        db.collection("PAYMENT").add({
-          data: {
-            ProductId: this.data.discountid,
-            ProductName: this.data.discountname,
-            TotalFee: this.data.totalfee,
-            AddDate: new Date().toLocaleDateString(),
-            PaymentStatus: "unchecked",
-          },
-          success(res) {
-            that.setData({
-              paymentsublock: true
-            })
-          },
-          fail(res) {
-            wx.showToast({
-              title: '提交失败请重试',
-              icon: 'error',
-              duration: 2000 //持续的时间
-            })
-          }
-        })
-      }
-      if (this.data.ordersublock == true && this.data.paymentsublock == true) {
-        wx.showToast({
-          title: '成功提交转支付',
-          icon: 'success',
-          duration: 2000, //持续的时间
-          success: function () {
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '../order/pay?totalfee=' + that.data.totalfee
-              })
-            }, 2000);
-          }
-        })
-      }
+
     }
+  },
+  _paymentadd() {
+    let that = this
+    if (this.data.paymentsublock) {} else {
+      const db = wx.cloud.database()
+      db.collection("PAYMENT").add({
+        data: {
+          ProductId: this.data.discountid,
+          ProductName: this.data.discountname,
+          TotalFee: this.data.totalfee,
+          AddDate: new Date().toLocaleDateString(),
+          PaymentId: this.data.paymentid,
+          PaymentStatus: "unchecked",
+          Database:"DISCOUNTORDER"
+        },
+        success(res) {
+          console.log("payment成功")
+          that.setData({
+            paymentsublock: true,
+          })
+          that._ToPay()
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    }
+  },
+
+  _ToPay() {
+    wx.navigateTo({
+      url: '../order/pay?totalfee=' + this.data.totalfee + '&productname=' + this.data.discountname + '&paymentid=' + this.data.paymentid+'&database=DISCOUNTORDER'
+    })
+  },
+  // 随机生成支付订单号,订单号不能重复
+  _getGoodsRandomNumber() {
+    const date = new Date(); // 当前时间
+    let Year = `${date.getFullYear()}`; // 获取年份
+    let Month = `${
+    date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+  }`; // 获取月
+    let Day = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`; // 获取天
+    let hour = `${
+    date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+  }`; // 获取小时
+    let min = `${
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+  }`; // 获取分钟
+    let sec = `${
+    date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+  }`; // 获取秒
+    let formateDate = `${Year}${Month}${Day}${hour}${min}${sec}`; // 时间
+    return `${Math.round(Math.random() * 1000)}${formateDate +
+    Math.round(Math.random() * 89 + 100).toString()}`;
   },
   /**
    * 生命周期函数--监听页面加载

@@ -11,10 +11,11 @@ Page({
     contacts: "",
     data: "",
     time: "",
-    tatalfee: 0,
-    paymentid:"",
-    productname:"",
-    openSettingBtnHidden:true,
+    totalfee: 0,
+    paymentid: "",
+    productname: "",
+    database:"",
+    openSettingBtnHidden: true,
     // 轮播头图
     image: [],
     indicatorDots: true,
@@ -26,65 +27,79 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-    // 点击支付按钮,发起支付
-bvPay(event) {
-      let that=this
-      const db = wx.cloud.database()
-  const goodsnum = this.data.paymentid;
-  const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
-  const body = this.data.productname;
-  const PayVal = this.data.totalfee * 100;
+  // 点击支付按钮,发起支付
+  bvWXPay(event) {
+    const goodsnum = this.data.paymentid;
+    const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
+    const body = this.data.productname;
+    const PayVal = this.data.totalfee * 100;
     this._callWXPay(body, goodsnum, subMchId, PayVal);
-},
-// 请求questionPay云函数,调用支付能力
-_callWXPay(body, goodsnum, subMchId, payVal) {
-  wx.cloud
-    .callFunction({
-      name: 'WXPay',
+  },
+  // 请求questionPay云函数,调用支付能力
+  _callWXPay(body, goodsnum, subMchId, payVal) {
+    let that = this
+    wx.cloud.callFunction({
+        name: 'WXPay',
+        data: {
+          // 需要将data里面的参数传给WXPay云函数
+          body,
+          goodsnum, // 商品订单号不能重复
+          subMchId, // 子商户号,微信支付商户号,必填
+          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        const payment = res.result.payment;
+        console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
+        wx.requestPayment({
+          // 根据获取到的参数调用支付 API 发起支付
+          ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
+          success: (res) => {
+            console.log('支付成功', res);
+            that._productupdate();
+            that._paymentupdate();
+          },
+          fail: (err) => {
+            console.error('支付失败', err);
+          },
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
+
+  _productupdate() {
+    const db = wx.cloud.database()
+    db.collection(this.data.database).where({
+      PaymentId: this.data.paymentid
+    }).update({
       data: {
-        // 需要将data里面的参数传给WXPay云函数
-        body,
-        goodsnum, // 商品订单号不能重复
-        subMchId, // 子商户号,微信支付商户号,必填
-        payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+        PaymentStatus: "checked",
+        OrderStatus: "checked",
+      },
+      success(res) {
+        console.log("产品订单更新成功")
+      }
+    })
+  },
+  _paymentupdate() {
+    const db = wx.cloud.database()
+    db.collection('PAYMENT').where({
+      PaymentId: this.data.paymentid
+    }).update({
+      data: {
+        PaymentStatus: "checked",
+      },
+      success(res) {
+        console.log("支付订单更新成功")
       },
     })
-    .then((res) => {
-      console.log(res);
-      const payment = res.result.payment;
-      console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
-      wx.requestPayment({
-        // 根据获取到的参数调用支付 API 发起支付
-        ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
-        success: (res) => {
-          console.log('支付成功', res);
-          db.collection('PROMOTERORDER').where({
-            PaymentId:this.data.paymentid}).update({
-              data:{
-                PaymentStatus: "checked",
-              }
-            })
-            db.collection('PAYMENT').where({
-              PaymentId:this.data.paymentid}).update({
-                data:{
-                  PaymentStatus: "checked",
-                }
-              })
-        },
-        fail: (err) => {
-          console.error('支付失败', err);
-        },
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-},
-
-
+  },
   // 保存到手机
   saveImage: function (event) {
-    let that=this
+    let that = this
     wx.getImageInfo({
       src: event.currentTarget.dataset.src,
       success: (res) => {
@@ -225,8 +240,9 @@ _callWXPay(body, goodsnum, subMchId, payVal) {
     var str = new Date()
     this.setData({
       totalfee: options.totalfee,
-      productname:options.productname,
-      paymentid:options.paymentid,
+      productname: options.productname,
+      paymentid: options.paymentid,
+      database:options.database,
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })

@@ -17,7 +17,7 @@
 <view style="display:flex; flex-direction:row; justify-content:space-between">
   <label class="title1">订单总金额:</label>
   <l-price size="50" color="#3963bc" unit="￥" value='{{totalfee}}' reserve-digit="2" autofix='true'></l-price>
-  <l-button size="mini" type="default" bind:lintap="bvPay" shape="semicircle" plain="true">使用微信支付</l-button>
+  <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">使用微信支付</l-button>
 </view>
   <text>\n</text>
   <text>注明：以上费用为不含税费用，如需开票，须额外支付6%增值税款</text>
