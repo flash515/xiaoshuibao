@@ -50,3 +50,5 @@
 <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
   <l-button data-link="{{value}}" bind:lintap="bvUploadFile" plain="{{true}}">{{key}}</l-button>
 </view>
+
+<l-button bind:lintap="bvUrlLink" plain="{{true}}" >生成链接地址</l-button>

@@ -115,18 +115,22 @@ Page({
                   InviterCompanyName: this.data.invitercompanyname,
                   InviterUserName: this.data.inviterusername,
                   UserType: "client",
-                  PriceLevel: "PL4",
+                  DiscountLevel: "DL4",
                   PromoterLevel: "normal",
                 },
                 success: res => {
                   wx.cloud.callFunction({
                     name: 'SendNewUser',
                     data: {
-                      openid: this.data.inviterid,
+                      openid: that.data.inviterid,
                       date1: new Date().toLocaleString(),
                       phrase2: "新用户",
                       thing3: "有新的用户通过您的分享开启小税宝"
                     }
+                  }).then(res => {
+                    console.log("推送消息成功", res)
+                  }).catch(res => {
+                    console.log("推送消息失败", res)
                   })
                   wx.cloud.callFunction({
                     name: 'SendNewUser',
@@ -136,11 +140,15 @@ Page({
                       phrase2: "新用户",
                       thing3: "有新的用户开启小税宝"
                     }
+                  }).then(res => {
+                    console.log("推送消息成功", res)
+                  }).catch(res => {
+                    console.log("推送消息失败", res)
                   })
                 },
               })
               app.globalData.Gusertype = "client"
-              app.globalData.Gpricelevel = "PL4"
+              app.globalData.Gdiscountlevel = "DL4"
               app.globalData.Gpromoterlevel = "null"
 
             } else {
@@ -149,7 +157,7 @@ Page({
               app.globalData.GnickName = this.data.userinfo.nickName
               app.globalData.GavatarUrl = this.data.userinfo.avatarUrl
               app.globalData.Gusertype = this.data.userinfo.UserType
-              app.globalData.Gpricelevel = this.data.userinfo.PriceLevel
+              app.globalData.Gdiscountlevel = this.data.userinfo.DiscountLevel
               app.globalData.Gpromoterlevel = this.data.userinfo.PromoterLevel
             }
             // 判断是否新用户并提交数据库的代码框结束

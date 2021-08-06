@@ -16,8 +16,14 @@ Page({
     totalfee: "",
     paymentid: "",
     productname: "",
+    phone:"",
+    orderlevel:"",
+    orderstartdate:"",
+    orderfee:"",
+    ordername:"",
     applysublock: false,
     paymentsublock: false,
+    phonehidden:false,
     applyhidden: false,
     paymenthidden: true,
     btn1hidden: true,
@@ -48,30 +54,43 @@ Page({
       startdate3: e.detail.value,
     })
   },
+  bvPhoneUpdate(){
+    wx.navigateTo({
+      url: '../mine/userinfo'
+    })
+  },
   bvApply(e) {
-    let that = this
-    this.data.promoterlevel = e.currentTarget.dataset.level
-    this.data.promotername = e.currentTarget.dataset.name
-    this.data.plstartdate = e.currentTarget.dataset.startdate
-    this.data.totalfee = e.currentTarget.dataset.price
-    this.data.productname = e.currentTarget.dataset.name
-    this.data.paymentid = this._getGoodsRandomNumber();
-    if (this.data.plstartdate == "" || this.data.plstartdate == undefined) {
+    this.data.orderlevel = e.currentTarget.dataset.level
+    this.data.orderstartdate = e.currentTarget.dataset.startdate
+    this.data.orderfee = e.currentTarget.dataset.price
+    this.data.ordername = e.currentTarget.dataset.name
+    if (this.data.applysublock == false && this.data.paymentsublock == false) {
+      this.data.paymentid = this._getGoodsRandomNumber();
+    }
+    if (this.data.orderstartdate == "" || this.data.orderstartdate == 'undefined') {
       wx.showToast({
         title: '请选择生效日期',
         icon: 'error',
         duration: 2000 //持续的时间
       })
     } else {
-      if (this.data.applysublock) {} else {
+      this._orderadd()
+      this._paymentadd()
+    }
+  },
+  _orderadd(e) {
+    let that = this
+      if (this.data.applysublock) {
+        that._hidden()
+      } else {
         const db = wx.cloud.database()
         // 新增数据
         db.collection("PROMOTERORDER").add({
           data: {
-            PromoterLevel: this.data.promoterlevel,
-            PromoterName: this.data.promotername,
-            PLStartDate: this.data.plstartdate,
-            TotalFee: this.data.totalfee,
+            PromoterLevel: this.data.orderlevel,
+            PromoterName: this.data.ordername,
+            PLStartDate: this.data.orderstartdate,
+            TotalFee: this.data.orderfee,
             AddDate: new Date().toLocaleDateString(),
             SysAddDate: new Date().getTime(),
             PaymentId: this.data.paymentid,
@@ -83,7 +102,7 @@ Page({
             that.setData({
               applysublock: true
             })
-            that._paymentadd()
+            that._hidden()
           },
           fail(res) {
             wx.showToast({
@@ -94,18 +113,19 @@ Page({
           }
         })
       }
-    }
   },
 
   _paymentadd() {
     let that = this
-    if (this.data.paymentsublock) {} else {
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
       const db = wx.cloud.database()
       db.collection("PAYMENT").add({
         data: {
-          ProductId: this.data.promoterlevel,
-          ProductName: this.data.promotername,
-          TotalFee: this.data.totalfee,
+          ProductId: this.data.orderlevel,
+          ProductName: this.data.ordername,
+          TotalFee: this.data.orderfee,
           AddDate: new Date().toLocaleDateString(),
           PaymentId: this.data.paymentid,
           PaymentStatus: "unchecked",
@@ -140,8 +160,8 @@ Page({
   bvWXPay(event) {
     const goodsnum = this.data.paymentid;
     const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
-    const body = this.data.promotername;
-    const PayVal = this.data.totalfee * 100;
+    const body = this.data.ordername;
+    const PayVal = this.data.orderfee * 100;
     this._callWXPay(body, goodsnum, subMchId, PayVal);
   },
   // 请求WXPay云函数,调用支付能力
@@ -168,6 +188,7 @@ Page({
             console.log('支付成功', res);
             that._productupdate();
             that._paymentupdate();
+            that._userupdate();
             that.setData({
               paymenthidden:true
             })
@@ -208,6 +229,20 @@ Page({
       },
     })
   },
+  _userupdate(){
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      _openid: app.globalData.Gopenid
+    }).update({
+      data: {
+        PromoterLevel: this.data.orderlevel,
+        PLStartDate:this.data.orderstartdate,
+      },
+      success(res) {
+        console.log("支付订单付款成功")
+      },
+    })
+  },
   bvOtherPay() {
     wx.navigateTo({
       url: '../order/pay?totalfee=' + this.data.totalfee + '&productname=' + this.data.promotername + '&paymentid=' + this.data.paymentid+'&database=PROMOTERORDER'
@@ -235,33 +270,7 @@ Page({
     Math.round(Math.random() * 89 + 100).toString()}`;
   },
   onLoad: function (options) {
-    wx.getStorage({
-      key: 'LDirectUser',
-      success: res => {
-        this.setData({
-          directuser: res.data,
-        })
-        var directvalidfliter = [];
-        for (var i = 0; i < this.data.directuser.length; i++) {
-          if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
-            directvalidfliter.push(this.data.directuser[i]);
-          }
-        }
-        if (directvalidfliter.length >= 1 && directvalidfliter.length < 100) {
-          this.setData({
-            btn1hidden: false
-          })
-        } else if (directvalidfliter.length >= 100 && directvalidfliter.length < 300) {
-          this.setData({
-            btn2hidden: false
-          })
-        } else if (directvalidfliter.length >= 300) {
-          this.setData({
-            btn3hidden: false
-          })
-        }
-      }
-    })
+    let that=this
     var str = new Date()
     this.setData({
       image: app.globalData.Gimagearray,
@@ -301,6 +310,50 @@ Page({
         })
       }
     })
-  },
+    wx.getStorage({
+      key: 'LUserInfo',
+      success: res => {
+        this.setData({
+          phone: res.data.UserPhone,
+        })
+        this._condition()
+      }
+    })
 
+  },
+_condition(){
+  if(this.data.phone==""||this.data.phone=="undefined"){}else{
+    this.setData({
+      phonehidden:true
+    })
+  wx.getStorage({
+    key: 'LDirectUser',
+    success: res => {
+      this.setData({
+        directuser: res.data,
+      })
+      var directvalidfliter = [];
+      for (var i = 0; i < this.data.directuser.length; i++) {
+        if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
+          directvalidfliter.push(this.data.directuser[i]);
+        }
+      }
+      if (directvalidfliter.length >= 1 && directvalidfliter.length < 100) {
+        this.setData({
+          btn1hidden: false
+        })
+      } else if (directvalidfliter.length >= 100 && directvalidfliter.length < 300) {
+        this.setData({
+          btn2hidden: false
+        })
+      } else if (directvalidfliter.length >= 300) {
+        this.setData({
+          btn3hidden: false
+        })
+      }
+    }
+  })
+
+}
+},
 })

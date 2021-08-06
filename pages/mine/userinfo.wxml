@@ -26,7 +26,7 @@
       <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
         <l-input type="number" label="我的手机：" value="{{userphone}}" bind:lininput="bvUserPhone" required="{{true}}">
         </l-input>
-        <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini">发送手机验证码</l-button>
+        <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
       </view>
       <view>
         <l-input type="number" label="验证码：" value="{{phonecode}}" bind:lininput="bvPhoneCode" required="{{true}}">
@@ -62,6 +62,9 @@
   <text>\n</text>
   <view hidden="{{btnhidden}}">
     <l-button type="default" bind:lintap="UpdateData" shape="semicircle" icon="to-top" icon-color="white">更新信息
+    </l-button>
+    <text space="emsp" decode="{{true}}">&emsp;</text>
+    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
     </l-button>
   </view>
 </view>

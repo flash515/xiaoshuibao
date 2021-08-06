@@ -138,25 +138,25 @@ Page({
           }
         }
         console.log(fliter);
-        if (app.globalData.Gpricelevel == 'PL1') {
+        if (app.globalData.Gdiscountlevel == 'DL1') {
           this.setData({
             totalfee: fliter[0].Price1Count,
             orderprice: fliter[0].Price1
           })
         }
-        else if (app.globalData.Gpricelevel == 'PL2') {
+        else if (app.globalData.Gdiscountlevel == 'DL2') {
           this.setData({
             totalfee: fliter[0].Price2Count,
             orderprice: fliter[0].Price2
           })
         }
-        else if (app.globalData.Gpricelevel == 'PL3') {
+        else if (app.globalData.Gdiscountlevel == 'DL3') {
           this.setData({
             totalfee: fliter[0].Price3Count,
             orderprice: fliter[0].Price3
           })
         }
-        else if (app.globalData.Gpricelevel == 'PL4') {
+        else if (app.globalData.Gdiscountlevel == 'DL4') {
           this.setData({
             totalfee: fliter[0].Price4Count,
             orderprice: fliter[0].Price4
@@ -347,11 +347,17 @@ Page({
       url: 'https://sm758rc5kj.jiandaoyun.com/f/5c221c18326ce11b6be21cca',
     })
   },
-  // 异步新增数据方法
   addData() {
-    var that = this
+    this._orderadd
+    this._paymentadd
+  },
+  // 异步新增数据方法
+  _orderadd() {
+    let that = this
     // 判断是否重复提交
-    if (this.data.ordersublock) {} else {
+    if (this.data.ordersublock) {
+      that._hidden()
+    } else {
       // 未锁定时执行
       // 获取数据库引用
       const db = wx.cloud.database()
@@ -394,6 +400,7 @@ Page({
           that.setData({
             ordersublock: true // 修改上传状态并返回前端
           })
+          that._hidden()
           wx.removeStorage({
             key: 'LTemp' + that.data.productid,
             success(res) {
@@ -411,7 +418,14 @@ Page({
 
       })
     }
-    if (this.data.paymentsublock) {} else {
+
+
+  },
+  _paymentadd(){
+    let that=this
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
       const db = wx.cloud.database()
       db.collection("PAYMENT").add({
         data: {
@@ -427,6 +441,7 @@ Page({
           that.setData({
             paymentsublock: true
           })
+          that._hidden()
         },
         fail(res) {
           wx.showToast({
@@ -437,20 +452,22 @@ Page({
         }
       })
     }
+  },
+  _hidden(){
     if (this.data.ordersublock == true && this.data.paymentsublock == true) {
-      wx.showToast({
-        title: '订单提交成功',
-        icon: 'success',
-        duration: 2000, //持续的时间
-      })
-      this.setData({
-        submitted: true
-      })
-    }
+    this.setData({
+      submitted: true
+    })
+    wx.showToast({
+      title: '订单提交成功',
+      icon: 'success',
+      duration: 2000, //持续的时间
+    })
+  }
   },
   bvPay() {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.totalfee
+      url: '../order/pay?totalfee=' + this.data.totalfee+'&onlinehidden=true'
     })
   }
 })

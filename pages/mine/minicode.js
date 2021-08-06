@@ -21,10 +21,11 @@ Page({
     inviterid: "",
     accessToken: "",
     token_url: "",
+    urllink: "",
     qrcodeurl: "",
     tempqrcodeurl: "",
     avatarUrl: "",
-    tempfilepath:"",
+    tempfilepath: "",
     qrcodeuploadlock: false
   },
   //单独打开该页时取得用户id,实际应该用不到
@@ -75,7 +76,7 @@ Page({
         })
         // 以上更新数据结束
         wx.showToast({
-          icon:'success',
+          icon: 'success',
           title: '头像已更新',
         })
         return;
@@ -83,13 +84,45 @@ Page({
       fail: res => {
         //拒绝授权
         wx.showToast({
-          icon:'error',
+          icon: 'error',
           title: '您拒绝了请求',
         })
         return;
       }
     })
 
+  },
+  getUrlLink() {
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'URLLink',
+      data: {
+        quey: 'userid=' + app.globalData.Gopenid
+      },
+      success: res => {
+        console.log('result', res.result)
+        console.log('urllink', res.result.urlLink)
+        this.setData({
+          urllink: res.result.urlLink
+        })
+      },
+      fail: err => {
+        console.error('[云函数] [URLLink] 调用失败', err)
+      }
+    })
+  },
+  copy:function(e){
+    let that=this;
+    wx.setClipboardData({
+      data: that.data.urllink, //这个是要复制的数据
+      success (res) {
+        wx.getClipboardData({
+          success (res) {
+            console.log(res.data) // data
+          }
+        })
+      }
+    })
   },
   getQRCode() {
     // 调用云函数
@@ -197,7 +230,7 @@ Page({
       success: function (res) {
         console.log("res4", res)
         that.setData({
-          tempfilepath:res.tempFilePath
+          tempfilepath: res.tempFilePath
         })
         wx.saveImageToPhotosAlbum({
           filePath: res.tempFilePath,
@@ -248,7 +281,7 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray,
       avatarUrl: app.globalData.GavatarUrl,
-      nickName:app.globalData.GnickName,
+      nickName: app.globalData.GnickName,
     })
     var that = this;
     // 接收参数的方法开始

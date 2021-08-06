@@ -10,20 +10,21 @@ Page({
   data: {
     adddate:"",
     startdate: "",
-    pl3startdate: "",
-    pl3enddate: "",
-    pl2startdate: "",
-    pl2enddate: "",
-    pl1startdate: "",
-    pl1enddate: "",
-    pricelevel: "",
+    discountlevel: "",
     discountid: "",
     discountname: "",
     dlstartdate: "",
     dlenddate: "",
-    dtotalfee: "",
+    orderlevel:"",
+    orderid:"",
+    ordername:"",
+    orderstartdate:"",
+    orderenddate:"",
+    orderfee:"",
+    orderhidden:true,
     ordersublock: false,
     paymentsublock: false,
+    paymenthidden:false,
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -36,126 +37,106 @@ Page({
     nextMargin: 0,
 
   },
-  bvPL3_180(e) {
+  bvDL3_180(e) {
     this.setData({
-      pl3_180startdate: e.detail.value,
-      pl3_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
+      dl3_180startdate: e.detail.value,
+      dl3_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
     })
   },
-  bvPL3_90(e) {
+  bvDL3_90(e) {
     this.setData({
-      pl3_90startdate: e.detail.value,
-      pl3_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
+      dl3_90startdate: e.detail.value,
+      dl3_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
   },
-  bvPL2_360(e) {
+  bvDL2_360(e) {
     this.setData({
-      pl2_360startdate: e.detail.value,
-      pl2_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
+      dl2_360startdate: e.detail.value,
+      dl2_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
     })
   },
-  bvPL2_180(e) {
+  bvDL2_180(e) {
     this.setData({
-      pl2_180startdate: e.detail.value,
-      pl2_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
+      dl2_180startdate: e.detail.value,
+      dl2_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
     })
   },
-  bvPL2_90(e) {
+  bvDL2_90(e) {
     this.setData({
-      pl2_90startdate: e.detail.value,
-      pl2_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
+      dl2_90startdate: e.detail.value,
+      dl2_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
   },
-  bvPL1_360(e) {
+  bvDL1_360(e) {
     this.setData({
-      pl1_360startdate: e.detail.value,
-      pl1_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
+      dl1_360startdate: e.detail.value,
+      dl1_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
     })
   },
-  bvPL1_180(e) {
+  bvDL1_180(e) {
     this.setData({
-      pl1_180startdate: e.detail.value,
-      pl1_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
+      dl1_180startdate: e.detail.value,
+      dl1_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
     })
   },
-  bvPL1_90(e) {
+  bvDL1_90(e) {
     this.setData({
-      pl1_90startdate: e.detail.value,
-      pl1_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
+      dl1_90startdate: e.detail.value,
+      dl1_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
   },
   bvBuy(e) {
-    let that = this
-      this.data.pricelevel= e.currentTarget.dataset.level
-      this.data.discountid= e.currentTarget.dataset.id
-      this.data.discountname= e.currentTarget.dataset.name
-      this.data.dlstartdate= e.currentTarget.dataset.startdate
-      this.data.dlenddate= e.currentTarget.dataset.enddate
-      this.data.totalfee= e.currentTarget.dataset.price
-
-      this.data.paymentid = this._getGoodsRandomNumber();
-      if (this.data.dlstartdate == "" || this.data.dlstartdate == undefined) {
+this.setData({
+orderlevel: e.currentTarget.dataset.level,
+orderid: e.currentTarget.dataset.id,
+ordername: e.currentTarget.dataset.name,
+orderstartdate: e.currentTarget.dataset.startdate,
+orderenddate: e.currentTarget.dataset.enddate,
+orderfee: e.currentTarget.dataset.price,
+})
+      if (this.data.ordersublock == false && this.data.paymentsublock == false) {
+this.setData({
+  paymentid:this._getGoodsRandomNumber()
+})
+      }
+      if (this.data.orderstartdate == "" || this.data.orderstartdate == undefined) {
         wx.showToast({
           title: '请选择生效日期',
           icon: 'error',
           duration: 2000 //持续的时间
         })
       } else {
-        if (this.data.ordersublock) {} else {
-        const db = wx.cloud.database()
-        // 新增数据
-        db.collection("DISCOUNTORDER").add({
-          data: {
-            PriceLevel: this.data.pricelevel,
-            DiscountId: this.data.discountid,
-            DiscountName: this.data.discountname,
-            DLStartDate: this.data.dlstartdate,
-            DLEndDate: this.data.dlenddate,
-            TotalFee: this.data.totalfee,
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString(),
-            PaymentId: this.data.paymentid,
-            PaymentStatus:"unchecked",
-            OrderStatus:"unchecked",
-          },
-          success(res) {
-            that.setData({
-              ordersublock: true
-            })
-            that._paymentadd()
-          },
-          fail(res) {
-            wx.showToast({
-              title: '提交失败请重试',
-              icon: 'error',
-              duration: 2000 //持续的时间
-            })
-          }
-        })
+        this._orderadd()
+        this._paymentadd()
       }
 
-    }
   },
-  _paymentadd() {
+  _orderadd(){
     let that = this
-    if (this.data.paymentsublock) {} else {
+    if (this.data.ordersublock) {
+      that._hidden()
+    } else {
       const db = wx.cloud.database()
-      db.collection("PAYMENT").add({
+      // 新增数据
+      db.collection("DISCOUNTORDER").add({
         data: {
-          ProductId: this.data.discountid,
-          ProductName: this.data.discountname,
-          TotalFee: this.data.totalfee,
+          DiscountLevel: this.data.orderlevel,
+          DiscountId: this.data.orderid,
+          DiscountName: this.data.ordername,
+          DLStartDate: this.data.orderstartdate,
+          DLEndDate: this.data.orderenddate,
+          TotalFee: this.data.orderfee,
+          SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
           PaymentId: this.data.paymentid,
-          PaymentStatus: "unchecked",
-          Database:"DISCOUNTORDER"
+          PaymentStatus:"unchecked",
+          OrderStatus:"unchecked",
         },
         success(res) {
-          console.log("payment成功")
           that.setData({
-            paymentsublock: true,
+            ordersublock: true
           })
-          that._ToPay()
+          that._hidden()
         },
         fail(res) {
           wx.showToast({
@@ -167,11 +148,45 @@ Page({
       })
     }
   },
-
-  _ToPay() {
-    wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.totalfee + '&productname=' + this.data.discountname + '&paymentid=' + this.data.paymentid+'&database=DISCOUNTORDER'
-    })
+  _paymentadd() {
+    let that = this
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
+      const db = wx.cloud.database()
+      db.collection("PAYMENT").add({
+        data: {
+          ProductId: this.data.orderid,
+          ProductName: this.data.ordername,
+          TotalFee: this.data.orderfee,
+          AddDate: new Date().toLocaleDateString(),
+          PaymentId: this.data.paymentid,
+          PaymentStatus: "unchecked",
+          Database:"DISCOUNTORDER"
+        },
+        success(res) {
+          console.log("payment成功")
+          that.setData({
+            paymentsublock: true,
+          })
+          that._hidden()
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    }
+  },
+  _hidden() {
+    if (this.data.ordersublock == true && this.data.paymentsublock == true) {
+      this.setData({
+        orderhidden: false,
+      })
+    }
   },
   // 随机生成支付订单号,订单号不能重复
   _getGoodsRandomNumber() {
@@ -194,6 +209,94 @@ Page({
     return `${Math.round(Math.random() * 1000)}${formateDate +
     Math.round(Math.random() * 89 + 100).toString()}`;
   },
+    // 点击支付按钮,发起支付
+    bvWXPay(event) {
+      const goodsnum = this.data.paymentid;
+      const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
+      const body = this.data.ordername;
+      const PayVal = this.data.orderfee * 100;
+      this._callWXPay(body, goodsnum, subMchId, PayVal);
+    },
+    // 请求WXPay云函数,调用支付能力
+    _callWXPay(body, goodsnum, subMchId, payVal) {
+      let that = this
+      wx.cloud.callFunction({
+          name: 'WXPay',
+          data: {
+            // 需要将data里面的参数传给WXPay云函数
+            body,
+            goodsnum, // 商品订单号不能重复
+            subMchId, // 子商户号,微信支付商户号,必填
+            payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const payment = res.result.payment;
+          console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
+          wx.requestPayment({
+            // 根据获取到的参数调用支付 API 发起支付
+            ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
+            success: (res) => {
+              console.log('支付成功', res);
+              that._productupdate();
+              that._paymentupdate();
+              that._userupdate();
+              that.setData({
+                paymenthidden:true
+              })
+            },
+            fail: (err) => {
+              console.error('支付失败', err);
+            },
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    _productupdate() {
+      const db = wx.cloud.database()
+      db.collection('DISCOUNTORDER').where({
+        PaymentId: this.data.paymentid
+      }).update({
+        data: {
+          PaymentStatus: "checked",
+          OrderStatus: "checked",
+        },
+        success(res) {
+          console.log("产品订单付款成功")
+        }
+      })
+    },
+    _paymentupdate() {
+      const db = wx.cloud.database()
+      db.collection('PAYMENT').where({
+        PaymentId: this.data.paymentid
+      }).update({
+        data: {
+          PaymentStatus: "checked",
+        },
+        success(res) {
+          console.log("支付订单付款成功")
+        },
+      })
+    },
+    _userupdate(){
+      const db = wx.cloud.database()
+      db.collection('USER').where({
+        _openid: app.globalData.Gopenid
+      }).update({
+        data: {
+          DiscountLevel: this.data.orderlevel,
+          DLStartDate:this.data.orderstartdate,
+          DLEndDate:this.data.orderenddate,
+        },
+        success(res) {
+          console.log("用户信息更新成功")
+        },
+      })
+    },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -212,7 +315,7 @@ Page({
         _openid: app.globalData.Gopenid,
         PaymentStatus:"checked",
         OrderStatus:"checked"
-      }).orderBy('SysAddDate','desc').get({
+      }).orderBy('PaymentId','desc').get({
       success: res => {
         console.log(res)
         if (res.data.length != 0) {
@@ -225,38 +328,39 @@ Page({
           if(tempfliter.length !=0  && tempfliter.length != undefined){
                     console.log(tempfliter)
           this.setData({
-            plstartdate: tempfliter[0].DLStartDate,
-            plenddate: tempfliter[0].DLEndDate,
+            adddate:tempfliter[0].AddDate,
+            dlstartdate: tempfliter[0].DLStartDate,
+            dlenddate: tempfliter[0].DLEndDate,
             paymentstatus: tempfliter[0].PaymentStatus,
             orderstatus: tempfliter[0].OrderStatus,
           })
-          if (tempfliter[0].PriceLevel == "PL1") {
+          if (tempfliter[0].DiscountLevel == "DL1") {
             this.setData({
-              plname: "特惠价"
+              dlname: "特惠价"
             })
-          } else if (tempfliter[0].PriceLevel == "PL2") {
+          } else if (tempfliter[0].DiscountLevel == "DL2") {
             this.setData({
-              plname: "巨惠价"
+              dlname: "巨惠价"
             })
-          } else if (tempfliter[0].PriceLevel == "PL3") {
+          } else if (tempfliter[0].DiscountLevel == "DL3") {
             this.setData({
-              plname: "优惠价"
+              dlname: "优惠价"
             })
-          } else if (tempfliter[0].PriceLevel == "PL4") {
+          } else if (tempfliter[0].DiscountLevel == "DL4") {
             this.setData({
-              plname: "普客价"
+              dlname: "普客价"
             })
           }
         } else{
             //卡券已过期
             this.setData({
-              plname: "普客价"
+              dlname: "普客价"
             })
           }
         } else {
           //没有卡券
           this.setData({
-            plname: "普客价",
+            dlname: "普客价",
           })
         }
       }

@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    onlinehidden:false,
     booklock: false,
     address: "",
     phone: "",
@@ -240,9 +241,11 @@ Page({
     var str = new Date()
     this.setData({
       totalfee: options.totalfee,
+      productid:options.productid,
       productname: options.productname,
       paymentid: options.paymentid,
       database:options.database,
+      onlinehidden:options.onlinehidden,
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })

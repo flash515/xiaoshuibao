@@ -1,10 +1,16 @@
 const app = getApp()
+var interval = null //倒计时函数
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    time:"获取验证码",
+    currentTime: 60,
+    disabled:false,
+    s_phonecode:"",
+    u_phonecode:"",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -70,8 +76,30 @@ Page({
       userphone: e.detail.value
     })
   },
+  _SendCodeBtn(){
+    var that = this;
+    var currentTime = that.data.currentTime
+    interval = setInterval(function () {
+      currentTime--;
+      that.setData({
+        time: currentTime+'秒'
+      })
+      if (currentTime <= 0) {
+        clearInterval(interval)
+        that.setData({
+          time: '重新发送',
+          currentTime:60,
+          disabled: false  
+        })
+      }
+    }, 1000) 
+  },
   bvSendCode() {
     let _this = this;
+this._SendCodeBtn()
+this.setData({
+  disabled:true
+})
     wx.cloud.callFunction({
       name: 'sendsms',
       data: {
@@ -136,7 +164,31 @@ bvPhoneCode(e){
       }
     })
   },
-  // 更新信息
+  // 刷新信息
+  RefreshData(){
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      _openid: app.globalData.Gopenid
+    }).get({
+      success: res => {
+        wx.setStorageSync('LUserInfo', res.data[0]);
+        this.setData({
+          companyname: res.data[0].CompanyName,
+          companyid: res.data[0].CompanyId,
+          businessscope: res.data[0].BusinessScope,
+          companyscale: res.data[0].CompanyScale,
+          username: res.data[0].UserName,
+          userphone: res.data[0].UserPhone,
+          usertype: res.data[0].UserType,
+          adddate: res.data[0].AddDate,
+          updatedate: res.data[0].UpdateDate,
+          accountname:res.data[0].AccountName,
+          bankname:res.data[0].BankName,
+          account:res.data[0].Account
+        })
+      }
+    })
+  },
   //修改数据操作
   UpdateData() {
     if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode !="") {

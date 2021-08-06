@@ -136,25 +136,25 @@ Page({
           }
         }
         console.log(fliter);
-        if (app.globalData.Gpricelevel == 'PL1') {
+        if (app.globalData.Gdiscountlevel == 'DL1') {
           this.setData({
             totalfee: fliter[0].Price1Count,
             orderprice: fliter[0].Price1
           })
         }
-        else if (app.globalData.Gpricelevel == 'PL2') {
+        else if (app.globalData.Gdiscountlevel == 'DL2') {
           this.setData({
             totalfee: fliter[0].Price2Count,
             orderprice: fliter[0].Price2
           })
         }
-        else if (app.globalData.Gpricelevel == 'PL3') {
+        else if (app.globalData.Gdiscountlevel == 'DL3') {
           this.setData({
             totalfee: fliter[0].Price3Count,
             orderprice: fliter[0].Price3
           })
         }
-        else if (app.globalData.Gpricelevel == 'PL4') {
+        else if (app.globalData.Gdiscountlevel == 'DL4') {
           this.setData({
             totalfee: fliter[0].Price4Count,
             orderprice: fliter[0].Price4
@@ -348,11 +348,17 @@ Page({
         url: 'https://sm758rc5kj.jiandaoyun.com/f/5c221c18326ce11b6be21cca',
       })
     },
+    addData() {
+      this._orderadd
+      this._paymentadd
+    },
   // 异步新增数据方法
-  addData() {
-    var that = this
+  _orderadd() {
+    let that = this
     // 判断是否重复提交
-    if (this.data.ordersublock) {} else {
+    if (this.data.ordersublock) {
+      that._hidden()
+    } else {
       const db = wx.cloud.database()
       // 新增数据
       db.collection("ZCORDER").add({
@@ -393,6 +399,7 @@ Page({
             that.setData({
               ordersublock: true // 修改上传状态并返回前端
             })
+            that._hidden()
             wx.removeStorage({
               key: 'LTemp' + that.data.productid,
               success(res) {
@@ -410,46 +417,54 @@ Page({
        
         })
       }
-      if (this.data.paymentsublock) {} else {
-        const db = wx.cloud.database()
-            db.collection("PAYMENT").add({
-              data: {
-                ProductId: this.data.productid,
-                ProductName: this.data.productname,
-                IssuedPlace: this.data.issuedplace,
-                TotalFee: this.data.totalfee,
-                SysAddDate: new Date().getTime(),
-                AddDate: new Date().toLocaleDateString(),
-                PaymentStatus:"unchecked",
-              },
-              success(res) {
-                that.setData({
-                  paymentsublock: true
-                })
-              },
-              fail(res) {
-                wx.showToast({
-                  title: '提交失败请重试',
-                  icon: 'error',
-                  duration: 2000 //持续的时间
-                })
-              }
-            })
-          }
-          if (this.data.ordersublock == true && this.data.paymentsublock == true) {
-            wx.showToast({
-              title: '订单提交成功',
-              icon: 'success',
-              duration: 2000, //持续的时间
-            })
-            this.setData({
-              submitted:true
-            })
-          }
+  },
+  _paymentadd(){
+    let that = this
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
+      const db = wx.cloud.database()
+          db.collection("PAYMENT").add({
+            data: {
+              ProductId: this.data.productid,
+              ProductName: this.data.productname,
+              IssuedPlace: this.data.issuedplace,
+              TotalFee: this.data.totalfee,
+              SysAddDate: new Date().getTime(),
+              AddDate: new Date().toLocaleDateString(),
+              PaymentStatus:"unchecked",
+            },
+            success(res) {
+              that.setData({
+                paymentsublock: true
+              })
+              that._hidden()
+            },
+            fail(res) {
+              wx.showToast({
+                title: '提交失败请重试',
+                icon: 'error',
+                duration: 2000 //持续的时间
+              })
+            }
+          })
+        }
+  },
+  _hidden(){
+    if (this.data.ordersublock == true && this.data.paymentsublock == true) {
+      this.setData({
+        submitted:true
+      })
+      wx.showToast({
+        title: '订单提交成功',
+        icon: 'success',
+        duration: 2000, //持续的时间
+      })
+    }
   },
   bvPay(e) {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.totalfee
+      url: '../order/pay?totalfee=' + this.data.totalfee+'&onlinehidden=true'
     })
   }
 })

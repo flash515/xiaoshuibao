@@ -170,25 +170,25 @@ Page({
           }
         }
         console.log(fliter);
-        if (app.globalData.Gpricelevel == 'PL1') {
+        if (app.globalData.Gdiscountlevel == 'DL1') {
           this.setData({
             orderpricecount: fliter[0].Price1Count,
             orderprice: fliter[0].Price1
           })
         }
-        if (app.globalData.Gpricelevel == 'PL2') {
+        if (app.globalData.Gdiscountlevel == 'DL2') {
           this.setData({
             orderpricecount: fliter[0].Price2Count,
             orderprice: fliter[0].Price2
           })
         }
-        if (app.globalData.Gpricelevel == 'PL3') {
+        if (app.globalData.Gdiscountlevel == 'DL3') {
           this.setData({
             orderpricecount: fliter[0].Price3Count,
             orderprice: fliter[0].Price3
           })
         }
-        if (app.globalData.Gpricelevel == 'PL4') {
+        if (app.globalData.Gdiscountlevel == 'DL4') {
           this.setData({
             orderpricecount: fliter[0].Price4Count,
             orderprice: fliter[0].Price4
@@ -202,8 +202,8 @@ Page({
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
     console.log(Object.keys(options).length)
-//判断是否有参数的方法很好
-      if (Object.keys(options).length === 0) {}else{
+    //判断是否有参数的方法很好
+    if (Object.keys(options).length === 0) {} else {
       this.setData({
         pageParam: options,
         productid: options.productid,
@@ -742,11 +742,14 @@ Page({
       duration: 2000 //持续的时间
     })
   },
-
-  // 异步新增数据方法
   addData() {
+    this._orderadd
+    this._paymentadd
+  },
+  // 异步新增数据方法
+  _orderadd() {
     // 多层嵌套的this需提前定义中转变量
-    var that = this
+    let that = this
     // 判断是否重复提交
     if (this.data.ordersublock) {} else {
       // 未锁定时执行
@@ -809,6 +812,7 @@ Page({
           that.setData({
             ordersublock: true // 修改上传状态并返回前端
           })
+          that._hidden()
           wx.removeStorage({
             key: 'LTemp' + that.data.productid,
             success(res) {
@@ -826,7 +830,13 @@ Page({
 
       })
     }
-    if (this.data.paymentsublock) {} else {
+
+  },
+  _paymentadd() {
+    let that=this
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
       const db = wx.cloud.database()
       db.collection("PAYMENT").add({
         data: {
@@ -842,6 +852,7 @@ Page({
           that.setData({
             paymentsublock: true
           })
+          that._hidden()
         },
         fail(res) {
           wx.showToast({
@@ -852,20 +863,22 @@ Page({
         }
       })
     }
+  },
+  _hidden() {
     if (this.data.ordersublock == true && this.data.paymentsublock == true) {
+      this.setData({
+        submitted: true
+      })
       wx.showToast({
         title: '订单提交成功',
         icon: 'success',
         duration: 2000, //持续的时间
       })
-      this.setData({
-        submitted: true
-      })
     }
   },
   bvPay(e) {
     wx.navigateTo({
-      url: '../order/pay?totalfee=' + this.data.totalfee
+      url: '../order/pay?totalfee=' + this.data.totalfee + '&onlinehidden=true'
     })
   }
 })

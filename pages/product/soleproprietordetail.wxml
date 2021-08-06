@@ -44,10 +44,10 @@
       <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
     </view>
     <view wx:else>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL1'}}"> {{item.Price1}} </view>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL2'}}"> {{item.Price2}} </view>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL3'}}"> {{item.Price3}} </view>
-      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||pricelevel == 'PL4'}}"> {{item.Price4}}</view>
+      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL1'}}"> {{item.Price1}} </view>
+      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL2'}}"> {{item.Price2}} </view>
+      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL3'}}"> {{item.Price3}} </view>
+      <view wx:if="{{usertype == 'admin'||usertype == 'provider'||discountlevel == 'DL4'}}"> {{item.Price4}}</view>
     </view>
     <label class="title1">推荐程度：</label>
     <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />

@@ -286,6 +286,21 @@ Page({
       }
     })
   },
+  bvUrlLink(e) {
+    // 云函数测试成功
+    wx.cloud.callFunction({
+      name: 'URLLink',
+      data: {
+
+      },
+      complete: res => {
+
+        console.log("1云函数查询结果", res)
+        console.log("2云函数查询结果数据", res.result)
+
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

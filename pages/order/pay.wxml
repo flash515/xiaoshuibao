@@ -17,12 +17,15 @@
 <view style="display:flex; flex-direction:row; justify-content:space-between">
   <label class="title1">订单总金额:</label>
   <l-price size="50" color="#3963bc" unit="￥" value='{{totalfee}}' reserve-digit="2" autofix='true'></l-price>
-  <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">使用微信支付</l-button>
+  <view hidden="{{onlinehidden}}">
+  <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信支付</l-button>
+</view>
 </view>
   <text>\n</text>
-  <text>注明：以上费用为不含税费用，如需开票，须额外支付6%增值税款</text>
+    <text>注明：以上费用为不含税费用，如需开票，须额外支付6%增值税款。企业注册业务及自然人代开业务款项暂不支持支付宝或微信支付，请选择银行转账或预约当面转账服务。</text>
 </l-card>
 <text>\n</text>
+<view hidden="{{onlinehidden}}">
 <l-collapse>
   <l-collapse-item title="微信扫码支付">
     <l-card type="primary" position="left" image="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png">
@@ -49,6 +52,7 @@
   </l-collapse-item>
 </l-collapse>
 <text>\n</text>
+</view>
 <l-collapse>
   <l-collapse-item title="银行转账支付">
     <l-card type="cover" plaintext="{{true}}">
@@ -61,27 +65,27 @@
   </l-collapse-item>
 </l-collapse>
 <l-collapse>
-  <l-collapse-item title="预约上门取款">
+  <l-collapse-item title="预约当面转账">
     <l-card type="cover" plaintext="{{true}}">
       <view>
-        <text space="emsp" decode="{{true}}">  超过一千元的款项小税宝可提供上门取款服务，目前仅支持粤港澳大湾区范围，客户如需上门取款服务，请提供联系人详细地址信息并预约时间。</text>
+        <text space="emsp" decode="{{true}}">  超过一千元的款项小税宝可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
       </view>
     </l-card>
       <l-card type="cover" plaintext="{{true}}">
       <view>
         <picker mode="date" value="{{date}}" start="{{startdate}}" bindchange="bvDate">
           <view class="picker">
-            <text class="text">预约上门收款日期：{{date}}</text>
+            <text class="text">预约见面日期：{{date}}</text>
           </view>
         </picker>
         <picker mode="time" value="{{time}}" start="10:00" end="17:00" bindchange="bvTime">
           <view class="picker">
-            <text class="text">预约上门收款时间：{{time}}</text>
+            <text class="text">预约见面时间：{{time}}</text>
           </view>
         </picker>
         <l-input type="text" label="联系人：" value="{{contacts}}" bind:lininput="bvContacts"></l-input>
         <l-input type="text" label="联系电话：" value="{{phone}}" bind:lininput="bvPhone"></l-input>
-        <l-input type="text" label="预约地址：" value="{{address}}" bind:lininput="bvAddress"></l-input>
+        <l-input type="text" label="预约地点：" value="{{address}}" bind:lininput="bvAddress"></l-input>
       </view>
       <l-button type="default" icon="success" icon-color="blue" bindtap="bvBooking" size="mini" shape="semicircle" plain="{{true}}">预约确定</l-button>
     </l-card>

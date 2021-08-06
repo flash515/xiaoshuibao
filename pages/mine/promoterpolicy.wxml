@@ -35,8 +35,12 @@
     <l-collapse>
       <l-collapse-item title="白银推广大使">
         <l-card type="primary" plaintext="{{true}}" title="白银推广大使资格">
-          <text decode='true'>1、1人≦有效直接推广人数；</text>
-          <text decode='true'>2、申请并支付1元获得白银推广大使资格；</text>
+          <text decode='true'>1、手机号码通过验证；</text>
+          <text decode='true'>2、有效直接推广人数≥1人；</text>
+          <text decode='true'>3、申请并支付1元获得白银推广大使资格；</text>
+          <view hidden="{{phonehidden}}">
+          <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
+          </view>
           <view hidden="{{btn1hidden}}" >
           <picker mode="date" value="{{startdate1}}" start="{{startdate}}" bindchange="bvStartDate1">
             <view class="picker">
@@ -64,8 +68,12 @@
     <l-collapse>
       <l-collapse-item title="黄金推广大使">
         <l-card type="primary" plaintext="{{true}}" title="黄金推广大使资格">
-          <text decode='true'>1、100人≦有效直接推广人数；</text>
-          <text decode='true'>2、申请并支付1元获得黄金推广大使资格；</text>
+          <text decode='true'>1、手机号码通过验证；</text>
+          <text decode='true'>2、有效直接推广人数≥100人；</text>
+          <text decode='true'>3、申请并支付1元获得黄金推广大使资格；</text>
+          <view hidden="{{phonehidden}}">
+          <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
+          </view>
           <view hidden="{{btn2hidden}}" >
           <picker mode="date" value="{{startdate2}}" start="{{startdate}}" bindchange="bvStartDate2">
             <view class="picker">
@@ -93,8 +101,12 @@
     <l-collapse>
       <l-collapse-item title="铂金推广大使">
         <l-card type="primary" plaintext="{{true}}" title="铂金推广大使资格">
-          <text decode='true'>1、300人≦有效直接推广人数；</text>
-          <text decode='true'>2、申请并支付1元获得铂金推广大使资格；</text>
+          <text decode='true'>1、手机号码通过验证；</text>
+          <text decode='true'>2、有效直接推广人数≥300人；</text>
+          <text decode='true'>3、申请并支付1元获得铂金推广大使资格；</text>
+          <view hidden="{{phonehidden}}">
+          <l-button size="mini" type="default" bind:lintap="bvPhoneUpdate" shape="semicircle" plain="true">前往验证手机号码</l-button>
+          </view>
           <view hidden="{{btn3hidden}}" >
           <picker mode="date" value="{{startdate3}}" start="{{startdate}}" bindchange="bvStartDate3">
             <view class="picker">

@@ -92,7 +92,7 @@ App({
     // 用户类型
     Gusertype: "",
     Gdirect1yearvaliduser:"",
-    Gpricelevel: "",
+    Gdiscountlevel: "",
     Gpromoterlevel: "",
     //轮播图
     Gimagearray:[],
