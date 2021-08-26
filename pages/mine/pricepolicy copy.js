@@ -13,6 +13,10 @@ Page({
     discountlevel: "",
     discountid: "",
     discountname: "",
+    dlstartdate: "",
+    dlenddate: "",
+    orderlevel:"",
+    orderid:"",
     ordername:"",
     orderstartdate:"",
     orderenddate:"",
@@ -33,12 +37,6 @@ Page({
     nextMargin: 0,
 
   },
-  bvDL3_360(e) {
-    this.setData({
-      dl3_360startdate: e.detail.value,
-      dl3_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
-    })
-  },
   bvDL3_180(e) {
     this.setData({
       dl3_180startdate: e.detail.value,
@@ -51,10 +49,40 @@ Page({
       dl3_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
   },
-  bvDL3_30(e) {
+  bvDL2_360(e) {
     this.setData({
-      dl3_30startdate: e.detail.value,
-      dl3_30enddate: dateLater(e.detail.value, 30).year + '-' + dateLater(e.detail.value, 30).newdates
+      dl2_360startdate: e.detail.value,
+      dl2_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
+    })
+  },
+  bvDL2_180(e) {
+    this.setData({
+      dl2_180startdate: e.detail.value,
+      dl2_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
+    })
+  },
+  bvDL2_90(e) {
+    this.setData({
+      dl2_90startdate: e.detail.value,
+      dl2_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
+    })
+  },
+  bvDL1_360(e) {
+    this.setData({
+      dl1_360startdate: e.detail.value,
+      dl1_360enddate: dateLater(e.detail.value, 360).year + '-' + dateLater(e.detail.value, 360).newdates
+    })
+  },
+  bvDL1_180(e) {
+    this.setData({
+      dl1_180startdate: e.detail.value,
+      dl1_180enddate: dateLater(e.detail.value, 180).year + '-' + dateLater(e.detail.value, 180).newdates
+    })
+  },
+  bvDL1_90(e) {
+    this.setData({
+      dl1_90startdate: e.detail.value,
+      dl1_90enddate: dateLater(e.detail.value, 90).year + '-' + dateLater(e.detail.value, 90).newdates
     })
   },
   bvBuy(e) {
@@ -103,7 +131,6 @@ this.setData({
           PaymentId: this.data.paymentid,
           PaymentStatus:"unchecked",
           OrderStatus:"unchecked",
-          Available:false
         },
         success(res) {
           that.setData({
@@ -236,7 +263,6 @@ this.setData({
         data: {
           PaymentStatus: "checked",
           OrderStatus: "checked",
-          Available:true
         },
         success(res) {
           console.log("产品订单付款成功")
@@ -318,7 +344,7 @@ this.setData({
             })
           } else if (tempfliter[0].DiscountLevel == "DL3") {
             this.setData({
-              dlname: "会员价"
+              dlname: "优惠价"
             })
           } else if (tempfliter[0].DiscountLevel == "DL4") {
             this.setData({

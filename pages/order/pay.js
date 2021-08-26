@@ -79,6 +79,7 @@ Page({
       data: {
         PaymentStatus: "checked",
         OrderStatus: "checked",
+        Available:true,
       },
       success(res) {
         console.log("产品订单更新成功")

@@ -34,6 +34,22 @@
         <l-input label="办理费率：" type="text" label-layout="left" label-width="270"
           value="{{orderprice}}" disabled="{{true}}" />
       </view>
+      <text>\n</text>
+      <view hidden="{{discounthidden}}">
+  <l-card type="primary" plaintext="{{true}}" >
+  <!-- <view hidden="{{singlediscounthidden}}">
+    <l-list title="在当前订单使用会员体验卡" is-link="{{false}}" gap="20" >
+        <view slot="right-section">
+          <switch checked="{{discountswitchChecked}}" bindchange="discountswitchChange" style='zoom:.6;' />
+        </view>
+      </l-list>
+    </view> -->
+    <text>价格优惠类型：{{discountname}}</text>
+    <text>购买日期：{{adddate}}</text>
+    <text>生效日期：{{dlstartdate}}</text>
+    <text>失效日期：{{dlenddate}}</text>
+  </l-card>
+</view>
   </l-tabpanel>
   <!-- 开票人 -->
   <l-tabpanel tab="开票人" key="two" slot="two">

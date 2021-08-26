@@ -71,7 +71,7 @@ icon-color="blue" plain="{{true}}">订单详情</l-button>
       </l-card>
     </view>
   </l-tabpanel>
-  <l-tabpanel tab="价格折扣卡" key="three" slot="three">
+  <l-tabpanel tab="会员卡" key="three" slot="three">
     <l-button class="mainbtn" width="600" data-name="DISCOUNTORDER" bind:lintap="bvRefresh"  shape="semicircle" plain="{{true}}">刷新</l-button>
     <view wx:for="{{discounthistory}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">

@@ -86,6 +86,13 @@ Page({
     idaddressee: "",
     idaddresseephone: "",
     idaddress: "",
+    discountorderid:"",
+    discountid:"",
+    discountname:"",
+    discountlevel:"",
+    discounthidden:true,
+    singlediscounthidden:true,
+    discountswitchChecked: false,
     sellerswitchChecked: true,
     buyerswitchChecked: true,
     address1switchChecked: true,
@@ -103,6 +110,10 @@ Page({
     submitted: false,
     btnhidden: true,
     productpickerhidden: false,
+    dlname:"",
+    adddate:"",
+    dlstartdate:"",
+    dlenddate:"",
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -155,6 +166,51 @@ Page({
       nickName: app.globalData.GnickName,
     })
   },
+  bvDiscountCheck(){
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection('DISCOUNTORDER').where({
+        _openid: app.globalData.Gopenid,
+        PaymentStatus:"checked",
+        OrderStatus:"checked",
+        Available:true,
+      }).orderBy('PaymentId','desc').get({
+      success: res => {
+        console.log(res)
+        if (res.data.length != 0) {
+          var tempfliter = []
+          for (var i = 0; i < res.data.length; i++) {
+            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
+              tempfliter.push(res.data[i]);
+            }
+          }
+          if(tempfliter.length !=0  && tempfliter.length != undefined){
+          console.log(tempfliter)
+          this.setData({
+            discountorderid:tempfliter[0]._id,
+            discountid:tempfliter[0].DiscountId,
+            discounthidden:false,
+            discountname:tempfliter[0].DiscountName,
+            discountlevel:tempfliter[0].DiscountLevel,
+            adddate:tempfliter[0].AddDate,
+            dlstartdate: tempfliter[0].DLStartDate,
+            dlenddate: tempfliter[0].DLEndDate,
+
+          })
+        }
+      }
+      else{
+        this.setData({
+          discountlevel:"DL4",
+          discounthidden:true,
+        })
+      }
+      console.log(this.data.discountlevel)
+      this.bvOrderPrice(this.data.discountlevel)
+    }
+    })
+
+  },
   bvOrderPrice() {
     // 从本地存储中读取客户价格
     wx.getStorage({
@@ -170,25 +226,26 @@ Page({
           }
         }
         console.log(fliter);
-        if (app.globalData.Gdiscountlevel == 'DL1') {
+        console.log(this.data.discountlevel);
+        if (this.data.discountlevel == 'DL1') {
           this.setData({
             orderpricecount: fliter[0].Price1Count,
             orderprice: fliter[0].Price1
           })
         }
-        if (app.globalData.Gdiscountlevel == 'DL2') {
+        if (this.data.discountlevel == 'DL2') {
           this.setData({
             orderpricecount: fliter[0].Price2Count,
             orderprice: fliter[0].Price2
           })
         }
-        if (app.globalData.Gdiscountlevel == 'DL3') {
+        if (this.data.discountlevel == 'DL3') {
           this.setData({
             orderpricecount: fliter[0].Price3Count,
             orderprice: fliter[0].Price3
           })
         }
-        if (app.globalData.Gdiscountlevel == 'DL4') {
+        if (this.data.discountlevel == 'DL4') {
           this.setData({
             orderpricecount: fliter[0].Price4Count,
             orderprice: fliter[0].Price4
@@ -325,8 +382,8 @@ Page({
         console.log("address查询", res.result.data)
       }
     })
-    this.bvOrderPrice(this.data.productid)
-  },
+    this.bvDiscountCheck(this.data.productid)
+    },
 
   changeTabs(e) {
     console.log(e.detail)
@@ -341,7 +398,29 @@ Page({
       })
     }
   },
-
+  discountswitchChange(e) {
+    if (e.detail.value == true) {
+      this.setData({
+        sellerdisable: true,
+        sellerpickershow: true
+      })
+      wx.showToast({
+        title: '使用价格优惠',
+        icon: 'none',
+        duration: 2000 //持续的时间
+      })
+    } else {
+      this.setData({
+        sellerdisable: false,
+        sellerpickershow: false
+      })
+      wx.showToast({
+        title: '不使用价格优惠',
+        icon: 'none',
+        duration: 2000 //持续的时间
+      })
+    }
+  },
   sellerswitchChange(e) {
     if (e.detail.value == true) {
       this.setData({
@@ -745,6 +824,19 @@ Page({
   addData() {
     this._orderadd
     this._paymentadd
+    this._discountupdate
+  },
+  _discountupdate(){
+if(this.data.discountid=="DL3_Single"){
+  const db = wx.cloud.database()
+  db.collection("DISCOUNTORDER").where({
+_id:discountorderid
+  }).update({
+data:{
+  Available:false
+}
+  })
+}
   },
   // 异步新增数据方法
   _orderadd() {
