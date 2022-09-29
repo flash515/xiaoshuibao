@@ -1,47 +1,200 @@
 const app = getApp();
-const placeArray = [
+const SortArray = [
   {
-    "Category1": "北京",
-    "Category2Array": [{
-      "Category2": "北京",
-      "Category3Array": ["东城区", "西城区", "崇文区", "宣武区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "平谷区", "怀柔区", "密云县", "延庆县"]
-    }]
-  },
-
-  {
-    "Category1": "天津",
+    "Category1Code": "01",
+    "Category1Name": "商务服务",
     "Category2Array": [
       {
-        "Category2": "天津A",
-        "Category3Array": ["a区", "b区", "c区", "d区", "e区"]
-      },
-      {
-        "Category2": "天津B",
-        "Category3Array": ["1区", "2区", "3区", "4区"]
-      }
-   ]
+      "Category2Code": "01",
+      "Category2Name": "地址服务",
+      "Category3Array": [
+        {
+          "Category3Code": "01",
+          "Category3Name": "深圳地址"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "广州地址"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "东莞地址"
+        },
+      ]
+    },
+    {
+      "Category2Code": "02",
+      "Category2Name": "工商代办",
+      "Category3Array": [
+        {
+          "Category3Code": "01",
+          "Category3Name": "工商注册"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "工商变更"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "工商注销"
+        },
+      ]
+    },
+    {
+      "Category2Code": "03",
+      "Category2Name": "银行代办",
+      "Category3Array": [
+        {
+          "Category3Code": "01",
+          "Category3Name": "银行开户"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "调整额度"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "银行销户"
+        },
+      ]
+    },
+    {
+      "Category2Code": "04",
+      "Category2Name": "财税服务",
+      "Category3Array": [
+        {
+          "Category3Code": "01",
+          "Category3Name": "记账报税"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "税种核定"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "领票购票"
+        },
+        {
+          "Category3Code": "04",
+          "Category3Name": "开票代办"
+        },
+      ]
+    },
+    {
+      "Category2Code": "05",
+      "Category2Name": "企业托管",
+      "Category3Array": [
+        {
+          "Category3Code": "01",
+          "Category3Name": "南昌托管"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "西安托管"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "明光托管"
+        },
+      ]
+    },
+    {
+      "Category2Code": "06",
+      "Category2Name": "资质代办",
+      "Category3Array": [
+        {
+          "Category3Code": "01",
+          "Category3Name": "食品经营许可证"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "道路运输许可证"
+        },
+      ]
+    }
+  ]
   },
-
-  {
-    "Category1": "河北",
-    "Category2Array": [
-
+{
+  "Category1Code": "02",
+  "Category1Name": "教培信息",
+  "Category2Array": [{
+    "Category2Code": "01",
+    "Category2Name": "学历教育",
+    "Category3Array": [
       {
-        "Category2": "石家庄",
-        "Category3Array": ["长安区", "新乐市", "鹿泉市"]
+        "Category3Code": "01",
+        "Category3Name": "大专学历"
       },
-
       {
-        "Category2": "邯郸",
-        "Category3Array": ["邯山区", "丛台区", "复兴区", "峰峰矿区", "邯郸县", "临漳县", "成安县", "大名县", "涉  县", "磁  县" ]
+        "Category3Code": "02",
+        "Category3Name": "本科学历"
       },
-
       {
-        "Category2": "邢台",
-        "Category3Array": ["桥东区", "桥西区", "沙河市"]
+        "Category3Code": "03",
+        "Category3Name": "硕士学历"
+      },
+      {
+        "Category3Code": "04",
+        "Category3Name": "博士学历"
+      },
+      {
+        "Category3Code": "05",
+        "Category3Name": "出国留学"
       },
     ]
-  }];
+  },
+  {
+    "Category2Code": "02",
+    "Category2Name": "职业教育",
+    "Category3Array": [
+      {
+        "Category3Code": "01",
+        "Category3Name": "厨师"
+      },
+      {
+        "Category3Code": "02",
+        "Category3Name": "家政服务师"
+      },
+    ]
+  },
+  {
+    "Category2Code": "03",
+    "Category2Name": "技能培训",
+    "Category3Array": [
+      {
+        "Category3Code": "01",
+        "Category3Name": "电商"
+      },
+      {
+        "Category3Code": "02",
+        "Category3Name": "财会"
+      },
+    ]
+  }
+
+]
+},
+
+{
+  "Category1Code": "03",
+  "Category1Name": "招聘就业",
+  "Category2Array": [{
+    "Category2Code": "01",
+    "Category2Name": "招聘信息",
+    "Category3Array": [
+      {
+        "Category3Code": "01",
+        "Category3Name": "全职"
+      },
+      {
+        "Category3Code": "02",
+        "Category3Name": "兼职"
+      },
+    ]
+  }]
+},
+
+];
 Page({
   data: {
     usertype: "",
@@ -53,70 +206,16 @@ Page({
     procudtarray: [], //通过查询功能得到的产品数组
     procudtdetail: [],
     array: [],
-    category1: "",
-    category2: "",
-    category3: "",
-    multiArray:placeArray,
-
-    inputShow:false,
-    boxShow:false,
-    placeArray: placeArray,
-    province: placeArray[0].Category1,
+// 产品分类参数
+    inputShow: false,
+    boxShow: false,
+    sortarray: SortArray,
+    category1: SortArray[0].Category1Name,
     pIndex: 0,
-    city: placeArray[0].Category2Array[0].Category2,
+    category2: SortArray[0].Category2Array[0].Category2Name,
     cIndex: 0,
-    area: placeArray[0].Category2Array[0].Category3Array[0],
+    category3: SortArray[0].Category2Array[0].Category3Array[0].Category3Name,
     aIndex: 0,
-
-    // https://www.csdn.net/tags/MtjaYg0sMDI2MzgtYmxvZwO0O0OO0O0O.html
-    // multiArray: [['商务服务', '教培信息'], ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'], ['深圳地址', '广州地址', '东莞地址']],
-    placeArray: placeArray,
-    // province: placeArray[0].name,
-    // pIndex: 0,
-    // city: placeArray[0].city[0].name,
-    // cIndex: 0,
-    // area: placeArray[0].city[0].area[0],
-    // aIndex: 0,
-    sortArray:[],
-    // objectMultiArray: [
-    //   [
-    //     {
-    //       id: 0,
-    //       name: '地址服务'
-    //     },
-    //     {
-    //       id: 1,
-    //       name: '工商代办'
-    //     },
-    //     {
-    //       id: 2,
-    //       name: '银行代办'
-    //     },
-    //     {
-    //       id: 3,
-    //       name: '财税服务'
-    //     },
-    //     {
-    //       id: 4,
-    //       name: '企业托管'
-    //     },
-    //     {
-    //       id: 5,
-    //       name: '资质代办'
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       id: 0,
-    //       name: '语文'
-    //     },
-    //     {
-    //       id: 1,
-    //       name: '数学'
-    //     }
-    //   ]
-    // ],
-    multiIndex: [0,0,0],
 
     // 表单参数
     showvalue1: true,
@@ -154,7 +253,7 @@ Page({
     startdate: "",
     enddate: "",
     description: "",
-    handleplace:["广东省","深圳市"],
+    handleplace: ["广东省", "深圳市"],
     issuedby: "",
     situation: "",
     forbid: "",
@@ -190,153 +289,52 @@ Page({
   },
 
   // 展示弹框
-  getbox: function(){
+  getbox: function () {
     this.setData({
       boxShow: true
     })
   },
   // 隐藏弹框
-  hidebox: function(){
+  hidebox: function () {
     this.setData({
       boxShow: false
     })
   },
   // 确认按钮
-  confirm: function(){
+  confirm: function () {
     this.setData({
       boxShow: false,
       inputShow: true,
     })
   },
- changeProvince2: function(e){
-  const val = e.detail.value
-  this.setData({
-    pIndex: val,
-    cIndex: 0,
-    aIndex: 0,
-    category1: placeArray[val].Category1,
-    category2: placeArray[val].Category2Array[0].Category2,
-    category3: placeArray[val].Category2Array[0].Category3Array[0]
-  })
-},
-changeCity2: function(e){
-  const val = e.detail.value
-  this.setData({
-    cIndex: val,
-    aIndex: 0,
-    category2: placeArray[this.data.pIndex].Category2Array[val].Category2,
-    category3: placeArray[this.data.pIndex].Category2Array[val].Category3Array[0]
-  })
-},
-changeArea2: function(e){
-  const val = e.detail.value
-  this.setData({
-    aIndex: val,
-    category3: placeArray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val]
-  })
-},
-
-
-  bindMultiPickerChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
+  changeCategory1: function (e) {
+    const val = e.detail.value
     this.setData({
-      multiIndex: e.detail.value
+      pIndex: val,
+      cIndex: 0,
+      aIndex: 0,
+      category1: this.data.sortarray[val].Category1Name,
+      category2: this.data.sortarray[val].Category2Array[0].Category2Name,
+      category3: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Name,
     })
-    console.log(this.data.multiIndex);
   },
-  bindMultiPickerColumnChange: function (e) {
-    console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
-    var data = {
-      multiArray: this.data.multiArray,
-      multiIndex: this.data.multiIndex
-    };
-    // 联动
-    data.multiIndex[e.detail.column] = e.detail.value;
-    switch (e.detail.column) {
-      case 0:
-        switch (data.multiIndex[0]) {
-          case 0:
-            data.multiArray[1] = ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'];
-            data.multiArray[2] = ['深圳地址', '广州地址', '东莞地址'];
-            break;
-          case 1:
-            data.multiArray[1] = ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'];
-            data.multiArray[2] = ['工商注册', '工商变更', '工商注销'];
-            break;
-          case 2:
-            data.multiArray[1] = ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'];
-            data.multiArray[2] = ['银行开户', '调整额度', '银行销户'];
-            break;
-          case 3:
-            data.multiArray[1] = ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'];
-            data.multiArray[2] = ['记账报税', '税种核定', '领票购票', '开票代办'];
-            break;
-          case 4:
-            data.multiArray[1] = ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'];
-            data.multiArray[2] = ['南昌托管', '西安托管', '明光托管'];
-            break;
-          case 5:
-            data.multiArray[1] = ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'];
-            data.multiArray[2] = ['食品经营许可证', '道路运输许可证'];
-            break;
-        }
-        data.multiIndex[1] = 0;
-        data.multiIndex[2] = 0;
-        break;
-      case 1:
-        switch (data.multiIndex[0]) {
-          case 0:
-            switch (data.multiIndex[1]) {
-              case 0:
-                data.multiArray[2] = ['深圳地址', '广州地址', '东莞地址'];
-                break;
-              case 1:
-                data.multiArray[2] = ['工商注册', '工商变更', '工商注销'];
-                break;
-              case 2:
-                data.multiArray[2] = ['银行开户', '调整额度', '银行销户'];
-                break;
-              case 3:
-                data.multiArray[2] = ['记账报税', '税种核定', '领票购票', '开票代办'];
-                break;
-              case 4:
-                data.multiArray[2] = ['南昌托管', '西安托管', '明光托管'];
-                break;
-              case 5:
-                data.multiArray[2] = ['食品经营许可证', '道路运输许可证'];
-                break;
-            }
-            break;
-          case 1:
-            switch (data.multiIndex[1]) {
-              case 0:
-                data.multiArray[2] = ['鲫鱼', '带鱼'];
-                break;
-              case 1:
-                data.multiArray[2] = ['青蛙', '娃娃鱼'];
-                break;
-              case 2:
-                data.multiArray[2] = ['蜥蜴', '龟', '壁虎'];
-                break;
-            }
-            break;
-        }
-        data.multiIndex[2] = 0;
-        break;
-
-    }
-    this.setData(data);
-    console.log(e.detail.value);
+  changeCategory2: function (e) {
+    const val = e.detail.value
     this.setData({
-      category1: data.multiArray[0][data.multiIndex[0]],
-      category2: data.multiArray[1][data.multiIndex[1]],
-      category3: data.multiArray[2][data.multiIndex[2]],
+      cIndex: val,
+      aIndex: 0,
+      category2: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Name,
+      category3: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
     })
-    console.log(data);
-    console.log(this.data.category1);
-    console.log(this.data.category2);
-    console.log(this.data.category3);
   },
+  changeCategory3: function (e) {
+    const val = e.detail.value
+    this.setData({
+      aIndex: val,
+      category3: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
+    })
+  },
+
 
   //查询本人创建且符合模糊条件的记录
   onSearch(e) {
@@ -1081,7 +1079,7 @@ changeArea2: function(e){
   bindPlaceChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      handleplace: [e.detail.value[0],e.detail.value[1]]
+      handleplace: [e.detail.value[0], e.detail.value[1]]
     })
     console.log('picker发送选择改变，携带值为', this.data.handleplace)
   },
