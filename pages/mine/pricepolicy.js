@@ -10,17 +10,25 @@ Page({
   data: {
     adddate:"",
     startdate: "",
-    discountlevel: "",
+    //用于展示当前优惠折扣的变量
+    dlname:"",
+    dlstartdate:"",
+    dlenddate:"",
+    // 当前页面订单中的变量
+    orderid: "",
     discountid: "",
-    discountname: "",
-    ordername:"",
-    orderstartdate:"",
-    orderenddate:"",
-    orderfee:"",
+    discountlevel: "",
+    discountname:"",
+    discountstartdate:"",
+    discountenddate:"",
+    discounttotalfee:"",
+    discounttype:"",
+
     orderhidden:true,
     ordersublock: false,
-    paymentsublock: false,
     paymenthidden:false,
+    paymentsublock: false,
+
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -58,30 +66,36 @@ Page({
     })
   },
   bvBuy(e) {
-this.setData({
-orderlevel: e.currentTarget.dataset.level,
-orderid: e.currentTarget.dataset.id,
-ordername: e.currentTarget.dataset.name,
-orderstartdate: e.currentTarget.dataset.startdate,
-orderenddate: e.currentTarget.dataset.enddate,
-orderfee: e.currentTarget.dataset.price,
-})
+    if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
+      // 未选定日期时弹窗
+      wx.showToast({
+        title: '请选择生效日期',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
+    } else {
       if (this.data.ordersublock == false && this.data.paymentsublock == false) {
-this.setData({
-  paymentid:this._getGoodsRandomNumber()
-})
-      }
-      if (this.data.orderstartdate == "" || this.data.orderstartdate == undefined) {
+        this.setData({
+          discountlevel: e.currentTarget.dataset.level,
+          discountid: e.currentTarget.dataset.id,
+          discountname: e.currentTarget.dataset.name,
+          discountstartdate: e.currentTarget.dataset.startdate,
+          discountenddate: e.currentTarget.dataset.enddate,
+          discounttotalfee: e.currentTarget.dataset.totalfee,
+          discounttype:e.currentTarget.dataset.type,
+          // 生成订单号
+          orderid:this._getGoodsRandomNumber(),
+        })
+        this._orderadd()
+        this._paymentadd()
+      }else {
         wx.showToast({
-          title: '请选择生效日期',
+          title: '请勿重复提交',
           icon: 'error',
           duration: 2000 //持续的时间
         })
-      } else {
-        this._orderadd()
-        this._paymentadd()
       }
-
+      }
   },
   _orderadd(){
     let that = this
@@ -92,15 +106,16 @@ this.setData({
       // 新增数据
       db.collection("DISCOUNTORDER").add({
         data: {
-          DiscountLevel: this.data.orderlevel,
-          DiscountId: this.data.orderid,
-          DiscountName: this.data.ordername,
-          DLStartDate: this.data.orderstartdate,
-          DLEndDate: this.data.orderenddate,
-          TotalFee: this.data.orderfee,
+          OrderId:this.data.orderid,
+          DiscountLevel: this.data.discountlevel,
+          DiscountId: this.data.discountid,
+          DiscountName: this.data.discountname,
+          DiscountType: this.data.discounttype,
+          DLStartDate: this.data.discountstartdate,
+          DLEndDate: this.data.discountenddate,
+          TotalFee: this.data.discounttotalfee,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleDateString(),
-          PaymentId: this.data.paymentid,
           PaymentStatus:"unchecked",
           OrderStatus:"unchecked",
           Available:false
@@ -129,11 +144,11 @@ this.setData({
       const db = wx.cloud.database()
       db.collection("PAYMENT").add({
         data: {
-          ProductId: this.data.orderid,
-          ProductName: this.data.ordername,
-          TotalFee: this.data.orderfee,
+          OrderId:this.data.orderid,
+          ProductId: this.data.discountid,
+          ProductName: this.data.discountname,
+          TotalFee: this.data.discounttotalfee,
           AddDate: new Date().toLocaleDateString(),
-          PaymentId: this.data.paymentid,
           PaymentStatus: "unchecked",
           Database:"DISCOUNTORDER"
         },
@@ -212,7 +227,7 @@ this.setData({
             ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
             success: (res) => {
               console.log('支付成功', res);
-              that._productupdate();
+              that._orderupdate();
               that._paymentupdate();
               that._userupdate();
               that.setData({
@@ -228,10 +243,10 @@ this.setData({
           console.error(err);
         });
     },
-    _productupdate() {
+    _orderupdate() {
       const db = wx.cloud.database()
       db.collection('DISCOUNTORDER').where({
-        PaymentId: this.data.paymentid
+        OrderId: this.data.orderid
       }).update({
         data: {
           PaymentStatus: "checked",
@@ -246,7 +261,7 @@ this.setData({
     _paymentupdate() {
       const db = wx.cloud.database()
       db.collection('PAYMENT').where({
-        PaymentId: this.data.paymentid
+        OrderId: this.data.orderid
       }).update({
         data: {
           PaymentStatus: "checked",
@@ -271,6 +286,11 @@ this.setData({
         },
       })
     },
+    bvOtherPay() {
+      wx.navigateTo({
+        url: '../order/pay?orderid=' +this.data.orderid+'&productid=' + this.data.discountid+'&productname=' + this.data.discountname + '&totalfee=' + this.data.discounttotalfee +  '&database=DISCOUNTORDER'
+      })
+    },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -280,16 +300,17 @@ this.setData({
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
-
+    // 查询当前的价格折扣卡
     console.log(this.data.startdate)
     // let that=this
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('DISCOUNTORDER').where({
-        _openid: app.globalData.Gopenid,
-        PaymentStatus:"checked",
-        OrderStatus:"checked"
-      }).orderBy('PaymentId','desc').get({
+      _openid: app.globalData.Gopenid,
+      PaymentStatus: "checked",
+      OrderStatus: "checked",
+      Available: true
+    }).orderBy('OrderId', 'desc').get({
       success: res => {
         console.log(res)
         if (res.data.length != 0) {
@@ -299,42 +320,42 @@ this.setData({
               tempfliter.push(res.data[i]);
             }
           }
-          if(tempfliter.length !=0  && tempfliter.length != undefined){
-                    console.log(tempfliter)
-          this.setData({
-            adddate:tempfliter[0].AddDate,
-            dlstartdate: tempfliter[0].DLStartDate,
-            dlenddate: tempfliter[0].DLEndDate,
-            paymentstatus: tempfliter[0].PaymentStatus,
-            orderstatus: tempfliter[0].OrderStatus,
-          })
-          if (tempfliter[0].DiscountLevel == "DL1") {
+          if (tempfliter.length != 0 && tempfliter.length != undefined) {
+            console.log(tempfliter)
             this.setData({
-              dlname: "特惠价"
+              adddate: tempfliter[0].AddDate,
+              dlstartdate: tempfliter[0].DLStartDate,
+              dlenddate: tempfliter[0].DLEndDate,
+              paymentstatus: tempfliter[0].PaymentStatus,
+              orderstatus: tempfliter[0].OrderStatus,
             })
-          } else if (tempfliter[0].DiscountLevel == "DL2") {
-            this.setData({
-              dlname: "巨惠价"
-            })
-          } else if (tempfliter[0].DiscountLevel == "DL3") {
-            this.setData({
-              dlname: "会员价"
-            })
-          } else if (tempfliter[0].DiscountLevel == "DL4") {
-            this.setData({
-              dlname: "普客价"
-            })
-          }
-        } else{
+            if (tempfliter[0].DiscountLevel == "DL1") {
+              this.setData({
+                dlname: "特惠折扣价"
+              })
+            } else if (tempfliter[0].DiscountLevel == "DL2") {
+              this.setData({
+                dlname: "巨惠折扣价"
+              })
+            } else if (tempfliter[0].DiscountLevel == "DL3") {
+              this.setData({
+                dlname: "折扣价"
+              })
+            } else if (tempfliter[0].DiscountLevel == "DL4") {
+              this.setData({
+                dlname: "原价"
+              })
+            }
+          } else {
             //卡券已过期
             this.setData({
-              dlname: "普客价"
+              dlname: "原价"
             })
           }
         } else {
           //没有卡券
           this.setData({
-            dlname: "普客价",
+            dlname: "原价",
           })
         }
       }

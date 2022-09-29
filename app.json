@@ -4,10 +4,16 @@
     "pages/index/home",
     "pages/index/aboutus",
     "pages/product/product",
-    "pages/product/personaldetail",
-    "pages/product/indibusinessdetail",
-    "pages/product/soleproprietordetail",
-    "pages/product/companydetail",
+    "pages/product/allproduct",
+    "pages/product/productdetail",
+    "pages/product/gongshang",
+    "pages/product/caishui",
+    "pages/product/dizhi",
+    "pages/product/zhichan",
+    "pages/product/zizhi",
+    "pages/product/tuoguan",
+    "pages/product/yinhang",
+    "pages/manage/databass",
     "pages/manage/productedit",
     "pages/manage/productview",
     "pages/manage/scheme",
@@ -15,44 +21,28 @@
     "pages/manage/messgae",
     "pages/manage/pending",
     "pages/manage/providerindex",
-    "pages/order/newpersonal",
-    "pages/order/newindibusiness",
-    "pages/order/newsoleproprietor",
-    "pages/order/newcompany",
+    "pages/order/neworder",
+    "pages/order/orderdetail",
     "pages/order/orderhistory",
-    "pages/order/paymenthistory",
-    "pages/order/dkorderdetail",
-    "pages/order/zcorderdetail",
-    "pages/order/client",
-    "pages/order/address",
-    "pages/order/individual",
-    "pages/order/enterprise",
+    "pages/order/pointshistory",
     "pages/order/pay",
-    "pages/order/delegateissue",
     "pages/mine/pricepolicy",
     "pages/mine/promoterpolicy",
     "pages/mine/booking",
     "pages/mine/mine",
     "pages/mine/minicode",
     "pages/mine/poster",
-    "pages/mine/databass",
-    "pages/mine/regist",
     "pages/mine/userinfo",
     "pages/mine/shareuser",
     "pages/mine/sharevalue",
     "pages/mine/newbooking",
-    "pages/mine/sms",
     "pages/scheme/schemelist",
     "pages/tools/meetingroom/meetingroom",
     "pages/tools/meetingroom/meetingroom1",
     "pages/tools/meetingroom/meetingroom2",
     "pages/tools/meetingroom/meetingroom3",
-    "pages/tools/meetingroom/meetingroom4",
-    "pages/tools/test",
-    "pages/tools/test1",
-    "pages/tools/test2",
-    "pages/tools/test3",
-    "pages/tools/sort"
+    "pages/tools/meetingroom/meetingroom4"
+
   ],
   "permission": {
     "scope.userLocation": {
@@ -62,6 +52,7 @@
   "usingComponents": {
     "l-list": "/miniprogram_npm/lin-ui/list/index",
     "l-price": "/miniprogram_npm/lin-ui/price/index",
+    "l-counter": "/miniprogram_npm/lin-ui/counter/index",
     "l-textarea": "/miniprogram_npm/lin-ui/textarea/index",
     "l-button": "/miniprogram_npm/lin-ui/button/index",
     "l-input": "/miniprogram_npm/lin-ui/input/index",
@@ -80,7 +71,7 @@
     "l-transition": "/miniprogram_npm/lin-ui/transition/index",
     "l-search-bar": "/miniprogram_npm/lin-ui/search-bar/index",
     "l-rate": "/miniprogram_npm/lin-ui/rate/index",
-    "l-collapse":"/miniprogram_npm/lin-ui/collapse/index",
+    "l-collapse": "/miniprogram_npm/lin-ui/collapse/index",
     "l-collapse-item": "/miniprogram_npm/lin-ui/collapse-item/index"
   },
   "tabBar": {
@@ -103,10 +94,10 @@
         "text": "订单"
       },
       {
-        "pagePath": "pages/order/paymenthistory",
+        "pagePath": "pages/order/pointshistory",
         "iconPath": "/img/payment.png",
         "selectedIconPath": "/img/payment1.png",
-        "text": "收付款"
+        "text": "积分"
       },
       {
         "pagePath": "pages/mine/mine",
@@ -117,5 +108,4 @@
     ]
   },
   "sitemapLocation": "sitemap.json"
-
 }

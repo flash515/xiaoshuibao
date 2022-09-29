@@ -28,9 +28,9 @@ Page({
       console.log(res.target)
     }
     return {
-      title: app.globalData.Gcompanyname + app.globalData.Gusername + '邀请您体验：',
+      title: app.globalData.GnickName + '邀请您体验：',
       path: '/pages/index/index?userid=' + app.globalData.Gopenid,
-      imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/omLS75Xib_obyxkVAahnBffPytcA/sharepic.png?sign=9064611f2619d44b847ebdb2e02dc988&t=1621407312', //封面
+      imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
       success: function (res) {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {
@@ -51,7 +51,7 @@ Page({
     return {
     title: '真的有宝哦，快来体验税筹资源小程序！',
     query: '/pages/index/index?userid=' + app.globalData.Gopenid,
-    imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/omLS75Xib_obyxkVAahnBffPytcA/sharepic.png?sign=9064611f2619d44b847ebdb2e02dc988&t=1621407312', //封面
+    imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
     }
   },
   getUserProfile: function (e) {

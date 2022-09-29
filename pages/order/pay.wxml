@@ -17,17 +17,21 @@
 <view style="display:flex; flex-direction:row; justify-content:space-between">
   <label class="title1">订单总金额:</label>
   <l-price size="50" color="#3963bc" unit="￥" value='{{totalfee}}' reserve-digit="2" autofix='true'></l-price>
-  <view hidden="{{onlinehidden}}">
-  <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信支付</l-button>
-</view>
 </view>
   <text>\n</text>
-    <text>注明：以上费用为不含税费用，如需开票，须额外支付6%增值税款。企业注册业务及自然人代开业务款项暂不支持支付宝或微信支付，请选择银行转账或预约当面转账服务。</text>
+  <view hidden="{{onlinehidden}}">
+  <view wx:if="{{payalready==false}}">
+  <l-button class="mainbtn" width="600" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>
+</view>
+  <view wx:elif="{{payalready==true}}">
+  <l-button class="mainbtn" width="600" shape="semicircle" plain="true" disabled="{{true}}">已支付</l-button>
+</view>
+</view>
 </l-card>
 <text>\n</text>
 <view hidden="{{onlinehidden}}">
-<l-collapse>
-  <l-collapse-item title="微信扫码支付">
+  <l-collapse>
+  <l-collapse-item title="扫码支付">
     <l-card type="primary" position="left" image="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png">
       <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存微信付款码到手机相册后，用微信扫一扫打开相册图片，扫码付款 </view>
       <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png">保存到相册</l-button>
@@ -36,11 +40,7 @@
     <l-button open-type="openSetting" size="medium" shape="semicircle" plain="{{true}}" bind:lintap="saveImage" >前往设置页面</l-button>
       </view>    
     </l-card>
-  </l-collapse-item>
-</l-collapse>
-<text>\n</text>
-<l-collapse>
-  <l-collapse-item title="支付宝扫码支付">
+    <text>\n</text>
     <l-card type="primary" position="left" image="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg">
       <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存支付宝付款码到手机相册后，用支付宝扫一扫打开相册图片，扫码付款 </view>
       <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg">保存到相册</l-button>
@@ -51,24 +51,26 @@
     </l-card>
   </l-collapse-item>
 </l-collapse>
-<text>\n</text>
+
 </view>
+<text>\n</text>
 <l-collapse>
   <l-collapse-item title="银行转账支付">
     <l-card type="cover" plaintext="{{true}}">
       <view>
-        <text user-select="true" space="emsp">户 名：吴翟</text>
+        <text user-select="true" space="emsp">户 名：深圳市南山区商企服务中心</text>
       </view>
-      <view><text user-select="true" space="emsp">卡 号：6217921104017465</text></view>
-      <view><text user-select="true" space="emsp">开户行：浦发银行深圳沙井支行</text></view>
+      <view><text user-select="true" space="emsp">卡 号：79180078801500001985</text></view>
+      <view><text user-select="true" space="emsp">开户行：上海浦东发展银行深圳沙井支行</text></view>
     </l-card>
   </l-collapse-item>
 </l-collapse>
+<text>\n</text>
 <l-collapse>
   <l-collapse-item title="预约当面转账">
     <l-card type="cover" plaintext="{{true}}">
       <view>
-        <text space="emsp" decode="{{true}}">  超过一千元的款项小税宝可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
+        <text space="emsp" decode="{{true}}">  超过一千元的款项创企服可提供当面转账服务，目前仅支持粤港澳大湾区范围，客户如需当面转账服务，请提供联系人详细地址信息并预约时间。</text>
       </view>
     </l-card>
       <l-card type="cover" plaintext="{{true}}">

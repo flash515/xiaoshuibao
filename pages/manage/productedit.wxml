@@ -98,7 +98,7 @@
   <l-input type="digit" label="PL4普客价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
 </view>
 <view>
-  <l-input type="text" label="推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
+  <l-input type="number" label="推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
 </view>
 <picker mode="date" value="{{startdate}}" start="2015-09-01" end="2022-09-01" bindchange="bvStartDate">
   <view class="picker">

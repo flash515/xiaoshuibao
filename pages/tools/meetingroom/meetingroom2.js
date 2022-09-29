@@ -1,7 +1,9 @@
-const app = getApp()
 
+const app = getApp()
 Page({
   data: {
+    inviterid:"",
+    starttime:"",
     avatarUrl: './user-unlogin.png',
     userInfo: null,
     logged: false,
@@ -17,28 +19,35 @@ Page({
     getOpenID: null,
   },
 
-  onLoad: function() {
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
-            }
-          })
-        }
-      }
-    })
+  onLoad: function(options) {
+      this.data.inviterid = options.userid;
+      app.globalData.Ginviterid = options.userid;
+      this.data.starttime=options.starttime;
+      console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
+      console.log(Date.parse(new Date()) - this.data.starttime);
+      // 接收参数方法一结束
+
+if(Date.parse(new Date()) - this.data.starttime<"3600000"){
+  const db = wx.cloud.database()
+  db.collection('USER').where({
+    _openid: this.data.inviterid
+  }).get({
+    success: res => {
+      wx.setStorageSync('LInviter', res.data[0]);
+      this.setData({
+        invitercompanyname: res.data[0].CompanyName,
+        inviterusername: res.data[0].UserName,
+        indirectinviterid: res.data[0].InviterOpenId
+      })
+      app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
+      app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
+    }
+  })
+
     this.setData({
-      onGetUserInfo: this.onGetUserInfo,
+      // onGetUserInfo: this.onGetUserInfo,
       getOpenID: this.getOpenID,
     })
-
     wx.getSystemInfo({
       success: res => {
         console.log('system info', res)
@@ -50,8 +59,12 @@ Page({
         }
       },
     })
+}else{
+  wx.redirectTo({
+    url: '../meetingroom/meetingroom',
+  })
+}
   },
-
   getOpenID: async function() {
     if (this.openid) {
       return this.openid
@@ -73,11 +86,10 @@ Page({
       })
     }
   },
-
   onShareAppMessage() {
     return {
-      title: '邀请您进入小税宝快捷会议室',
-      path: '/pages/tools/meetingroom/meetingroom2',
+      title: app.globalData.GnickName + '邀请您进入小税宝快捷会议室二，此邀请60分钟内有效',
+      path: '/pages/tools/meetingroom/meetingroom2?userid=' + app.globalData.Gopenid+'&starttime='+this.data.starttime,
       imageUrl: 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/index.png', //封面
         }
   },

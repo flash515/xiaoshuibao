@@ -5,17 +5,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-    onlinehidden:false,
+    onlinehidden: false,
+    payalready: false,
     booklock: false,
     address: "",
     phone: "",
     contacts: "",
     data: "",
     time: "",
-    totalfee: 0,
-    paymentid: "",
+    orderid: "",
+    productid: "",
     productname: "",
-    database:"",
+    totalfee: 0,
+    database: "",
+    consumepoints: 0,
+    inviterpoints: 0,
+    indirectinviterpoints: 0,
+    tempinviterbalance: 0,
+    tempindirectinviterbalance: 0,
+    inviterbalance: 0,
+    indirectinviterbalance: 0,
     openSettingBtnHidden: true,
     // 轮播头图
     image: [],
@@ -30,7 +39,7 @@ Page({
   },
   // 点击支付按钮,发起支付
   bvWXPay(event) {
-    const goodsnum = this.data.paymentid;
+    const goodsnum = this.data.orderid;
     const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
     const body = this.data.productname;
     const PayVal = this.data.totalfee * 100;
@@ -40,15 +49,15 @@ Page({
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
     wx.cloud.callFunction({
-        name: 'WXPay',
-        data: {
-          // 需要将data里面的参数传给WXPay云函数
-          body,
-          goodsnum, // 商品订单号不能重复
-          subMchId, // 子商户号,微信支付商户号,必填
-          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
-        },
-      })
+      name: 'WXPay',
+      data: {
+        // 需要将data里面的参数传给WXPay云函数
+        body,
+        goodsnum, // 商品订单号不能重复
+        subMchId, // 子商户号,微信支付商户号,必填
+        payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+      },
+    })
       .then((res) => {
         console.log(res);
         const payment = res.result.payment;
@@ -58,8 +67,13 @@ Page({
           ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
           success: (res) => {
             console.log('支付成功', res);
-            that._productupdate();
-            that._paymentupdate();
+            that.setData({
+              payalready: true
+            })
+            that._orderupdate();
+            that._pointsupdate();
+            that._discountupdate();
+            that._balanceupdate()
           },
           fail: (err) => {
             console.error('支付失败', err);
@@ -70,34 +84,145 @@ Page({
         console.error(err);
       });
   },
+  // 测试支付成功的函数
+  // bvTest(){
+  //   this._balanceupdate()
+  // },
 
-  _productupdate() {
+  _orderupdate() {
     const db = wx.cloud.database()
     db.collection(this.data.database).where({
-      PaymentId: this.data.paymentid
+      OrderId: this.data.orderid
     }).update({
       data: {
         PaymentStatus: "checked",
         OrderStatus: "checked",
-        Available:true,
+        Available: true,
       },
       success(res) {
         console.log("产品订单更新成功")
       }
     })
   },
-  _paymentupdate() {
+  _pointsupdate() {
     const db = wx.cloud.database()
-    db.collection('PAYMENT').where({
-      PaymentId: this.data.paymentid
+    db.collection('POINTS').where({
+      OrderId: this.data.orderid
     }).update({
       data: {
         PaymentStatus: "checked",
+        PointsStatus: "checked",
       },
       success(res) {
-        console.log("支付订单更新成功")
+        console.log("积分状态更新成功")
       },
     })
+  },
+  _discountupdate() {
+    console.log("discountupdate已执行")
+    if (this.data.productid == "DL3_Single") {
+      const db = wx.cloud.database()
+      db.collection("DISCOUNTORDER").where({
+        OrderId: this.data.orderid
+      }).update({
+        data: {
+          Available: false
+        }
+      })
+    }
+  },
+  _balanceupdate() {
+    let that = this
+    if (this.data.database == "ORDER") {
+      const db = wx.cloud.database()
+      let p1 = new Promise((resolve, reject) => {
+        db.collection('POINTS').where({
+          OrderId: this.data.orderid
+        }).get({
+          success: res => {
+            console.log(res.data[0].InviterPoints)
+            this.setData({
+              consumepoints: res.data[0].ConsumePoints,
+              inviterpoints: res.data[0].InviterPoints,
+              indirectinviterpoints: res.data[0].IndirectInviterPoints,
+            })
+            resolve(this.data.inviterpoints, this.data.indirectinviterpoints);
+            console.log(this.data.indirectinviterpoints)
+          }
+        })
+      });
+      let p2 = new Promise((resolve, reject) => {
+        db.collection('USER').where({
+          _openid: app.globalData.Ginviterid
+        }).get({
+          success: res => {
+            console.log(res)
+            this.setData({
+              tempinviterbalance: res.data[0].Balance,
+            })
+            resolve(this.data.tempinviterbalance);
+            console.log(this.data.tempinviterbalance)
+          }
+        })
+      });
+      let p3 = new Promise((resolve, reject) => {
+        db.collection('USER').where({
+          _openid: app.globalData.Gindirectinviterid
+        }).get({
+          success: res => {
+            console.log(res)
+            this.setData({
+              tempindirectinviterbalance: res.data[0].Balance,
+            })
+            resolve(this.data.tempindirectinviterbalance);
+            console.log(this.data.tempindirectinviterbalance)
+          }
+        })
+      });
+      Promise.all([p1, p2, p3]).then(res => {
+        that.setData({
+          inviterbalance: that.data.tempinviterbalance + that.data.inviterpoints,
+          indirectinviterbalance: that.data.tempindirectinviterbalance + that.data.indirectinviterpoints,
+        })
+        const db = wx.cloud.database()
+        db.collection('USER').where({
+          _openid: app.globalData.Gopenid
+        }).update({
+          data: {
+            Balance: app.globalData.Gbalance - that.data.consumepoints,
+          },
+          success(res) {
+            console.log("个人积分更新成功")
+          }
+        })
+        wx.cloud.callFunction({
+          // 要调用的云函数名称
+          name: 'BalanceUpdate',
+          // 传递给云函数的参数
+          data: {
+            id: app.globalData.Ginviterid,
+            balance: that.data.inviterbalance,
+          },
+          success: res => {
+            console.log(res)
+            console.log("直接推荐人积分更新成功")
+          },
+        })
+        wx.cloud.callFunction({
+          // 要调用的云函数名称
+          name: 'BalanceUpdate',
+          // 传递给云函数的参数
+          data: {
+            id: app.globalData.Gindirectinviterid,
+            balance: that.data.indirectinviterbalance,
+          },
+          success: res => {
+            console.log(res)
+            console.log("间接推荐人积分更新成功")
+          },
+        })
+      });
+    }
   },
   // 保存到手机
   saveImage: function (event) {
@@ -157,8 +282,8 @@ Page({
   enlarge: function (event) {
     var src = event.currentTarget.dataset.src; //获取data-src
     var imgList = [
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png',
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg'
+      'cloud://cloud1-2gn7aud7a22c693c.7873-cloud1-2gn7aud7a22c693c-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png',
+      'cloud://cloud1-2gn7aud7a22c693c.7873-cloud1-2gn7aud7a22c693c-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg'
     ]
     //图片预览
     wx.previewImage({
@@ -201,10 +326,17 @@ Page({
         duration: 2000 //持续的时间
       })
     } else {
-      // 未锁定时执行
-      // 获取数据库引用
-      const db = wx.cloud.database()
-      db.collection('BOOKING').add({
+      if (this.data.address == "" || this.data.phone == "" || this.data.contacts == "" || this.data.date == "" || this.data.time == "") {
+        wx.showToast({
+          title: '请提供详细信息',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
+      } else {
+        // 未锁定时执行
+        // 获取数据库引用
+        const db = wx.cloud.database()
+        db.collection('BOOKING').add({
           data: {
             Address: this.data.address,
             Phone: this.data.phone,
@@ -232,7 +364,8 @@ Page({
             })
           }
         }),
-        this.data.booklock = true // 修改上传状态为锁定
+          this.data.booklock = true // 修改上传状态为锁定
+      }
     }
   },
   /**
@@ -240,15 +373,16 @@ Page({
    */
   onLoad: function (options) {
     var str = new Date()
+    // 订单编号orderid、产品编号productid、产品名称productname、订单总费用totalfee、订单数据库database、微信即时支付是否隐藏onlinehidden
     this.setData({
-      totalfee: options.totalfee,
-      productid:options.productid,
+      orderid: options.orderid,
+      productid: options.productid,
       productname: options.productname,
-      paymentid: options.paymentid,
-      database:options.database,
-      onlinehidden:options.onlinehidden,
+      totalfee: options.totalfee,
+      database: options.database,
+      onlinehidden: options.onlinehidden,
       image: app.globalData.Gimagearray,
-      startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
+      // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
   },
 

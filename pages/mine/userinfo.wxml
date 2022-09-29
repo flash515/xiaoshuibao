@@ -44,13 +44,16 @@
       <view>
         <l-input type="text" label="企业规模：" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
       </view>
+      <text>\n</text>
+  <view hidden="{{btnhidden}}">
+    <l-button type="default" bind:lintap="UpdateData" shape="semicircle" icon="to-top" icon-color="white">更新信息
+    </l-button>
+    <text space="emsp" decode="{{true}}">&emsp;</text>
+    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
+    </l-button>
+  </view>
     </l-tabpanel>
-    <l-tabpanel tab="收款账号" key="two" slot="two">
-      <l-input type="text" label="账户名称：" value="{{accountname}}" bind:lininput="bvAccountName"></l-input>
-      <l-input type="text" label="开户银行：" value="{{bankname}}" bind:lininput="bvBankName"></l-input>
-      <l-input type="text" label="银行账号：" value="{{account}}" bind:lininput="bvAccount"></l-input>
-    </l-tabpanel>
-    <l-tabpanel tab="邀请人信息" key="three" slot="three">
+    <l-tabpanel tab="邀请人信息" key="two" slot="two">
       <view>
         <l-input type="text" label="邀请企业：" value="{{invitercompanyname}}" disabled="{{true}}"></l-input>
       </view>
@@ -59,12 +62,6 @@
       </view>
     </l-tabpanel>
   </l-tabs>
-  <text>\n</text>
-  <view hidden="{{btnhidden}}">
-    <l-button type="default" bind:lintap="UpdateData" shape="semicircle" icon="to-top" icon-color="white">更新信息
-    </l-button>
-    <text space="emsp" decode="{{true}}">&emsp;</text>
-    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
-    </l-button>
-  </view>
+
+
 </view>

@@ -89,14 +89,23 @@ App({
     Gusername: "",
     GnickName: "",
     GavatarUrl: "",
+    Ginviterid: "",
+    Ginviterpromoterlevel: "",
+    Ginviterbalance: "",
+    Gindirectinviterid: "",
+    Gindirectinviterpromoterlevel: "",
+    Gindirectinviterbalance: "",
     // 用户类型
     Gusertype: "",
     Gdirect1yearvaliduser:"",
     Gdiscountlevel: "",
+    Gdiscounttype: "",
     Gpromoterlevel: "",
+    Gbanlance: "",
     //轮播图
     Gimagearray:[],
     //用户设置
+    Gpointsmagnification:'',
     Gpriceshow:'',
     Gdirectvalueshow:'',
     Gindirectvalueshow:'',
