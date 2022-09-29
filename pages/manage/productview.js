@@ -6,10 +6,13 @@ Page({
    */
   data: {
     productarray: [],
-    dkarray: [],
-    gtarray: [],
-    gdarray: [],
-    GSarray: []
+    array1: [],
+    array2: [],
+    array3: [],
+    array4: [],
+    array5: [],
+    array6: [],
+    sv1:true,
   },
   bvAddProduct(e) {
     wx.navigateTo({
@@ -59,49 +62,61 @@ Page({
           productarray: res.data,
         })
         console.log("本人产品数组", this.data.productarray)
-        // 筛选自然人代开
-        var DKfliter = [];
+        // 筛选地址服务
+        var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "自然人代开") {
-            DKfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "地址服务") {
+            fliter1.push(this.data.productarray[i]);
           }
         }
 
-        // 筛选个体工商
-        var GTfliter = [];
+        // 筛选工商代办
+        var fliter2 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "个体工商") {
-            GTfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "工商代办") {
+            fliter2.push(this.data.productarray[i]);
           }
         }
 
-        // 筛选个独/合伙企业
-        var GDfliter = [];
+        // 筛选银行代办
+        var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "个独/合伙企业") {
-            GDfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "银行代办") {
+            fliter3.push(this.data.productarray[i]);
           }
         }
 
-        // 筛选有限公司
-        var GSfliter = [];
+        // 筛选财税服务
+        var fliter4 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductType == "有限公司") {
-            GSfliter.push(this.data.productarray[i]);
+          if (this.data.productarray[i].Category1 == "财税服务") {
+            fliter4.push(this.data.productarray[i]);
           }
         }
-
+        // 筛选企业托管
+        var fliter5 = [];
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].Category1 == "企业托管") {
+            fliter5.push(this.data.productarray[i]);
+          }
+        }
+                // 筛选资质代办
+                var fliter6 = [];
+                for (var i = 0; i < this.data.productarray.length; i++) {
+                  if (this.data.productarray[i].Category1 == "资质代办") {
+                    fliter6.push(this.data.productarray[i]);
+                  }
+                }
         this.setData({
-          DKarray: DKfliter,
-          GTarray: GTfliter,
-          GDarray: GDfliter,
-          GSarray: GSfliter
+          array1: fliter1,
+          array2: fliter2,
+          array3: fliter3,
+          array4: fliter4,
+          array5: fliter5,
+          array6: fliter6,
+
         })
-        // 打印数组
-        console.log("代开产品", this.data.DKarray)
-        console.log("个体产品", this.data.GTarray)
-        console.log("个独/合伙", this.data.GDarray)
-        console.log("有限公司", this.data.GSarray)
+
       },
     })
   },

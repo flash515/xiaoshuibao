@@ -6,8 +6,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    region: [],
     avatarUrl: "",
     nickName: "",
+    promoterlevel: "",
     noticearray: [],
     // 轮播头图
     image: [],
@@ -20,7 +22,20 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-
+  bindRegionChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      region: e.detail.value
+    })
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      _openid: app.globalData.Gopenid,
+    }).update({
+      data:{
+        Region:this.data.region
+      }
+    })
+  },
   // 转发小程序功能
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
@@ -47,11 +62,11 @@ Page({
       },
     }
   },
-  onShareTimeline: function(){
+  onShareTimeline: function () {
     return {
-    title: '真的有宝哦，快来体验税筹资源小程序！',
-    query: '/pages/index/index?userid=' + app.globalData.Gopenid,
-    imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
+      title: '真的有宝哦，快来体验税筹资源小程序！',
+      query: '/pages/index/index?userid=' + app.globalData.Gopenid,
+      imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
     }
   },
   getUserProfile: function (e) {
@@ -63,8 +78,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
+        app.globalData.GavatarUrl = res.userInfo.avatarUrl
+        app.globalData.GnickName = res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -83,7 +98,7 @@ Page({
         })
         // 以上更新数据结束
         wx.showToast({
-          icon:'success',
+          icon: 'success',
           title: '登录成功',
         })
         return;
@@ -103,7 +118,9 @@ Page({
    * 生命周期函数--监听页面加载
   //  */
   onLoad: function (options) {
-
+    this.setData({
+      region:app.globalData.Gregion
+    })
     const db = wx.cloud.database()
     db.collection('notice').get({
       success: res => {
@@ -113,7 +130,7 @@ Page({
         }
         //一定要用setData赋值才会在前端出现
         this.setData({
-          noticearray: tempnoticearray
+          noticearray: tempnoticearray,
         })
         console.log("noticearray", this.data.noticearray)
       }
@@ -130,6 +147,17 @@ Page({
         this.IndirectUserQuery(res.data)
       }
     })
+        // 通过传递来的参数查询推荐人信息
+        db.collection('USER').where({
+          _openid: app.globalData.Gindirectinviterid
+        }).get({
+          success: res => {
+            console.log(res)
+            wx.setStorageSync('LIndirectInviter', res.data[0]);
+            app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
+            app.globalData.Gindirectinviterbalance = res.data[0].Balance;
+          }
+        })
   },
   IndirectUserQuery: function (options) {
     // 从本地存储中读取
@@ -169,7 +197,8 @@ Page({
     this.setData({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
-      image: app.globalData.Gimagearray
+      image: app.globalData.Gimagearray,
+      promoterlevel: app.globalData.Gpromoterlevel
     })
   },
 

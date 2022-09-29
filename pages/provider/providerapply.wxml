@@ -1,5 +1,5 @@
 <view class="title">
-  <text>管理员功能</text>
+  <text>服务商功能</text>
 </view>
 <text>\n</text>
 <l-card type="primary" plaintext="{{true}}">

@@ -20,6 +20,7 @@
   <l-input type="text" value="{{productid}}" label="产品编号:" bind:lininput="bvProductId"></l-input>
 </view>
 <view>
+
   <l-input type="text" value="{{producttype}}" label="产品类型:" bind:lininput="bvProductType"></l-input>
 </view>
 <view>

@@ -102,6 +102,7 @@ App({
     Gdiscounttype: "",
     Gpromoterlevel: "",
     Gbanlance: "",
+    Gregion:[],
     //轮播图
     Gimagearray:[],
     //用户设置

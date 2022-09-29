@@ -4,6 +4,7 @@ Page({
     //inviterid接收传入的参数
     inviterid: "",
     tempinviterid: "",
+    remark: "",
     indirectinviterid: "",
     invitercompanyname: "",
     inviterusername: "",
@@ -33,6 +34,7 @@ Page({
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
       this.data.tempinviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+      this.data.remark="无参数进入"
       console.log("搜索进入参数:", this.data.tempinviterid);
     }
     //准备调用云数据库
@@ -127,6 +129,7 @@ Page({
           app.globalData.Gusertype = res.data[0].UserType
           app.globalData.Gpromoterlevel = res.data[0].PromoterLevel
           app.globalData.Gbalance = res.data[0].Balance
+          app.globalData.Gregion = res.data[0].Region
           this._olduser()
         }
       }
@@ -143,6 +146,7 @@ Page({
     app.globalData.Gdiscountlevel = "DL4"
     app.globalData.Gpromoterlevel = "null"
     app.globalData.Gbalance = 0
+    app.globalData.Gregion =["广东省", "深圳市", "福田区"]
     // 在USER数据库中新增用户信息
     const db = wx.cloud.database()
     db.collection("USER").add({
@@ -156,7 +160,9 @@ Page({
         UserPhone: "",
         DiscountLevel: "DL4",
         PromoterLevel: "normal",
-        Balance: 0
+        Balance: 0,
+        Region:["广东省", "深圳市", "福田区"],
+        Remark:this.data.remark
       },
       success: res => {
         // 调用云函数发信息给推荐人
