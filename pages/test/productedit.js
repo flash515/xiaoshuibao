@@ -57,6 +57,17 @@ Page({
     category2: "",
     category3: "",
     multiArray:placeArray,
+
+    inputShow:false,
+    boxShow:false,
+    placeArray: placeArray,
+    province: placeArray[0].Category1,
+    pIndex: 0,
+    city: placeArray[0].Category2Array[0].Category2,
+    cIndex: 0,
+    area: placeArray[0].Category2Array[0].Category3Array[0],
+    aIndex: 0,
+
     // https://www.csdn.net/tags/MtjaYg0sMDI2MzgtYmxvZwO0O0OO0O0O.html
     // multiArray: [['商务服务', '教培信息'], ['地址服务', '工商代办', '银行代办', '财税服务', '企业托管', '资质代办'], ['深圳地址', '广州地址', '东莞地址']],
     placeArray: placeArray,
@@ -105,7 +116,7 @@ Page({
     //     }
     //   ]
     // ],
-    multiIndex: [],
+    multiIndex: [0,0,0],
 
     // 表单参数
     showvalue1: true,
@@ -177,6 +188,54 @@ Page({
     imageuploadlock: false,
     recordcontral: false
   },
+
+  // 展示弹框
+  getbox: function(){
+    this.setData({
+      boxShow: true
+    })
+  },
+  // 隐藏弹框
+  hidebox: function(){
+    this.setData({
+      boxShow: false
+    })
+  },
+  // 确认按钮
+  confirm: function(){
+    this.setData({
+      boxShow: false,
+      inputShow: true,
+    })
+  },
+ changeProvince2: function(e){
+  const val = e.detail.value
+  this.setData({
+    pIndex: val,
+    cIndex: 0,
+    aIndex: 0,
+    category1: placeArray[val].Category1,
+    category2: placeArray[val].Category2Array[0].Category2,
+    category3: placeArray[val].Category2Array[0].Category3Array[0]
+  })
+},
+changeCity2: function(e){
+  const val = e.detail.value
+  this.setData({
+    cIndex: val,
+    aIndex: 0,
+    category2: placeArray[this.data.pIndex].Category2Array[val].Category2,
+    category3: placeArray[this.data.pIndex].Category2Array[val].Category3Array[0]
+  })
+},
+changeArea2: function(e){
+  const val = e.detail.value
+  this.setData({
+    aIndex: val,
+    category3: placeArray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val]
+  })
+},
+
 
   bindMultiPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)

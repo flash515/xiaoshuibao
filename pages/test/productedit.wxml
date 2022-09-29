@@ -37,7 +37,14 @@
 
   </view>
 </view>
+
+
+
+
+
+
 <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;">
+
   <view> <label class="text">3.产品分类：</label></view>
 
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
@@ -50,11 +57,42 @@
     <switch checked="{{showvalue1}}" bindchange="SVChange1" style='zoom:.6;' disabled="true" />
   </view>
 </view>
-<view hidden="{{showvalue1==false}}" style="display:flex; justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;">
-  <picker mode="multiSelector" class='asdas' bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
-    <!-- <l-input value='{{multiArray[0][multiIndex[0]]}}/{{multiArray[1][multiIndex[1]]}}/{{multiArray[2][multiIndex[2]]}}'></l-input> -->
-    <l-input value='{{multiArray[0].Category1}}/{{multiArray[0].Category2Array[0].Category2}}/{{multiArray[0].Category2Array[0].Category3Array[0]}}'></l-input>
-  </picker>
+<view hidden="{{showvalue1==false}}" style="display:flex; justify-content:space-between;align-items:center;font-size: 28rpx;">
+
+  <view class="index">
+  <view class="input" bindtap="getbox" wx:if="{{!inputShow}}" style="color: #999;">请选择地址</view>
+  <view class="input" bindtap="getbox" wx:if="{{inputShow}}">{{category1}}/{{category2}}/{{category3}}</view>
+  <!-- 省市区弹框 -->
+  <view class="box" wx:if="{{boxShow}}">
+    <!-- 阴影 -->
+    <view class="black" bindtap="hidebox"></view>
+    <!-- 内容 -->
+    <view class="nr">
+      <view class="item">
+        <text bindtap="hidebox">取消</text>
+        <text bindtap="confirm">确认</text>
+      </view>
+      <view style="display:flex;width: 100%;height: 200rpx;">
+          <picker-view indicator-style="height: 200rpx;" style="width: 100%;height: 200rpx;text-align: center" value="{{pIndex}}" bindchange="changeProvince2">
+              <picker-view-column>
+                  <view wx:for="{{placeArray}}" wx:key="Category1" style="line-height: 25rpx">{{item.Category1}}</view>
+              </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 200rpx;" style="width: 100%;height: 200rpx;text-align: center" value="{{cIndex}}" bindchange="changeCity2">
+              <picker-view-column>
+                  <view wx:for="{{placeArray[pIndex].Category2Array}}" wx:key="Category2" style="line-height: 25rpx">{{item.Category2}}</view>
+              </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 200rpx;" style="width: 100%;height: 200rpx;text-align: center" value="{{aIndex}}" bindchange="changeArea2">
+              <picker-view-column>
+                  <view wx:for="{{placeArray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="*this" style="line-height: 25rpx">{{item}}</view>
+              </picker-view-column>
+          </picker-view>
+      </view>
+    </view>
+  </view>
+</view>
+
 </view>
 
 <view>
