@@ -7,16 +7,16 @@
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
     <l-input type="text" placeholder="{{adddate}}" label="1.录入日期:" disabled="{{true}}"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue2==true}}">
+      <view wx:if="{{showvalue1==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue2}}" bindchange="SVChange2" style='zoom:.6;' disabled="true" />
+      <switch checked="{{showvalue1}}" data-id="1" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
-  <view hidden="{{showvalue2==false}}">
+  <view hidden="{{showvalue1==false}}">
 
   </view>
 </view>
@@ -30,34 +30,45 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue2}}" bindchange="SVChange2" style='zoom:.6;' disabled="true" />
+      <switch checked="{{showvalue2}}" data-id="2" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
   <view hidden="{{showvalue2==false}}">
 
   </view>
 </view>
+<view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
+      <l-input type="text" value="{{productname}}" label="3.产品名称：" bind:lininput="bvProductName"></l-input>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue3==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue3}}" data-id="3" bindchange="SVChange" style='zoom:.6;' disabled="true" />
+    </view>
+  </view>
+  <view hidden="{{showvalue3==false}}">
 
-
-
-
-
-
+  </view>
+</view>
 <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;">
 
-  <view> <label class="text">3.产品分类：</label></view>
+  <view> <label class="text">4.产品分类：</label></view>
 
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-    <view wx:if="{{showvalue1==true}}">
+    <view wx:if="{{showvalue4==true}}">
       <label class="text">当前展示</label>
     </view>
     <view wx:else>
       <label class="text">当前不展示</label>
     </view>
-    <switch checked="{{showvalue1}}" bindchange="SVChange1" style='zoom:.6;' disabled="true" />
+    <switch checked="{{showvalue4}}" data-id="4" bindchange="SVChange" style='zoom:.6;' disabled="true" />
   </view>
 </view>
-<view hidden="{{showvalue1==false}}" style="display:flex; justify-content:space-between;align-items:center;font-size: 28rpx;">
+<view hidden="{{showvalue4==false}}" style="display:flex; justify-content:space-between;align-items:center;font-size: 28rpx;">
 
   <view class="index">
   <view class="input" bindtap="getbox" wx:if="{{!inputShow}}" style="color: #999;">请选择产品类别</view>
@@ -69,23 +80,23 @@
     <!-- 内容 -->
     <view class="nr">
       <view class="item">
-        <text bindtap="hidebox">取消</text>
-        <text bindtap="confirm">确认</text>
+        <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
+        <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
       </view>
-      <view style="display:flex;width: 100%;height: 200rpx;">
-          <picker-view indicator-style="height: 200rpx;" style="width: 100%;height: 200rpx;text-align: center" value="{{pIndex}}" bindchange="changeCategory1">
+      <view style="display:flex;width: 100%;height: 300rpx;">
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
               <picker-view-column>
-                  <view wx:for="{{sortarray}}" wx:key="Category1Name" style="line-height: 25rpx">{{item.Category1Name}}</view>
+                  <view wx:for="{{sortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
               </picker-view-column>
           </picker-view>
-          <picker-view indicator-style="height: 200rpx;" style="width: 100%;height: 200rpx;text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
               <picker-view-column>
-                  <view wx:for="{{sortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 25rpx">{{item.Category2Name}}</view>
+                  <view wx:for="{{sortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
               </picker-view-column>
           </picker-view>
-          <picker-view indicator-style="height: 200rpx;" style="width: 100%;height: 200rpx;text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
               <picker-view-column>
-                  <view wx:for="{{sortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 25rpx">{{item.Category3Name}}</view>
+                  <view wx:for="{{sortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
               </picker-view-column>
           </picker-view>
       </view>
@@ -97,36 +108,18 @@
 
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" value="{{productname}}" label="4.产品名称：" bind:lininput="bvProductName"></l-input>
+    <l-input type="text" value="{{productid}}" label="5.产品编号：" bind:lininput="bvProductId" disabled="true"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue2==true}}">
+      <view wx:if="{{showvalue5==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue2}}" bindchange="SVChange2" style='zoom:.6;' disabled="true" />
+      <switch checked="{{showvalue5}}" data-id="5" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
-  <view hidden="{{showvalue2==false}}">
-
-  </view>
-</view>
-
-<view>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" value="{{productid}}" label="5.产品编号：" bind:lininput="bvProductId"></l-input>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue3==true}}">
-        <label class="text">当前展示</label>
-      </view>
-      <view wx:else>
-        <label class="text">当前不展示</label>
-      </view>
-      <switch checked="{{showvalue3}}" bindchange="SVChange3" style='zoom:.6;' disabled="true" />
-    </view>
-  </view>
-  <view hidden="{{showvalue3==false}}">
+  <view hidden="{{showvalue5==false}}">
 
   </view>
 </view>
@@ -137,16 +130,16 @@
       <label class="text">6.产品概要:</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue4==true}}">
+      <view wx:if="{{showvalue6==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue4}}" bindchange="SVChange4" style='zoom:.6;' disabled="true" />
+      <switch checked="{{showvalue6}}" data-id="6" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
-  <view hidden="{{showvalue4==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue6==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-textarea type="text" name="outline" value="{{outline}}" bind:lininput="bvOutline"></l-textarea>
   </view>
 </view>
@@ -157,16 +150,16 @@
       <label class="text">7.产品具体说明:</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue5==true}}">
+      <view wx:if="{{showvalue7==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue5}}" bindchange="SVChange5" style='zoom:.6;' disabled="true" />
+      <switch checked="{{showvalue7}}" data-id="7" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
-  <view hidden="{{showvalue5==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue7==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-textarea type="text" value="{{description}}" bind:lininput="bvDescription"></l-textarea>
   </view>
 </view>
@@ -177,16 +170,16 @@
       <label class="text">8.适用情况:</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue6==true}}">
+      <view wx:if="{{showvalue8==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue6}}" bindchange="SVChange6" style='zoom:.6;' />
+      <switch checked="{{showvalue8}}" data-id="8" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue6==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue8==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-textarea type="text" value="{{situation}}" bind:lininput="bvSituation"></l-textarea>
   </view>
 </view>
@@ -197,16 +190,16 @@
       <label class="text">9.限制性事项:</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue2==true}}">
+      <view wx:if="{{showvalue9==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue2}}" bindchange="SVChange2" style='zoom:.6;' />
+      <switch checked="{{showvalue9}}" data-id="9" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue2==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue9==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-textarea type="text" value="{{forbid}}" bind:lininput="bvForbid"></l-textarea>
   </view>
 </view>
@@ -217,16 +210,16 @@
       <label class="text">10.资料清单:</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue3==true}}">
+      <view wx:if="{{showvalue10==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue3}}" bindchange="SVChange3" style='zoom:.6;' />
+      <switch checked="{{showvalue10}}" data-id="10" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue3==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue10==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-textarea type="text" value="{{doclist}}" bind:lininput="bvDocList"></l-textarea>
   </view>
 </view>
@@ -237,16 +230,16 @@
       <label class="text">11.税收奖励:</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue3==true}}">
+      <view wx:if="{{showvalue11==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue3}}" bindchange="SVChange3" style='zoom:.6;' />
+      <switch checked="{{showvalue11}}" data-id="11" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue3==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue11==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-textarea type="text" value="{{reward}}" bind:lininput="bvReward"></l-textarea>
   </view>
 </view>
@@ -256,16 +249,16 @@
       <label class="text">12.奖励时间:</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue3==true}}">
+      <view wx:if="{{showvalue12==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue3}}" bindchange="SVChange3" style='zoom:.6;' />
+      <switch checked="{{showvalue12}}" data-id="12" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue3==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue12==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-textarea type="text" value="{{rewardtime}}" bind:lininput="bvRewardTime"></l-textarea>
   </view>
 </view>
@@ -281,16 +274,16 @@
     </picker>
 
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue9==true}}">
+      <view wx:if="{{showvalue13==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue9}}" bindchange="SVChange9" style='zoom:.6;' disabled="true" />
+      <switch checked="{{showvalue13}}" data-id="13" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
-  <view hidden="{{showvalue9==false}}">
+  <view hidden="{{showvalue13==false}}">
 
   </view>
 
@@ -300,81 +293,13 @@
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
     <l-input type="text" label="14.办理部门:" value="{{issuedby}}" bind:lininput="bvIssuedBy"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue10==true}}">
-        <label class="text">当前展示</label>
-      </view>
-      <view wx:else>
-        <label class="text">当前不展示</label>
-      </view>
-      <switch checked="{{showvalue10}}" bindchange="SVChange10" style='zoom:.6;' disabled="true" />
-    </view>
-  </view>
-  <view hidden="{{showvalue10==false}}">
-
-  </view>
-</view>
-<view>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" label="15.办理时长:" value="{{processingtime}}" bind:lininput="bvProcessingTime"></l-input>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue11==true}}">
-        <label class="text">当前展示</label>
-      </view>
-      <view wx:else>
-        <label class="text">当前不展示</label>
-      </view>
-      <switch checked="{{showvalue11}}" bindchange="SVChange11" style='zoom:.6;' />
-    </view>
-  </view>
-  <view hidden="{{showvalue11==false}}">
-
-  </view>
-</view>
-<view>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" label="16.服务商:" value="{{provider}}" bind:lininput="bvProvider"></l-input>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue12==true}}">
-        <label class="text">当前展示</label>
-      </view>
-      <view wx:else>
-        <label class="text">当前不展示</label>
-      </view>
-      <switch checked="{{showvalue12}}" bindchange="SVChange12" style='zoom:.6;' disabled="true" />
-    </view>
-  </view>
-  <view hidden="{{showvalue12==false}}">
-
-  </view>
-</view>
-<view>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" label="17.服务商报价:" value="{{providerprice}}" bind:lininput="bvProviderPrice"></l-input>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue13==true}}">
-        <label class="text">当前展示</label>
-      </view>
-      <view wx:else>
-        <label class="text">当前不展示</label>
-      </view>
-      <switch checked="{{showvalue13}}" bindchange="SVChange13" style='zoom:.6;' disabled="true" />
-    </view>
-  </view>
-  <view hidden="{{showvalue13==false}}">
-
-  </view>
-</view>
-<view>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="digit" label="18.服务商计算费率:" value="{{providercountprice}}" bind:lininput="bvProviderCountPrice"></l-input>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue14==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue14}}" bindchange="SVChange14" style='zoom:.6;' disabled="true" />
+      <switch checked="{{showvalue14}}" data-id="14" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
   <view hidden="{{showvalue14==false}}">
@@ -383,7 +308,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" label="19.DL1特惠价格:" value="{{price1}}" bind:lininput="bvPrice1"></l-input>
+    <l-input type="text" label="15.办理时长:" value="{{processingtime}}" bind:lininput="bvProcessingTime"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue15==true}}">
         <label class="text">当前展示</label>
@@ -391,7 +316,7 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue15}}" bindchange="SVChange15" style='zoom:.6;' />
+      <switch checked="{{showvalue15}}" data-id="15" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
   <view hidden="{{showvalue15==false}}">
@@ -400,7 +325,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="digit" label="20.DL1特惠价计算费率:" value="{{price1count}}" bind:lininput="bvPrice1Count"></l-input>
+    <l-input type="text" label="16.服务商:" value="{{provider}}" bind:lininput="bvProvider"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue16==true}}">
         <label class="text">当前展示</label>
@@ -408,7 +333,7 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue16}}" bindchange="SVChange16" style='zoom:.6;' />
+      <switch checked="{{showvalue16}}" data-id="16" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
   <view hidden="{{showvalue16==false}}">
@@ -417,7 +342,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" label="21.DL2巨惠价格:" value="{{price2}}" bind:lininput="bvPrice2"></l-input>
+    <l-input type="text" label="17.服务商报价:" value="{{providerprice}}" bind:lininput="bvProviderPrice"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue17==true}}">
         <label class="text">当前展示</label>
@@ -425,7 +350,7 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue17}}" bindchange="SVChange17" style='zoom:.6;' />
+      <switch checked="{{showvalue17}}" data-id="17" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
   <view hidden="{{showvalue17==false}}">
@@ -434,7 +359,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="digit" label="22.DL2巨惠价计算费率:" value="{{price2count}}" bind:lininput="bvPrice2Count"></l-input>
+    <l-input type="digit" label="18.服务商计算费率:" value="{{providercountprice}}" bind:lininput="bvProviderCountPrice"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue18==true}}">
         <label class="text">当前展示</label>
@@ -442,7 +367,7 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue18}}" bindchange="SVChange18" style='zoom:.6;' />
+      <switch checked="{{showvalue18}}" data-id="18" bindchange="SVChange" style='zoom:.6;' disabled="true" />
     </view>
   </view>
   <view hidden="{{showvalue18==false}}">
@@ -451,7 +376,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" label="23.DL3优惠价格:" value="{{price3}}" bind:lininput="bvPrice3"></l-input>
+    <l-input type="text" label="19.DL1特惠价格:" value="{{price1}}" bind:lininput="bvPrice1"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue19==true}}">
         <label class="text">当前展示</label>
@@ -459,7 +384,7 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue19}}" bindchange="SVChange19" style='zoom:.6;' />
+      <switch checked="{{showvalue19}}" data-id="19" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
   <view hidden="{{showvalue19==false}}">
@@ -468,7 +393,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="digit" label="24.DL3优惠价计算费率:" value="{{price3count}}" bind:lininput="bvPrice3Count"></l-input>
+    <l-input type="digit" label="20.DL1特惠价计算费率:" value="{{price1count}}" bind:lininput="bvPrice1Count"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue20==true}}">
         <label class="text">当前展示</label>
@@ -476,7 +401,7 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue20}}" bindchange="SVChange20" style='zoom:.6;' />
+      <switch checked="{{showvalue20}}" data-id="20" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
   <view hidden="{{showvalue20==false}}">
@@ -485,7 +410,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="text" label="25.DL4普客价格:" value="{{price4}}" bind:lininput="bvPrice4"></l-input>
+    <l-input type="text" label="21.DL2巨惠价格:" value="{{price2}}" bind:lininput="bvPrice2"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue21==true}}">
         <label class="text">当前展示</label>
@@ -493,7 +418,7 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue21}}" bindchange="SVChange21" style='zoom:.6;' />
+      <switch checked="{{showvalue21}}" data-id="21" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
   <view hidden="{{showvalue21==false}}">
@@ -502,7 +427,7 @@
 </view>
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="digit" label="26.DL4普客价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
+    <l-input type="digit" label="22.DL2巨惠价计算费率:" value="{{price2count}}" bind:lininput="bvPrice2Count"></l-input>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
       <view wx:if="{{showvalue22==true}}">
         <label class="text">当前展示</label>
@@ -510,10 +435,78 @@
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue22}}" bindchange="SVChange22" style='zoom:.6;' />
+      <switch checked="{{showvalue22}}" data-id="22" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
   <view hidden="{{showvalue22==false}}">
+
+  </view>
+</view>
+<view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
+    <l-input type="text" label="23.DL3优惠价格:" value="{{price3}}" bind:lininput="bvPrice3"></l-input>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue23==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue23}}" data-id="23" bindchange="SVChange" style='zoom:.6;' />
+    </view>
+  </view>
+  <view hidden="{{showvalue23==false}}">
+
+  </view>
+</view>
+<view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
+    <l-input type="digit" label="24.DL3优惠价计算费率:" value="{{price3count}}" bind:lininput="bvPrice3Count"></l-input>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue24==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue24}}" data-id="24" bindchange="SVChange" style='zoom:.6;' />
+    </view>
+  </view>
+  <view hidden="{{showvalue24==false}}">
+
+  </view>
+</view>
+<view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
+    <l-input type="text" label="25.DL4普客价格:" value="{{price4}}" bind:lininput="bvPrice4"></l-input>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue25==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue25}}" data-id="25" bindchange="SVChange" style='zoom:.6;' />
+    </view>
+  </view>
+  <view hidden="{{showvalue25==false}}">
+
+  </view>
+</view>
+<view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
+    <l-input type="digit" label="26.DL4普客价计算费率:" value="{{price4count}}" bind:lininput="bvPrice4Count"></l-input>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue26==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue26}}" data-id="26" bindchange="SVChange" style='zoom:.6;' />
+    </view>
+  </view>
+  <view hidden="{{showvalue26==false}}">
 
   </view>
 </view>
@@ -526,16 +519,16 @@
       </view>
     </picker>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue24==true}}">
+      <view wx:if="{{showvalue27==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue24}}" bindchange="SVChange24" style='zoom:.6;' />
+      <switch checked="{{showvalue27}}" data-id="27" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue24==false}}">
+  <view hidden="{{showvalue27==false}}">
 
   </view>
 </view>
@@ -548,16 +541,16 @@
       </view>
     </picker>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue25==true}}">
+      <view wx:if="{{showvalue28==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue25}}" bindchange="SVChange25" style='zoom:.6;' />
+      <switch checked="{{showvalue28}}" data-id="28" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue25==false}}">
+  <view hidden="{{showvalue28==false}}">
 
   </view>
 </view>
@@ -573,16 +566,16 @@
       <label class="text">29.图片附件：</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue26==true}}">
+      <view wx:if="{{showvalue29==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue26}}" bindchange="SVChange26" style='zoom:.6;' />
+      <switch checked="{{showvalue29}}" data-id="29" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue26==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue29==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <l-image-picker size="4" count="4" bind:linchange="onChangeTap" bind:linremove="bvRemoveImage" urls="{{attachmentview}}" />
     <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
   </view>
@@ -594,16 +587,16 @@
       <label class="text">30.文件附件：</label>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
-      <view wx:if="{{showvalue27==true}}">
+      <view wx:if="{{showvalue30==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue27}}" bindchange="SVChange27" style='zoom:.6;' />
+      <switch checked="{{showvalue30}}" data-id="30" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue27==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <view hidden="{{showvalue30==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
     <view wx:for="{{attachmentfile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
       <l-button data-link="{{value}}" bind:lintap="" plain="{{true}}">{{key}}</l-button>
     </view>
@@ -619,19 +612,35 @@
   </view>
 </view>
 <view wx:if="{{usertype=='admin'}}">
+
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-    <l-input type="number" label="推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
-      <view wx:if="{{showvalue23==true}}">
+    <l-input type="number" label="31.推荐程度:" value="{{score}}" bind:lininput="bvChangeScore"></l-input>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue31==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue23}}" bindchange="SVChange23" style='zoom:.6;' />
+      <switch checked="{{showvalue31}}" data-id="31" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue23==false}}">
+  <view hidden="{{showvalue31==false}}">
+
+  </view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center">
+    <l-input type="number" label="32.产品状态:" value="{{status}}" bind:lininput="bvChangeStatus"></l-input>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue32==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue32}}" data-id="32" bindchange="SVChange" style='zoom:.6;' />
+    </view>
+  </view>
+  <view hidden="{{showvalue32==false}}">
 
   </view>
 </view>

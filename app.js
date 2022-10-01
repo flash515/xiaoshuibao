@@ -106,6 +106,7 @@ App({
     //轮播图
     Gimagearray:[],
     //用户设置
+    Gsortarray:[],
     Gpointsmagnification:'',
     Gpriceshow:'',
     Gdirectvalueshow:'',

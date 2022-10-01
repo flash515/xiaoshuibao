@@ -1,200 +1,7 @@
 const app = getApp();
-const SortArray = [
-  {
-    "Category1Code": "01",
-    "Category1Name": "商务服务",
-    "Category2Array": [
-      {
-      "Category2Code": "01",
-      "Category2Name": "地址服务",
-      "Category3Array": [
-        {
-          "Category3Code": "01",
-          "Category3Name": "深圳地址"
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "广州地址"
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "东莞地址"
-        },
-      ]
-    },
-    {
-      "Category2Code": "02",
-      "Category2Name": "工商代办",
-      "Category3Array": [
-        {
-          "Category3Code": "01",
-          "Category3Name": "工商注册"
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "工商变更"
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "工商注销"
-        },
-      ]
-    },
-    {
-      "Category2Code": "03",
-      "Category2Name": "银行代办",
-      "Category3Array": [
-        {
-          "Category3Code": "01",
-          "Category3Name": "银行开户"
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "调整额度"
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "银行销户"
-        },
-      ]
-    },
-    {
-      "Category2Code": "04",
-      "Category2Name": "财税服务",
-      "Category3Array": [
-        {
-          "Category3Code": "01",
-          "Category3Name": "记账报税"
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "税种核定"
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "领票购票"
-        },
-        {
-          "Category3Code": "04",
-          "Category3Name": "开票代办"
-        },
-      ]
-    },
-    {
-      "Category2Code": "05",
-      "Category2Name": "企业托管",
-      "Category3Array": [
-        {
-          "Category3Code": "01",
-          "Category3Name": "南昌托管"
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "西安托管"
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "明光托管"
-        },
-      ]
-    },
-    {
-      "Category2Code": "06",
-      "Category2Name": "资质代办",
-      "Category3Array": [
-        {
-          "Category3Code": "01",
-          "Category3Name": "食品经营许可证"
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "道路运输许可证"
-        },
-      ]
-    }
-  ]
-  },
-{
-  "Category1Code": "02",
-  "Category1Name": "教培信息",
-  "Category2Array": [{
-    "Category2Code": "01",
-    "Category2Name": "学历教育",
-    "Category3Array": [
-      {
-        "Category3Code": "01",
-        "Category3Name": "大专学历"
-      },
-      {
-        "Category3Code": "02",
-        "Category3Name": "本科学历"
-      },
-      {
-        "Category3Code": "03",
-        "Category3Name": "硕士学历"
-      },
-      {
-        "Category3Code": "04",
-        "Category3Name": "博士学历"
-      },
-      {
-        "Category3Code": "05",
-        "Category3Name": "出国留学"
-      },
-    ]
-  },
-  {
-    "Category2Code": "02",
-    "Category2Name": "职业教育",
-    "Category3Array": [
-      {
-        "Category3Code": "01",
-        "Category3Name": "厨师"
-      },
-      {
-        "Category3Code": "02",
-        "Category3Name": "家政服务师"
-      },
-    ]
-  },
-  {
-    "Category2Code": "03",
-    "Category2Name": "技能培训",
-    "Category3Array": [
-      {
-        "Category3Code": "01",
-        "Category3Name": "电商"
-      },
-      {
-        "Category3Code": "02",
-        "Category3Name": "财会"
-      },
-    ]
-  }
-
-]
-},
-
-{
-  "Category1Code": "03",
-  "Category1Name": "招聘就业",
-  "Category2Array": [{
-    "Category2Code": "01",
-    "Category2Name": "招聘信息",
-    "Category3Array": [
-      {
-        "Category3Code": "01",
-        "Category3Name": "全职"
-      },
-      {
-        "Category3Code": "02",
-        "Category3Name": "兼职"
-      },
-    ]
-  }]
-},
-
-];
+import {
+  pinyin
+} from 'pinyin-pro';
 Page({
   data: {
     usertype: "",
@@ -203,20 +10,25 @@ Page({
     recordid: "",
     pageParam: "",
     // 产品参数
-    procudtarray: [], //通过查询功能得到的产品数组
-    procudtdetail: [],
+    productarray: [], //通过查询功能得到的产品数组
+    productdetail: [],
     array: [],
-// 产品分类参数
+    // 产品分类参数
     inputShow: false,
     boxShow: false,
-    sortarray: SortArray,
-    category1: SortArray[0].Category1Name,
+    sortarray: [],
+    category1: "",
     pIndex: 0,
-    category2: SortArray[0].Category2Array[0].Category2Name,
+    category2: "",
     cIndex: 0,
-    category3: SortArray[0].Category2Array[0].Category3Array[0].Category3Name,
+    category3: "",
     aIndex: 0,
-
+    code1: "",
+    code2: "",
+    code3: "",
+    code4: "00",
+    namecode: "",
+    serialcode: "000",
     // 表单参数
     showvalue1: true,
     showvalue2: true,
@@ -226,16 +38,16 @@ Page({
     showvalue6: true,
     showvalue7: true,
     showvalue8: true,
-    showvalue9: false,
-    showvalue10: false,
+    showvalue9: true,
+    showvalue10: true,
     showvalue11: true,
-    showvalue12: false,
+    showvalue12: true,
     showvalue13: false,
     showvalue14: false,
     showvalue15: true,
-    showvalue16: true,
-    showvalue17: true,
-    showvalue18: true,
+    showvalue16: false,
+    showvalue17: false,
+    showvalue18: false,
     showvalue19: true,
     showvalue20: true,
     showvalue21: true,
@@ -245,6 +57,11 @@ Page({
     showvalue25: true,
     showvalue26: true,
     showvalue27: true,
+    showvalue28: true,
+    showvalue29: false,
+    showvalue30: false,
+    showvalue31: true,
+    showvalue32: true,
     adddate: "",
     productid: "",
     producttype: "",
@@ -285,7 +102,8 @@ Page({
     sublock: false,
     fileuploadlock: false,
     imageuploadlock: false,
-    recordcontral: false
+    recordcontral: false,
+
   },
 
   // 展示弹框
@@ -316,7 +134,11 @@ Page({
       category1: this.data.sortarray[val].Category1Name,
       category2: this.data.sortarray[val].Category2Array[0].Category2Name,
       category3: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Name,
+      code1: this.data.sortarray[val].Category1Code,
+      code2: this.data.sortarray[val].Category2Array[0].Category2Code,
+      code3: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Code,
     })
+    this.productCode()
   },
   changeCategory2: function (e) {
     const val = e.detail.value
@@ -325,48 +147,84 @@ Page({
       aIndex: 0,
       category2: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Name,
       category3: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
+      code2: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Code,
+      code3: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Code,
     })
+    this.productCode()
   },
   changeCategory3: function (e) {
     const val = e.detail.value
     this.setData({
       aIndex: val,
       category3: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
+      code3: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Code,
     })
+    this.productCode()
   },
 
-
+  productCode() {
+    this.setData({
+      productcode: [this.data.namecode] + "-" + [this.data.code1] + [this.data.code2] + [this.data.code3] + [this.data.code4]
+    })
+    this.serialCode()
+  },
+  serialCode() {
+    var temp = []
+    for (var i = 0; i < this.data.productarray.length; i++) {
+      if (this.data.productcode == this.data.productarray[i].ProductId.slice(0, -4)) {
+        temp.push(this.data.productarray[i])
+      }
+    }
+    console.log(temp)
+    if (temp.length != 0) {
+      this.setData({
+        serialcode: ("0000" + [temp.length + 1]).substr(-3)
+      })
+    } else {
+      this.setData({
+        serialcode: "001"
+      })
+    }
+    this.productId()
+  },
+  productId() {
+    this.setData({
+      productid: [this.data.namecode] + "-" + [this.data.code1] + [this.data.code2] + [this.data.code3] + [this.data.code4] + "-" + [this.data.serialcode]
+    })
+  },
   //查询本人创建且符合模糊条件的记录
   onSearch(e) {
+    // 待修改，服务商只在自已产品中选择，管理员在全部产品中选择
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('PRODUCT').where(_.and([{
-      _openid: app.globalData.Gopenid
-    },
-    _.or([{
-      IssuedBy: {
-        $regex: '.*' + e.detail.value,
-        $options: 'i'
-      }
-    },
-    {
-      ProductType: {
-        $regex: '.*' + e.detail.value,
-        $options: 'i'
-      }
-    },
-    {
-      Status: {
-        $regex: '.*' + e.detail.value,
-        $options: 'i'
-      }
-    }
-    ])
+        _openid: app.globalData.Gopenid
+      },
+      _.or([{
+          HandlePlace: {
+            $regex: '.*' + e.detail.value,
+            $options: 'i'
+          }
+        },
+        {
+          ProductName: {
+            $regex: '.*' + e.detail.value,
+            $options: 'i'
+          }
+        },
+        {
+          Status: {
+            $regex: '.*' + e.detail.value,
+            $options: 'i'
+          }
+        }
+      ])
     ])).get({
       success: res => {
         this.setData({
           productarray: res.data,
         })
+        console.log(this.data.productarray)
         if (res.data.length > 1) {
           this.setData({
             recordcontral: true
@@ -446,572 +304,188 @@ Page({
       })
     }
   },
-  SVChange1(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue1: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue1: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
+  ToastOn(){
+    wx.showToast({
+      title: '已开启展示开关',
+      icon: 'none',
+      duration: 2000 //持续的时间
+    })
   },
-  SVChange2(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue2: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue2: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
+  ToastOff(){
+    wx.showToast({
+      title: '已关闭展示开关',
+      icon: 'none',
+      duration: 2000 //持续的时间
+    })
   },
-  SVChange3(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue3: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue3: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange4(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue4: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue4: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange5(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue5: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue5: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange6(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue6: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue6: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange7(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue7: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue7: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange8(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue8: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue8: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange9(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue9: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue9: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange10(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue10: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue10: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange11(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue11: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue11: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange12(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue12: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue12: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange13(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue13: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue13: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange14(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue14: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue14: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange15(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue15: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue15: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange16(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue16: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue16: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange17(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue17: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue17: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange18(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue18: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue18: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange19(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue19: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue19: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange20(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue20: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue20: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange21(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue21: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue21: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange22(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue22: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue22: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange23(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue23: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue23: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange24(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue24: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue24: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange25(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue25: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue25: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange26(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue26: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue26: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
-  },
-  SVChange27(e) {
-    if (e.detail.value == true) {
-      this.setData({
-        showvalue27: true
-      })
-      wx.showToast({
-        title: '已开启展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.setData({
-        showvalue27: false
-      })
-      wx.showToast({
-        title: '已关闭展示开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    }
+  SVChange(e) {
+console.log(e.currentTarget.dataset.id)
+if (e.detail.value == true) {
+this.ToastOn()
+} else {
+  this.ToastOff()
+}
+if(e.currentTarget.dataset.id==1){
+  this.setData({
+    showvalue1:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==2){
+  this.setData({
+    showvalue2:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==3){
+  this.setData({
+    showvalue3:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==4){
+  this.setData({
+    showvalue4:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==5){
+  this.setData({
+    showvalue5:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==6){
+  this.setData({
+    showvalue6:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==7){
+  this.setData({
+    showvalue7:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==8){
+  this.setData({
+    showvalue8:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==9){
+  this.setData({
+    showvalue9:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==10){
+  this.setData({
+    showvalue10:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==11){
+  this.setData({
+    showvalue11:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==12){
+  this.setData({
+    showvalue12:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==13){
+  this.setData({
+    showvalue13:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==14){
+  this.setData({
+    showvalue14:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==15){
+  this.setData({
+    showvalue15:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==16){
+  this.setData({
+    showvalue16:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==17){
+  this.setData({
+    showvalue17:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==18){
+  this.setData({
+    showvalue18:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==19){
+  this.setData({
+    showvalue19:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==20){
+  this.setData({
+    showvalue20:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==21){
+  this.setData({
+    showvalue21:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==22){
+  this.setData({
+    showvalue22:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==23){
+  this.setData({
+    showvalue23:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==24){
+  this.setData({
+    showvalue24:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==25){
+  this.setData({
+    showvalue25:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==26){
+  this.setData({
+    showvalue26:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==27){
+  this.setData({
+    showvalue27:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==28){
+  this.setData({
+    showvalue28:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==29){
+  this.setData({
+    showvalue29:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==30){
+  this.setData({
+    showvalue30:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==31){
+  this.setData({
+    showvalue31:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==32){
+  this.setData({
+    showvalue32:e.detail.value
+  })
+}
+
   },
 
   onsaleChange(e) {
@@ -1046,8 +520,14 @@ Page({
   // 通过事件绑定用户手机值
   bvProductName(e) {
     this.setData({
-      productname: e.detail.value
+      productname: e.detail.value,
+      namecode: pinyin(e.detail.value, {
+        pattern: 'first',
+        toneType: 'none'
+      }).toUpperCase().replace(/\s+/g, '')
     })
+    console.log(this.data.namecode)
+    this.productCode()
   },
   bvProductType(e) {
     this.setData({
@@ -1313,56 +793,56 @@ Page({
       const db = wx.cloud.database()
       // 新增数据
       db.collection("PRODUCT").add({
-        data: {
-          AddDate: new Date().toLocaleDateString(),
-          Status: this.data.status,
-          ProductId: this.data.productid,
-          ProductType: this.data.producttype,
-          ProductName: this.data.productname,
-          Outline: this.data.outline,
-          StartDate: this.data.startdate,
-          EndDate: this.data.enddate,
-          Description: this.data.description,
-          HandlePlace: this.data.handleplace,
-          IssuedBy: this.data.issuedby,
-          Situation: this.data.situation,
-          Forbid: this.data.forbid,
-          DocList: this.data.doclist,
-          ProcessingTime: this.data.processingtime,
-          Reward: this.data.reward,
-          RewardTime: this.data.rewardtime,
-          Provider: this.data.provider,
-          ProviderPrice: this.data.providerprice,
-          ProviderCountPrice: this.data.providercountprice,
-          Price1: this.data.price1,
-          Price1Count: Number(this.data.price1count),
-          Price2: this.data.price2,
-          Price2Count: Number(this.data.price2count),
-          Price3: this.data.price3,
-          Price3Count: Number(this.data.price3count),
-          Price4: this.data.price4,
-          Price4Count: Number(this.data.price4count),
-          Score: Number(this.data.score),
-          AttachmentImage: this.data.attachmentimage,
-          AttachmentFile: this.data.attachmentfile,
-        },
-        success(res) {
-          console.log('新增数据成功', res.data)
-          wx.showToast({
-            title: '新增数据成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
-        },
-        fail(res) {
-          console.log("新增数据失败", res)
-          wx.showToast({
-            title: '新增数据失败',
-            icon: 'fail',
-            duration: 2000 //持续的时间
-          })
-        }
-      }),
+          data: {
+            AddDate: new Date().toLocaleDateString(),
+            Status: this.data.status,
+            ProductId: this.data.productid,
+            ProductType: this.data.producttype,
+            ProductName: this.data.productname,
+            Outline: this.data.outline,
+            StartDate: this.data.startdate,
+            EndDate: this.data.enddate,
+            Description: this.data.description,
+            HandlePlace: this.data.handleplace,
+            IssuedBy: this.data.issuedby,
+            Situation: this.data.situation,
+            Forbid: this.data.forbid,
+            DocList: this.data.doclist,
+            ProcessingTime: this.data.processingtime,
+            Reward: this.data.reward,
+            RewardTime: this.data.rewardtime,
+            Provider: this.data.provider,
+            ProviderPrice: this.data.providerprice,
+            ProviderCountPrice: this.data.providercountprice,
+            Price1: this.data.price1,
+            Price1Count: Number(this.data.price1count),
+            Price2: this.data.price2,
+            Price2Count: Number(this.data.price2count),
+            Price3: this.data.price3,
+            Price3Count: Number(this.data.price3count),
+            Price4: this.data.price4,
+            Price4Count: Number(this.data.price4count),
+            Score: Number(this.data.score),
+            AttachmentImage: this.data.attachmentimage,
+            AttachmentFile: this.data.attachmentfile,
+          },
+          success(res) {
+            console.log('新增数据成功', res.data)
+            wx.showToast({
+              title: '新增数据成功',
+              icon: 'success',
+              duration: 2000 //持续的时间
+            })
+          },
+          fail(res) {
+            console.log("新增数据失败", res)
+            wx.showToast({
+              title: '新增数据失败',
+              icon: 'fail',
+              duration: 2000 //持续的时间
+            })
+          }
+        }),
         // 以上新增数据结束
         this.data.sublock = true // 修改上传状态为锁定
     }
@@ -1442,87 +922,29 @@ Page({
     var that = this;
     this.setData({
       usertype: app.globalData.Gusertype,
-      pageParam: options,
-      recordid: options._id,
+      sortarray: app.globalData.Gsortarray,
+      category1: app.globalData.Gsortarray[0].Category1Name,
+      category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
+      category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
     })
-    console.log("pageParam", this.data.pageParam._id);
-    // 通过产品总览过来的页面适合从本地存储中读取
-    wx.getStorage({
-      key: 'LPersonalProduct',
+
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: PRODUCT,
+        command: "and",
+        where: [{
+          _openid: app.globalData.Gopenid
+        }]
+      },
       success: res => {
         this.setData({
           productarray: res.data
         })
         console.log("产品数组", this.data.productarray)
-        // 筛选指定记录
-        var fliter = [];
-        // var _this = this
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i]._id == this.data.pageParam._id) {
-            fliter.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter);
-        this.setData({
-          productdetail: fliter,
-          adddate: fliter[0].AddDate,
-          status: fliter[0].Status,
-          productid: fliter[0].ProductId,
-          producttype: fliter[0].ProductType,
-          productname: fliter[0].ProductName,
-          outline: fliter[0].Outline,
-          startdate: fliter[0].StartDate,
-          enddate: fliter[0].EndDate,
-          description: fliter[0].Description,
-          handleplace: fliter[0].HandlePlace,
-          issuedby: fliter[0].IssuedBy,
-          situation: fliter[0].Situation,
-          forbid: fliter[0].Forbid,
-          doclist: fliter[0].DocList,
-          processingtime: fliter[0].ProcessingTime,
-          reward: fliter[0].Reward,
-          rewardtime: fliter[0].RewardTime,
-          provider: fliter[0].Provider,
-          providerprice: fliter[0].ProviderPrice,
-          providercountprice: fliter[0].ProviderCountPrice,
-          price1: fliter[0].Price1,
-          price1count: fliter[0].Price1Count,
-          price2: fliter[0].Price2,
-          price2count: fliter[0].Price2Count,
-          price3: fliter[0].Price3,
-          price3count: fliter[0].Price3Count,
-          price4: fliter[0].Price4,
-          price4count: fliter[0].Price4Count,
-          score: fliter[0].Score,
-          updatedate: fliter[0].UpdateDate,
-          attachmentimage: fliter[0].AttachmentImage,
-          attachmentfile: fliter[0].AttachmentFile,
-        })
-        if (fliter[0].Status == "在售") {
-          this.setData({
-            onsalechecked: true
-          })
-        } else {
-          this.setData({
-            onsalechecked: false
-          })
-        }
-        for (let i = 0; i < fliter[0].AttachmentImage.length; i++) {
-          wx.getImageInfo({
-            //把图片地址转换为本地地址
-            src: fliter[0].AttachmentImage[i],
-            success: (res) => {
-              this.setData({
-                attachmentview: this.data.attachmentview.concat(res.path)
-              })
-              console.log("attachmentview", this.data.attachmentview)
-            }
-          })
-        }
-
-      },
-
+      }
     })
+
   },
 
   /**

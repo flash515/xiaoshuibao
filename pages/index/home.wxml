@@ -28,7 +28,7 @@
   </view>
   <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-clolr="blue" open-type="share">点击分享小税宝</l-button>
 </view>
-<view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size:12px">
+<view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size:28rpx;padding-left: 25rpx;padding-right: 25rpx;">
 <view>选择所在区域：</view>
   <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
     <view class="picker">
@@ -37,7 +37,7 @@
   </picker>
 </view>
 <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct"/>
-  <l-grid row-num="4">
+  <l-grid row-num="4" >
     <l-grid-item key='one' slot='one'>
       <navigator url='../product/dizhi'>
         <l-icon name='order' />

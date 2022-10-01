@@ -86,6 +86,7 @@ Page({
       .get({
         success: res => {
           app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
+          app.globalData.Gsortarray = res.data[0].SortArray;
           console.log("轮播图：", res);
           wx.setStorageSync('LSetting', res.data[0]);
           //异步获取图片生成轮播图地址

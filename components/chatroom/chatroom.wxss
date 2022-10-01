@@ -11,7 +11,7 @@
   flex-direction: row;
   border-bottom: 1px solid #ddd;
   padding: 20rpx 0 30rpx;
-  font-size: 30rpx;
+  font-size: 28rpx;
   /* background: rgb(34, 187, 47);
   color: rgba(255, 255, 255, 1) */
   /* font-family: 'Microsoft YaHei' */
@@ -80,7 +80,7 @@
   background-color: #fff;
   margin: 2px 0 0 0;
   padding: 4px 10px;
-  font-size: 30rpx;
+  font-size: 28rpx;
   display: inline-block;
 }
 
@@ -149,7 +149,7 @@
 }
 
 button {
-  font-size: 30rpx;
+  font-size: 28rpx;
 }
 
 button.userinfo {

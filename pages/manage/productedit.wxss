@@ -23,6 +23,6 @@ font-weight: bold;
 height: 100px;}
 .text
 {
-  font-size: 30rpx;
+  font-size: 28rpx;
   color: rgb(0, 0, 0);
 }
