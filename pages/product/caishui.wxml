@@ -9,8 +9,8 @@
   </swiper>
 </view>
 <view class="mainframe">
-  <l-tabs equal-width="{{false}}" scrollable="{{true}}" active-key="{{key}}">
-    <l-tabpanel tab="记账报税" key="one" slot="one">
+  <l-tabs equal-width="{{false}}" scrollable="{{true}}" active-key="记账报税" bind:linchange="changeTabs" >
+    <l-tabpanel tab="记账报税" key="记账报税" slot="记账报税">
       <text>\n</text>
       <view wx:for="{{array1}}" wx:key="key">
         <view class="title1">
@@ -46,15 +46,15 @@
 
 
           <view style="display:flex; flex-direction:row; ">
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
+            <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
             <view><text decode="{{true}}">&emsp;</text></view>
-            <l-button icon="order" icon-color="white" data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
+            <l-button icon="order" icon-color="white" data-id="{{item.ProductId}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
           </view>
           <text>\n</text>
         </view>
       </view>
     </l-tabpanel>
-    <l-tabpanel tab="税种核定" key="two" slot="two">
+    <l-tabpanel tab="税种核定" key="税种核定" slot="税种核定">
       <text>\n</text>
       <view wx:for="{{array2}}" wx:key="key">
         <view class="title1">
@@ -92,15 +92,15 @@
           <label class="title1">推荐程度：</label>
           <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
           <view style="display:flex; flex-direction:row;">
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
+            <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
             <view><text decode="{{true}}">&emsp;</text></view>
-            <l-button icon="order" icon-color="white" data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
+            <l-button icon="order" icon-color="white" data-id="{{item.ProductId}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
           </view>
           <text>\n</text>
         </view>
       </view>
     </l-tabpanel>
-    <l-tabpanel tab="领票购票" key="three" slot="three">
+    <l-tabpanel tab="领票购票" key="领票购票" slot="领票购票">
       <text>\n</text>
       <view wx:for="{{array3}}" wx:key="key">
         <view class="title1">
@@ -137,15 +137,15 @@
 
 
           <view style="display:flex; flex-direction:row;">
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
+            <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
             <view><text decode="{{true}}">&emsp;</text></view>
-            <l-button icon="order" icon-color="white" data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
+            <l-button icon="order" icon-color="white" data-id="{{item.ProductId}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
           </view>
           <text>\n</text>
         </view>
       </view>
     </l-tabpanel>
-    <l-tabpanel tab="开票代办" key="four" slot="four">
+    <l-tabpanel tab="开票代办" key="开票代办" slot="开票代办">
       <view wx:if="{{promoterlevel=='member' || promoterlevel=='sliver'|| promoterlevel=='gold' || promoterlevel=='platinum'}}">
 
         <text>\n</text>
@@ -184,9 +184,9 @@
 
 
             <view style="display:flex; flex-direction:row;">
-              <l-button id="详细介绍" data-id="_id={{item._id}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
+              <l-button id="详细介绍"  data-id="{{item.ProductId}}" data-name="{{item.ProductName}}"  bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
               <view><text decode="{{true}}">&emsp;</text></view>
-              <l-button icon="order" icon-color="white" data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
+              <l-button icon="order" icon-color="white" data-id="{{item.ProductId}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
             </view>
             <text>\n</text>
           </view>

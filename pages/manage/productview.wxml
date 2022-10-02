@@ -56,7 +56,7 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
+            <l-button data-id="{{item.ProductId}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
@@ -118,7 +118,7 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
+            <l-button data-id="{{item.ProductId}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
@@ -180,7 +180,7 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
+            <l-button data-id="{{item.ProductId}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
@@ -240,7 +240,7 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
+            <l-button data-id="{{item.ProductId}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
@@ -300,7 +300,7 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
+            <l-button data-id="{{item.ProductId}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>
@@ -360,7 +360,7 @@
           </view>
           <text>\n</text>
           <view>
-            <l-button data-id="_id={{item._id}}" bind:lintap="bvEditProduct">产品编辑</l-button>
+            <l-button data-id="{{item.ProductId}}" bind:lintap="bvEditProduct">产品编辑</l-button>
           </view>
         </view>
       </l-card>

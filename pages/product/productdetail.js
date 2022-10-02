@@ -1,4 +1,5 @@
 const app = getApp()
+
 Page({
   /**
    * 页面的初始数据
@@ -204,7 +205,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('PRODUCTQA').add({
           data: {
-            Produce_id: this.data.pageParam._id,
+            ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "",
             AddDate: new Date().toLocaleDateString()
@@ -240,7 +241,7 @@ Page({
     this.setData({
       pageParam: options,
     })
-    console.log("pageParam", this.data.pageParam._id);
+    console.log("pageParam", this.data.pageParam.productid);
 
     // 从本地存储中读取
     wx.getStorage({
@@ -254,7 +255,7 @@ Page({
         var fliter = [];
         // var _this = this
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i]._id == this.data.pageParam._id) {
+          if (this.data.productarray[i].ProductId == this.data.pageParam.productid) {
             fliter.push(this.data.productarray[i]);
           }
         }
@@ -268,7 +269,7 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('PRODUCTQA').where({
-      Product_id: this.data.pageParam._id
+      ProductId: this.data.pageParam.productid
     }).get({
       success: res => {
         console.log("查询QA结果", res);
@@ -290,6 +291,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
     this.setData({
       usertype: app.globalData.Gusertype,
@@ -298,11 +300,12 @@ Page({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
+
   },
   bvNewOrder(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../order/neworder?' + e.currentTarget.dataset.id
+      url: '../order/neworder?productid=' + e.currentTarget.dataset.id
     })
   },
   /**
@@ -315,7 +318,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+    onUnload: function () {
 
   },
 

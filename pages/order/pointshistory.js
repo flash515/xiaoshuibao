@@ -1,4 +1,5 @@
 const app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 Page({
 
   /**
@@ -314,12 +315,15 @@ wx.cloud.callFunction({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
     this.setData({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
       image: app.globalData.Gimagearray
     })
+    startToTrack()
   },
 
   /**
@@ -332,8 +336,8 @@ wx.cloud.callFunction({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+    onUnload: function () {
+    startByBack()
   },
 
   /**

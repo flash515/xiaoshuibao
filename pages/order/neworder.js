@@ -1,4 +1,5 @@
 const app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 Page({
 
   data: {
@@ -67,6 +68,7 @@ Page({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
+    startToTrack()
   },
   // 随机生成支付订单号,订单号不能重复
   _getGoodsRandomNumber() {

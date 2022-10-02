@@ -1,7 +1,8 @@
 const app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 Page({
   data: {
-    key:"one",
+    key:"",
     array1: [],
     array2: [],
     array3: [],
@@ -67,6 +68,10 @@ Page({
       }
     })
   },
+  changeTabs(e){
+    console.log(e.detail.activeKey)
+    startByClick(e.detail.activeKey);
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -125,13 +130,14 @@ Page({
   bvProductDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '../product/productdetail?' + e.currentTarget.dataset.id
+      url: '../product/productdetail?productid=' + e.currentTarget.dataset.id
     })
+    startByClick(e.currentTarget.dataset.name);
   },
   bvNewOrder(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../order/neworder?' + e.currentTarget.dataset.id
+      url: '../order/neworder?productid=' + e.currentTarget.dataset.id
     })
   },
   /**
@@ -145,6 +151,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+    	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
@@ -154,6 +162,7 @@ Page({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
+    startToTrack()
   },
 
   /**
@@ -167,7 +176,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    startByBack()
   },
 
   /**

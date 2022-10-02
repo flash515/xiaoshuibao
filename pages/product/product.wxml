@@ -38,11 +38,11 @@
         <label class="title1">推荐程度：</label>
         <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
         <view style="display:flex; flex-direction:row; " >
-          <l-button data-id="_id={{item._id}}" bind:lintap="bvPersonalDetail" plain="{{true}}" shape="semicircle"
+          <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvPersonalDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue">详细介绍</l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
           <l-button icon="order" icon-color="white"
-            data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+            data-id="{{item.ProductId}}&productname={{item.ProductName}}"
             bind:lintap="bvNewPersonal" shape="semicircle">我要办理</l-button>
         </view>
         <text>\n</text>
@@ -75,11 +75,11 @@
         <label class="title1">推荐程度：</label>
         <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
         <view style="display:flex; flex-direction:row;" >
-          <l-button data-id="_id={{item._id}}" bind:lintap="bvIndiBusinessDetail" plain="{{true}}" shape="semicircle"
+          <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvIndiBusinessDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue">详细介绍</l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
           <l-button icon="order" icon-color="white"
-            data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+            data-id="{{item.ProductId}}&productname={{item.ProductName}}"
             bind:lintap="bvNewIndibusiness" shape="semicircle">我要办理</l-button>
         </view>
         <text>\n</text>
@@ -111,12 +111,12 @@
         <label class="title1">推荐程度：</label>
         <l-rate active-color="red" inActive-color="grey" score=" {{item.Score}} " count="10" />
         <view style="display:flex; flex-direction:row;" >
-          <l-button data-id="_id={{item._id}}" bind:lintap="bvSoleproprietorDetail" plain="{{true}}" shape="semicircle"
+          <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvSoleproprietorDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue">详细介绍
           </l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
           <l-button icon="order" icon-color="white"
-            data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+            data-id="{{item.ProductId}}&productname={{item.ProductName}}"
             bind:lintap="bvNewSoleproprietor" shape="semicircle">我要办理</l-button>
         </view>
         <text>\n</text>
@@ -149,11 +149,11 @@
         <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
         <!-- <view>{{item._id}}</view> -->
         <view style="display:flex; flex-direction:row;">
-          <l-button data-id="_id={{item._id}}" bind:lintap="bvCompanyDetail" plain="{{true}}" shape="semicircle"
+          <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvCompanyDetail" plain="{{true}}" shape="semicircle"
             icon="more" icon-color="blue">详细介绍</l-button>
           <view><text decode="{{true}}">&emsp;</text></view>
           <l-button icon="order" icon-color="white"
-            data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}"
+            data-id="{{item.ProductId}}&productname={{item.ProductName}}"
             bind:lintap="bvNewCompany" shape="semicircle">我要办理</l-button>
         </view>
         <text>\n</text>

@@ -73,6 +73,6 @@ wx.getSetting({
 })
   },
   onShow: function () {
-
+    startToTrack()
   },
 })

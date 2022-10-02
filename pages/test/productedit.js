@@ -1,4 +1,5 @@
-const app = getApp();
+const app = getApp()
+
 import {
   pinyin
 } from 'pinyin-pro';
@@ -957,6 +958,7 @@ else if(e.currentTarget.dataset.id==32){
   /**
    * 生命周期函数--监听页面显示
    */
+
   onShow: function () {
 
   },
@@ -971,7 +973,7 @@ else if(e.currentTarget.dataset.id==32){
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+    onUnload: function () {
 
   },
 

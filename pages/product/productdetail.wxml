@@ -127,7 +127,7 @@
         </l-collapse-item>
       </l-collapse>
       <text>\n</text>
-      <l-button data-id="productid={{item.ProductId}}&productname={{item.ProductName}}&issuedplace={{item.IssuedPlace}}" icon="order" icon-color="white" shape="semicircle"
+      <l-button data-id="{{item.ProductId}}&productname={{item.ProductName}}" icon="order" icon-color="white" shape="semicircle"
         bind:lintap="bvNewOrder">我要办理</l-button>
     </view>
   </view>

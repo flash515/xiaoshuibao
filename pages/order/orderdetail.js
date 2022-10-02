@@ -1,4 +1,5 @@
 const app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 Page({
 
   data: {
@@ -63,6 +64,7 @@ Page({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
+    startToTrack()
   },
 
 

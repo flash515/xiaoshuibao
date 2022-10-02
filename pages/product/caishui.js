@@ -2,7 +2,7 @@ const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 Page({
   data: {
-    key:"one",
+    key:"",
     array1: [],
     array2: [],
     array3: [],
@@ -147,17 +147,21 @@ this.setData({
     //括号1结束
 
   },
+  changeTabs(e){
+    console.log(e.detail.activeKey)
+    startByClick(e.detail.activeKey);
+  },
   bvProductDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '../product/productdetail?' + e.currentTarget.dataset.id
+      url: '../product/productdetail?productid=' + e.currentTarget.dataset.id
     })
-    startByClick(e.currentTarget.dataset.id);
+    startByClick(e.currentTarget.dataset.name);
   },
   bvNewOrder(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../order/neworder?' + e.currentTarget.dataset.id
+      url: '../order/neworder?productid='+ e.currentTarget.dataset.id
     })
   },
   /**
