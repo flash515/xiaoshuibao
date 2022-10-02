@@ -367,6 +367,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/test/allproduct",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
