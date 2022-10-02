@@ -1,4 +1,5 @@
 const app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 Page({
   data: {
     key:"one",
@@ -151,6 +152,7 @@ this.setData({
     wx.navigateTo({
       url: '../product/productdetail?' + e.currentTarget.dataset.id
     })
+    startByClick(e.currentTarget.dataset.id);
   },
   bvNewOrder(e) {
     console.log(e.currentTarget.dataset.id);
@@ -169,6 +171,8 @@ this.setData({
   /**
    * 生命周期函数--监听页面显示
    */
+  	// 点击 tab 时用此方法触发埋点
+	onTabItemTap: () => startToTrack(),
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
@@ -178,6 +182,7 @@ this.setData({
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
+    startToTrack()
   },
 
   /**
@@ -191,7 +196,7 @@ this.setData({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    startByBack()
   },
 
   /**
