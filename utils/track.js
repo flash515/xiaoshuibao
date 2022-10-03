@@ -27,11 +27,19 @@ let getSession = () => {
 
 // 停止统计 && 保存埋点数据 && 初始化页面变量
 let setSession = () => {
+  var track1=[]
+  var track2=[]
   clearInterval(TIME); // 停止统计
   wx.setStorage({
     key: route,
     data: storage
   }) // 保存埋点数据
+  track1=[[route],[storage]]
+  track2=track1.push[[route],[storage]]
+  // track1.concat([route],[storage])
+  // track2.concat([route],[storage])
+  console.log("track1",track1)
+  console.log("track2",track2)
   initData(); // 初始化
 }
 
