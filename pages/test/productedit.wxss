@@ -47,6 +47,28 @@ height: 100px;}
   padding: 0 25rpx;
   box-sizing: border-box;
 }
+.checkboxgroupcss{
+  display:flex; 
+  flex-direction:row;
+  line-height: 80rpx;
+  justify-content: space-between;
+  font-size: 28rpx;
+
+}
+
+.checkboxcss{
+
+  line-height: 150%;
+  flex-direction:row;
+  font-size: 28rpx;
+  border: 1px solid #999;
+margin: 2px;
+  border-radius: 10rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+  align-items:center;
+
+}
 /* .box{
   position: absolute;
   left: 0;

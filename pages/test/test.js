@@ -10,6 +10,16 @@ Page({
     category3:"",
     multiArray: [['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
     multiIndex: [0, 0, 0],
+
+    objectArray: [
+      {id: 5, unique: 'unique_5'},
+      {id: 4, unique: 'unique_4'},
+      {id: 3, unique: 'unique_3'},
+      {id: 2, unique: 'unique_2'},
+      {id: 1, unique: 'unique_1'},
+      {id: 0, unique: 'unique_0'},
+    ],
+    numberArray: [1, 2, 3, 4]
   },
   bindPickerChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -94,8 +104,35 @@ Page({
       category2:data.multiArray[1][data.multiIndex[1]],
       category3:data.multiArray[2][data.multiIndex[2]],
     })
-  },
 
+
+  },
+  switch: function(e) {
+    const length = this.data.objectArray.length
+    for (let i = 0; i < length; ++i) {
+      const x = Math.floor(Math.random() * length)
+      const y = Math.floor(Math.random() * length)
+      const temp = this.data.objectArray[x]
+      this.data.objectArray[x] = this.data.objectArray[y]
+      this.data.objectArray[y] = temp
+    }
+    this.setData({
+      objectArray: this.data.objectArray
+    })
+  },
+  addToFront: function(e) {
+    const length = this.data.objectArray.length
+    this.data.objectArray = [{id: length, unique: 'unique_' + length}].concat(this.data.objectArray)
+    this.setData({
+      objectArray: this.data.objectArray
+    })
+  },
+  addNumberToFront: function(e){
+    this.data.numberArray = [ this.data.numberArray.length + 1 ].concat(this.data.numberArray)
+    this.setData({
+      numberArray: this.data.numberArray
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

@@ -265,6 +265,36 @@
 
 <view>
   <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;">
+    <view>
+      <label class="text">12.服务地区：</label>
+    </view>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+      <view wx:if="{{showvalue12==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue12}}" data-id="12" bindchange="SVChange" style='zoom:.6;' />
+    </view>
+  </view>
+  <view hidden="{{showvalue12==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+    <l-checkbox-group l-class="checkboxgroupcss" placement="row" bind:linchange="onChangeTap" min-selected="{{2}}" max-selected="{{4}}">
+  <l-checkbox l-class="checkboxcss"
+    wx:for-items="{{items}}"
+    wx:key="{{item.value}}"
+    key="{{item.value}}"
+    checked="{{item.isChecked}}"
+    disabled="{{item.disabled}}">
+    {{item.value}}
+  </l-checkbox>
+
+</l-checkbox-group>
+  </view>
+  </view>
+
+<view>
+  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;">
     <view>13.办理地点：</view>
 
     <picker mode="region" bindchange="bindPlaceChange" value="{{handleplace}}" custom-item="{{customItem}}">
