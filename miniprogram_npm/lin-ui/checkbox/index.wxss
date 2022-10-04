@@ -22,7 +22,7 @@
 }
 
 .label-placement-row {
-  /* padding-right: 30rpx; */
+  padding-right: 30rpx;
 }
 
 .checkbox-left {

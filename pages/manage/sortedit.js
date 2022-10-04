@@ -217,7 +217,20 @@ const SortArray = [{
       }
     ]
   },
-
+  {
+    "Category1Code": "04",
+    "Category1Name": "其他信息",
+    "Category2Array": [{
+        "Category2Code": "01",
+        "Category2Name": "其他信息",
+        "Category3Array": [{
+            "Category3Code": "01",
+            "Category3Name": "其他信息"
+          },
+        ]
+      },
+    ]
+  },
 ];
 Page({
 

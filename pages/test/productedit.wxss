@@ -27,48 +27,55 @@ height: 100px;}
   color: rgb(0, 0, 0);
 }
 
-.index{
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-  padding-top: 10rpx;
-  box-sizing: border-box;
-  padding-left:25rpx;
-  padding-right:25rpx;
-}
-.input{
-  width: 100%;
-  height: 80rpx;
-  line-height: 80rpx;
-  border: 1px solid #d8dee5;
-  border-radius: 10rpx;
-  margin: auto;
-  padding: 0 25rpx;
-  box-sizing: border-box;
-}
 .checkboxgroupcss{
   display:flex; 
   flex-direction:row;
+  flex-wrap:wrap;
+  margin: 25rpx;
   line-height: 80rpx;
   justify-content: space-between;
   font-size: 28rpx;
 
 }
 
-.checkboxcss{
-
+/*checkbox 整体大小  */
+checkbox {
   line-height: 150%;
-  flex-direction:row;
+  margin: 2px;
+  padding: 0;
   font-size: 28rpx;
   border: 1px solid #999;
-margin: 2px;
   border-radius: 10rpx;
   padding-left: 10rpx;
   padding-right: 10rpx;
-  align-items:center;
-
+  box-sizing: border-box;
 }
+/* 未选中的 背景样式 */
+checkbox .wx-checkbox-input{
+  width: 30rpx; /* 背景的宽 */
+  height: 30rpx; /* 背景的高 */
+  box-sizing: border-box;
+  margin-right: 16rpx;
+}
+/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked{
+  border-color: #FB5452!important;
+}
+/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+  content: '';
+
+  width: 30rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+  height: 30rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+  line-height: 28rpx;
+  text-align: center;
+  font-size:28rpx; /* 对勾大小 30rpx */
+  color:#fff; /* 对勾颜色 白色 */
+  background: blue;
+  transform:translate(-50%, -50%) scale(1);
+  -webkit-transform:translate(-50%, -50%) scale(1);
+}
+
 /* .box{
   position: absolute;
   left: 0;
@@ -96,6 +103,26 @@ margin: 2px;
   z-index: 12;
   background: #FFF;
 } */
+.index{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-top: 10rpx;
+  box-sizing: border-box;
+  padding-left:25rpx;
+  padding-right:25rpx;
+}
+.input{
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  border: 1px solid #d8dee5;
+  border-radius: 10rpx;
+  margin: auto;
+  padding: 0 25rpx;
+  box-sizing: border-box;
+}
 .item{
   display: flex;
   align-items: center;

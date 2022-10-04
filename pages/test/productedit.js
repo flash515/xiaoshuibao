@@ -5,7 +5,7 @@ import {
 } from 'pinyin-pro';
 Page({
   data: {
-    usertype: "",
+    usertype: "admin",
     x: 0,
     // 传值参数
     recordid: "",
@@ -59,10 +59,12 @@ Page({
     showvalue26: true,
     showvalue27: true,
     showvalue28: true,
-    showvalue29: false,
+    showvalue29: true,
     showvalue30: false,
-    showvalue31: true,
+    showvalue31: false,
     showvalue32: true,
+    showvalue33: true,
+    showvalue34: true,
     adddate: "",
     productid: "",
     producttype: "",
@@ -71,6 +73,8 @@ Page({
     startdate: "",
     enddate: "",
     description: "",
+    max:3,
+    servicearea:[],
     handleplace: ["广东省", "深圳市"],
     issuedby: "",
     situation: "",
@@ -105,40 +109,41 @@ Page({
     imageuploadlock: false,
     recordcontral: false,
     items: [
-      { value: '广东省', isChecked: false, disabled: false },
-      { value: '北京市', isChecked: false, disabled: false },
-      { value: '天津市', isChecked: false, disabled: false },
-      { value: '上海市', isChecked: false, disabled: false },
-      { value: '重庆市', isChecked: false, disabled: false },
-      { value: '河北省', isChecked: false, disabled: false },
-      { value: '山西省', isChecked: false, disabled: false },
-      { value: '辽宁省', isChecked: false, disabled: false },
-      { value: '吉林省', isChecked: false, disabled: false },
-      { value: '黑龙江省', isChecked: false, disabled: false },
-      { value: '江苏省', isChecked: false, disabled: false },
-      { value: '浙江省', isChecked: false, disabled: false },
-      { value: '安徽省', isChecked: false, disabled: false },
-      { value: '福建省', isChecked: false, disabled: false },
-      { value: '江西省', isChecked: false, disabled: false },
-      { value: '山东省', isChecked: false, disabled: false },
-      { value: '河南省', isChecked: false, disabled: false },
-      { value: '湖北省', isChecked: false, disabled: false },
-      { value: '湖南省', isChecked: false, disabled: false },
-      { value: '海南省', isChecked: false, disabled: false },
-      { value: '四川省', isChecked: false, disabled: false },
-      { value: '贵州省', isChecked: false, disabled: false },
-      { value: '云南省', isChecked: false, disabled: false },
-      { value: '陕西省', isChecked: false, disabled: false },
-      { value: '甘肃省', isChecked: false, disabled: false },
-      { value: '青海省', isChecked: false, disabled: false },
-      { value: '内蒙古自治区', isChecked: false, disabled: false },
-      { value: '西藏自治区', isChecked: false, disabled: false },
-      { value: '宁夏回族自治区', isChecked: false, disabled: false },
-      { value: '新疆维吾尔自治区', isChecked: false, disabled: false },
-      { value: '广西壮族自治区', isChecked: false, disabled: false },
-      { value: '香港特别行政区', isChecked: false, disabled: false },
-      { value: '澳门特别行政区', isChecked: false, disabled: false },
-      { value: '台湾省', isChecked: false, disabled: false },
+      { value: '全国', checked: true, disabled: false },
+      { value: '广东省', checked: false, disabled: false },
+      { value: '北京市', checked: false, disabled: false },
+      { value: '天津市', checked: false, disabled: false },
+      { value: '上海市', checked: false, disabled: false },
+      { value: '重庆市', checked: false, disabled: false },
+      { value: '河北省', checked: false, disabled: false },
+      { value: '山西省', checked: false, disabled: false },
+      { value: '辽宁省', checked: false, disabled: false },
+      { value: '吉林省', checked: false, disabled: false },
+      { value: '黑龙江省', checked: false, disabled: false },
+      { value: '江苏省', checked: false, disabled: false },
+      { value: '浙江省', checked: false, disabled: false },
+      { value: '安徽省', checked: false, disabled: false },
+      { value: '福建省', checked: false, disabled: false },
+      { value: '江西省', checked: false, disabled: false },
+      { value: '山东省', checked: false, disabled: false },
+      { value: '河南省', checked: false, disabled: false },
+      { value: '湖北省', checked: false, disabled: false },
+      { value: '湖南省', checked: false, disabled: false },
+      { value: '海南省', checked: false, disabled: false },
+      { value: '四川省', checked: false, disabled: false },
+      { value: '贵州省', checked: false, disabled: false },
+      { value: '云南省', checked: false, disabled: false },
+      { value: '陕西省', checked: false, disabled: false },
+      { value: '甘肃省', checked: false, disabled: false },
+      { value: '青海省', checked: false, disabled: false },
+      { value: '内蒙古自治区', checked: false, disabled: false },
+      { value: '西藏自治区', checked: false, disabled: false },
+      { value: '宁夏回族自治区', checked: false, disabled: false },
+      { value: '新疆维吾尔自治区', checked: false, disabled: false },
+      { value: '广西壮族自治区', checked: false, disabled: false },
+      { value: '香港特别行政区', checked: false, disabled: false },
+      { value: '澳门特别行政区', checked: false, disabled: false },
+      { value: '台湾省', checked: false, disabled: false },
     ]
   },
 
@@ -230,7 +235,7 @@ Page({
   },
   //查询本人创建且符合模糊条件的记录
   onSearch(e) {
-    // 待修改，服务商只在自已产品中选择，管理员在全部产品中选择
+    // 待修改，服务商只在自已产品中选择，管理员在全部产品中选择,页面加载时已查询，不需要重复查询
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('PRODUCT').where(_.and([{
@@ -592,6 +597,34 @@ else if(e.currentTarget.dataset.id==32){
       description: e.detail.value
     })
   },
+
+  checkboxChange(e) {
+    let { key } = e.currentTarget.dataset;
+    this.setData({
+      [key]: e.detail.value
+    })
+  },
+  bvServiceArea(e){ //设置当前checkbox的值
+    console.log('checkbox发生change事件，携带value值为：', e.detail)
+
+    const items = this.data.items
+    const values = e.detail.key
+    for (let i = 0, lenI = items.length; i < lenI; ++i) {
+      items[i].isChecked = false
+
+      for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (items[i].value === values[j]) {
+          items[i].isChecked = true
+          break
+        }
+      }
+    }
+
+    this.setData({
+      items
+    })
+     
+    },
   bindPlaceChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
@@ -693,12 +726,6 @@ else if(e.currentTarget.dataset.id==32){
   bvChangeScore(e) {
     this.setData({
       score: e.detail.value
-    })
-  },
-  onChangeTap(e) {
-    this.setData({
-      attachmentview: e.detail.all,
-      imageuploadlock: false
     })
   },
   bvRemoveImage(e) {
@@ -967,16 +994,22 @@ else if(e.currentTarget.dataset.id==32){
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
-        collectionName: PRODUCT,
-        command: "and",
-        where: [{
-          _openid: app.globalData.Gopenid
-        }]
+        collectionName: "PRODUCT",
+        command: "or",
+        where: [
+          {
+          Status:"在售"
+        },
+        {
+          Status:"停售"
+        }
+      ]
       },
       success: res => {
         this.setData({
-          productarray: res.data
+          productarray: res.result.data
         })
+        console.log("产品数组", res.result.data)
         console.log("产品数组", this.data.productarray)
       }
     })

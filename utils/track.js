@@ -53,7 +53,7 @@ wx.onAppShow(res => {
 wx.onAppHide(res => setSession())
 
 // 异常捕捉
-wx.onError(error => console.error("捕获到异常错误：", error))
+// wx.onError(error => console.error("捕获到异常错误：", error))
 
 // 初始化信息
 let initData = () => {

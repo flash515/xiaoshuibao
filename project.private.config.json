@@ -374,6 +374,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/manage/sortedit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

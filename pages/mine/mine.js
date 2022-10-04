@@ -1,4 +1,5 @@
 var app = getApp()
+const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 Page({
   data: {
     usertype: "",
