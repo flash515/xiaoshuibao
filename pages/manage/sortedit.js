@@ -251,6 +251,8 @@ Page({
     code1: "",
     code2: "",
     code3: "",
+    category1id:"",
+    category1name:""
   },
 
   // 展示弹框
@@ -314,6 +316,21 @@ Page({
     })
 
   },
+  bvCategory1Id(e){
+    this.setData({
+      category1id: e.detail.value
+    })
+  },
+  bvCategory1Name(e){
+    this.setData({
+      category1name: e.detail.value
+    })
+  },
+  bvCategory1Add(){
+var temparray=this.data.sortarray.concat({"Category1Code":this.data.category1id,"Category1Name":this.data.category1name,"Category2Array":[]})
+console.log(temparray)
+  },
+
   SortUpdate() {
     wx.cloud.callFunction({
       name: 'MeetingRoomSetting',
@@ -326,10 +343,12 @@ Page({
       }
     })
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    console.log(this.data.sortarray)
     // wx.getStorage({
     //   key: 'LSetting',
     //   success: res => {
