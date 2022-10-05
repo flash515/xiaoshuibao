@@ -26,7 +26,9 @@
     "useApiHook": false,
     "useApiHostProcess": false,
     "babelSetting": {
-      "ignore": [],
+      "ignore": [
+        "cloundfunctions/getAccessToken/miniprogram_npm/psl/index.js"
+      ],
       "disablePlugins": [],
       "outputPath": ""
     },
