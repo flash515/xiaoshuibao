@@ -45,6 +45,7 @@
     "pages/tools/meetingroom/meetingroom4",
     "pages/test/databass",
     "pages/test/productedit",
+    "pages/test/productview",
     "pages/test/allproduct",
     "pages/test/test"
   ],

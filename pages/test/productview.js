@@ -73,8 +73,8 @@ Page({
     startdate: "",
     enddate: "",
     description: "",
-    max: 3,
-    servicearea: [],
+    max:3,
+    servicearea:[],
     handleplace: ["广东省", "深圳市"],
     issuedby: "",
     situation: "",
@@ -99,7 +99,6 @@ Page({
     updatedate: "",
     status: "",
     score: 0,
-    username: "",
     attachmentview: [], //用于展示数据库中的图片
     attachmentimage: [], //数据库中的图片
     attachmentfile: {},
@@ -109,181 +108,42 @@ Page({
     fileuploadlock: false,
     imageuploadlock: false,
     recordcontral: false,
-    items: [{
-        value: '全国',
-        checked: true,
-        disabled: false
-      },
-      {
-        value: '广东省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '北京市',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '天津市',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '上海市',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '重庆市',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '河北省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '山西省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '辽宁省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '吉林省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '黑龙江省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '江苏省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '浙江省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '安徽省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '福建省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '江西省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '山东省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '河南省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '湖北省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '湖南省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '海南省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '四川省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '贵州省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '云南省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '陕西省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '甘肃省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '青海省',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '内蒙古自治区',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '西藏自治区',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '宁夏回族自治区',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '新疆维吾尔自治区',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '广西壮族自治区',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '香港特别行政区',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '澳门特别行政区',
-        checked: false,
-        disabled: false
-      },
-      {
-        value: '台湾省',
-        checked: false,
-        disabled: false
-      },
+    items: [
+      { value: '全国', checked: true, disabled: false },
+      { value: '广东省', checked: false, disabled: false },
+      { value: '北京市', checked: false, disabled: false },
+      { value: '天津市', checked: false, disabled: false },
+      { value: '上海市', checked: false, disabled: false },
+      { value: '重庆市', checked: false, disabled: false },
+      { value: '河北省', checked: false, disabled: false },
+      { value: '山西省', checked: false, disabled: false },
+      { value: '辽宁省', checked: false, disabled: false },
+      { value: '吉林省', checked: false, disabled: false },
+      { value: '黑龙江省', checked: false, disabled: false },
+      { value: '江苏省', checked: false, disabled: false },
+      { value: '浙江省', checked: false, disabled: false },
+      { value: '安徽省', checked: false, disabled: false },
+      { value: '福建省', checked: false, disabled: false },
+      { value: '江西省', checked: false, disabled: false },
+      { value: '山东省', checked: false, disabled: false },
+      { value: '河南省', checked: false, disabled: false },
+      { value: '湖北省', checked: false, disabled: false },
+      { value: '湖南省', checked: false, disabled: false },
+      { value: '海南省', checked: false, disabled: false },
+      { value: '四川省', checked: false, disabled: false },
+      { value: '贵州省', checked: false, disabled: false },
+      { value: '云南省', checked: false, disabled: false },
+      { value: '陕西省', checked: false, disabled: false },
+      { value: '甘肃省', checked: false, disabled: false },
+      { value: '青海省', checked: false, disabled: false },
+      { value: '内蒙古自治区', checked: false, disabled: false },
+      { value: '西藏自治区', checked: false, disabled: false },
+      { value: '宁夏回族自治区', checked: false, disabled: false },
+      { value: '新疆维吾尔自治区', checked: false, disabled: false },
+      { value: '广西壮族自治区', checked: false, disabled: false },
+      { value: '香港特别行政区', checked: false, disabled: false },
+      { value: '澳门特别行政区', checked: false, disabled: false },
+      { value: '台湾省', checked: false, disabled: false },
     ]
   },
 
@@ -375,10 +235,6 @@ Page({
   },
   //查询本人创建且符合模糊条件的记录
   onSearch(e) {
-    this.setData({
-      x: 0,
-      servicearea: []
-    })
     // 待修改，服务商只在自已产品中选择，管理员在全部产品中选择,页面加载时已查询，不需要重复查询
     const db = wx.cloud.database()
     const _ = db.command
@@ -455,10 +311,6 @@ Page({
       startdate: this.data.productarray[this.data.x].StartDate,
       enddate: this.data.productarray[this.data.x].EndDate,
       description: this.data.productarray[this.data.x].Description,
-      category1: this.data.productarray[this.data.x].Category1,
-      category2: this.data.productarray[this.data.x].Category2,
-      category3: this.data.productarray[this.data.x].Category3,
-      servicearea: this.data.productarray[this.data.x].ServiceArea,
       handleplace: this.data.productarray[this.data.x].HandlePlace,
       issuedby: this.data.productarray[this.data.x].IssuedBy,
       situation: this.data.productarray[this.data.x].Situation,
@@ -480,9 +332,8 @@ Page({
       price4count: this.data.productarray[this.data.x].Price4Count,
       score: this.data.productarray[this.data.x].Score,
       updatedate: this.data.productarray[this.data.x].UpdateDate,
-      attachmentview: this.data.productarray[this.data.x].AttachmentImage,
-      attachmentfile: this.data.productarray[this.data.x].AttachmentFile,
-      username: this.data.productarray[this.data.x]._openid,
+      attachmentimage: this.data.productarray[this.data.x].AttachmentImage,
+      attachmentfilee: this.data.productarray[this.data.x].AttachmentFile,
     })
     if (this.data.productarray[this.data.x].Status == "在售") {
       this.setData({
@@ -494,14 +345,14 @@ Page({
       })
     }
   },
-  ToastOn() {
+  ToastOn(){
     wx.showToast({
       title: '已开启展示开关',
       icon: 'none',
       duration: 2000 //持续的时间
     })
   },
-  ToastOff() {
+  ToastOff(){
     wx.showToast({
       title: '已关闭展示开关',
       icon: 'none',
@@ -509,141 +360,172 @@ Page({
     })
   },
   SVChange(e) {
-    console.log(e.currentTarget.dataset.id)
-    if (e.detail.value == true) {
-      this.ToastOn()
-    } else {
-      this.ToastOff()
-    }
-    if (e.currentTarget.dataset.id == 1) {
-      this.setData({
-        showvalue1: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 2) {
-      this.setData({
-        showvalue2: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 3) {
-      this.setData({
-        showvalue3: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 4) {
-      this.setData({
-        showvalue4: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 5) {
-      this.setData({
-        showvalue5: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 6) {
-      this.setData({
-        showvalue6: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 7) {
-      this.setData({
-        showvalue7: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 8) {
-      this.setData({
-        showvalue8: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 9) {
-      this.setData({
-        showvalue9: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 10) {
-      this.setData({
-        showvalue10: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 11) {
-      this.setData({
-        showvalue11: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 12) {
-      this.setData({
-        showvalue12: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 13) {
-      this.setData({
-        showvalue13: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 14) {
-      this.setData({
-        showvalue14: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 15) {
-      this.setData({
-        showvalue15: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 16) {
-      this.setData({
-        showvalue16: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 17) {
-      this.setData({
-        showvalue17: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 18) {
-      this.setData({
-        showvalue18: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 19) {
-      this.setData({
-        showvalue19: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 20) {
-      this.setData({
-        showvalue20: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 21) {
-      this.setData({
-        showvalue21: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 22) {
-      this.setData({
-        showvalue22: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 23) {
-      this.setData({
-        showvalue23: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 24) {
-      this.setData({
-        showvalue24: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 25) {
-      this.setData({
-        showvalue25: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 26) {
-      this.setData({
-        showvalue26: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 27) {
-      this.setData({
-        showvalue27: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 28) {
-      this.setData({
-        showvalue28: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 29) {
-      this.setData({
-        showvalue29: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 30) {
-      this.setData({
-        showvalue30: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 31) {
-      this.setData({
-        showvalue31: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 32) {
-      this.setData({
-        showvalue32: e.detail.value
-      })
-    }
+console.log(e.currentTarget.dataset.id)
+if (e.detail.value == true) {
+this.ToastOn()
+} else {
+  this.ToastOff()
+}
+if(e.currentTarget.dataset.id==1){
+  this.setData({
+    showvalue1:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==2){
+  this.setData({
+    showvalue2:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==3){
+  this.setData({
+    showvalue3:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==4){
+  this.setData({
+    showvalue4:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==5){
+  this.setData({
+    showvalue5:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==6){
+  this.setData({
+    showvalue6:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==7){
+  this.setData({
+    showvalue7:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==8){
+  this.setData({
+    showvalue8:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==9){
+  this.setData({
+    showvalue9:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==10){
+  this.setData({
+    showvalue10:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==11){
+  this.setData({
+    showvalue11:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==12){
+  this.setData({
+    showvalue12:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==13){
+  this.setData({
+    showvalue13:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==14){
+  this.setData({
+    showvalue14:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==15){
+  this.setData({
+    showvalue15:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==16){
+  this.setData({
+    showvalue16:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==17){
+  this.setData({
+    showvalue17:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==18){
+  this.setData({
+    showvalue18:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==19){
+  this.setData({
+    showvalue19:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==20){
+  this.setData({
+    showvalue20:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==21){
+  this.setData({
+    showvalue21:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==22){
+  this.setData({
+    showvalue22:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==23){
+  this.setData({
+    showvalue23:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==24){
+  this.setData({
+    showvalue24:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==25){
+  this.setData({
+    showvalue25:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==26){
+  this.setData({
+    showvalue26:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==27){
+  this.setData({
+    showvalue27:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==28){
+  this.setData({
+    showvalue28:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==29){
+  this.setData({
+    showvalue29:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==30){
+  this.setData({
+    showvalue30:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==31){
+  this.setData({
+    showvalue31:e.detail.value
+  })
+}
+else if(e.currentTarget.dataset.id==32){
+  this.setData({
+    showvalue32:e.detail.value
+  })
+}
 
   },
 
@@ -716,12 +598,33 @@ Page({
     })
   },
 
-  bvServiceArea(e) { //设置当前checkbox的值
-    console.log('checkbox发生change事件，携带value值为：', e.detail)
+  checkboxChange(e) {
+    let { key } = e.currentTarget.dataset;
     this.setData({
-      servicearea: e.detail.value
+      [key]: e.detail.value
     })
   },
+  bvServiceArea(e){ //设置当前checkbox的值
+    console.log('checkbox发生change事件，携带value值为：', e.detail)
+
+    const items = this.data.items
+    const values = e.detail.key
+    for (let i = 0, lenI = items.length; i < lenI; ++i) {
+      items[i].isChecked = false
+
+      for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
+        if (items[i].value === values[j]) {
+          items[i].isChecked = true
+          break
+        }
+      }
+    }
+
+    this.setData({
+      items
+    })
+     
+    },
   bindPlaceChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
@@ -836,7 +739,7 @@ Page({
     // 判断产品id是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
-        title: "产品编号不能为空",
+        title: "请先填写开票人姓名后再尝试上传资料",
         icon: 'none',
         duration: 2000
       })
@@ -873,14 +776,6 @@ Page({
       }
     }
   },
-  bvDownloadFile(e) {
-    console.log(e.currentTarget.dataset.link)
-    wx.downloadFile({
-      url: e.currentTarget.dataset.link,
-      success(res) {}
-    })
-  },
-
   bvUploadFile(e) {
     // 判断individualname是否空值
     if (this.data.productid == "" || this.data.productid == null) {
@@ -971,10 +866,6 @@ Page({
             StartDate: this.data.startdate,
             EndDate: this.data.enddate,
             Description: this.data.description,
-            Category1: this.data.category1,
-            Category2: this.data.category2,
-            Category3: this.data.category3,
-            ServiceArea: this.data.servicearea,
             HandlePlace: this.data.handleplace,
             IssuedBy: this.data.issuedby,
             Situation: this.data.situation,
@@ -1034,10 +925,6 @@ Page({
         StartDate: this.data.startdate,
         EndDate: this.data.enddate,
         Description: this.data.description,
-        Category1: this.data.category1,
-        Category2: this.data.category2,
-        Category3: this.data.category3,
-        ServiceArea: this.data.servicearea,
         HandlePlace: this.data.handleplace,
         IssuedBy: this.data.issuedby,
         Situation: this.data.situation,
@@ -1109,13 +996,14 @@ Page({
       data: {
         collectionName: "PRODUCT",
         command: "or",
-        where: [{
-            Status: "在售"
-          },
+        where: [
           {
-            Status: "停售"
-          }
-        ]
+          Status:"在售"
+        },
+        {
+          Status:"停售"
+        }
+      ]
       },
       success: res => {
         this.setData({
@@ -1153,7 +1041,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+    onUnload: function () {
 
   },
 
