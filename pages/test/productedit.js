@@ -725,7 +725,7 @@ Page({
   bindPlaceChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      handleplace: [e.detail.value[0], e.detail.value[1]]
+      handleplace: [e.detail.value[0], e.detail.value[1], e.detail.value[2]]
     })
     console.log('picker发送选择改变，携带值为', this.data.handleplace)
   },
@@ -875,12 +875,25 @@ Page({
   },
   bvDownloadFile(e) {
     console.log(e.currentTarget.dataset.link)
-    wx.downloadFile({
-      url: e.currentTarget.dataset.link,
-      success(res) {}
+    // get temp file URL
+    wx.cloud.downloadFile({
+      fileID: e.currentTarget.dataset.link,
+      success: res => {
+        // get temp file path
+        console.log(res.tempFilePath)
+        wx.openDocument({
+          filePath: res.tempFilePath,
+        })
+      },
+      fail: err => {
+        // handle error
+      }
     })
-  },
 
+  },
+bvDeleteFile(e){
+
+},
   bvUploadFile(e) {
     // 判断individualname是否空值
     if (this.data.productid == "" || this.data.productid == null) {

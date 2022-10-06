@@ -64,7 +64,7 @@
     </view>
   </view>
   <view hidden="{{showvalue3==false}}">
-    <input class="input" auto-focus placeholder="{{productname}}" bindtap="bvProductName">{{productname}}</input>
+    <input class="input" auto-focus placeholder="{{productname}}" bindinput="bvProductName">{{productname}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -276,9 +276,10 @@
   </view>
   <view hidden="{{showvalue14==false}}" style="margin-top: 10rpx;">
     <picker mode="region" bindchange="bindPlaceChange" value="{{handleplace}}" custom-item="{{customItem}}">
-      <view class="picker">
-        {{handleplace[0]}}/{{handleplace[1]}}
-      </view>
+      <input class="input" auto-focus placeholder="{{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}" />
+      <!-- <view class="picker">
+        {{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}
+      </view> -->
     </picker>
   </view>
 
