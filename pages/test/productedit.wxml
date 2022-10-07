@@ -1,8 +1,7 @@
 <!--产品新增页面-->
 <view class="title">产品新增/编辑</view>
 <text>\n</text>
-<l-search-bar placeholder="模糊搜索办理地、产品类型、产品状态" bind:linconfirm="onSearch" />
-<text>\n</text>
+
 <wxs module="v1">
   var include = function (array, value) {
     var has = false;
@@ -546,7 +545,7 @@
     </view>
   </view>
   <view hidden="{{showvalue30==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-    <l-image-picker size="4" count="4" bind:linremove="bvRemoveImage" urls="{{attachmentview}}" />
+    <l-image-picker size="4" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{attachmentview}}" />
     <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
   </view>
 
@@ -565,7 +564,9 @@
   </view>
   <view hidden="{{showvalue31==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
     <view wx:for="{{attachmentfile}}" wx:for-item="value" wx:for-index="key" wx:key="key" style="margin-top: 10rpx;">
-      <l-button data-link="{{value}}" bind:lintap="bvDownloadFile" plain="{{true}}">{{key}}</l-button>
+      <l-button data-link="{{value}}" data-name="{{key}}" bind:lintap="bvDownloadFile" plain="{{true}}">{{key}}</l-button>
+      <text>\t\t</text>
+      <l-button data-link="{{value}}" data-name="{{key}}" bind:lintap="bvDeleteFile" plain="{{true}}">删除文件</l-button>
     </view>
     <text>\n</text>
     <view wx:for="{{tempFilePaths}}" wx:key="key">{{tempFilePaths[index].name}}
@@ -635,17 +636,12 @@
 <text>\n</text>
 <view style="padding-left: 25rpx;padding-right: 25rpx;">
 <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-  <l-button type="default" bind:lintap="addData">提交信息</l-button>
+  <l-button type="default" bind:lintap="addData">新增信息</l-button>
 
   <l-button type="default" bind:lintap="updateData">更新信息</l-button>
 
   <l-button type="default" bind:lintap="delData">删除信息</l-button>
 </view>
-<text>\n</text>
-<view wx:if="{{recordcontral==true}}" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-  <l-button type="default" bind:lintap="onPreviousClick" shape="circle" plain="{{true}}">上一条</l-button>
-  <l-button type="default" bind:lintap="onEdit" shape="circle" plain="{{true}}">产品编辑</l-button>
-  <l-button type="default" bind:lintap="onNextClick" shape="circle" plain="{{true}}">下一条</l-button>
-</view>
+
 </view>
 </view>

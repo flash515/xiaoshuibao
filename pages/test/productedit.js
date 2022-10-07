@@ -60,8 +60,8 @@ Page({
     showvalue27: true,
     showvalue28: true,
     showvalue29: true,
-    showvalue30: false,
-    showvalue31: false,
+    showvalue30: true,
+    showvalue31: true,
     showvalue32: true,
     showvalue33: true,
     showvalue34: true,
@@ -825,6 +825,12 @@ Page({
       score: e.detail.value
     })
   },
+  bvChooseImage(e) {
+    this.setData({
+      attachmentview: e.detail.all,
+      imageuploadlock: false
+    })
+  },
   bvRemoveImage(e) {
     this.setData({
       attachmentview: e.detail.all,
@@ -880,20 +886,36 @@ Page({
       fileID: e.currentTarget.dataset.link,
       success: res => {
         // get temp file path
-        console.log(res.tempFilePath)
         wx.openDocument({
           filePath: res.tempFilePath,
+          showMenu: true, // 重点是这一步，即打开手机端预览文件时右上角三个点，点击可以保存到本地或者分享给好友
+          success: res2 => {
+            console.log('打开文件成功', res2)
+          },
+          fail: fres => {
+            console.log('打开文件失败', res2)
+          },
         })
+
       },
       fail: err => {
-        // handle error
+        console.log(err)
       }
     })
 
   },
-bvDeleteFile(e){
-
-},
+  bvDeleteFile(e) {
+    wx.cloud.deleteFile({
+      //微信云储存中的文件唯一身份fileID，最多可删除50条
+      fileList: [e.currentTarget.dataset.link],
+      success: (res => {
+        console.log(res)
+      }),
+      fail: (err => {
+        console.log(err)
+      })
+    })
+  },
   bvUploadFile(e) {
     // 判断individualname是否空值
     if (this.data.productid == "" || this.data.productid == null) {
@@ -1110,33 +1132,76 @@ bvDeleteFile(e){
     //页面初始化 options为页面跳转所带来的参数
     var that = this;
     this.setData({
+      productid:options.productid,
       usertype: app.globalData.Gusertype,
       sortarray: app.globalData.Gsortarray,
-      category1: app.globalData.Gsortarray[0].Category1Name,
-      category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
-      category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
+      // category1: app.globalData.Gsortarray[0].Category1Name,
+      // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
+      // category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
     })
-
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "PRODUCT",
-        command: "or",
-        where: [{
-            Status: "在售"
-          },
-          {
-            Status: "停售"
-          }
-        ]
-      },
+    // 从本地存储中读取
+    wx.getStorage({
+      key: 'LProductList',
       success: res => {
+        console.log("打印调用本地产品列表反回结果", res)
         this.setData({
-          productarray: res.result.data
+          productarray: res.data
         })
-        console.log("产品数组", res.result.data)
-        console.log("产品数组", this.data.productarray)
-      }
+        console.log("产品数组", this.data.productarray) //Object {errMsg: "getStorage:ok", data: "value1"}
+        // 筛选指定记录
+        var fliter = [];
+        // var _this = this
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].ProductId == this.data.productid) {
+            fliter.push(this.data.productarray[i]);
+          }
+        }
+        console.log(fliter);
+        this.setData({
+          productdetail: fliter,
+          recordid: fliter[0]._id,
+          adddate: fliter[0].AddDate,
+          status: fliter[0].Status,
+          productid: fliter[0].ProductId,
+          producttype: fliter[0].ProductType,
+          productname: fliter[0].ProductName,
+          outline: fliter[0].Outline,
+          startdate: fliter[0].StartDate,
+          enddate: fliter[0].EndDate,
+          description: fliter[0].Description,
+          category1: fliter[0].Category1,
+          category2: fliter[0].Category2,
+          category3: fliter[0].Category3,
+          servicearea: fliter[0].ServiceArea,
+          handleplace: fliter[0].HandlePlace,
+          issuedby: fliter[0].IssuedBy,
+          situation: fliter[0].Situation,
+          forbid: fliter[0].Forbid,
+          doclist: fliter[0].DocList,
+          processingtime: fliter[0].ProcessingTime,
+          reward: fliter[0].Reward,
+          rewardtime: fliter[0].RewardTime,
+          provider: fliter[0].Provider,
+          providerprice: fliter[0].ProviderPrice,
+          providercountprice: fliter[0].ProviderCountPrice,
+          price1: fliter[0].Price1,
+          price1count: fliter[0].Price1Count,
+          price2: fliter[0].Price2,
+          price2count: fliter[0].Price2Count,
+          price3: fliter[0].Price3,
+          price3count: fliter[0].Price3Count,
+          price4: fliter[0].Price4,
+          price4count: fliter[0].Price4Count,
+          score: fliter[0].Score,
+          updatedate: fliter[0].UpdateDate,
+          attachmentview: fliter[0].AttachmentImage,
+          attachmentfile: fliter[0].AttachmentFile,
+          username: fliter[0]._openid,
+        })
+        this.setData({
+
+        })
+      },
     })
 
   },

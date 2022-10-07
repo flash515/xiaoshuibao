@@ -210,7 +210,7 @@ Page({
       Available: true,
     }).orderBy('OrderId', 'desc').get({
       success: res => {
-        console.log(res)
+        console.log("已购买的价格折扣卡",res)
         if (res.data.length != 0) {
           var tempfliter = []
           for (var i = 0; i < res.data.length; i++) {

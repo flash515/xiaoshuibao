@@ -1,6 +1,6 @@
 {
   "setting": {
-    "urlCheck": true
+    "urlCheck": false
   },
   "condition": {
     "miniprogram": {
@@ -380,6 +380,13 @@
         {
           "name": "",
           "pathName": "pages/manage/sortedit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/test/productview",
           "query": "",
           "launchMode": "default",
           "scene": null
