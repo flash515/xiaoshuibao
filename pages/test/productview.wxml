@@ -634,7 +634,7 @@
 <text>\n</text>
 <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
   <l-button type="default" bind:lintap="onEdit" shape="circle" plain="{{true}}">新增产品</l-button>
-  <l-button type="default" data-id="productid={{productid}}" bind:lintap="onEdit" shape="circle" plain="{{true}}">产品编辑</l-button>
+  <l-button type="default" data-id="recordid={{recordid}}" bind:lintap="onEdit" shape="circle" plain="{{true}}">产品编辑</l-button>
 </view>
 <text>\n</text>
 <view wx:if="{{recordcontral==true}}" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">

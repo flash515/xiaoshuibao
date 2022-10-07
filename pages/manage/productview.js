@@ -23,7 +23,7 @@ Page({
   bvEditProduct(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../manage/productedit?' + e.currentTarget.dataset.id
+      url: '../manage/productedit?_id=' + e.currentTarget.dataset.id
     })
   },
     //复制下载链接

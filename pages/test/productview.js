@@ -76,7 +76,7 @@ Page({
     description: "",
     max: 3,
     servicearea: [],
-    handleplace: ["广东省", "深圳市"],
+    handleplace: ["广东省", "深圳市","福田区"],
     issuedby: "",
     situation: "",
     forbid: "",

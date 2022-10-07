@@ -566,7 +566,7 @@
     <view wx:for="{{attachmentfile}}" wx:for-item="value" wx:for-index="key" wx:key="key" style="margin-top: 10rpx;">
       <l-button data-link="{{value}}" data-name="{{key}}" bind:lintap="bvDownloadFile" plain="{{true}}">{{key}}</l-button>
       <text>\t\t</text>
-      <l-button data-link="{{value}}" data-name="{{key}}" bind:lintap="bvDeleteFile" plain="{{true}}">删除文件</l-button>
+      <l-button data-link="{{value}}" data-name="{{key}}" bind:lintap="bvDeleteFile" plain="{{true}}">{{key}}删除文件</l-button>
     </view>
     <text>\n</text>
     <view wx:for="{{tempFilePaths}}" wx:key="key">{{tempFilePaths[index].name}}

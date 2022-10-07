@@ -905,11 +905,14 @@ Page({
 
   },
   bvDeleteFile(e) {
+    console.log(this.data.attachmentfile)
     wx.cloud.deleteFile({
       //微信云储存中的文件唯一身份fileID，最多可删除50条
       fileList: [e.currentTarget.dataset.link],
       success: (res => {
         console.log(res)
+        delete this.data.attachmentfile[e.currentTarget.dataset.name]
+        console.log(this.data.attachmentfile)
       }),
       fail: (err => {
         console.log(err)
@@ -955,6 +958,9 @@ Page({
                 icon: 'none',
                 duration: 2000 //持续的时间
               })
+            },
+            complete: res => {
+              console.log(res)
             }
           })
         }
@@ -971,7 +977,7 @@ Page({
       count: 4,
       type: 'file',
       success: res => {
-        console.log("res.tempFiles", res)
+        console.log("res.tempFiles", res.tempFiles)
         // tempFilePath可以作为img标签的src属性显示图片
         this.setData({
           tempFilePaths: res.tempFiles
@@ -1132,7 +1138,7 @@ Page({
     //页面初始化 options为页面跳转所带来的参数
     var that = this;
     this.setData({
-      productid:options.productid,
+      recordid: options.recordid,
       usertype: app.globalData.Gusertype,
       sortarray: app.globalData.Gsortarray,
       // category1: app.globalData.Gsortarray[0].Category1Name,
@@ -1152,7 +1158,7 @@ Page({
         var fliter = [];
         // var _this = this
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductId == this.data.productid) {
+          if (this.data.productarray[i]._id == this.data.recordid) {
             fliter.push(this.data.productarray[i]);
           }
         }
@@ -1198,9 +1204,7 @@ Page({
           attachmentfile: fliter[0].AttachmentFile,
           username: fliter[0]._openid,
         })
-        this.setData({
 
-        })
       },
     })
 
