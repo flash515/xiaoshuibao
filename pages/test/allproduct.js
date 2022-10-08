@@ -1,13 +1,18 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");
 Page({
   data: {
+    sortarray: [],
     array1: [],
     array2: [],
     array3: [],
     array4: [],
     array5: [],
-    promoterlevel:"",
+    promoterlevel: "",
     productarray: [],
     usertype: "",
     discountlevel: "",
@@ -116,22 +121,22 @@ Page({
           }
         }
         console.log(fliter4);
-                // 筛选开票申请
-                var fliter5 = [];
-                for (var i = 0; i < this.data.productarray.length; i++) {
-                  if (this.data.productarray[i].Category1 == "企业托管") {
-                    fliter5.push(this.data.productarray[i]);
-                  }
-                }
-                console.log(fliter5);
-                                // 筛选开票申请
-                                var fliter6 = [];
-                                for (var i = 0; i < this.data.productarray.length; i++) {
-                                  if (this.data.productarray[i].Category1 == "企业托管") {
-                                    fliter5.push(this.data.productarray[i]);
-                                  }
-                                }
-                                console.log(fliter6);
+        // 筛选开票申请
+        var fliter5 = [];
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].Category1 == "企业托管") {
+            fliter5.push(this.data.productarray[i]);
+          }
+        }
+        console.log(fliter5);
+        // 筛选开票申请
+        var fliter6 = [];
+        for (var i = 0; i < this.data.productarray.length; i++) {
+          if (this.data.productarray[i].Category1 == "企业托管") {
+            fliter5.push(this.data.productarray[i]);
+          }
+        }
+        console.log(fliter6);
         this.setData({
           array1: fliter1,
           array2: fliter2,
@@ -150,7 +155,22 @@ Page({
 
     })
     //括号1结束
-
+    //获取小程序全局设置
+    let that = this
+    const db = wx.cloud.database()
+    db.collection('setting')
+      .where({
+        currentstatus: "effect"
+      })
+      .get({
+        success: res => {
+          app.globalData.Gsortarray = res.data[0].SortArray;
+          that.setData({
+            sortarray: res.data[0].SortArray
+          })
+        }
+      })
+    console.log(that.data.sortarray)
   },
   bvProductDetail(e) {
     console.log(e.currentTarget.dataset.id)
@@ -175,8 +195,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => startToTrack(),
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
@@ -200,7 +220,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
     startByBack()
   },
 
