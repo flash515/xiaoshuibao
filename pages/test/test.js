@@ -5,6 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    attachmentfile:[],
+    attachment:[],
     category1:"",
     category2:"",
     category3:"",
@@ -136,9 +138,300 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  bvChooseImage(e) {
+    this.setData({
+      attachmentview: e.detail.all,
+      imageuploadlock: false
+    })
+  },
+  bvRemoveImage(e) {
+    this.setData({
+      attachmentview: e.detail.all,
+      imageuploadlock: false
+    })
+  },
+  bvUploadImage(e) {
+    let that = this
+    // 判断产品id是否空值
+    if (this.data.productid == "" || this.data.productid == null) {
+      wx.showToast({
+        title: "产品编号不能为空",
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      // 判断是否重复提交
+      if (this.data.imageuploadlock) {
+        // 锁定时很执行
+        wx.showToast({
+          title: '请勿重复提交',
+          icon: 'none',
+          duration: 2000 //持续的时间
+        })
+      } else {
+        if (this.data.attachmentview.length == 0) {
+          this.data.attachmentimage = []
+        } else {
+          for (let i = 0; i < this.data.attachmentview.length; i++) {
+            const filePath = this.data.attachmentview[i]
+            const cloudPath = 'product/' + this.data.productid + '/' + this.data.productid + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
+            wx.cloud.uploadFile({
+              cloudPath,
+              filePath,
+              success: res => {
+                console.log("fileID", res.fileID)
+                this.data.attachmentimage = this.data.attachmentimage.concat(res.fileID)
+              }
+            })
+          }
+
+        }
+        this.data.imageuploadlock = true // 修改上传状态为锁定
+        console.log("attachmentimage", that.data.attachmentimage)
+        // 异步上传，打印attachment时尚未返回数据
+      }
+    }
+  },
+
+
+  bvChooseFile(e) {
+    wx.chooseMessageFile({
+      count: 4,
+      type: 'file',
+      success: res => {
+        console.log("res.tempFiles", res.tempFiles)
+        // tempFilePath可以作为img标签的src属性显示图片
+        this.setData({
+          tempFilePaths: res.tempFiles
+        })
+      }
+    })
+  },
+  bvUploadFile(e) {
+    // 判断individualname是否空值
+    if (this.data.productid == "" || this.data.productid == null) {
+      wx.showToast({
+        title: "请先填写产品编号后再尝试上传资料",
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      // 判断是否重复提交
+      if (this.data.fileuploadlock) {
+        // 锁定时很执行
+        wx.showToast({
+          title: '请勿重复提交',
+          icon: 'none',
+          duration: 2000 //持续的时间
+        })
+      } else {
+        for (let i = 0; i < this.data.tempFilePaths.length; i++) {
+          const filePath = this.data.tempFilePaths[i].path
+          const cloudPath = 'product/' + this.data.productid + '/' + this.data.tempFilePaths[i].name
+          wx.cloud.uploadFile({
+            cloudPath,
+            filePath,
+            success: res => {
+              let str = String(this.data.tempFilePaths[i].name) //字符串，想要的是以下划线截取前后的字符
+              let s = str.lastIndexOf('.') //找到最后一次出现点号的位置
+              let filename = str.substring(0, s) //取点号前的字符
+              console.log("filename", filename)
+              var obj = new Object();
+              obj = {
+                [filename]: res.fileID
+              }
+              // 构建数组并合并起来
+              this.data.attachmentfile.push(obj)
+              // this.data.attachmentfile = Object.assign(this.data.attachmentfile, obj)
+              wx.showToast({
+                title: this.data.tempFilePaths[i].name + '上传成功',
+                icon: 'none',
+                duration: 2000 //持续的时间
+              })
+            },
+            complete: res => {
+              console.log(res)
+            }
+          })
+        }
+
+        this.data.fileuploadlock = true // 修改上传状态为锁定
+        console.log("attachmentfile", this.data.attachmentfile)
+        // 异步上传，打印attachment时尚未返回数据
+      }
+    }
 
   },
+
+  bvDeleteFile(e) {
+    console.log(this.data.attachmentfile)
+    wx.cloud.deleteFile({
+      //微信云储存中的文件唯一身份fileID，最多可删除50条
+      fileList: [e.currentTarget.dataset.link],
+      success: (res => {
+        console.log(res)
+        // 注意这里数组删除方法的细节，splice删除完以后还要setDate重新赋值才可以
+        this.data.attachmentfile.splice([e.currentTarget.dataset.name],1)
+        this.setData({
+          attachmentfile:this.data.attachmentfile
+        })
+        console.log("修改后this.data.attachmentfile",this.data.attachmentfile)
+      }),
+      fail: (err => {
+        console.log(err)
+      })
+    })
+    console.log(this.data.attachmentfile)
+  },
+  bvDownloadFile(e) {
+    console.log(e.currentTarget.dataset.link)
+    // get temp file URL
+    wx.cloud.downloadFile({
+      fileID: e.currentTarget.dataset.link,
+      success: res => {
+        // get temp file path
+        wx.openDocument({
+          filePath: res.tempFilePath,
+          showMenu: true, // 重点是这一步，即打开手机端预览文件时右上角三个点，点击可以保存到本地或者分享给好友
+          success: res2 => {
+            console.log('打开文件成功', res2)
+          },
+          fail: fres => {
+            console.log('打开文件失败', res2)
+          },
+        })
+
+      },
+      fail: err => {
+        console.log(err)
+      }
+    })
+
+  },
+  // 异步新增数据方法
+  addData() {
+    // 判断是否重复提交
+    if (this.data.sublock) {
+      // 锁定时很执行
+      wx.showToast({
+        title: '请勿重复提交',
+        icon: 'none',
+        duration: 2000 //持续的时间
+      })
+    } else {
+      // 未锁定时执行
+      // 获取数据库引用
+      const db = wx.cloud.database()
+      // 新增数据
+      db.collection("PRODUCT").add({
+          data: {
+            AddDate: new Date().toLocaleDateString(),
+            Status: this.data.status,
+            ProductId: this.data.productid,
+            ProductType: this.data.producttype,
+            ProductName: this.data.productname,
+
+            Category1: this.data.category1,
+            Category2: this.data.category2,
+            Category3: this.data.category3,
+            ServiceArea: this.data.servicearea,
+            HandlePlace: this.data.handleplace,
+
+            AttachmentImage: this.data.attachmentimage,
+            AttachmentFile: this.data.attachmentfile,
+          },
+          success(res) {
+            console.log('新增数据成功', res.data)
+            wx.showToast({
+              title: '新增数据成功',
+              icon: 'success',
+              duration: 2000 //持续的时间
+            })
+          },
+          fail(res) {
+            console.log("新增数据失败", res)
+            wx.showToast({
+              title: '新增数据失败',
+              icon: 'fail',
+              duration: 2000 //持续的时间
+            })
+          }
+        }),
+        // 以上新增数据结束
+        this.data.sublock = true // 修改上传状态为锁定
+    }
+  },
+  // 更新数据
+  updateData() {
+    // 获取数据库引用
+    const db = wx.cloud.database()
+    // 更新数据
+    wx.cloud.callFunction({
+      name: 'NormalUpdate',
+      data: {
+        id:"5464a294625e291c0108331c61f57434",
+        key1: "AttachmentFile",
+        value1:this.data.attachmentfile,
+        key2: "UpdateDate",
+        value2: new Date(),
+      },
+      success: res => {
+        console.log("执行了")
+      }
+    })
+    // 以上更新数据结束
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    //页面初始化 options为页面跳转所带来的参数
+    var that = this;
+    // this.setData({
+    //   recordid: options.recordid,
+    //   usertype: app.globalData.Gusertype,
+    //   sortarray: app.globalData.Gsortarray,
+    //   // category1: app.globalData.Gsortarray[0].Category1Name,
+    //   // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
+    //   // category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
+    // })
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCT",
+        command: "and",
+        where: [{
+            _id: "5464a294625e291c0108331c61f57434"
+          },
+          {
+            Status: "在售"
+          }
+        ]
+      },
+      success: res => {
+        this.setData({
+          productlist: res.result.data,
+          productarray: res.result.data,
+          recordid: res.result.data[0]._id,
+          adddate: res.result.data[0].AddDate,
+          status: res.result.data[0].Status,
+          productid: res.result.data[0].ProductId,
+          producttype: res.result.data[0].ProductType,
+          productname: res.result.data[0].ProductName,
+          updatedate: res.result.data[0].UpdateDate,
+          attachmentview: res.result.data[0].AttachmentImage,
+          attachmentfile: res.result.data[0].AttachmentFile,
+          username: res.result.data[0]._openid,
+
+        })
+        console.log(res.result.data[0].AttachmentFile)
+        console.log("this.data.attachmentfile",this.data.attachmentfile)
+      }
+    })
+
+
+  },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成

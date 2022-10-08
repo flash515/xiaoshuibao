@@ -102,7 +102,7 @@ Page({
     username: "",
     attachmentview: [], //用于展示数据库中的图片
     attachmentimage: [], //数据库中的图片
-    attachmentfile: {},
+    attachmentfile: [],
     tempFilePaths: [],
     onsalechecked: false,
     sublock: false,
@@ -911,13 +911,18 @@ Page({
       fileList: [e.currentTarget.dataset.link],
       success: (res => {
         console.log(res)
-        delete this.data.attachmentfile[e.currentTarget.dataset.name]
-        console.log(this.data.attachmentfile)
+        // 注意这里数组删除方法的细节，splice删除完以后还要setDate重新赋值才可以
+        this.data.attachmentfile.splice([e.currentTarget.dataset.name],1)
+        this.setData({
+          attachmentfile:this.data.attachmentfile
+        })
+        console.log("修改后this.data.attachmentfile",this.data.attachmentfile)
       }),
       fail: (err => {
         console.log(err)
       })
     })
+    console.log(this.data.attachmentfile)
   },
   bvUploadFile(e) {
     // 判断individualname是否空值
@@ -952,7 +957,8 @@ Page({
               obj = {
                 [filename]: res.fileID
               }
-              this.data.attachmentfile = Object.assign(this.data.attachmentfile, obj)
+              // 构建数组并合并起来
+              this.data.attachmentfile.push(obj)
               wx.showToast({
                 title: this.data.tempFilePaths[i].name + '上传成功',
                 icon: 'none',
@@ -1110,12 +1116,22 @@ Page({
           icon: 'success',
           duration: 2000 //持续的时间
         })
-        // 更新成功后重新查询本人的产品并存入本地
-        db.collection('PRODUCT').where({
-          _openid: app.globalData.Gopenid
-        }).get({
+        // 更新成功后再次云函数查询产品并存入本地
+        wx.cloud.callFunction({
+          name: "NormalQuery",
+          data: {
+            collectionName: "PRODUCT",
+            command: "and",
+            where: [{
+              Status: "停售"
+              },
+              {
+                Status: "在售"
+              }
+            ]
+          },
           success: res => {
-            wx.setStorageSync('LPersonalProduct', res.data)
+            wx.setStorageSync('LProductList', res.data)
             console.log(res)
           }
         })
