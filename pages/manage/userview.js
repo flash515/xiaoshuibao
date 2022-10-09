@@ -10,17 +10,29 @@ Page({
   },
   onLoad: function (options) {
     // 查询本人提交的全部产品
-    const db = wx.cloud.database()
-    db.collection('USER').get({
+
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "or",
+        where: [{
+          UserType: "client"
+        }, {
+          UserType: "admin"
+        }]
+      },
       success: res => {
-        wx.setStorageSync('LUser', res.data);
+        console.log("全部用户",  res)
+        wx.setStorageSync('LUser', res.result.data);
         //括号1开始
         this.setData({
-          userarray: res.data,
+          userarray: res.result.data,
         })
-        console.log("全部用户", this.data.userarray)
+        console.log("全部用户",this.data.userarray)
       }
     })
+
   },
 
   /**

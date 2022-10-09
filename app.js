@@ -114,6 +114,7 @@ App({
     Gdirectusershow:'',
     Gindirectusershow:'',
     Gvaluedetailshow:'',
-    Guserdetailshow:''
+    Guserdetailshow:'',
+    Gtrack:[],
   }
 })

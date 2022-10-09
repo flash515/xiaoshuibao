@@ -1,4 +1,7 @@
 // 新建页面埋点
+const app = getApp()
+// temptrack用于记录所有track,初始化定义要放在外层，避免被内层多次初始化
+var temptrack= []
 let newStorage = data => {
   return {
     time: data && data.time || 0, // 页面访问时间
@@ -27,19 +30,44 @@ let getSession = () => {
 
 // 停止统计 && 保存埋点数据 && 初始化页面变量
 let setSession = () => {
-  var track1=[]
-  var track2=[]
+  // trackarray是在本方法中赋值，初始化要放在本方法中，避免没有初始化而造成数据重复
+  var trackarray = []
   clearInterval(TIME); // 停止统计
   wx.setStorage({
     key: route,
     data: storage
   }) // 保存埋点数据
-  track1=[[route],[storage]]
-  track2=track1.push[[route],[storage]]
-  // track1.concat([route],[storage])
-  // track2.concat([route],[storage])
-  console.log("track1",track1)
-  console.log("track2",track2)
+
+  // 构建一个临时对象
+  var obj = new Object();
+  obj = {
+    [route]: [storage]
+  }
+  //用object.assign方法把对象推入到temptrack变里里，
+  Object.assign(temptrack,obj)
+  console.log("temptrack", temptrack)
+    //但是object在更新数接库时无效，所以再转为array用于更新数据库
+  for (var key in temptrack) {
+    if (!temptrack.hasOwnProperty(key)) {
+      continue;
+    }
+    var item = {};
+    item[key] = temptrack[key];
+    trackarray.push(item);
+  }
+  // 更新USER数据库里的Track字段
+  const db = wx.cloud.database()
+  db.collection("USER").where({
+    _openid: app.globalData.Gopenid,
+  }).update({
+    data: {
+      Track: trackarray
+    },
+    complete(res) {
+      console.log("track更新", res)
+    }
+  })
+  console.log("trackarray", trackarray)
   initData(); // 初始化
 }
 
