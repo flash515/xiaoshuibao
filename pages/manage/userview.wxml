@@ -18,7 +18,7 @@
     <view>推荐人姓名：{{item.InviterUserName}}</view>
 
   <!-- 具有经典借鉴的多级展示 -->
-  <l-collapse l-class="collapse">
+  <l-collapse>
     <l-collapse-item title="上次登录浏览记录">
       <view wx:for="{{item.Track}}" wx:for-index="key1" wx:for-item="array1" wx:key="key" style="margin-top: 10rpx;">
         <view wx:for="{{array1}}" wx:for-index="key2" wx:for-item="array2" wx:key="key">

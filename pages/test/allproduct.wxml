@@ -11,18 +11,13 @@
   </swiper>
 </view>
 <view class="mainframe">
-  <l-tabs placement="left" scrollable="true">
-    <view wx:for="{{sortarray}}" wx:key="key" wx:for-item='array1'>
-      <l-tabpanel tab="{{array1.Category1Name}}" key="{{sortarray.key}}" slot="{{sortarray.key}}" >
-        <view wx:for="{{array1.Category2Array}}" wx:for-index="key" wx:for-item="array2" wx:key="key">
-          <view>
-            <view class="text">{{array2.Category2Name}}</view>
-            <!-- <view wx:for="{{array2.Category3Array}}" wx:for-index="key" wx:for-item="array3" wx:key="key" >
-                <l-tag type="touch" select="{{select}}" l-select-class="select" bindtap="onSelect">{{array3.Category3Name}}</l-tag>
-            </view> -->
 
-          </view>
-        </view>
+  <l-tabs placement="left">
+    <view wx:for="{{sortarray}}" wx:for-index="key1" wx:for-item="array1">
+      <l-tabpanel tab="{{array1.Category1Name}}" key="{{key1}}" slot="{{key1}}">
+
+        <view style="font-size: 28rpx;">这里</view>
+
       </l-tabpanel>
     </view>
   </l-tabs>
