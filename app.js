@@ -49,6 +49,14 @@ App({
         }
       }
     })
+    wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
+      success: res => {
+        this.globalData.GWidth=res.windowWidth
+        this.globalData.GHeight=res.windowHeight
+        console.log(res)
+      }
+
+    })
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager()
       updateManager.onCheckForUpdate(function (res) {
@@ -82,6 +90,9 @@ App({
     }
   },
   globalData: {
+    // 屏幕宽高
+    GWidth:"",
+    GHeight:"",
     // 用户小程序id 
     Gopenid: "",
     //用户本人信息

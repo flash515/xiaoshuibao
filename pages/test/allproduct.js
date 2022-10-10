@@ -6,6 +6,8 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
+    windowH:"",
+    url:"",
     sortarray: [],
     array1: [],
     array2: [],
@@ -78,8 +80,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-
+    this.setData({
+      windowH:(app.globalData.GHeight-100)*750/app.globalData.GWidth
+    })
     // 从本地存储中读取产品
     wx.getStorage({
       key: 'LProductList',
@@ -168,9 +171,10 @@ Page({
           that.setData({
             sortarray: res.data[0].SortArray
           })
+          console.log(that.data.sortarray)
         }
       })
-    console.log(that.data.sortarray)
+
   },
   bvProductDetail(e) {
     console.log(e.currentTarget.dataset.id)
@@ -183,6 +187,10 @@ Page({
     wx.navigateTo({
       url: '../order/neworder?productid=' + e.currentTarget.dataset.id
     })
+  },
+
+  changeTabs(e){
+    console.log(e.detail.activeKey)
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -241,7 +249,37 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage(res) {
+    const pages = getCurrentPages();
+    const currentPage = pages[pages.length - 1];
+    const url=`/${currentPage.route}`
+    console.log(url)
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: app.globalData.GnickName + '邀请您体验：',
+      path: '/pages/index/index?userid=147' +"&page="+url,
+      imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log(this.data.path.value)
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
+  },
+
+  onShareTimeline:function(){
 
   }
 })

@@ -83,7 +83,7 @@
     "l-checkbox": "/miniprogram_npm/lin-ui/checkbox/index"
   },
   "tabBar": {
-    "custom": false,
+    "custom": true,
     "color": "#a9b7b7",
     "selectedColor": "#11cd6e",
     "backgroundColor": "white",

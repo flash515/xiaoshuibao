@@ -705,6 +705,7 @@ bvRefresh(){
     //页面初始化 options为页面跳转所带来的参数
     var that = this;
     this.setData({
+      productid:options.productid,
       usertype: app.globalData.Gusertype,
       sortarray: app.globalData.Gsortarray,
       // category1: app.globalData.Gsortarray[0].Category1Name,
@@ -767,7 +768,33 @@ bvRefresh(){
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
+  onShareAppMessage: function (res) {
+    const pages = getCurrentPages();
+    const currentPage = pages[pages.length - 1];
+    const url = `/${currentPage.route}`
+    console.log(url)
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: app.globalData.GnickName + '邀请您体验：',
+      path: '/pages/index/index?userid='+app.globalData.Gopenid + "&page=" + url + "&productid=" + this.data.productid,
+      imageUrl: '', //封面
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log(this.data.path.value)
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
   }
 })

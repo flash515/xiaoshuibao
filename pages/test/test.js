@@ -1,25 +1,47 @@
 // pages/test/test.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    attachmentfile:[],
-    attachment:[],
-    category1:"",
-    category2:"",
-    category3:"",
-    multiArray: [['无脊柱动物', '脊柱动物'], ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'], ['猪肉绦虫', '吸血虫']],
+    attachmentfile: [],
+    attachment: [],
+    category1: "",
+    category2: "",
+    category3: "",
+    multiArray: [
+      ['无脊柱动物', '脊柱动物'],
+      ['扁性动物', '线形动物', '环节动物', '软体动物', '节肢动物'],
+      ['猪肉绦虫', '吸血虫']
+    ],
     multiIndex: [0, 0, 0],
 
-    objectArray: [
-      {id: 5, unique: 'unique_5'},
-      {id: 4, unique: 'unique_4'},
-      {id: 3, unique: 'unique_3'},
-      {id: 2, unique: 'unique_2'},
-      {id: 1, unique: 'unique_1'},
-      {id: 0, unique: 'unique_0'},
+    objectArray: [{
+        id: 5,
+        unique: 'unique_5'
+      },
+      {
+        id: 4,
+        unique: 'unique_4'
+      },
+      {
+        id: 3,
+        unique: 'unique_3'
+      },
+      {
+        id: 2,
+        unique: 'unique_2'
+      },
+      {
+        id: 1,
+        unique: 'unique_1'
+      },
+      {
+        id: 0,
+        unique: 'unique_0'
+      },
     ],
     numberArray: [1, 2, 3, 4]
   },
@@ -102,14 +124,14 @@ Page({
     console.log(data.multiIndex);
     this.setData(data);
     this.setData({
-      category1:data.multiArray[0][data.multiIndex[0]],
-      category2:data.multiArray[1][data.multiIndex[1]],
-      category3:data.multiArray[2][data.multiIndex[2]],
+      category1: data.multiArray[0][data.multiIndex[0]],
+      category2: data.multiArray[1][data.multiIndex[1]],
+      category3: data.multiArray[2][data.multiIndex[2]],
     })
 
 
   },
-  switch: function(e) {
+  switch: function (e) {
     const length = this.data.objectArray.length
     for (let i = 0; i < length; ++i) {
       const x = Math.floor(Math.random() * length)
@@ -122,15 +144,18 @@ Page({
       objectArray: this.data.objectArray
     })
   },
-  addToFront: function(e) {
+  addToFront: function (e) {
     const length = this.data.objectArray.length
-    this.data.objectArray = [{id: length, unique: 'unique_' + length}].concat(this.data.objectArray)
+    this.data.objectArray = [{
+      id: length,
+      unique: 'unique_' + length
+    }].concat(this.data.objectArray)
     this.setData({
       objectArray: this.data.objectArray
     })
   },
-  addNumberToFront: function(e){
-    this.data.numberArray = [ this.data.numberArray.length + 1 ].concat(this.data.numberArray)
+  addNumberToFront: function (e) {
+    this.data.numberArray = [this.data.numberArray.length + 1].concat(this.data.numberArray)
     this.setData({
       numberArray: this.data.numberArray
     })
@@ -271,11 +296,11 @@ Page({
       success: (res => {
         console.log(res)
         // 注意这里数组删除方法的细节，splice删除完以后还要setDate重新赋值才可以
-        this.data.attachmentfile.splice([e.currentTarget.dataset.name],1)
+        this.data.attachmentfile.splice([e.currentTarget.dataset.name], 1)
         this.setData({
-          attachmentfile:this.data.attachmentfile
+          attachmentfile: this.data.attachmentfile
         })
-        console.log("修改后this.data.attachmentfile",this.data.attachmentfile)
+        console.log("修改后this.data.attachmentfile", this.data.attachmentfile)
       }),
       fail: (err => {
         console.log(err)
@@ -369,9 +394,9 @@ Page({
     wx.cloud.callFunction({
       name: 'NormalUpdate',
       data: {
-        id:"5464a294625e291c0108331c61f57434",
+        id: "5464a294625e291c0108331c61f57434",
         key1: "AttachmentFile",
-        value1:this.data.attachmentfile,
+        value1: this.data.attachmentfile,
         key2: "UpdateDate",
         value2: new Date(),
       },
@@ -425,7 +450,7 @@ Page({
 
         })
         console.log(res.result.data[0].AttachmentFile)
-        console.log("this.data.attachmentfile",this.data.attachmentfile)
+        console.log("this.data.attachmentfile", this.data.attachmentfile)
       }
     })
 
@@ -478,7 +503,33 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage() {
-
+  onShareAppMessage: function (res) {
+    const pages = getCurrentPages();
+    const currentPage = pages[pages.length - 1];
+    const url = `/${currentPage.route}`
+    console.log(url)
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: app.globalData.GnickName + '邀请您体验：',
+      path: '/pages/index/index?userid='+app.globalData.Gopenid + "&page=" + url,
+      imageUrl: '', //封面
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log(this.data.path.value)
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
   }
 })

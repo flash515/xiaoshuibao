@@ -4,11 +4,11 @@
 <view style="padding-left: 25rpx;padding-right: 25rpx;">
   <l-search-bar placeholder="模糊搜索办理地、产品类型、产品状态" bind:linconfirm="onSearch" />
   <text>\n</text>
-  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <l-button type="default" shape="circle" plain="{{true}}">共有{{productarray.length}}条记录，当前是{{x+1}}条记录</l-button>
-    <l-button type="default" bind:lintap="bvRefresh" shape="circle" plain="{{true}}">获取全部产品列表</l-button>
-  </view>
 
+  <l-button type="default" bind:lintap="bvRefresh" shape="circle" plain="{{true}}" size="large">点击获取全部产品列表</l-button>
+  <view wx:if="{{recordcontral==true}}" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    共有{{productarray.length}}条记录，当前是{{x+1}}条记录
+  </view>
   <text>\n</text>
   <wxs module="v1">
     var include = function (array, value) {
@@ -640,7 +640,7 @@
   <text>\n</text>
   <view wx:if="{{recordcontral==true}}" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
     <l-button type="default" bind:lintap="onPreviousClick" shape="circle" plain="{{true}}">上一条</l-button>
-    <l-button type="default" shape="circle" plain="{{true}}">当前是{{x+1}}条记录</l-button>
+    <view>当前是{{x+1}}/{{productarray.length}}条记录</view>
     <l-button type="default" bind:lintap="onNextClick" shape="circle" plain="{{true}}">下一条</l-button>
   </view>
 </view>

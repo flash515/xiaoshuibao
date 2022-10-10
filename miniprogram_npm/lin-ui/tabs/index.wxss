@@ -41,7 +41,7 @@
 .l-tabs .l-tabs-header .l-icon-inactive,
 .l-tabs .l-tabs-header .l-tabs-inactive {
   font-size: 28rpx;
-  color: #bbb
+  color: #bbbb
 }
 
 .l-tabs .l-tabs-header .l-tabsitems-row {
