@@ -46,6 +46,7 @@
     "pages/test/databass",
     "pages/test/productedit",
     "pages/test/productview",
+    "pages/test/productdetail",
     "pages/test/allproduct",
     "pages/test/test"
   ],

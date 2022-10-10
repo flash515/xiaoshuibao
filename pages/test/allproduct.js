@@ -6,10 +6,10 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
-    windowH:"",
-    url:"",
+    windowH: "",
+    url: "",
     sortarray: [],
-    array1: [],
+    array: [],
     array2: [],
     array3: [],
     array4: [],
@@ -31,6 +31,25 @@ Page({
     duration: 500,
     previousMargin: 0,
     nextMargin: 0
+  },
+  bvSortChange(e) {
+    console.log(e.currentTarget.dataset.name)
+    for (let i = 0; i < this.data.sortarray.length; i++) {
+      if (this.data.sortarray[i].Category1Name == e.currentTarget.dataset.name) {
+        this.setData({
+          array: this.data.sortarray[i].Category2Array
+        })
+
+      }
+    }
+    console.log(this.data.array)
+  },
+  bvTagClick(e){
+    console.log(e.currentTarget.dataset.name)
+    console.log(e.currentTarget.dataset.sort)
+    wx.navigateTo({
+      url: "../test/productview?"+"category3=" + e.currentTarget.dataset.name+"&sort="+e.currentTarget.dataset.sort
+    })
   },
   getUserProfile: function (e) {
     wx.getUserProfile({
@@ -81,82 +100,9 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      windowH:(app.globalData.GHeight-100)*750/app.globalData.GWidth
+      windowH: (app.globalData.GHeight - 100) * 750 / app.globalData.GWidth
     })
-    // 从本地存储中读取产品
-    wx.getStorage({
-      key: 'LProductList',
-      success: res => {
-        console.log("打印调用本地产品列表反回结果", res)
-        this.setData({
-          productarray: res.data
-        })
-        console.log("产品数组", this.data.productarray)
-        // 筛选自然人代开
-        var fliter1 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "地址服务") {
-            fliter1.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter1);
-        // 筛选个体工商
-        var fliter2 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "工商代办") {
-            fliter2.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter2);
-        // 筛选个独/合伙企业
-        var fliter3 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "银行代办") {
-            fliter3.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter3);
-        // 筛选有限公司
-        var fliter4 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "财税服务") {
-            fliter4.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter4);
-        // 筛选开票申请
-        var fliter5 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "企业托管") {
-            fliter5.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter5);
-        // 筛选开票申请
-        var fliter6 = [];
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "企业托管") {
-            fliter5.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter6);
-        this.setData({
-          array1: fliter1,
-          array2: fliter2,
-          array3: fliter3,
-          array4: fliter4,
-          array5: fliter5,
-          array6: fliter6,
-        })
-        // 打印数组
-        console.log("记账报税", this.data.array1)
-        console.log("税种核定", this.data.array2)
-        console.log("领票购票", this.data.array3)
-        console.log("开票申请", this.data.array4)
-        console.log("有限公司", this.data.array5)
-      }
 
-    })
     //括号1结束
     //获取小程序全局设置
     let that = this
@@ -189,7 +135,7 @@ Page({
     })
   },
 
-  changeTabs(e){
+  changeTabs(e) {
     console.log(e.detail.activeKey)
   },
   /**
@@ -252,7 +198,7 @@ Page({
   onShareAppMessage(res) {
     const pages = getCurrentPages();
     const currentPage = pages[pages.length - 1];
-    const url=`/${currentPage.route}`
+    const url = `/${currentPage.route}`
     console.log(url)
     if (res.from === 'button') {
       // 来自页面内转发按钮
@@ -260,7 +206,7 @@ Page({
     }
     return {
       title: app.globalData.GnickName + '邀请您体验：',
-      path: '/pages/index/index?userid=147' +"&page="+url,
+      path: '/pages/index/index?userid=147' + "&page=" + url,
       imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
       success: function (res) {
         // 转发成功之后的回调
@@ -279,7 +225,7 @@ Page({
     }
   },
 
-  onShareTimeline:function(){
+  onShareTimeline: function () {
 
   }
 })
