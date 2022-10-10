@@ -80,7 +80,7 @@ Page({
       category3name: options.category3name,
       sort: options.sort,
     })
-    console.log(this.data.sory)
+    console.log(this.data.sort)
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
