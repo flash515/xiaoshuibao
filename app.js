@@ -51,8 +51,8 @@ App({
     })
     wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
       success: res => {
-        this.globalData.GWidth=res.windowWidth
-        this.globalData.GHeight=res.windowHeight
+        this.globalData.GWidth = res.windowWidth
+        this.globalData.GHeight = res.windowHeight
         console.log(res)
       }
 
@@ -90,42 +90,48 @@ App({
     }
   },
   globalData: {
-    // 屏幕宽高
-    GWidth:"",
-    GHeight:"",
+    // 屏幕可用宽高
+    GWidth: "",
+    GHeight: "",
+    // 产品
+    Gsortarray: [],
+    Gproductlist: [],
     // 用户小程序id 
     Gopenid: "",
     //用户本人信息
-    Gcompanyname: "",
-    Gusername: "",
-    GnickName: "",
-    GavatarUrl: "",
-    Ginviterid: "",
-    Ginviterpromoterlevel: "",
-    Ginviterbalance: "",
-    Gindirectinviterid: "",
-    Gindirectinviterpromoterlevel: "",
-    Gindirectinviterbalance: "",
-    // 用户类型
     Gusertype: "",
-    Gdirect1yearvaliduser:"",
+    Gdirect1yearvaliduser: "",
     Gdiscountlevel: "",
     Gdiscounttype: "",
     Gpromoterlevel: "",
     Gbanlance: "",
-    Gregion:[],
+    Gregion: [],
+    Gcompanyname: "",
+    Gusername: "",
+    GnickName: "",
+    GavatarUrl: "",
+    Gpointsmagnification: "",
+    Gsearch:[],
+    Gtrack: [],
+    // 直接推荐人
+    Ginviterid: "",
+    Ginviterpromoterlevel: "",
+    Ginviterbalance: "",
+    // 间接推荐人
+    Gindirectinviterid: "",
+    Gindirectinviterpromoterlevel: "",
+    Gindirectinviterbalance: "",
+
     //轮播图
-    Gimagearray:[],
-    //用户设置
-    Gsortarray:[],
-    Gpointsmagnification:'',
-    Gpriceshow:'',
-    Gdirectvalueshow:'',
-    Gindirectvalueshow:'',
-    Gdirectusershow:'',
-    Gindirectusershow:'',
-    Gvaluedetailshow:'',
-    Guserdetailshow:'',
-    Gtrack:[],
+    Gimagearray: [],
+    //设置
+
+    Gpriceshow: '',
+    Gdirectvalueshow: '',
+    Gindirectvalueshow: '',
+    Gdirectusershow: '',
+    Gindirectusershow: '',
+    Gvaluedetailshow: '',
+    Guserdetailshow: '',
   }
 })

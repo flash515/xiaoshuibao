@@ -456,8 +456,39 @@ Page({
 
 
   },
-
-
+sendliuyan(){
+  wx.cloud.callFunction({
+    name: 'sendsms',
+    data: {
+      templateId:"1569089",
+      mobile: 13025400559,
+      nationcode: '86'
+    },
+    success: res => {}
+  })
+},
+sendorde(){
+  wx.cloud.callFunction({
+    name: 'sendsms',
+    data: {
+      templateId:"1569097",
+      mobile: 18954744612,
+      nationcode: '86'
+    },
+    success: res => {}
+  })
+},
+sendlogin(){
+  wx.cloud.callFunction({
+    name: 'sendsms',
+    data: {
+      templateId:"1569087",
+      mobile: 13025400559,
+      nationcode: '86'
+    },
+    success: res => {}
+  })
+},
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

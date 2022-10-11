@@ -106,6 +106,7 @@ Page({
     wx.cloud.callFunction({
       name: 'sendsms',
       data: {
+        templateId:"985130",
         mobile: _this.data.userphone,
         nationcode: '86'
       },

@@ -77,6 +77,7 @@ Page({
         }]
       },
       success: res => {
+        app.globalData.Gproductlist = res.result.data
         wx.setStorageSync('LProductList', res.result.data)
       }
     })

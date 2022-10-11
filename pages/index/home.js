@@ -123,7 +123,11 @@ Page({
       region:app.globalData.Gregion
     })
     const db = wx.cloud.database()
-    db.collection('notice').get({
+    db.collection('notice').where(
+      {
+        status:"onshow"
+      }
+    ).get({
       success: res => {
         let tempnoticearray = []
         for (let i = 0; i < res.data.length; i++) {

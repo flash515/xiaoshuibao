@@ -76,7 +76,7 @@ Page({
     description: "",
     max: 3,
     servicearea: [],
-    handleplace: ["广东省", "深圳市","福田区"],
+    handleplace: ["广东省", "深圳市", "福田区"],
     issuedby: "",
     situation: "",
     forbid: "",
@@ -287,33 +287,33 @@ Page({
       },
     ]
   },
-bvRefresh(){
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "PRODUCT",
-      command: "or",
-      where: [{
-          Status: "在售"
-        },
-        {
-          Status: "停售"
-        }
-      ]
-    },
-    success: res => {
-      this.setData({
-        productlist: res.result.data,
-        productarray: res.result.data
-      })
-      wx.setStorageSync('LProductList', res.result.data)
-      console.log("产品数组", res.result.data)
-      console.log("产品数组", this.data.productlist)
-      this.setcurrentdata()
-    }
-  })
+  bvRefresh() {
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCT",
+        command: "or",
+        where: [{
+            Status: "在售"
+          },
+          {
+            Status: "停售"
+          }
+        ]
+      },
+      success: res => {
+        this.setData({
+          productlist: res.result.data,
+          productarray: res.result.data
+        })
+        wx.setStorageSync('LProductList', res.result.data)
+        console.log("产品数组", res.result.data)
+        console.log("产品数组", this.data.productlist)
+        this.setcurrentdata()
+      }
+    })
 
-},
+  },
   // 展示弹框
   getbox: function () {
     this.setData({
@@ -423,7 +423,21 @@ bvRefresh(){
       productarray: temparray,
     })
     console.log(this.data.productarray)
-
+    const db = wx.cloud.database()
+    const _=db.command
+    db.collection('USER').where({
+      _openid: app.globalData.Gopenid
+    }).update({
+      data: {
+        Search: _.push(e.detail.value)
+      },
+      success(res) {
+        console.log(res)
+      },
+      fail(res) {
+        console.log(res)
+      }
+    })
     this.setcurrentdata()
   },
   onEdit(e) {
@@ -440,7 +454,7 @@ bvRefresh(){
       })
     } else {
       this.setData({
-        x:this.data.x-1
+        x: this.data.x - 1
       })
       // this.data.x = this.data.x - 1
       this.setcurrentdata()
@@ -455,7 +469,7 @@ bvRefresh(){
       })
     } else {
       this.setData({
-        x:this.data.x+1
+        x: this.data.x + 1
       })
       // this.data.x = this.data.x + 1
       this.setcurrentdata()
@@ -705,7 +719,7 @@ bvRefresh(){
     //页面初始化 options为页面跳转所带来的参数
     var that = this;
     this.setData({
-      productid:options.productid,
+      productid: options.productid,
       usertype: app.globalData.Gusertype,
       sortarray: app.globalData.Gsortarray,
       // category1: app.globalData.Gsortarray[0].Category1Name,
@@ -779,8 +793,9 @@ bvRefresh(){
     }
     return {
       title: app.globalData.GnickName + '邀请您体验：',
-      path: '/pages/index/index?userid='+app.globalData.Gopenid + "&page=" + url + "&productid=" + this.data.productid,
+      path: "/pages/index/index?" + "userid=" + app.globalData.Gopenid + "&page=" + url + "&productid=" + this.data.productid,
       imageUrl: '', //封面
+      // imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', 
       success: function (res) {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {

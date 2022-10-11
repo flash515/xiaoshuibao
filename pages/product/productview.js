@@ -6,6 +6,7 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
+    category2name:"",
     category3name: "",
     sort: [],
 
@@ -77,9 +78,11 @@ Page({
   onLoad: function (options) {
     var that = this
     this.setData({
-      category3name: options.category3name,
-      sort: options.sort,
+      category2name: options.category2,
+      category3name: options.category3,
     })
+    
+    console.log(this.data.category3name)
     console.log(this.data.sort)
     wx.cloud.callFunction({
       name: "NormalQuery",
@@ -92,6 +95,15 @@ Page({
       },
       success: res => {
         app.globalData.Gproductarray = res.result.data
+        var fliter= []
+        for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
+          if (app.globalData.Gproductarray[i].Category3 == this.data.category3name) {
+            fliter.push(app.globalData.Gproductarray[i]);
+          }
+        }
+        that.setData({
+          productarray: fliter
+        })
       }
     })
 
@@ -99,27 +111,27 @@ Page({
 
   },
   changeTabs(e) {
-    var fliter1 = []
+    var fliter = []
     for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
       if (app.globalData.Gproductarray[i].Category3 == e.currentTarget.dataset.name) {
-        fliter1.push(app.globalData.Gproductarray[i]);
+        fliter.push(app.globalData.Gproductarray[i]);
       }
     }
     that.setData({
-      productarray: fliter1
+      productarray: fliter
     })
   },
   bvProductDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '../product/productdetail?productid=' + e.currentTarget.dataset.id
+      url: "../product/productdetail?"+"productid=" + e.currentTarget.dataset.id
     })
     startByClick(e.currentTarget.dataset.name);
   },
   bvNewOrder(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../order/neworder?productid=' + e.currentTarget.dataset.id
+      url: "../order/neworder?"+"productid=" + e.currentTarget.dataset.id
     })
   },
   /**

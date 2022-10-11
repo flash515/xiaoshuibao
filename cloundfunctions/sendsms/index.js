@@ -3,7 +3,7 @@ const cloud = require('wx-server-sdk')
 const QcloudSms = require("qcloudsms_js")
 const appid = "1400531781" // 替换成您申请的云短信 AppID 以及 AppKey
 const appkey = "acb976a3b5503d9ac47d84384f3dd90c"
-const templateId = "985130" // 替换成您所申请模板 ID
+// const templateId = "985130" // 替换成您所申请模板 ID
 const smsSign = "小税宝" // 替换成您所申请的签名
 
 cloud.init({
@@ -19,6 +19,7 @@ for (var i = 0; i < 6; i++) {
 // 云函数入口函数
 exports.main = async (event, context) => new Promise((resolve, reject) => {    
  /*单发短信示例为完整示例，更多功能请直接替换以下代码*/
+var templateId = event.templateId
  var qcloudsms = QcloudSms(appid, appkey);
  var ssender = qcloudsms.SmsSingleSender();
  var params = [code];

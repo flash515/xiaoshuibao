@@ -1,6 +1,8 @@
 <!--pages/test/test.wxml-->
 <text>pages/test/test.wxml</text>
-
+<l-button bind:lintap="sendlogin" plain="{{true}}">登录</l-button>
+<l-button bind:lintap="sendliuyan" plain="{{true}}">留言</l-button>
+<l-button bind:lintap="sendorde" plain="{{true}}">订单</l-button>
 <!-- 显示选择的图片 -->
 <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
   <label class="text">30.图片附件：</label>
