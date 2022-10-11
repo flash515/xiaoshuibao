@@ -1,0 +1,76 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <!-- <view class="swiper-item {{item.url}}"></view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+
+
+<view style="display: flex;flex-direction: column;height: {{windowH}}rpx; margin-left: 25rpx;margin-right: 25rpx; box-sizing:border-box;">
+
+  <view style="display: flex;flex-direction: row; width: 100%; height: 80rpx;font-size: 28rpx;box-sizing: border-box;padding-left: 25rpx;padding-right: 25rpx;align-items:center;border-bottom:1rpx solid burlywood;">
+    <view wx:for="{{productarray}}" wx:key="key" wx:for-index="index" wx:for-item="item" style="font-size: 28rpx;">
+    <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="{{item.Category3}}" bindtap="bvSortChange" shape="circle" plain="{{true}}">{{item.Category3}}</button>
+    </view>
+  </view>
+
+  <view style="display: flex;flex-direction:column; width: 100%;height: 100%; box-sizing: border-box;">
+
+    <view wx:for="{{productarray}}" wx:key="key" wx:for-index="index" wx:for-item="item" style="font-size: 28rpx;">
+
+      <l-card type="primary"
+          plaintext="{{true}}" full="{{true}}" >
+        <view class="title1">
+          {{item.ProductName}}
+        </view>
+        <view>
+          产品编号：{{item.ProductId}}
+        </view>
+        <label class="title1">服务简介：</label>
+        <view>
+          {{item.Outline}}
+        </view>
+        <label class="title1">推荐程度：</label>
+        <l-rate active-color="red" inActive-color="grey" score="{{item.Score}}" count="10" />
+        <view>
+          <label class="title1">办理费用：</label>
+        </view>
+        <view wx:if="{{avatarUrl=='' || nickName==''}}">
+          <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+        </view>
+        <view wx:else>
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>特惠折扣价：{{item.Price1}}</view>
+          </view>
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}">
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>巨惠折扣价：{{item.Price2}}</view>
+          </view>
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}">
+            <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
+            <view>折扣价：{{item.Price3}}</view>
+          </view>
+          <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}">{{item.Price4}}
+          </view>
+
+
+
+          <view style="display:flex; flex-direction:row;">
+            <l-button data-id="{{item.ProductId}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
+            <view><text decode="{{true}}">&emsp;</text></view>
+            <l-button icon="order" icon-color="white" data-id="{{item.ProductId}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
+          </view>
+          <text>\n</text>
+        </view>
+
+      </l-card>
+    </view>
+
+
+  </view>
+</view>
