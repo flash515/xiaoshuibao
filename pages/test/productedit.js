@@ -15,7 +15,7 @@ Page({
     productdetail: [],
     array: [],
     // 产品分类参数
-    inputShow: false,
+    inputShow: true,
     boxShow: false,
     sortarray: [],
     category1: "",
@@ -722,7 +722,7 @@ Page({
       servicearea: e.detail.value
     })
   },
-  bindPlaceChange: function (e) {
+  bvHandlePlace: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       handleplace: [e.detail.value[0], e.detail.value[1], e.detail.value[2]]
@@ -1162,20 +1162,13 @@ Page({
       // category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
     })
     // 从本地存储中读取
-    wx.getStorage({
-      key: 'LProductList',
-      success: res => {
-        console.log("打印调用本地产品列表反回结果", res)
-        this.setData({
-          productarray: res.data
-        })
-        console.log("产品数组", this.data.productarray) //Object {errMsg: "getStorage:ok", data: "value1"}
+
         // 筛选指定记录
         var fliter = [];
         // var _this = this
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i]._id == this.data.recordid) {
-            fliter.push(this.data.productarray[i]);
+        for (var i = 0; i < app.globalData.Gproductlist.length; i++) {
+          if (app.globalData.Gproductlist[i]._id == this.data.recordid) {
+            fliter.push(app.globalData.Gproductlist[i]);
           }
         }
         console.log(fliter);
@@ -1222,9 +1215,7 @@ Page({
         })
 
       },
-    })
 
-  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -31,7 +31,7 @@
     </view>
   </view>
   <view hidden="{{showvalue1==false}}">
-    <input class="input" auto-focus placeholder="{{adddate}}" />
+    <input class="input" auto-focus placeholder="{{adddate}}" disabled="true"/>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -47,7 +47,7 @@
     </view>
   </view>
   <view hidden="{{showvalue2==false}}">
-    <input class="input" auto-focus placeholder="{{updatedate}}" />
+    <input class="input" auto-focus placeholder="{{updatedate}}" disabled="true"/>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -63,7 +63,7 @@
     </view>
   </view>
   <view hidden="{{showvalue3==false}}">
-    <input class="input" auto-focus placeholder="{{productname}}" bindinput="bvProductName">{{productname}}</input>
+    <input class="input" auto-focus bindinput="bvProductName">{{productname}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -125,7 +125,7 @@
     </view>
   </view>
   <view hidden="{{showvalue5==false}}">
-    <input class="input" placeholder="{{productid}}"></input>
+    <input class="input" disabled="true">{{productid}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -141,7 +141,7 @@
     </view>
   </view>
   <view hidden="{{showvalue6==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" name="outline" value="{{outline}}" bind:lininput="bvOutline"></l-textarea>
+    <l-textarea type="text" name="outline" bind:lininput="bvOutline">{{outline}}</l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -157,7 +157,7 @@
     </view>
   </view>
   <view hidden="{{showvalue7==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{description}}" bind:lininput="bvDescription"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvDescription">{{description}}</l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -173,7 +173,7 @@
     </view>
   </view>
   <view hidden="{{showvalue8==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{situation}}" bind:lininput="bvSituation"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvSituation">{{situation}}</l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -189,7 +189,7 @@
     </view>
   </view>
   <view hidden="{{showvalue9==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{forbid}}" bind:lininput="bvForbid"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvForbid">{{forbid}}</l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -205,7 +205,7 @@
     </view>
   </view>
   <view hidden="{{showvalue10==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{doclist}}" bind:lininput="bvDocList"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvDocList">{{doclist}}</l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -221,7 +221,7 @@
     </view>
   </view>
   <view hidden="{{showvalue11==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{reward}}" bind:lininput="bvReward"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvReward">{{reward}}</l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -237,7 +237,7 @@
     </view>
   </view>
   <view hidden="{{showvalue12==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{rewardtime}}" bind:lininput="bvRewardTime"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvRewardTime">{{rewardtime}}</l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -274,11 +274,11 @@
     </view>
   </view>
   <view hidden="{{showvalue14==false}}" style="margin-top: 10rpx;">
-    <picker mode="region" bindchange="bindPlaceChange" value="{{handleplace}}" custom-item="{{customItem}}">
-      <input class="input" auto-focus placeholder="{{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}" />
-      <!-- <view class="picker">
+    <picker mode="region" bindchange="bvHandlePlace" value="{{handleplace}}" custom-item="{{customItem}}">
+      <input class="input" auto-focus  />
+      <view class="picker">
         {{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}
-      </view> -->
+      </view>
     </picker>
   </view>
 
@@ -296,7 +296,7 @@
     </view>
   </view>
   <view hidden="{{showvalue15==false}}">
-    <input class="input" placeholder="{{issuedby}}" bind:input="bvIssuedBy"></input>
+    <input class="input" bind:input="bvIssuedBy">{{issuedby}}</input>
   </view>
 
 
@@ -313,7 +313,7 @@
     </view>
   </view>
   <view hidden="{{showvalue16==false}}">
-    <input class="input" placeholder="{{processingtime}}" bind:input="bvProcessingTime"></input>
+    <input class="input" bind:input="bvProcessingTime">{{processingtime}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -329,7 +329,7 @@
     </view>
   </view>
   <view hidden="{{showvalue17==false}}">
-    <input class="input" placeholder="{{provider}}" bind:input="bvProvider"></input>
+    <input class="input" bind:input="bvProvider">{{provider}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -345,7 +345,7 @@
     </view>
   </view>
   <view hidden="{{showvalue18==false}}">
-    <input class="input" placeholder="{{providerprice}}" bind:input="bvProviderPrice"></input>
+    <input class="input" bind:input="bvProviderPrice">{{providerprice}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -361,7 +361,7 @@
     </view>
   </view>
   <view hidden="{{showvalue19==false}}">
-    <input type="digit" class="input" placeholder="{{providercountprice}}" bind:input="bvProviderCountPrice"></input>
+    <input type="digit" class="input" bind:input="bvProviderCountPrice">{{providercountprice}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -377,7 +377,7 @@
     </view>
   </view>
   <view hidden="{{showvalue20==false}}">
-    <input type="text" class="input" placeholder="{{price1}}" bind:input="bvPrice1"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明"  bind:input="bvPrice1">{{price1}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -393,7 +393,7 @@
     </view>
   </view>
   <view hidden="{{showvalue21==false}}">
-    <input type="digit" class="input" placeholder="{{price1count}}" bind:input="bvPrice1Count"></input>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bind:input="bvPrice1Count">{{price1count}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -409,7 +409,7 @@
     </view>
   </view>
   <view hidden="{{showvalue22==false}}">
-    <input type="text" class="input" placeholder="{{price2}}" bind:input="bvPrice2"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明" bind:input="bvPrice2">{{price2}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -425,7 +425,7 @@
     </view>
   </view>
   <view hidden="{{showvalue23==false}}">
-    <input type="digit" class="input" placeholder="{{price2count}}" bind:input="bvPrice2Count"></input>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算"  bind:input="bvPrice2Count">{{price2count}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -441,7 +441,7 @@
     </view>
   </view>
   <view hidden="{{showvalue24==false}}">
-    <input type="text" class="input" placeholder="{{price3}}" bind:input="bvPrice3"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明" bind:input="bvPrice3">{{price3}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -457,7 +457,7 @@
     </view>
   </view>
   <view hidden="{{showvalue25==false}}">
-    <input type="digit" class="input" placeholder="{{price3count}}" bind:input="bvPrice3Count"></input>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bind:input="bvPrice3Count">{{price3count}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -473,7 +473,7 @@
     </view>
   </view>
   <view hidden="{{showvalue26==false}}">
-    <input type="text" class="input" placeholder="{{price4}}" bind:input="bvPrice4"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明" bind:input="bvPrice4">{{price4}}</input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -489,7 +489,7 @@
     </view>
   </view>
   <view hidden="{{showvalue27==false}}">
-    <input type="digit" class="input" placeholder="{{price4count}}" bind:input="bvPrice4Count"></input>
+    <input type="digit" class="input"  placeholder="数字形式用于系统计算" bind:input="bvPrice4Count">{{price4count}}</input>
   </view>
 
 
@@ -507,7 +507,7 @@
   </view>
   <view hidden="{{showvalue28==false}}">
     <picker mode="date" value="{{startdate}}" start="2022-09-01" end="2023-12-31" bindchange="bvStartDate">
-      <input type="digit" class="input" placeholder="{{startdate}}"></input>
+      <input type="digit" class="input" >{{startdate}}</input>
     </picker>
   </view>
 
@@ -526,7 +526,7 @@
   </view>
   <view hidden="{{showvalue29==false}}">
     <picker mode="date" value="{{enddate}}" start="2022-10-01" end="2023-12-31" bindchange="bvEndDate">
-      <input type="digit" class="input" placeholder="{{enddate}}"></input>
+      <input type="digit" class="input" ></input>
     </picker>
   </view>
 
@@ -595,7 +595,7 @@
       </view>
     </view>
     <view hidden="{{showvalue32==false}}">
-      <input type="number" class="input" placeholder="{{score}}" bind:input="bvChangeScore"></input>
+      <input type="number" class="input" bind:input="bvChangeScore">{{score}}</input>
     </view>
 
 
@@ -612,7 +612,7 @@
       </view>
     </view>
     <view hidden="{{showvalue33==false}}">
-      <input type="text" class="input" placeholder="{{status}}" bind:input="bvChangeStatus"></input>
+      <input type="text" class="input" bind:input="bvChangeStatus">{{status}}</input>
     </view>
 
 
@@ -629,7 +629,7 @@
       </view>
     </view>
     <view hidden="{{showvalue34==false}}">
-      <input type="text" class="input" placeholder="{{username}}"></input>
+      <input type="text" class="input" placeholder="{{username}}" disabled="true"></input>
     </view>
   </view>
   <!-- 附件上传 -->

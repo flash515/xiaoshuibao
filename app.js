@@ -95,6 +95,9 @@ App({
     GHeight: "",
     // 产品
     Gsortarray: [],
+    // 在售产品
+    Gproduct:[],
+    // 数据库中全部产品
     Gproductlist: [],
     // 用户小程序id 
     Gopenid: "",
