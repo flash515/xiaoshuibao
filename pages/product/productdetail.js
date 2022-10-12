@@ -5,9 +5,12 @@ Page({
    * 页面的初始数据
    */
   data: {
+    DetailHidden: false,
+    QAHidden: true,
+    AttachmentHidden: true,
     pageParam: [],
     usertype: "",
-    discountlevel:"",
+    discountlevel: "",
     procudtarray: [],
     procudtdetail: [],
     array: [],
@@ -16,8 +19,8 @@ Page({
     answer: "",
     sublock: false,
     replylock: false,
-    avatarUrl:"",
-    nickName:"",
+    avatarUrl: "",
+    nickName: "",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -29,6 +32,27 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
+  bvDetailView() {
+    this.setData({
+      DetailHidden: false,
+      QAHidden: true,
+      AttachmentHidden: true,
+    })
+  },
+  bvQAView() {
+    this.setData({
+      DetailHidden: true,
+      QAHidden: false,
+      AttachmentHidden: true,
+    })
+  },
+  bvAttachmentView() {
+    this.setData({
+      DetailHidden: true,
+      QAHidden: true,
+      AttachmentHidden: false,
+    })
+  },
   getUserProfile: function (e) {
     wx.getUserProfile({
       desc: "登录小税宝以查看更多信息",
@@ -38,8 +62,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
+        app.globalData.GavatarUrl = res.userInfo.avatarUrl
+        app.globalData.GnickName = res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -58,7 +82,7 @@ Page({
         })
         // 以上更新数据结束
         wx.showToast({
-          icon:'success',
+          icon: 'success',
           title: '登录成功',
         })
         return;
@@ -295,8 +319,8 @@ Page({
   onShow: function () {
     this.setData({
       usertype: app.globalData.Gusertype,
-      discountlevel:app.globalData.Gdiscountlevel,
-      image:app.globalData.Gimagearray,
+      discountlevel: app.globalData.Gdiscountlevel,
+      image: app.globalData.Gimagearray,
       avatarUrl: app.globalData.GavatarUrl,
       nickName: app.globalData.GnickName,
     })
@@ -318,7 +342,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
 
   },
 

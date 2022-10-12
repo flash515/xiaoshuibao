@@ -24,21 +24,27 @@ Page({
   },
   bvSortChange(e) {
     console.log(e.currentTarget.dataset.name)
+    var category = e.currentTarget.dataset.name
+    this._setarray(category)
+    console.log(category)
+  },
+  _setarray(category) {
+    console.log(category)
     for (let i = 0; i < this.data.sortarray.length; i++) {
-      if (this.data.sortarray[i].Category1Name == e.currentTarget.dataset.name) {
+      if (this.data.sortarray[i].Category1Name == category) {
         this.setData({
           array: this.data.sortarray[i].Category2Array
         })
-
       }
     }
     console.log(this.data.array)
+
   },
   bvTagClick(e){
     console.log(e.currentTarget.dataset.name)
     console.log(e.currentTarget.dataset.sort)
     wx.navigateTo({
-      url: "../test/productview?"+"category3=" + e.currentTarget.dataset.name
+      url: "../product/productview?"+"category3=" + e.currentTarget.dataset.name
     })
   },
 
@@ -64,6 +70,9 @@ Page({
           that.setData({
             sortarray: res.data[0].SortArray
           })
+          var category = res.data[0].SortArray[0].Category1Name
+          that._setarray(category)
+          console.log(category)
           console.log(that.data.sortarray)
         }
       })

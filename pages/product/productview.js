@@ -6,11 +6,11 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
-    category2name:"",
+    category2name: "",
     category3name: "",
     sort: [],
-
     productarray: [],
+    array: [],
     usertype: "",
     promoterlevel: "",
     discountlevel: "",
@@ -72,66 +72,122 @@ Page({
       }
     })
   },
+  bvSortChange(e) {
+    console.log(e.currentTarget.dataset.name)
+    this.data.categoryname = e.currentTarget.dataset.name
+    var category = e.currentTarget.dataset.name
+    this._setarray(category)
+  },
+  _setarray(category) {
+    console.log(category)
+    var fliter = []
+    for (let i = 0; i < this.data.productarray.length; i++) {
+      if (this.data.productarray[i].Category3 == category) {
+        fliter.push(this.data.productarray[i])
+      }
+    }
+    this.setData({
+      array: fliter
+    })
+    console.log(this.data.array)
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
     var that = this
-    this.setData({
-      category2name: options.category2,
-      category3name: options.category3,
-    })
-    
-    console.log(this.data.category3name)
-    console.log(this.data.sort)
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "PRODUCT",
-        command: "or",
-        where: [{
-          Status: "在售"
-        }]
-      },
-      success: res => {
-        app.globalData.Gproductarray = res.result.data
-        var fliter= []
-        for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
-          if (app.globalData.Gproductarray[i].Category3 == this.data.category3name) {
-            fliter.push(app.globalData.Gproductarray[i]);
+    if (options.category2 != undefined && options.category2 != "") {
+      this.setData({
+        category2name: options.category2,
+      })
+      wx.cloud.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "PRODUCT",
+          command: "or",
+          where: [{
+            Status: "在售"
+          }]
+        },
+        success: res => {
+          console.log(res)
+          app.globalData.Gproductarray = res.result.data
+          var fliter = []
+          for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
+            if (app.globalData.Gproductarray[i].Category2 == this.data.category2name) {
+              fliter.push(app.globalData.Gproductarray[i]);
+            }
           }
+          that.setData({
+            productarray: fliter.sort(function (a, b) {
+              if (a.Category3 < b.Category3) {
+                return -1
+              }
+              if (a.Category3 > b.Category3) {
+                return 1
+              }
+              if (a.Category3 = b.Category3) {
+                return 0
+              }
+            })
+          })
+          console.log(that.data.productarray)
+          var category = this.data.productarray[0].Category3
+          this._setarray(category)
         }
-        that.setData({
-          productarray: fliter
-        })
-      }
-    })
+      })
+
+    }
+    if (options.category3 != undefined && options.category3 != "") {
+      this.setData({
+        category3name: options.category3,
+      })
+      wx.cloud.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "PRODUCT",
+          command: "or",
+          where: [{
+            Status: "在售"
+          }]
+        },
+        success: res => {
+          console.log(res)
+          app.globalData.Gproductarray = res.result.data
+          var fliter = []
+          for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
+            if (app.globalData.Gproductarray[i].Category3 == that.data.category3name) {
+              fliter.push(app.globalData.Gproductarray[i]);
+            }
+          }
+          that.setData({
+            productarray: fliter
+          })
+          console.log(that.data.productarray)
+          var category = this.data.productarray[0].Category3
+          this._setarray(category)
+        }
+      })
+
+    }
+
 
     //括号1结束
-
   },
-  changeTabs(e) {
-    var fliter = []
-    for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
-      if (app.globalData.Gproductarray[i].Category3 == e.currentTarget.dataset.name) {
-        fliter.push(app.globalData.Gproductarray[i]);
-      }
-    }
-    that.setData({
-      productarray: fliter
-    })
-  },
+ 
   bvProductDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: "../product/productdetail?"+"productid=" + e.currentTarget.dataset.id
+      url: "../product/productdetail?" + "productid=" + e.currentTarget.dataset.id
     })
     startByClick(e.currentTarget.dataset.name);
   },
   bvNewOrder(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: "../order/neworder?"+"productid=" + e.currentTarget.dataset.id
+      url: "../order/neworder?" + "productid=" + e.currentTarget.dataset.id
     })
   },
   /**

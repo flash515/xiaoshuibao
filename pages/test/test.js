@@ -456,37 +456,65 @@ Page({
 
 
   },
-sendliuyan(){
-  wx.cloud.callFunction({
-    name: 'sendsms',
-    data: {
-      templateId:"1569089",
-      mobile: 13025400559,
-      nationcode: '86'
-    },
-    success: res => {}
-  })
-},
-sendorde(){
-  wx.cloud.callFunction({
-    name: 'sendsms',
-    data: {
-      templateId:"1569097",
-      mobile: 18954744612,
-      nationcode: '86'
-    },
-    success: res => {}
-  })
-},
+
 sendlogin(){
   wx.cloud.callFunction({
     name: 'sendsms',
     data: {
       templateId:"1569087",
+      nocode:true,
+      mobile: [13025400559,18954744612]
+
+    },
+    success: res => {
+      console.log(res)
+    },
+    fail: res => {
+      console.log(res)
+    },
+    complete:res => {
+      console.log(res)
+    },
+  })
+},
+sendliuyan(){
+  wx.cloud.callFunction({
+    name: 'sendmessage',
+    data: {
+      templateId:"1569089",
+      nocode:true,
       mobile: 13025400559,
       nationcode: '86'
     },
-    success: res => {}
+    success: res => {
+      console.log(res)
+    },
+    fail: res => {
+      console.log(res)
+    },
+    complete:res => {
+      console.log(res)
+    }
+  })
+},
+sendorder(){
+  wx.cloud.callFunction({
+    name: 'sendmessage',
+    data: {
+      templateId:"1569097",
+      nocode:true,
+      mobile: 18954744612,
+      nationcode: '86'
+    },
+      success: res => {
+        console.log(res)
+      },
+      fail: res => {
+        console.log(res)
+      },
+      complete:res => {
+        console.log(res)
+      },
   })
 },
   /**
