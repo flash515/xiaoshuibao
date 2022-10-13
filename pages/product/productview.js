@@ -99,9 +99,23 @@ Page({
     console.log(options)
     var that = this
     if (options.category2 != undefined && options.category2 != "") {
-      this.setData({
-        category2name: options.category2,
-      })
+
+      for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
+        for (let j = 0; j < app.globalData.Gsortarray[i].Category2Array.length; j++) {
+          if (app.globalData.Gsortarray[i].Category2Array[j].Category2Name == options.category2) {
+            var tempsort=app.globalData.Gsortarray[i].Category2Array[j].Category3Array
+          }
+
+          }
+        }
+        this.setData({
+          category2name: options.category2,
+          sort:tempsort
+        })
+
+
+
+
       wx.cloud.callFunction({
         name: "NormalQuery",
         data: {
@@ -143,6 +157,7 @@ Page({
     if (options.category3 != undefined && options.category3 != "") {
       this.setData({
         category3name: options.category3,
+        sort:options.category3
       })
       wx.cloud.callFunction({
         name: "NormalQuery",
