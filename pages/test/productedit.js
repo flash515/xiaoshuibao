@@ -15,14 +15,17 @@ Page({
     productdetail: [],
     array: [],
     // 产品分类参数
-    inputShow: true,
+    inputShow: false,
     boxShow: false,
     sortarray: [],
     category1: "",
+    category1name: "",
     pIndex: 0,
     category2: "",
+    category2name: "",
     cIndex: 0,
     category3: "",
+    category3name: "",
     aIndex: 0,
     code1: "",
     code2: "",
@@ -290,21 +293,27 @@ Page({
   // 展示弹框
   getbox: function () {
     this.setData({
-      boxShow: true
+      boxShow: true,
+      inputShow:true
     })
   },
   // 隐藏弹框
   hidebox: function () {
     this.setData({
-      boxShow: false
+      boxShow: false,
+      inputShow:false
     })
   },
   // 确认按钮
   confirm: function () {
     this.setData({
+      category1:this.data.category1name,
+      category2:this.data.category2name,
+      category3:this.data.category3name,
       boxShow: false,
-      inputShow: true,
+      inputShow: false,
     })
+    this.productCode()
   },
   changeCategory1: function (e) {
     const val = e.detail.value
@@ -312,40 +321,58 @@ Page({
       pIndex: val,
       cIndex: 0,
       aIndex: 0,
-      category1: this.data.sortarray[val].Category1Name,
-      category2: this.data.sortarray[val].Category2Array[0].Category2Name,
-      category3: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Name,
+      category1name: this.data.sortarray[val].Category1Name,
+      category2name: this.data.sortarray[val].Category2Array[0].Category2Name,
+      category3name: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Name,
       code1: this.data.sortarray[val].Category1Code,
       code2: this.data.sortarray[val].Category2Array[0].Category2Code,
       code3: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Code,
     })
-    this.productCode()
   },
   changeCategory2: function (e) {
     const val = e.detail.value
     this.setData({
       cIndex: val,
       aIndex: 0,
-      category2: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Name,
-      category3: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
+      category2name: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Name,
+      category3name: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
       code2: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Code,
       code3: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Code,
     })
-    this.productCode()
   },
   changeCategory3: function (e) {
     const val = e.detail.value
     this.setData({
       aIndex: val,
-      category3: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
+      category3name: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
       code3: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Code,
     })
-    this.productCode()
   },
 
   productCode() {
+    let namecode=pinyin(this.data.productname, {
+      pattern: 'first',
+      toneType: 'none'
+    }).toUpperCase().replace(/\s+/g, '')
+
+    for (var i = 0; i < this.data.sortarray.length; i++) {
+      if (this.data.sortarray[i].Category1Name == this.data.category1) {
+        var sortcode1=this.data.sortarray[i].Category1Code
+      }
+      for (var j = 0; j < this.data.sortarray[i].Category2Array.length; j++) {
+        if (this.data.sortarray[i].Category2Array[j].Category2Name == this.data.category2) {
+          var sortcode2=this.data.sortarray[i].Category2Array[j].Category2Code
+        }
+        for (var k = 0; k < this.data.sortarray[i].Category2Array[j].Category3Array.length; k++) {
+          if (this.data.sortarray[i].Category2Array[j].Category3Array[k].Category3Name == this.data.category3) {
+            var sortcode3=this.data.sortarray[i].Category2Array[j].Category3Array[k].Category3Code
+          }
+        }
+      }
+    }
+
     this.setData({
-      productcode: [this.data.namecode] + "-" + [this.data.code1] + [this.data.code2] + [this.data.code3] + [this.data.code4]
+      productcode: [namecode] + "-" + [sortcode1] + [sortcode2] + [sortcode3] + [this.data.code4]
     })
     this.serialCode()
   },
@@ -370,7 +397,7 @@ Page({
   },
   productId() {
     this.setData({
-      productid: [this.data.namecode] + "-" + [this.data.code1] + [this.data.code2] + [this.data.code3] + [this.data.code4] + "-" + [this.data.serialcode]
+      productid: [this.data.productcode] + "-" + [this.data.serialcode]
     })
   },
   //查询本人创建且符合模糊条件的记录
@@ -680,10 +707,6 @@ Page({
   bvProductName(e) {
     this.setData({
       productname: e.detail.value,
-      namecode: pinyin(e.detail.value, {
-        pattern: 'first',
-        toneType: 'none'
-      }).toUpperCase().replace(/\s+/g, '')
     })
     console.log(this.data.namecode)
     this.productCode()
@@ -1155,7 +1178,7 @@ Page({
     var that = this;
     this.setData({
       recordid: options.recordid,
-      usertype: app.globalData.Gusertype,
+      usertype: app.globalData.Guserinfo.UserType,
       sortarray: app.globalData.Gsortarray,
       // category1: app.globalData.Gsortarray[0].Category1Name,
       // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,

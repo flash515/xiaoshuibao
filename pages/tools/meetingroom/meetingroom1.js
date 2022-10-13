@@ -87,7 +87,7 @@ if(Date.parse(new Date()) - this.data.starttime<"3600000"){
   },
   onShareAppMessage() {
     return {
-      title: app.globalData.GnickName + '邀请您进入小税宝快捷会议室一,此邀请60分钟内有效',
+      title: app.globalData.Guserinfo.nickName + '邀请您进入小税宝快捷会议室一,此邀请60分钟内有效',
       path: '/pages/tools/meetingroom/meetingroom1?userid=' + app.globalData.Gopenid+'&starttime='+this.data.starttime,
       imageUrl: 'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/index.png', //封面
         }

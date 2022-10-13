@@ -65,8 +65,8 @@ Page({
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
-      avatarUrl: app.globalData.GavatarUrl,
-      nickName: app.globalData.GnickName,
+      avatarUrl: app.globalData.Guserinfo.avatarUrl,
+      nickName: app.globalData.Guserinfo.nickName,
     })
     startToTrack()
   },
@@ -155,8 +155,8 @@ Page({
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
-      balance: app.globalData.Gbalance,
-      consumepoints: app.globalData.Gbalance,
+      balance: app.globalData.Guserinfo.Balance,
+      consumepoints: app.globalData.Guserinfo.Balance,
     })
     // 通过两个promise嵌套，顺序执行获得计算结果
     let P = new Promise((resolve, reject) => {
@@ -236,7 +236,7 @@ Page({
               }
             }
             console.log(fliter);
-            if (app.globalData.Gdiscountlevel == 'DL1') {
+            if (app.globalData.Guserinfo.DiscountLevel == 'DL1') {
               this.setData({
                 orderpricecount: fliter[0].Price1Count,
                 orderprice: fliter[0].Price1,
@@ -244,21 +244,21 @@ Page({
               })
               console.log(this.data.orderprice)
             }
-            else if (app.globalData.Gdiscountlevel == 'DL2') {
+            else if (app.globalData.Guserinfo.DiscountLevel == 'DL2') {
               this.setData({
                 orderpricecount: fliter[0].Price2Count,
                 orderprice: fliter[0].Price2,
                 temptotalfee: fliter[0].Price2Count,
               })
             }
-            else if (app.globalData.Gdiscountlevel == 'DL3') {
+            else if (app.globalData.Guserinfo.DiscountLevel == 'DL3') {
               this.setData({
                 orderpricecount: fliter[0].Price3Count,
                 orderprice: fliter[0].Price3,
                 temptotalfee: fliter[0].Price3Count,
               })
             }
-            else if (app.globalData.Gdiscountlevel == 'DL4') {
+            else if (app.globalData.Guserinfo.DiscountLevel == 'DL4') {
               this.setData({
                 orderpricecount: fliter[0].Price4Count,
                 orderprice: fliter[0].Price4,

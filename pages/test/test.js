@@ -414,7 +414,7 @@ Page({
     var that = this;
     // this.setData({
     //   recordid: options.recordid,
-    //   usertype: app.globalData.Gusertype,
+    //   usertype: app.globalData.Guserinfo.UserType,
     //   sortarray: app.globalData.Gsortarray,
     //   // category1: app.globalData.Gsortarray[0].Category1Name,
     //   // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
@@ -572,7 +572,7 @@ sendorder(){
       console.log(res.target)
     }
     return {
-      title: app.globalData.GnickName + '邀请您体验：',
+      title: app.globalData.Guserinfo.nickName + '邀请您体验：',
       path: '/pages/index/index?userid='+app.globalData.Gopenid + "&page=" + url,
       imageUrl: '', //封面
       success: function (res) {

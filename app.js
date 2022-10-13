@@ -102,17 +102,8 @@ App({
     // 用户小程序id 
     Gopenid: "",
     //用户本人信息
-    Gusertype: "",
+    Guserinfo:[],
     Gdirect1yearvaliduser: "",
-    Gdiscountlevel: "",
-    Gdiscounttype: "",
-    Gpromoterlevel: "",
-    Gbanlance: "",
-    Gregion: [],
-    Gcompanyname: "",
-    Gusername: "",
-    GnickName: "",
-    GavatarUrl: "",
     Gpointsmagnification: "",
     Gsearch:[],
     Gtrack: [],

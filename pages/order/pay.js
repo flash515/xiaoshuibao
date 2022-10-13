@@ -190,7 +190,7 @@ Page({
           _openid: app.globalData.Gopenid
         }).update({
           data: {
-            Balance: app.globalData.Gbalance - that.data.consumepoints,
+            Balance: app.globalData.Guserinfo.Balance - that.data.consumepoints,
           },
           success(res) {
             console.log("个人积分更新成功")

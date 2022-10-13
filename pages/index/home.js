@@ -44,7 +44,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: app.globalData.GnickName + '邀请您体验：',
+      title: app.globalData.Guserinfo.nickName + '邀请您体验：',
       path: '/pages/index/index?userid=' + app.globalData.Gopenid,
       imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
       success: function (res) {
@@ -79,8 +79,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl = res.userInfo.avatarUrl
-        app.globalData.GnickName = res.userInfo.nickName
+        app.globalData.Guserinfo = res.userInfo
+
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -120,12 +120,12 @@ Page({
   //  */
   onLoad: function (options) {
     this.setData({
-      region:app.globalData.Gregion
+      region:app.globalData.Guserinfo.Region
     })
     const db = wx.cloud.database()
     db.collection('notice').where(
       {
-        status:"onshow"
+        Status:"onshow"
       }
     ).get({
       success: res => {
@@ -200,10 +200,10 @@ Page({
    */
   onShow: function () {
     this.setData({
-      avatarUrl: app.globalData.GavatarUrl,
-      nickName: app.globalData.GnickName,
+      avatarUrl: app.globalData.Guserinfo.avatarUrl,
+      nickName: app.globalData.Guserinfo.nickName,
       image: app.globalData.Gimagearray,
-      promoterlevel: app.globalData.Gpromoterlevel
+      promoterlevel: app.globalData.Guserinfo.PromoterLevel
     })
     getStorageBalance()
   },

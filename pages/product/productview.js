@@ -37,8 +37,8 @@ Page({
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl = res.userInfo.avatarUrl
-        app.globalData.GnickName = res.userInfo.nickName
+        app.globalData.Guserinfo = res.userInfo.
+        app.globalData.Guserinfo.nickName = res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -206,11 +206,11 @@ Page({
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
-      usertype: app.globalData.Gusertype,
-      discountlevel: app.globalData.Gdiscountlevel,
+      usertype: app.globalData.Guserinfo.UserType,
+      discountlevel: app.globalData.Guserinfo.DiscountLevel,
       priceshow: app.globalData.Gpriceshow,
-      avatarUrl: app.globalData.GavatarUrl,
-      nickName: app.globalData.GnickName,
+      avatarUrl: app.globalData.Guserinfo.avatarUrl,
+      nickName: app.globalData.Guserinfo.nickName,
     })
     startToTrack()
   },

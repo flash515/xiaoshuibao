@@ -306,6 +306,7 @@ Page({
           productlist: res.result.data,
           productarray: res.result.data
         })
+        app.globalData.Gproductlist=res.result.data
         wx.setStorageSync('LProductList', res.result.data)
         console.log("产品数组", res.result.data)
         console.log("产品数组", this.data.productlist)
@@ -720,12 +721,13 @@ Page({
     var that = this;
     this.setData({
       productid: options.productid,
-      usertype: app.globalData.Gusertype,
+      usertype: app.globalData.Guserinfo.UserType,
       sortarray: app.globalData.Gsortarray,
       // category1: app.globalData.Gsortarray[0].Category1Name,
       // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
       // category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
     })
+    // 先获取在售产品
     wx.getStorage({
       key: 'LProductList',
       success: res => {
@@ -792,7 +794,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: app.globalData.GnickName + '邀请您体验：',
+      title: app.globalData.Guserinfo.nickName + '邀请您体验：',
       path: "/pages/index/index?" + "userid=" + app.globalData.Gopenid + "&page=" + url + "&productid=" + this.data.productid,
       imageUrl: '', //封面
       // imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', 

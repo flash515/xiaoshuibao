@@ -18,7 +18,7 @@ Page({
   },
 
   bvGoToShareValue() {
-    if (app.globalData.Gpromoterlevel=="normal"){
+    if (app.globalData.Guserinfo.PromoterLevel=="normal"){
       wx.showModal({
         title: '提示',
         content: '您尚未取得推广大使资格，是否转到资格购买页面？',
@@ -50,7 +50,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image:app.globalData.Gimagearray,
-      usertype: app.globalData.Gusertype
+      usertype: app.globalData.Guserinfo.UserType
     })
 wx.getSetting({
   withSubscriptions: true,

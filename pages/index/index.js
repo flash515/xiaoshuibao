@@ -77,7 +77,7 @@ Page({
         }]
       },
       success: res => {
-        app.globalData.Gproductlist = res.result.data
+        app.globalData.Gproduct = res.result.data
         wx.setStorageSync('LProductList', res.result.data)
       }
     })
@@ -122,22 +122,15 @@ Page({
         if (res.data.length == 0) {
           this._newuser()
         } else {
-          // 如果云数据库中有本人信息，则把用户本人信息存入本地
+          // 老用户如果云数据库中有本人信息，则把用户本人信息存入本地
+          app.globalData.Guserinfo=res.data[0]
+          app.globalData.Ginviterid = res.data[0].InviterOpenId;
           wx.setStorageSync('LUserInfo', res.data[0]);
           // 查询结果赋值给数组参数
           this.setData({
             userinfo: res.data[0],
             inviterid: res.data[0].InviterOpenId,
           })
-          app.globalData.Ginviterid = res.data[0].InviterOpenId;
-          app.globalData.Gcompanyname = res.data[0].CompanyName
-          app.globalData.Gusername = res.data[0].UserName
-          app.globalData.GnickName = res.data[0].nickName
-          app.globalData.GavatarUrl = res.data[0].avatarUrl
-          app.globalData.Gusertype = res.data[0].UserType
-          app.globalData.Gpromoterlevel = res.data[0].PromoterLevel
-          app.globalData.Gbalance = res.data[0].Balance
-          app.globalData.Gregion = res.data[0].Region
           this._olduser()
         }
       }
@@ -149,12 +142,13 @@ Page({
     this.setData({
       inviterid: this.data.tempinviterid
     })
+    // 对象中的属性可以直接这样赋值吗？
     app.globalData.Ginviterid = this.data.tempinviterid
-    app.globalData.Gusertype = "client"
-    app.globalData.Gdiscountlevel = "DL4"
-    app.globalData.Gpromoterlevel = "null"
-    app.globalData.Gbalance = 0
-    app.globalData.Gregion = ["广东省", "深圳市", "福田区"]
+    app.globalData.Guserinfo.UserType = "client"
+    app.globalData.Guserinfo.DiscountLevel = "DL4"
+    app.globalData.Guserinfo.PromoterLevel = "null"
+    app.globalData.Guserinfo.Balance = 0
+    app.globalData.Guserinfo.Region = ["广东省", "深圳市", "福田区"]
     // 在USER数据库中新增用户信息
     const db = wx.cloud.database()
     db.collection("USER").add({
@@ -173,31 +167,21 @@ Page({
         Remark: this.data.remark
       },
       success: res => {
-        // 调用云函数发信息给推荐人
+        // 调用云函数发短信给推荐人和管理员
         wx.cloud.callFunction({
-          name: 'SendNewUser',
+          name: 'sendsms',
           data: {
-            openid: this.data.inviterid,
-            time2: new Date().toLocaleString(),
-            thing1: "有新的用户通过您的分享开启小税宝"
-          }
-        }).then(res => {
-          console.log("推送消息成功", res)
-        }).catch(res => {
-          console.log("推送消息失败", res)
-        })
-        // 调用云函数发信息给开发人
-        wx.cloud.callFunction({
-          name: 'SendNewUser',
-          data: {
-            openid: "oa1De5G404TbDrFGtCingTlGFQVQ",
-            time2: new Date().toLocaleString(),
-            thing1: "有新的用户开启小税宝"
-          }
-        }).then(res => {
-          console.log("推送消息成功", res)
-        }).catch(res => {
-          console.log("推送消息失败", res)
+            templateId:"1569087",
+            nocode:true,
+            mobile: [13025400559,18954744612]
+      
+          },
+          success: res => {
+            console.log(res)
+          },
+          fail: res => {
+            console.log(res)
+          },
         })
         // 查询推荐人信息
         this._invitercheck()
@@ -228,16 +212,16 @@ Page({
           if (tempfliter.length != 0 && tempfliter.length != undefined) {
             console.log(tempfliter)
             console.log(tempfliter[0].DiscountLevel)
-            app.globalData.Gdiscountlevel = tempfliter[0].DiscountLevel
+            app.globalData.Guserinfo.DiscountLevel = tempfliter[0].DiscountLevel
             app.globalData.Gdiscounttype = tempfliter[0].DiscountType
-            console.log(app.globalData.Gdiscountlevel)
+            console.log(app.globalData.Guserinfo.DiscountLevel)
           } else {
             //卡券已过期
-            app.globalData.Gdiscountlevel = "DL4"
+            app.globalData.Guserinfo.DiscountLevel = "DL4"
           }
         } else {
           //没有卡券
-          app.globalData.Gdiscountlevel = "DL4"
+          app.globalData.Guserinfo.DiscountLevel = "DL4"
         }
         // 查询推荐人信息
         this._invitercheck()

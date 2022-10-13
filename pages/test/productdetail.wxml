@@ -39,7 +39,7 @@
     </view>
   </view>
   <view hidden="{{showvalue1==false}}">
-    <input class="input" auto-focus placeholder="{{adddate}}" />
+    <input class="input" placeholder="{{adddate}}" disabled="true"/>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -55,7 +55,7 @@
     </view>
   </view>
   <view hidden="{{showvalue2==false}}">
-    <input class="input" auto-focus placeholder="{{updatedate}}" />
+    <input class="input" placeholder="{{updatedate}}" disabled="true"/>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -71,7 +71,7 @@
     </view>
   </view>
   <view hidden="{{showvalue3==false}}">
-    <input class="input" auto-focus placeholder="{{productname}}" bindinput="bvProductName">{{productname}}</input>
+    <input class="input" placeholder="{{productname}}" bindinput="bvProductName"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -87,8 +87,7 @@
     </view>
   </view>
   <view hidden="{{showvalue4==false}}">
-    <view class="input" bindtap="getbox" wx:if="{{!inputShow}}" style="color: #999;">请选择产品类别</view>
-    <view class="input" bindtap="getbox" wx:if="{{inputShow}}">{{category1}}/{{category2}}/{{category3}}</view>
+    <view class="input" bindtap="getbox" >{{category1}}/{{category2}}/{{category3}}</view>
     <!-- 三级分类弹框 -->
     <view class="box" wx:if="{{boxShow}}">
       <!-- 阴影 -->
@@ -99,20 +98,20 @@
           <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
           <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
         </view>
-        <view style="display:flex;width: 100%;height: 300rpx;">
-          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
+        <view style="display:flex;width: 100%;height: 300rpx; font-size: 28rpx;">
+          <picker-view indicator-value="height: 100rpx;" style="width: 100%;height: 300rpx;" value="{{pIndex}}" bindchange="changeCategory1">
             <picker-view-column>
-              <view wx:for="{{sortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
+              <view wx:for="{{sortarray}}" wx:key="key" wx:for-item="item1" style="height: 100rpx;text-align: center;">{{item1.Category1Name}}</view>
             </picker-view-column>
           </picker-view>
-          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+          <picker-view indicator-value="height: 200rpx;" style="width: 100%;height: 300rpx;" value="{{cIndex}}" bindchange="changeCategory2">
             <picker-view-column>
-              <view wx:for="{{sortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
+              <view wx:for="{{sortarray[pIndex].Category2Array}}" wx:key="key" wx:for-item="item2"  style="height: 100rpx;text-align: center;">{{item2.Category2Name}}</view>
             </picker-view-column>
           </picker-view>
-          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;" value="{{aIndex}}" bindchange="changeCategory3">
             <picker-view-column>
-              <view wx:for="{{sortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
+              <view wx:for="{{sortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="key" style="height: 100rpx;text-align: center;" wx:for-item="item3" >{{item3.Category3Name}}</view>
             </picker-view-column>
           </picker-view>
         </view>
@@ -283,7 +282,7 @@
   </view>
   <view hidden="{{showvalue14==false}}" style="margin-top: 10rpx;">
     <picker mode="region" bindchange="bindPlaceChange" value="{{handleplace}}" custom-item="{{customItem}}">
-      <input class="input" auto-focus placeholder="{{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}" />
+      <input class="input" placeholder="{{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}" />
       <!-- <view class="picker">
         {{handleplace[0]}}/{{handleplace[1]}}/{{handleplace[2]}}
       </view> -->

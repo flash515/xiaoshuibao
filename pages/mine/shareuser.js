@@ -34,7 +34,7 @@ promoterlevel:"",
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      promoterlevel: app.globalData.Gpromoterlevel,
+      promoterlevel: app.globalData.Guserinfo.PromoterLevel,
     })
     //查询直接用户及30天内直接用户
     wx.getStorage({

@@ -72,8 +72,8 @@ if(e.currentTarget.dataset.name=="ORDER"){
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.GavatarUrl=res.userInfo.avatarUrl
-        app.globalData.GnickName=res.userInfo.nickName
+        app.globalData.Guserinfo.avatarUrl=res.userInfo.avatarUrl
+        app.globalData.Guserinfo.nickName=res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
@@ -175,8 +175,8 @@ if(e.currentTarget.dataset.name=="ORDER"){
 	onTabItemTap: () => startToTrack(),
   onShow: function () {
     this.setData({
-      avatarUrl: app.globalData.GavatarUrl,
-      nickName: app.globalData.GnickName,
+      avatarUrl: app.globalData.Guserinfo.avatarUrl,
+      nickName: app.globalData.Guserinfo.nickName,
       image: app.globalData.Gimagearray
     })
     startToTrack()
