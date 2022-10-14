@@ -16,7 +16,7 @@
     <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="产品问答" bindtap="bvQAView" shape="circle" >产品问答</button>
     <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="附件资料" bindtap="bvAttachmentView" shape="circle">附件资料</button>
   </view>
-  <view style="display: flex;flex-direction: column;width: 100%;box-sizing: border-box;font-size: 28rpx;flex-wrap: wrap;">
+  <scroll-view scroll-y="true" style="display: flex;flex-direction: column;width: 100%;height: 850rpx;box-sizing: border-box;font-size: 28rpx;flex-wrap: wrap;">
   <view hidden="{{DetailHidden}}">
     <text>\t\n</text>
     <view wx:for="{{productdetail}}" wx:key="key">
@@ -133,5 +133,5 @@
     <text>\n</text>
     <l-button data-id="{{item.ProductId}}&productname={{item.ProductName}}" icon="order" icon-color="white" shape="semicircle" bind:lintap="bvNewOrder">我要办理</l-button>
   </view>
-</view>
+</scroll-view>
 </view>

@@ -13,11 +13,11 @@ Page({
   },
   onLoad: function (options) {
 
-    console.log(options)
+    console.log("接收到的参数",options)
     this.setData({
       params: options
     })
-    console.log(this.data.params.page)
+    console.log("跳转页面路径",this.data.params.page)
     // 接收参数方法一开始
     if (options.userid) {
       console.log("if操作执行了")
@@ -117,7 +117,7 @@ Page({
       _openid: app.globalData.Gopenid,
     }).get({
       success: res => {
-        console.log(res);
+        console.log("当前用户信息",res);
         // 判断是否新用户并提交数据库起始
         if (res.data.length == 0) {
           this._newuser()
@@ -190,7 +190,7 @@ Page({
 
   },
   _olduser() {
-    console.log("老用户价格等级查询")
+    console.log("执行老用户价格等级查询")
     // 老用户确认价格等级
     const db = wx.cloud.database()
     const _ = db.command
