@@ -14,6 +14,8 @@ Page({
     productarray: [], //通过查询功能得到的产品数组
     productdetail: [],
     array: [],
+
+  
     // 产品分类参数
     inputShow: false,
     boxShow: false,
@@ -31,7 +33,8 @@ Page({
     code2: "",
     code3: "",
     code4: "00",
-    namecode: "",
+    productcode:"",
+    categorycode:"",
     serialcode: "000",
     // 表单参数
     showvalue1: true,
@@ -313,7 +316,7 @@ Page({
       boxShow: false,
       inputShow: false,
     })
-    this.productCode()
+    this.categoryCode()
   },
   changeCategory1: function (e) {
     const val = e.detail.value
@@ -350,11 +353,16 @@ Page({
   },
 
   productCode() {
-    let namecode=pinyin(this.data.productname, {
-      pattern: 'first',
-      toneType: 'none'
-    }).toUpperCase().replace(/\s+/g, '')
+    this.setData({
+      productcode:pinyin(this.data.productname, {
+        pattern: 'first',
+        toneType: 'none'
+      }).toUpperCase().replace(/\s+/g, '')
+    })
+    this.serialCode()
+  },
 
+  categoryCode(){
     for (var i = 0; i < this.data.sortarray.length; i++) {
       if (this.data.sortarray[i].Category1Name == this.data.category1) {
         var sortcode1=this.data.sortarray[i].Category1Code
@@ -372,32 +380,35 @@ Page({
     }
 
     this.setData({
-      productcode: [namecode] + "-" + [sortcode1] + [sortcode2] + [sortcode3] + [this.data.code4]
+      categorycode: [sortcode1] + [sortcode2] + [sortcode3]+[this.data.code4]
     })
     this.serialCode()
   },
   serialCode() {
-    var temp = []
-    for (var i = 0; i < this.data.productarray.length; i++) {
-      if (this.data.productcode == this.data.productarray[i].ProductId.slice(0, -4)) {
-        temp.push(this.data.productarray[i])
+    var tempcode=[this.data.productcode]+"-"+[this.data.categorycode]
+    var temparray = []
+    // 需要搜索全部产品以包含停售产品
+    for (var i = 0; i < app.globalData.Gproductlist.length; i++) {
+      if (tempcode == app.globalData.Gproductlist[i].ProductId.slice(0, -4)) {
+        temparray.push(app.globalData.Gproductlist[i])
       }
     }
-    console.log(temp)
-    if (temp.length != 0) {
+    console.log(temparray)
+    if (temparray.length != 0) {
+      // 如果有同名的产品，就先生成编号+1的字符串，然后再取出后三位作为编号
       this.setData({
-        serialcode: ("0000" + [temp.length + 1]).substr(-3)
+        serialcode: ("0000" + [temparray.length + 1]).substr(-3)
       })
     } else {
       this.setData({
         serialcode: "001"
       })
     }
-    this.productId()
+    this._productId()
   },
-  productId() {
+  _productId() {
     this.setData({
-      productid: [this.data.productcode] + "-" + [this.data.serialcode]
+      productid: [this.data.productcode]+"-"+[this.data.categorycode] + "-" + [this.data.serialcode]
     })
   },
   //查询本人创建且符合模糊条件的记录
@@ -708,8 +719,7 @@ Page({
     this.setData({
       productname: e.detail.value,
     })
-    console.log(this.data.namecode)
-    this.productCode()
+
   },
   bvProductType(e) {
     this.setData({
@@ -891,12 +901,13 @@ Page({
               success: res => {
                 console.log("fileID", res.fileID)
                 this.data.attachmentimage = this.data.attachmentimage.concat(res.fileID)
+                this.data.imageuploadlock = true // 修改上传状态为锁定
               }
             })
           }
 
         }
-        this.data.imageuploadlock = true // 修改上传状态为锁定
+
         console.log("attachmentimage", that.data.attachmentimage)
         // 异步上传，打印attachment时尚未返回数据
       }
@@ -987,6 +998,7 @@ Page({
                 icon: 'none',
                 duration: 2000 //持续的时间
               })
+              this.data.fileuploadlock = true // 修改上传状态为锁定
             },
             complete: res => {
               console.log(res)
@@ -994,7 +1006,7 @@ Page({
           })
         }
 
-        this.data.fileuploadlock = true // 修改上传状态为锁定
+
         console.log("attachmentfile", this.data.attachmentfile)
         // 异步上传，打印attachment时尚未返回数据
       }
@@ -1069,7 +1081,7 @@ Page({
             AttachmentFile: this.data.attachmentfile,
           },
           success(res) {
-            console.log('新增数据成功', res.data)
+            console.log('新增数据成功', res)
             wx.showToast({
               title: '新增数据成功',
               icon: 'success',
@@ -1184,8 +1196,8 @@ Page({
       // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
       // category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
     })
-    // 从本地存储中读取
 
+if(options.recordid != undefined && options.recordid !=""){
         // 筛选指定记录
         var fliter = [];
         // var _this = this
@@ -1236,7 +1248,7 @@ Page({
           attachmentfile: fliter[0].AttachmentFile,
           username: fliter[0]._openid,
         })
-
+      }
       },
 
 

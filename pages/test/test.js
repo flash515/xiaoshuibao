@@ -58,6 +58,14 @@ Page({
 
     })
   },
+  bvTest(){
+let category="天气很好"
+let cate=["Categoryname",category]
+let ca=[]
+ca.push(cate)
+console.log(ca)
+
+  },
   bindMultiPickerColumnChange: function (e) {
     console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
     var data = {

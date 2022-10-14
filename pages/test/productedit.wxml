@@ -63,7 +63,7 @@
     </view>
   </view>
   <view hidden="{{showvalue3==false}}">
-    <input class="input" bindinput="bvProductName" bindfocus="bvProductName" placeholder="产品名称不超10个字" maxlength="20" value="{{productname}}"/>
+    <input class="input" bindinput="bvProductName" bindfocus="bvProductName" 	bindblur="productCode" placeholder="产品名称不超12个字" maxlength="12" value="{{productname}}"/>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">

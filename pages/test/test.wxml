@@ -20,7 +20,7 @@
   <l-image-picker size="4" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{attachmentview}}" />
   <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
 </view>
-
+<l-button plain="{{true}}" bind:lintap="bvtest">数组操作</l-button>
 
 <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
   <label class="text">31.文件附件：</label>

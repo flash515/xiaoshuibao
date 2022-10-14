@@ -8,9 +8,8 @@ Page({
   data: {
     category2name: "",
     category3name: "",
-    sort: [],
+    sortarray: [],
     productarray: [],
-    array: [],
     usertype: "",
     promoterlevel: "",
     discountlevel: "",
@@ -76,20 +75,20 @@ Page({
     console.log(e.currentTarget.dataset.name)
     this.data.categoryname = e.currentTarget.dataset.name
     var category = e.currentTarget.dataset.name
-    this._setarray(category)
+    this._setproductarray(category)
   },
-  _setarray(category) {
+  _setproductarray(category) {
     console.log(category)
     var fliter = []
-    for (let i = 0; i < this.data.productarray.length; i++) {
-      if (this.data.productarray[i].Category3 == category) {
-        fliter.push(this.data.productarray[i])
+    for (let i = 0; i < app.globalData.Gproduct.length; i++) {
+      if (app.globalData.Gproduct[i].Category3 == category) {
+        fliter.push(app.globalData.Gproduct[i])
       }
     }
     this.setData({
-      array: fliter
+      productarray: fliter
     })
-    console.log(this.data.array)
+    console.log(this.data.productarray)
 
   },
   /**
@@ -99,99 +98,38 @@ Page({
     console.log(options)
     var that = this
     if (options.category2 != undefined && options.category2 != "") {
-
       for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
         for (let j = 0; j < app.globalData.Gsortarray[i].Category2Array.length; j++) {
           if (app.globalData.Gsortarray[i].Category2Array[j].Category2Name == options.category2) {
-            var tempsort=app.globalData.Gsortarray[i].Category2Array[j].Category3Array
-          }
-
+            var tempsort = app.globalData.Gsortarray[i].Category2Array[j].Category3Array
           }
         }
-        this.setData({
-          category2name: options.category2,
-          sort:tempsort
-        })
-
-
-
-
-      wx.cloud.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "PRODUCT",
-          command: "or",
-          where: [{
-            Status: "在售"
-          }]
-        },
-        success: res => {
-          console.log(res)
-          app.globalData.Gproductarray = res.result.data
-          var fliter = []
-          for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
-            if (app.globalData.Gproductarray[i].Category2 == this.data.category2name) {
-              fliter.push(app.globalData.Gproductarray[i]);
-            }
-          }
-          that.setData({
-            productarray: fliter.sort(function (a, b) {
-              if (a.Category3 < b.Category3) {
-                return -1
-              }
-              if (a.Category3 > b.Category3) {
-                return 1
-              }
-              if (a.Category3 = b.Category3) {
-                return 0
-              }
-            })
-          })
-          console.log(that.data.productarray)
-          var category = this.data.productarray[0].Category3
-          this._setarray(category)
-        }
+      }
+      this.setData({
+        sortarray: tempsort
       })
-
+      console.log(this.data.sortarray)
+      // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
+      var category = tempsort[0].Category3Name
+      this._setproductarray(category)
     }
     if (options.category3 != undefined && options.category3 != "") {
+      // 把单个三级分类名称构建成数组形式以便于前端页面按统一的方法渲染
+      var tempsort = []
+      var obj = new Object();
+      obj = {
+        "Category3Name": options.category3
+      }
+      tempsort.push(obj)
       this.setData({
-        category3name: options.category3,
-        sort:options.category3
+        sortarray: tempsort
       })
-      wx.cloud.callFunction({
-        name: "NormalQuery",
-        data: {
-          collectionName: "PRODUCT",
-          command: "or",
-          where: [{
-            Status: "在售"
-          }]
-        },
-        success: res => {
-          console.log(res)
-          app.globalData.Gproductarray = res.result.data
-          var fliter = []
-          for (let i = 0; i < app.globalData.Gproductarray.length; i++) {
-            if (app.globalData.Gproductarray[i].Category3 == that.data.category3name) {
-              fliter.push(app.globalData.Gproductarray[i]);
-            }
-          }
-          that.setData({
-            productarray: fliter
-          })
-          console.log(that.data.productarray)
-          var category = this.data.productarray[0].Category3
-          this._setarray(category)
-        }
-      })
-
+      var category = options.category3
+      this._setproductarray(category)
     }
-
-
-    //括号1结束
+    console.log(this.data.sortarray)
   },
- 
+
   bvProductDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({

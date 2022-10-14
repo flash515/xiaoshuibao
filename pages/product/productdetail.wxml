@@ -11,10 +11,10 @@
 </view>
 <!--产品详情页面-->
 <view style="display: flex;flex-direction: column;margin-left: 25rpx;margin-right: 25rpx; box-sizing: border-box;">
-  <view style="display: flex;flex-direction: row; width: 100%;height: 80rpx;font-size: 28rpx;box-sizing: border-box;padding-left: 25rpx;padding-right: 25rpx;align-items:center;border-bottom:1rpx solid burlywood;">
-    <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="产品详情" bindtap="bvDetailView" shape="circle" plain="{{true}}">产品详情</button>
-    <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="产品问答" bindtap="bvQAView" shape="circle" plain="{{true}}">产品问答</button>
-    <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="附件资料" bindtap="bvAttachmentView" shape="circle" plain="{{true}}">附件资料</button>
+  <view style="display: flex;flex-direction: row; width: 100%;height: 80rpx;box-sizing: border-box;padding-left: 25rpx;padding-right: 25rpx;align-items:center;border-bottom:1rpx solid burlywood;">
+    <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="产品详情" bindtap="bvDetailView" shape="circle">产品详情</button>
+    <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="产品问答" bindtap="bvQAView" shape="circle" >产品问答</button>
+    <button style="border-top:1rpx solid burlywood;border-bottom: white;border-left: white;border-right: white;line-height: 80rpx;height: 80rpx;font-size:35rpx;" data-name="附件资料" bindtap="bvAttachmentView" shape="circle">附件资料</button>
   </view>
   <view style="display: flex;flex-direction: column;width: 100%;box-sizing: border-box;font-size: 28rpx;flex-wrap: wrap;">
   <view hidden="{{DetailHidden}}">

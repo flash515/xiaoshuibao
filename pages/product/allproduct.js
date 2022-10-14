@@ -42,7 +42,6 @@ Page({
   },
   bvTagClick(e){
     console.log(e.currentTarget.dataset.name)
-    console.log(e.currentTarget.dataset.sort)
     wx.navigateTo({
       url: "../product/productview?"+"category3=" + e.currentTarget.dataset.name
     })
