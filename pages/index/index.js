@@ -10,14 +10,14 @@ Page({
     inviterusername: "",
     tempimage: [],
     userinfo: [],
+    sendsms: false,
   },
   onLoad: function (options) {
 
-    console.log("接收到的参数",options)
-    this.setData({
-      params: options
-    })
-    console.log("跳转页面路径",this.data.params.page)
+    console.log("接收到的参数", options)
+    app.globalData.Gparams = options
+
+    console.log("跳转页面路径", options.page)
     // 接收参数方法一开始
     if (options.userid) {
       console.log("if操作执行了")
@@ -117,13 +117,13 @@ Page({
       _openid: app.globalData.Gopenid,
     }).get({
       success: res => {
-        console.log("当前用户信息",res);
+        console.log("当前用户信息", res);
         // 判断是否新用户并提交数据库起始
         if (res.data.length == 0) {
           this._newuser()
         } else {
           // 老用户如果云数据库中有本人信息，则把用户本人信息存入本地
-          app.globalData.Guserinfo=res.data[0]
+          app.globalData.Guserinfo = res.data[0]
           app.globalData.Ginviterid = res.data[0].InviterOpenId;
           wx.setStorageSync('LUserInfo', res.data[0]);
           // 查询结果赋值给数组参数
@@ -140,7 +140,8 @@ Page({
     console.log("新用户操作执行了")
     // 如果是新用户，检查是否有传递过来的推荐人id
     this.setData({
-      inviterid: this.data.tempinviterid
+      inviterid: this.data.tempinviterid,
+      sendsms: true
     })
     // 对象中的属性可以直接这样赋值吗？
     app.globalData.Ginviterid = this.data.tempinviterid
@@ -167,22 +168,7 @@ Page({
         Remark: this.data.remark
       },
       success: res => {
-        // 调用云函数发短信给推荐人和管理员
-        wx.cloud.callFunction({
-          name: 'sendsms',
-          data: {
-            templateId:"1569087",
-            nocode:true,
-            mobile: [13025400559,18954744612]
-      
-          },
-          success: res => {
-            console.log(res)
-          },
-          fail: res => {
-            console.log(res)
-          },
-        })
+
         // 查询推荐人信息
         this._invitercheck()
       },
@@ -243,6 +229,16 @@ Page({
           inviterusername: res.data[0].UserName,
           indirectinviterid: res.data[0].InviterOpenId
         })
+        // 把需要的推荐人信息构建成对象数组赋值给全局变量
+        var obj = new Object();
+        obj = {
+          "InviterOpenId": res.data[0].InviterOpenId,
+          "PromoterLevel": res.data[0].PromoterLevel,
+          "Balance": res.data[0].Balance,
+          "UserPhone": res.data[0].UserPhone,
+        }
+        app.globalData.Ginviter = obj
+        // 以下全局变量将被Ginviter取代
         app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
         app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
         app.globalData.Ginviterbalance = res.data[0].Balance;
@@ -250,6 +246,30 @@ Page({
 
       },
       complete: res => {
+        if (sendsms) {
+          if (app.globalData.Ginviter.UserPhone != undefined && app.globalData.Ginviter.UserPhone != "") {
+            var tempmobile = [18954744612, app.globalData.Ginviter.UserPhone]
+          } else {
+            var tempmobile = [18954744612]
+          }
+          // 调用云函数发短信给推荐人和管理员
+          wx.cloud.callFunction({
+            name: 'sendsms',
+            data: {
+              templateId: "1569087",
+              nocode: true,
+              mobile: tempmobile
+            },
+            success: res => {
+              console.log(res)
+            },
+            fail: res => {
+              console.log(res)
+            },
+          })
+        }
+
+
         // 这里的参数判断逻辑是有效经典的，可以copy借鉴
         if (this.data.params.page != undefined && this.data.params.page != "") {
           wx.navigateTo({

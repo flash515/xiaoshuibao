@@ -90,6 +90,8 @@ App({
     }
   },
   globalData: {
+    // 接收到的参数数组,包含推荐人userid,页面路径page，来源编号source等
+    Gparams:[],
     // 屏幕可用宽高
     GWidth: "",
     GHeight: "",
@@ -108,10 +110,12 @@ App({
     Gsearch:[],
     Gtrack: [],
     // 直接推荐人
+    Ginviter:[],
     Ginviterid: "",
     Ginviterpromoterlevel: "",
     Ginviterbalance: "",
     // 间接推荐人
+    Gindirectinviter:[],
     Gindirectinviterid: "",
     Gindirectinviterpromoterlevel: "",
     Gindirectinviterbalance: "",
