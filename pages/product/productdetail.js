@@ -241,6 +241,22 @@ Page({
               icon: 'success',
               duration: 2000 //持续的时间
             })
+            var tempmobile = [18954744612]
+            // 调用云函数发短信给推荐人和管理员
+            wx.cloud.callFunction({
+              name: 'sendsms',
+              data: {
+                templateId: "1569089",
+                nocode: true,
+                mobile: tempmobile
+              },
+              success: res => {
+                console.log(res)
+              },
+              fail: res => {
+                console.log(res)
+              },
+            })
           },
           fail(res) {
             console.log("留言发送失败", res)

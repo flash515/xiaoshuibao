@@ -47,17 +47,13 @@ if(Date.parse(new Date()) - this.data.starttime<"3600000"){
       // onGetUserInfo: this.onGetUserInfo,
       getOpenID: this.getOpenID,
     })
-    wx.getSystemInfo({
-      success: res => {
-        console.log('system info', res)
-        if (res.safeArea) {
-          const { top, bottom } = res.safeArea
-          this.setData({
-            containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
-          })
-        }
-      },
-    })
+    if (app.globalData.Gsysteminfo.safeArea) {
+      const { top, bottom } = app.globalData.Gsysteminfo.safeArea
+      this.setData({
+        containerStyle: `padding-top: ${(/ios/i.test(app.globalData.Gsysteminfo.system) ? 10 : 20) + top}px; padding-bottom: ${20 + app.globalData.Gsysteminfo.windowHeight - bottom}px`,
+      })
+    }
+
 }else{
   wx.redirectTo({
     url: '../meetingroom/meetingroom',

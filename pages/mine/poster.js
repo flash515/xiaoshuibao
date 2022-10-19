@@ -164,16 +164,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({image:app.globalData.Gimagearray})
-    // let that=this
-    wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
-      success: res => {
-        this.setData({
-          windowW: (res.windowWidth - 40),
-          windowH: (res.windowWidth - 40) * 1.4
-        })
-      }
+    this.setData({
+      image:app.globalData.Gimagearray,
+      windowW: (app.globalData.Gsysteminfo.windowWidth - 40),
+      windowH: (app.globalData.Gsysteminfo.windowWidth - 40) * 1.4
+
     })
+
 
 
   },

@@ -106,14 +106,17 @@ Page({
     status: "",
     score: 0,
     username: "",
-    attachmentview: [], //用于展示数据库中的图片
-    attachmentimage: [], //数据库中的图片
+    productview: [], //用于展示数据库中的产品介绍图片
+    productimage: [], //数据库中的产品介绍图片
+    attachmentview: [], //用于展示数据库中的产品附件图片
+    attachmentimage: [], //数据库中的产品附件图片
     attachmentfile: [],
     tempFilePaths: [],
     onsalechecked: false,
     sublock: false,
+    productimageuploadlock: false,
+    attachmentimageuploadlock: false,
     fileuploadlock: false,
-    imageuploadlock: false,
     recordcontral: false,
     items: [{
         value: '全国',
@@ -518,6 +521,7 @@ Page({
       price4count: this.data.productarray[this.data.x].Price4Count,
       score: this.data.productarray[this.data.x].Score,
       updatedate: this.data.productarray[this.data.x].UpdateDate,
+      productview: this.data.productarray[this.data.x].ProductImage,
       attachmentview: this.data.productarray[this.data.x].AttachmentImage,
       attachmentfile: this.data.productarray[this.data.x].AttachmentFile,
       username: this.data.productarray[this.data.x]._openid,
@@ -858,19 +862,74 @@ Page({
       score: e.detail.value
     })
   },
-  bvChooseImage(e) {
+  bvChooseProductImage(e) {
     this.setData({
-      attachmentview: e.detail.all,
-      imageuploadlock: false
+      productview: e.detail.all,
+      productimageuploadlock: false
     })
   },
-  bvRemoveImage(e) {
+  bvRemoveProductImage(e) {
     this.setData({
-      attachmentview: e.detail.all,
-      imageuploadlock: false
+      productview: e.detail.all,
+      productimageuploadlock: false
     })
   },
-  bvUploadImage(e) {
+  bvUploadProductImage(e) {
+    let that = this
+    // 判断产品id是否空值
+    if (this.data.productid == "" || this.data.productid == null) {
+      wx.showToast({
+        title: "产品编号不能为空",
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      // 判断是否重复提交
+      if (this.data.productimageuploadlock) {
+        // 锁定时很执行
+        wx.showToast({
+          title: '请勿重复提交',
+          icon: 'none',
+          duration: 2000 //持续的时间
+        })
+      } else {
+        if (this.data.productview.length == 0) {
+          this.data.productimage = []
+        } else {
+          for (let i = 0; i < this.data.productview.length; i++) {
+            const filePath = this.data.productview[i]
+            const cloudPath = 'product/' + this.data.productid + '/' + this.data.productid + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
+            wx.cloud.uploadFile({
+              cloudPath,
+              filePath,
+              success: res => {
+                console.log("fileID", res.fileID)
+                this.data.productimage = this.data.productimage.concat(res.fileID)
+                this.data.productimageuploadlock = true // 修改上传状态为锁定
+              }
+            })
+          }
+
+        }
+
+        console.log("productimage", that.data.productimage)
+        // 异步上传，打印attachment时尚未返回数据
+      }
+    }
+  },
+  bvChooseAttachmentImage(e) {
+    this.setData({
+      attachmentview: e.detail.all,
+      attachmentimageuploadlock: false
+    })
+  },
+  bvRemoveAttachmentImage(e) {
+    this.setData({
+      attachmentview: e.detail.all,
+      attachmentimageuploadlock: false
+    })
+  },
+  bvUploadAttachmentImage(e) {
     let that = this
     // 判断产品id是否空值
     if (this.data.productid == "" || this.data.productid == null) {
@@ -1077,6 +1136,7 @@ Page({
             Price4: this.data.price4,
             Price4Count: Number(this.data.price4count),
             Score: Number(this.data.score),
+            ProductImage: this.data.productimage,
             AttachmentImage: this.data.attachmentimage,
             AttachmentFile: this.data.attachmentfile,
           },
@@ -1139,6 +1199,7 @@ Page({
         Price3Count: this.data.price3count,
         Price4: this.data.price4,
         Price4Count: this.data.price4count,
+        ProductImage: this.data.productimage,
         AttachmentImage: this.data.attachmentimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
@@ -1244,6 +1305,7 @@ if(options.recordid != undefined && options.recordid !=""){
           price4count: fliter[0].Price4Count,
           score: fliter[0].Score,
           updatedate: fliter[0].UpdateDate,
+          productview: fliter[0].ProductImage,
           attachmentview: fliter[0].AttachmentImage,
           attachmentfile: fliter[0].AttachmentFile,
           username: fliter[0]._openid,

@@ -15,9 +15,9 @@ Page({
   onLoad: function (options) {
 
     console.log("接收到的参数", options)
+    console.log("跳转页面路径", options.page)
     app.globalData.Gparams = options
 
-    console.log("跳转页面路径", options.page)
     // 接收参数方法一开始
     if (options.userid) {
       console.log("if操作执行了")
@@ -246,7 +246,8 @@ Page({
 
       },
       complete: res => {
-        if (sendsms) {
+        console.log("执行到最后位置了")
+        if (this.data.sendsms==true) {
           if (app.globalData.Ginviter.UserPhone != undefined && app.globalData.Ginviter.UserPhone != "") {
             var tempmobile = [18954744612, app.globalData.Ginviter.UserPhone]
           } else {
@@ -269,11 +270,11 @@ Page({
           })
         }
 
-
+        console.log(app.globalData.Gparams.page)
         // 这里的参数判断逻辑是有效经典的，可以copy借鉴
-        if (this.data.params.page != undefined && this.data.params.page != "") {
+        if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
           wx.navigateTo({
-            url: this.data.params.page,
+            url: app.globalData.Gparams.page,
           })
         } else {
           wx.switchTab({

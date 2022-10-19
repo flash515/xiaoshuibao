@@ -530,39 +530,109 @@
     </picker>
   </view>
 
-  <!-- 附件展示 -->
+  <view wx:if="{{usertype=='admin'}}">
+
+    <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+      <label class="text">30.推荐程度:</label>
+      <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
+        <view wx:if="{{showvalue30==true}}">
+          <label class="text">当前展示</label>
+        </view>
+        <view wx:else>
+          <label class="text">当前不展示</label>
+        </view>
+        <switch checked="{{showvalue30}}" data-id="30" bindchange="SVChange" style='zoom:.6;' />
+      </view>
+    </view>
+    <view hidden="{{showvalue30==false}}">
+      <input type="number" class="input" bindinput="bvChangeScore" value="{{score}}"></input>
+    </view>
+
+
+    <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+      <label class="text">31.产品状态:</label>
+      <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
+        <view wx:if="{{showvalue31==true}}">
+          <label class="text">当前展示</label>
+        </view>
+        <view wx:else>
+          <label class="text">当前不展示</label>
+        </view>
+        <switch checked="{{showvalue31}}" data-id="31" bindchange="SVChange" style='zoom:.6;' />
+      </view>
+    </view>
+    <view hidden="{{showvalue31==false}}">
+      <input type="text" class="input" bindinput="bvChangeStatus" value="{{status}}"></input>
+    </view>
+
+
+    <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+      <label class="text">32.录入人员:</label>
+      <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
+        <view wx:if="{{showvalue32==true}}">
+          <label class="text">当前展示</label>
+        </view>
+        <view wx:else>
+          <label class="text">当前不展示</label>
+        </view>
+        <switch checked="{{showvalue32}}" data-id="32" bindchange="SVChange" style='zoom:.6;' />
+      </view>
+    </view>
+    <view hidden="{{showvalue32==false}}">
+      <input type="text" class="input" placeholder="{{username}}" disabled="true"></input>
+    </view>
+  </view>
+
+  <!-- 产品介绍图片 -->
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="text">33.产品介绍图片：</label>
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
+      <view wx:if="{{showvalue33==true}}">
+        <label class="text">当前展示</label>
+      </view>
+      <view wx:else>
+        <label class="text">当前不展示</label>
+      </view>
+      <switch checked="{{showvalue33}}" data-id="33" bindchange="SVChange" style='zoom:.6;' />
+    </view>
+  </view>
+  <view hidden="{{showvalue33==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
+    <l-image-picker size="4" count="4" bind:linchange="bvChooseProductImage" bind:linremove="bvRemoveProductImage" urls="{{attachmentview}}" />
+    <l-button plain="{{true}}" bind:lintap="bvUploadProductImage">上传图片</l-button>
+  </view>
+  <!-- 产品附件图片 -->
   <!-- 显示选择的图片 -->
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">30.图片附件：</label>
+    <label class="text">34.产品附件图片：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
-      <view wx:if="{{showvalue30==true}}">
+      <view wx:if="{{showvalue34==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue30}}" data-id="30" bindchange="SVChange" style='zoom:.6;' />
+      <switch checked="{{showvalue34}}" data-id="34" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue30==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-    <l-image-picker size="4" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{attachmentview}}" />
-    <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
+  <view hidden="{{showvalue34==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
+    <l-image-picker size="4" count="4" bind:linchange="bvChooseAttachmentImage" bind:linremove="bvRemoveAttachmentImage" urls="{{attachmentview}}" />
+    <l-button plain="{{true}}" bind:lintap="bvUploadAttachmentImage">上传图片</l-button>
   </view>
 
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">31.文件附件：</label>
+    <label class="text">35.文件附件：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
-      <view wx:if="{{showvalue31==true}}">
+      <view wx:if="{{showvalue35==true}}">
         <label class="text">当前展示</label>
       </view>
       <view wx:else>
         <label class="text">当前不展示</label>
       </view>
-      <switch checked="{{showvalue31}}" data-id="31" bindchange="SVChange" style='zoom:.6;' />
+      <switch checked="{{showvalue35}}" data-id="35" bindchange="SVChange" style='zoom:.6;' />
     </view>
   </view>
-  <view hidden="{{showvalue31==false}}" style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;flex-wrap: wrap;">
+  <view hidden="{{showvalue35==false}}" style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;flex-wrap: wrap;">
     <view wx:for="{{attachmentfile}}" wx:for-item="cell" wx:key="key" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
       <view wx:for="{{cell}}" wx:for-index="key" wx:for-item="value" wx:key="key">
         <l-button bind:lintap="bvDownloadFile" plain="{{true}}" data-link="{{value}}" data-name="{{key}}">点击下载：{{key}}</l-button>
@@ -580,58 +650,6 @@
   </view>
 
 
-  <view wx:if="{{usertype=='admin'}}">
-
-    <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-      <label class="text">32.推荐程度:</label>
-      <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
-        <view wx:if="{{showvalue32==true}}">
-          <label class="text">当前展示</label>
-        </view>
-        <view wx:else>
-          <label class="text">当前不展示</label>
-        </view>
-        <switch checked="{{showvalue32}}" data-id="32" bindchange="SVChange" style='zoom:.6;' />
-      </view>
-    </view>
-    <view hidden="{{showvalue32==false}}">
-      <input type="number" class="input" bindinput="bvChangeScore" value="{{score}}"></input>
-    </view>
-
-
-    <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-      <label class="text">33.产品状态:</label>
-      <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
-        <view wx:if="{{showvalue33==true}}">
-          <label class="text">当前展示</label>
-        </view>
-        <view wx:else>
-          <label class="text">当前不展示</label>
-        </view>
-        <switch checked="{{showvalue33}}" data-id="33" bindchange="SVChange" style='zoom:.6;' />
-      </view>
-    </view>
-    <view hidden="{{showvalue33==false}}">
-      <input type="text" class="input" bindinput="bvChangeStatus" value="{{status}}"></input>
-    </view>
-
-
-    <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-      <label class="text">34.录入人员:</label>
-      <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
-        <view wx:if="{{showvalue34==true}}">
-          <label class="text">当前展示</label>
-        </view>
-        <view wx:else>
-          <label class="text">当前不展示</label>
-        </view>
-        <switch checked="{{showvalue34}}" data-id="34" bindchange="SVChange" style='zoom:.6;' />
-      </view>
-    </view>
-    <view hidden="{{showvalue34==false}}">
-      <input type="text" class="input" placeholder="{{username}}" disabled="true"></input>
-    </view>
-  </view>
   <!-- 附件上传 -->
   <text>\n</text>
   <view style="padding-left: 25rpx;padding-right: 25rpx;">

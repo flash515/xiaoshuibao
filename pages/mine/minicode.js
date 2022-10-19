@@ -280,6 +280,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
+      windowW: app.globalData.Gsysteminfo.windowWidth - 40,
+      windowH: app.globalData.Gsysteminfo.windowWidth - 40,
       image: app.globalData.Gimagearray,
       avatarUrl: app.globalData.Guserinfo.avatarUrl,
       nickName: app.globalData.Guserinfo.nickName,
@@ -295,14 +297,14 @@ Page({
     }
     //  接收参数的方法结束
 
-    wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
-      success: function (res) {
-        that.setData({
-          windowW: res.windowWidth - 40,
-          windowH: res.windowWidth - 40
-        })
-      }
-    })
+    // wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
+    //   success: function (res) {
+    //     that.setData({
+    //       windowW: res.windowWidth - 40,
+    //       windowH: res.windowWidth - 40
+    //     })
+    //   }
+    // })
 
     // 获取accesstoken,当前方法用不到accessToken了
 

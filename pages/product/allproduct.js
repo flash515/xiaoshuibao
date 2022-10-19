@@ -53,7 +53,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      windowH: (app.globalData.GHeight - 100) * 750 / app.globalData.GWidth
+      windowH: (app.globalData.Gsysteminfo.windowHeight - 100) * 750 / app.globalData.Gsysteminfo.windowWidth
     })
 
     //获取小程序全局设置

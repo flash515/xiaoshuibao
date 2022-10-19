@@ -51,9 +51,9 @@ App({
     })
     wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
       success: res => {
-        this.globalData.GWidth = res.windowWidth
-        this.globalData.GHeight = res.windowHeight
-        console.log(res)
+        this.globalData.Gsysteminfo=res
+        console.log("可用屏幕高",this.globalData.Gsysteminfo.windowHeight)
+        console.log("可用屏幕宽",this.globalData.Gsysteminfo.windowWidth)
       }
 
     })
