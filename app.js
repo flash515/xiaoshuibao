@@ -92,6 +92,7 @@ App({
   globalData: {
     // 接收到的参数数组,包含推荐人userid,页面路径page，来源编号source等
     Gparams:[],
+    Gsysteminfo:[],
     // 屏幕可用宽高
     GWidth: "",
     GHeight: "",

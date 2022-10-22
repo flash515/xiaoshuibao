@@ -165,6 +165,7 @@ Page({
         PromoterLevel: "normal",
         Balance: 0,
         Region: ["广东省", "深圳市", "福田区"],
+        SystemInfo:app.globalData.Gsysteminfo,
         Remark: this.data.remark
       },
       success: res => {
