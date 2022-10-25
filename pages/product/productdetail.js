@@ -229,6 +229,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('PRODUCTQA').add({
           data: {
+            DataId:this.data.pageParam.dataid,
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "",
@@ -281,44 +282,37 @@ Page({
     this.setData({
       pageParam: options,
     })
-    console.log("pageParam", this.data.pageParam.productid);
 
-    // 从本地存储中读取
-    wx.getStorage({
-      key: 'LProductList',
-      success: res => {
-        this.setData({
-          productarray: res.data
-        })
-        console.log("产品数组", this.data.productarray) //Object {errMsg: "getStorage:ok", data: "value1"}
-        // 筛选指定记录
-        var fliter = [];
-        // var _this = this
-        for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].ProductId == this.data.pageParam.productid) {
-            fliter.push(this.data.productarray[i]);
-          }
-        }
-        console.log(fliter);
-        this.setData({
-          productdetail: fliter
-        })
-      },
+    // 筛选指定记录
+    var fliter = [];
+    // var _this = this
+    for (var i = 0; i < app.globalData.Gproduct.length; i++) {
+      if (app.globalData.Gproduct[i]._id == this.data.pageParam.dataid) {
+        fliter.push(app.globalData.Gproduct[i]);
+      }
+    }
+    console.log(fliter);
+    this.setData({
+      productdetail: fliter
     })
-    // 查询产品的QA内容
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('PRODUCTQA').where({
-      ProductId: this.data.pageParam.productid
-    }).get({
+        // 云函数查询产品的QA内容
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCTQA",
+        command: "and",
+        where: [{
+          DataId: this.data.pageParam.dataid
+        }]
+      },
       success: res => {
-        console.log("查询QA结果", res);
+        console.log(res)
         this.setData({
           qaarray: res.data
         })
-
       }
     })
+
   },
 
   /**
@@ -343,9 +337,9 @@ Page({
 
   },
   bvNewOrder(e) {
-    console.log(e.currentTarget.dataset.id);
+    console.log(e.currentTarget.dataset.params);
     wx.navigateTo({
-      url: '../order/neworder?productid=' + e.currentTarget.dataset.id
+      url: "../order/neworder?" + e.currentTarget.dataset.params
     })
   },
   /**

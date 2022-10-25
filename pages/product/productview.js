@@ -131,16 +131,15 @@ Page({
   },
 
   bvProductDetail(e) {
-    console.log(e.currentTarget.dataset.id)
+    console.log(e.currentTarget.dataset.params)
     wx.navigateTo({
-      url: "../product/productdetail?" + "productid=" + e.currentTarget.dataset.id
-    })
+      url: "../product/productdetail?"+ e.currentTarget.dataset.params    })
     startByClick(e.currentTarget.dataset.name);
   },
   bvNewOrder(e) {
-    console.log(e.currentTarget.dataset.id);
+    console.log(e.currentTarget.dataset.params);
     wx.navigateTo({
-      url: "../order/neworder?" + "productid=" + e.currentTarget.dataset.id
+      url: "../order/neworder?" + e.currentTarget.dataset.params
     })
   },
   /**

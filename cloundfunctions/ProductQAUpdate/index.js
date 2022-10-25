@@ -9,7 +9,7 @@ const db = cloud.database()
 exports.main = async (event, context) => {
   try{
   return await db.collection('PRODUCTQA').where({
-    ProductId: event.productid,
+    _id: event.id,
   }).update({
     data: {
     Answer: event.answer,

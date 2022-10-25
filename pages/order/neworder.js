@@ -22,7 +22,8 @@ Page({
     // 传入的参数
     pageParam: "",
     //新增数据变量
-    // 产品编号
+    // 编号
+    dataid: "",
     productid: "",
     // 产品名称
     productname: "",
@@ -152,12 +153,14 @@ Page({
     let that = this;
     this.setData({
       pageParam: options,
+      dataid: options.dataid,
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
       balance: app.globalData.Guserinfo.Balance,
       consumepoints: app.globalData.Guserinfo.Balance,
     })
+    console.log(this.data.pageParam)
     // 通过两个promise嵌套，顺序执行获得计算结果
     let P = new Promise((resolve, reject) => {
 
@@ -220,55 +223,52 @@ Page({
         })
       });
       P1.then(res => {
-        // 从本地存储中读取客户价格
-        wx.getStorage({
-          key: 'LProductList',
-          success: res => {
-            console.log("产品数组", res.data)
-            // 筛选指定记录
-            var fliter = [];
-            // var _this = this
-            for (var i = 0; i < res.data.length; i++) {
-              if (res.data[i].ProductId == this.data.productid) {
-                fliter.push(res.data[i]);
-              }
-            }
-            console.log(fliter);
-            if (app.globalData.Guserinfo.DiscountLevel == 'DL1') {
-              this.setData({
-                orderpricecount: fliter[0].Price1Count,
-                orderprice: fliter[0].Price1,
-                temptotalfee: fliter[0].Price1Count,
-              })
-              console.log(this.data.orderprice)
-            } else if (app.globalData.Guserinfo.DiscountLevel == 'DL2') {
-              this.setData({
-                orderpricecount: fliter[0].Price2Count,
-                orderprice: fliter[0].Price2,
-                temptotalfee: fliter[0].Price2Count,
-              })
-            } else if (app.globalData.Guserinfo.DiscountLevel == 'DL3') {
-              this.setData({
-                orderpricecount: fliter[0].Price3Count,
-                orderprice: fliter[0].Price3,
-                temptotalfee: fliter[0].Price3Count,
-              })
-            } else if (app.globalData.Guserinfo.DiscountLevel == 'DL4') {
-              this.setData({
-                orderpricecount: fliter[0].Price4Count,
-                orderprice: fliter[0].Price4,
-                temptotalfee: fliter[0].Price4Count,
-              })
-            }
-            // 计算总费用
-            this.setData({
-              totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gpointsmagnification),
-            })
-            resolve(this.data.totalfee);
-            console.log("客户计算价格", this.data.orderpricecount)
-            console.log("总费用", this.data.totalfee)
-          },
+
+        // 筛选指定记录
+        var fliter = [];
+        // var _this = this
+        for (var i = 0; i < app.globalData.Gproduct.length; i++) {
+          if (app.globalData.Gproduct[i]._id == this.data.dataid) {
+            fliter.push(app.globalData.Gproduct[i]);
+          }
+        }
+        console.log(fliter);
+        if (app.globalData.Guserinfo.DiscountLevel == 'DL1') {
+          this.setData({
+            orderpricecount: fliter[0].Price1Count,
+            orderprice: fliter[0].Price1,
+            temptotalfee: fliter[0].Price1Count,
+          })
+          console.log(this.data.orderprice)
+        } else if (app.globalData.Guserinfo.DiscountLevel == 'DL2') {
+          this.setData({
+            orderpricecount: fliter[0].Price2Count,
+            orderprice: fliter[0].Price2,
+            temptotalfee: fliter[0].Price2Count,
+          })
+        } else if (app.globalData.Guserinfo.DiscountLevel == 'DL3') {
+          this.setData({
+            orderpricecount: fliter[0].Price3Count,
+            orderprice: fliter[0].Price3,
+            temptotalfee: fliter[0].Price3Count,
+          })
+        } else if (app.globalData.Guserinfo.DiscountLevel == 'DL4') {
+          this.setData({
+            orderpricecount: fliter[0].Price4Count,
+            orderprice: fliter[0].Price4,
+            temptotalfee: fliter[0].Price4Count,
+          })
+        }
+
+        // 计算总费用
+        this.setData({
+          totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gpointsmagnification),
         })
+        resolve(this.data.totalfee);
+        console.log("客户计算价格", this.data.orderpricecount)
+        console.log("总费用", this.data.totalfee)
+
+
       });
     });
     P.then(res => {
@@ -320,7 +320,7 @@ Page({
     this.setData({
       orderid: this._getGoodsRandomNumber(),
     })
-        // 调用云函数发短信给管理员
+    // 调用云函数发短信给管理员
     var tempmobile = [18954744612]
     wx.cloud.callFunction({
       name: 'sendsms',
@@ -355,6 +355,7 @@ Page({
       db.collection("ORDER").add({
         data: {
           OrderId: this.data.orderid,
+          DataId: this.data.dataid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
@@ -401,6 +402,7 @@ Page({
       db.collection("PAYMENT").add({
         data: {
           OrderId: this.data.orderid,
+          DataId: this.data.dataid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
@@ -435,6 +437,7 @@ Page({
       db.collection("POINTS").add({
         data: {
           OrderId: this.data.orderid,
+          DataId: this.data.dataid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
