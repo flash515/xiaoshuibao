@@ -83,6 +83,20 @@
           <view class="text">快捷会议室</view>
         </navigator>
       </l-grid-item>
+
+      <l-grid-item key='two' slot='two'>
+        <navigator class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx9f0f317564969fbf' path='pages/index/index'>
+          <l-icon name='research' />
+          <view class="text">经营范围查询</view>
+        </navigator>
+      </l-grid-item>
+
+      <l-grid-item key='three' slot='three'>
+        <navigator class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx5b0ed3b8c0499950' path='pages/index/index'>
+          <l-icon name='research' />
+          <view class="text">企业信息查询</view>
+        </navigator>
+      </l-grid-item>
     </l-grid>
   <l-list title="精选服务" icon="notification"/>
   <l-grid row-num="2">

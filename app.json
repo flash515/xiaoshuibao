@@ -41,6 +41,11 @@
     "pages/test/productdetail",
     "pages/test/test"
   ],
+  "navigateToMiniProgramAppIdList": [
+    "wx5b0ed3b8c0499950",
+    "wx9f0f317564969fbf"
+  ],
+
   "permission": {
     "scope.userLocation": {
       "desc": "请点击确定"
