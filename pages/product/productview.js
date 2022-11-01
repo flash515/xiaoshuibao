@@ -6,6 +6,8 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
+    currentTab:0,
+    index: 0,
     category2name: "",
     category3name: "",
     sortarray: [],
@@ -27,6 +29,7 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
+
   getUserProfile: function (e) {
     wx.getUserProfile({
       desc: "登录小税宝以查看更多信息",
@@ -73,6 +76,10 @@ Page({
   },
   bvSortChange(e) {
     console.log(e.currentTarget.dataset.name)
+    console.log(e.currentTarget.dataset.index)
+    this.setData({
+      currentTab: e.currentTarget.dataset.index,   //按钮CSS变化
+    })
     this.data.categoryname = e.currentTarget.dataset.name
     var category = e.currentTarget.dataset.name
     this._setproductarray(category)

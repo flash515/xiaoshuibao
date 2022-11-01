@@ -19,6 +19,16 @@
       <view>
         <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
       </view>
+      <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+        <l-input type="text" label="我的头像：" required="{{true}}"></l-input>
+        <button class="userinfo" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" >
+  <image class="avatar" src="{{avatarUrl}}"></image>
+</button>
+      </view>
+      <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+        <l-input type="text" label="我的昵称：" required="{{true}}"></l-input><input class="text" type="nickname" value="{{nickname}}" placeholder="点击获取昵称"/>
+        
+      </view>
       <view>
         <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName" required="{{true}}">
         </l-input>

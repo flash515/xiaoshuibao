@@ -27,4 +27,7 @@ height: 100px;}
   background-color: white;
   background-size: cover;
 }
+.active{
+  background-color:gainsboro;
 
+}

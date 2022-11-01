@@ -16,7 +16,7 @@
     <view style="display: flex;flex-direction: column; width: 25%; height: 100%;box-sizing: border-box;">
       <text>\n</text>
       <view wx:for="{{sortarray}}" wx:key="key" wx:for-index="key1" wx:for-item="sort1">
-      <button style="width: 100%;height: 80rpx;border-left:1rpx solid burlywood;border-bottom: white;border-top: white;border-right: white; font-size: 28rpx;padding-left: 25rpx;padding-right: 25rpx;margin-bottom: 15rpx;line-height: 80rpx;" data-name="{{sort1.Category1Name}}" bindtap="bvSortChange">{{sort1.Category1Name}}</button>
+      <button style="width: 100%;height: 80rpx;border-left:1rpx solid burlywood;border-bottom: white;border-top: white;border-right: white; font-size: 28rpx;padding-left: 25rpx;padding-right: 25rpx;margin-bottom: 15rpx;line-height: 80rpx;" data-name="{{sort1.Category1Name}}" data-index="{{key1}}" class="{{ currentTab == key1 ? 'active' : '' }}" bindtap="bvSortChange">{{sort1.Category1Name}}</button>
       </view>
     </view>
 

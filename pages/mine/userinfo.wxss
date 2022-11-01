@@ -1,1 +1,29 @@
 /* pages/mine/userinfo.wxss */
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 20rpx;
+  border: none;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: white;
+}
+.userinfo, .uploader, .tunnel {
+  margin-top: 0rpx;
+  height: 100rpx;
+  width: 100rpx;
+  background: #fff;
+  border: 0px solid rgb(255, 255, 255);
+  border-left: none;
+  border-right: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: all 300ms ease;
+}
+
+.text
+{
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+}

@@ -6,6 +6,8 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
+    currentTab:0,
+    key1: 0,
     windowH: "",
     url: "",
     sortarray: [],
@@ -24,6 +26,10 @@ Page({
   },
   bvSortChange(e) {
     console.log(e.currentTarget.dataset.name)
+    console.log(e.currentTarget.dataset.index)
+    this.setData({
+      currentTab: e.currentTarget.dataset.index,   //按钮CSS变化
+    })
     var category = e.currentTarget.dataset.name
     this._setarray(category)
     console.log(category)

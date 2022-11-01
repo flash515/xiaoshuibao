@@ -1,4 +1,5 @@
 const app = getApp()
+const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 var interval = null //倒计时函数
 Page({
@@ -7,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    avatarUrl: defaultAvatarUrl,
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
@@ -36,6 +38,12 @@ Page({
     usertype: "",
     adddate: "",
     updatedate: ""
+  },
+  onChooseAvatar(e) {
+    const { avatarUrl } = e.detail 
+    this.setData({
+      avatarUrl,
+    })
   },
   changeTabs(e) {
     console.log(e.detail)
