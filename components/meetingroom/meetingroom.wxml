@@ -40,7 +40,6 @@
 
     <view class="message-sender" wx:if="{{!nickName}}">
       <button open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" class="userinfo">请先登录后参与会议</button>
-
     </view>
   </view>
 

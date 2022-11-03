@@ -9,6 +9,19 @@
     userInfo="{{userInfo}}"
     onGetUserInfo="{{onGetUserInfo}}"
     getOpenID="{{getOpenID}}"
+    avatarUrl="{{avatarUrl}}"
+    nickName="{{nickName}}"
   ></chatroom>
 </view>
-
+<form bindsubmit="formsumit">
+<view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+        <l-input type="text" label="我的头像：" required="{{true}}"></l-input>
+        <button class="userinfo" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" >
+  <image class="avatar" src="{{avatarUrl}}"></image>
+</button>
+      </view>
+<view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+        <l-input type="text" label="我的昵称：" required="{{true}}"></l-input><input name="nickname" type="nickname" value="{{nickname}}" placeholder="点击获取昵称"/>
+        </view>
+        <button class="userinfo" form-type="submit">Submit</button>
+      </form>

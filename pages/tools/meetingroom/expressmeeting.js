@@ -11,9 +11,9 @@ Page({
     takeSession: false,
     requestResult: '',
     // chatRoomEnvId: 'release-f8415a',
-    chatRoomCollection: 'MeetingRoom4',
+    chatRoomCollection: 'ExpressMeeting',
     chatRoomGroupId: 'demo',
-    chatRoomGroupName: '快捷会议室四',
+    chatRoomGroupName: '快捷会议室',
 
     // functions for used in chatroom components
     onGetUserInfo: null,
@@ -22,9 +22,18 @@ Page({
   },
 formsumit(e){
   console.log(e)
+  if(e.detail.value.nickname==""){
+    wx.showToast({
+      title: '请点击获取昵称',
+      icon: 'error',
+      duration: 2000 //持续的时间
+    })
+
+  }else{
 this.setData({
 nickName:e.detail.value.nickname
 })
+}
 },
 onChooseAvatar(e) {
   const { avatarUrl } = e.detail 

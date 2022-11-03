@@ -1,0 +1,11 @@
+{
+
+  "navigationStyle": "custom", 
+  "navigationBarRightButton":{ "hide": true},
+
+  "disableScroll": true,  
+  "usingComponents": {
+    "meetingroom": "/components/meetingroom/meetingroom"
+  }
+}
+ 

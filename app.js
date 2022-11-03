@@ -27,9 +27,10 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+
       }
     })
-    // 获取用户信息
+    // 获取用户授权信息
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
@@ -49,7 +50,7 @@ App({
         }
       }
     })
-    wx.getSystemInfo({ // 获取设备宽高 canvas设置  由于项目需求背景图不是整屏  我把高减少一部分
+    wx.getSystemInfo({ // 获取设备宽高
       success: res => {
         this.globalData.Gsysteminfo=res
         console.log("可用屏幕高",this.globalData.Gsysteminfo.windowHeight)

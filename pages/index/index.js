@@ -17,7 +17,12 @@ Page({
     console.log("接收到的参数", options)
     console.log("跳转页面路径", options.page)
     app.globalData.Gparams = options
-
+    //从快捷会议室邀请的快速跳转
+if(options.type=="express"){
+  wx.redirectTo({
+    url:"/pages/tools/meetingroom/meetingroom4"
+  })
+}
     // 接收参数方法一开始
     if (options.userid) {
       console.log("if操作执行了")
