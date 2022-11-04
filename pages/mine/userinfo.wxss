@@ -12,14 +12,12 @@
   margin-top: 0rpx;
   height: 100rpx;
   width: 100rpx;
+
   background: #fff;
-  border: 0px solid rgb(255, 255, 255);
-  border-left: none;
-  border-right: none;
+  border: 0.5px solid rgb(255, 255, 255);
   display: flex;
   flex-direction: row;
   align-items: center;
-  transition: all 300ms ease;
 }
 
 .text
