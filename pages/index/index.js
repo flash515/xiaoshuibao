@@ -60,8 +60,9 @@ if(options.type=="express"){
       name: 'login',
       data: {},
       success: res => {
+        console.log("login成功:", res.result)
         app.globalData.Gopenid = res.result.openid
-        console.log("全局参数Gopenid=:", app.globalData.Gopenid)
+
         // 查询小程序数据库是否有当前用户信息
         this._usercheck()
         this._setting()
@@ -155,6 +156,7 @@ if(options.type=="express"){
     app.globalData.Guserinfo.PromoterLevel = "null"
     app.globalData.Guserinfo.Balance = 0
     app.globalData.Guserinfo.Region = ["广东省", "深圳市", "福田区"]
+    app.globalData.Guserinfo.UserPhone = ""
     // 在USER数据库中新增用户信息
     const db = wx.cloud.database()
     db.collection("USER").add({

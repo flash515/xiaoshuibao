@@ -14,16 +14,15 @@
   <text>会员积分记录</text>
 </view>
 <view class="mainframe">
-  <view wx:if="{{avatarUrl=='' || nickName==''}}">
-    <button class="userinfo-nickname" bindtap='getUserProfile'>请微信登录后查看</button>
+  <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+      <navigator url="../mine/userinfo">请用手机号码登录</navigator>
   </view>
   <view wx:else>
-    <view class="userinfo" style="display:flex; flex-direction:row; justify-content:space-between">
-      <view style="display:flex; flex-direction:row;align-items:center">
-        <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
-        <view class="userinfo-nickname">{{nickName}}</view>
+    <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;">
+      <view style="display:flex; flex-direction:row;align-items:center;color: #3683d6;">
+        <view>{{userphone}}</view>
       </view>
-      <view class="userinfo-nickname">积分余额：{{balance}}分</view>
+      <view style="display:flex; flex-direction:row;align-items:center;color:#3683d6">积分余额：{{balance}}分</view>
     </view>
     <l-tabs>
       <l-tabpanel tab="会员认证积分" key="one" slot="one">

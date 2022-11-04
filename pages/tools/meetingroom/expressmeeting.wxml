@@ -1,18 +1,18 @@
 <!--pages/tools/chatroom/chatroom.wxml-->
 <view class="container" style="{{containerStyle}}" wx:if="{{nickName}}">
-  <meetingroom style="width: 100%; height: 40%;" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" avatarUrl="{{avatarUrl}}" nickName="{{nickName}}"></meetingroom>
+  <meetingroom style="width: 100%; height: 100%;" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" avatarUrl="{{avatarUrl}}" nickName="{{nickName}}"></meetingroom>
 </view>
 <view style="margin-top: 200rpx;" wx:if="{{!nickName}}">
   <form bindsubmit="formsumit">
-    <view style="display:flex; flex-direction:column; justify-content:space-between;align-items:center">
-    <view>
-      <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-        <image class="avatarImg" src="{{avatarUrl}}"></image>
-      </button>
-    </view>
+    <view style="display:flex; flex-direction:column; justify-content:center;align-items:center">
       <view>
-      <input class="input" name="nickname" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" />
-    </view>
+        <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="avatarImg" src="{{avatarUrl}}"></image>
+        </button>
+      </view>
+      <view>
+        <input type="text" style="text-align:center; margin-top: 50rpx;height: 100rpx;width: 500rpx;" name="nickname" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" placeholder-class="center"/>
+      </view>
     </view>
     <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
       <button class="button" form-type="submit">进入快捷会议室</button>

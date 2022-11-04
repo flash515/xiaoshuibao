@@ -35,12 +35,12 @@
       <view hidden="{{!room1status}}">
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
           <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room1Key" clear="{{true}}" />
-          <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room1key}}" data-password="{{room1password}}" data-time="{{room1time}}" data-url="../meetingroom/meetingroom1?starttime={{room1time}}" size="mini">
+          <l-button shape="semicircle" icon="to-top" icon-color="#3683d6" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room1key}}" data-password="{{room1password}}" data-time="{{room1time}}" data-url="../meetingroom/expressmeeting?starttime={{room1time}}" size="mini">
             进入会议室</l-button>
         </view>
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
           <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room1Clean" clear="{{true}}" />
-          <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini" data-value="{{room1clean}}" data-password="{{room1password}}" data-room="MeetingRoom1" data-key1="Room1Password" data-key2="Room1Time" data-key3="Room1Status">
+          <l-button type="error" shape="semicircle" icon="delete" icon-color="white" bind:lintap="RoomClean" size="mini" data-value="{{room1clean}}" data-password="{{room1password}}" data-room="ExpressMeeting" data-key1="Room1Password" data-key2="Room1Time" data-key3="Room1Status">
             清空会议室</l-button>
         </view>
       </view>
@@ -66,7 +66,7 @@
       <view hidden="{{!room2status}}">
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
           <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room2Key" clear="{{true}}" />
-          <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room2key}}" data-password="{{room2password}}" data-time="{{room2time}}" data-url="../meetingroom/meetingroom2?starttime={{room2time}}" size="mini">
+          <l-button shape="semicircle" icon="to-top" icon-color="#3683d6" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room2key}}" data-password="{{room2password}}" data-time="{{room2time}}" data-url="../meetingroom/meetingroom2?starttime={{room2time}}" size="mini">
             进入会议室</l-button>
         </view>
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
@@ -97,7 +97,7 @@
       <view hidden="{{!room3status}}">
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
           <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room3Key" clear="{{true}}" />
-          <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room3key}}" data-password="{{room3password}}" data-time="{{room3time}}" data-url="../meetingroom/meetingroom3?starttime={{room3time}}" size="mini">
+          <l-button shape="semicircle" icon="to-top" icon-color="#3683d6" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room3key}}" data-password="{{room3password}}" data-time="{{room3time}}" data-url="../meetingroom/meetingroom3?starttime={{room3time}}" size="mini">
             进入会议室</l-button>
         </view>
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
@@ -128,7 +128,7 @@
       <view hidden="{{!room4status}}">
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">
           <l-input label="输入密码：" label-layout="left" placeholder="请输入会议室密码" bind:lininput="Room4Key" clear="{{true}}" />
-          <l-button shape="semicircle" icon="to-top" icon-color="blue" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room4key}}" data-password="{{room4password}}" data-time="{{room4time}}" data-url="../meetingroom/meetingroom4?starttime={{room4time}}" size="mini">
+          <l-button shape="semicircle" icon="to-top" icon-color="#3683d6" plain="{{true}}" bind:lintap="Roomlogin" data-value="{{room4key}}" data-password="{{room4password}}" data-time="{{room4time}}" data-url="../meetingroom/meetingroom4?starttime={{room4time}}" size="mini">
             进入会议室</l-button>
         </view>
         <view style="display:flex; flex-direction:row; justify-content:space-around;align-items:center">

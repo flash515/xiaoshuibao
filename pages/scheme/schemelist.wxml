@@ -51,7 +51,7 @@
               bind:lininput="bvQuestion1"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit1' >发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit1' >发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -95,7 +95,7 @@
               bind:lininput="bvQuestion2"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit2'>发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit2'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -138,7 +138,7 @@
               bind:lininput="bvQuestion3"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit3'>发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit3'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>
@@ -182,7 +182,7 @@
               bind:lininput="bvQuestion4"></l-textarea>
           </view>
           <view>
-            <l-button icon="to-top" icon-color="blue" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit4'>发送留言</l-button>
+            <l-button icon="to-top" icon-color="#3683d6" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit4'>发送留言</l-button>
           </view>
         </l-collapse-item>
       </l-collapse>

@@ -212,7 +212,7 @@ Page({
       })
     }else{
     if (e.target.dataset.value == e.target.dataset.password) {
-      if (e.target.dataset.room == "MeetingRoom1") {
+      if (e.target.dataset.room == "ExpressMeeting") {
         this.setData({
           room1password:"",
           room1key:"",

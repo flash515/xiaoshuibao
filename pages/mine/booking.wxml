@@ -13,7 +13,7 @@
   <text>预约管理</text>
 </view>
 
-<l-button class="mainbtn" icon="add" icon-color="blue" type="default" shape="semicircle" plain="{{true}}" width="600"
+<l-button class="mainbtn" icon="add" icon-color="#3683d6" type="default" shape="semicircle" plain="{{true}}" width="600"
   bind:lintap="bvNewBooking">新增预约</l-button>
 
 <view wx:for="{{bookingarray}}" wx:key="key">

@@ -10,6 +10,7 @@ Page({
     region: [],
     avatarUrl: "",
     nickName: "",
+    userphone:"",
     promoterlevel: "",
     noticearray: [],
     // 轮播头图
@@ -203,6 +204,7 @@ Page({
       avatarUrl: app.globalData.Guserinfo.avatarUrl,
       nickName: app.globalData.Guserinfo.nickName,
       image: app.globalData.Gimagearray,
+      userphone:app.globalData.Guserinfo.UserPhone,
       promoterlevel: app.globalData.Guserinfo.PromoterLevel
     })
     getStorageBalance()

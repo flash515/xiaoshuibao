@@ -12,17 +12,11 @@
   <text>订单记录</text>
 </view>
 <view class="mainframe">
-  <view wx:if="{{avatarUrl=='' || nickName==''}}">
-    <button class="userinfo-nickname" bindtap='getUserProfile'>请微信登录后查看</button>
-  </view>
-  <view wx:else>
-    <view class="userinfo" style="display:flex; flex-direction:row; justify-content:space-between">
-      <view style="display:flex; flex-direction:row;align-items:center">
-        <view class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"></view>
-        <view class="userinfo-nickname">{{nickName}}</view>
-      </view>
+  <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+      <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
-
+    <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+      <view>{{userphone}}</view>
       <l-tabs>
         <l-tabpanel tab="业务订单" key="one" slot="one">
           <l-button class="mainbtn" width="600" data-name="ORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
@@ -45,7 +39,7 @@
                 </view>
                 <view style="display:flex; flex-direction:row;">
                   <view>
-                    <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail" shape="semicircle" icon="more" size="mini" icon-color="blue" plain="{{true}}">订单详情</l-button>
+                    <l-button data-id="{{item._id}}" bind:lintap="bvOrdertDetail" shape="semicircle" icon="more" size="mini" icon-color="#3683d6" plain="{{true}}">订单详情</l-button>
                   </view>
                   <view><text decode="{{true}}">&emsp;</text></view>
                   <view hidden="{{item.PaymentStatus =='checked'}}">

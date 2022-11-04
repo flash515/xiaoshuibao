@@ -9,6 +9,7 @@ Page({
   data: {
     avatarUrl: "",
     nickName: "",
+    userphone:"",
     orderhistory:[],
     discounthistory:[],
     promoterhistory:[],
@@ -177,6 +178,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
     this.setData({
       avatarUrl: app.globalData.Guserinfo.avatarUrl,
       nickName: app.globalData.Guserinfo.nickName,
+      userphone:app.globalData.Guserinfo.UserPhone,
       image: app.globalData.Gimagearray
     })
     startToTrack()

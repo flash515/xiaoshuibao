@@ -9,7 +9,7 @@
   </view>
 
   <!-- chats -->
-  <scroll-view class="body" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper">
+  <scroll-view class="body" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper" enable-flex="true">
     <view wx:for="{{chats}}" wx:key="{{item._id}}" id="item-{{index}}" class="message {{openId == item._openid ? 'message__self' : ''}}">
       <image class="avatar" src="{{item.avatar}}" mode="scaleToFill"></image>
       <view class="main">

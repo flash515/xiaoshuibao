@@ -18,6 +18,7 @@ Page({
     priceshow: "",
     avatarUrl: "",
     nickName: "",
+    userphone:"",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -170,6 +171,7 @@ Page({
       priceshow: app.globalData.Gpriceshow,
       avatarUrl: app.globalData.Guserinfo.avatarUrl,
       nickName: app.globalData.Guserinfo.nickName,
+      userphone:app.globalData.Guserinfo.UserPhone,
     })
     startToTrack()
   },

@@ -39,8 +39,8 @@
         <view>
           <label class="title1">办理费用：</label>
         </view>
-        <view wx:if="{{avatarUrl=='' || nickName==''}}">
-          <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+        <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+          <navigator url="../mine/userinfo">请用手机号码登录</navigator>
         </view>
         <view wx:else>
           <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
@@ -59,7 +59,7 @@
           </view>
 
           <view style="display:flex; flex-direction:row;">
-            <l-button data-params="dataid={{item._id}}&productid={{item.ProductId}}&productname={{item.ProductName}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="blue" size="mini">详细介绍</l-button>
+            <l-button data-params="dataid={{item._id}}&productid={{item.ProductId}}&productname={{item.ProductName}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="#3683d6" size="mini">详细介绍</l-button>
             <view><text decode="{{true}}">&emsp;</text></view>
             <l-button icon="order" icon-color="white" data-params="dataid={{item._id}}&productid={{item.ProductId}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
           </view>

@@ -70,7 +70,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
   text-align: center;
   font-size:28rpx; /* 对勾大小 30rpx */
   color:#fff; /* 对勾颜色 白色 */
-  background: blue;
+  background: #3683d6;
   transform:translate(-50%, -50%) scale(1);
   -webkit-transform:translate(-50%, -50%) scale(1);
 }

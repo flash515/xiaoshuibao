@@ -71,8 +71,8 @@
         </view>
         <view>
           <label class="title1">办理费用：</label>
-          <view wx:if="{{avatarUrl=='' || nickName==''}}">
-            <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
+          <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+            <navigator url="../mine/userinfo">请用手机号码登录</navigator>
           </view>
           <view wx:else>
             <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
@@ -135,7 +135,7 @@
           <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示在里" maxlength='30' bind:lininput="bvQuestion"></l-textarea>
         </view>
         <view>
-          <l-button icon="to-top" icon-color="blue" shape="semicircle" bind:lintap='bvSubmit' plain="{{true}}">发送留言</l-button>
+          <l-button icon="to-top" icon-color="#3683d6" shape="semicircle" bind:lintap='bvSubmit' plain="{{true}}">发送留言</l-button>
         </view>
 
 

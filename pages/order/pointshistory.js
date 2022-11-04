@@ -8,6 +8,7 @@ Page({
   data: {
     avatarUrl: "",
     nickName: "",
+    userphone:"",
     balance: 0,
     personalhistory:[],
     inviterhistory:[],
@@ -321,6 +322,7 @@ wx.cloud.callFunction({
     this.setData({
       avatarUrl: app.globalData.Guserinfo.avatarUrl,
       nickName: app.globalData.Guserinfo.nickName,
+      userphone:app.globalData.Guserinfo.UserPhone,
       image: app.globalData.Gimagearray
     })
     startToTrack()

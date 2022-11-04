@@ -45,7 +45,7 @@ promoterlevel:"",
         })
         var directvalidfliter = [];
         for (var i = 0; i < this.data.directuser.length; i++) {
-          if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
+          if (this.data.directuser[i].UserPhone != "" && this.data.directuser[i].UserPhone != undefined) {
             directvalidfliter.push(this.data.directuser[i]);
           }
         }
@@ -77,7 +77,7 @@ promoterlevel:"",
         console.log("间接用户人数", res.data.length);
         var indirectvalidfliter = [];
         for (var i = 0; i < this.data.indirectuser.length; i++) {
-          if (this.data.indirectuser[i].avatarUrl != "" && this.data.indirectuser[i].avatarUrl != undefined) {
+          if (this.data.indirectuser[i].UserPhone != "" && this.data.indirectuser[i].UserPhone != undefined) {
             indirectvalidfliter.push(this.data.indirectuser[i]);
           }
         }

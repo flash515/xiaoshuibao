@@ -110,8 +110,8 @@ onChooseAvatar(e) {
   },
   onShareAppMessage() {
     return {
-      title: app.globalData.Guserinfo.nickName + '邀请您进入快捷会议室四，此邀请60分钟内有效',
-      path: '/pages/tools/meetingroom/meetingroom4?type=express&userid=' + app.globalData.Gopenid + '&starttime=' + this.data.starttime,
+      title: app.globalData.Guserinfo.nickName + '邀请您加入快捷会议室，此邀请60分钟内有效',
+      path: '/pages/tools/meetingroom/expressmeeting?type=express&userid=' + app.globalData.Gopenid + '&starttime=' + this.data.starttime,
       imageUrl: '', //封面
     }
   },

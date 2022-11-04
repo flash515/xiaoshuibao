@@ -28,7 +28,7 @@
       <text>可申请资格：白银推广大使</text>
       <picker mode="date" value="{{startdate1}}" start="{{startdate}}" bindchange="bvStartDate1">
         <view class="picker">
-          <text class="text" style="color:blue">选择生效日期：{{startdate1}}</text>
+          <text class="text" style="color:#3683d6">选择生效日期：{{startdate1}}</text>
         </view>
       </picker>
       <view hidden="{{applyhidden}}">
@@ -48,7 +48,7 @@
       <text>可申请资格：黄金推广大使</text>
       <picker mode="date" value="{{startdate2}}" start="{{startdate}}" bindchange="bvStartDate2">
         <view class="picker">
-          <text class="text" style="color:blue">选择生效日期：{{startdate2}}</text>
+          <text class="text" style="color:#3683d6">选择生效日期：{{startdate2}}</text>
         </view>
       </picker>
       <view hidden="{{applyhidden}}">
@@ -67,7 +67,7 @@
       <text>可申请资格：铂金推广大使</text>
       <picker mode="date" value="{{startdate3}}" start="{{startdate}}" bindchange="bvStartDate3">
         <view class="picker">
-          <text class="text" style="color:blue">选择生效日期：{{startdate3}}</text>
+          <text class="text" style="color:#3683d6">选择生效日期：{{startdate3}}</text>
         </view>
       </picker>
       <view hidden="{{applyhidden}}">
