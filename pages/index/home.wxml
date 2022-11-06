@@ -18,7 +18,7 @@
       <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
     <view wx:else style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
-      <view>{{userphone}}</view>
+      <view>用户：{{userphone}}</view>
     </view>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size:28rpx;padding-left: 25rpx;color: #3683d6;">
       <view>所在区域：</view>
@@ -49,24 +49,18 @@
       </navigator>
     </l-grid-item>
     <l-grid-item key='three' slot='three'>
-      <navigator url="../product/productview?category2=银行代办">
-        <l-icon name='order' />
-        <view class="text">银行代办</view>
-      </navigator>
-    </l-grid-item>
-    <l-grid-item key='four' slot='four'>
       <navigator url="../product/productview?category2=财税服务">
         <l-icon name='order' />
         <view class="text">财税服务</view>
       </navigator>
     </l-grid-item>
-    <l-grid-item key='five' slot='five'>
+    <l-grid-item key='four' slot='four'>
       <navigator url="../product/productview?category2=企业托管">
         <l-icon name='order' />
         <view class="text">企业托管</view>
       </navigator>
     </l-grid-item>
-    <l-grid-item key='six' slot='six'>
+    <l-grid-item key='five' slot='five'>
       <navigator url="../product/productview?category2=资质代办">
         <l-icon name='order' />
         <view class="text">资质代办</view>

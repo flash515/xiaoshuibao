@@ -20,7 +20,7 @@
   <view wx:else>
     <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;">
       <view style="display:flex; flex-direction:row;align-items:center;color: #3683d6;">
-        <view>{{userphone}}</view>
+        <view>用户：{{userphone}}</view>
       </view>
       <view style="display:flex; flex-direction:row;align-items:center;color:#3683d6">积分余额：{{balance}}分</view>
     </view>

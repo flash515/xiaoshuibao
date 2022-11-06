@@ -1,7 +1,7 @@
 // pages/manage/sortedit.js
 const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");;
-const SortArray = [{
+const SortArray1 = [{
     "Category1Code": "01",
     "Category1Name": "商务服务",
     "Category2Array": [{
@@ -231,6 +231,97 @@ const SortArray = [{
       },
     ]
   },
+];
+const SortArray = [{
+  "Category1Code": "01",
+  "Category1Name": "商务服务",
+  "Category2Array": [{
+      "Category2Code": "01",
+      "Category2Name": "地址服务",
+      "Category3Array": [{
+          "Category3Code": "01",
+          "Category3Name": "深圳地址"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "广州地址"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "东莞地址"
+        },
+      ]
+    },
+    {
+      "Category2Code": "02",
+      "Category2Name": "工商代办",
+      "Category3Array": [{
+          "Category3Code": "01",
+          "Category3Name": "工商注册"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "工商变更"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "工商注销"
+        },
+      ]
+    },
+    {
+      "Category2Code": "04",
+      "Category2Name": "财税服务",
+      "Category3Array": [{
+          "Category3Code": "01",
+          "Category3Name": "记账报税"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "税种核定"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "领票购票"
+        },
+        {
+          "Category3Code": "04",
+          "Category3Name": "开票代办"
+        },
+      ]
+    },
+    {
+      "Category2Code": "05",
+      "Category2Name": "企业托管",
+      "Category3Array": [{
+          "Category3Code": "01",
+          "Category3Name": "南昌托管"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "西安托管"
+        },
+        {
+          "Category3Code": "03",
+          "Category3Name": "明光托管"
+        },
+      ]
+    },
+    {
+      "Category2Code": "06",
+      "Category2Name": "资质代办",
+      "Category3Array": [{
+          "Category3Code": "01",
+          "Category3Name": "食品经营许可证"
+        },
+        {
+          "Category3Code": "02",
+          "Category3Name": "道路运输许可证"
+        },
+      ]
+    }
+  ]
+},
 ];
 Page({
 

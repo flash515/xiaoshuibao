@@ -16,7 +16,7 @@
       <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
     <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
-      <view>{{userphone}}</view>
+      <view>用户：{{userphone}}</view>
       <l-tabs>
         <l-tabpanel tab="业务订单" key="one" slot="one">
           <l-button class="mainbtn" width="600" data-name="ORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
