@@ -17,10 +17,10 @@ Page({
     console.log("接收到的参数", options)
     console.log("跳转页面路径", options.page)
     app.globalData.Gparams = options
-    //从快捷会议室邀请的快速跳转
+    //从快捷会议室邀请的快速跳转通道
 if(options.type=="express"){
   wx.redirectTo({
-    url:"/pages/tools/meetingroom/meetingroom4"
+    url:"/pages/tools/meetingroom/expressmeeting?"+options
   })
 }
     // 接收参数方法一开始
@@ -44,7 +44,7 @@ if(options.type=="express"){
       console.log("扫码参数:", this.data.tempinviterid);
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
-      this.data.tempinviterid = "oa1De5G404TbDrFGtCingTlGFQVQ"
+      this.data.tempinviterid = "omLS75Xib_obyxkVAahnBffPytcA"
       this.data.remark = "无参数进入"
       console.log("搜索进入参数:", this.data.tempinviterid);
     }

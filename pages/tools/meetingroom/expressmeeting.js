@@ -42,6 +42,7 @@ onChooseAvatar(e) {
   })
 },
   onLoad: function (options) {
+    console.log(options)
     this.data.inviterid = options.userid;
     app.globalData.Ginviterid = options.userid;
     this.data.starttime = options.starttime;

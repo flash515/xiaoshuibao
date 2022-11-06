@@ -13,14 +13,14 @@
 <l-notice-bar show="{{true}}" type="swip" speed="2000" front-icon-name="notification" front-icon-size="20" front-icon-color="#3683D6" bind:lintap="onNoticeView" swip-arr="{{noticearray}}">
 </l-notice-bar>
 <view class="mainframe">
-  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center;">
     <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
       <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
     <view wx:else style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
       <view>{{userphone}}</view>
     </view>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size:28rpx;padding-left: 25rpx;padding-right: 25rpx;color: #3683d6;">
+    <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size:28rpx;padding-left: 25rpx;color: #3683d6;">
       <view>所在区域：</view>
       <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
         <view class="picker">
@@ -29,12 +29,11 @@
       </picker>
     </view>
   </view>
-  <text>\n</text>
-  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-  <l-button size="mini" shape="semicircle" plain="{{true}}" icon="customer-service" icon-color="#3683d6" open-type="contact">一键联系客服</l-button>
-  <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">点击分享小税宝</l-button>
-</view>
 
+  <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center;margin-top: 25rpx;">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="customer-service" icon-color="#3683d6" open-type="contact">一键联系客服</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">点击分享小税宝</l-button>
+  </view>
   <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct" />
   <l-grid row-num="4">
     <l-grid-item key='one' slot='one'>

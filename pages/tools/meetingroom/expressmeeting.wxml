@@ -2,6 +2,7 @@
 <view class="container" style="{{containerStyle}}" wx:if="{{nickName}}">
   <meetingroom style="width: 100%; height: 100%;" envId="{{chatRoomEnvId}}" collection="{{chatRoomCollection}}" groupId="{{chatRoomGroupId}}" groupName="{{chatRoomGroupName}}" userInfo="{{userInfo}}" onGetUserInfo="{{onGetUserInfo}}" getOpenID="{{getOpenID}}" avatarUrl="{{avatarUrl}}" nickName="{{nickName}}"></meetingroom>
 </view>
+
 <view style="margin-top: 200rpx;" wx:if="{{!nickName}}">
   <form bindsubmit="formsumit">
     <view style="display:flex; flex-direction:column; justify-content:center;align-items:center">
