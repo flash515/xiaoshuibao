@@ -2,10 +2,13 @@ const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 Page({
   data: {
+    Height:"",
+    Width:"",
     inviterid: "",
     starttime: "",
     avatarUrl: defaultAvatarUrl,
-    nickName:"",
+    nickName:"21",
+    chatheight:400,
     userInfo: null,
     logged: false,
     takeSession: false,
@@ -14,7 +17,7 @@ Page({
     chatRoomCollection: 'ExpressMeeting',
     chatRoomGroupId: 'demo',
     chatRoomGroupName: '快捷会议室',
-
+    containerStyle:"",
     // functions for used in chatroom components
     onGetUserInfo: null,
     getOpenID: null,
@@ -42,6 +45,7 @@ onChooseAvatar(e) {
   })
 },
   onLoad: function (options) {
+
     console.log(options)
     this.data.inviterid = options.userid;
     app.globalData.Ginviterid = options.userid;
@@ -71,15 +75,19 @@ onChooseAvatar(e) {
         // onGetUserInfo: this.onGetUserInfo,
         getOpenID: this.getOpenID,
       })
-      if (app.globalData.Gsysteminfo.safeArea) {
-        const {
-          top,
-          bottom
-        } = app.globalData.Gsysteminfo.safeArea
-        this.setData({
-          containerStyle: `padding-top: ${(/ios/i.test(app.globalData.Gsysteminfo.system) ? 10 : 20) + top}px; padding-bottom: ${20 + app.globalData.Gsysteminfo.windowHeight - bottom}px`,
-        })
-      }
+
+    wx.getSystemInfo({
+      success: res => {
+        console.log('system info', res)
+        if (res.safeArea) {
+          const { top, bottom } = res.safeArea
+          this.setData({
+            containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
+          })
+          console.log("containerStyle",this.data.containerStyle)
+        }
+      },
+    })
     } else {
       wx.redirectTo({
         url: '../meetingroom/meetingroom',
@@ -116,4 +124,18 @@ onChooseAvatar(e) {
       imageUrl: '', //封面
     }
   },
+  onReady(){
+    wx.getSystemInfo({ // 获取设备宽高
+      success: res => {
+        this.setData({
+          Height:res.windowHeight,
+          Width:res.windowWidth
+        })
+        console.log("系统参数",res)
+        console.log("可用屏幕高",this.data.Height)
+        console.log("可用屏幕宽",this.data.Width)
+      }
+
+    })
+  }
 })

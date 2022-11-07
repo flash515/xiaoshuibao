@@ -31,8 +31,8 @@
   </view>
 
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center;margin-top: 25rpx;">
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="customer-service" icon-color="#3683d6" open-type="contact">一键联系客服</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">点击分享小税宝</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="customer-service" icon-color="#3683d6" open-type="contact">联系客服</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">分享小税宝</l-button>
   </view>
   <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct" />
   <l-grid row-num="4">

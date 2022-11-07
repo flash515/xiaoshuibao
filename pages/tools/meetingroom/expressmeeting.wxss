@@ -5,9 +5,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding-top: 80rpx;
-  padding-bottom: 30rpx;
-
+  background-color: greenyellow;
 }
 
 .avatarImg {
