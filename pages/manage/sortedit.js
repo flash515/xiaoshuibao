@@ -262,6 +262,18 @@ Page({
     })
 
   },
+  bvCategoryCode(e){
+    const i = e.target.dataset.index
+console.log(e.target.dataset.index)
+    this.setData({
+      // sortarray[i].Category1Code: e.detail.value
+    })
+  },
+  bvCategory1Id(e){
+    this.setData({
+      category1id: e.detail.value
+    })
+  },
   bvCategory1Id(e){
     this.setData({
       category1id: e.detail.value

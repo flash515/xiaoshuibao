@@ -1,9 +1,116 @@
 <!--pages/manage/sortedit.wxml-->
 <text>pages/manage/sortedit.wxml</text>
+<!--pages/manage/sortedit.wxml-->
+<text>pages/manage/sortedit.wxml</text>
+<view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;">
 
+<view> <label class="text">3.产品分类：</label></view>
+
+<view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;font-size: 28rpx;padding-right:25rpx;">
+  <view wx:if="{{showvalue1==true}}">
+    <label class="text">当前展示</label>
+  </view>
+  <view wx:else>
+    <label class="text">当前不展示</label>
+  </view>
+  <switch checked="{{showvalue1}}" bindchange="SVChange1" style='zoom:.6;' disabled="true" />
+</view>
+</view>
+<view hidden="{{showvalue1==false}}" style="display:flex; justify-content:space-between;align-items:center;font-size: 28rpx;">
+
+<view class="index">
+<view class="input" bindtap="getbox" wx:if="{{!inputShow}}" style="color: #999;">请选择产品类别</view>
+<view class="input" bindtap="getbox" wx:if="{{inputShow}}">{{category1}}/{{category2}}/{{category3}}</view>
+<!-- 省市区弹框 -->
+<view class="box" wx:if="{{boxShow}}">
+  <!-- 阴影 -->
+  <view class="black" bindtap="hidebox"></view>
+  <!-- 内容 -->
+  <view class="nr">
+    <view class="item">
+      <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
+      <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
+    </view>
+    <view style="display:flex;width: 100%;height: 300rpx;">
+        <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
+            <picker-view-column>
+                <view wx:for="{{sortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
+            </picker-view-column>
+        </picker-view>
+        <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+            <picker-view-column>
+                <view wx:for="{{sortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
+            </picker-view-column> 
+        </picker-view>
+        <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+            <picker-view-column>
+                <view wx:for="{{sortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
+            </picker-view-column>
+        </picker-view>
+    </view>
+  </view>
+</view>
+</view>
+
+</view>
+<l-button bg-color="#06c05f" bind:lintap="SortUpdate">更新类别</l-button>
+
+<view class="index">
+<view class="input" bindtap="getbox" wx:if="{{!inputShow}}" style="color: #999;">请选择产品类别</view>
+<view class="input" bindtap="getbox" wx:if="{{inputShow}}">{{category1}}/{{category2}}/{{category3}}</view>
+<!-- 省市区弹框 -->
+<view class="box" wx:if="{{boxShow}}">
+  <!-- 阴影 -->
+  <view class="black" bindtap="hidebox"></view>
+  <!-- 内容 -->
+  <view class="nr">
+    <view class="item">
+      <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
+      <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
+    </view>
+    <view style="display:flex;width: 100%;height: 300rpx;">
+        <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
+            <picker-view-column>
+                <view wx:for="{{sortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
+            </picker-view-column>
+        </picker-view>
+        <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+            <picker-view-column>
+                <view wx:for="{{sortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
+            </picker-view-column>
+        </picker-view>
+        <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+            <picker-view-column>
+                <view wx:for="{{sortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
+            </picker-view-column>
+        </picker-view>
+    </view>
+  </view>
+</view>
+</view>
+<view style="display:flex; flex-direction:column;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <l-button bg-color="#06c05f" bind:lintap="SortUpdate">新增一级分类</l-button>
+  <l-input type="text" label="分类编号" placeholder="{{id}}"  bind:lintap="bvCategory1Id"></l-input>
+  <l-input type="text" label="分类名称" placeholder="{{name}}" bind:lintap="bvCategory1Name"></l-input>
+  <l-button bg-color="#06c05f" bind:lintap="bvCategory1Add">确定</l-button>
+</view>
+<text>/t/n</text>
+<view style="display:flex; flex-direction:column;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <l-button bg-color="#06c05f" bind:lintap="SortUpdate">修改一级分类</l-button>
+  <l-input type="text" label="分类编号" placeholder="{{updatedate}}"></l-input>
+  <l-input type="text" label="分类名称" placeholder="{{updatedate}}"></l-input>
+  <l-button bg-color="#06c05f" bind:lintap="Category1Update">确定</l-button>
+</view>
+<text>/t/n</text>
+<view style="display:flex; flex-direction:column;justify-content:space-between;align-items:center;font-size: 28rpx;padding-left:25rpx;padding-right:25rpx;">
+  <l-button bg-color="#06c05f" bind:lintap="SortUpdate">删除一级分类</l-button>
+  <l-input type="text" label="分类编号" placeholder="{{updatedate}}"></l-input>
+  <l-input type="text" label="分类名称" placeholder="{{updatedate}}"></l-input>
+  <l-button bg-color="#06c05f" bind:lintap="Category1Delete">确定</l-button>
+</view>
 <view wx:for="{{sortarray}}" wx:key="key" wx:for-index="key1" wx:for-item="sort1">
-  <input type="text" placeholder="{{sort1.Category1Code}}" value="{{sort1.Category1Code}}" bindtap="bvCategory1Id"/>
-  <input type="text" placeholder="{{sort1.Category1Name}}" value="{{sort1.Category1Name}}" bindtap="bvCategory1Name"/>
+  <input type="text" placeholder="{{sort1.Category1Code}}" value="{{sort1.Category1Code}}" data-index="{{key1}}" bindtap="bvCategoryCode"/>
+  <input type="text" placeholder="{{sort1.Category1Name}}" value="{{sort1.Category1Name}}" data-index="{{key1}}" bindtap="bvCategoryName"/>
   <view wx:for="{{sort1.Category2Array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2">
     <input type="text" placeholder="{{sort2.Category2Code}}" value="{{sort2.Category2Code}}" bindtap="bvCategory1Id"/>
   <input type="text" placeholder="{{sort2.Category2Name}}" value="{{sort2.Category2Name}}" bindtap="bvCategory1Name"/>
