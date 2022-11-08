@@ -15,6 +15,7 @@
   top: 20rpx;
   position: fixed;
   width: 100%;
+
   /* background: rgb(34, 187, 47);
   color: rgba(255, 255, 255, 1) */
   /* font-family: 'Microsoft YaHei' */
@@ -36,13 +37,10 @@
 }
 
 .chatroom .body {
-  top:100rpx;
-  height: 92%;
   display: flex;
   flex-direction: column;
-  background: yellow;
+  background: rgb(237,237,237);
   padding-bottom: 16rpx;
-
 }
 
 .body .message {
@@ -72,7 +70,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: hotpink;
+
 }
 
 .body .message.message__self .main {
@@ -134,7 +132,7 @@
   border-top: 1px solid #ddd;
   font-size: 10rpx;
   padding: 20rpx 0rpx;
-  background: rgb(246, 246, 246);
+  background: rgb(246,246,246);
   position: fixed;
   bottom: 0;
 
@@ -144,23 +142,24 @@
   flex: 1;
   display: flex;
   flex-direction: row;
-  background-color: red;
+
 }
 
 .message-sender .text-input {
-  flex: 0.9;
+  flex: 9;
   font-size: 35rpx;
   border: 1px solid transparent;
   border-radius: 5px;
   padding: 3px 6px;
-  margin: 0 10px 0 5px;
+  margin: 0 10px 0 10px;
   background: #fff;
 }
 
 .message-sender .btn-send-image {
-  flex: 0.1;
+  flex: 1;
   width: 50rpx;
   height: 50rpx;
+  margin-right: 10px;
   align-self: center;
 }
 

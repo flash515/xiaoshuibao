@@ -1,49 +1,44 @@
 const app = getApp()
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+const defaultAvatarUrl = 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/0.png?sign=cd6db771ef94030b49c3335b6ba8a2cc&t=1667888022'
 Page({
   data: {
-    Height:"",
-    Width:"",
     inviterid: "",
     starttime: "",
     avatarUrl: defaultAvatarUrl,
-    nickName:"21",
-    chatheight:400,
-    userInfo: null,
+    nickName: "",
+    chatheight: 0,
     logged: false,
     takeSession: false,
     requestResult: '',
-    // chatRoomEnvId: 'release-f8415a',
     chatRoomCollection: 'ExpressMeeting',
     chatRoomGroupId: 'demo',
     chatRoomGroupName: '快捷会议室',
-    containerStyle:"",
-    // functions for used in chatroom components
-    onGetUserInfo: null,
+    containerStyle: "",
     getOpenID: null,
-
   },
-formsumit(e){
-  console.log(e)
-  if(e.detail.value.nickname==""){
-    wx.showToast({
-      title: '请点击获取昵称',
-      icon: 'error',
-      duration: 2000 //持续的时间
-    })
+  formsumit(e) {
+    console.log(e)
+    if (e.detail.value.nickname == "") {
+      wx.showToast({
+        title: '请点击获取昵称',
+        icon: 'error',
+        duration: 2000 //持续的时间
+      })
 
-  }else{
-this.setData({
-nickName:e.detail.value.nickname
-})
-}
-},
-onChooseAvatar(e) {
-  const { avatarUrl } = e.detail 
-  this.setData({
-    avatarUrl,
-  })
-},
+    } else {
+      this.setData({
+        nickName: e.detail.value.nickname
+      })
+    }
+  },
+  onChooseAvatar(e) {
+    const {
+      avatarUrl
+    } = e.detail
+    this.setData({
+      avatarUrl,
+    })
+  },
   onLoad: function (options) {
 
     console.log(options)
@@ -76,18 +71,26 @@ onChooseAvatar(e) {
         getOpenID: this.getOpenID,
       })
 
-    wx.getSystemInfo({
-      success: res => {
-        console.log('system info', res)
-        if (res.safeArea) {
-          const { top, bottom } = res.safeArea
-          this.setData({
-            containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
-          })
-          console.log("containerStyle",this.data.containerStyle)
-        }
-      },
-    })
+      wx.getSystemInfo({
+        success: res => {
+          console.log('system info', res)
+          if (res.safeArea) {
+            const {
+              top,
+              bottom
+            } = res.safeArea
+            this.setData({
+              containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
+            })
+
+            this.setData({
+              chatheight: res.windowHeight* 750 / res.windowWidth - 180
+            })
+            console.log("containerStyle", this.data.containerStyle)
+            console.log("chatheight", this.data.chatheight)
+          }
+        },
+      })
     } else {
       wx.redirectTo({
         url: '../meetingroom/meetingroom',
@@ -108,15 +111,6 @@ onChooseAvatar(e) {
     return result.openid
   },
 
-  onGetUserInfo: function (e) {
-    if (!this.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
-      })
-    }
-  },
   onShareAppMessage() {
     return {
       title: app.globalData.Guserinfo.nickName + '邀请您加入快捷会议室，此邀请60分钟内有效',
@@ -124,18 +118,5 @@ onChooseAvatar(e) {
       imageUrl: '', //封面
     }
   },
-  onReady(){
-    wx.getSystemInfo({ // 获取设备宽高
-      success: res => {
-        this.setData({
-          Height:res.windowHeight,
-          Width:res.windowWidth
-        })
-        console.log("系统参数",res)
-        console.log("可用屏幕高",this.data.Height)
-        console.log("可用屏幕宽",this.data.Width)
-      }
 
-    })
-  }
 })

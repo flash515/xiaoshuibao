@@ -10,11 +10,11 @@ Page({
     room1key: "",
     room2key: "",
     room3key: "",
-    room4key: "",
+
     room1clean: "",
     room2clean: "",
     room3clean: "",
-    room4clean: "",
+
     room1password: "",
     room2password: "",
     room3password: "",
@@ -22,11 +22,11 @@ Page({
     room1status: "",
     room2status: "",
     room3status: "",
-    room4status: "",
+
     room1time: "",
     room2time: "",
     room3time: "",
-    room4time: "",
+
 
     // 轮播参数
     image: [],
@@ -55,11 +55,7 @@ Page({
       room3password:e.detail.value
     })
   },
-  Room4Password(e) {
-    this.setData({
-      room4password:e.detail.value
-    })
-  },
+
   Room1Key(e) {
     this.setData({
       room1key:e.detail.value
@@ -78,12 +74,7 @@ Page({
     })
 
   },
-  Room4Key(e) {
-    this.setData({
-      room4key:e.detail.value
-    })
 
-  },
   Room1Clean(e) {
     this.setData({
       room1clean:e.detail.value
@@ -102,12 +93,7 @@ Page({
     })
 
   },
-  Room4Clean(e) {
-    this.setData({
-      room4clean:e.detail.value
-    })
 
-  },
   RoomApply(e) {
     // 调用云函数
     if (e.target.dataset.value1 == "") {
@@ -148,17 +134,7 @@ Page({
             this.data.Setting.Room3Status=this.data.room3status
             this.data.Setting.Room3Time=this.data.room3time
             this._storgeupdate()
-          } else if (e.target.dataset.key1 == "Room4Password") {
-            this.setData({
-              room4status: true,
-              room4time:Date.parse(new Date()),
-            })
-            console.log(this.data.room4time)
-            this.data.Setting.Room4Password=this.data.room4password
-            this.data.Setting.Room4Status=this.data.room4status
-            this.data.Setting.Room4Time=this.data.room4time
-            this._storgeupdate()
-          }
+          } 
           wx.cloud.callFunction({
             name: 'MeetingRoomSetting',
             data: {
@@ -212,7 +188,7 @@ Page({
       })
     }else{
     if (e.target.dataset.value == e.target.dataset.password) {
-      if (e.target.dataset.room == "ExpressMeeting") {
+      if (e.target.dataset.room == "MeetingRoom1") {
         this.setData({
           room1password:"",
           room1key:"",
@@ -247,18 +223,6 @@ Page({
         this.data.Setting.Room3Password=this.data.room3password
         this.data.Setting.Room3Time=this.data.room3time
         this.data.Setting.Room3Status=this.data.room3status
-        this._storgeupdate()
-      }else if(e.target.dataset.room == "MeetingRoom4"){
-        this.setData({
-          room4password:"",
-          room4key:"",
-          room4time:"",
-          room4clean:"",
-          room4status: false,
-        })
-        this.data.Setting.Room4Password=this.data.room4password
-        this.data.Setting.Room4Time=this.data.room4time
-        this.data.Setting.Room4Status=this.data.room4status
         this._storgeupdate()
       }
       // 调用云函数
@@ -317,9 +281,7 @@ Page({
       room3password:this.data.Setting.Room3Password,
       room3time:this.data.Setting.Room3Time,
       room3status:this.data.Setting.Room3Status,
-      room4password:this.data.Setting.Room4Password,
-      room4time:this.data.Setting.Room4Time,
-      room4status:this.data.Setting.Room4Status,
+
     })
     console.log(this.data.Setting)
     console.log(this.data.Setting.Room1Password)

@@ -415,7 +415,7 @@
         {
           "name": "",
           "pathName": "pages/tools/meetingroom/expressmeeting",
-          "query": "starttime=2067464131000",
+          "query": "",
           "launchMode": "default",
           "scene": null
         },

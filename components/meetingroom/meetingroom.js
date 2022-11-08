@@ -11,17 +11,10 @@ Component({
     collection: String,
     groupId: String,
     groupName: String,
-    userInfo: Object,
     avatarUrl: String,
     nickName: String,
     chatheight: Number,
-    onGetUserInfo: {
-      type: Function,
-    },
     getOpenID: {
-      type: Function,
-    },
-    getUserProfile: {
       type: Function,
     },
   },
@@ -33,47 +26,11 @@ Component({
     scrollTop: 0,
     scrollToMessage: '',
     hasKeyboard: false,
-    userInfo: "",
 
   },
 
   methods: {
-    onGetUserInfo(e) {
-      // this.properties.onGetUserInfo(e)
-      // 20221108后发布的小程序新版本，通过 wx.getUserInfo 接口获取用户头像将统一返回默认灰色头像，昵称将统一返回 “微信用户”。
-      // wx.getUserInfo({
-      //   success: res => {
-      //     this.setData({
-      //       avatarUrl: res.userInfo.avatarUrl,
-      //       userInfo: res.userInfo
-      //     })
-      //   }
-      // })
-      wx.getUserProfile({
-        desc: "便于参会人员识别",
-        success: res => {
-          this.setData({
-            avatarUrl: res.userInfo.avatarUrl,
-            nickName: res.userInfo.nickName,
-            userInfo: res.userInfo
-          })
-        }
-      })
 
-    },
-    getuserprofile() {
-      // 20221108后发布的小程序新版本，通过 wx.getUserProfile 接口获取用户头像将统一返回默认灰色头像，昵称将统一返回 “微信用户”。
-      wx.getUserProfile({
-        desc: "便于参会人员识别",
-        success: res => {
-          this.setData({
-            avatarUrl: res.userInfo.avatarUrl,
-            nickName: res.userInfo.nickName,
-            userInfo: res.userInfo
-          })
-        }
-      })
-    },
     getOpenID() {
       return this.properties.getOpenID()
     },

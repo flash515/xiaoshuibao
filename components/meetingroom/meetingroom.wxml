@@ -9,7 +9,8 @@
   </view>
 
   <!-- chats -->
-  <scroll-view class="body" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper" enable-flex="true">
+
+  <scroll-view class="body" style="height: {{chatheight}}rpx;" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper" enable-flex="true">
     <view wx:for="{{chats}}" wx:key="{{item._id}}" id="item-{{index}}" class="message {{openId == item._openid ? 'message__self' : ''}}">
       <image class="avatar" src="{{item.avatar}}" mode="scaleToFill"></image>
       <view class="main">
@@ -32,15 +33,9 @@
 
   <!-- message sender -->
   <view class="footer">
-    <view class="message-sender" wx:if="{{nickName}}" >
-      <input class="text-input" type="text" confirm-type="send" bindconfirm="onConfirmSendText" cursor-spacing="20" value="{{textInputValue}}"></input>
-
-      <image src="./photo.png" class="btn-send-image" mode="scaleToFill" bindtap="onChooseImage"></image>
-    </view>
-
-    <view class="message-sender" wx:if="{{!nickName}}">
-      <button open-type="getUserInfo" bindgetuserinfo="onGetUserInfo" class="userinfo">请先登录后参与会议</button>
-    </view>
+  <view class="message-sender">
+    <input class="text-input" type="text" confirm-type="send" bindconfirm="onConfirmSendText" cursor-spacing="20" value="{{textInputValue}}"></input>
+    <image src="./photo.png" class="btn-send-image" mode="scaleToFill" bindtap="onChooseImage"></image>
   </view>
-
+</view>
 </view>
