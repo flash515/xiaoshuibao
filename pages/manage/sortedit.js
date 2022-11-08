@@ -3,231 +3,86 @@ const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");;
 const SortArray1 = [{
     "Category1Code": "01",
-    "Category1Name": "商务服务",
+    "Category1Name": "地址服务",
     "Category2Array": [{
         "Category2Code": "01",
-        "Category2Name": "地址服务",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "深圳地址"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "广州地址"
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "东莞地址"
-          },
-        ]
+        "Category2Name": "深圳地址",
       },
       {
         "Category2Code": "02",
-        "Category2Name": "工商代办",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "工商注册"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "工商变更"
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "工商注销"
-          },
-        ]
+        "Category2Name": "广州地址",
       },
       {
         "Category2Code": "03",
-        "Category2Name": "银行代办",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "开户代办"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "调额代办"
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "销户代办"
-          },
-        ]
+        "Category2Name": "东莞地址",
       },
-      {
-        "Category2Code": "04",
-        "Category2Name": "财税服务",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "记账报税"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "税种核定"
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "领票购票"
-          },
-          {
-            "Category3Code": "04",
-            "Category3Name": "开票代办"
-          },
-        ]
-      },
-      {
-        "Category2Code": "05",
-        "Category2Name": "企业托管",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "南昌托管"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "西安托管"
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "明光托管"
-          },
-        ]
-      },
-      {
-        "Category2Code": "06",
-        "Category2Name": "资质代办",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "食品经营许可证"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "道路运输许可证"
-          },
-        ]
-      }
     ]
   },
   {
     "Category1Code": "02",
-    "Category1Name": "教培信息",
+    "Category1Name": "工商代办",
     "Category2Array": [{
         "Category2Code": "01",
-        "Category2Name": "学历教育",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "大专学历"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "本科学历"
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "硕士学历"
-          },
-          {
-            "Category3Code": "04",
-            "Category3Name": "博士学历"
-          },
-          {
-            "Category3Code": "05",
-            "Category3Name": "出国留学"
-          },
-        ]
+        "Category2Name": "工商注册",
       },
       {
         "Category2Code": "02",
-        "Category2Name": "职业教育",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "厨师"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "家政服务师"
-          },
-        ]
+        "Category2Name": "工商变更",
       },
       {
         "Category2Code": "03",
-        "Category2Name": "技能培训",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "电商"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "财会"
-          },
-        ]
+        "Category2Name": "工商注销",
       }
-
     ]
   },
-
   {
     "Category1Code": "03",
-    "Category1Name": "就业招聘",
+    "Category1Name": "财税服务",
     "Category2Array": [{
         "Category2Code": "01",
-        "Category2Name": "国内就业",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "全职"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "兼职"
-          },
-        ]
+        "Category2Name": "记账报税",
       },
       {
         "Category2Code": "02",
-        "Category2Name": "国际就业",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "美国"
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "日本"
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "澳大利亚"
-          },
-          {
-            "Category3Code": "04",
-            "Category3Name": "英国"
-          },
-          {
-            "Category3Code": "05",
-            "Category3Name": "新加坡"
-          },
-          {
-            "Category3Code": "07",
-            "Category3Name": "香港地区"
-          },
-          {
-            "Category3Code": "08",
-            "Category3Name": "澳门地区"
-          },
-        ]
-      }
+        "Category2Name": "税种核定",
+      },
+      {
+        "Category2Code": "03",
+        "Category2Name": "领票购票",
+      },
+      {
+        "Category2Code": "04",
+        "Category2Name": "开票代办",
+      },
     ]
   },
   {
     "Category1Code": "04",
-    "Category1Name": "其他信息",
+    "Category1Name": "企业托管",
     "Category2Array": [{
         "Category2Code": "01",
-        "Category2Name": "其他信息",
-        "Category3Array": [{
-            "Category3Code": "01",
-            "Category3Name": "其他信息"
-          },
-        ]
+        "Category2Name": "南昌托管",
+      },
+      {
+        "Category2Code": "02",
+        "Category2Name": "西安托管",
+      },
+      {
+        "Category2Code": "03",
+        "Category2Name": "明光托管",
+      },
+    ]
+  },
+  {
+    "Category1Code": "05",
+    "Category1Name": "资质代办",
+    "Category2Array": [{
+        "Category2Code": "01",
+        "Category2Name": "食品经营许可证",
+      },
+      {
+        "Category2Code": "02",
+        "Category2Name": "道路运输许可证",
       },
     ]
   },
@@ -332,7 +187,7 @@ Page({
     // 产品分类参数
     inputShow: false,
     boxShow: false,
-    sortarray: SortArray,
+    sortarray: SortArray1,
     category1: SortArray[0].Category1Name,
     pIndex: 0,
     category2: SortArray[0].Category2Array[0].Category2Name,
