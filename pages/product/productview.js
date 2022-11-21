@@ -9,7 +9,6 @@ Page({
     currentTab:0,
     index: 0,
     category2name: "",
-    category3name: "",
     sortarray: [],
     productarray: [],
     usertype: "",
@@ -31,50 +30,6 @@ Page({
     nextMargin: 0
   },
 
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "登录小税宝以查看更多信息",
-      success: res => {
-        console.log("获得的用户微信信息", res)
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
-        })
-        app.globalData.Guserinfo = res.userInfo.
-        app.globalData.Guserinfo.nickName = res.userInfo.nickName
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          _openid: app.globalData.Gopenid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon: 'success',
-          title: '登录成功',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
-      }
-    })
-  },
   bvSortChange(e) {
     console.log(e.currentTarget.dataset.name)
     console.log(e.currentTarget.dataset.index)
@@ -89,7 +44,7 @@ Page({
     console.log(category)
     var fliter = []
     for (let i = 0; i < app.globalData.Gproduct.length; i++) {
-      if (app.globalData.Gproduct[i].Category3 == category) {
+      if (app.globalData.Gproduct[i].Category2 == category) {
         fliter.push(app.globalData.Gproduct[i])
       }
     }
@@ -105,34 +60,32 @@ Page({
   onLoad: function (options) {
     console.log(options)
     var that = this
-    if (options.category2 != undefined && options.category2 != "") {
+    if (options.category1 != undefined && options.category1 != "") {
       for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
-        for (let j = 0; j < app.globalData.Gsortarray[i].Category2Array.length; j++) {
-          if (app.globalData.Gsortarray[i].Category2Array[j].Category2Name == options.category2) {
-            var tempsort = app.globalData.Gsortarray[i].Category2Array[j].Category3Array
+          if (app.globalData.Gsortarray[i].Category1Name == options.category1) {
+            var tempsort = app.globalData.Gsortarray[i].Category2Array
           }
-        }
       }
       this.setData({
         sortarray: tempsort
       })
       console.log(this.data.sortarray)
       // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
-      var category = tempsort[0].Category3Name
+      var category = tempsort[0].Category2Name
       this._setproductarray(category)
     }
-    if (options.category3 != undefined && options.category3 != "") {
+    if (options.category2 != undefined && options.category2 != "") {
       // 把单个三级分类名称构建成数组形式以便于前端页面按统一的方法渲染
       var tempsort = []
       var obj = new Object();
       obj = {
-        "Category3Name": options.category3
+        "Category2Name": options.category2
       }
       tempsort.push(obj)
       this.setData({
         sortarray: tempsort
       })
-      var category = options.category3
+      var category = options.category2
       this._setproductarray(category)
     }
     console.log(this.data.sortarray)

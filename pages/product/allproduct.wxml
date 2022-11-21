@@ -25,17 +25,8 @@
         <view wx:for="{{array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2">
 
           <view style="display: flex; font-size: 28rpx;font-weight: 900;margin-top: 10rpx;margin-bottom: 10rpx;">{{sort2.Category2Name}}</view>
-
           <view style="display: flex;flex-direction: row;flex-wrap:wrap;margin-bottom: 35rpx;">
-
-            <view wx:for="{{sort2.Category3Array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort3">
-
-              <view style="display: flex;font-size: 28rpx;flex-wrap:wrap; font-size: 25rpx;margin-right: 10rpx;margin-bottom: 10rpx;">
-                <l-tag shape="square" data-name="{{sort3.Category3Name}}" bg-color="#f3f3f3" font-color="#333" type="touch" bind:lintap="bvTagClick">{{sort3.Category3Name}}</l-tag>
-              </view>
-
-            </view>
-
+                <l-tag shape="square" data-name="{{sort2.Category2Name}}" bg-color="#f3f3f3" font-color="#333" type="touch" bind:lintap="bvTagClick">{{sort2.Category2Name}}</l-tag>
           </view>
 
         </view>

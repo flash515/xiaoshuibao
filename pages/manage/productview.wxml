@@ -16,7 +16,7 @@
           <view>产品编号：{{item.ProductId}}</view>
           <view>产品一级分类：{{item.Category1}}</view>
           <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
+          
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -77,7 +77,7 @@
           <view>产品编号：{{item.ProductId}}</view>
           <view>产品一级分类：{{item.Category1}}</view>
           <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
+          
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -139,7 +139,7 @@
           <view>产品编号：{{item.ProductId}}</view>
           <view>产品一级分类：{{item.Category1}}</view>
           <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
+          
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -201,7 +201,7 @@
           <view>产品编号：{{item.ProductId}}</view>
           <view>产品一级分类：{{item.Category1}}</view>
           <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
+          
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -261,7 +261,7 @@
           <view>产品编号：{{item.ProductId}}</view>
           <view>产品一级分类：{{item.Category1}}</view>
           <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
+          
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>
@@ -321,7 +321,7 @@
           <view>产品编号：{{item.ProductId}}</view>
           <view>产品一级分类：{{item.Category1}}</view>
           <view>产品二级分类：{{item.Category2}}</view>
-          <view>产品三级分类：{{item.Category3}}</view>
+          
           <view>产品名称：{{item.ProductName}}</view>
           <view>产品概要：{{item.Outline}}</view>
           <view>产品说明：{{item.Description}}</view>

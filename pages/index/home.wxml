@@ -37,31 +37,31 @@
   <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct" />
   <l-grid row-num="4">
     <l-grid-item key='one' slot='one'>
-      <navigator url="../product/productview?category2=地址服务">
+      <navigator url="../product/productview?category1=地址服务">
         <l-icon name='order' />
         <view class="text">地址服务</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='two' slot='two'>
-      <navigator url="../product/productview?category2=工商代办">
+      <navigator url="../product/productview?category1=工商代办">
         <l-icon name='order' />
         <view class="text">工商代办</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='three' slot='three'>
-      <navigator url="../product/productview?category2=财税服务">
+      <navigator url="../product/productview?category1=财税服务">
         <l-icon name='order' />
         <view class="text">财税服务</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='four' slot='four'>
-      <navigator url="../product/productview?category2=企业托管">
+      <navigator url="../product/productview?category1=企业托管">
         <l-icon name='order' />
         <view class="text">企业托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='five' slot='five'>
-      <navigator url="../product/productview?category2=资质代办">
+      <navigator url="../product/productview?category1=资质代办">
         <l-icon name='order' />
         <view class="text">资质代办</view>
       </navigator>
@@ -93,25 +93,25 @@
   <l-list title="精选服务" icon="notification" />
   <l-grid row-num="2">
     <l-grid-item key='one' slot='one'>
-      <navigator url="../product/productview?category3=深圳地址">
+      <navigator url="../product/productview?category1=地址服务">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/地址服务.jpg"></image>
-        <view class="text">地址挂靠</view>
+        <view class="text">地址服务</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='two' slot='two'>
-      <navigator url="../product/productview?category2=工商代办">
+      <navigator url="../product/productview?category1=工商代办">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/工商代办.jpg"></image>
         <view class="text">工商代办</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='three' slot='three'>
-      <navigator url="../product/productview?category2=企业托管">
+      <navigator url="../product/productview?category1=企业托管">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/企业托管.jpg"></image>
         <view class="text">企业托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='four' slot='four'>
-      <navigator url="../product/productview?category2=资质代办">
+      <navigator url="../product/productview?category1=资质代办">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/资质代办.jpg"></image>
         <view class="text">资质代办</view>
       </navigator>
@@ -122,7 +122,7 @@
     <l-list title="会员专享服务" icon="notification" right-desc="更多" tag-position="right" />
     <l-grid>
       <l-grid-item key='one' slot='one'>
-        <navigator url="../product/productview?category2=财税服务">
+        <navigator url="../product/productview?category1=财税服务">
           <l-icon name='order' />
           <view class="text">财税服务</view>
         </navigator>
