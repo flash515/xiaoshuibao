@@ -16,7 +16,7 @@
     <view style="display: flex;flex-direction: column; width: 25%; height: 100%;box-sizing: border-box;">
       <text>\n</text>
       <view wx:for="{{sortarray}}" wx:key="key" wx:for-index="key1" wx:for-item="sort1">
-      <button style="width: 100%;height: 80rpx;border-left:1rpx solid burlywood;border-bottom: white;border-top: white;border-right: white; font-size: 28rpx;padding-left: 25rpx;padding-right: 25rpx;margin-bottom: 15rpx;line-height: 80rpx;" data-name="{{sort1.Category1Name}}" data-index="{{key1}}" class="{{ currentTab == key1 ? 'active' : '' }}" bindtap="bvSortChange">{{sort1.Category1Name}}</button>
+      <button style="width: 100%;height: 80rpx;border-left:1rpx solid burlywood;border-bottom: white;border-top: white;border-right: white; font-size: 28rpx;padding-left: 25rpx;padding-right: 25rpx;margin-bottom: 10rpx;line-height: 80rpx;" data-name="{{sort1.Category1Name}}" data-index="{{key1}}" class="{{ currentTab == key1 ? 'active' : '' }}" bindtap="bvSortChange">{{sort1.Category1Name}}</button>
       </view>
     </view>
 
@@ -25,10 +25,12 @@
         <view wx:for="{{array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2">
 
           <view style="display: flex; font-size: 28rpx;font-weight: 900;margin-top: 10rpx;margin-bottom: 10rpx;">{{sort2.Category2Name}}</view>
-          <view style="display: flex;flex-direction: row;flex-wrap:wrap;margin-bottom: 35rpx;">
-                <l-tag shape="square" data-name="{{sort2.Category2Name}}" bg-color="#f3f3f3" font-color="#333" type="touch" bind:lintap="bvTagClick">{{sort2.Category2Name}}</l-tag>
-          </view>
 
+          <view style="display: flex;flex-direction:row; flex-wrap:wrap; ">
+            <view wx:for="{{sort2.Category3Array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2" style="margin-right: 20rpx;margin-bottom: 10rpx;">
+                <l-tag shape="square" data-name="{{sort2.Category3Name}}" bg-color="#f3f3f3" font-color="#333" type="touch" bind:lintap="bvTagClick">{{sort2.Category3Name}}</l-tag>
+          </view>
+        </view>
         </view>
 
     </scroll-view> 
