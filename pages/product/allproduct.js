@@ -49,7 +49,7 @@ Page({
   bvTagClick(e){
     console.log(e.currentTarget.dataset.name)
     wx.navigateTo({
-      url: "../product/productview?"+"category2=" + e.currentTarget.dataset.name
+      url: "../product/productview?"+"category3=" + e.currentTarget.dataset.name
     })
   },
 
