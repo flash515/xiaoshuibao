@@ -44,7 +44,7 @@ Page({
     console.log(category)
     var fliter = []
     for (let i = 0; i < app.globalData.Gproduct.length; i++) {
-      if (app.globalData.Gproduct[i].Category2 == category) {
+      if (app.globalData.Gproduct[i].Category1 == category) {
         fliter.push(app.globalData.Gproduct[i])
       }
     }
@@ -71,21 +71,21 @@ Page({
       })
       console.log(this.data.sortarray)
       // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
-      var category = tempsort[0].Category2Name
+      var category = tempsort[0].Category1Name
       this._setproductarray(category)
     }
-    if (options.category2 != undefined && options.category2 != "") {
+    if (options.category3 != undefined && options.category3 != "") {
       // 把单个三级分类名称构建成数组形式以便于前端页面按统一的方法渲染
       var tempsort = []
       var obj = new Object();
       obj = {
-        "Category2Name": options.category2
+        "Category3Name": options.category3
       }
       tempsort.push(obj)
       this.setData({
         sortarray: tempsort
       })
-      var category = options.category2
+      var category = options.category3
       this._setproductarray(category)
     }
     console.log(this.data.sortarray)
