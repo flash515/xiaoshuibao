@@ -44,7 +44,7 @@ Page({
     console.log(category)
     var fliter = []
     for (let i = 0; i < app.globalData.Gproduct.length; i++) {
-      if (app.globalData.Gproduct[i].Category1 == category) {
+      if (app.globalData.Gproduct[i].Category3 == category) {
         fliter.push(app.globalData.Gproduct[i])
       }
     }
@@ -62,16 +62,18 @@ Page({
     var that = this
     if (options.category2 != undefined && options.category2 != "") {
       for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
-          if (app.globalData.Gsortarray[i].Category2Array.Category2Name == options.category2) {
-            var tempsort = app.globalData.Gsortarray[i].Category2Array.Category3Array
+        for (var j = 0; j < app.globalData.Gsortarray[i].Category2Array.length; j++) {
+          if (app.globalData.Gsortarray[i].Category2Array[j].Category2Name == options.category2) {
+            var tempsort = app.globalData.Gsortarray[i].Category2Array[j].Category3Array
           }
+        }
       }
       this.setData({
         sortarray: tempsort
       })
       console.log(this.data.sortarray)
       // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
-      var category = tempsort[0].Category1Name
+      var category = tempsort[0].Category3Name
       this._setproductarray(category)
     }
     if (options.category3 != undefined && options.category3 != "") {
