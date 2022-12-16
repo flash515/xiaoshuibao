@@ -60,10 +60,10 @@ Page({
   onLoad: function (options) {
     console.log(options)
     var that = this
-    if (options.category1 != undefined && options.category1 != "") {
+    if (options.category2 != undefined && options.category2 != "") {
       for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
-          if (app.globalData.Gsortarray[i].Category1Name == options.category1) {
-            var tempsort = app.globalData.Gsortarray[i].Category2Array
+          if (app.globalData.Gsortarray[i].Category2Array.Category2Name == options.category2) {
+            var tempsort = app.globalData.Gsortarray[i].Category2Array.Category3Array
           }
       }
       this.setData({

@@ -1,6 +1,10 @@
 // pages/manage/sortedit.js
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");;
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");;
 const SortArray1 = [{
     "Category1Code": "01",
     "Category1Name": "地址服务",
@@ -8,52 +12,52 @@ const SortArray1 = [{
         "Category2Code": "01",
         "Category2Name": "地址挂靠",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳挂靠",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "广州挂靠",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "东莞挂靠",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳挂靠",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "广州挂靠",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "东莞挂靠",
+          }
+        ]
       },
       {
         "Category2Code": "02",
         "Category2Name": "场地出租",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳出租",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "广州出租",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "东莞出租",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳出租",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "广州出租",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "东莞出租",
+          }
+        ]
       },
       {
         "Category2Code": "03",
         "Category2Name": "共享办公",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳共享",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "广州共享",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "东莞共享",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳共享",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "广州共享",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "东莞共享",
+          }
+        ]
       },
     ]
   },
@@ -64,52 +68,52 @@ const SortArray1 = [{
         "Category2Code": "01",
         "Category2Name": "工商注册",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳注册",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "南昌注册",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "西安注册",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳注册",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "南昌注册",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "西安注册",
+          }
+        ]
       },
       {
         "Category2Code": "02",
         "Category2Name": "工商变更",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳变更",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "南昌变更",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "西安变更",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳变更",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "南昌变更",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "西安变更",
+          }
+        ]
       },
       {
         "Category2Code": "03",
         "Category2Name": "工商注销",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳注销",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "南昌注销",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "西安注销",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳注销",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "南昌注销",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "西安注销",
+          }
+        ]
       }
     ]
   },
@@ -120,94 +124,94 @@ const SortArray1 = [{
         "Category2Code": "01",
         "Category2Name": "记账报税",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳记账",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "南昌记账",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "西安记账",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳记账",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "南昌记账",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "西安记账",
+          }
+        ]
       },
       {
         "Category2Code": "02",
         "Category2Name": "税种核定",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳核税",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "南昌核税",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "西安核税",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳核税",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "南昌核税",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "西安核税",
+          }
+        ]
       },
       {
         "Category2Code": "03",
         "Category2Name": "领票购票",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳领票",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "南昌领票",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "西安领票",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳领票",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "南昌领票",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "西安领票",
+          }
+        ]
       },
       {
         "Category2Code": "04",
         "Category2Name": "开票代办",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳开票",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "南昌开票",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "西安开票",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳开票",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "南昌开票",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "西安开票",
+          }
+        ]
       },
       {
         "Category2Code": "05",
         "Category2Name": "自然人代办",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳代办",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "湖南代办",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "湖北代办",
-        },
-        {
-          "Category3Code": "04",
-          "Category3Name": "河南代办",
-        },
-        {
-          "Category3Code": "05",
-          "Category3Name": "山东代办",
-        },
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳代办",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "湖南代办",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "湖北代办",
+          },
+          {
+            "Category3Code": "04",
+            "Category3Name": "河南代办",
+          },
+          {
+            "Category3Code": "05",
+            "Category3Name": "山东代办",
+          },
+        ]
       },
     ]
   },
@@ -218,27 +222,27 @@ const SortArray1 = [{
         "Category2Code": "01",
         "Category2Name": "个体户托管",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "南昌托管",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "西安托管",
-        },
-      ]
+            "Category3Code": "01",
+            "Category3Name": "南昌托管",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "西安托管",
+          },
+        ]
       },
       {
         "Category2Code": "02",
         "Category2Name": "公司托管",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "明光托管",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "西安托管",
-        },
-      ]
+            "Category3Code": "01",
+            "Category3Name": "明光托管",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "西安托管",
+          },
+        ]
       },
     ]
   },
@@ -249,31 +253,31 @@ const SortArray1 = [{
         "Category2Code": "01",
         "Category2Name": "食品经营许可证",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳许可证",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "广州许可证",
-        },
-        {
-          "Category3Code": "03",
-          "Category3Name": "东莞许可证",
-        }
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳许可证",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "广州许可证",
+          },
+          {
+            "Category3Code": "03",
+            "Category3Name": "东莞许可证",
+          }
+        ]
       },
       {
         "Category2Code": "02",
         "Category2Name": "道路运输许可证",
         "Category3Array": [{
-          "Category3Code": "01",
-          "Category3Name": "深圳许可证",
-        },
-        {
-          "Category3Code": "02",
-          "Category3Name": "上海许可证",
-        },
-      ]
+            "Category3Code": "01",
+            "Category3Name": "深圳许可证",
+          },
+          {
+            "Category3Code": "02",
+            "Category3Name": "上海许可证",
+          },
+        ]
       },
     ]
   },
@@ -367,8 +371,7 @@ const SortArray = [{
       ]
     }
   ]
-},
-];
+}, ];
 Page({
 
   /**
@@ -388,8 +391,8 @@ Page({
     code1: "",
     code2: "",
     code3: "",
-    category1id:"",
-    category1name:""
+    category1id: "",
+    category1name: ""
   },
 
   // 展示弹框
@@ -453,31 +456,35 @@ Page({
     })
 
   },
-  bvCategoryCode(e){
+  bvCategoryCode(e) {
     const i = e.target.dataset.index
-console.log(e.target.dataset.index)
+    console.log(e.target.dataset.index)
     this.setData({
       // sortarray[i].Category1Code: e.detail.value
     })
   },
-  bvCategory1Id(e){
+  bvCategory1Id(e) {
     this.setData({
       category1id: e.detail.value
     })
   },
-  bvCategory1Id(e){
+  bvCategory1Id(e) {
     this.setData({
       category1id: e.detail.value
     })
   },
-  bvCategory1Name(e){
+  bvCategory1Name(e) {
     this.setData({
       category1name: e.detail.value
     })
   },
-  bvCategory1Add(){
-var temparray=this.data.sortarray.concat({"Category1Code":this.data.category1id,"Category1Name":this.data.category1name,"Category2Array":[]})
-console.log(temparray)
+  bvCategory1Add() {
+    var temparray = this.data.sortarray.concat({
+      "Category1Code": this.data.category1id,
+      "Category1Name": this.data.category1name,
+      "Category2Array": []
+    })
+    console.log(temparray)
   },
 
   SortUpdate() {
@@ -512,7 +519,7 @@ console.log(temparray)
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-  
+
   },
 
   /**
