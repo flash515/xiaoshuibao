@@ -1,7 +1,19 @@
 const app = getApp()
 Page({
   data: {
-    params: [],
+    params: {},
+    newuserinfo: {
+      UserName: "",
+      nickName: "",
+      avatarUrl: "",
+      Region: ["广东省", "深圳市", "南山区"],
+      UserPhone: "",
+      CompanyName: "",
+      CompanyId: "",
+      BusinessScope: "",
+      CompanyScale: "",
+    },
+
     inviterid: "",
     tempinviterid: "",
     remark: "",
@@ -9,20 +21,20 @@ Page({
     invitercompanyname: "",
     inviterusername: "",
     tempimage: [],
-    userinfo: [],
+    userinfo: {},
     sendsms: false,
   },
   onLoad: function (options) {
-
+    //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,
     console.log("接收到的参数", options)
     console.log("跳转页面路径", options.page)
     app.globalData.Gparams = options
     //从快捷会议室邀请的快速跳转通道
-if(options.type=="express"){
-  wx.redirectTo({
-    url:"/pages/tools/meetingroom/expressmeeting?"+options
-  })
-}
+    if (options.type == "express") {
+      wx.redirectTo({
+        url: "/pages/tools/meetingroom/expressmeeting?" + options
+      })
+    }
     // 接收参数方法一开始
     if (options.userid) {
       console.log("if操作执行了")
@@ -128,15 +140,13 @@ if(options.type=="express"){
         if (res.data.length == 0) {
           this._newuser()
         } else {
-          // 老用户如果云数据库中有本人信息，则把用户本人信息存入本地
-          app.globalData.Guserinfo = res.data[0]
-          app.globalData.Ginviterid = res.data[0].InviterOpenId;
-          wx.setStorageSync('LUserInfo', res.data[0]);
+          // 老用户如果云数据库中有本人信息，则把用户全部数据存入本地，以供后续使用
+          app.globalData.Guserdata=res.data[0]
           // 查询结果赋值给数组参数
-          this.setData({
-            userinfo: res.data[0],
-            inviterid: res.data[0].InviterOpenId,
-          })
+          //   this.setData({
+          //   user: res.data[0].UserInfo,
+          //  inviterid: res.data[0].InviterInfo.OpenId,
+          //  })
           this._olduser()
         }
       }
@@ -147,36 +157,31 @@ if(options.type=="express"){
     // 如果是新用户，检查是否有传递过来的推荐人id
     this.setData({
       inviterid: this.data.tempinviterid,
-      sendsms: true
+      sendsms: true,
     })
-    // 对象中的属性可以直接这样赋值吗？
+
     app.globalData.Ginviterid = this.data.tempinviterid
-    app.globalData.Guserinfo.UserType = "client"
-    app.globalData.Guserinfo.DiscountLevel = "DL4"
-    app.globalData.Guserinfo.PromoterLevel = "null"
-    app.globalData.Guserinfo.Balance = 0
-    app.globalData.Guserinfo.Region = ["广东省", "深圳市", "福田区"]
-    app.globalData.Guserinfo.UserPhone = ""
+    app.globalData.Guserinfo = this.data.newuserinfo
+
+    console.log("Ginviterid", app.globalData.Ginviterid)
+    console.log("Guserinfo", app.globalData.Guserinfo)
     // 在USER数据库中新增用户信息
     const db = wx.cloud.database()
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
         AddDate: new Date().toLocaleString(),
-        InviterOpenId: this.data.inviterid,
-        InviterCompanyName: this.data.invitercompanyname,
-        InviterUserName: this.data.inviterusername,
+        Params: this.data.params,
+        UserInfo: this.data.newuserinfo,
+        SystemInfo: app.globalData.Gsysteminfo,
         UserType: "client",
-        UserPhone: "",
         DiscountLevel: "DL4",
         PromoterLevel: "normal",
         Balance: 0,
-        Region: ["广东省", "深圳市", "福田区"],
-        SystemInfo:app.globalData.Gsysteminfo,
-        Remark: this.data.remark
+        Remark: this.data.remark,
       },
       success: res => {
-
+        console.log("新增用户数据执行成功")
         // 查询推荐人信息
         this._invitercheck()
       },
@@ -206,16 +211,16 @@ if(options.type=="express"){
           if (tempfliter.length != 0 && tempfliter.length != undefined) {
             console.log(tempfliter)
             console.log(tempfliter[0].DiscountLevel)
-            app.globalData.Guserinfo.DiscountLevel = tempfliter[0].DiscountLevel
+            app.globalData.GdiscountLevel = tempfliter[0].DiscountLevel
             app.globalData.Gdiscounttype = tempfliter[0].DiscountType
             console.log(app.globalData.Guserinfo.DiscountLevel)
           } else {
             //卡券已过期
-            app.globalData.Guserinfo.DiscountLevel = "DL4"
+            app.globalData.GdiscountLevel = "DL4"
           }
         } else {
           //没有卡券
-          app.globalData.Guserinfo.DiscountLevel = "DL4"
+          app.globalData.GdiscountLevel = "DL4"
         }
         // 查询推荐人信息
         this._invitercheck()
@@ -233,31 +238,42 @@ if(options.type=="express"){
       success: res => {
         wx.setStorageSync('LInviter', res.data[0]);
         this.setData({
-          invitercompanyname: res.data[0].CompanyName,
-          inviterusername: res.data[0].UserName,
-          indirectinviterid: res.data[0].InviterOpenId
+          invitercompanyname: res.data[0].UserInfo.CompanyName,
+          inviterusername: res.data[0].UserInfo.UserName,
+          indirectinviterid: res.data[0].InviterInfo.OpenId, //间接推荐人的id
         })
         // 把需要的推荐人信息构建成对象数组赋值给全局变量
         var obj = new Object();
         obj = {
-          "InviterOpenId": res.data[0].InviterOpenId,
+          "OpenId": res.data[0]._openid, //直接推荐人的id
+          "Name": res.data[0].UserInfo.UserName,
+          "Company": res.data[0].UserInfo.CompanyName,
+          "Phone": res.data[0].UserInfo.UserPhone,
+          "InviterOpenId": res.data[0].InviterInfo.OpenId, //间接推荐人的id
           "PromoterLevel": res.data[0].PromoterLevel,
+          "DiscountLevel":res.data[0].DiscountLevel,
           "Balance": res.data[0].Balance,
-          "UserPhone": res.data[0].UserPhone,
         }
         app.globalData.Ginviter = obj
+        db.collection('USER').where({
+          _openid: app.globalData.openid
+        }).update({
+          data: {
+          InviterInfo: obj
+          }
+        })
         // 以下全局变量将被Ginviter取代
-        app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
-        app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
-        app.globalData.Ginviterbalance = res.data[0].Balance;
-        console.log(app.globalData.Gindirectinviterid)
+        //app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
+        //app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
+        //app.globalData.Ginviterbalance = res.data[0].Balance;
+        console.log(app.globalData.Ginviter)
 
       },
       complete: res => {
         console.log("执行到最后位置了")
-        if (this.data.sendsms==true) {
-          if (app.globalData.Ginviter.UserPhone != undefined && app.globalData.Ginviter.UserPhone != "") {
-            var tempmobile = [18954744612, app.globalData.Ginviter.UserPhone]
+        if (this.data.sendsms == true) {
+          if (res.data[0].UserInfo.UserPhone != undefined && res.data[0].UserInfo.UserPhone != "") {
+            var tempmobile = [18954744612, res.data[0].UserInfo.UserPhone]
           } else {
             var tempmobile = [18954744612]
           }
@@ -270,7 +286,7 @@ if(options.type=="express"){
               mobile: tempmobile
             },
             success: res => {
-              console.log(res)
+              console.log("短信发送结果",res)
             },
             fail: res => {
               console.log(res)
@@ -278,8 +294,9 @@ if(options.type=="express"){
           })
         }
 
-        console.log(app.globalData.Gparams.page)
+
         // 这里的参数判断逻辑是有效经典的，可以copy借鉴
+        console.log(app.globalData.Gparams.page)
         if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
           wx.navigateTo({
             url: app.globalData.Gparams.page,

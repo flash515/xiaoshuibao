@@ -52,9 +52,9 @@ App({
     })
     wx.getSystemInfo({ // 获取设备宽高
       success: res => {
-        this.globalData.Gsysteminfo=res
-        console.log("可用屏幕高",this.globalData.Gsysteminfo.windowHeight)
-        console.log("可用屏幕宽",this.globalData.Gsysteminfo.windowWidth)
+        this.globalData.Gsysteminfo = res
+        console.log("可用屏幕高", this.globalData.Gsysteminfo.windowHeight)
+        console.log("可用屏幕宽", this.globalData.Gsysteminfo.windowWidth)
       }
 
     })
@@ -92,32 +92,35 @@ App({
   },
   globalData: {
     // 接收到的参数数组,包含推荐人userid,页面路径page，来源编号source等
-    Gparams:[],
-    Gsysteminfo:[],
+    Gparams: [],
+    Gsysteminfo: [],
     // 屏幕可用宽高
     GWidth: "",
     GHeight: "",
     // 产品
     Gsortarray: [],
     // 在售产品
-    Gproduct:[],
+    Gproduct: [],
     // 数据库中全部产品
     Gproductlist: [],
     // 用户小程序id 
     Gopenid: "",
     //用户本人信息
-    Guserinfo:[],
+    Guserinfo:[],//用户个人数据
+    Guserdata:[],//用户全部数据
+    GdiscountLevel:"",
+    Gdiscounttype:"",
     Gdirect1yearvaliduser: "",
     Gpointsmagnification: "",
-    Gsearch:[],
+    Gsearch: [],
     Gtrack: [],
     // 直接推荐人
-    Ginviter:[],
+    Ginviter: [],
     Ginviterid: "",
     Ginviterpromoterlevel: "",
     Ginviterbalance: "",
     // 间接推荐人
-    Gindirectinviter:[],
+    Gindirectinviter: [],
     Gindirectinviterid: "",
     Gindirectinviterpromoterlevel: "",
     Gindirectinviterbalance: "",

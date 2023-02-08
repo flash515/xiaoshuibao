@@ -1,6 +1,11 @@
 // pages/index/home.js
 const app = getApp()
-const { startToTrack, startByClick, startByBack,getStorageBalance } = require("../../utils/track");
+const {
+  startToTrack,
+  startByClick,
+  startByBack,
+  getStorageBalance
+} = require("../../utils/track");
 Page({
 
   /**
@@ -8,9 +13,10 @@ Page({
    */
   data: {
     region: [],
+    usertype: "",
     avatarUrl: "",
     nickName: "",
-    userphone:"",
+    userphone: "",
     promoterlevel: "",
     noticearray: [],
     // 轮播头图
@@ -33,8 +39,8 @@ Page({
     db.collection('USER').where({
       _openid: app.globalData.Gopenid,
     }).update({
-      data:{
-        Region:this.data.region
+      data: {
+        ['UserInfo.Region']: this.data.region
       }
     })
   },
@@ -121,14 +127,46 @@ Page({
   //  */
   onLoad: function (options) {
     this.setData({
-      region:app.globalData.Guserinfo.Region
+      region: app.globalData.Guserdata.UserInfo.Region
     })
+    if (app.globalData.Guserdata.PromoterLevel = "normal") {
+      this.setData({
+        promoterlevel : "会员"
+      })
+    } else if (app.globalData.Guserdata.PromoterLevel = "silver") {
+      this.setData({
+        promoterlevel : "白银会员"
+      })
+    } else if (app.globalData.Guserdata.PromoterLevel = "gold") {
+      this.setData({
+        promoterlevel : "黄金会员"
+      })
+    } else if (app.globalData.Guserdata.PromoterLevel = "platinum") {
+      this.setData({
+        promoterlevel : "铂金会员"
+      })
+    }
+    if (app.globalData.Guserdata.UserType = "client") {
+      this.setData({
+        usertype : "客户"
+      })
+    } else if (app.globalData.Guserdata.UserType = "provider") {
+      this.setData({
+        usertype : "供应伙伴"
+      })
+    } else if (app.globalData.Guserdata.UserType = "gold") {
+      this.setData({
+        usertype : "推广伙伴"
+      })
+    } else if (app.globalData.Guserdata.UserType = "admin") {
+      this.setData({
+        usertype : "管理员"
+      })
+    }
     const db = wx.cloud.database()
-    db.collection('notice').where(
-      {
-        Status:"onshow"
-      }
-    ).get({
+    db.collection('notice').where({
+      Status: "onshow"
+    }).get({
       success: res => {
         let tempnoticearray = []
         for (let i = 0; i < res.data.length; i++) {
@@ -153,17 +191,17 @@ Page({
         this.IndirectUserQuery(res.data)
       }
     })
-        // 通过传递来的参数查询推荐人信息
-        db.collection('USER').where({
-          _openid: app.globalData.Gindirectinviterid
-        }).get({
-          success: res => {
-            console.log(res)
-            wx.setStorageSync('LIndirectInviter', res.data[0]);
-            app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
-            app.globalData.Gindirectinviterbalance = res.data[0].Balance;
-          }
-        })
+    // 通过传递来的参数查询推荐人信息
+    db.collection('USER').where({
+      _openid: app.globalData.Gindirectinviterid
+    }).get({
+      success: res => {
+        console.log(res)
+        wx.setStorageSync('LIndirectInviter', res.data[0]);
+        app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
+        app.globalData.Gindirectinviterbalance = res.data[0].Balance;
+      }
+    })
   },
   IndirectUserQuery: function (options) {
     // 从本地存储中读取
@@ -201,11 +239,11 @@ Page({
    */
   onShow: function () {
     this.setData({
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
+      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickName: app.globalData.Guserdata.UserInfo.nickName,
       image: app.globalData.Gimagearray,
-      userphone:app.globalData.Guserinfo.UserPhone,
-      promoterlevel: app.globalData.Guserinfo.PromoterLevel
+      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
+      // promoterlevel: app.globalData.Guserdata.PromoterLevel
     })
     getStorageBalance()
   },
@@ -220,7 +258,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
 
   },
 
