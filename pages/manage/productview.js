@@ -54,7 +54,7 @@ Page({
     })
   },
   onLoad: function (options) {
-    // 查询本人提交的全部产品
+    // 查询本人提交的全部商品
     const db = wx.cloud.database()
     db.collection('PRODUCT').where({
       _openid: app.globalData.Gopenid
@@ -65,11 +65,11 @@ Page({
         this.setData({
           productarray: res.data,
         })
-        console.log("本人产品数组", this.data.productarray)
+        console.log("本人商品数组", this.data.productarray)
         // 筛选地址服务
         var fliter1 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "地址服务") {
+          if (this.data.productarray[i].Category1 == "地址商品") {
             fliter1.push(this.data.productarray[i]);
           }
         }
@@ -85,7 +85,7 @@ Page({
         // 筛选财税服务
         var fliter3 = [];
         for (var i = 0; i < this.data.productarray.length; i++) {
-          if (this.data.productarray[i].Category1 == "财税服务") {
+          if (this.data.productarray[i].Category1 == "财税商品") {
             fliter3.push(this.data.productarray[i]);
           }
         }

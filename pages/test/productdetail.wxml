@@ -1,11 +1,11 @@
-<!--产品新增页面-->
-<view class="title">产品总览</view>
+<!--商品新增页面-->
+<view class="title">商品总览</view>
 <text>\n</text>
 <view style="padding-left: 25rpx;padding-right: 25rpx;">
-  <l-search-bar placeholder="模糊搜索办理地、产品类型、产品状态" bind:linconfirm="onSearch" />
+  <l-search-bar placeholder="模糊搜索办理地、商品类型、商品状态" bind:linconfirm="onSearch" />
   <text>\n</text>
 
-  <l-button type="default" bind:lintap="bvRefresh" shape="circle" plain="{{true}}" size="large">点击获取全部产品列表</l-button>
+  <l-button type="default" bind:lintap="bvRefresh" shape="circle" plain="{{true}}" size="large">点击获取全部商品列表</l-button>
   <view wx:if="{{recordcontral==true}}" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
     共有{{productarray.length}}条记录，当前是{{x+1}}条记录
   </view>
@@ -59,7 +59,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">3.产品名称：</label>
+    <label class="text">3.商品名称：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue3==true}}">
         <label>当前展示</label>
@@ -75,7 +75,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">4.产品分类：</label>
+    <label class="text">4.商品分类：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue4==true}}">
         <label>当前展示</label>
@@ -120,7 +120,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">5.产品编号:</label>
+    <label class="text">5.商品编号:</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue5==true}}">
         <label>当前展示</label>
@@ -136,7 +136,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">6.产品概要:</label>
+    <label class="text">6.商品概要:</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue6==true}}">
         <label>当前展示</label>
@@ -152,7 +152,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">7.产品具体说明:</label>
+    <label class="text">7.商品具体说明:</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue7==true}}">
         <label class="text">当前展示</label>
@@ -598,7 +598,7 @@
 
 
     <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-      <label class="text">33.产品状态:</label>
+      <label class="text">33.商品状态:</label>
       <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
         <view wx:if="{{showvalue33==true}}">
           <label class="text">当前展示</label>
@@ -633,8 +633,8 @@
   <!-- 附件上传 -->
   <text>\n</text>
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <l-button type="default" bind:lintap="onEdit" shape="circle" plain="{{true}}">新增产品</l-button>
-    <l-button type="default" data-id="recordid={{recordid}}" bind:lintap="onEdit" shape="circle" plain="{{true}}">产品编辑</l-button>
+    <l-button type="default" bind:lintap="onEdit" shape="circle" plain="{{true}}">新增商品</l-button>
+    <l-button type="default" data-id="recordid={{recordid}}" bind:lintap="onEdit" shape="circle" plain="{{true}}">商品编辑</l-button>
   </view>
   <text>\n</text>
   <view wx:if="{{recordcontral==true}}" style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">

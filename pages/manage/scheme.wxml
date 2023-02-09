@@ -20,7 +20,7 @@
   <textarea value='{{scheme}}' bindinput="getScheme" maxlength='300' />
   <view class='contentNumStyle'>{{textLen2}}/300</view>
 </view>
-<view class="text">产品推荐：</view>
+<view class="text">商品推荐：</view>
 <view class='textarea-Style'>
   <textarea value='{{refproduct}}' bindinput="getRefproduct" maxlength='300' />
   <view class='contentNumStyle'>{{textLen3}}/300</view>

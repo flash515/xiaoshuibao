@@ -25,7 +25,7 @@ Page({
     // 编号
     dataid: "",
     productid: "",
-    // 产品名称
+    // 商品名称
     productname: "",
     // 办理地点
     issuedplace: "",
@@ -70,8 +70,8 @@ Page({
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
+      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickName: app.globalData.Guserdata.UserInfo.nickName,
     })
     startToTrack()
   },
@@ -157,8 +157,8 @@ Page({
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
-      balance: app.globalData.Guserinfo.Balance,
-      consumepoints: app.globalData.Guserinfo.Balance,
+      balance: app.globalData.Guserdata.Balance,
+      consumepoints: app.globalData.Guserdata.Balance,
     })
     console.log(this.data.pageParam)
     // 通过两个promise嵌套，顺序执行获得计算结果

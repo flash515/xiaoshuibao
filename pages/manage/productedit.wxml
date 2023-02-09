@@ -1,7 +1,7 @@
-<!--产品新增页面-->
-<view class="title">产品新增/编辑</view>
+<!--商品新增页面-->
+<view class="title">商品新增/编辑</view>
 <text>\n</text>
-<l-search-bar placeholder="模糊搜索办理地、产品类型、产品状态" bind:linconfirm="onSearch" />
+<l-search-bar placeholder="模糊搜索办理地、服务类型、服务状态" bind:linconfirm="onSearch" />
 <text>\n</text>
 <view>
   <l-input type="text" placeholder="{{adddate}}" label="录入日期:" disabled="{{true}}"></l-input>
@@ -10,28 +10,28 @@
   <l-input type="text" label="更新日期:" placeholder="{{updatedate}}" disabled="{{true}}"></l-input>
 </view>
 <view>
-  <l-list title="当前产品展示状态：" is-link="{{false}}" gap="20">
+  <l-list title="当前商品展示状态：" is-link="{{false}}" gap="20">
     <view slot="right-section">
       <switch checked="{{onsalechecked}}" bindchange="onsaleChange" style='zoom:.6;' />
     </view>
    </l-list>
 </view>
 <view>
-  <l-input type="text" value="{{productid}}" label="产品编号:" bind:lininput="bvProductId"></l-input>
+  <l-input type="text" value="{{productid}}" label="商品编号:" bind:lininput="bvProductId"></l-input>
 </view>
 <view>
 
-  <l-input type="text" value="{{producttype}}" label="产品类型:" bind:lininput="bvProductType"></l-input>
+  <l-input type="text" value="{{producttype}}" label="商品类型:" bind:lininput="bvProductType"></l-input>
 </view>
 <view>
-  <l-input type="text" value="{{productname}}" label="产品名称:" bind:lininput="bvProductName"></l-input>
+  <l-input type="text" value="{{productname}}" label="商品名称:" bind:lininput="bvProductName"></l-input>
 </view>
 <view>
-  <label class="text">产品概要:</label>
+  <label class="text">服务概要:</label>
   <l-textarea type="text" name="outline" value="{{outline}}" bind:lininput="bvOutline"></l-textarea>
 </view>
 <view>
-  <label class="text">产品具体说明:</label>
+  <label class="text">服务具体说明:</label>
   <l-textarea type="text" value="{{description}}" bind:lininput="bvDescription"></l-textarea>
 </view>
 

@@ -1,5 +1,5 @@
-<!--产品新增页面-->
-<view class="title">产品新增/编辑</view>
+<!--商品新增页面-->
+<view class="title">商品新增/编辑</view>
 <text>\n</text>
 
 <wxs module="v1">
@@ -51,7 +51,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">3.产品名称：</label>
+    <label class="text">3.商品名称：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue3==true}}">
         <label>当前展示</label>
@@ -63,11 +63,11 @@
     </view>
   </view>
   <view hidden="{{showvalue3==false}}">
-    <input class="input" bindinput="bvProductName" bindfocus="bvProductName" 	bindblur="productCode" placeholder="产品名称不超12个字" maxlength="12" value="{{productname}}"/>
+    <input class="input" bindinput="bvProductName" bindfocus="bvProductName" 	bindblur="productCode" placeholder="商品名称不超12个字" maxlength="12" value="{{productname}}"/>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">4.产品分类：</label>
+    <label class="text">4.商品分类：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue4==true}}">
         <label>当前展示</label>
@@ -113,7 +113,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">5.产品编号:</label>
+    <label class="text">5.商品编号:</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue5==true}}">
         <label>当前展示</label>
@@ -129,7 +129,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">6.产品概要:</label>
+    <label class="text">6.商品概要:</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue6==true}}">
         <label>当前展示</label>
@@ -145,7 +145,7 @@
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">7.产品具体说明:</label>
+    <label class="text">7.商品具体说明:</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue7==true}}">
         <label class="text">当前展示</label>
@@ -550,7 +550,7 @@
 
 
     <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-      <label class="text">31.产品状态:</label>
+      <label class="text">31.商品状态:</label>
       <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
         <view wx:if="{{showvalue31==true}}">
           <label class="text">当前展示</label>
@@ -583,9 +583,9 @@
     </view>
   </view>
 
-  <!-- 产品介绍图片 -->
+  <!-- 商品介绍图片 -->
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">33.产品介绍图片：</label>
+    <label class="text">33.商品介绍图片：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue33==true}}">
         <label class="text">当前展示</label>
@@ -600,10 +600,10 @@
     <l-image-picker size="4" count="4" bind:linchange="bvChooseProductImage" bind:linremove="bvRemoveProductImage" urls="{{attachmentview}}" />
     <l-button plain="{{true}}" bind:lintap="bvUploadProductImage">上传图片</l-button>
   </view>
-  <!-- 产品附件图片 -->
+  <!-- 商品附件图片 -->
   <!-- 显示选择的图片 -->
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">34.产品附件图片：</label>
+    <label class="text">34.商品附件图片：</label>
     <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
       <view wx:if="{{showvalue34==true}}">
         <label class="text">当前展示</label>

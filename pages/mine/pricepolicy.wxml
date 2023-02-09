@@ -23,7 +23,7 @@
   <l-collapse>
     <l-collapse-item title="价格优惠政策说明">
       <l-card type="primary" plaintext="{{true}}">
-        <text space="emsp" decode='true'>  小税宝产品售价体系：普客价&gt;折扣价\n</text>
+        <text space="emsp" decode='true'>  小税宝商品售价体系：普客价&gt;折扣价\n</text>
         <text space="emsp" decode='true'>  例如注册及托管小规模企业的价格为：\n</text>
         <text space="emsp" decode='true'>  普客价：7000元/年\n</text>
         <text space="emsp" decode='true'>  折扣价：6000元/年\n</text>

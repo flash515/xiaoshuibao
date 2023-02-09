@@ -6,8 +6,8 @@ Page({
     // 传值参数
     recordid: "",
     pageParam: "",
-    // 产品参数
-    procudtarray: [], //通过查询功能得到的产品数组
+    // 商品参数
+    procudtarray: [], //通过查询功能得到的服务数组
     procudtdetail: [],
     array: [],
     // 表单参数
@@ -341,7 +341,7 @@ if(res.data.length>1){
   },
   bvUploadImage(e) {
     let that = this
-    // 判断产品id是否空值
+    // 判断商品id是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
         title: "请先填写开票人姓名后再尝试上传资料",
@@ -385,7 +385,7 @@ if(res.data.length>1){
     // 判断individualname是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
-        title: "请先填写产品编号后再尝试上传资料",
+        title: "请先填写商品编号后再尝试上传资料",
         icon: 'none',
         duration: 2000
       })
@@ -561,7 +561,7 @@ if(res.data.length>1){
           icon: 'success',
           duration: 2000 //持续的时间
         })
-        // 更新成功后重新查询本人的产品并存入本地
+        // 更新成功后重新查询本人的商品并存入本地
         db.collection('PRODUCT').where({
           _openid: app.globalData.Gopenid
         }).get({
@@ -593,14 +593,14 @@ if(res.data.length>1){
       recordid: options._id,
     })
     console.log("pageParam", this.data.pageParam._id);
-    // 通过产品总览过来的页面适合从本地存储中读取
+    // 通过商品总览过来的页面适合从本地存储中读取
     wx.getStorage({
       key: 'LPersonalProduct',
       success: res => {
         this.setData({
           productarray: res.data
         })
-        console.log("产品数组", this.data.productarray)
+        console.log("商品数组", this.data.productarray)
         // 筛选指定记录
         var fliter = [];
         // var _this = this

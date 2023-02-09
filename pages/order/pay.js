@@ -101,7 +101,7 @@ Page({
         Available: true,
       },
       success(res) {
-        console.log("产品订单更新成功")
+        console.log("商品订单更新成功")
       }
     })
   },
@@ -374,7 +374,7 @@ Page({
    */
   onLoad: function (options) {
     var str = new Date()
-    // 订单编号orderid、产品编号productid、产品名称productname、订单总费用totalfee、订单数据库database、微信即时支付是否隐藏onlinehidden
+    // 订单编号orderid、商品编号productid、商品名称productname、订单总费用totalfee、订单数据库database、微信即时支付是否隐藏onlinehidden
     this.setData({
       orderid: options.orderid,
       productid: options.productid,

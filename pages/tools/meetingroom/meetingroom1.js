@@ -50,19 +50,13 @@ Page({
     // 接收参数方法一结束
 
     if (Date.parse(new Date()) - this.data.starttime < "3600000") {
+      // 查询推荐人
       const db = wx.cloud.database()
       db.collection('USER').where({
         _openid: this.data.inviterid
       }).get({
         success: res => {
-          wx.setStorageSync('LInviter', res.data[0]);
-          this.setData({
-            invitercompanyname: res.data[0].CompanyName,
-            inviterusername: res.data[0].UserName,
-            indirectinviterid: res.data[0].InviterOpenId
-          })
-          app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
-          app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
+          app.globalData.Ginviter=res.data[0].UserInfo
         }
       })
 

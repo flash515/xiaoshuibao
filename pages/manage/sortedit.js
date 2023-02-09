@@ -378,7 +378,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // 产品分类参数
+    // 商品分类参数
     inputShow: false,
     boxShow: false,
     sortarray: SortArray1,

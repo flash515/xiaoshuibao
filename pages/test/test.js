@@ -185,10 +185,10 @@ console.log(ca)
   },
   bvUploadImage(e) {
     let that = this
-    // 判断产品id是否空值
+    // 判断商品id是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
-        title: "产品编号不能为空",
+        title: "商品编号不能为空",
         icon: 'none',
         duration: 2000
       })
@@ -244,7 +244,7 @@ console.log(ca)
     // 判断individualname是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
-        title: "请先填写产品编号后再尝试上传资料",
+        title: "请先填写商品编号后再尝试上传资料",
         icon: 'none',
         duration: 2000
       })

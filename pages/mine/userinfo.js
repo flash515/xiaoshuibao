@@ -1,6 +1,10 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");
 var interval = null //倒计时函数
 Page({
 
@@ -40,7 +44,9 @@ Page({
     updatedate: ""
   },
   onChooseAvatar(e) {
-    const { avatarUrl } = e.detail 
+    const {
+      avatarUrl
+    } = e.detail
     this.setData({
       avatarUrl,
     })
@@ -114,8 +120,8 @@ Page({
     wx.cloud.callFunction({
       name: 'sendmessage',
       data: {
-        templateId:"985130",
-        nocode:false,
+        templateId: "985130",
+        nocode: false,
         mobile: _this.data.userphone,
         nationcode: '86'
       },
@@ -150,34 +156,23 @@ Page({
     this.setData({
       image: app.globalData.Gimagearray
     })
-    // 从本地存储中读取
-    wx.getStorage({
-      key: 'LInviter',
-      success: res => {
-        this.setData({
-          invitercompanyname: res.data.CompanyName,
-          inviterusername: res.data.UserName,
-        })
-      }
+
+    this.setData({
+      companyname: app.globalData.Guserinfo.CompanyName,
+      companyid: app.globalData.Guserinfo.CompanyId,
+      businessscope: app.globalData.Guserinfo.BusinessScope,
+      companyscale: app.globalData.Guserinfo.CompanyScale,
+      username: app.globalData.Guserinfo.UserName,
+      userphone: app.globalData.Guserinfo.UserPhone,
+      useroldphone: app.globalData.Guserinfo.UserPhone,
+      usertype: app.globalData.Gtradeinfo.UserType,
+      balance: app.globalData.Gtradeinfo.Balance,
+      adddate: app.globalData.Guserdata.AddDate,
+      updatedate: app.globalData.Guserdata.UpdateDate,
+      invitercompanyname: app.globalData.Ginviter.CompanyName,
+      inviterusername: app.globalData.Ginviter.UserName,
     })
-    wx.getStorage({
-      key: 'LUserInfo',
-      success: res => {
-        this.setData({
-          companyname: res.data.CompanyName,
-          companyid: res.data.CompanyId,
-          businessscope: res.data.BusinessScope,
-          companyscale: res.data.CompanyScale,
-          username: res.data.UserName,
-          userphone: res.data.UserPhone,
-          useroldphone: res.data.UserPhone,
-          usertype: res.data.UserType,
-          balance: res.data.Balance,
-          adddate: res.data.AddDate,
-          updatedate: res.data.UpdateDate
-        })
-      }
-    })
+
   },
   // 刷新信息
   RefreshData() {
@@ -186,23 +181,23 @@ Page({
       _openid: app.globalData.Gopenid
     }).get({
       success: res => {
-        wx.setStorageSync('LUserInfo', res.data[0]);
         this.setData({
-          companyname: res.data[0].CompanyName,
-          companyid: res.data[0].CompanyId,
-          businessscope: res.data[0].BusinessScope,
-          companyscale: res.data[0].CompanyScale,
-          username: res.data[0].UserName,
-          useroldphone: res.data[0].UserPhone,
-          userphone: res.data[0].UserPhone,
-          usertype: res.data[0].UserType,
-          balance: res.data[0].Balance,
+          companyname: res.data[0].UserInfo.CompanyName,
+          companyid: res.data[0].UserInfo.CompanyId,
+          businessscope: res.data[0].UserInfo.BusinessScope,
+          companyscale: res.data[0].UserInfo.CompanyScale,
+          username: res.data[0].UserInfo.UserName,
+          useroldphone: res.data[0].UserInfo.UserPhone,
+          userphone: res.data[0].UserInfo.UserPhone,
+          usertype: res.data[0].TradeInfo.UserType,
+          balance: res.data[0].TradeInfo.Balance,
           adddate: res.data[0].AddDate,
           updatedate: res.data[0].UpdateDate,
         })
       }
     })
   },
+
   //修改数据操作
   UpdateData() {
     if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode != "") {
@@ -212,12 +207,12 @@ Page({
         _openid: this.data.openid
       }).update({
         data: {
-          CompanyName: this.data.companyname,
-          CompanyId: this.data.companyid,
-          CompanyScale: this.data.companyscale,
-          BusinessScope: this.data.businessscope,
-          UserName: this.data.username,
-          UserPhone: this.data.userphone,
+          ["UserInfo.CompanyName"]: this.data.companyname,
+          ["UserInfo.CompanyId"]: this.data.companyid,
+          ["UserInfo.CompanyScale"]: this.data.companyscale,
+          ["UserInfo.BusinessScope"]: this.data.businessscope,
+          ["UserInfo.UserName"]: this.data.username,
+          ["UserInfo.UserPhone"]: this.data.userphone,
           UpdateDate: new Date().toLocaleDateString()
         },
         success(res) {
@@ -248,7 +243,8 @@ Page({
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
             PointsStatus: "checked",
-          }, success(res) {
+          },
+          success(res) {
             wx.showToast({
               title: '积分更新信息成功',
               icon: 'success',
@@ -295,8 +291,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => startToTrack(),
   onShow: function () {
     startToTrack()
   },
@@ -311,7 +307,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
     startByBack()
   },
 

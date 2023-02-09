@@ -20,9 +20,9 @@ Page({
     //新增数据变量
     orderhistory:[],
     orderdetail:[],
-    // 产品编号
+    // 商品编号
     productid: "",
-    // 产品名称
+    // 商品名称
     productname: "",
     // 办理地点
     issuedplace: "",

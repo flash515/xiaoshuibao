@@ -25,7 +25,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>
@@ -70,7 +70,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>
@@ -113,7 +113,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>
@@ -156,7 +156,7 @@
         <view>
           <text space="emsp" decode="{{true}}">{{item.Scheme}}</text>
         </view>
-        <view class="title1">产品推荐</view>
+        <view class="title1">商品推荐</view>
         <view>
           <text space="emsp" decode="{{true}}">{{item.RefProduct}}</text>
         </view>

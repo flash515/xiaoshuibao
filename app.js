@@ -91,44 +91,41 @@ App({
     }
   },
   globalData: {
+    //全局变量要考虑新用户初始情况及老用户赋值情况，尽量避免过于概括或过于琐碎
     // 接收到的参数数组,包含推荐人userid,页面路径page，来源编号source等
-    Gparams: [],
-    Gsysteminfo: [],
-    // 屏幕可用宽高
-    GWidth: "",
-    GHeight: "",
-    // 产品
-    Gsortarray: [],
-    // 在售产品
-    Gproduct: [],
-    // 数据库中全部产品
-    Gproductlist: [],
-    // 用户小程序id 
-    Gopenid: "",
-    //用户本人信息
-    Guserinfo:[],//用户个人数据
-    Guserdata:[],//用户全部数据
-    GdiscountLevel:"",
-    Gdiscounttype:"",
-    Gdirect1yearvaliduser: "",
-    Gpointsmagnification: "",
+    Gparams: [], //小程序进入参数
+    Gsysteminfo: [], //系统参数
+
+    GWidth: "", // 屏幕可用宽度
+    GHeight: "", // 屏幕可用高度
+
+    Gsortarray: [], //商品分类
+    Gproduct: [], // 在售商品
+    Gproductlist: [], // 数据库中全部商品
+
+    Gopenid: "", // 用户小程序id 
+    Guserinfo: [], //用户个人数据
+    Guserdata: [], //用户全部数据
+    Gtradeinfo: [], //用户贸易信息
+
+    Gdirect1yearvaliduser: "",//一年内有效推荐用户数
+    Gpointsmagnification: "",//可用积分
     Gsearch: [],
-    Gtrack: [],
+    Gtrack: [],//浏览记录
     // 直接推荐人
-    Ginviter: [],
-    Ginviterid: "",
-    Ginviterpromoterlevel: "",
-    Ginviterbalance: "",
+    Ginviter: [],//推荐人信息
+    Ginviterid: "",//推荐人id
+    Ginviterpromoterlevel: "",//推荐人推广级别
+    Ginviterbalance: "",//推荐人积分
     // 间接推荐人
-    Gindirectinviter: [],
-    Gindirectinviterid: "",
-    Gindirectinviterpromoterlevel: "",
-    Gindirectinviterbalance: "",
+    Gindirectinviter: [],//间接推荐人信息
+    Gindirectinviterid: "",//间接推荐人id
+    Gindirectinviterpromoterlevel: "",//间接推荐人推广级别
+    Gindirectinviterbalance: "",//间接推荐人积分
 
-    //轮播图
-    Gimagearray: [],
-    //设置
+    Gimagearray: [], //轮播图
 
+    //个人设置参数
     Gpriceshow: '',
     Gdirectvalueshow: '',
     Gindirectvalueshow: '',

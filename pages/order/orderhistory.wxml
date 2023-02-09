@@ -24,8 +24,8 @@
             <l-card type="primary" plaintext="{{true}}">
               <view class="content">
                 <view>订单日期：{{item.AddDate}}</view>
-                <view>产品编号：{{item.ProductId}}</view>
-                <view>产品名称：{{item.ProductName}}</view>
+                <view>商品编号：{{item.ProductId}}</view>
+                <view>商品名称：{{item.ProductName}}</view>
                 <view>订单总价（元）：{{item.TotalFee}}</view>
                 <view style="display:flex; flex-direction:row;">
                   <view>付款状态：</view>

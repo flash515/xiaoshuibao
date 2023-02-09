@@ -295,7 +295,7 @@ Page({
     this.setData({
       productdetail: fliter
     })
-        // 云函数查询产品的QA内容
+        // 云函数查询商品的QA内容
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
@@ -328,11 +328,12 @@ Page({
 
   onShow: function () {
     this.setData({
-      usertype: app.globalData.Guserinfo.UserType,
-      discountlevel: app.globalData.Guserinfo.DiscountLevel,
       image: app.globalData.Gimagearray,
+      usertype: app.globalData.Gtradeinfo.UserType,
+      discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
       avatarUrl: app.globalData.Guserinfo.avatarUrl,
       nickName: app.globalData.Guserinfo.nickName,
+      userphone:app.globalData.Guserinfo.UserPhone,
     })
 
   },

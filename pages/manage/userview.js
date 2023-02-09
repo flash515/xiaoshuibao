@@ -9,7 +9,7 @@ Page({
     userarray: [],
   },
   onLoad: function (options) {
-    // 查询本人提交的全部产品
+    // 查询本人提交的全部商品
 
     wx.cloud.callFunction({
       name: "NormalQuery",

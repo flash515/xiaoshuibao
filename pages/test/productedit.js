@@ -10,13 +10,13 @@ Page({
     // 传值参数
     recordid: "",
     pageParam: "",
-    // 产品参数
-    productarray: [], //通过查询功能得到的产品数组
+    // 商品参数
+    productarray: [], //通过查询功能得到的商品数组
     productdetail: [],
     array: [],
 
   
-    // 产品分类参数
+    // 商品分类参数
     inputShow: false,
     boxShow: false,
     sortarray: [],
@@ -106,10 +106,10 @@ Page({
     status: "",
     score: 0,
     username: "",
-    productview: [], //用于展示数据库中的产品介绍图片
-    productimage: [], //数据库中的产品介绍图片
-    attachmentview: [], //用于展示数据库中的产品附件图片
-    attachmentimage: [], //数据库中的产品附件图片
+    productview: [], //用于展示数据库中的商品介绍图片
+    productimage: [], //数据库中的商品介绍图片
+    attachmentview: [], //用于展示数据库中的商品附件图片
+    attachmentimage: [], //数据库中的商品附件图片
     attachmentfile: [],
     tempFilePaths: [],
     onsalechecked: false,
@@ -390,7 +390,7 @@ Page({
   serialCode() {
     var tempcode=[this.data.productcode]+"-"+[this.data.categorycode]
     var temparray = []
-    // 需要搜索全部产品以包含停售产品
+    // 需要搜索全部商品以包含停售商品
     for (var i = 0; i < app.globalData.Gproductlist.length; i++) {
       if (tempcode == app.globalData.Gproductlist[i].ProductId.slice(0, -4)) {
         temparray.push(app.globalData.Gproductlist[i])
@@ -398,7 +398,7 @@ Page({
     }
     console.log(temparray)
     if (temparray.length != 0) {
-      // 如果有同名的产品，就先生成编号+1的字符串，然后再取出后三位作为编号
+      // 如果有同名的商品，就先生成编号+1的字符串，然后再取出后三位作为编号
       this.setData({
         serialcode: ("0000" + [temparray.length + 1]).substr(-3)
       })
@@ -420,7 +420,7 @@ Page({
       x: 0,
       servicearea: []
     })
-    // 待修改，服务商只在自已产品中选择，管理员在全部产品中选择,页面加载时已查询，不需要重复查询
+    // 待修改，服务商只在自已商品中选择，管理员在全部商品中选择,页面加载时已查询，不需要重复查询
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('PRODUCT').where(_.and([{
@@ -876,10 +876,10 @@ Page({
   },
   bvUploadProductImage(e) {
     let that = this
-    // 判断产品id是否空值
+    // 判断商品id是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
-        title: "产品编号不能为空",
+        title: "商品编号不能为空",
         icon: 'none',
         duration: 2000
       })
@@ -931,10 +931,10 @@ Page({
   },
   bvUploadAttachmentImage(e) {
     let that = this
-    // 判断产品id是否空值
+    // 判断商品id是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
-        title: "产品编号不能为空",
+        title: "商品编号不能为空",
         icon: 'none',
         duration: 2000
       })
@@ -1021,7 +1021,7 @@ Page({
     // 判断individualname是否空值
     if (this.data.productid == "" || this.data.productid == null) {
       wx.showToast({
-        title: "请先填写产品编号后再尝试上传资料",
+        title: "请先填写商品编号后再尝试上传资料",
         icon: 'none',
         duration: 2000
       })
@@ -1212,7 +1212,7 @@ Page({
           icon: 'success',
           duration: 2000 //持续的时间
         })
-        // 更新成功后再次云函数查询产品并存入本地
+        // 更新成功后再次云函数查询商品并存入本地
         wx.cloud.callFunction({
           name: "NormalQuery",
           data: {

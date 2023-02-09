@@ -4,5 +4,5 @@
 <text>\n</text>
 <l-card type="primary" plaintext="{{true}}">
   <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
-  <l-list title="产品管理" icon="setting" url="../manage/productview" />
+  <l-list title="商品管理" icon="setting" url="../manage/productview" />
 </l-card>

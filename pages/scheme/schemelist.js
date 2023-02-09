@@ -232,10 +232,10 @@ Page({
     this.setData({
       image:app.globalData.Gimagearray
     })
-        // 查询在售的产品并存入本地
+        // 查询在售的商品并存入本地
         const db = wx.cloud.database()
         db.collection('SCHEME').where({
-          // 状态为在售的产品
+          // 状态为在售的商品
           Status: "onshow"
         }).get({
           success: res => {
@@ -282,7 +282,7 @@ Page({
         })
       }
     })
-    // 查询产品的QA内容
+    // 查询商品的QA内容
 
     const _ = db.command
     db.collection('SCHEMEQA').where({

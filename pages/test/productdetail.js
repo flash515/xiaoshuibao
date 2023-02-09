@@ -10,12 +10,12 @@ Page({
     // 传值参数
     recordid: "",
     pageParam: "",
-    // 产品参数
-    productlist: [], //全部产品数组
-    productarray: [], //通过模糊查询得到的产品数组
+    // 商品参数
+    productlist: [], //全部商品数组
+    productarray: [], //通过模糊查询得到的商品数组
     productdetail: [],
     array: [],
-    // 产品分类参数
+    // 商品分类参数
     inputShow: false,
     boxShow: false,
     sortarray: [],
@@ -308,8 +308,8 @@ Page({
         })
         app.globalData.Gproductlist=res.result.data
         wx.setStorageSync('LProductList', res.result.data)
-        console.log("产品数组", res.result.data)
-        console.log("产品数组", this.data.productlist)
+        console.log("商品数组", res.result.data)
+        console.log("商品数组", this.data.productlist)
         this.setcurrentdata()
       }
     })
@@ -727,7 +727,7 @@ Page({
       // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
       // category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
     })
-    // 先获取在售产品
+    // 先获取在售商品
     wx.getStorage({
       key: 'LProductList',
       success: res => {

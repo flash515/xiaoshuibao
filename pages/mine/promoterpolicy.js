@@ -226,7 +226,7 @@ Page({
         OrderStatus: "checked",
       },
       success(res) {
-        console.log("产品订单付款成功")
+        console.log("商品订单付款成功")
       }
     })
   },

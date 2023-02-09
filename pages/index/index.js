@@ -13,13 +13,16 @@ Page({
       BusinessScope: "",
       CompanyScale: "",
     },
-
+    newusertradeinfo: {
+      Balance: 0,
+      DiscountLevel: "DL4",
+      PromoterLevel: "normal",
+      UserType: "client"
+    },
     inviterid: "",
     tempinviterid: "",
     remark: "",
     indirectinviterid: "",
-    invitercompanyname: "",
-    inviterusername: "",
     tempimage: [],
     userinfo: {},
     sendsms: false,
@@ -141,7 +144,9 @@ Page({
           this._newuser()
         } else {
           // 老用户如果云数据库中有本人信息，则把用户全部数据存入本地，以供后续使用
-          app.globalData.Guserdata=res.data[0]
+          app.globalData.Guserdata = res.data[0]
+          app.globalData.Guserinfo = res.data[0].UserInfo
+          app.globalData.Gtradeinfo = res.data[0].TradeInfo
           // 查询结果赋值给数组参数
           //   this.setData({
           //   user: res.data[0].UserInfo,
@@ -162,7 +167,7 @@ Page({
 
     app.globalData.Ginviterid = this.data.tempinviterid
     app.globalData.Guserinfo = this.data.newuserinfo
-
+    app.globalData.Gtradeinfo = this.data.newusertradeinfo
     console.log("Ginviterid", app.globalData.Ginviterid)
     console.log("Guserinfo", app.globalData.Guserinfo)
     // 在USER数据库中新增用户信息
@@ -174,10 +179,7 @@ Page({
         Params: this.data.params,
         UserInfo: this.data.newuserinfo,
         SystemInfo: app.globalData.Gsysteminfo,
-        UserType: "client",
-        DiscountLevel: "DL4",
-        PromoterLevel: "normal",
-        Balance: 0,
+        TradeInfo: this.data.newusertradeinfo,
         Remark: this.data.remark,
       },
       success: res => {
@@ -189,6 +191,8 @@ Page({
 
   },
   _olduser() {
+    var that = this
+    console.log("未更新折扣级别", app.globalData.Gtradeinfo)
     console.log("执行老用户价格等级查询")
     // 老用户确认价格等级
     const db = wx.cloud.database()
@@ -211,17 +215,18 @@ Page({
           if (tempfliter.length != 0 && tempfliter.length != undefined) {
             console.log(tempfliter)
             console.log(tempfliter[0].DiscountLevel)
-            app.globalData.GdiscountLevel = tempfliter[0].DiscountLevel
-            app.globalData.Gdiscounttype = tempfliter[0].DiscountType
-            console.log(app.globalData.Guserinfo.DiscountLevel)
+            // 更新对象型全局变量个别属性的方法
+            app.globalData.Gtradeinfo.DiscountLevel = tempfliter[0].DiscountLevel
+            app.globalData.Gtradeinfo.DiscountType = tempfliter[0].DiscountType
           } else {
-            //卡券已过期
-            app.globalData.GdiscountLevel = "DL4"
+            //卡券已过期            
+            app.globalData.Gtradeinfo.DiscountLevel = "DL4"
           }
         } else {
           //没有卡券
-          app.globalData.GdiscountLevel = "DL4"
+          app.globalData.Gtradeinfo.DiscountLevel = "DL4"
         }
+        console.log("已更新折扣级别", app.globalData.Gtradeinfo)
         // 查询推荐人信息
         this._invitercheck()
       }
@@ -236,10 +241,8 @@ Page({
       _openid: app.globalData.Ginviterid
     }).get({
       success: res => {
-        wx.setStorageSync('LInviter', res.data[0]);
+        app.globalData.Ginviter=res.data[0].UserInfo
         this.setData({
-          invitercompanyname: res.data[0].UserInfo.CompanyName,
-          inviterusername: res.data[0].UserInfo.UserName,
           indirectinviterid: res.data[0].InviterInfo.OpenId, //间接推荐人的id
         })
         // 把需要的推荐人信息构建成对象数组赋值给全局变量
@@ -251,7 +254,7 @@ Page({
           "Phone": res.data[0].UserInfo.UserPhone,
           "InviterOpenId": res.data[0].InviterInfo.OpenId, //间接推荐人的id
           "PromoterLevel": res.data[0].PromoterLevel,
-          "DiscountLevel":res.data[0].DiscountLevel,
+          "DiscountLevel": res.data[0].DiscountLevel,
           "Balance": res.data[0].Balance,
         }
         app.globalData.Ginviter = obj
@@ -259,7 +262,7 @@ Page({
           _openid: app.globalData.openid
         }).update({
           data: {
-          InviterInfo: obj
+            InviterInfo: obj
           }
         })
         // 以下全局变量将被Ginviter取代
@@ -286,7 +289,7 @@ Page({
               mobile: tempmobile
             },
             success: res => {
-              console.log("短信发送结果",res)
+              console.log("短信发送结果", res)
             },
             fail: res => {
               console.log(res)
