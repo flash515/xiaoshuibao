@@ -11,8 +11,8 @@ Page({
     pageParam: [],
     usertype: "",
     discountlevel: "",
-    procudtarray: [],
-    procudtdetail: [],
+    productarray: [],
+    productdetail: [],
     array: [],
     qaarray: [],
     question: "",
@@ -21,8 +21,10 @@ Page({
     replylock: false,
     avatarUrl: "",
     nickName: "",
-    // 轮播参数
+    // 产品轮播参数
     image: [],
+    imageheight:app.globalData.GWidth,
+    imagewidth:app.globalData.GWidth,
     indicatorDots: true,
     vertical: false,
     autoplay: true,
@@ -293,7 +295,8 @@ Page({
     }
     console.log(fliter);
     this.setData({
-      productdetail: fliter
+      productdetail: fliter,
+      image:fliter[0].ProductImage
     })
         // 云函数查询商品的QA内容
     wx.cloud.callFunction({

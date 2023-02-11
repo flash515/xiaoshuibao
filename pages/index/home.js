@@ -129,36 +129,37 @@ Page({
     this.setData({
       region: app.globalData.Guserinfo.Region
     })
-    if (app.globalData.Gtradeinfo.PromoterLevel = "normal") {
+    // 使用双等号是比较，否则单等号变成赋值
+    if (app.globalData.Gtradeinfo.PromoterLevel == "normal") {
       this.setData({
         promoterlevel : "会员"
       })
-    } else if (app.globalData.Gtradeinfo.PromoterLevel = "silver") {
+    } else if (app.globalData.Gtradeinfo.PromoterLevel == "silver") {
       this.setData({
         promoterlevel : "白银会员"
       })
-    } else if (app.globalData.Gtradeinfo.PromoterLevel = "gold") {
+    } else if (app.globalData.Gtradeinfo.PromoterLevel == "gold") {
       this.setData({
         promoterlevel : "黄金会员"
       })
-    } else if (app.globalData.Gtradeinfo.PromoterLevel = "platinum") {
+    } else if (app.globalData.Gtradeinfo.PromoterLevel == "platinum") {
       this.setData({
         promoterlevel : "铂金会员"
       })
     }
-    if (app.globalData.Gtradeinfo.UserType = "client") {
+    if (app.globalData.Gtradeinfo.UserType == "client") {
       this.setData({
         usertype : "客户"
       })
-    } else if (app.globalData.Gtradeinfo.UserType = "provider") {
+    } else if (app.globalData.Gtradeinfo.UserType == "provider") {
       this.setData({
         usertype : "供应伙伴"
       })
-    } else if (app.globalData.Gtradeinfo.UserType = "gold") {
+    } else if (app.globalData.Gtradeinfo.UserType == "gold") {
       this.setData({
         usertype : "推广伙伴"
       })
-    } else if (app.globalData.Gtradeinfo.UserType = "admin") {
+    } else if (app.globalData.Gtradeinfo.UserType == "admin") {
       this.setData({
         usertype : "管理员"
       })

@@ -104,8 +104,8 @@ App({
     Gproductlist: [], // 数据库中全部商品
 
     Gopenid: "", // 用户小程序id 
+    Guserdata:[],
     Guserinfo: [], //用户个人数据
-    Guserdata: [], //用户全部数据
     Gtradeinfo: [], //用户贸易信息
 
     Gdirect1yearvaliduser: "",//一年内有效推荐用户数

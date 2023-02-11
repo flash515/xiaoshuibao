@@ -422,7 +422,7 @@ console.log(ca)
     var that = this;
     // this.setData({
     //   recordid: options.recordid,
-    //   usertype: app.globalData.Guserinfo.UserType,
+    //   usertype: app.globalData.Gtradeinfo.UserType,
     //   sortarray: app.globalData.Gsortarray,
     //   // category1: app.globalData.Gsortarray[0].Category1Name,
     //   // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,

@@ -53,6 +53,7 @@
   height: 100px;
   width: 100%;
 }
+
 .title
 {color: black;
 font-size: 40rpx;

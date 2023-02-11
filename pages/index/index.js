@@ -17,7 +17,7 @@ Page({
       Balance: 0,
       DiscountLevel: "DL4",
       PromoterLevel: "normal",
-      UserType: "client"
+      UserType: "42"
     },
     inviterid: "",
     tempinviterid: "",
@@ -115,7 +115,7 @@ Page({
         success: res => {
           app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
           app.globalData.Gsortarray = res.data[0].SortArray;
-          console.log("轮播图：", res);
+          console.log("成功获取设置参数", res);
           wx.setStorageSync('LSetting', res.data[0]);
           //异步获取图片生成轮播图地址
           for (let i = 0; i < res.data[0].swiper.length; i++) {
@@ -143,10 +143,11 @@ Page({
         if (res.data.length == 0) {
           this._newuser()
         } else {
-          // 老用户如果云数据库中有本人信息，则把用户全部数据存入本地，以供后续使用
+          // 老用户如果云数据库中有本人信息，则把用户数据存入本地全局变量，以供后续使用
           app.globalData.Guserdata = res.data[0]
           app.globalData.Guserinfo = res.data[0].UserInfo
           app.globalData.Gtradeinfo = res.data[0].TradeInfo
+
           // 查询结果赋值给数组参数
           //   this.setData({
           //   user: res.data[0].UserInfo,
@@ -194,7 +195,7 @@ Page({
     var that = this
     console.log("未更新折扣级别", app.globalData.Gtradeinfo)
     console.log("执行老用户价格等级查询")
-    // 老用户确认价格等级
+    // 老用户确认价格等级，这一步为什么放在indes操作？
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('DISCOUNTORDER').where({
@@ -308,7 +309,6 @@ Page({
           wx.switchTab({
             url: '../index/home',
           })
-
         }
 
       }
