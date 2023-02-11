@@ -1,7 +1,11 @@
 <!-- 商品详情 -->
 <view>
-<image style="width: {{imagewidth}}; height: {{imageheight}}; background-color: #eeeeee;" mode="{{item.mode}}" src="{{image[0]}}">
-</image>
+  <swiper autoplay circular indicator-dots style="height: {{swiperHeight}};">
+    <swiper-item wx:for="{{swiperData}}" wx:key="id">
+      <image mode="widthFix" src="{{item}}" style="width: 100%;" bindload="computeImgHeight"></image>
+    </swiper-item>
+  </swiper>
+
 </view>
 <!--商品详情页面-->
 <view style="display: flex;flex-direction: column;margin-left: 25rpx;margin-right: 25rpx; box-sizing: border-box;">

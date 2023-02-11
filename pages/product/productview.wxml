@@ -23,7 +23,7 @@
     <view wx:for="{{productarray}}" wx:key="_id" wx:for-index="index" wx:for-item="item" style="font-size: 28rpx;">
 
       <l-card type="primary"
-          image="{{thumbnail}}"
+          image="{{item.ProductImage[0]}}"
           full="{{true}}" >
         <view class="title1">
           {{item.ProductName}}

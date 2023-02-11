@@ -22,9 +22,8 @@ Page({
     avatarUrl: "",
     nickName: "",
     // 产品轮播参数
-    image: [],
-    imageheight:app.globalData.GWidth,
-    imagewidth:app.globalData.GWidth,
+    swiperData: [],
+    swiperHeight: "",     // swiper的高度
     indicatorDots: true,
     vertical: false,
     autoplay: true,
@@ -34,6 +33,19 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
+
+  computeImgHeight(e) {
+    var winWid = wx.getSystemInfoSync().windowWidth;      //获取当前屏幕的宽度
+    var imgh=e.detail.height;　　　　　　　　　　　　　　　 //图片高度
+    var imgw=e.detail.width;
+    var swiperH = winWid * imgh / imgw + "px"　           //等比设置swiper的高度。  
+    //即 屏幕宽度 / swiper高度 = 图片宽度 / 图片高度  -->  swiper高度 = 屏幕宽度 * 图片高度 / 图片宽度
+    this.setData({
+      swiperHeight: swiperH		//设置swiper高度
+    })
+
+  },
+
   bvDetailView() {
     this.setData({
       DetailHidden: false,
@@ -285,6 +297,7 @@ Page({
       pageParam: options,
     })
 
+
     // 筛选指定记录
     var fliter = [];
     // var _this = this
@@ -296,7 +309,7 @@ Page({
     console.log(fliter);
     this.setData({
       productdetail: fliter,
-      image:fliter[0].ProductImage
+      swiperData:fliter[0].ProductImage
     })
         // 云函数查询商品的QA内容
     wx.cloud.callFunction({
@@ -331,7 +344,6 @@ Page({
 
   onShow: function () {
     this.setData({
-      image: app.globalData.Gimagearray,
       usertype: app.globalData.Gtradeinfo.UserType,
       discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
       avatarUrl: app.globalData.Guserinfo.avatarUrl,

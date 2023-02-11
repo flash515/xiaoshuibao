@@ -6,7 +6,6 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
-    thumbnail:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/product/test/u%3D285439280%2C164547329%26fm%3D253%26fmt%3Dauto%26app%3D138%26f%3DGIF.gif?sign=b8a6048da07466a52341edd0216452a2&t=1675935250",
     currentTab:0,
     index: 0,
     category2name: "",
