@@ -167,8 +167,8 @@ Page({
       useroldphone: app.globalData.Guserinfo.UserPhone,
       usertype: app.globalData.Gtradeinfo.UserType,
       balance: app.globalData.Gtradeinfo.Balance,
-      adddate: app.globalData.Guserdata.AddDate,
-      updatedate: app.globalData.Guserdata.UpdateDate,
+      adddate: app.globalData.Guserinfo.AddDate,
+      updatedate: app.globalData.Guserinfo.UpdateDate,
       invitercompanyname: app.globalData.Ginviter.CompanyName,
       inviterusername: app.globalData.Ginviter.UserName,
     })
@@ -191,8 +191,7 @@ Page({
           userphone: res.data[0].UserInfo.UserPhone,
           usertype: res.data[0].TradeInfo.UserType,
           balance: res.data[0].TradeInfo.Balance,
-          adddate: res.data[0].AddDate,
-          updatedate: res.data[0].UpdateDate,
+          updatedate: res.data[0].UserInfo.UpdateDate,
         })
       }
     })
@@ -213,7 +212,7 @@ Page({
           ["UserInfo.BusinessScope"]: this.data.businessscope,
           ["UserInfo.UserName"]: this.data.username,
           ["UserInfo.UserPhone"]: this.data.userphone,
-          UpdateDate: new Date().toLocaleDateString()
+          ["UserInfo.UpdateDate"]: new Date().toLocaleDateString()
         },
         success(res) {
           wx.showToast({

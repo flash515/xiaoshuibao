@@ -64,8 +64,8 @@ text-align:center
 .title1
 {
   color: black;
-  text-align: left；
-font-size：35rpx;
+  text-align: left;
+font-size:35rpx;
 font-weight: bold;
 }
 .body{
@@ -91,6 +91,10 @@ font-weight: bold;
   justify-content: center;
   align-items: center;
 }
+.boldtext {
+  font-size: 28rpx;
+  font-weight: bold;
+}
 .text {
-  font-size: 12px;
+  font-size: 28rpx;
 }

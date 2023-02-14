@@ -15,8 +15,6 @@ Page({
     promoterlevel: "",
     discountlevel: "",
     priceshow: "",
-    avatarUrl: "",
-    nickName: "",
     userphone:"",
     // 轮播参数
     image: [],
@@ -124,8 +122,6 @@ Page({
       usertype: app.globalData.Gtradeinfo.UserType,
       discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
       priceshow: app.globalData.Gpriceshow,
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
       userphone:app.globalData.Guserinfo.UserPhone,
     })
     startToTrack()

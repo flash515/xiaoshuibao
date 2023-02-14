@@ -19,21 +19,18 @@
       <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
     <view wx:else style="display:flex; flex-direction:column;">
-    <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
-      <view>登录号码：{{userphone}}</view>
-      <view>用户类型：{{usertype}}</view>
-
-
-    </view>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;font-size:28rpx;align-items:center;color: #3683d6;">
-      <view>所在区域：</view>
-      <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
-        <view class="picker">
-          {{region[0]}}/{{region[1]}}/{{region[2]}}
+      <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+        <view>登录号码：{{userphone}}</view>
+        <view>用户类型：{{usertype}}</view>
+      </view>
+      <view  style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+        <view>
+          <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+            所在区域：{{region[0]}}/{{region[1]}}/{{region[2]}}
+          </picker>
         </view>
-      </picker>
-      <view>用户级别：{{promoterlevel}}</view>
-    </view>
+        <view>用户级别：{{promoterlevel}}</view>
+      </view>
     </view>
   </view>
 

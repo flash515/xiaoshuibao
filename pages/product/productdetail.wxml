@@ -22,7 +22,7 @@
         <label class="title1">商品名称：</label>
         <view>{{item.ProductName}}</view>
         <label class="title1">商品编号：</label>
-        <view>{{item.ProductId}}</view>
+        <view>{{item._id}}</view>
         <label class="title1">商品分类：</label>
         <view>{{item.Category1}}/{{item.Category2}}/{{item.Category3}}</view>
         <label class="title1">商品概要：</label>

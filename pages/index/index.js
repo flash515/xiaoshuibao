@@ -195,7 +195,7 @@ Page({
     var that = this
     console.log("未更新折扣级别", app.globalData.Gtradeinfo)
     console.log("执行老用户价格等级查询")
-    // 老用户确认价格等级，这一步为什么放在indes操作？
+    // 老用户确认价格等级，这一步放在index操作是便于直接跳转到其他页面
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('DISCOUNTORDER').where({
@@ -225,7 +225,7 @@ Page({
           }
         } else {
           //没有卡券
-          app.globalData.Gtradeinfo.DiscountLevel = "DL4"
+          app.globalData.Gtradeinfo.DiscountLevel = "DL3"
         }
         console.log("已更新折扣级别", app.globalData.Gtradeinfo)
         // 查询推荐人信息

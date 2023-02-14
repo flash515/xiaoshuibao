@@ -13,16 +13,9 @@
 </view>
 <!-- 用户 userprofile -->
 <view class="mainframe">
-<view  wx:if="{{avatarUrl=='' || nickName==''}}">
-  <button class="userinfo-nickname" bindtap='getUserProfile'>微信登录</button>
-</view>
-<view wx:else class="userinfo">
-  <button class="userinfo-avatar" style="background-image: url({{avatarUrl}})" size="default"
-    bindtap='getUserProfile'></button>
-  <view>
-    <button class="userinfo-nickname" bindtap='getUserProfile'>如需更新您的头像，请点击</button>
-  </view>
-</view>
+  <button class="userinfo" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+<image class="avatar" src="{{avatarUrl}}"></image>
+</button>
 <text>\r\n</text>
 <!-- <l-button type="default" plain="{{true}}" bind:lintap="getAccessToken">获取token</l-button>
 <text>\r\n\r\n</text>

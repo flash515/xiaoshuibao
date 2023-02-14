@@ -23,14 +23,11 @@
       <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
         <l-input type="text" label="我的头像："></l-input>
         <button class="userinfo" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-
           <image class="avatar" src="{{avatarUrl}}"></image>
         </button>
-
       </view>
       <view>
         <l-input type="text" label="我的昵称：" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" ></l-input>
-
       </view>
       <view>
         <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName">

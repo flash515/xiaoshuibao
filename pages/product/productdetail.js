@@ -19,8 +19,6 @@ Page({
     answer: "",
     sublock: false,
     replylock: false,
-    avatarUrl: "",
-    nickName: "",
     // 产品轮播参数
     swiperData: [],
     swiperHeight: "",     // swiper的高度
@@ -67,50 +65,7 @@ Page({
       AttachmentHidden: false,
     })
   },
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "登录小税宝以查看更多信息",
-      success: res => {
-        console.log("获得的用户微信信息", res)
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
-        })
-        app.globalData.Guserinfo.avatarUrl = res.userInfo.avatarUrl
-        app.globalData.Guserinfo.nickName = res.userInfo.nickName
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          _openid: app.globalData.Gopenid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon: 'success',
-          title: '登录成功',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
-      }
-    })
-  },
+
   bvQuestion(e) {
     this.setData({
       question: e.detail.value
@@ -346,8 +301,6 @@ Page({
     this.setData({
       usertype: app.globalData.Gtradeinfo.UserType,
       discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
       userphone:app.globalData.Guserinfo.UserPhone,
     })
 

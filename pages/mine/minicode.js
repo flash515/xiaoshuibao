@@ -1,6 +1,10 @@
 // pages/mine/qrcode.js
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");
 Page({
   /**
    * 页面的初始数据
@@ -28,6 +32,27 @@ Page({
     avatarUrl: "",
     tempfilepath: "",
     qrcodeuploadlock: false
+  },
+  onChooseAvatar(e) {
+    const {
+      avatarUrl
+    } = e.detail
+    this.setData({
+      avatarUrl,
+    })
+    // 更新数据
+    db.collection('USER').where({
+      _openid: app.globalData.Gopenid
+    }).update({
+      data: {
+        ["UserInfo.avatarUrl"]: this.data.avatarUrl,
+      },
+    })
+    // 以上更新数据结束
+    wx.showToast({
+      icon: 'success',
+      title: '头像已更新',
+    })
   },
   //单独打开该页时取得用户id,实际应该用不到
   onGetOpenid: function () {
@@ -112,13 +137,13 @@ Page({
       }
     })
   },
-  copy:function(e){
-    let that=this;
+  copy: function (e) {
+    let that = this;
     wx.setClipboardData({
       data: that.data.urllink, //这个是要复制的数据
-      success (res) {
+      success(res) {
         wx.getClipboardData({
-          success (res) {
+          success(res) {
             console.log(res.data) // data
           }
         })
@@ -334,8 +359,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => startToTrack(),
   onShow: function () {
     startToTrack()
   },
@@ -350,7 +375,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
     startByBack()
   },
 
