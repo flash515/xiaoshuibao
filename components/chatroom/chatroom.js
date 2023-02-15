@@ -12,9 +12,8 @@ Component({
     groupId: String,
     groupName: String,
     userInfo: Object,
-    avatarUrl:"",
-    nickName:"",
-
+    avatarUrl:String,
+    nickName:String,
     onGetUserInfo: {
       type: Function,
     },

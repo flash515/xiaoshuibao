@@ -1,6 +1,5 @@
 {
-  "navigationStyle": "custom", 
-  "navigationBarRightButton":{ "hide": true},
+
   "usingComponents": {
     "meetingroom": "/components/meetingroom/meetingroom"
   }

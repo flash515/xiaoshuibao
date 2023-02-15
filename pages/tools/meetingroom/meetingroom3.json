@@ -1,6 +1,4 @@
 {
-  "navigationStyle": "custom", 
-  "navigationBarRightButton":{ "hide": true},
   "usingComponents": {
     "chatroom": "/components/chatroom/chatroom"
   }
