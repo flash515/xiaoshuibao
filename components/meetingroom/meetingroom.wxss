@@ -163,11 +163,11 @@
   align-self: center;
 }
 
-button {
+.button {
   font-size: 28rpx;
 }
 
-button.userinfo {
+.button.userinfo {
   background: darkturquoise;
   color: aliceblue;
   padding: 0 100rpx;

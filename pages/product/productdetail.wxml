@@ -73,19 +73,19 @@
             <navigator url="../mine/userinfo">请用手机号码登录</navigator>
           </view>
           <view wx:else>
-            <view wx:if="{{usertype == 'admin'||discountlevel == 'DL1'}}">
+            <view wx:if="{{discountlevel == 'DL1'}}">
               <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
               <view>特惠折扣价：{{item.Price1}}</view>
             </view>
-            <view wx:if="{{usertype == 'admin'||discountlevel == 'DL2'}}">
+            <view wx:if="{{discountlevel == 'DL2'}}">
               <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
               <view>巨惠折扣价：{{item.Price2}}</view>
             </view>
-            <view wx:if="{{usertype == 'admin'||discountlevel == 'DL3'}}">
+            <view wx:if="{{discountlevel == 'DL3'}}">
               <l-price unit="" value="原价：{{item.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
               <view>折扣价：{{item.Price3}}</view>
             </view>
-            <view wx:if="{{usertype == 'admin'||discountlevel == 'DL4'}}"> {{item.Price4}}</view>
+            <view wx:if="{{discountlevel == 'DL4'}}">{{item.Price4}}</view>
           </view>
         </view>
       </view>

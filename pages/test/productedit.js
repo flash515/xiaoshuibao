@@ -1,11 +1,7 @@
 const app = getApp()
 
-import {
-  pinyin
-} from 'pinyin-pro';
 Page({
   data: {
-    usertype: "admin",
     x: 0,
     // 传值参数
     recordid: "",
@@ -15,7 +11,7 @@ Page({
     productdetail: [],
     array: [],
 
-  
+
     // 商品分类参数
     inputShow: false,
     boxShow: false,
@@ -29,50 +25,8 @@ Page({
     category3: "",
     category3name: "",
     aIndex: 0,
-    code1: "",
-    code2: "",
-    code3: "",
-    code4: "00",
-    productcode:"",
-    categorycode:"",
-    serialcode: "000",
-    // 表单参数
-    showvalue1: true,
-    showvalue2: true,
-    showvalue3: true,
-    showvalue4: true,
-    showvalue5: true,
-    showvalue6: true,
-    showvalue7: true,
-    showvalue8: true,
-    showvalue9: true,
-    showvalue10: true,
-    showvalue11: true,
-    showvalue12: true,
-    showvalue13: true,
-    showvalue14: true,
-    showvalue15: true,
-    showvalue16: true,
-    showvalue17: true,
-    showvalue18: true,
-    showvalue19: true,
-    showvalue20: true,
-    showvalue21: true,
-    showvalue22: true,
-    showvalue23: true,
-    showvalue24: true,
-    showvalue25: true,
-    showvalue26: true,
-    showvalue27: true,
-    showvalue28: true,
-    showvalue29: true,
-    showvalue30: true,
-    showvalue31: true,
-    showvalue32: true,
-    showvalue33: true,
-    showvalue34: true,
+
     adddate: "",
-    productid: "",
     producttype: "",
     productname: "",
     outline: "",
@@ -108,14 +62,12 @@ Page({
     username: "",
     productview: [], //用于展示数据库中的商品介绍图片
     productimage: [], //数据库中的商品介绍图片
-    attachmentview: [], //用于展示数据库中的商品附件图片
-    attachmentimage: [], //数据库中的商品附件图片
+    productview: [], //用于展示数据库中的商品附件图片
     attachmentfile: [],
     tempFilePaths: [],
     onsalechecked: false,
     sublock: false,
     productimageuploadlock: false,
-    attachmentimageuploadlock: false,
     fileuploadlock: false,
     recordcontral: false,
     items: [{
@@ -300,26 +252,26 @@ Page({
   getbox: function () {
     this.setData({
       boxShow: true,
-      inputShow:true
+      inputShow: true
     })
   },
   // 隐藏弹框
   hidebox: function () {
     this.setData({
       boxShow: false,
-      inputShow:false
+      inputShow: false
     })
   },
   // 确认按钮
   confirm: function () {
     this.setData({
-      category1:this.data.category1name,
-      category2:this.data.category2name,
-      category3:this.data.category3name,
+      category1: this.data.category1name,
+      category2: this.data.category2name,
+      category3: this.data.category3name,
       boxShow: false,
       inputShow: false,
     })
-    this.categoryCode()
+
   },
   changeCategory1: function (e) {
     const val = e.detail.value
@@ -355,340 +307,6 @@ Page({
     })
   },
 
-  productCode() {
-    this.setData({
-      productcode:pinyin(this.data.productname, {
-        pattern: 'first',
-        toneType: 'none'
-      }).toUpperCase().replace(/\s+/g, '')
-    })
-    this.serialCode()
-  },
-
-  categoryCode(){
-    for (var i = 0; i < this.data.sortarray.length; i++) {
-      if (this.data.sortarray[i].Category1Name == this.data.category1) {
-        var sortcode1=this.data.sortarray[i].Category1Code
-      }
-      for (var j = 0; j < this.data.sortarray[i].Category2Array.length; j++) {
-        if (this.data.sortarray[i].Category2Array[j].Category2Name == this.data.category2) {
-          var sortcode2=this.data.sortarray[i].Category2Array[j].Category2Code
-        }
-        for (var k = 0; k < this.data.sortarray[i].Category2Array[j].Category3Array.length; k++) {
-          if (this.data.sortarray[i].Category2Array[j].Category3Array[k].Category3Name == this.data.category3) {
-            var sortcode3=this.data.sortarray[i].Category2Array[j].Category3Array[k].Category3Code
-          }
-        }
-      }
-    }
-
-    this.setData({
-      categorycode: [sortcode1] + [sortcode2] + [sortcode3]+[this.data.code4]
-    })
-    this.serialCode()
-  },
-  serialCode() {
-    var tempcode=[this.data.productcode]+"-"+[this.data.categorycode]
-    var temparray = []
-    // 需要搜索全部商品以包含停售商品
-    for (var i = 0; i < app.globalData.Gproductlist.length; i++) {
-      if (tempcode == app.globalData.Gproductlist[i].ProductId.slice(0, -4)) {
-        temparray.push(app.globalData.Gproductlist[i])
-      }
-    }
-    console.log(temparray)
-    if (temparray.length != 0) {
-      // 如果有同名的商品，就先生成编号+1的字符串，然后再取出后三位作为编号
-      this.setData({
-        serialcode: ("0000" + [temparray.length + 1]).substr(-3)
-      })
-    } else {
-      this.setData({
-        serialcode: "001"
-      })
-    }
-    this._productId()
-  },
-  _productId() {
-    this.setData({
-      productid: [this.data.productcode]+"-"+[this.data.categorycode] + "-" + [this.data.serialcode]
-    })
-  },
-  //查询本人创建且符合模糊条件的记录
-  onSearch(e) {
-    this.setData({
-      x: 0,
-      servicearea: []
-    })
-    // 待修改，服务商只在自已商品中选择，管理员在全部商品中选择,页面加载时已查询，不需要重复查询
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('PRODUCT').where(_.and([{
-        _openid: app.globalData.Gopenid
-      },
-      _.or([{
-          HandlePlace: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        },
-        {
-          ProductName: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        },
-        {
-          Status: {
-            $regex: '.*' + e.detail.value,
-            $options: 'i'
-          }
-        }
-      ])
-    ])).get({
-      success: res => {
-        this.setData({
-          productarray: res.data,
-        })
-        console.log(this.data.productarray)
-        if (res.data.length > 1) {
-          this.setData({
-            recordcontral: true
-          })
-        }
-        this.setcurrentdata()
-      }
-    })
-  },
-  onPreviousClick() {
-    if (this.data.x == 0) {
-      wx.showToast({
-        title: '已经是第一条记录了',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.data.x = this.data.x - 1
-      this.setcurrentdata()
-    }
-  },
-  onNextClick() {
-    if (this.data.x == this.data.productarray.length - 1) {
-      wx.showToast({
-        title: '已经是最后一条记录了',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
-    } else {
-      this.data.x = this.data.x + 1
-      this.setcurrentdata()
-    }
-  },
-  setcurrentdata() {
-    this.setData({
-      recordid: this.data.productarray[this.data.x]._id,
-      adddate: this.data.productarray[this.data.x].AddDate,
-      status: this.data.productarray[this.data.x].Status,
-      productid: this.data.productarray[this.data.x].ProductId,
-      producttype: this.data.productarray[this.data.x].ProductType,
-      productname: this.data.productarray[this.data.x].ProductName,
-      outline: this.data.productarray[this.data.x].Outline,
-      startdate: this.data.productarray[this.data.x].StartDate,
-      enddate: this.data.productarray[this.data.x].EndDate,
-      description: this.data.productarray[this.data.x].Description,
-      category1: this.data.productarray[this.data.x].Category1,
-      category2: this.data.productarray[this.data.x].Category2,
-      category3: this.data.productarray[this.data.x].Category3,
-      servicearea: this.data.productarray[this.data.x].ServiceArea,
-      handleplace: this.data.productarray[this.data.x].HandlePlace,
-      issuedby: this.data.productarray[this.data.x].IssuedBy,
-      situation: this.data.productarray[this.data.x].Situation,
-      forbid: this.data.productarray[this.data.x].Forbid,
-      doclist: this.data.productarray[this.data.x].DocList,
-      processingtime: this.data.productarray[this.data.x].ProcessingTime,
-      reward: this.data.productarray[this.data.x].Reward,
-      rewardtime: this.data.productarray[this.data.x].RewardTime,
-      provider: this.data.productarray[this.data.x].Provider,
-      providerprice: this.data.productarray[this.data.x].ProviderPrice,
-      providercountprice: this.data.productarray[this.data.x].ProviderCountPrice,
-      price1: this.data.productarray[this.data.x].Price1,
-      price1count: this.data.productarray[this.data.x].Price1Count,
-      price2: this.data.productarray[this.data.x].Price2,
-      price2count: this.data.productarray[this.data.x].Price2Count,
-      price3: this.data.productarray[this.data.x].Price3,
-      price3count: this.data.productarray[this.data.x].Price3Count,
-      price4: this.data.productarray[this.data.x].Price4,
-      price4count: this.data.productarray[this.data.x].Price4Count,
-      score: this.data.productarray[this.data.x].Score,
-      updatedate: this.data.productarray[this.data.x].UpdateDate,
-      productview: this.data.productarray[this.data.x].ProductImage,
-      attachmentview: this.data.productarray[this.data.x].AttachmentImage,
-      attachmentfile: this.data.productarray[this.data.x].AttachmentFile,
-      username: this.data.productarray[this.data.x]._openid,
-    })
-    if (this.data.productarray[this.data.x].Status == "在售") {
-      this.setData({
-        onsalechecked: true
-      })
-    } else {
-      this.setData({
-        onsalechecked: false
-      })
-    }
-  },
-  ToastOn() {
-    wx.showToast({
-      title: '已开启展示开关',
-      icon: 'none',
-      duration: 2000 //持续的时间
-    })
-  },
-  ToastOff() {
-    wx.showToast({
-      title: '已关闭展示开关',
-      icon: 'none',
-      duration: 2000 //持续的时间
-    })
-  },
-  SVChange(e) {
-    console.log(e.currentTarget.dataset.id)
-    if (e.detail.value == true) {
-      this.ToastOn()
-    } else {
-      this.ToastOff()
-    }
-    if (e.currentTarget.dataset.id == 1) {
-      this.setData({
-        showvalue1: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 2) {
-      this.setData({
-        showvalue2: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 3) {
-      this.setData({
-        showvalue3: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 4) {
-      this.setData({
-        showvalue4: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 5) {
-      this.setData({
-        showvalue5: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 6) {
-      this.setData({
-        showvalue6: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 7) {
-      this.setData({
-        showvalue7: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 8) {
-      this.setData({
-        showvalue8: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 9) {
-      this.setData({
-        showvalue9: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 10) {
-      this.setData({
-        showvalue10: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 11) {
-      this.setData({
-        showvalue11: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 12) {
-      this.setData({
-        showvalue12: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 13) {
-      this.setData({
-        showvalue13: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 14) {
-      this.setData({
-        showvalue14: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 15) {
-      this.setData({
-        showvalue15: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 16) {
-      this.setData({
-        showvalue16: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 17) {
-      this.setData({
-        showvalue17: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 18) {
-      this.setData({
-        showvalue18: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 19) {
-      this.setData({
-        showvalue19: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 20) {
-      this.setData({
-        showvalue20: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 21) {
-      this.setData({
-        showvalue21: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 22) {
-      this.setData({
-        showvalue22: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 23) {
-      this.setData({
-        showvalue23: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 24) {
-      this.setData({
-        showvalue24: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 25) {
-      this.setData({
-        showvalue25: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 26) {
-      this.setData({
-        showvalue26: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 27) {
-      this.setData({
-        showvalue27: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 28) {
-      this.setData({
-        showvalue28: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 29) {
-      this.setData({
-        showvalue29: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 30) {
-      this.setData({
-        showvalue30: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 31) {
-      this.setData({
-        showvalue31: e.detail.value
-      })
-    } else if (e.currentTarget.dataset.id == 32) {
-      this.setData({
-        showvalue32: e.detail.value
-      })
-    }
-
-  },
-
   onsaleChange(e) {
     if (e.detail.value == true) {
       this.setData({
@@ -713,11 +331,6 @@ Page({
     }
   },
 
-  bvProductId(e) {
-    this.setData({
-      productid: e.detail.value
-    })
-  },
   // 通过事件绑定用户手机值
   bvProductName(e) {
     this.setData({
@@ -877,9 +490,9 @@ Page({
   bvUploadProductImage(e) {
     let that = this
     // 判断商品id是否空值
-    if (this.data.productid == "" || this.data.productid == null) {
+    if (this.data.productname == "" || this.data.productname == null) {
       wx.showToast({
-        title: "商品编号不能为空",
+        title: "商品名称不能为空",
         icon: 'none',
         duration: 2000
       })
@@ -898,7 +511,7 @@ Page({
         } else {
           for (let i = 0; i < this.data.productview.length; i++) {
             const filePath = this.data.productview[i]
-            const cloudPath = 'product/' + this.data.productid + '/' + this.data.productid + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
+            const cloudPath = 'product/' + this.data.productname + '/' + this.data.productname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
             wx.cloud.uploadFile({
               cloudPath,
               filePath,
@@ -917,24 +530,24 @@ Page({
       }
     }
   },
-  bvChooseAttachmentImage(e) {
+  bvChooseProductImage(e) {
     this.setData({
-      attachmentview: e.detail.all,
-      attachmentimageuploadlock: false
+      productview: e.detail.all,
+      productimageuploadlock: false
     })
   },
-  bvRemoveAttachmentImage(e) {
+  bvRemoveProductImage(e) {
     this.setData({
-      attachmentview: e.detail.all,
-      attachmentimageuploadlock: false
+      productview: e.detail.all,
+      productimageuploadlock: false
     })
   },
-  bvUploadAttachmentImage(e) {
+  bvUploadProductImage(e) {
     let that = this
     // 判断商品id是否空值
-    if (this.data.productid == "" || this.data.productid == null) {
+    if (this.data.productname == "" || this.data.productname == null) {
       wx.showToast({
-        title: "商品编号不能为空",
+        title: "商品名称不能为空",
         icon: 'none',
         duration: 2000
       })
@@ -948,18 +561,18 @@ Page({
           duration: 2000 //持续的时间
         })
       } else {
-        if (this.data.attachmentview.length == 0) {
+        if (this.data.productview.length == 0) {
           this.data.attachmentimage = []
         } else {
-          for (let i = 0; i < this.data.attachmentview.length; i++) {
-            const filePath = this.data.attachmentview[i]
-            const cloudPath = 'product/' + this.data.productid + '/' + this.data.productid + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
+          for (let i = 0; i < this.data.productview.length; i++) {
+            const filePath = this.data.productview[i]
+            const cloudPath = 'product/' + this.data.productname + '/' + this.data.productname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
             wx.cloud.uploadFile({
               cloudPath,
               filePath,
               success: res => {
                 console.log("fileID", res.fileID)
-                this.data.attachmentimage = this.data.attachmentimage.concat(res.fileID)
+                this.data.productimage = this.data.productimage.concat(res.fileID)
                 this.data.imageuploadlock = true // 修改上传状态为锁定
               }
             })
@@ -967,7 +580,7 @@ Page({
 
         }
 
-        console.log("attachmentimage", that.data.attachmentimage)
+        console.log("productimage", that.data.productimage)
         // 异步上传，打印attachment时尚未返回数据
       }
     }
@@ -1005,11 +618,11 @@ Page({
       success: (res => {
         console.log(res)
         // 注意这里数组删除方法的细节，splice删除完以后还要setDate重新赋值才可以
-        this.data.attachmentfile.splice([e.currentTarget.dataset.name],1)
+        this.data.attachmentfile.splice([e.currentTarget.dataset.name], 1)
         this.setData({
-          attachmentfile:this.data.attachmentfile
+          attachmentfile: this.data.attachmentfile
         })
-        console.log("修改后this.data.attachmentfile",this.data.attachmentfile)
+        console.log("修改后this.data.attachmentfile", this.data.attachmentfile)
       }),
       fail: (err => {
         console.log(err)
@@ -1019,7 +632,7 @@ Page({
   },
   bvUploadFile(e) {
     // 判断individualname是否空值
-    if (this.data.productid == "" || this.data.productid == null) {
+    if (this.data.productname == "" || this.data.productname == null) {
       wx.showToast({
         title: "请先填写商品编号后再尝试上传资料",
         icon: 'none',
@@ -1037,7 +650,7 @@ Page({
       } else {
         for (let i = 0; i < this.data.tempFilePaths.length; i++) {
           const filePath = this.data.tempFilePaths[i].path
-          const cloudPath = 'product/' + this.data.productid + '/' + this.data.tempFilePaths[i].name
+          const cloudPath = 'product/' + this.data.productname + '/' + this.data.tempFilePaths[i].name
           wx.cloud.uploadFile({
             cloudPath,
             filePath,
@@ -1105,7 +718,6 @@ Page({
           data: {
             AddDate: new Date().toLocaleDateString(),
             Status: this.data.status,
-            ProductId: this.data.productid,
             ProductType: this.data.producttype,
             ProductName: this.data.productname,
             Outline: this.data.outline,
@@ -1137,7 +749,6 @@ Page({
             Price4Count: Number(this.data.price4count),
             Score: Number(this.data.score),
             ProductImage: this.data.productimage,
-            AttachmentImage: this.data.attachmentimage,
             AttachmentFile: this.data.attachmentfile,
           },
           success(res) {
@@ -1169,7 +780,6 @@ Page({
     db.collection("PRODUCT").doc(this.data.recordid).update({
       data: {
         Status: this.data.status,
-        ProductId: this.data.productid,
         ProductType: this.data.producttype,
         ProductName: this.data.productname,
         Outline: this.data.outline,
@@ -1200,7 +810,6 @@ Page({
         Price4: this.data.price4,
         Price4Count: this.data.price4count,
         ProductImage: this.data.productimage,
-        AttachmentImage: this.data.attachmentimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
         UpdateDate: new Date().toLocaleDateString()
@@ -1219,7 +828,7 @@ Page({
             collectionName: "PRODUCT",
             command: "and",
             where: [{
-              Status: "停售"
+                Status: "停售"
               },
               {
                 Status: "在售"
@@ -1248,70 +857,64 @@ Page({
    */
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
-    var that = this;
+    console.log(options)
     this.setData({
-      recordid: options.recordid,
-      usertype: app.globalData.Gtradeinfo.UserType,
+      recordid: options._id,
       sortarray: app.globalData.Gsortarray,
-      // category1: app.globalData.Gsortarray[0].Category1Name,
-      // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
-      // category3: app.globalData.Gsortarray[0].Category2Array[0].Category3Array[0].Category3Name,
     })
 
-if(options.recordid != undefined && options.recordid !=""){
-        // 筛选指定记录
-        var fliter = [];
-        // var _this = this
-        for (var i = 0; i < app.globalData.Gproductlist.length; i++) {
-          if (app.globalData.Gproductlist[i]._id == this.data.recordid) {
-            fliter.push(app.globalData.Gproductlist[i]);
-          }
+    if (options._id != undefined && options._id != "") {
+      // 筛选指定记录,此处数据范围是之前根据admin身份获取的全部产品数据，供应伙伴页面应缩小范围为本人提交产品
+      var fliter = [];
+      // var _this = this
+      for (var i = 0; i < app.globalData.Gproductlist.length; i++) {
+        if (app.globalData.Gproductlist[i]._id == this.data.recordid) {
+          fliter.push(app.globalData.Gproductlist[i]);
         }
-        console.log(fliter);
-        this.setData({
-          productdetail: fliter,
-          recordid: fliter[0]._id,
-          adddate: fliter[0].AddDate,
-          status: fliter[0].Status,
-          productid: fliter[0].ProductId,
-          producttype: fliter[0].ProductType,
-          productname: fliter[0].ProductName,
-          outline: fliter[0].Outline,
-          startdate: fliter[0].StartDate,
-          enddate: fliter[0].EndDate,
-          description: fliter[0].Description,
-          category1: fliter[0].Category1,
-          category2: fliter[0].Category2,
-          category3: fliter[0].Category3,
-          servicearea: fliter[0].ServiceArea,
-          handleplace: fliter[0].HandlePlace,
-          issuedby: fliter[0].IssuedBy,
-          situation: fliter[0].Situation,
-          forbid: fliter[0].Forbid,
-          doclist: fliter[0].DocList,
-          processingtime: fliter[0].ProcessingTime,
-          reward: fliter[0].Reward,
-          rewardtime: fliter[0].RewardTime,
-          provider: fliter[0].Provider,
-          providerprice: fliter[0].ProviderPrice,
-          providercountprice: fliter[0].ProviderCountPrice,
-          price1: fliter[0].Price1,
-          price1count: fliter[0].Price1Count,
-          price2: fliter[0].Price2,
-          price2count: fliter[0].Price2Count,
-          price3: fliter[0].Price3,
-          price3count: fliter[0].Price3Count,
-          price4: fliter[0].Price4,
-          price4count: fliter[0].Price4Count,
-          score: fliter[0].Score,
-          updatedate: fliter[0].UpdateDate,
-          productview: fliter[0].ProductImage,
-          attachmentview: fliter[0].AttachmentImage,
-          attachmentfile: fliter[0].AttachmentFile,
-          username: fliter[0]._openid,
-        })
       }
-      },
+      console.log(fliter);
+      this.setData({
+        productdetail: fliter,
+        recordid: fliter[0]._id,
+        adddate: fliter[0].AddDate,
+        status: fliter[0].Status,
+        producttype: fliter[0].ProductType,
+        productname: fliter[0].ProductName,
+        outline: fliter[0].Outline,
+        startdate: fliter[0].StartDate,
+        enddate: fliter[0].EndDate,
+        description: fliter[0].Description,
+        category1: fliter[0].Category1,
+        category2: fliter[0].Category2,
+        category3: fliter[0].Category3,
+        servicearea: fliter[0].ServiceArea,
+        handleplace: fliter[0].HandlePlace,
+        issuedby: fliter[0].IssuedBy,
+        situation: fliter[0].Situation,
+        forbid: fliter[0].Forbid,
+        doclist: fliter[0].DocList,
+        processingtime: fliter[0].ProcessingTime,
+        reward: fliter[0].Reward,
+        rewardtime: fliter[0].RewardTime,
+        provider: fliter[0].Provider,
+        providerprice: fliter[0].ProviderPrice,
+        providercountprice: fliter[0].ProviderCountPrice,
+        price1: fliter[0].Price1,
+        price1count: fliter[0].Price1Count,
+        price2: fliter[0].Price2,
+        price2count: fliter[0].Price2Count,
+        price3: fliter[0].Price3,
+        price3count: fliter[0].Price3Count,
+        price4: fliter[0].Price4,
+        price4count: fliter[0].Price4Count,
+        score: fliter[0].Score,
+        updatedate: fliter[0].UpdateDate,
+        productview: fliter[0].ProductImage,
+        attachmentfile: fliter[0].AttachmentFile,
+        username: fliter[0]._openid,
+      })
+    }
+  },
 
 
   /**
