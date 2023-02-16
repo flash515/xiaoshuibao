@@ -27,7 +27,6 @@ Page({
     aIndex: 0,
 
     adddate: "",
-    producttype: "",
     productname: "",
     outline: "",
     startdate: "",
@@ -282,9 +281,6 @@ Page({
       category1name: this.data.sortarray[val].Category1Name,
       category2name: this.data.sortarray[val].Category2Array[0].Category2Name,
       category3name: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Name,
-      code1: this.data.sortarray[val].Category1Code,
-      code2: this.data.sortarray[val].Category2Array[0].Category2Code,
-      code3: this.data.sortarray[val].Category2Array[0].Category3Array[0].Category3Code,
     })
   },
   changeCategory2: function (e) {
@@ -294,8 +290,7 @@ Page({
       aIndex: 0,
       category2name: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Name,
       category3name: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
-      code2: this.data.sortarray[this.data.pIndex].Category2Array[val].Category2Code,
-      code3: this.data.sortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Code,
+
     })
   },
   changeCategory3: function (e) {
@@ -303,7 +298,6 @@ Page({
     this.setData({
       aIndex: val,
       category3name: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
-      code3: this.data.sortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Code,
     })
   },
 
@@ -338,11 +332,7 @@ Page({
     })
 
   },
-  bvProductType(e) {
-    this.setData({
-      producttype: e.detail.value
-    })
-  },
+
   bvOutline(e) {
     this.setData({
       outline: e.detail.value
@@ -473,6 +463,11 @@ Page({
   bvChangeScore(e) {
     this.setData({
       score: e.detail.value
+    })
+  },
+  bvChangeStatus(e) {
+    this.setData({
+      status: e.detail.value
     })
   },
   bvChooseProductImage(e) {
@@ -718,7 +713,6 @@ Page({
           data: {
             AddDate: new Date().toLocaleDateString(),
             Status: this.data.status,
-            ProductType: this.data.producttype,
             ProductName: this.data.productname,
             Outline: this.data.outline,
             StartDate: this.data.startdate,
@@ -780,7 +774,6 @@ Page({
     db.collection("PRODUCT").doc(this.data.recordid).update({
       data: {
         Status: this.data.status,
-        ProductType: this.data.producttype,
         ProductName: this.data.productname,
         Outline: this.data.outline,
         StartDate: this.data.startdate,
@@ -878,7 +871,6 @@ Page({
         recordid: fliter[0]._id,
         adddate: fliter[0].AddDate,
         status: fliter[0].Status,
-        producttype: fliter[0].ProductType,
         productname: fliter[0].ProductName,
         outline: fliter[0].Outline,
         startdate: fliter[0].StartDate,

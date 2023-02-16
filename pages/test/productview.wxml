@@ -60,10 +60,7 @@
         <view>更新时间：{{item.UpdateDate}}</view>
         <!-- 附件展示 -->
         <label>其他资料：</label>
-        <view wx:for="{{item.ProductImage}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-          <image src="{{value}}" mode='aspectFit' bindtap="enlarge" data-list="{{item.ProductImage}}" data-src="{{value}}">
-          </image>
-        </view>
+        <l-image-picker size="4" count="4" remove="false" urls="{{item.ProductImage}}" />
         <!-- 附件下载 -->
         <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
           <l-button data-link="{{value}}" bind:lintap="bvCopyDownLink" plain="{{true}}" shape="semicircle">{{key}}</l-button>

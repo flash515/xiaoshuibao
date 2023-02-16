@@ -40,6 +40,7 @@ Page({
   },
   _setproductarray(category) {
     console.log(category)
+    console.log(app.globalData.Gproduct)
     var fliter = []
     for (let i = 0; i < app.globalData.Gproduct.length; i++) {
       if (app.globalData.Gproduct[i].Category3 == category) {

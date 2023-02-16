@@ -19,10 +19,10 @@ const SortArray = [{
       },
       {
         "Category2Code": "02",
-        "Category2Name": "场地出租",
+        "Category2Name": "商秘地址",
         "Category3Array": [{
             "Category3Code": "01",
-            "Category3Name": "深圳出租",
+            "Category3Name": "深圳商秘",
           },
         ]
       },
@@ -38,30 +38,6 @@ const SortArray = [{
         "Category3Array": [{
             "Category3Code": "01",
             "Category3Name": "深圳注册",
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "南昌注册",
-          },
-          {
-            "Category3Code": "03",
-            "Category3Name": "西安注册",
-          },
-          {
-            "Category3Code": "04",
-            "Category3Name": "玉溪注册",
-          },
-          {
-            "Category3Code": "05",
-            "Category3Name": "上海注册",
-          },
-          {
-            "Category3Code": "06",
-            "Category3Name": "明光注册",
-          },
-          {
-            "Category3Code": "07",
-            "Category3Name": "宁波注册",
           },
         ]
       },
@@ -210,7 +186,7 @@ Page({
    */
   data: {
     // 商品分类参数
-    sortarray: SortArray,
+    sortarray: [],
 
   },
 
@@ -232,6 +208,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    //SortArray没有在pages data当中，所以不需要用this.data,
+    this.setData({
+      sortarray:SortArray
+    })
     console.log(this.data.sortarray)
 
   },
