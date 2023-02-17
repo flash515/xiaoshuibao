@@ -65,11 +65,30 @@
       </navigator>
     </l-grid-item>
     <l-grid-item key='five' slot='five'>
+      <navigator url="../product/productview?category2=公司托管">
+        <l-icon name='order' />
+        <view class="text">公司托管</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='six' slot='six'>
       <navigator url="../product/productview?category2=食品经营许可证">
         <l-icon name='order' />
         <view class="text">食品经营证</view>
       </navigator>
     </l-grid-item>
+    <l-grid-item key='seven' slot='seven'>
+      <navigator url="../product/productview?category2=道路运输许可证">
+        <l-icon name='order' />
+        <view class="text">道路运输证</view>
+      </navigator>
+    </l-grid-item>
+    <l-grid-item key='eight' slot='eight'>
+      <navigator url="../product/productview?category2=医疗器械许可证">
+        <l-icon name='order' />
+        <view class="text">医疗器械证</view>
+      </navigator>
+    </l-grid-item>
+
   </l-grid>
   <l-list title="辅助工具" icon="notification" />
   <l-grid>
@@ -115,9 +134,21 @@
       </navigator>
     </l-grid-item>
     <l-grid-item key='four' slot='four'>
-      <navigator url="../product/productview?category3=深圳许可证">
-        <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/资质代办.jpg"></image>
-        <view class="text">深圳许可证</view>
+      <navigator url="../product/productview?category3=深圳食品经营">
+        <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/食品经营.png"></image>
+        <view class="text">深圳食品经营</view>
+      </navigator>
+    </l-grid-item>
+      <l-grid-item key='five' slot='five'>
+      <navigator url="../product/productview?category3=明光道路运输">
+        <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/道路运输.png"></image>
+        <view class="text">明光道路运输</view>
+      </navigator>
+    </l-grid-item>
+      <l-grid-item key='six' slot='six'>
+      <navigator url="../product/productview?category3=明光医疗器械">
+        <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/医疗器械.png"></image>
+        <view class="text">明光医疗器械</view>
       </navigator>
     </l-grid-item>
 
@@ -126,7 +157,7 @@
     <l-list title="会员专享服务" icon="notification" right-desc="更多" tag-position="right" />
     <l-grid>
       <l-grid-item key='one' slot='one'>
-        <navigator url="../product/productview?category2=自然人代办">
+        <navigator url="../product/productview?category3=自然人代办">
           <l-icon name='order' />
           <view class="text">自然人代办</view>
         </navigator>

@@ -20,7 +20,7 @@
       </view>
     </view>
 
-    <scroll-view scroll-y="true" style="display: flex;flex-direction: column; width: 75%;height: 100%; padding-left:25rpx;" scroll-top="{{scrollTop}}">
+    <scroll-view scroll-y="true" enable-flex="true" style=" display: flex;flex-direction: column; width: 75%;height: 100%; padding-left:25rpx;" scroll-top="{{scrollTop}}">
       <text>\n</text>
         <view wx:for="{{array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2">
 
