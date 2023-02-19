@@ -5,14 +5,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
     DetailHidden: false,
     QAHidden: true,
     AttachmentHidden: true,
     pageParam: [],
-    usertype: "",
+    usertype: "client",
     discountlevel: "",
-    productarray: [],
-    productdetail: [],
+    product: [],
     array: [],
     qaarray: [],
     question: "",
@@ -21,7 +21,7 @@ Page({
     replylock: false,
     // 产品轮播参数
     swiperData: [],
-    swiperHeight: "",     // swiper的高度
+    swiperHeight: "", // swiper的高度
     indicatorDots: true,
     vertical: false,
     autoplay: true,
@@ -33,13 +33,13 @@ Page({
   },
 
   computeImgHeight(e) {
-    var winWid = wx.getSystemInfoSync().windowWidth;      //获取当前屏幕的宽度
-    var imgh=e.detail.height;　　　　　　　　　　　　　　　 //图片高度
-    var imgw=e.detail.width;
-    var swiperH = winWid * imgh / imgw + "px"　           //等比设置swiper的高度。  
+    var winWid = wx.getSystemInfoSync().windowWidth; //获取当前屏幕的宽度
+    var imgh = e.detail.height; //图片高度
+    var imgw = e.detail.width;
+    var swiperH = winWid * imgh / imgw + "px" //等比设置swiper的高度。  
     //即 屏幕宽度 / swiper高度 = 图片宽度 / 图片高度  -->  swiper高度 = 屏幕宽度 * 图片高度 / 图片宽度
     this.setData({
-      swiperHeight: swiperH		//设置swiper高度
+      swiperHeight: swiperH //设置swiper高度
     })
 
   },
@@ -198,7 +198,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('PRODUCTQA').add({
           data: {
-            DataId:this.data.pageParam.dataid,
+            DataId: this.data.pageParam.productid,
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "",
@@ -248,42 +248,60 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    console.log("页面接收参数", options)
+    console.log("Gproduct", app.globalData.Gproduct)
     this.setData({
       pageParam: options,
     })
+    //判断全局变量是否有值，注意写法格式没有引号
+    if (app.globalData.Gproduct == undefined) {
+      //如果通过分享链接进入没有产品数据，则查询产品数据
+      wx.cloud.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "PRODUCT",
+          command: "or",
+          where: [{
+            Status: "在售"
+          }]
+        },
+        success: res => {
+          app.globalData.Gproduct = res.result.data
+        }
+      })
+    } else {
 
-
-    // 筛选指定记录
-    var fliter = [];
-    // var _this = this
-    for (var i = 0; i < app.globalData.Gproduct.length; i++) {
-      if (app.globalData.Gproduct[i]._id == this.data.pageParam.dataid) {
-        fliter.push(app.globalData.Gproduct[i]);
+      // 筛选指定记录
+      var fliter = [];
+      // var _this = this
+      for (var i = 0; i < app.globalData.Gproduct.length; i++) {
+        if (app.globalData.Gproduct[i]._id == this.data.pageParam.productid) {
+          fliter.push(app.globalData.Gproduct[i]);
+        }
       }
+      console.log(fliter);
+      this.setData({
+        product: fliter[0],
+        swiperData: fliter[0].ProductImage
+      })
+      // 云函数查询商品的QA内容
+      wx.cloud.callFunction({
+        name: "NormalQuery",
+        data: {
+          collectionName: "PRODUCTQA",
+          command: "and",
+          where: [{
+            DataId: this.data.pageParam.productid
+          }]
+        },
+        success: res => {
+          console.log(res)
+          this.setData({
+            qaarray: res.data
+          })
+        }
+      })
     }
-    console.log(fliter);
-    this.setData({
-      productdetail: fliter,
-      swiperData:fliter[0].ProductImage
-    })
-        // 云函数查询商品的QA内容
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "PRODUCTQA",
-        command: "and",
-        where: [{
-          DataId: this.data.pageParam.dataid
-        }]
-      },
-      success: res => {
-        console.log(res)
-        this.setData({
-          qaarray: res.data
-        })
-      }
-    })
-
   },
 
   /**
@@ -299,9 +317,9 @@ Page({
 
   onShow: function () {
     this.setData({
-      usertype: app.globalData.Gtradeinfo.UserType,
+      // usertype: app.globalData.Gtradeinfo.UserType,
       discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
-      userphone:app.globalData.Guserinfo.UserPhone,
+      userphone: app.globalData.Guserinfo.UserPhone,
     })
 
   },
@@ -342,7 +360,31 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: app.globalData.Guserinfo.nickName + '推荐给您：',
+      path: '/pages/product/productdetail?userid=' + app.globalData.Gopenid + '&productid=' + this.data.pageParam.productid,
+      imageUrl: '', //封面，留空自动抓取500*400生成图片
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log(this.data.path.value)
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
+  },
 
-  }
+
 })

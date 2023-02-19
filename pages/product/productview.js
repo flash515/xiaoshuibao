@@ -93,7 +93,7 @@ Page({
   },
 
   bvProductDetail(e) {
-    console.log(e.currentTarget.dataset.params)
+    console.log("准备传递的页面参数",e.currentTarget.dataset.params)
     wx.navigateTo({
       url: "../product/productdetail?"+ e.currentTarget.dataset.params    })
     startByClick(e.currentTarget.dataset.name);

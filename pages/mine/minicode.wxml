@@ -13,8 +13,9 @@
 </view>
 <!-- 用户 userprofile -->
 <view class="mainframe">
+  <label class="text">点击选择小程序码中使用的头像：</label>
   <button class="userinfo" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-<image class="avatar" src="{{avatarUrl}}"></image>
+<image class="userinfo-avatar" src="{{avatarUrl}}"></image>
 </button>
 <text>\r\n</text>
 <!-- <l-button type="default" plain="{{true}}" bind:lintap="getAccessToken">获取token</l-button>

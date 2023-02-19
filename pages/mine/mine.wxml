@@ -19,9 +19,11 @@
     <l-button special="{{true}}" open-type="contact">
       <l-icon name="customer-service" />
     </l-button>
-    <l-button special="{{true}}" open-type="contact">
+
+    <view class="text">
+      <l-button special="{{true}}" open-type="contact">
       联系客服</l-button>
-    <view class="text"></view>
+    </view>
   </l-grid-item>
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">

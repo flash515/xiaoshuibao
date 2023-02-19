@@ -51,9 +51,9 @@
             </view>
 
             <view style="display:flex; flex-direction:row;">
-              <l-button data-params="dataid={{item._id}}&productname={{item.ProductName}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="#3683d6" size="mini">详细介绍</l-button>
+              <l-button data-params="productid={{item._id}}&productname={{item.ProductName}}" data-name="{{item.ProductName}}" bind:lintap="bvProductDetail" plain="{{true}}" shape="semicircle" icon="more" icon-color="#3683d6" size="mini">详细介绍</l-button>
               <view><text decode="{{true}}">&emsp;</text></view>
-              <l-button icon="order" icon-color="white" data-params="dataid={{item._id}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
+              <l-button icon="order" icon-color="white" data-params="productid={{item._id}}&productname={{item.ProductName}}" bind:lintap="bvNewOrder" shape="semicircle" size="mini">我要办理</l-button>
             </view>
 
           </view>

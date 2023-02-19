@@ -264,6 +264,28 @@ Page({
               icon: 'success',
               duration: 2000
             })
+            //给推荐和和管理员发送短信
+              if (app.globalData.Ginviter.UserInfo.UserPhone != undefined && app.globalData.Ginviter.UserInfo.UserPhone != "") {
+                var tempmobile = [18954744612, app.globalData.Ginviter.UserInfo.UserPhone]
+              } else {
+                var tempmobile = [18954744612]
+              }
+              // 调用云函数发短信给推荐人和管理员
+              wx.cloud.callFunction({
+                name: 'sendsms',
+                data: {
+                  templateId: "1569087",
+                  nocode: true,
+                  mobile: tempmobile
+                },
+                success: res => {
+                  console.log("短信发送结果", res)
+                },
+                fail: res => {
+                  console.log(res)
+                },
+              })
+
           },
           fail(res) {
 

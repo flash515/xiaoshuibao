@@ -17,7 +17,7 @@ Page({
       Balance: 0,
       DiscountLevel: "DL4",
       PromoterLevel: "normal",
-      UserType: "42"
+      UserType: "client"
     },
     inviterid: "",
     tempinviterid: "",
@@ -25,10 +25,9 @@ Page({
     indirectinviterid: "",
     tempimage: [],
     userinfo: {},
-    sendsms: false,
   },
   onLoad: function (options) {
-    //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,
+    //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,productid产品id
     console.log("接收到的参数", options)
     console.log("跳转页面路径", options.page)
     app.globalData.Gparams = options
@@ -163,7 +162,6 @@ Page({
     // 如果是新用户，检查是否有传递过来的推荐人id
     this.setData({
       inviterid: this.data.tempinviterid,
-      sendsms: true,
     })
 
     app.globalData.Ginviterid = this.data.tempinviterid
@@ -225,7 +223,7 @@ Page({
           }
         } else {
           //没有卡券
-          app.globalData.Gtradeinfo.DiscountLevel = "DL3"
+          app.globalData.Gtradeinfo.DiscountLevel = "DL4"
         }
         console.log("已更新折扣级别", app.globalData.Gtradeinfo)
         // 查询推荐人信息
@@ -275,29 +273,6 @@ Page({
       },
       complete: res => {
         console.log("执行到最后位置了")
-        if (this.data.sendsms == true) {
-          if (res.data[0].UserInfo.UserPhone != undefined && res.data[0].UserInfo.UserPhone != "") {
-            var tempmobile = [18954744612, res.data[0].UserInfo.UserPhone]
-          } else {
-            var tempmobile = [18954744612]
-          }
-          // 调用云函数发短信给推荐人和管理员
-          wx.cloud.callFunction({
-            name: 'sendsms',
-            data: {
-              templateId: "1569087",
-              nocode: true,
-              mobile: tempmobile
-            },
-            success: res => {
-              console.log("短信发送结果", res)
-            },
-            fail: res => {
-              console.log(res)
-            },
-          })
-        }
-
 
         // 这里的参数判断逻辑是有效经典的，可以copy借鉴
         console.log(app.globalData.Gparams.page)

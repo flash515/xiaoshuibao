@@ -23,7 +23,6 @@ Page({
     pageParam: "",
     //新增数据变量
     // 编号
-    dataid: "",
     productid: "",
     // 商品名称
     productname: "",
@@ -153,7 +152,6 @@ Page({
     let that = this;
     this.setData({
       pageParam: options,
-      dataid: options.dataid,
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
@@ -228,7 +226,7 @@ Page({
         var fliter = [];
         // var _this = this
         for (var i = 0; i < app.globalData.Gproduct.length; i++) {
-          if (app.globalData.Gproduct[i]._id == this.data.dataid) {
+          if (app.globalData.Gproduct[i]._id == this.data.productid) {
             fliter.push(app.globalData.Gproduct[i]);
           }
         }
@@ -355,7 +353,6 @@ Page({
       db.collection("ORDER").add({
         data: {
           OrderId: this.data.orderid,
-          DataId: this.data.dataid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
@@ -402,7 +399,6 @@ Page({
       db.collection("PAYMENT").add({
         data: {
           OrderId: this.data.orderid,
-          DataId: this.data.dataid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
@@ -437,7 +433,6 @@ Page({
       db.collection("POINTS").add({
         data: {
           OrderId: this.data.orderid,
-          DataId: this.data.dataid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
           IssuedPlace: this.data.issuedplace,
