@@ -44,7 +44,6 @@
     "wx5b0ed3b8c0499950",
     "wx9f0f317564969fbf"
   ],
-
   "permission": {
     "scope.userLocation": {
       "desc": "请点击确定"
@@ -77,7 +76,7 @@
     "l-collapse-item": "/miniprogram_npm/lin-ui/collapse-item/index",
     "l-checkbox-group": "/miniprogram_npm/lin-ui/checkbox-group/index",
     "l-checkbox": "/miniprogram_npm/lin-ui/checkbox/index",
-    "meetingroom":"/components/meetingroom/meetingroom"
+    "meetingroom": "/components/meetingroom/meetingroom"
   },
   "tabBar": {
     "custom": false,
