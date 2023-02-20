@@ -1,4 +1,12 @@
 const app = getApp()
+var {
+  _setting,
+  _usercheck,
+  _newuser,
+  _olduser,
+  _invitercheck,
+  
+}=require("../../utils/usercheck")
 Page({
   /**
    * 页面的初始数据
