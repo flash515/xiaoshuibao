@@ -346,13 +346,10 @@ Page({
 
     //如果通过分享链接进入没有产品数据，则查询产品数据
     if (app.globalData.Gproduct == undefined) {
-      let p = new Promise((resolve, reject) => {
-        _productcheck()
+      async function _productcheck(){
+        await _productfliter()
+      }
 
-      });
-      Promise.all([p]).then(res => {
-        this._productfliter()
-      })
     } else {
       this._productfliter()
     }

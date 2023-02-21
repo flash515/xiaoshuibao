@@ -3,7 +3,6 @@ const app = getApp()
 
 function _productcheck() {
   console.log("productcheck执行了")
-  let p = new Promise((resolve, reject) => {
   wx.cloud.callFunction({
     name: "NormalQuery",
     data: {
@@ -16,13 +15,9 @@ function _productcheck() {
     success: res => {
       app.globalData.Gproduct = res.result.data
       console.log(app.globalData.Gproduct)
-      resolve(app.globalData.Gproduct);
+      return res
     }
-  })
 });
-Promise.all([p]).then(res => {
-  return app.globalData.Gproduct
-})
 }
 
 module.exports = {
