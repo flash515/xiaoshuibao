@@ -27,7 +27,7 @@
         <label class="title1">商品具体内容：</label>
         <view>{{product.Description}}</view>
       </view>
-    </view>
+
       <view wx:if="{{product.Situation != undefined && product.Situation != ''}}">
         <label class="title1">适用情况：</label>
         <view>{{product.Situation}}</view>
@@ -82,7 +82,7 @@
         </view>
       </view>
     </view>
-
+  </view>
     <view hidden="{{AttachmentHidden}}">
       <text>\t\n</text>
       <!-- 附件资料 -->

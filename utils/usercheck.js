@@ -10,16 +10,46 @@ var newuserinfo= {
   CompanyId: "",
   BusinessScope: "",
   CompanyScale: "",
-},
+}
 var newusertradeinfo={
   Balance: 0,
   DiscountLevel: "DL4",
   PromoterLevel: "normal",
   UserType: "client"
 }
+function _productcheck() {
+  console.log("productcheck执行了")
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PRODUCT",
+      command: "or",
+      where: [{
+        Status: "在售"
+      }]
+    },
+    success: res => {
+      app.globalData.Gproduct = res.result.data
+      _login()
+    }
+  })
+}
+function _login(){    // 通过云函数获取用户本人的小程序ID
+  wx.cloud.callFunction({
+    name: 'login',
+    data: {},
+    success: res => {
+      console.log("login成功:", res.result)
+      app.globalData.Gopenid = res.result.openid
+      console.log("login成功:", app.globalData.Gopenid)
+      // 查询小程序数据库是否有当前用户信息
+      _usercheck()
+      _setting()
+    }
+  })}
 function _setting() {
   //获取小程序全局设置
-  let that = this
+var tempimage=[]
   const db = wx.cloud.database()
   db.collection('setting')
     .where({
@@ -37,14 +67,15 @@ function _setting() {
             //把图片地址转换为本地地址
             src: res.data[0].swiper[i],
             success(res) {
-              that.data.tempimage.push(res.path)
-              app.globalData.Gimagearray = that.data.tempimage
+              tempimage.push(res.path)
+              app.globalData.Gimagearray = tempimage
             }
           })
         }
       }
     })
 }
+
 function _usercheck() {
   console.log("usercheck执行中")
   const db = wx.cloud.database()
@@ -55,19 +86,20 @@ function _usercheck() {
       console.log("当前用户信息", res);
       // 判断是否新用户并提交数据库起始
       if (res.data.length == 0) {
-        this._newuser()
+        _newuser()
       } else {
         // 老用户如果云数据库中有本人信息，则把用户数据存入本地全局变量，以供后续使用
         app.globalData.Guserdata = res.data[0]
         app.globalData.Guserinfo = res.data[0].UserInfo
         app.globalData.Gtradeinfo = res.data[0].TradeInfo
-
+        console.log("当前用户信息", app.globalData.Guserinfo);
+        console.log("当前用户信息", app.globalData.Gtradeinfo);
         // 查询结果赋值给数组参数
         //   this.setData({
         //   user: res.data[0].UserInfo,
         //  inviterid: res.data[0].InviterInfo.OpenId,
         //  })
-        this._olduser()
+        _olduser()
       }
     }
   })
@@ -80,8 +112,8 @@ function _newuser() {
   })
 
   app.globalData.Ginviterid = this.data.tempinviterid
-  app.globalData.Guserinfo = this.data.newuserinfo
-  app.globalData.Gtradeinfo = this.data.newusertradeinfo
+  app.globalData.Guserinfo = newuserinfo
+  app.globalData.Gtradeinfo = newusertradeinfo
   console.log("Ginviterid", app.globalData.Ginviterid)
   console.log("Guserinfo", app.globalData.Guserinfo)
   // 在USER数据库中新增用户信息
@@ -99,13 +131,13 @@ function _newuser() {
     success: res => {
       console.log("新增用户数据执行成功")
       // 查询推荐人信息
-      this._invitercheck()
+      _invitercheck()
     },
   })
 
 }
 function _olduser() {
-  var that = this
+
   console.log("未更新折扣级别", app.globalData.Gtradeinfo)
   console.log("执行老用户价格等级查询")
   // 老用户确认价格等级，这一步放在index操作是便于直接跳转到其他页面
@@ -142,7 +174,7 @@ function _olduser() {
       }
       console.log("已更新折扣级别", app.globalData.Gtradeinfo)
       // 查询推荐人信息
-      this._invitercheck()
+      _invitercheck()
     }
   })
 
@@ -186,26 +218,13 @@ function _invitercheck() {
       console.log(app.globalData.Ginviter)
 
     },
-    complete: res => {
-      console.log("执行到最后位置了")
 
-      // 这里的参数判断逻辑是有效经典的，可以copy借鉴
-      console.log(app.globalData.Gparams.page)
-      if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
-        wx.navigateTo({
-          url: app.globalData.Gparams.page,
-        })
-      } else {
-        wx.switchTab({
-          url: '../index/home',
-        })
-      }
-
-    }
   })
 }
 
 module.exports = {
+  _productcheck:_productcheck,
+  _login:_login,
   _setting:_setting,
   _usercheck:_usercheck,
   _newuser:_newuser,
