@@ -1,4 +1,14 @@
 const app = getApp()
+var {
+  _initialize,
+  _productcheck,
+  _login,
+  _setting,
+  _usercheck,
+  _newuser,
+  _olduser,
+  _invitercheck
+} = require("../../utils/initialize")
 Page({
   data: {
     params: {},
@@ -26,7 +36,7 @@ Page({
     tempimage: [],
     userinfo: {},
   },
-  onLoad: function (options) {
+  onLoad: async function (options) {
     //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,productid产品id
     console.log("接收到的参数", options)
     console.log("跳转页面路径", options.page)
@@ -69,22 +79,108 @@ Page({
       })
       return
     }
-    // 通过云函数获取用户本人的小程序ID
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        console.log("login成功:", res.result)
-        app.globalData.Gopenid = res.result.openid
+    // 调用初始化
+    _setting()
+    _productcheck()
+    await _login()
+    let data = await _usercheck()
+    console.log("data", data);
+    if (data.length == 0) {
+      await _newuser()
+    } else {
+      app.globalData.Guserinfo = data[0].UserInfo
+      app.globalData.Gtradeinfo = data[0].TradeInfo
+      console.log("当前用户信息", app.globalData.Guserinfo);
+      console.log("当前用户交易信息", app.globalData.Gtradeinfo);
+      await _olduser()
+    }
+    await _invitercheck()
+    if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
+      wx.navigateTo({
+        url: app.globalData.Gparams.page,
+      })
+    } else {
+      wx.switchTab({
+        url: '../index/home',
+      })
+    }
 
-        // 查询小程序数据库是否有当前用户信息
-        this._usercheck()
-        this._setting()
-        this._productcheck()
-      }
-    })
+
   },
 
+  //   (
+  //   _productcheck().then((data) => {
+  //     console.log(data)
+  //     console.log("执行到最后位置了")
+  //     _login().then(() => {
+  //       _usercheck().then((data) => {
+  //         console.log(data)
+  //         // 判断是否新用户并提交数据库起始
+  //         if (data.length == 0) {
+  //           _newuser().then(() => {
+  //             _invitercheck().then(() => {
+  //               console.log(app.globalData.Gparams.page)
+  //               if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
+  //                 wx.navigateTo({
+  //                   url: app.globalData.Gparams.page,
+  //                 })
+  //               } else {
+  //                 wx.switchTab({
+  //                   url: '../index/home',
+  //                 })
+  //               }
+  //             })
+  //           })
+  //         } else {
+  //           // 老用户如果云数据库中有本人信息，则把用户数据存入本地全局变量，以供后续使用
+  //           app.globalData.Guserdata = data[0]
+  //           app.globalData.Guserinfo = data[0].UserInfo
+  //           app.globalData.Gtradeinfo = data[0].TradeInfo
+  //           console.log("当前用户信息", app.globalData.Guserinfo);
+  //           console.log("当前用户信息", app.globalData.Gtradeinfo);
+  //           // 查询结果赋值给数组参数
+  //           //   this.setData({
+  //           //   user: res.data[0].UserInfo,
+  //           //  inviterid: res.data[0].InviterInfo.OpenId,
+  //           //  })
+  //           _olduser().then(() => {
+  //             _invitercheck().then((data) => {
+  //               console.log(app.globalData.Gparams.page)
+  //               if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
+  //                 wx.navigateTo({
+  //                   url: app.globalData.Gparams.page,
+  //                 })
+  //               } else {
+  //                 wx.switchTab({
+  //                   url: '../index/home',
+  //                 })
+  //               }
+  //             })
+  //           })
+  //         }
+  //       })
+  //       _setting()
+  //     })
+  //     // 这里的参数判断逻辑是有效经典的，可以copy借鉴
+
+  //   })
+
+  //   // 通过云函数获取用户本人的小程序ID
+  //   // wx.cloud.callFunction({
+  //   //   name: 'login',
+  //   //   data: {},
+  //   //   success: res => {
+  //   //     console.log("login成功:", res.result)
+  //   //     app.globalData.Gopenid = res.result.openid
+
+  //   //     // 查询小程序数据库是否有当前用户信息
+  //   //     this._usercheck()
+  //   //     this._setting()
+  //   //     this._productcheck()
+  //   //   }
+  //   // })
+  // },
+  // )
   _productcheck() {
     console.log("productcheck执行了")
     wx.cloud.callFunction({
@@ -240,7 +336,7 @@ Page({
       _openid: app.globalData.Ginviterid
     }).get({
       success: res => {
-        app.globalData.Ginviter=res.data[0].UserInfo
+        app.globalData.Ginviter = res.data[0].UserInfo
         this.setData({
           indirectinviterid: res.data[0].InviterInfo.OpenId, //间接推荐人的id
         })

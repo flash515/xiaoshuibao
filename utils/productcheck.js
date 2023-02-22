@@ -1,7 +1,7 @@
 // 新建页面埋点
 const app = getApp()
 
-function _productcheck() {
+function _productcheck(callback) {
   console.log("productcheck执行了")
   wx.cloud.callFunction({
     name: "NormalQuery",
@@ -15,11 +15,12 @@ function _productcheck() {
     success: res => {
       app.globalData.Gproduct = res.result.data
       console.log(app.globalData.Gproduct)
-      return res
+      console.log(res.result)
+      callback(res.result.data)
     }
-});
+  });
 }
 
 module.exports = {
-  _productcheck:_productcheck,
+  _productcheck: _productcheck,
 }

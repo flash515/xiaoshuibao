@@ -1,10 +1,10 @@
 const app = getApp()
 var {
-  _login,
-} = require("../../utils/usercheck")
-var {
-  _productcheck,
-} = require("../../utils/productcheck")
+  _login,_productcheck
+} = require("../../utils/initialize")
+// var {
+//   _productcheck,
+// } = require("../../utils/productcheck")
 Page({
   /**
    * 页面的初始数据
@@ -346,14 +346,17 @@ Page({
 
     //如果通过分享链接进入没有产品数据，则查询产品数据
     if (app.globalData.Gproduct == undefined) {
-      async function _productcheck(){
-        await _productfliter()
-      }
+      _productcheck(function(result){
+        console.log(result)
+        that._productfliter()
+      })
 
     } else {
       this._productfliter()
+      console.log("这一步执行了")
     }
     this._productQA()
+    console.log("这一步执行了")
   },
 
   /**
