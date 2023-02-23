@@ -30,51 +30,7 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "登录小税宝以查看更多信息",
-      success: res => {
-        console.log("获得的用户微信信息", res)
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
-        })
-        app.globalData.Guserinfo.avatarUrl=res.userInfo.avatarUrl
-        app.globalData.Guserinfo.nickName=res.userInfo.nickName
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          _openid: app.globalData.Gopenid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon:'success',
-          title: '登录成功',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
-      }
-    })
 
-  },
   bvRefresh(e) {
     wx.cloud.callFunction({
       name: "NormalQuery",

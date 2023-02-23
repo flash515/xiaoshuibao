@@ -238,11 +238,17 @@ Page({
           data: {
             PersonalId: app.globalData.Gopenid,
             PersonalPoints: 50,
-            ProductName: "会员本人手机认证",
+            ProductName: "会员手机认证",
+            // 直接推荐人
+            InviterId: app.globalData.Ginviterid,
+            InviterPoints: 30,
+            // 间接推荐人
+            IndirectInviterId: app.globalData.Gindirectinviterid,
+            IndirectInviterPoints: 10,
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
             PointsStatus: "checked",
-            Resource:app.globalData.Gopenid
+            Resource: app.globalData.Gopenid
           },
           success(res) {
             wx.showToast({
@@ -266,64 +272,34 @@ Page({
               duration: 2000
             })
             //给推荐和和管理员发送短信
-              if (app.globalData.Ginviter.UserInfo.UserPhone != undefined && app.globalData.Ginviter.UserInfo.UserPhone != "") {
-                var tempmobile = [18954744612, app.globalData.Ginviter.UserInfo.UserPhone]
-              } else {
-                var tempmobile = [18954744612]
-              }
-              // 调用云函数发短信给推荐人和管理员
-              wx.cloud.callFunction({
-                name: 'sendsms',
-                data: {
-                  templateId: "1569087",
-                  nocode: true,
-                  mobile: tempmobile
-                },
-                success: res => {
-                  console.log("短信发送结果", res)
-                },
-                fail: res => {
-                  console.log(res)
-                },
-              })
+            if (app.globalData.Ginviter.UserInfo.UserPhone != undefined && app.globalData.Ginviter.UserInfo.UserPhone != "") {
+              var tempmobile = [18954744612, app.globalData.Ginviter.UserInfo.UserPhone]
+            } else {
+              var tempmobile = [18954744612]
+            }
+            // 调用云函数发短信给推荐人和管理员
+            wx.cloud.callFunction({
+              name: 'sendsms',
+              data: {
+                templateId: "1569087",
+                nocode: true,
+                mobile: tempmobile
+              },
+              success: res => {
+                console.log("短信发送结果", res)
+              },
+              fail: res => {
+                console.log(res)
+              },
+            })
 
           },
           fail(res) {
 
           }
         })
-        if (app.globalData.Ginviter.UserInfo.UserPhone != undefined && app.globalData.Ginviter.UserInfo.UserPhone != "") {
-        db.collection("POINTS").add({
-          data: {
-            PersonalId: app.globalData.Ginviterid,
-            PersonalPoints: 30,
-            ProductName: "直接推荐会员手机认证",
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString(),
-            PointsStatus: "checked",
-            Resource:app.globalData.Gopenid
-          },
-          success(res) {
 
-          },
-        })
-      }
-      if (app.globalData.Gindirectinviter.UserInfo.UserPhone != undefined && app.globalData.Gindirectinviter.UserInfo.UserPhone != "") {
-        db.collection("POINTS").add({
-          data: {
-            PersonalId: app.globalData.Gindirectinviterid,
-            PersonalPoints: 10,
-            ProductName: "间接推荐会员手机认证",
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString(),
-            PointsStatus: "checked",
-            Resource:app.globalData.Gopenid
-          },
-          success(res) {
 
-          },
-        })
-      }
       }
     } else {
       wx.showToast({
