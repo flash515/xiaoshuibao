@@ -50,13 +50,13 @@ Page({
   },
   bvAddProduct(e) {
     wx.navigateTo({
-      url: '../test/productedit'
+      url: '../manage/productedit'
     })
   },
   bvEditProduct(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../test/productedit?_id=' + e.currentTarget.dataset.id
+      url: '../manage/productedit?_id=' + e.currentTarget.dataset.id
     })
   },
   bvSortChange(e) {
