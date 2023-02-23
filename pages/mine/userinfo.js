@@ -238,10 +238,11 @@ Page({
           data: {
             PersonalId: app.globalData.Gopenid,
             PersonalPoints: 50,
-            ProductName: "会员手机认证",
+            ProductName: "会员本人手机认证",
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
             PointsStatus: "checked",
+            Resource:app.globalData.Gopenid
           },
           success(res) {
             wx.showToast({
@@ -291,6 +292,38 @@ Page({
 
           }
         })
+        if (app.globalData.Ginviter.UserInfo.UserPhone != undefined && app.globalData.Ginviter.UserInfo.UserPhone != "") {
+        db.collection("POINTS").add({
+          data: {
+            PersonalId: app.globalData.Ginviterid,
+            PersonalPoints: 30,
+            ProductName: "直接推荐会员手机认证",
+            SysAddDate: new Date().getTime(),
+            AddDate: new Date().toLocaleDateString(),
+            PointsStatus: "checked",
+            Resource:app.globalData.Gopenid
+          },
+          success(res) {
+
+          },
+        })
+      }
+      if (app.globalData.Gindirectinviter.UserInfo.UserPhone != undefined && app.globalData.Gindirectinviter.UserInfo.UserPhone != "") {
+        db.collection("POINTS").add({
+          data: {
+            PersonalId: app.globalData.Gindirectinviterid,
+            PersonalPoints: 10,
+            ProductName: "间接推荐会员手机认证",
+            SysAddDate: new Date().getTime(),
+            AddDate: new Date().toLocaleDateString(),
+            PointsStatus: "checked",
+            Resource:app.globalData.Gopenid
+          },
+          success(res) {
+
+          },
+        })
+      }
       }
     } else {
       wx.showToast({

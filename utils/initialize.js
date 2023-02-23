@@ -17,7 +17,7 @@ var newusertradeinfo = {
   PromoterLevel: "normal",
   UserType: "client"
 }
-
+var newuser=false
 function _productcheck() {
   var promise = new Promise((resolve, reject) => {
   console.log("productcheck执行了")
@@ -116,6 +116,7 @@ function _newuser() {
   // 如果是新用户，检查是否有传递过来的推荐人id
   this.setData({
     inviterid: this.data.tempinviterid,
+    newuser:true
   })
 
   app.globalData.Ginviterid = this.data.tempinviterid
@@ -141,6 +142,7 @@ function _newuser() {
       // _invitercheck()
     },
   })
+
 });
 return promise;
 }
@@ -231,6 +233,22 @@ function _invitercheck() {
       },
       complete: res => {
         console.log("执行到最后位置了", res)
+        if (res.data[0].UserInfo.UserPhone != undefined && res.data[0].UserInfo.UserPhone != "" && newuser==true) {
+          db.collection("POINTS").add({
+            data: {
+              PersonalId: app.globalData.Ginviterid,
+              PersonalPoints: 10,
+              ProductName: "直接推广积分",
+              SysAddDate: new Date().getTime(),
+              AddDate: new Date().toLocaleDateString(),
+              PointsStatus: "checked",
+              Resource:app.globalData.Gopenid
+            },
+            success(res) {
+  
+            },
+          })
+        }
         resolve(res.data)
       }
     })
