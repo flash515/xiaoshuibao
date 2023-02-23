@@ -56,7 +56,7 @@ Page({
           this.setData({
             qrcodeurl: res.data[0].QRCode,
             headPath: res.data[0].QRCode,
-            sendName: "小税宝推广大使" + res.data[0].UserName
+            sendName: "小税宝推广会员" + res.data[0].UserName
           })
           this.getPicture()
         }

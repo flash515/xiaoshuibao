@@ -155,10 +155,6 @@ Page({
       this.setData({
         usertype : "供应伙伴"
       })
-    } else if (app.globalData.Gtradeinfo.UserType == "gold") {
-      this.setData({
-        usertype : "推广伙伴"
-      })
     } else if (app.globalData.Gtradeinfo.UserType == "admin") {
       this.setData({
         usertype : "管理员"

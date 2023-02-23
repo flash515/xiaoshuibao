@@ -82,6 +82,7 @@ function _setting() {
             success(res) {
               tempimage.push(res.path)
               app.globalData.Gimagearray = tempimage
+              resolve(res)
             }
           })
         }

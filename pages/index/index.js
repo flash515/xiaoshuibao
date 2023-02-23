@@ -1,6 +1,5 @@
 const app = getApp()
 var {
-  _initialize,
   _productcheck,
   _login,
   _setting,

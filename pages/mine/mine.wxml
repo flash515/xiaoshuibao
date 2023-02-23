@@ -11,7 +11,7 @@
   <l-grid-item key="one" slot="one">
     <navigator url="../mine/shareuser">
       <l-icon name="user" />
-      <view class="text">推广人数</view>
+      <view class="text">推广详情</view>
     </navigator>
   </l-grid-item>
 

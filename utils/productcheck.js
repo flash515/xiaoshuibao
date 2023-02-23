@@ -24,3 +24,8 @@ function _productcheck(callback) {
 module.exports = {
   _productcheck: _productcheck,
 }
+// callback方法调用单独回调，写在调用页面的方式
+      // _productcheck(function(result){
+      //   console.log(result)
+      //   that._productfliter()
+      // })

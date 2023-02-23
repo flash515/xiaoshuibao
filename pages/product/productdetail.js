@@ -1,6 +1,12 @@
 const app = getApp()
 var {
-  _login,_productcheck
+  _productcheck,
+  _login,
+  _setting,
+  _usercheck,
+  _newuser,
+  _olduser,
+  _invitercheck
 } = require("../../utils/initialize")
 // var {
 //   _productcheck,
@@ -10,23 +16,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    newuserinfo: {
-      UserName: "",
-      nickName: "",
-      avatarUrl: "",
-      Region: ["广东省", "深圳市", "南山区"],
-      UserPhone: "",
-      CompanyName: "",
-      CompanyId: "",
-      BusinessScope: "",
-      CompanyScale: "",
-    },
-    newusertradeinfo: {
-      Balance: 0,
-      DiscountLevel: "DL4",
-      PromoterLevel: "normal",
-      UserType: "client"
-    },
     //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
     DetailHidden: false,
     QAHidden: true,
@@ -270,33 +259,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  _setting() {
-    //获取小程序全局设置
-    let that = this
-    const db = wx.cloud.database()
-    db.collection('setting')
-      .where({
-        currentstatus: "effect"
-      })
-      .get({
-        success: res => {
-          app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
-          app.globalData.Gsortarray = res.data[0].SortArray;
-          console.log("成功获取设置参数", res);
-          //异步获取图片生成轮播图地址
-          for (let i = 0; i < res.data[0].swiper.length; i++) {
-            wx.getImageInfo({
-              //把图片地址转换为本地地址
-              src: res.data[0].swiper[i],
-              success(res) {
-                that.data.tempimage.push(res.path)
-                app.globalData.Gimagearray = that.data.tempimage
-              }
-            })
-          }
-        }
-      })
-  },
+
   _productfliter() {
     // 筛选指定记录
     var fliter = [];
@@ -331,7 +294,7 @@ Page({
       }
     })
   },
-  onLoad: function (options) {
+  onLoad: async function (options) {
     var that = this;
     console.log("页面接收参数", options)
     console.log("Gproduct", app.globalData.Gproduct)
@@ -346,11 +309,25 @@ Page({
 
     //如果通过分享链接进入没有产品数据，则查询产品数据
     if (app.globalData.Gproduct == undefined) {
-      _productcheck(function(result){
-        console.log(result)
-        that._productfliter()
-      })
 
+    // 调用初始化
+    _setting()
+    await _productcheck()
+    this._productfliter()
+    console.log("这一步执行了")
+    await _login()
+    let data = await _usercheck()
+    console.log("data", data);
+    if (data.length == 0) {
+      await _newuser()
+    } else {
+      app.globalData.Guserinfo = data[0].UserInfo
+      app.globalData.Gtradeinfo = data[0].TradeInfo
+      console.log("当前用户信息", app.globalData.Guserinfo);
+      console.log("当前用户交易信息", app.globalData.Gtradeinfo);
+      await _olduser()
+    }
+    await _invitercheck()
     } else {
       this._productfliter()
       console.log("这一步执行了")
@@ -372,9 +349,9 @@ Page({
 
   onShow: function () {
     this.setData({
-      // usertype: app.globalData.Gtradeinfo.UserType,
-      discountlevel: "DL4",
-      userphone: "1122",
+      usertype: app.globalData.Gtradeinfo.UserType,
+      discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
+      userphone: app.globalData.Guserinfo.UserPhone,
     })
 
   },

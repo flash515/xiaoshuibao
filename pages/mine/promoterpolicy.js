@@ -1,5 +1,9 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");
 Page({
 
   /**
@@ -182,15 +186,15 @@ Page({
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
     wx.cloud.callFunction({
-      name: 'WXPay',
-      data: {
-        // 需要将data里面的参数传给WXPay云函数
-        body,
-        goodsnum, // 商品订单号不能重复
-        subMchId, // 子商户号,微信支付商户号,必填
-        payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
-      },
-    })
+        name: 'WXPay',
+        data: {
+          // 需要将data里面的参数传给WXPay云函数
+          body,
+          goodsnum, // 商品订单号不能重复
+          subMchId, // 子商户号,微信支付商户号,必填
+          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+        },
+      })
       .then((res) => {
         console.log(res);
         const payment = res.result.payment;
@@ -289,24 +293,21 @@ Page({
     })
     console.log(this.data.startdate)
 
-    wx.getStorage({
-      key: 'LUserInfo',
-      success: res => {
-        if (res.data.UserPhone != "" && res.data.UserPhone != "undefined") {
-          // 手机号有效才执行
-          this.setData({
-            phone: res.data.UserPhone,
-            phonehidden: true
-          })
-          // 进一步查询推广等级
-          this._plcheck()
-        } else {
-          this.setData({
-            promotername: "普客",
-          })
-        }
-      }
-    })
+
+    if (app.globalData.Guserinfo.UserPhone != "" && app.globalData.Guserinfo.UserPhone != "undefined") {
+      // 手机号有效才执行
+      this.setData({
+        phone: app.globalData.Guserinfo.UserPhone,
+        phonehidden: true
+      })
+      // 进一步查询推广等级
+      this._plcheck()
+    } else {
+      this.setData({
+        promotername: "普客",
+      })
+    }
+
   },
   // 查询推广等级
   _plcheck() {

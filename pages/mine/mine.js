@@ -25,7 +25,7 @@ Page({
     if (app.globalData.Guserinfo.PromoterLevel == "normal") {
       wx.showModal({
         title: '提示',
-        content: '您尚未取得推广大使资格，是否转到资格购买页面？',
+        content: '您尚未取得推广会员资格，是否转到资格购买页面？',
         success: function (res) {
           if (res.confirm) {
             console.log('确定')
