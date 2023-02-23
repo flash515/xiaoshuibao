@@ -71,6 +71,7 @@ function _setting() {
     })
     .get({
       success: res => {
+        wx.setStorageSync('LSetting', res.data[0])
         app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
         app.globalData.Gsortarray = res.data[0].SortArray;
         console.log("成功获取设置参数", res);
