@@ -111,16 +111,16 @@ function _usercheck() {
   return promise;
 }
 
-function _newuser() {
+function _newuser(tempinviterid, params, remark) {
+  console.log(tempinviterid)
+  console.log(params)
+  console.log(remark)
   var promise = new Promise((resolve, reject) => {
     console.log("新用户操作执行了")
     // 如果是新用户，检查是否有传递过来的推荐人id
-    this.setData({
-      inviterid: this.data.tempinviterid,
-      newuser: true
-    })
-
-    app.globalData.Ginviterid = this.data.tempinviterid
+    var inviterid = tempinviterid
+    newuser = true
+    app.globalData.Ginviterid = tempinviterid
     app.globalData.Guserinfo = newuserinfo
     app.globalData.Gtradeinfo = newusertradeinfo
     console.log("Ginviterid", app.globalData.Ginviterid)
@@ -131,19 +131,19 @@ function _newuser() {
       data: {
         SysAddDate: new Date().getTime(),
         AddDate: new Date().toLocaleString(),
-        Params: this.data.params,
-        UserInfo: this.data.newuserinfo,
+        Params: params,
+        UserInfo: newuserinfo,
         SystemInfo: app.globalData.Gsysteminfo,
-        TradeInfo: this.data.newusertradeinfo,
-        Remark: this.data.remark,
+        TradeInfo: newusertradeinfo,
+        Remark: remark,
       },
       success: res => {
         console.log("新增用户数据执行成功")
         // 查询推荐人信息
         // _invitercheck()
+        resolve(res.data)
       },
     })
-
   });
   return promise;
 }
@@ -203,8 +203,8 @@ function _invitercheck() {
       _openid: app.globalData.Ginviterid
     }).get({
       success: res => {
+        console.log(res)
         app.globalData.Ginviter = res.data[0].UserInfo
-
         // 把需要的推荐人信息构建成对象数组赋值给全局变量
         var obj = new Object();
         obj = {
@@ -212,17 +212,37 @@ function _invitercheck() {
           "Name": res.data[0].UserInfo.UserName,
           "Company": res.data[0].UserInfo.CompanyName,
           "Phone": res.data[0].UserInfo.UserPhone,
-          "InviterOpenId": res.data[0].InviterInfo.OpenId, //间接推荐人的id
-          "PromoterLevel": res.data[0].PromoterLevel,
-          "DiscountLevel": res.data[0].DiscountLevel,
-          "Balance": res.data[0].Balance,
+          "InviterId": res.data[0].InviterInfo.InviterId, //间接推荐人的id
+          "PromoterLevel": res.data[0].TradeInfo.PromoterLevel,
+          "DiscountLevel": res.data[0].TradeInfo.DiscountLevel,
+          "Balance": res.data[0].TradeInfo.Balance,
         }
-        app.globalData.Ginviter = obj
+        console.log(app.globalData.Ginviter)
+        const db = wx.cloud.database()
         db.collection('USER').where({
-          _openid: app.globalData.openid
+          _openid: app.globalData.Gopenid
         }).update({
           data: {
             InviterInfo: obj
+          },
+          success: res => {
+            console.log(res)
+            db.collection("POINTS").add({
+              data: {
+                SelfId: app.globalData.Gopenid,
+                ProductName: "直接推广积分",
+                InviterId: app.globalData.Ginviterid,
+                InviterPoints: 10,
+                SysAddDate: new Date().getTime(),
+                AddDate: new Date().toLocaleDateString(),
+                PointsStatus: "checked",
+                Resource: app.globalData.Gopenid
+              },
+              success: res => {
+                console.log("执行到最后位置了", res)
+                resolve(res.data)
+              },
+            })
           }
         })
         // 以下全局变量将被Ginviter取代
@@ -232,27 +252,6 @@ function _invitercheck() {
         console.log(app.globalData.Ginviter)
 
       },
-      complete: res => {
-        console.log("执行到最后位置了", res)
-        const db = wx.cloud.database()
-        db.collection("POINTS").add({
-          data: {
-            PersonalId: app.globalData.Gopenid,
-            ProductName: "直接推广积分",
-            InviterId: app.globalData.Ginviterid,
-            InviterPoints: 10,
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString(),
-            PointsStatus: "checked",
-            Resource: app.globalData.Gopenid
-          },
-          success(res) {
-
-          },
-        })
-
-        resolve(res.data)
-      }
     })
   });
   return promise;

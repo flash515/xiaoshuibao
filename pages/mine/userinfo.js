@@ -12,7 +12,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    avatarUrl: defaultAvatarUrl,
+    avatarurl: defaultAvatarUrl,
+    nickname:"微信用户",
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
@@ -44,11 +45,16 @@ Page({
     updatedate: ""
   },
   onChooseAvatar(e) {
-    const {
-      avatarUrl
-    } = e.detail
+    // const {
+    //   avatarUrl
+    // } = e.detail
     this.setData({
-      avatarUrl,
+      avatarurl:e.detail,
+    })
+  },
+  bvNickName(e) {
+    this.setData({
+      nickname:e.detail,
     })
   },
   changeTabs(e) {
@@ -212,6 +218,8 @@ Page({
           ["UserInfo.BusinessScope"]: this.data.businessscope,
           ["UserInfo.UserName"]: this.data.username,
           ["UserInfo.UserPhone"]: this.data.userphone,
+          ["UserInfo.avatarUrl"]: this.data.avatarUrl,
+          ["UserInfo.nickName"]: this.data.nickname,
           ["UserInfo.UpdateDate"]: new Date().toLocaleDateString()
         },
         success(res) {
@@ -236,8 +244,8 @@ Page({
         const db = wx.cloud.database()
         db.collection("POINTS").add({
           data: {
-            PersonalId: app.globalData.Gopenid,
-            PersonalPoints: 50,
+            SelfId: app.globalData.Gopenid,
+            SelfPoints: 50,
             ProductName: "会员手机认证",
             // 直接推荐人
             InviterId: app.globalData.Ginviterid,

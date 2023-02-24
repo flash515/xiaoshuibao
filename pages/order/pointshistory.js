@@ -15,7 +15,7 @@ Page({
     indirectinviterhistory:[],
     consumehistory:[],
     pointshistory: [],
-    personalpoints:0,
+    SelfPoints:0,
     inviterpoints:0,
     indirectinviterpoints:0,
     consumepoints:0,
@@ -65,7 +65,7 @@ Page({
       collectionName: "POINTS",
       command: "and",
       where: [{
-        PersonalId: app.globalData.Gopenid,
+        SelfId: app.globalData.Gopenid,
         PointsStatus:'checked',
       }]
     },
@@ -131,7 +131,7 @@ wx.cloud.callFunction({
 //       collectionName: "POINTS",
 //       command: "and",
 //       where: [{
-//         PersonalId: app.globalData.Gopenid,
+//         SelfId: app.globalData.Gopenid,
 //         PointsStatus:'checked',
 //       }]
 //     },
@@ -139,20 +139,20 @@ wx.cloud.callFunction({
 //       console.log(res)
 //       let points1=0
 //       for(let i =0;i<res.result.data.length;i++){
-//         points1 += res.result.data[i].PersonalPoints
+//         points1 += res.result.data[i].SelfPoints
 //     }
 //     this.setData({
 //       personalhistory: res.result.data,
-//       personalpoints:points1
+//       SelfPoints:points1
 //     })
-//     console.log("异步执行",this.data.personalpoints)
-//     resolve(this.data.personalpoints);
+//     console.log("异步执行",this.data.SelfPoints)
+//     resolve(this.data.SelfPoints);
 //   },
 //   fail: err => {
-//     resolve(this.data.personalpoints);
+//     resolve(this.data.SelfPoints);
 //   }
 // })
-// console.log("1执行了",this.data.personalpoints)
+// console.log("1执行了",this.data.SelfPoints)
 // });
 
 // let p2=new Promise((resolve,reject)=>{
@@ -254,7 +254,7 @@ wx.cloud.callFunction({
 // });
 // Promise.all([p1,p2,p3,p4]).then(res=>{
 //   this.setData({
-//     balance:this.data.personalpoints+this.data.inviterpoints+this.data.indirectinviterpoints-this.data.consumepoints,
+//     balance:this.data.SelfPoints+this.data.inviterpoints+this.data.indirectinviterpoints-this.data.consumepoints,
 //   }),
 //   console.log("balance执行了")
 // });

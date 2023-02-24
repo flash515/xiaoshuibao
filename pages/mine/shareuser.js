@@ -1,4 +1,9 @@
 // pages/mine/userlist.js
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");
 var app = getApp()
 Page({
   /**

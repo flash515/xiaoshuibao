@@ -27,7 +27,7 @@
         </button>
       </view>
       <view>
-        <l-input type="text" label="我的昵称：" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" ></l-input>
+        <l-input type="text" label="我的昵称：" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bind:lininput="bvNickName"></l-input>
       </view>
       <view>
         <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName">

@@ -85,7 +85,7 @@ Page({
     let data = await _usercheck()
     console.log("data", data);
     if (data.length == 0) {
-      await _newuser()
+      await _newuser(this.data.tempinviterid,this.data.params,this.data.remark)
     } else {
       app.globalData.Guserinfo = data[0].UserInfo
       app.globalData.Gtradeinfo = data[0].TradeInfo
@@ -353,7 +353,7 @@ Page({
         }
         app.globalData.Ginviter = obj
         db.collection('USER').where({
-          _openid: app.globalData.openid
+          _openid: app.globalData.Gopenid
         }).update({
           data: {
             InviterInfo: obj

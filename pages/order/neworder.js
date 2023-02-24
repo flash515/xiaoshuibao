@@ -69,8 +69,6 @@ Page({
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
-      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
-      nickName: app.globalData.Guserdata.UserInfo.nickName,
     })
     startToTrack()
   },
@@ -149,14 +147,15 @@ Page({
   },
   onLoad: function (options) {
     //页面初始化 options为页面跳转所带来的参数
+    console.log(options)
     let that = this;
     this.setData({
       pageParam: options,
       productid: options.productid,
       productname: options.productname,
       issuedplace: options.issuedplace,
-      balance: app.globalData.Guserdata.Balance,
-      consumepoints: app.globalData.Guserdata.Balance,
+      balance: app.globalData.Gtradeinfo.Balance,
+      consumepoints: app.globalData.Gtradeinfo.Balance,
     })
     console.log(this.data.pageParam)
     // 通过两个promise嵌套，顺序执行获得计算结果
@@ -231,33 +230,33 @@ Page({
           }
         }
         console.log(fliter);
-        if (app.globalData.Guserinfo.DiscountLevel == 'DL1') {
+        if (app.globalData.Gtradeinfo.DiscountLevel == 'DL1') {
           this.setData({
             orderpricecount: fliter[0].Price1Count,
             orderprice: fliter[0].Price1,
             temptotalfee: fliter[0].Price1Count,
           })
           console.log(this.data.orderprice)
-        } else if (app.globalData.Guserinfo.DiscountLevel == 'DL2') {
+        } else if (app.globalData.Gtradeinfo.DiscountLevel == 'DL2') {
           this.setData({
             orderpricecount: fliter[0].Price2Count,
             orderprice: fliter[0].Price2,
             temptotalfee: fliter[0].Price2Count,
           })
-        } else if (app.globalData.Guserinfo.DiscountLevel == 'DL3') {
+        } else if (app.globalData.Gtradeinfo.DiscountLevel == 'DL3') {
           this.setData({
             orderpricecount: fliter[0].Price3Count,
             orderprice: fliter[0].Price3,
             temptotalfee: fliter[0].Price3Count,
           })
-        } else if (app.globalData.Guserinfo.DiscountLevel == 'DL4') {
+        } else if (app.globalData.Gtradeinfo.DiscountLevel == 'DL4') {
           this.setData({
             orderpricecount: fliter[0].Price4Count,
             orderprice: fliter[0].Price4,
             temptotalfee: fliter[0].Price4Count,
           })
         }
-
+        console.log("总费用", this.data.orderprice)
         // 计算总费用
         this.setData({
           totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gpointsmagnification),
