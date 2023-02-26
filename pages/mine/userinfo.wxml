@@ -22,13 +22,24 @@
       </view>
       <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
         <l-input type="text" label="我的头像："></l-input>
-        <button class="userinfo" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
           <image class="avatar" src="{{avatarurl}}"></image>
         </button>
       </view>
       <view>
-        <l-input type="text" label="我的昵称：" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bind:lininput="bvNickName"></l-input>
+        <form bindsubmit="bvNickName">
+          <input type="nickname" placeholder="请输入昵称" name="nickname" value="{{nickname}}" />
+          <button form-type="submit" type="primary">提交</button>
+        </form>
       </view>
+
+      <form bindsubmit="bvNickName">
+        <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+          <input label="我的昵称：" type="nickname" value="{{nickname}}" name="nickname" placeholder="点击获取昵称" />
+          <button plain="{{true}}" form-type="submit" type="primary">确认</button>
+        </view>
+      </form>
+
       <view>
         <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName">
         </l-input>

@@ -2,24 +2,24 @@
 .avatar {
   width: 100rpx;
   height: 100rpx;
-  margin: 20rpx;
   border: none;
-  border-radius: 50%;
   background-size: cover;
   background-color: white;
 }
-.userinfo, .uploader, .tunnel {
-  margin-top: 0rpx;
-  height: 100rpx;
+.avatarBtn {
   width: 100rpx;
-
-  background: #fff;
-  border: 0.5px solid rgb(255, 255, 255);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  height: 100rpx;
+  border: 0.5;
+  padding: 0;
+  background-color: white;
 }
-
+.nicknameBtn {
+  width: 100rpx;
+  height: 30rpx;
+  border: 0.5;
+  padding: 0;
+  background-color: white;
+}
 .text
 {
   font-size: 28rpx;

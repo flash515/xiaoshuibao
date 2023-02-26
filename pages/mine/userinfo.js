@@ -13,7 +13,7 @@ Page({
    */
   data: {
     avatarurl: defaultAvatarUrl,
-    nickname:"微信用户",
+    nickname:"",
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
@@ -48,13 +48,26 @@ Page({
     // const {
     //   avatarUrl
     // } = e.detail
-    this.setData({
-      avatarurl:e.detail,
-    })
+    console.log(e.detail)
+    const cloudPath = 'user/' + app.globalData.Gopenid + '/' + "avatarUrl"+e.detail.avatarUrl.match(/\.[^.]+?$/)
+    wx.cloud.uploadFile({
+      cloudPath, // 上传至云端的路径
+      filePath: e.detail.avatarUrl, // 小程序临时文件路径
+      success: res => {
+          // 返回文件 ID
+          console.log(res.fileID)
+          // do something
+          this.setData({
+            avatarurl:res.fileID,
+          })
+      },
+      fail: console.error
+  })
   },
   bvNickName(e) {
+    console.log(e.detail.value)
     this.setData({
-      nickname:e.detail,
+      nickname:e.detail.value.nickname,
     })
   },
   changeTabs(e) {
