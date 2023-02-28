@@ -19,7 +19,7 @@ Page({
         where: [{
           ["TradeInfo.UserType"]: "client"
         }, {
-          ["TradeInfo.UserType"]: "admin"
+          ["TradeInfo.UserType"]: "provider"
         }]
       },
       success: res => {

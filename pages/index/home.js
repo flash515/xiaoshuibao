@@ -195,8 +195,8 @@ Page({
       success: res => {
         console.log(res)
         wx.setStorageSync('LIndirectInviter', res.data[0]);
-        app.globalData.Gindirectinviterpromoterlevel = res.data[0].PromoterLevel;
-        app.globalData.Gindirectinviterbalance = res.data[0].Balance;
+        app.globalData.Gindirectinviterpromoterlevel = res.data[0].TradeInfo.PromoterLevel;
+        app.globalData.Gindirectinviterbalance = res.data[0].TradeInfo.Balance;
       }
     })
   },

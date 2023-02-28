@@ -328,7 +328,7 @@ Page({
 
   },
   _invitercheck() {
-    console.log("invitercheck执行了")
+    console.log("invitercheck查询推荐人信息执行了")
     // 查询推荐人信息
     const db = wx.cloud.database()
     db.collection('USER').where({
@@ -347,9 +347,9 @@ Page({
           "Company": res.data[0].UserInfo.CompanyName,
           "Phone": res.data[0].UserInfo.UserPhone,
           "InviterOpenId": res.data[0].InviterInfo.OpenId, //间接推荐人的id
-          "PromoterLevel": res.data[0].PromoterLevel,
-          "DiscountLevel": res.data[0].DiscountLevel,
-          "Balance": res.data[0].Balance,
+          // "PromoterLevel": res.data[0].PromoterLevel,
+          // "DiscountLevel": res.data[0].DiscountLevel,
+          // "Balance": res.data[0].Balance,
         }
         app.globalData.Ginviter = obj
         db.collection('USER').where({

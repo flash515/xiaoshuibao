@@ -6,16 +6,16 @@
   <l-card type="primary" plaintext="{{true}}">
     <view>序号：{{index}}</view>
     <view>首登日期：{{item.AddDate}}</view>
-    <view>用户姓名：{{item.UserName}}</view>
-    <view>微信昵称：{{item.nickName}}</view>
-    <view>用户手机：{{item.UserPhone}}</view>
-    <view>用户类型：{{item.UserType}}</view>
-    <view>积分余额：{{item.Balance}}</view>
-    <view>优惠等级：{{item.DiscountLevel}}</view>
-    <view>推广等级：{{item.PromoterLevel}}</view>
+    <view>用户姓名：{{item.UserInfo.UserName}}</view>
+    <view>微信昵称：{{item.UserInfo.nickName}}</view>
+    <view>用户手机：{{item.UserInfo.UserPhone}}</view>
+    <view>用户类型：{{item.UserInfo.UserType}}</view>
+    <view>积分余额：{{item.TradeInfo.Balance}}</view>
+    <view>优惠等级：{{item.TradeInfo.DiscountLevel}}</view>
+    <view>推广等级：{{item.TradeInfo.PromoterLevel}}</view>
     <view>用户来源：{{item.Remark}}</view>
-    <view>推荐人公司：{{item.InviterCompanyName}}</view>
-    <view>推荐人姓名：{{item.InviterUserName}}</view>
+    <view>推荐人公司：{{item.InviterInfo.Company}}</view>
+    <view>推荐人姓名：{{item.InviterInfo.Name}}</view>
 
   <!-- 具有经典借鉴的多级展示 -->
   <l-collapse>

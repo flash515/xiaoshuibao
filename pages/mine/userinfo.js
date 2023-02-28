@@ -65,9 +65,9 @@ Page({
   })
   },
   bvNickName(e) {
-    console.log(e.detail.value)
+    console.log("真机测试才能获取到",e.detail.value)
     this.setData({
-      nickname:e.detail.value.nickname,
+      nickname:e.detail.value,
     })
   },
   changeTabs(e) {
@@ -113,6 +113,13 @@ Page({
     })
   },
   _SendCodeBtn() {
+    if(this.data.userphone=="" || this.data.userphone==undefined){
+      wx.showToast({
+        title: '请输入手机号码',
+        icon: 'error',
+        duration: 2000
+      })
+    }else{
     var that = this;
     var currentTime = that.data.currentTime
     interval = setInterval(function () {
@@ -129,6 +136,7 @@ Page({
         })
       }
     }, 1000)
+  }
   },
   bvSendCode() {
     let _this = this;
@@ -217,7 +225,8 @@ Page({
   },
 
   //修改数据操作
-  UpdateData() {
+  UpdateData(e) {
+
     if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode != "") {
       console.log('手机验证码正确')
       const db = wx.cloud.database()
@@ -272,26 +281,19 @@ Page({
             Resource: app.globalData.Gopenid
           },
           success(res) {
-            wx.showToast({
-              title: '积分更新信息成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
-
-          },
+            console.log("POINTS更新成功")
+            },
         })
         db.collection('USER').where({
           _openid: this.data.openid
         }).update({
           data: {
-            Balance: 50,
+            ["TradeInfo.Balance"]: 50,
+            ["TradeInfo.BalanceUpdateDate"]:new Date().toLocaleDateString(),
           },
           success(res) {
-            wx.showToast({
-              title: '已获得50积分',
-              icon: 'success',
-              duration: 2000
-            })
+            console.log("已获得50积分")
+
             //给推荐和和管理员发送短信
             if (app.globalData.Ginviter.UserInfo.UserPhone != undefined && app.globalData.Ginviter.UserInfo.UserPhone != "") {
               var tempmobile = [18954744612, app.globalData.Ginviter.UserInfo.UserPhone]

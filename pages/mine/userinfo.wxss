@@ -14,14 +14,30 @@
   background-color: white;
 }
 .nicknameBtn {
+  font-size: 28rpx;
   width: 100rpx;
-  height: 30rpx;
+  height: 60rpx;
+  line-height: 20rpx;
   border: 0.5;
-  padding: 0;
+  border-color: blue;
+margin-right: 35rpx;
   background-color: white;
+  padding: 20rpx;
 }
 .text
 {
   font-size: 28rpx;
   color: rgb(0, 0, 0);
+}
+.labal
+{
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+  margin-left: 25rpx;
+
+}
+.nicknameinput
+{
+  font-size: 28rpx;
+height: 80rpx;
 }

@@ -13,8 +13,11 @@ var newuserinfo = {
 }
 var newusertradeinfo = {
   Balance: 0,
+  BalanceUpdateDate:"",
   DiscountLevel: "DL4",
+  DiscountUpdateDate:"",
   PromoterLevel: "normal",
+  PromoterUpdateDate:"",
   UserType: "client"
 }
 var newuser = false
@@ -208,14 +211,10 @@ function _invitercheck() {
         // 把需要的推荐人信息构建成对象数组赋值给全局变量
         var obj = new Object();
         obj = {
-          "OpenId": res.data[0]._openid, //直接推荐人的id
+          "InviterId": res.data[0]._openid, //直接推荐人的id
           "Name": res.data[0].UserInfo.UserName,
           "Company": res.data[0].UserInfo.CompanyName,
-          "Phone": res.data[0].UserInfo.UserPhone,
-          "InviterId": res.data[0].InviterInfo.InviterId, //间接推荐人的id
-          "PromoterLevel": res.data[0].TradeInfo.PromoterLevel,
-          "DiscountLevel": res.data[0].TradeInfo.DiscountLevel,
-          "Balance": res.data[0].TradeInfo.Balance,
+          "IndirectInviterId": res.data[0].InviterInfo.InviterId, //间接推荐人的id
         }
         console.log(app.globalData.Ginviter)
         const db = wx.cloud.database()

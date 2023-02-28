@@ -159,7 +159,7 @@ Page({
           success: res => {
             console.log(res)
             this.setData({
-              tempinviterbalance: res.data[0].Balance,
+              tempinviterbalance: res.data[0].TradeInfo.Balance,
             })
             resolve(this.data.tempinviterbalance);
             console.log(this.data.tempinviterbalance)
