@@ -57,6 +57,7 @@ Page({
     // 间接推荐人积分，自动计算
     indirectinviterpoints: 0,
     commission1total: 0,
+    profit:0,//可分配收益
     // 间接推荐人，自动计算
     commission2total: 0,
     sublock: false,
@@ -235,6 +236,7 @@ Page({
             orderpricecount: fliter[0].Price1Count,
             orderprice: fliter[0].Price1,
             temptotalfee: fliter[0].Price1Count,
+
           })
           console.log(this.data.orderprice)
         } else if (app.globalData.Guserdata.TradeInfo.DiscountLevel == 'DL2') {
@@ -242,18 +244,21 @@ Page({
             orderpricecount: fliter[0].Price2Count,
             orderprice: fliter[0].Price2,
             temptotalfee: fliter[0].Price2Count,
+            profit:fliter[0].Price2Count-fliter[0].Price1Count
           })
         } else if (app.globalData.Guserdata.TradeInfo.DiscountLevel == 'DL3') {
           this.setData({
             orderpricecount: fliter[0].Price3Count,
             orderprice: fliter[0].Price3,
             temptotalfee: fliter[0].Price3Count,
+            profit:fliter[0].Price3Count-fliter[0].Price1Count
           })
         } else if (app.globalData.Guserdata.TradeInfo.DiscountLevel == 'DL4') {
           this.setData({
             orderpricecount: fliter[0].Price4Count,
             orderprice: fliter[0].Price4,
             temptotalfee: fliter[0].Price4Count,
+            profit:fliter[0].Price4Count-fliter[0].Price1Count
           })
         }
         console.log("总费用", this.data.orderprice)
@@ -271,6 +276,28 @@ Page({
     P.then(res => {
       // 每笔订单计算推荐人和间接推荐人的积分
       console.log("pointscount执行了")
+      console.log('加积分')
+      const db = wx.cloud.database()
+      db.collection("POINTS").add({
+        data: {
+          SelfId: app.globalData.Guserid,
+          SelfPoints: 50,
+          ProductName: "会员手机认证",
+          // 直接推荐人
+          InviterId: app.globalData.Ginviterid,
+          InviterPoints: 30,
+          // 间接推荐人
+          IndirectInviterId: app.globalData.Gindirectinviterid,
+          IndirectInviterPoints: 10,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleDateString(),
+          PointsStatus: "checked",
+          Resource: app.globalData.Guserid
+        },
+        success(res) {
+          console.log("POINTS更新成功")
+          },
+      })
       if (app.globalData.Ginviterpromoterlevel == "normal" || app.globalData.Ginviterpromoterlevel == "member") {
         this.setData({
           inviterpoints: 0
