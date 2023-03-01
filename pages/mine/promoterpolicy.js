@@ -250,7 +250,7 @@ Page({
   _userupdate() {
     const db = wx.cloud.database()
     db.collection('USER').where({
-      _openid: app.globalData.Gopenid
+      UserId: app.globalData.Guserid
     }).update({
       data: {
         PromoterLevel: this.data.orderlevel,
@@ -294,10 +294,10 @@ Page({
     console.log(this.data.startdate)
 
 
-    if (app.globalData.Guserinfo.UserPhone != "" && app.globalData.Guserinfo.UserPhone != "undefined") {
+    if (app.globalData.Guserdata.UserInfo.UserPhone != "" && app.globalData.Guserdata.UserInfo.UserPhone != "undefined") {
       // 手机号有效才执行
       this.setData({
-        phone: app.globalData.Guserinfo.UserPhone,
+        phone: app.globalData.Guserdata.UserInfo.UserPhone,
         phonehidden: true
       })
       // 进一步查询推广等级
@@ -315,7 +315,7 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('PROMOTERORDER').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
       PaymentStatus: "checked",
       OrderStatus: "checked",
     }).orderBy('SysAddDate', 'desc').limit(1).get({

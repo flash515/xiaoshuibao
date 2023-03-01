@@ -154,7 +154,7 @@ Page({
       });
       let p2 = new Promise((resolve, reject) => {
         db.collection('USER').where({
-          _openid: app.globalData.Ginviterid
+          UserId: app.globalData.Ginviterid
         }).get({
           success: res => {
             console.log(res)
@@ -168,7 +168,7 @@ Page({
       });
       let p3 = new Promise((resolve, reject) => {
         db.collection('USER').where({
-          _openid: app.globalData.Gindirectinviterid
+          UserId: app.globalData.Gindirectinviterid
         }).get({
           success: res => {
             console.log(res)
@@ -187,10 +187,10 @@ Page({
         })
         const db = wx.cloud.database()
         db.collection('USER').where({
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }).update({
           data: {
-            Balance: app.globalData.Guserinfo.Balance - that.data.consumepoints,
+            Balance: app.globalData.Guserdata.UserInfo.Balance - that.data.consumepoints,
           },
           success(res) {
             console.log("个人积分更新成功")

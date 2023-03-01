@@ -302,7 +302,7 @@ Page({
       pageParam: options,
     })
 
-    // if (app.globalData.Guserinfo == undefined) {
+    // if (app.globalData.Guserdata.UserInfo == undefined) {
     //   _login()
     // }
     //判断全局变量是否有值，注意写法格式没有引号
@@ -321,10 +321,10 @@ Page({
     if (data.length == 0) {
       await _newuser()
     } else {
-      app.globalData.Guserinfo = data[0].UserInfo
-      app.globalData.Gtradeinfo = data[0].TradeInfo
-      console.log("当前用户信息", app.globalData.Guserinfo);
-      console.log("当前用户交易信息", app.globalData.Gtradeinfo);
+      app.globalData.Guserdata.UserInfo = data[0].UserInfo
+      app.globalData.Guserdata.TradeInfo = data[0].TradeInfo
+      console.log("当前用户信息", app.globalData.Guserdata.UserInfo);
+      console.log("当前用户交易信息", app.globalData.Guserdata.TradeInfo);
       await _olduser()
     }
     await _invitercheck()
@@ -349,9 +349,9 @@ Page({
 
   onShow: function () {
     this.setData({
-      usertype: app.globalData.Gtradeinfo.UserType,
-      discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
-      userphone: app.globalData.Guserinfo.UserPhone,
+      usertype: app.globalData.Guserdata.TradeInfo.UserType,
+      discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
+      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
     })
 
   },
@@ -398,8 +398,8 @@ Page({
       console.log(res.target)
     }
     return {
-      title: app.globalData.Guserinfo.nickName + '推荐给您：',
-      path: '/pages/product/productdetail?userid=' + app.globalData.Gopenid + '&productid=' + this.data.pageParam.productid,
+      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      path: '/pages/product/productdetail?userid=' + app.globalData.Guserid + '&productid=' + this.data.pageParam.productid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调

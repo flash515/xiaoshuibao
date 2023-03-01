@@ -42,7 +42,7 @@ Page({
     })
     // 更新数据
     db.collection('USER').where({
-      _openid: app.globalData.Gopenid
+      UserId: app.globalData.Guserid
     }).update({
       data: {
         ["UserInfo.avatarUrl"]: this.data.avatarUrl,
@@ -88,7 +88,7 @@ Page({
         const db = wx.cloud.database()
         // 更新数据
         db.collection('USER').where({
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }).update({
           data: {
             avatarUrl: res.userInfo.avatarUrl,
@@ -123,7 +123,7 @@ Page({
     wx.cloud.callFunction({
       name: 'URLLink',
       data: {
-        quey: 'userid=' + app.globalData.Gopenid
+        quey: 'userid=' + app.globalData.Guserid
       },
       success: res => {
         console.log('result', res.result)
@@ -152,14 +152,14 @@ Page({
   },
   getQRCode() {
     // 调用云函数
-    // var scene = app.globalData.Gopenid; //scene参数不能有参数名，可以拼接你要添加的参数值
+    // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
 
     let that = this;
     wx.cloud.callFunction({
       name: 'getQRCode',
       data: {
-        userid: app.globalData.Gopenid,
-        scene: app.globalData.Gopenid
+        userid: app.globalData.Guserid,
+        scene: app.globalData.Guserid
         // userid: "1234",
         // scene: "5678"
       },
@@ -178,7 +178,7 @@ Page({
   //获取二维码，有效，但当前方法用不到了
   getcode(getAccessToken) {
     var that = this;
-    var scene = app.globalData.Gopenid; //scene参数不能有参数名，可以拼接你要添加的参数值
+    var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
     console.log('scene：', scene);
     wx.request({
       url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + this.data.accessToken,
@@ -279,7 +279,7 @@ Page({
     if (this.data.qrcodeuploadlock) {} else {
       console.log("res6", this.data.tempfilepath)
       const filePath = this.data.tempfilepath
-      const cloudPath = app.globalData.Gopenid + '/' + 'qrcode.png'
+      const cloudPath = app.globalData.Guserid + '/' + 'qrcode.png'
       wx.cloud.uploadFile({
         cloudPath,
         filePath,
@@ -289,7 +289,7 @@ Page({
           const db = wx.cloud.database()
           // 更新数据
           db.collection('USER').where({
-            _openid: app.globalData.Gopenid
+            UserId: app.globalData.Guserid
           }).update({
             data: {
               QRCode: res.fileID
@@ -308,8 +308,8 @@ Page({
       windowW: app.globalData.Gsysteminfo.windowWidth - 40,
       windowH: app.globalData.Gsysteminfo.windowWidth - 40,
       image: app.globalData.Gimagearray,
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
+      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickName: app.globalData.Guserdata.UserInfo.nickName,
     })
     var that = this;
     // 接收参数的方法开始

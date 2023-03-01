@@ -31,8 +31,8 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('USER').where({
-      _openid: app.globalData.Gopenid,
-      // _openid:'omLS75Xib_obyxkVAahnBffPytcA'
+      UserId: app.globalData.Guserid,
+      // UserId:'omLS75Xib_obyxkVAahnBffPytcA'
     }).get({
       success: res => {
         console.log(res);

@@ -58,7 +58,7 @@ let setSession = () => {
   // 更新USER数据库里的Track字段
   const db = wx.cloud.database()
   db.collection("USER").where({
-    _openid: app.globalData.Gopenid,
+    UserId: app.globalData.Guserid,
   }).update({
     data: {
       Track: trackarray

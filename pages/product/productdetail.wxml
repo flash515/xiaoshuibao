@@ -126,7 +126,7 @@
               <text>\n</text>
               <label class="title1">答：</label>
               <l-textarea type='text' placeholder="请输入回复内容" maxlength='30' bind:lininput="bvAnswer"></l-textarea>
-              <l-button data-id="{{item._id}}" data-openid="{{item._openid}}" data-question="{{item.Question}}" data-adddate="{{item.AddDate}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
+              <l-button data-id="{{item._id}}" data-openid="{{item.UserId}}" data-question="{{item.Question}}" data-adddate="{{item.AddDate}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
               <text>\t</text>
               <l-button bind:lintap='bvUnlock' plain="{{true}}">解除锁定</l-button>
             </view>

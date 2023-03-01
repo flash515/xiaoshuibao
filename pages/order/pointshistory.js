@@ -15,7 +15,7 @@ Page({
     indirectinviterhistory:[],
     consumehistory:[],
     pointshistory: [],
-    SelfPoints:0,
+    Points:0,
     inviterpoints:0,
     indirectinviterpoints:0,
     consumepoints:0,
@@ -57,7 +57,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      balance:app.globalData.Guserinfo.Balance,
+      balance:app.globalData.Guserdata.UserInfo.Balance,
     })
   wx.cloud.callFunction({
     name: "NormalQuery",
@@ -65,7 +65,7 @@ Page({
       collectionName: "POINTS",
       command: "and",
       where: [{
-        SelfId: app.globalData.Gopenid,
+        SelfId: app.globalData.Guserid,
         PointsStatus:'checked',
       }]
     },
@@ -81,7 +81,7 @@ wx.cloud.callFunction({
     collectionName: "POINTS",
     command: "and",
     where: [{
-      InviterId: app.globalData.Gopenid,
+      InviterId: app.globalData.Guserid,
       PointsStatus:'checked',
     }]
   },
@@ -97,7 +97,7 @@ wx.cloud.callFunction({
     collectionName: "POINTS",
     command: "and",
     where: [{
-      IndirectInviterId: app.globalData.Gopenid,
+      IndirectInviterId: app.globalData.Guserid,
       PointsStatus:'checked',
     }]
   },
@@ -113,7 +113,7 @@ wx.cloud.callFunction({
     collectionName: "POINTS",
     command: "and",
     where: [{
-      ConsumeId: app.globalData.Gopenid,
+      ConsumeId: app.globalData.Guserid,
       PointsStatus:'checked',
     }]
   },
@@ -131,7 +131,7 @@ wx.cloud.callFunction({
 //       collectionName: "POINTS",
 //       command: "and",
 //       where: [{
-//         SelfId: app.globalData.Gopenid,
+//         UserId: app.globalData.Guserid,
 //         PointsStatus:'checked',
 //       }]
 //     },
@@ -139,20 +139,20 @@ wx.cloud.callFunction({
 //       console.log(res)
 //       let points1=0
 //       for(let i =0;i<res.result.data.length;i++){
-//         points1 += res.result.data[i].SelfPoints
+//         points1 += res.result.data[i].Points
 //     }
 //     this.setData({
 //       personalhistory: res.result.data,
-//       SelfPoints:points1
+//       Points:points1
 //     })
-//     console.log("异步执行",this.data.SelfPoints)
-//     resolve(this.data.SelfPoints);
+//     console.log("异步执行",this.data.Points)
+//     resolve(this.data.Points);
 //   },
 //   fail: err => {
-//     resolve(this.data.SelfPoints);
+//     resolve(this.data.Points);
 //   }
 // })
-// console.log("1执行了",this.data.SelfPoints)
+// console.log("1执行了",this.data.Points)
 // });
 
 // let p2=new Promise((resolve,reject)=>{
@@ -162,7 +162,7 @@ wx.cloud.callFunction({
 //       collectionName: "POINTS",
 //       command: "and",
 //       where: [{
-//         InviterId: app.globalData.Gopenid,
+//         InviterId: app.globalData.Guserid,
 //         PointsStatus:'checked',
 //       }]
 //     },
@@ -193,7 +193,7 @@ wx.cloud.callFunction({
 //       collectionName: "POINTS",
 //       command: "and",
 //       where: [{
-//         IndirectInviterId: app.globalData.Gopenid,
+//         IndirectInviterId: app.globalData.Guserid,
 //         PointsStatus:'checked',
 //       }]
 //     },
@@ -228,7 +228,7 @@ wx.cloud.callFunction({
 //       collectionName: "POINTS",
 //       command: "and",
 //       where: [{
-//         ConsumeId: app.globalData.Gopenid,
+//         ConsumeId: app.globalData.Guserid,
 //         PointsStatus:'checked',
 //       }]
 //     },
@@ -254,7 +254,7 @@ wx.cloud.callFunction({
 // });
 // Promise.all([p1,p2,p3,p4]).then(res=>{
 //   this.setData({
-//     balance:this.data.SelfPoints+this.data.inviterpoints+this.data.indirectinviterpoints-this.data.consumepoints,
+//     balance:this.data.Points+this.data.inviterpoints+this.data.indirectinviterpoints-this.data.consumepoints,
 //   }),
 //   console.log("balance执行了")
 // });
@@ -276,9 +276,9 @@ wx.cloud.callFunction({
 	onTabItemTap: () => startToTrack(),
   onShow: function () {
     this.setData({
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
-      userphone:app.globalData.Guserinfo.UserPhone,
+      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickName: app.globalData.Guserdata.UserInfo.nickName,
+      userphone:app.globalData.Guserdata.UserInfo.UserPhone,
       image: app.globalData.Gimagearray
     })
     startToTrack()

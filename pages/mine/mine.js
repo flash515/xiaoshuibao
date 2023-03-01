@@ -22,7 +22,7 @@ Page({
   },
 
   bvGoToShareValue() {
-    if (app.globalData.Guserinfo.PromoterLevel == "normal") {
+    if (app.globalData.Guserdata.UserInfo.PromoterLevel == "normal") {
       wx.showModal({
         title: '提示',
         content: '您尚未取得推广会员资格，是否转到资格购买页面？',
@@ -54,7 +54,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      usertype: app.globalData.Gtradeinfo.UserType
+      usertype: app.globalData.Guserdata.TradeInfo.UserType
     })
     wx.getSetting({
       withSubscriptions: true,

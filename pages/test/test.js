@@ -422,7 +422,7 @@ console.log(ca)
     var that = this;
     // this.setData({
     //   recordid: options.recordid,
-    //   usertype: app.globalData.Gtradeinfo.UserType,
+    //   usertype: app.globalData.Guserdata.TradeInfo.UserType,
     //   sortarray: app.globalData.Gsortarray,
     //   // category1: app.globalData.Gsortarray[0].Category1Name,
     //   // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,
@@ -454,7 +454,7 @@ console.log(ca)
           updatedate: res.result.data[0].UpdateDate,
           attachmentview: res.result.data[0].AttachmentImage,
           attachmentfile: res.result.data[0].AttachmentFile,
-          username: res.result.data[0]._openid,
+          username: res.result.data[0].UserId,
 
         })
         console.log(res.result.data[0].AttachmentFile)
@@ -580,8 +580,8 @@ sendorder(){
       console.log(res.target)
     }
     return {
-      title: app.globalData.Guserinfo.nickName + '邀请您体验：',
-      path: '/pages/index/index?userid='+app.globalData.Gopenid + "&page=" + url,
+      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您体验：',
+      path: '/pages/index/index?userid='+app.globalData.Guserid + "&page=" + url,
       imageUrl: '', //封面
       success: function (res) {
         // 转发成功之后的回调

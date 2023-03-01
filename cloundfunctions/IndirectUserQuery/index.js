@@ -10,7 +10,7 @@
 var temp = []
 for (let i = 0; i < event.userarray.length; i++) {
   let promise = db.collection('USER').where({
-    InviterOpenId:event.userarray[i]._openid,
+    InviterOpenId:event.userarray[i].UserId,
   }).get()
      temp=temp.concat((await promise).data)
 }

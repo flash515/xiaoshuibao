@@ -52,7 +52,7 @@ Page({
     if (Date.parse(new Date()) - this.data.starttime < "3600000") {
       const db = wx.cloud.database()
       db.collection('USER').where({
-        _openid: this.data.inviterid
+        UserId: this.data.inviterid
       }).get({
         success: res => {
           app.globalData.Ginviter=res.data[0].UserInfo
@@ -106,8 +106,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: app.globalData.Guserinfo.nickName + '邀请您加入快捷会议室，此邀请60分钟内有效',
-      path: '/pages/tools/meetingroom/meetingroom2?type=express&userid=' + app.globalData.Gopenid + '&starttime=' + this.data.starttime,
+      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请60分钟内有效',
+      path: '/pages/tools/meetingroom/meetingroom2?type=express&userid=' + app.globalData.Guserid + '&starttime=' + this.data.starttime,
       imageUrl: '', //封面
     }
   },

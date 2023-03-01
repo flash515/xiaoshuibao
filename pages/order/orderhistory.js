@@ -42,7 +42,7 @@ Page({
         collectionName: e.currentTarget.dataset.name,
         command: "and",
         where: [{
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }]
       },
       success: res => {
@@ -73,13 +73,13 @@ if(e.currentTarget.dataset.name=="ORDER"){
           avatarUrl: res.userInfo.avatarUrl,
           nickName: res.userInfo.nickName
         })
-        app.globalData.Guserinfo.avatarUrl=res.userInfo.avatarUrl
-        app.globalData.Guserinfo.nickName=res.userInfo.nickName
+        app.globalData.Guserdata.UserInfo.avatarUrl=res.userInfo.avatarUrl
+        app.globalData.Guserdata.UserInfo.nickName=res.userInfo.nickName
         // 获取数据库引用
         const db = wx.cloud.database()
         // 更新数据
         db.collection('USER').where({
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }).update({
           data: {
             avatarUrl: res.userInfo.avatarUrl,
@@ -120,7 +120,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
         collectionName: "DISCOUNTORDER",
         command: "and",
         where: [{
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }]
       },
       success: res => {
@@ -135,7 +135,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
         collectionName: "ORDER",
         command: "and",
         where: [{
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }]
       },
       success: res => {
@@ -151,7 +151,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
         collectionName: "PROMOTERORDER",
         command: "and",
         where: [{
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }]
       },
       success: res => {
@@ -176,9 +176,9 @@ if(e.currentTarget.dataset.name=="ORDER"){
 	onTabItemTap: () => startToTrack(),
   onShow: function () {
     this.setData({
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
-      userphone:app.globalData.Guserinfo.UserPhone,
+      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickName: app.globalData.Guserdata.UserInfo.nickName,
+      userphone:app.globalData.Guserdata.UserInfo.UserPhone,
       image: app.globalData.Gimagearray
     })
     startToTrack()

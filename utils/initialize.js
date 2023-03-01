@@ -1,26 +1,29 @@
 // 新建页面埋点
 const app = getApp()
+// 新用户信息初始化字段
 var newuserinfo = {
-  UserName: "",
   nickName: "",
   avatarUrl: "",
-  Region: ["广东省", "深圳市", "南山区"],
+  UserName: "",
   UserPhone: "",
   CompanyName: "",
   CompanyId: "",
   BusinessScope: "",
   CompanyScale: "",
+  InviterId: "",
+  InviterCompany: "",
+  InviterName: "",
+  Region: ["广东省", "深圳市", "南山区"],
 }
 var newusertradeinfo = {
   Balance: 0,
-  BalanceUpdateDate:"",
+  BalanceUpdateDate: "",
   DiscountLevel: "DL4",
-  DiscountUpdateDate:"",
+  DiscountUpdateDate: "",
   PromoterLevel: "normal",
-  PromoterUpdateDate:"",
+  PromoterUpdateDate: "",
   UserType: "client"
 }
-var newuser = false
 
 function _productcheck() {
   var promise = new Promise((resolve, reject) => {
@@ -50,9 +53,8 @@ function _login() { // 通过云函数获取用户本人的小程序ID
       name: 'login',
       data: {},
       success: res => {
-        console.log("login成功:", res.result)
-        app.globalData.Gopenid = res.result.openid
-        console.log("login成功:", app.globalData.Gopenid)
+        app.globalData.Guserid = res.result.openid
+        console.log("login成功:", app.globalData.Guserid)
         // 查询小程序数据库是否有当前用户信息
         // _usercheck()
         // _setting()
@@ -75,9 +77,9 @@ function _setting() {
       })
       .get({
         success: res => {
-          wx.setStorageSync('LSetting', res.data[0])
-          app.globalData.Gpointsmagnification = res.data[0].pointsmagnification;
-          app.globalData.Gsortarray = res.data[0].SortArray;
+          wx.setStorageSync('LSetting', res.data[0]) //应使用全局参数替代，待调整
+          app.globalData.Gsetting = res.data[0];
+
           console.log("成功获取设置参数", res);
           //异步获取图片生成轮播图地址
           for (let i = 0; i < res.data[0].swiper.length; i++) {
@@ -102,7 +104,7 @@ function _usercheck() {
     console.log("usercheck执行中")
     const db = wx.cloud.database()
     db.collection('USER').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
     }).get({
       success: res => {
         console.log("当前用户信息", res);
@@ -121,22 +123,26 @@ function _newuser(tempinviterid, params, remark) {
   var promise = new Promise((resolve, reject) => {
     console.log("新用户操作执行了")
     // 如果是新用户，检查是否有传递过来的推荐人id
-    var inviterid = tempinviterid
-    newuser = true
     app.globalData.Ginviterid = tempinviterid
-    app.globalData.Guserinfo = newuserinfo
-    app.globalData.Gtradeinfo = newusertradeinfo
+    // Guserdata的子项未在app中定义，须先构建obj再赋值给Guserdata
+    var obj = new Object();
+    obj = {
+      UserInfo: newuserinfo,
+      TradeInfo: newusertradeinfo
+    }
+    app.globalData.Guserdata = obj
     console.log("Ginviterid", app.globalData.Ginviterid)
-    console.log("Guserinfo", app.globalData.Guserinfo)
+    console.log("Guserdata", app.globalData.Guserdata)
     // 在USER数据库中新增用户信息
     const db = wx.cloud.database()
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
         AddDate: new Date().toLocaleString(),
+        UserId:app.globalData.Guserid,
         Params: params,
-        UserInfo: newuserinfo,
         SystemInfo: app.globalData.Gsysteminfo,
+        UserInfo: newuserinfo,
         TradeInfo: newusertradeinfo,
         Remark: remark,
       },
@@ -153,13 +159,13 @@ function _newuser(tempinviterid, params, remark) {
 
 function _olduser() {
   var promise = new Promise((resolve, reject) => {
-    console.log("未更新折扣级别", app.globalData.Gtradeinfo)
+    console.log("未更新折扣级别", app.globalData.Guserdata.TradeInfo)
     console.log("执行老用户价格等级查询")
     // 老用户确认价格等级，这一步放在index操作是便于直接跳转到其他页面
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('DISCOUNTORDER').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
       PaymentStatus: "checked",
       OrderStatus: "checked",
       Available: true,
@@ -177,17 +183,17 @@ function _olduser() {
             console.log(tempfliter)
             console.log(tempfliter[0].DiscountLevel)
             // 更新对象型全局变量个别属性的方法
-            app.globalData.Gtradeinfo.DiscountLevel = tempfliter[0].DiscountLevel
-            app.globalData.Gtradeinfo.DiscountType = tempfliter[0].DiscountType
+            app.globalData.Guserdata.TradeInfo.DiscountLevel = tempfliter[0].DiscountLevel
+            app.globalData.Guserdata.TradeInfo.DiscountType = tempfliter[0].DiscountType
           } else {
             //卡券已过期            
-            app.globalData.Gtradeinfo.DiscountLevel = "DL4"
+            app.globalData.Guserdata.TradeInfo.DiscountLevel = "DL4"
           }
         } else {
           //没有卡券
-          app.globalData.Gtradeinfo.DiscountLevel = "DL4"
+          app.globalData.Guserdata.TradeInfo.DiscountLevel = "DL4"
         }
-        console.log("已更新折扣级别", app.globalData.Gtradeinfo)
+        console.log("已更新折扣级别", app.globalData.Guserdata.TradeInfo)
         // 查询推荐人信息
         // _invitercheck()
         resolve(res)
@@ -200,42 +206,39 @@ function _olduser() {
 function _invitercheck() {
   var promise = new Promise((resolve, reject) => {
     console.log("invitercheck执行了")
-    // 查询推荐人信息
+    // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
     const db = wx.cloud.database()
     db.collection('USER').where({
-      _openid: app.globalData.Ginviterid
+      UserId: app.globalData.Ginviterid
     }).get({
       success: res => {
         console.log(res)
-        app.globalData.Ginviter = res.data[0].UserInfo
-        // 把需要的推荐人信息构建成对象数组赋值给全局变量
-        var obj = new Object();
-        obj = {
-          "InviterId": res.data[0]._openid, //直接推荐人的id
-          "Name": res.data[0].UserInfo.UserName,
-          "Company": res.data[0].UserInfo.CompanyName,
-          "IndirectInviterId": res.data[0].InviterInfo.InviterId, //间接推荐人的id
-        }
-        console.log(app.globalData.Ginviter)
+        app.globalData.Gindirectinviterid = res.data[0].UserInfo.InviterId
+        app.globalData.Guserdata.UserInfo.InviterId = res.data[0].UserId
+        app.globalData.Guserdata.UserInfo.InviterCompany = res.data[0].UserInfo.CompanyName
+        app.globalData.Guserdata.UserInfo.InviterName = res.data[0].UserInfo.UserName
         const db = wx.cloud.database()
         db.collection('USER').where({
-          _openid: app.globalData.Gopenid
+          UserId: app.globalData.Guserid
         }).update({
           data: {
-            InviterInfo: obj
+            ["UserInfo.InviterId"]: res.data[0].UserId,
+            ["UserInfo.InviterCompany"]: res.data[0].UserInfo.CompanyName,
+            ["UserInfo.InviterName"]: res.data[0].UserInfo.UserName,
+            ["UserInfo.IndirectInviterId"]: res.data[0].UserInfo.InviterId,
           },
           success: res => {
             console.log(res)
             db.collection("POINTS").add({
               data: {
-                SelfId: app.globalData.Gopenid,
+                UserId: app.globalData.Guserid,
                 ProductName: "直接推广积分",
                 InviterId: app.globalData.Ginviterid,
                 InviterPoints: 10,
                 SysAddDate: new Date().getTime(),
                 AddDate: new Date().toLocaleDateString(),
                 PointsStatus: "checked",
-                Resource: app.globalData.Gopenid
+                Resource: app.globalData.Guserid
               },
               success: res => {
                 console.log("执行到最后位置了", res)
@@ -244,17 +247,60 @@ function _invitercheck() {
             })
           }
         })
-        // 以下全局变量将被Ginviter取代
-        //app.globalData.Gindirectinviterid = res.data[0].InviterOpenId;
-        //app.globalData.Ginviterpromoterlevel = res.data[0].PromoterLevel;
-        //app.globalData.Ginviterbalance = res.data[0].Balance;
-        console.log(app.globalData.Ginviter)
+
+        console.log(app.globalData.Guserdata)
 
       },
     })
   });
   return promise;
 }
+
+function _directuser(){
+  var promise = new Promise((resolve, reject) => {
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "USER",
+      command: "and",
+      where: [{
+        ["UserInfo.InviterId"]: app.globalData.Guserid
+      }]
+    },
+    success: res => {
+      wx.setStorageSync('LDirectUser', res.result.data);
+      // 查询结果赋值给数组参数
+      console.log("云函数查询直接推广用户", res.result.data)
+      resolve(res.data)
+
+    }
+  })
+});
+return promise;
+}
+function _indirectuser(){
+  var promise = new Promise((resolve, reject) => {
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserInfo.IndirectInviterId"]: app.globalData.Guserid
+        }]
+      },
+      success: res => {
+        wx.setStorageSync('LIndirectUser', res.result.data);
+        // 查询结果赋值给数组参数
+        console.log("云函数查询间接推广用户", res.result.data)
+        resolve(res.data)
+
+      }
+    })
+  });
+  return promise;
+}
+
 
 module.exports = {
   _productcheck: _productcheck,
@@ -264,4 +310,6 @@ module.exports = {
   _newuser: _newuser,
   _olduser: _olduser,
   _invitercheck: _invitercheck,
+  _directuser:_directuser,
+  _indirectuser:_indirectuser
 }

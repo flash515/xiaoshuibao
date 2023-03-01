@@ -281,7 +281,7 @@
         {
           "name": "pages/mine/poster",
           "pathName": "pages/mine/poster",
-          "query": "app.globalData.Gopenid='omLS75Xib_obyxkVAahnBffPytcA'",
+          "query": "app.globalData.Guserid='omLS75Xib_obyxkVAahnBffPytcA'",
           "scene": null
         },
         {

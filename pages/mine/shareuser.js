@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-promoterlevel:"",
+    promoterlevel: "",
     // 全部直接推荐人数
     directuser: [],
     // 直接推荐用户数组
@@ -39,7 +39,7 @@ promoterlevel:"",
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      promoterlevel: app.globalData.Guserinfo.PromoterLevel,
+      promoterlevel: app.globalData.Guserdata.TradeInfo.PromoterLevel,
     })
     //查询直接用户及30天内直接用户
     wx.getStorage({
@@ -65,7 +65,7 @@ promoterlevel:"",
             direct1yearfliter.push(this.data.directvaliduser[i]);
           }
         }
-        app.globalData.Gdirect1yearvaliduser=direct1yearfliter.length
+        app.globalData.Gdirect1yearvaliduser = direct1yearfliter.length
         console.log("3  一年有效用户人数", app.globalData.Gdirect1yearvaliduser);
         wx.setStorageSync('LDirect1YearValidUser', direct1yearfliter);
       }
@@ -117,8 +117,8 @@ promoterlevel:"",
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => startToTrack(),
   onShow: function () {
     startToTrack()
   },
@@ -133,7 +133,7 @@ promoterlevel:"",
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
     startByBack()
   },
 

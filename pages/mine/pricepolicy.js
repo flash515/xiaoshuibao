@@ -275,7 +275,7 @@ Page({
     _userupdate(){
       const db = wx.cloud.database()
       db.collection('USER').where({
-        _openid: app.globalData.Gopenid
+        UserId: app.globalData.Guserid
       }).update({
         data: {
           DiscountLevel: this.data.orderlevel,
@@ -307,7 +307,7 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('DISCOUNTORDER').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
       PaymentStatus: "checked",
       OrderStatus: "checked",
       Available: true

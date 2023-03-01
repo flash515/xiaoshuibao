@@ -91,7 +91,7 @@ Page({
   onsearch(e) {
     const db = wx.cloud.database()
     db.collection('SCHEME').where({
-      _openid:app.globalData.Gopenid,
+      UserId:app.globalData.Guserid,
       SchemeType: {
         $regex: '.*' + e.detail.value,
         $options: 'i'

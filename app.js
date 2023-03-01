@@ -2,12 +2,12 @@
 App({
   onLaunch: function () {
     // 测试async，await可用
-    (async () => {
-      const p = await new Promise(resolve => {
-          setTimeout(() => resolve("hello async/await"), 1000);
-      });
-      console.log(p);
-  })();
+    // (async () => {
+    //   const p = await new Promise(resolve => {
+    //     setTimeout(() => resolve("hello async/await"), 1000);
+    //   });
+    //   console.log(p);
+    // })();
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -22,8 +22,8 @@ App({
     }
     // 初始化全局参数
     this.globalData = {}
-    // 清除本地存储数据,调试发布后可去除
 
+    // 清除本地存储数据,调试发布后可去除
     wx.clearStorage({
       success: (res) => {
         console.log("清除本地存储数据成功")
@@ -105,30 +105,28 @@ App({
 
     GWidth: "", // 屏幕可用宽度
     GHeight: "", // 屏幕可用高度
+    Gsetting: [], //设置信息
 
-    Gsortarray: [], //商品分类
     Gproduct: [], // 在售商品
     Gproductlist: [], // 数据库中全部商品
 
-    Gopenid: "", // 用户小程序id 
-    Guserdata:[],
-    Guserinfo: [], //用户个人数据
-    Gtradeinfo: [], //用户贸易信息
+    Guserid: "", // 用户本人小程序id 
+    Guserdata: [], //用户个人全部数据,
 
-    Gdirect1yearvaliduser: "",//一年内有效推荐用户数
-    Gpointsmagnification: "",//可用积分
+    Gdirect1yearvaliduser: "", //一年内有效推荐用户数
+
     Gsearch: [],
-    Gtrack: [],//浏览记录
+    Gtrack: [], //浏览记录
     // 直接推荐人
-    Ginviter: [],//推荐人信息
-    Ginviterid: "",//推荐人id
-    Ginviterpromoterlevel: "",//推荐人推广级别
-    Ginviterbalance: "",//推荐人积分
+    Ginviter: [], //推荐人信息,待删除
+    Ginviterid: "", //推荐人id
+    Ginviterpromoterlevel: "", //推荐人推广级别,待删除
+    Ginviterbalance: "", //推荐人积分,待删除
     // 间接推荐人
-    Gindirectinviter: [],//间接推荐人信息
-    Gindirectinviterid: "",//间接推荐人id
-    Gindirectinviterpromoterlevel: "",//间接推荐人推广级别
-    Gindirectinviterbalance: "",//间接推荐人积分
+    Gindirectinviter: [], //间接推荐人信息,待删除
+    Gindirectinviterid: "", //间接推荐人id,
+    Gindirectinviterpromoterlevel: "", //间接推荐人推广级别,待删除
+    Gindirectinviterbalance: "", //间接推荐人积分,待删除
 
     Gimagearray: [], //轮播图
 

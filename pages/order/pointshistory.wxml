@@ -30,7 +30,7 @@
           <l-card type="primary" plaintext="{{true}}">
             <view>积分日期：{{item.AddDate}}</view>
             <view>积分事由：{{item.ProductName}}</view>
-            <view>积分数值：{{item.SelfPoints}}</view>
+            <view>积分数值：{{item.Points}}</view>
             <view style="display:flex; flex-direction:row;">
               <view>入账状态：</view>
               <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>

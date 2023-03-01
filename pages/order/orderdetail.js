@@ -61,8 +61,8 @@ Page({
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
-      avatarUrl: app.globalData.Guserinfo.avatarUrl,
-      nickName: app.globalData.Guserinfo.nickName,
+      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickName: app.globalData.Guserdata.UserInfo.nickName,
     })
     startToTrack()
   },

@@ -11,14 +11,14 @@ var dktemp = []
 var zctemp = []
 for (let i = 0; i < event.userarray.length; i++) {
   let dkpromise = db.collection('DKORDER').where({
-    _openid:event.userarray[i]._openid,
+    UserId:event.userarray[i].UserId,
   }).get()
      dktemp=dktemp.concat(dkpromise)
 }
 return (await Promise.all(dktemp))
 for (let x = 0; x < event.userarray.length; x++) {
   let zcpromise = db.collection('ZCORDER').where({
-    _openid:event.userarray[x]._openid,
+    UserId:event.userarray[x].UserId,
   }).get()
      zctemp=zctemp.concat(zcpromise)
 }

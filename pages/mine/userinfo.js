@@ -49,7 +49,7 @@ Page({
     //   avatarUrl
     // } = e.detail
     console.log(e.detail)
-    const cloudPath = 'user/' + app.globalData.Gopenid + '/' + "avatarUrl"+e.detail.avatarUrl.match(/\.[^.]+?$/)
+    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl"+e.detail.avatarUrl.match(/\.[^.]+?$/)
     wx.cloud.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
@@ -185,19 +185,19 @@ Page({
     })
 
     this.setData({
-      companyname: app.globalData.Guserinfo.CompanyName,
-      companyid: app.globalData.Guserinfo.CompanyId,
-      businessscope: app.globalData.Guserinfo.BusinessScope,
-      companyscale: app.globalData.Guserinfo.CompanyScale,
-      username: app.globalData.Guserinfo.UserName,
-      userphone: app.globalData.Guserinfo.UserPhone,
-      useroldphone: app.globalData.Guserinfo.UserPhone,
-      usertype: app.globalData.Gtradeinfo.UserType,
-      balance: app.globalData.Gtradeinfo.Balance,
-      adddate: app.globalData.Guserinfo.AddDate,
-      updatedate: app.globalData.Guserinfo.UpdateDate,
-      invitercompanyname: app.globalData.Ginviter.CompanyName,
-      inviterusername: app.globalData.Ginviter.UserName,
+      companyname: app.globalData.Guserdata.UserInfo.CompanyName,
+      companyid: app.globalData.Guserdata.UserInfo.CompanyId,
+      businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
+      companyscale: app.globalData.Guserdata.UserInfo.CompanyScale,
+      username: app.globalData.Guserdata.UserInfo.UserName,
+      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
+      useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
+      usertype: app.globalData.Guserdata.TradeInfo.UserType,
+      balance: app.globalData.Guserdata.TradeInfo.Balance,
+      adddate: app.globalData.Guserdata.UserInfo.AddDate,
+      updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
+      invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
+      invitername: app.globalData.Guserdata.UserInfo.InviterName,
     })
 
   },
@@ -205,7 +205,7 @@ Page({
   RefreshData() {
     const db = wx.cloud.database()
     db.collection('USER').where({
-      _openid: app.globalData.Gopenid
+      UserId: app.globalData.Guserid
     }).get({
       success: res => {
         this.setData({
@@ -231,7 +231,7 @@ Page({
       console.log('手机验证码正确')
       const db = wx.cloud.database()
       db.collection('USER').where({
-        _openid: this.data.openid
+        UserId: this.data.openid
       }).update({
         data: {
           ["UserInfo.CompanyName"]: this.data.companyname,
@@ -266,7 +266,7 @@ Page({
         const db = wx.cloud.database()
         db.collection("POINTS").add({
           data: {
-            SelfId: app.globalData.Gopenid,
+            SelfId: app.globalData.Guserid,
             SelfPoints: 50,
             ProductName: "会员手机认证",
             // 直接推荐人
@@ -278,14 +278,14 @@ Page({
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
             PointsStatus: "checked",
-            Resource: app.globalData.Gopenid
+            Resource: app.globalData.Guserid
           },
           success(res) {
             console.log("POINTS更新成功")
             },
         })
         db.collection('USER').where({
-          _openid: this.data.openid
+          UserId: this.data.openid
         }).update({
           data: {
             ["TradeInfo.Balance"]: 50,

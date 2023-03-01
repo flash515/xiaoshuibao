@@ -853,7 +853,7 @@ Page({
     console.log(options)
     this.setData({
       recordid: options._id,
-      sortarray: app.globalData.Gsortarray,
+      sortarray: app.globalData.Gsetting.SortArray,
     })
 
     if (options._id != undefined && options._id != "") {
@@ -903,7 +903,7 @@ Page({
         updatedate: fliter[0].UpdateDate,
         productview: fliter[0].ProductImage,
         attachmentfile: fliter[0].AttachmentFile,
-        username: fliter[0]._openid,
+        username: fliter[0].UserId,
       })
     }
   },

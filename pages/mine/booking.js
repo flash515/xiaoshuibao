@@ -65,7 +65,7 @@ wx.navigateTo({
     })
     const db = wx.cloud.database()
     db.collection('BOOKING').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
     }).get({
       success: res => {
         this.setData({
@@ -111,7 +111,7 @@ wx.navigateTo({
   onPullDownRefresh: function () {
     const db = wx.cloud.database()
     db.collection('BOOKING').where({
-      _openid: app.globalData.Gopenid,
+      UserId: app.globalData.Guserid,
     }).get({
       success: res => {
         this.setData({

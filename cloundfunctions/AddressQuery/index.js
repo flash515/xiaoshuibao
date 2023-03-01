@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   //先取符合条件的记录总数
   const countResult = await db.collection('ADDRESS').where({
     //传入的条件参数
-    _openid:event.userid,
+    UserId:event.userid,
   }).count()
   const total = countResult.total
   // 计算需分几次取
@@ -21,7 +21,7 @@ const tasks = []
 for (let i = 0; i < batchTimes; i++) {
   const promise = db.collection('ADDRESS').where({
     //传入的条件参数
-    _openid:event.userid,
+    UserId:event.userid,
   }).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
   tasks.push(promise)
 }

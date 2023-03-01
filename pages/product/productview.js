@@ -86,19 +86,19 @@ Page({
       if (data.length == 0) {
         await _newuser()
       } else {
-        app.globalData.Guserinfo = data[0].UserInfo
-        app.globalData.Gtradeinfo = data[0].TradeInfo
-        console.log("当前用户信息", app.globalData.Guserinfo);
-        console.log("当前用户交易信息", app.globalData.Gtradeinfo);
+        app.globalData.Guserdata.UserInfo = data[0].UserInfo
+        app.globalData.Guserdata.TradeInfo = data[0].TradeInfo
+        console.log("当前用户信息", app.globalData.Guserdata.UserInfo);
+        console.log("当前用户交易信息", app.globalData.Guserdata.TradeInfo);
         await _olduser()
       }
       await _invitercheck()
       console.log("这一步执行了")
     if (options.category2 != undefined && options.category2 != "") {
-      for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
-        for (var j = 0; j < app.globalData.Gsortarray[i].Category2Array.length; j++) {
-          if (app.globalData.Gsortarray[i].Category2Array[j].Category2Name == options.category2) {
-            var tempsort = app.globalData.Gsortarray[i].Category2Array[j].Category3Array
+      for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {
+        for (var j = 0; j < app.globalData.Gsetting.SortArray[i].Category2Array.length; j++) {
+          if (app.globalData.Gsetting.SortArray[i].Category2Array[j].Category2Name == options.category2) {
+            var tempsort = app.globalData.Gsetting.SortArray[i].Category2Array[j].Category3Array
           }
         }
       }
@@ -131,20 +131,20 @@ Page({
     console.log(this.data.sortarray)
     this.setData({
       image: app.globalData.Gimagearray,
-      usertype: app.globalData.Gtradeinfo.UserType,
-      discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
+      usertype: app.globalData.Guserdata.TradeInfo.UserType,
+      discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
       priceshow: app.globalData.Gpriceshow,
-      userphone:app.globalData.Guserinfo.UserPhone,
+      userphone:app.globalData.Guserdata.UserInfo.UserPhone,
     })
 
       }
       else{
         console.log("这一步执行了")
         if (options.category2 != undefined && options.category2 != "") {
-          for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
-            for (var j = 0; j < app.globalData.Gsortarray[i].Category2Array.length; j++) {
-              if (app.globalData.Gsortarray[i].Category2Array[j].Category2Name == options.category2) {
-                var tempsort = app.globalData.Gsortarray[i].Category2Array[j].Category3Array
+          for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {
+            for (var j = 0; j < app.globalData.Gsetting.SortArray[i].Category2Array.length; j++) {
+              if (app.globalData.Gsetting.SortArray[i].Category2Array[j].Category2Name == options.category2) {
+                var tempsort = app.globalData.Gsetting.SortArray[i].Category2Array[j].Category3Array
               }
             }
           }
@@ -177,10 +177,10 @@ Page({
         console.log(this.data.sortarray)
         this.setData({
           image: app.globalData.Gimagearray,
-          usertype: app.globalData.Gtradeinfo.UserType,
-          discountlevel: app.globalData.Gtradeinfo.DiscountLevel,
+          usertype: app.globalData.Guserdata.TradeInfo.UserType,
+          discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
           priceshow: app.globalData.Gpriceshow,
-          userphone:app.globalData.Guserinfo.UserPhone,
+          userphone:app.globalData.Guserdata.UserInfo.UserPhone,
         })
 
       } 
@@ -255,8 +255,8 @@ console.log("显示执行时间")
       console.log(res.target)
     }
     return {
-      title: app.globalData.Guserinfo.nickName + '推荐给您：',
-      path: '/pages/product/productview?userid=' + app.globalData.Gopenid + '&'+this.data.paramname+"="+this.data.paramvalue,
+      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      path: '/pages/product/productview?userid=' + app.globalData.Guserid + '&'+this.data.paramname+"="+this.data.paramvalue,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调

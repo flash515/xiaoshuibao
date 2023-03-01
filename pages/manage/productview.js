@@ -13,7 +13,7 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('PRODUCT').where(_.and([{
-        _openid: app.globalData.Gopenid
+        UserId: app.globalData.Guserid
       },
       _.or([{
           IssuedBy: {
@@ -110,8 +110,8 @@ Page({
         app.globalData.Gproductlist=res.result.data
         console.log("商品数组", this.data.productlist)
         var tempsort = []
-        for (let i = 0; i < app.globalData.Gsortarray.length; i++) {
-          tempsort.push(app.globalData.Gsortarray[i].Category1Name)
+        for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {
+          tempsort.push(app.globalData.Gsetting.SortArray[i].Category1Name)
         }
         this.setData({
           sortarray: tempsort,

@@ -31,7 +31,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       image:app.globalData.Gimagearray,
-      promoterlevel:app.globalData.Guserinfo.PromoterLevel
+      promoterlevel:app.globalData.Guserdata.UserInfo.PromoterLevel
     })
         // 直接分享价值查询
     // 从本地存储中读取
