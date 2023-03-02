@@ -54,12 +54,12 @@ Page({
       console.log("搜索进入参数:", this.data.tempinviterid);
     }
     //准备调用云数据库
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
+    // if (!wx.cloud) {
+    //   wx.redirectTo({
+    //     url: '../chooseLib/chooseLib',
+    //   })
+    //   return
+    // }
     // 调用方法初始化
     _setting()
     _productcheck()
