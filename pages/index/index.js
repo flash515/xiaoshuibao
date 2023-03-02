@@ -5,7 +5,7 @@ var {
   _setting,
   _usercheck,
   _newuser,
-  _olduser,
+  _discountcheck,
   _invitercheck
 } = require("../../utils/initialize")
 Page({
@@ -71,8 +71,11 @@ Page({
       await _invitercheck()
     } else {
       app.globalData.Guserdata = data[0]
+      app.globalData.Gindirectinviterid=data[0].UserInfo.IndirectInviterId
+      app.globalData.Ginviterid=data[0].UserInfo.InviterId
+      app.globalData.Ginviterphone=data[0].UserInfo.InviterPhone
       console.log("当前用户信息", app.globalData.Guserdata);
-      await _olduser()
+      await _discountcheck()
     }
 
     if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {

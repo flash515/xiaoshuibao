@@ -30,11 +30,11 @@
 
 
         <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-          <l-label class="labal">我的昵称：</l-label>
-          <input class="nicknameinput" type="nickname" name="nickname" placeholder="点击获取昵称" bind:input="bvNickName" />
+          <label class="labal">我的昵称：</label>
+          <input class="nicknameinput" type="nickname" name="nickname" placeholder="点击获取昵称" value="{{nickname}}" bind:input="bvNickName" />
 
         </view>
-
+<view class="line"></view>
 
         <view>
           <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName">

@@ -13,15 +13,17 @@ var newuserinfo = {
   InviterId: "",
   InviterCompany: "",
   InviterName: "",
+  InviterPhone:"",
+  IndirectInviterId:"",
   Region: ["广东省", "深圳市", "南山区"],
 }
 var newusertradeinfo = {
   Balance: 0,
-  BalanceUpdateDate: "",
+  BalanceUpdateTime: new Date().toLocaleString(),
   DiscountLevel: "DL4",
-  DiscountUpdateDate: "",
+  DiscountUpdateTime: new Date().toLocaleString(),
   PromoterLevel: "normal",
-  PromoterUpdateDate: "",
+  PromoterUpdateTime: new Date().toLocaleString(),
   UserType: "client"
 }
 
@@ -139,7 +141,7 @@ function _newuser(tempinviterid, params, remark) {
       data: {
         SysAddDate: new Date().getTime(),
         AddDate: new Date().toLocaleString(),
-        UserId:app.globalData.Guserid,
+        UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
         UserInfo: newuserinfo,
@@ -157,13 +159,13 @@ function _newuser(tempinviterid, params, remark) {
   return promise;
 }
 
-function _olduser() {
+function _discountcheck() {
+  console.log("老用户执行价格等级查询")
   var promise = new Promise((resolve, reject) => {
     console.log("未更新折扣级别", app.globalData.Guserdata.TradeInfo)
-    console.log("执行老用户价格等级查询")
+
     // 老用户确认价格等级，这一步放在index操作是便于直接跳转到其他页面
     const db = wx.cloud.database()
-    const _ = db.command
     db.collection('DISCOUNTORDER').where({
       UserId: app.globalData.Guserid,
       PaymentStatus: "checked",
@@ -213,19 +215,24 @@ function _invitercheck() {
     }).get({
       success: res => {
         console.log(res)
+        // 给本地数据赋值
         app.globalData.Gindirectinviterid = res.data[0].UserInfo.InviterId
         app.globalData.Guserdata.UserInfo.InviterId = res.data[0].UserId
         app.globalData.Guserdata.UserInfo.InviterCompany = res.data[0].UserInfo.CompanyName
         app.globalData.Guserdata.UserInfo.InviterName = res.data[0].UserInfo.UserName
+        app.globalData.Ginviterphone= res.data[0].UserInfo.UserPhone
         const db = wx.cloud.database()
         db.collection('USER').where({
           UserId: app.globalData.Guserid
         }).update({
           data: {
+            // 给数据库字库更新
             ["UserInfo.InviterId"]: res.data[0].UserId,
             ["UserInfo.InviterCompany"]: res.data[0].UserInfo.CompanyName,
             ["UserInfo.InviterName"]: res.data[0].UserInfo.UserName,
+            ["UserInfo.InviterPhone"]: res.data[0].UserInfo.UserPhone,
             ["UserInfo.IndirectInviterId"]: res.data[0].UserInfo.InviterId,
+
           },
           success: res => {
             console.log(res)
@@ -238,7 +245,6 @@ function _invitercheck() {
                 SysAddDate: new Date().getTime(),
                 AddDate: new Date().toLocaleDateString(),
                 PointsStatus: "checked",
-                Resource: app.globalData.Guserid
               },
               success: res => {
                 console.log("执行到最后位置了", res)
@@ -256,29 +262,30 @@ function _invitercheck() {
   return promise;
 }
 
-function _directuser(){
+function _directuser() {
   var promise = new Promise((resolve, reject) => {
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "USER",
-      command: "and",
-      where: [{
-        ["UserInfo.InviterId"]: app.globalData.Guserid
-      }]
-    },
-    success: res => {
-      wx.setStorageSync('LDirectUser', res.result.data);
-      // 查询结果赋值给数组参数
-      console.log("云函数查询直接推广用户", res.result.data)
-      resolve(res.data)
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserInfo.InviterId"]: app.globalData.Guserid
+        }]
+      },
+      success: res => {
+        wx.setStorageSync('LDirectUser', res.result.data);
+        // 查询结果赋值给数组参数
+        console.log("云函数查询直接推广用户", res.result.data)
+        resolve(res.data)
 
-    }
-  })
-});
-return promise;
+      }
+    })
+  });
+  return promise;
 }
-function _indirectuser(){
+
+function _indirectuser() {
   var promise = new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name: "NormalQuery",
@@ -301,15 +308,136 @@ function _indirectuser(){
   return promise;
 }
 
+function _discount() {
+  var promise = new Promise((resolve, reject) => {
+    const _ = db.command
+    wx.cloud.collection('DISCOUNTORDER').where({
+      UserId: app.globalData.Guserid,
+      PaymentStatus: "checked",
+      OrderStatus: "checked",
+      Available: true,
+    }).orderBy('OrderId', 'desc').get({
+      success: res => {
+        console.log(res)
+        if (res.data.length != 0) {
+          //如果有购买记录则执行，进一步筛选当前有效的折扣订单
 
+          var tempfliter = []
+          for (var i = 0; i < res.data.length; i++) {
+            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
+              //如果有在有效期内的折扣，则给tempfliter赋值
+              tempfliter.push(res.data[i]);
+            }
+          }
+          console.log(tempfliter)
+          resolve(tempfliter);
+          if (tempfliter.length != 0 && tempfliter.length != undefined) {
+            //tempfliter不为空时（有效的折扣），给参数赋值
+            console.log(tempfliter)
+            this.setData({
+              discountorderid: tempfliter[0]._id,
+              discountid: tempfliter[0].DiscountId,
+              discounthidden: false,
+              discountname: tempfliter[0].DiscountName,
+              discountlevel: tempfliter[0].DiscountLevel,
+              adddate: tempfliter[0].AddDate,
+              dlstartdate: tempfliter[0].DLStartDate,
+              dlenddate: tempfliter[0].DLEndDate,
+
+            })
+          } else {
+            //如果没有在有效期内的折扣，则直接给参数赋值
+            this.setData({
+              discountlevel: "DL4",
+              discounthidden: true,
+            })
+            console.log(this.data.discountlevel)
+          }
+        } else {
+          // 如果没有折扣卡购买记录，直接赋值
+          this.setData({
+            discountlevel: "DL4",
+            discounthidden: true,
+          })
+        }
+        console.log(this.data.discountlevel)
+
+      }
+    })
+  });
+  return promise;
+}
+
+function _promotercheck() {
+  var promise = new Promise((resolve, reject) => {
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserInfo.InviterId"]: app.globalData.Guserid
+        }]
+      },
+      success: res => {
+        wx.setStorageSync('LDirectUser', res.result.data);
+        // 查询结果赋值给数组参数
+        console.log("云函数查询直接推广用户", res.result.data)
+        resolve(res.data)
+
+      }
+    })
+  });
+  return promise;
+}
+function _balancecheck() {
+
+  var promise = new Promise((resolve, reject) => {
+    const db = wx.cloud.database()
+    const _ = db.command
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "or",
+        where: [{
+          ["SelfId"]: app.globalData.Guserid,
+          ["PointsStatus"]: "checked",
+          ["AddDate"]:_.gte(app.globalData.BalanceUpdateTime)
+        },
+        {
+          ["InviterId"]: app.globalData.Guserid,
+          ["PointsStatus"]: "checked",
+          ["AddDate"]:_.gte(app.globalData.BalanceUpdateTime)
+        },
+        {
+          ["IndirectInviterId"]: app.globalData.Guserid,
+          ["PointsStatus"]: "checked",
+          ["AddDate"]:_.gte(app.globalData.BalanceUpdateTime)
+        }
+      ]
+      },
+      success: res => {
+        wx.setStorageSync('LPoints', res.result.data);
+        // 查询结果赋值给数组参数
+        console.log("云函数查询相关积分", res.result.data)
+        resolve(res.data)
+
+      }
+    })
+  });
+  return promise;
+}
 module.exports = {
   _productcheck: _productcheck,
   _login: _login,
   _setting: _setting,
   _usercheck: _usercheck,
   _newuser: _newuser,
-  _olduser: _olduser,
   _invitercheck: _invitercheck,
-  _directuser:_directuser,
-  _indirectuser:_indirectuser
+  _directuser: _directuser,
+  _indirectuser: _indirectuser,
+  _discountcheck: _discountcheck,
+  _promotercheck: _promotercheck,
+  _balancecheck:_balancecheck
 }

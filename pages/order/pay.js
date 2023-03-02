@@ -1,5 +1,9 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const {
+  startToTrack,
+  startByClick,
+  startByBack
+} = require("../../utils/track");
 Page({
 
   /**
@@ -50,15 +54,15 @@ Page({
   _callWXPay(body, goodsnum, subMchId, payVal) {
     let that = this
     wx.cloud.callFunction({
-      name: 'WXPay',
-      data: {
-        // 需要将data里面的参数传给WXPay云函数
-        body,
-        goodsnum, // 商品订单号不能重复
-        subMchId, // 子商户号,微信支付商户号,必填
-        payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
-      },
-    })
+        name: 'WXPay',
+        data: {
+          // 需要将data里面的参数传给WXPay云函数
+          body,
+          goodsnum, // 商品订单号不能重复
+          subMchId, // 子商户号,微信支付商户号,必填
+          payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+        },
+      })
       .then((res) => {
         console.log(res);
         const payment = res.result.payment;
@@ -74,7 +78,23 @@ Page({
             that._orderupdate();
             that._pointsupdate();
             that._discountupdate();
-            that._balanceupdate()
+            that._balanceupdate();
+            // 调用云函数发短信给管理员
+            var tempmobile = [18954744612]
+            wx.cloud.callFunction({
+              name: 'sendsms',
+              data: {
+                templateId: "1569097",
+                nocode: true,
+                mobile: tempmobile
+              },
+              success: res => {
+                console.log(res)
+              },
+              fail: res => {
+                console.log(res)
+              },
+            })
           },
           fail: (err) => {
             console.error('支付失败', err);
@@ -338,33 +358,33 @@ Page({
         // 获取数据库引用
         const db = wx.cloud.database()
         db.collection('BOOKING').add({
-          data: {
-            Address: this.data.address,
-            Phone: this.data.phone,
-            Contacts: this.data.contacts,
-            BookingDate: this.data.date,
-            BookingTime: this.data.time,
-            BookingContent: "上门取款服务",
-            BookingStatus: "unchecked",
-            AddDate: new Date().toLocaleDateString()
-          },
-          success(res) {
-            console.log('预约提交成功', res.data)
-            wx.showToast({
-              title: '预约提交成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
-          },
-          fail(res) {
-            console.log("提交失败", res)
-            wx.showToast({
-              title: '预约提交失败',
-              icon: 'error',
-              duration: 2000 //持续的时间
-            })
-          }
-        }),
+            data: {
+              Address: this.data.address,
+              Phone: this.data.phone,
+              Contacts: this.data.contacts,
+              BookingDate: this.data.date,
+              BookingTime: this.data.time,
+              BookingContent: "上门取款服务",
+              BookingStatus: "unchecked",
+              AddDate: new Date().toLocaleDateString()
+            },
+            success(res) {
+              console.log('预约提交成功', res.data)
+              wx.showToast({
+                title: '预约提交成功',
+                icon: 'success',
+                duration: 2000 //持续的时间
+              })
+            },
+            fail(res) {
+              console.log("提交失败", res)
+              wx.showToast({
+                title: '预约提交失败',
+                icon: 'error',
+                duration: 2000 //持续的时间
+              })
+            }
+          }),
           this.data.booklock = true // 修改上传状态为锁定
       }
     }
@@ -397,8 +417,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+  // 点击 tab 时用此方法触发埋点
+  onTabItemTap: () => startToTrack(),
   onShow: function () {
     startToTrack()
   },
@@ -413,7 +433,7 @@ Page({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
     startByBack()
   },
 

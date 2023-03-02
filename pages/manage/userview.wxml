@@ -11,11 +11,11 @@
     <view>用户手机：{{item.UserInfo.UserPhone}}</view>
     <view>用户类型：{{item.UserInfo.UserType}}</view>
     <view>积分余额：{{item.TradeInfo.Balance}}</view>
-    <view>积分更新时间：{{item.TradeInfo.BalanceUpdateDate}}</view>
+    <view>积分更新时间：{{item.TradeInfo.BalanceUpdateTime}}</view>
     <view>优惠等级：{{item.TradeInfo.DiscountLevel}}</view>
-    <view>优惠更新时间：{{item.TradeInfo.DiscountUpdateDate}}</view>
+    <view>优惠更新时间：{{item.TradeInfo.DiscountUpdateTime}}</view>
     <view>推广等级：{{item.TradeInfo.PromoterLevel}}</view>
-    <view>推广更新时间：{{item.TradeInfo.PromoterUpdateDate}}</view>
+    <view>推广更新时间：{{item.TradeInfo.PromoterUpdateTime}}</view>
     <view>用户备注：{{item.Remark}}</view>
     <view>推荐人公司：{{item.UserInfo.InviterCompany}}</view>
     <view>推荐人姓名：{{item.UserInfo.InviterName}}</view>

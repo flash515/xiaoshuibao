@@ -1,15 +1,17 @@
 const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+var {
+  _balancecheck
+} = require("../../utils/initialize")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    avatarUrl: "",
-    nickName: "",
     userphone:"",
     balance: 0,
+    balanceupdatetime:"",
     personalhistory:[],
     inviterhistory:[],
     indirectinviterhistory:[],
@@ -32,22 +34,23 @@ Page({
   },
 
   bvRefresh(e) {
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: e.currentTarget.dataset.name,
-        command: "and",
-        where: [{
-          IndirectInviterId: 'omLS75T9_sWFA7pBwdg0uL6AUtcI',
-          PointsStatus:'checked',
-        }]
-      },
-      success: res => {
-          this.setData({
-            pointshistory: res.result.data
-          })
-      }
-    })
+    _balancecheck()
+    // wx.cloud.callFunction({
+    //   name: "NormalQuery",
+    //   data: {
+    //     collectionName: e.currentTarget.dataset.name,
+    //     command: "and",
+    //     where: [{
+    //       IndirectInviterId: 'omLS75T9_sWFA7pBwdg0uL6AUtcI',
+    //       PointsStatus:'checked',
+    //     }]
+    //   },
+    //   success: res => {
+    //       this.setData({
+    //         pointshistory: res.result.data
+    //       })
+    //   }
+    // })
   },
 
   /**
@@ -57,7 +60,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      balance:app.globalData.Guserdata.UserInfo.Balance,
+      balance:app.globalData.Guserdata.TradeInfo.Balance,
+      balanceupdatetime:app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,
     })
   wx.cloud.callFunction({
     name: "NormalQuery",

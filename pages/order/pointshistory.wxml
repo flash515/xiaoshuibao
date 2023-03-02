@@ -19,18 +19,21 @@
   </view>
   <view wx:else>
     <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;">
-      <view style="display:flex; flex-direction:row;align-items:center;color: #3683d6;">
+      <!-- <view style="display:flex; flex-direction:row;align-items:center;color: #3683d6;">
         <view>用户：{{userphone}}</view>
-      </view>
+      </view> -->
       <view style="display:flex; flex-direction:row;align-items:center;color:#3683d6">积分余额：{{balance}}分</view>
+      <view style="display:flex; flex-direction:row;align-items:center;color:#3683d6">更新时间：{{balanceupdatetime}}</view>
+
     </view>
+    <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
     <l-tabs>
       <l-tabpanel tab="会员认证积分" key="one" slot="one">
         <view wx:for="{{personalhistory}}" wx:key="key">
           <l-card type="primary" plaintext="{{true}}">
             <view>积分日期：{{item.AddDate}}</view>
             <view>积分事由：{{item.ProductName}}</view>
-            <view>积分数值：{{item.Points}}</view>
+            <view>积分数值：{{item.SelfPoints}}</view>
             <view style="display:flex; flex-direction:row;">
               <view>入账状态：</view>
               <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>

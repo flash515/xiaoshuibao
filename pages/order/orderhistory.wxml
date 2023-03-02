@@ -16,21 +16,21 @@
       <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
     <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
-      <view>用户：{{userphone}}</view>
+      <!-- <view>用户：{{userphone}}</view> -->
       <l-tabs>
         <l-tabpanel tab="业务订单" key="one" slot="one">
           <l-button class="mainbtn" width="600" data-name="ORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
           <view wx:for="{{orderhistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
               <view class="content">
-                <view>订单日期：{{item.AddDate}}</view>
+                <view>订单时间：{{item.AddDate}}</view>
                 <view>商品编号：{{item.ProductId}}</view>
                 <view>商品名称：{{item.ProductName}}</view>
                 <view>订单总价（元）：{{item.TotalFee}}</view>
                 <view style="display:flex; flex-direction:row;">
                   <view>付款状态：</view>
-                  <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
-                  <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
+                  <view wx:if="{{item.PaymentStatus =='unchecked'}}">未付款</view>
+                  <view wx:if="{{item.PaymentStatus =='checked'}}">已付款</view>
                 </view>
                 <view style="display:flex; flex-direction:row;">
                   <view>订单状态：</view>
@@ -64,8 +64,8 @@
           <view>折扣卡费用（元）：{{item.TotalFee}}</view>
           <view style="display:flex; flex-direction:row;">
           <view>付款状态：</view>
-            <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
-            <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
+            <view wx:if="{{item.PaymentStatus =='unchecked'}}">未付款</view>
+            <view wx:if="{{item.PaymentStatus =='checked'}}">已付款</view>
           </view>
           <view style="display:flex; flex-direction:row;">
           <view>订单状态：</view>
@@ -89,8 +89,8 @@
               <view>推广等级费用（元）：{{item.TotalFee}}</view>
               <view style="display:flex; flex-direction:row;">
                 <view>付款状态：</view>
-                <view wx:if="{{item.PaymentStatus =='unchecked'}}">待确认</view>
-                <view wx:if="{{item.PaymentStatus =='checked'}}">已确认</view>
+                <view wx:if="{{item.PaymentStatus =='unchecked'}}">未付款</view>
+                <view wx:if="{{item.PaymentStatus =='checked'}}">已付款</view>
               </view>
               <view style="display:flex; flex-direction:row;">
                 <view>申请状态：</view>

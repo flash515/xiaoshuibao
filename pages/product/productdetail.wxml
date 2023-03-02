@@ -137,7 +137,7 @@
 
     <view>
       <text>\n</text>
-      <l-button data-params="productid={{product._id}}&productname={{product.ProductName}}" icon="order" icon-color="white" shape="semicircle" bind:lintap="bvNewOrder">我要办理</l-button>
+      <l-button data-params="productid={{product._id}}" icon="order" icon-color="white" shape="semicircle" bind:lintap="bvNewOrder">我要办理</l-button>
     </view>
     <!-- </view> -->
   </scroll-view>

@@ -20,7 +20,7 @@
     </view>
     <view wx:else style="display:flex; flex-direction:column;">
       <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
-        <view>登录号码：{{userphone}}</view>
+        <view>用户号码：{{userphone}}</view>
         <view>用户类型：{{usertype}}</view>
       </view>
       <view  style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">

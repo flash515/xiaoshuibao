@@ -120,6 +120,7 @@ App({
     // 直接推荐人
     Ginviter: [], //推荐人信息,待删除
     Ginviterid: "", //推荐人id
+    Ginviterphone: "", //推荐人手机，发送认证积分短信时使用
     Ginviterpromoterlevel: "", //推荐人推广级别,待删除
     Ginviterbalance: "", //推荐人积分,待删除
     // 间接推荐人

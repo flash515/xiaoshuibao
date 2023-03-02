@@ -13,7 +13,7 @@ Page({
    */
   data: {
     avatarurl: defaultAvatarUrl,
-    nickname:"",
+    nickname: "",
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
@@ -49,25 +49,25 @@ Page({
     //   avatarUrl
     // } = e.detail
     console.log(e.detail)
-    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl"+e.detail.avatarUrl.match(/\.[^.]+?$/)
+    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     wx.cloud.uploadFile({
       cloudPath, // 上传至云端的路径
       filePath: e.detail.avatarUrl, // 小程序临时文件路径
       success: res => {
-          // 返回文件 ID
-          console.log(res.fileID)
-          // do something
-          this.setData({
-            avatarurl:res.fileID,
-          })
+        // 返回文件 ID
+        console.log(res.fileID)
+        // do something
+        this.setData({
+          avatarurl: res.fileID,
+        })
       },
       fail: console.error
-  })
+    })
   },
   bvNickName(e) {
-    console.log("真机测试才能获取到",e.detail.value)
+    console.log("真机测试才能获取到", e.detail.value)
     this.setData({
-      nickname:e.detail.value,
+      nickname: e.detail.value,
     })
   },
   changeTabs(e) {
@@ -113,13 +113,7 @@ Page({
     })
   },
   _SendCodeBtn() {
-    if(this.data.userphone=="" || this.data.userphone==undefined){
-      wx.showToast({
-        title: '请输入手机号码',
-        icon: 'error',
-        duration: 2000
-      })
-    }else{
+
     var that = this;
     var currentTime = that.data.currentTime
     interval = setInterval(function () {
@@ -136,40 +130,49 @@ Page({
         })
       }
     }, 1000)
-  }
+
   },
   bvSendCode() {
-    let _this = this;
-    this._SendCodeBtn()
-    this.setData({
-      disabled: true
-    })
-    wx.cloud.callFunction({
-      name: 'sendmessage',
-      data: {
-        templateId: "985130",
-        nocode: false,
-        mobile: _this.data.userphone,
-        nationcode: '86'
-      },
-      success: res => {
-        let code = res.result.res.body.params[0];
-        let result = res.errMsg;
-        if (result == "cloud.callFunction:ok") {
-          _this.setData({
-            result: "发送成功",
-            s_phonecode: code
-          })
-        } else {
-          _this.setData({
-            result: "发送失败"
-          })
+    if (this.data.userphone == "" || this.data.userphone == undefined) {
+      wx.showToast({
+        title: '请输入手机号码',
+        icon: 'error',
+        duration: 2000
+      })
+    } else {
+      let _this = this;
+
+      this.setData({
+        disabled: true
+      })
+      wx.cloud.callFunction({
+        name: 'sendmessage',
+        data: {
+          templateId: "985130",
+          nocode: false,
+          mobile: _this.data.userphone,
+          nationcode: '86'
+        },
+        success: res => {
+          let code = res.result.res.body.params[0];
+          let result = res.errMsg;
+          if (result == "cloud.callFunction:ok") {
+            _this.setData({
+              result: "发送成功",
+              s_phonecode: code
+            })
+            this._SendCodeBtn()
+          } else {
+            _this.setData({
+              result: "发送失败"
+            })
+          }
+        },
+        fail: err => {
+          console.error('[云函数] [sendsms] 调用失败', err)
         }
-      },
-      fail: err => {
-        console.error('[云函数] [sendsms] 调用失败', err)
-      }
-    })
+      })
+    }
   },
   bvPhoneCode(e) {
     this.setData({
@@ -181,10 +184,9 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      image: app.globalData.Gimagearray
-    })
-
-    this.setData({
+      image: app.globalData.Gimagearray,
+      avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickname: app.globalData.Guserdata.UserInfo.nickName,
       companyname: app.globalData.Guserdata.UserInfo.CompanyName,
       companyid: app.globalData.Guserdata.UserInfo.CompanyId,
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
@@ -193,7 +195,6 @@ Page({
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
       usertype: app.globalData.Guserdata.TradeInfo.UserType,
-      balance: app.globalData.Guserdata.TradeInfo.Balance,
       adddate: app.globalData.Guserdata.UserInfo.AddDate,
       updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
       invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
@@ -209,6 +210,8 @@ Page({
     }).get({
       success: res => {
         this.setData({
+          avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
+          nickname: app.globalData.Guserdata.UserInfo.nickName,
           companyname: res.data[0].UserInfo.CompanyName,
           companyid: res.data[0].UserInfo.CompanyId,
           businessscope: res.data[0].UserInfo.BusinessScope,
@@ -217,7 +220,6 @@ Page({
           useroldphone: res.data[0].UserInfo.UserPhone,
           userphone: res.data[0].UserInfo.UserPhone,
           usertype: res.data[0].TradeInfo.UserType,
-          balance: res.data[0].TradeInfo.Balance,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
       }
@@ -240,9 +242,9 @@ Page({
           ["UserInfo.BusinessScope"]: this.data.businessscope,
           ["UserInfo.UserName"]: this.data.username,
           ["UserInfo.UserPhone"]: this.data.userphone,
-          ["UserInfo.avatarUrl"]: this.data.avatarUrl,
+          ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
-          ["UserInfo.UpdateDate"]: new Date().toLocaleDateString()
+          ["UserInfo.UpdateDate"]: new Date().toLocaleString()
         },
         success(res) {
           wx.showToast({
@@ -278,25 +280,24 @@ Page({
             SysAddDate: new Date().getTime(),
             AddDate: new Date().toLocaleDateString(),
             PointsStatus: "checked",
-            Resource: app.globalData.Guserid
-          },
+           },
           success(res) {
             console.log("POINTS更新成功")
-            },
+          },
         })
         db.collection('USER').where({
           UserId: this.data.openid
         }).update({
           data: {
             ["TradeInfo.Balance"]: 50,
-            ["TradeInfo.BalanceUpdateDate"]:new Date().toLocaleDateString(),
+            ["TradeInfo.BalanceUpdateTime"]: new Date().toLocaleString(),
           },
           success(res) {
             console.log("已获得50积分")
 
             //给推荐和和管理员发送短信
-            if (app.globalData.Ginviter.UserInfo.UserPhone != undefined && app.globalData.Ginviter.UserInfo.UserPhone != "") {
-              var tempmobile = [18954744612, app.globalData.Ginviter.UserInfo.UserPhone]
+            if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {
+              var tempmobile = [18954744612, app.globalData.Ginviterphone]
             } else {
               var tempmobile = [18954744612]
             }
