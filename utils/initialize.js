@@ -19,11 +19,11 @@ var newuserinfo = {
 }
 var newusertradeinfo = {
   Balance: 0,
-  BalanceUpdateTime: new Date().toLocaleString(),
+  BalanceUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
   DiscountLevel: "DL4",
-  DiscountUpdateTime: new Date().toLocaleString(),
+  DiscountUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
   PromoterLevel: "normal",
-  PromoterUpdateTime: new Date().toLocaleString(),
+  PromoterUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
   UserType: "client"
 }
 
@@ -140,7 +140,7 @@ function _newuser(tempinviterid, params, remark) {
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString(),
+        AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
         UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
@@ -241,9 +241,9 @@ function _invitercheck() {
                 UserId: app.globalData.Guserid,
                 ProductName: "直接推广积分",
                 InviterId: app.globalData.Ginviterid,
-                InviterPoints: 10,
+                InviterPoints: 5,
                 SysAddDate: new Date().getTime(),
-                AddDate: new Date().toLocaleDateString(),
+                AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
                 PointsStatus: "checked",
               },
               success: res => {
@@ -401,7 +401,7 @@ function _balancecheck() {
         collectionName: "POINTS",
         command: "or",
         where: [{
-          ["SelfId"]: app.globalData.Guserid,
+          ["UserId"]: app.globalData.Guserid,
           ["PointsStatus"]: "checked",
           ["AddDate"]:_.gte(app.globalData.BalanceUpdateTime)
         },

@@ -252,7 +252,7 @@ Page({
           TotalFee: this.data.totalfee,
 
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString(),
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
         },
@@ -288,7 +288,7 @@ Page({
           Count: this.data.count,
           TotalFee: this.data.totalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString(),
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
           PaymentStatus: "unchecked",
         },
         success(res) {
@@ -331,7 +331,7 @@ Page({
           ConsumeId: app.globalData.Guserid,
           ConsumePoints: this.data.consumepoints,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString(),
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
           PaymentStatus: "unchecked",
           PointsStatus: "unchecked",
         },

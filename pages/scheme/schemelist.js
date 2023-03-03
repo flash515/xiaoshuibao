@@ -74,7 +74,7 @@ Page({
             SchemeType: "增值税",
             Question: this.data.question1,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success(res) {
             wx.showToast({
@@ -117,7 +117,7 @@ Page({
             SchemeType: "企业所得税",
             Question: this.data.question2,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success(res) {
             wx.showToast({
@@ -159,7 +159,7 @@ Page({
             SchemeType: "个人所得税",
             Question: this.data.question3,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success(res) {
             wx.showToast({
@@ -201,7 +201,7 @@ Page({
             SchemeType: "股权转让个税",
             Question: this.data.question4,
             Status: "",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success(res) {
             wx.showToast({

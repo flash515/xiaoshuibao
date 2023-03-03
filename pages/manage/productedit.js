@@ -711,7 +711,7 @@ Page({
       // 新增数据
       db.collection("PRODUCT").add({
           data: {
-            AddDate: new Date().toLocaleDateString(),
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
             Status: this.data.status,
             ProductName: this.data.productname,
             Outline: this.data.outline,
@@ -805,7 +805,7 @@ Page({
         ProductImage: this.data.productimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
-        UpdateDate: new Date().toLocaleDateString()
+        UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
       },
       success(res) {
         console.log('更新数据成功', res)

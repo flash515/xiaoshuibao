@@ -54,7 +54,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('SCHEME').add({
         data: {
-          AddDate: new Date().toLocaleString(),
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
           SchemeType: this.data.schemetype,
           Condition: this.data.condition,
           Scheme: this.data.scheme,
@@ -84,7 +84,7 @@ Page({
         Scheme: this.data.scheme,
         RefProduct: this.data.refproduct,
         Status: this.data.status,
-        UpdateDate: new Date().toLocaleString()
+        UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
       }
     })
   },

@@ -56,7 +56,7 @@ Page({
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: new Date().toLocaleDateString()
+          updatedate: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success: res => {
           console.log(res)

@@ -1,90 +1,12 @@
-<!--pages/test/test.wxml-->
-<text>pages/test/test.wxml</text>
-<l-button bind:lintap="sendlogin" plain="{{true}}">登录</l-button>
-<l-button bind:lintap="sendliuyan" plain="{{true}}">留言</l-button>
-<l-button bind:lintap="sendorder" plain="{{true}}">订单</l-button>
-<!-- 显示选择的图片 -->
-<view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-  <label class="text">30.图片附件：</label>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
-    <view wx:if="{{showvalue30==true}}">
-      <label class="text">当前展示</label>
-    </view>
-    <view wx:else>
-      <label class="text">当前不展示</label>
-    </view>
-    <switch checked="{{showvalue30}}" data-id="30" bindchange="SVChange" style='zoom:.6;' />
-  </view>
-</view>
-<view hidden="{{showvalue30==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-  <l-image-picker size="4" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{attachmentview}}" />
-  <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
-</view>
-<l-button plain="{{true}}" bind:lintap="bvtest">数组操作</l-button>
+<view>功能测试</view>
 
-<view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-  <label class="text">31.文件附件：</label>
-  <view style="display:flex; flex-direction:row;justify-content:space-between;align-items:center;">
-    <view wx:if="{{showvalue31==true}}">
-      <label class="text">当前展示</label>
-    </view>
-    <view wx:else>
-      <label class="text">当前不展示</label>
-    </view>
-    <switch checked="{{showvalue31}}" data-id="31" bindchange="SVChange" style='zoom:.6;' />
-  </view>
-</view>
-<view hidden="{{showvalue31==false}}" style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-  <view wx:for="{{attachmentfile}}" wx:for-item="cell" wx:key="key" style="margin-top: 10rpx;">
-    <view wx:for="{{cell}}" wx:for-index="key" wx:for-item="value" wx:key="key">
-      <l-button bind:lintap="bvDownloadFile" plain="{{true}}" data-link="{{value}}" data-name="{{key}}">点击下载：{{key}}</l-button>
-      <text>\t\t</text>
-      <l-button data-link="{{value}}" data-name="{{key}}" bind:lintap="bvDeleteFile" plain="{{true}}">删除文件</l-button>
-    </view>
-  </view>
-  <text>\n</text>
-  <view wx:for="{{tempFilePaths}}" wx:key="key">{{tempFilePaths[index].name}}
-  </view>
-  <l-button bind:lintap="bvChooseFile" plain="{{true}}">选择文件</l-button>
-  <text>\t\t</text>
-  <l-button bind:lintap="bvUploadFile" plain="{{true}}">上传文件</l-button>
-  <view wx:for="{{item.AttachmentFile}}" wx:for-item="value" wx:for-index="key" wx:key="key">
-    <l-button data-link="{{value}}" bind:lintap="bvUploadFile" plain="{{true}}">{{key}}</l-button>
-  </view>
-</view>
-
-<view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-  <l-button type="default" bind:lintap="addData">新增信息</l-button>
-
-  <l-button type="default" bind:lintap="updateData">更新信息</l-button>
-
-  <l-button type="default" bind:lintap="delData">删除信息</l-button>
-</view>
-
-
-
-<view class="section">
-  <view class="section__title">多列选择器</view>
-  <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
-    <view class="picker">
-      当前选择：{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
-    </view>
-  </picker>
-</view>
-
-<switch wx:for="{{objectArray}}" wx:key="unique" style="display: block;"> {{item.id}} </switch>
-<button bindtap="switch"> Switch </button>
-<button bindtap="addToFront"> Add to the front </button>
-
-<switch wx:for="{{numberArray}}" wx:key="*this" style="display: block;"> {{item}} </switch>
-<button bindtap="addNumberToFront"> Add to the front </button>
-<view wx:for="array">
-  {{item}}
-</view>
-
-<view wx:for="{{array1.Category2Array}}" wx:for-index="key2" wx:for-item="array2" wx:key="key">
-  <view class="text">{{array2.Category2Name}}</view>
-  <view wx:for="{{array2.Category3Array}}" wx:for-index="key3" wx:for-item="array3" wx:key="key">
-    <l-tag type="touch" select="{{select}}" l-select-class="select" bindtap="onSelect">{{array3.Category3Name}}</l-tag>
-  </view>
-</view>
+<l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
+<view>{{date1}}</view>
+<view>{{date2}}</view>
+<view>{{date3}}</view>
+<view>{{date4}}</view>
+<view>{{date5}}</view>
+<view>{{date6}}</view>
+<view>{{date7}}</view>
+<view>{{date8}}</view>
+<view>{{date9}}</view>

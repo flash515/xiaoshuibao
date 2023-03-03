@@ -116,7 +116,7 @@ Page({
           DLEndDate: this.data.discountenddate,
           TotalFee: this.data.discounttotalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleDateString(),
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
           PaymentStatus:"unchecked",
           OrderStatus:"unchecked",
           Available:false
@@ -149,7 +149,7 @@ Page({
           ProductId: this.data.discountid,
           ProductName: this.data.discountname,
           TotalFee: this.data.discounttotalfee,
-          AddDate: new Date().toLocaleDateString(),
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
           PaymentStatus: "unchecked",
           Database:"DISCOUNTORDER"
         },

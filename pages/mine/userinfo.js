@@ -244,7 +244,7 @@ Page({
           ["UserInfo.UserPhone"]: this.data.userphone,
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
-          ["UserInfo.UpdateDate"]: new Date().toLocaleString()
+          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success(res) {
           wx.showToast({
@@ -252,7 +252,6 @@ Page({
             icon: 'success',
             duration: 2000 //持续的时间
           })
-
         },
         fail(res) {
           wx.showToast({
@@ -268,8 +267,8 @@ Page({
         const db = wx.cloud.database()
         db.collection("POINTS").add({
           data: {
-            SelfId: app.globalData.Guserid,
-            SelfPoints: 50,
+            RegistrantId: app.globalData.Guserid,
+            RegistrantPoints: 50,
             ProductName: "会员手机认证",
             // 直接推荐人
             InviterId: app.globalData.Ginviterid,
@@ -278,23 +277,11 @@ Page({
             IndirectInviterId: app.globalData.Gindirectinviterid,
             IndirectInviterPoints: 10,
             SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleDateString(),
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
             PointsStatus: "checked",
-           },
+          },
           success(res) {
             console.log("POINTS更新成功")
-          },
-        })
-        db.collection('USER').where({
-          UserId: this.data.openid
-        }).update({
-          data: {
-            ["TradeInfo.Balance"]: 50,
-            ["TradeInfo.BalanceUpdateTime"]: new Date().toLocaleString(),
-          },
-          success(res) {
-            console.log("已获得50积分")
-
             //给推荐和和管理员发送短信
             if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {
               var tempmobile = [18954744612, app.globalData.Ginviterphone]
@@ -316,13 +303,8 @@ Page({
                 console.log(res)
               },
             })
-
           },
-          fail(res) {
-
-          }
         })
-
 
       }
     } else {

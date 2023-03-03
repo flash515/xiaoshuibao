@@ -28,12 +28,12 @@
     </view>
     <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
     <l-tabs>
-      <l-tabpanel tab="会员认证积分" key="one" slot="one">
+      <l-tabpanel tab="会员认证奖励" key="one" slot="one">
         <view wx:for="{{personalhistory}}" wx:key="key">
           <l-card type="primary" plaintext="{{true}}">
             <view>积分日期：{{item.AddDate}}</view>
             <view>积分事由：{{item.ProductName}}</view>
-            <view>积分数值：{{item.SelfPoints}}</view>
+            <view>积分数值：{{item.RegistrantPoints}}</view>
             <view style="display:flex; flex-direction:row;">
               <view>入账状态：</view>
               <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
@@ -42,7 +42,7 @@
           </l-card>
         </view>
       </l-tabpanel>
-      <l-tabpanel tab="直接推广积分" key="two" slot="two">
+      <l-tabpanel tab="直接推广奖励" key="two" slot="two">
         <view wx:for="{{inviterhistory}}" wx:key="key">
           <l-card type="primary" plaintext="{{true}}">
             <view>积分日期：{{item.AddDate}}</view>
@@ -56,7 +56,7 @@
           </l-card>
         </view>
       </l-tabpanel>
-      <l-tabpanel tab="间接推广积分" key="three" slot="three">
+      <l-tabpanel tab="间接推广奖励" key="three" slot="three">
         <view wx:for="{{indirectinviterhistory}}" wx:key="key">
           <l-card type="primary" plaintext="{{true}}">
             <view>积分日期：{{item.AddDate}}</view>

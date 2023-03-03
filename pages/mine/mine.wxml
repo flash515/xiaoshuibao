@@ -28,8 +28,8 @@
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">
   <l-list title="我的信息" icon="user" url="../mine/userinfo" />
-  <l-list title="推广奖励级别" icon="setting" url="../mine/promoterpolicy" />
-  <l-list title="价格优惠级别" icon="setting" url="../mine/pricepolicy" />
+  <l-list title="推广奖励" icon="setting" url="../mine/promoterpolicy" />
+  <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
   <l-list title="小程序推广码" icon="picture" url="../mine/minicode" />
   <l-list title="我的推广海报" icon="picture" url="../mine/poster" />

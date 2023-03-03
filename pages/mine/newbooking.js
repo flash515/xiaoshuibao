@@ -78,7 +78,7 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
-            AddDate: new Date().toLocaleDateString()
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success(res) {
             console.log('预约提交成功', res.data)
@@ -111,7 +111,7 @@ Page({
           BookingDate: this.data.date,
           BookingTime: this.data.time,
           BookingStatus: "unchecked",
-          UpdateDate: new Date().toLocaleDateString()
+          UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success(res) {
           console.log('预约更新成功', res.data)

@@ -366,7 +366,7 @@ Page({
               BookingTime: this.data.time,
               BookingContent: "上门取款服务",
               BookingStatus: "unchecked",
-              AddDate: new Date().toLocaleDateString()
+              AddDate: new Date().toLocaleString('chinese',{ hour12: false })
             },
             success(res) {
               console.log('预约提交成功', res.data)

@@ -42,19 +42,19 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('POINTS').where(_.or([{
-        SelfId: app.globalData.Guserid,
-        PointsStatus: "checked",
-        AddDate:_.gte(app.globalData.BalanceUpdateTime)
-      },
+      RegistrantId: app.globalData.Guserid,
+        // PointsStatus: "checked",
+        // AddDate:_.gte(app.globalData.BalanceUpdateTime)
+    },
       {
         InviterId: app.globalData.Guserid,
-        PointsStatus: "checked",
-        AddDate:_.gte(app.globalData.BalanceUpdateTime)
+        // PointsStatus: "checked",
+        // AddDate:_.gte(app.globalData.BalanceUpdateTime)
       },
       {
         IndirectInviterId: app.globalData.Guserid,
-        PointsStatus: "checked",
-        AddDate:_.gte(app.globalData.BalanceUpdateTime)
+        // PointsStatus: "checked",
+        // AddDate:_.gte(app.globalData.BalanceUpdateTime)
       }
     ])).get({
       success: res => {
@@ -86,7 +86,7 @@ Page({
         collectionName: "POINTS",
         command: "and",
         where: [{
-          SelfId: app.globalData.Guserid,
+          RegistrantId: app.globalData.Guserid,
           PointsStatus: 'checked',
         }]
       },
