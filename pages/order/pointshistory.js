@@ -5,7 +5,7 @@ const {
   startByBack
 } = require("../../utils/track");
 var {
-  _balancecheck
+  _pointscheck
 } = require("../../utils/initialize")
 Page({
 
@@ -37,7 +37,13 @@ Page({
     nextMargin: 0
   },
 
-  bvRefresh(e) {
+  bvRefresh: async function(e) {
+    let data = await _pointscheck()
+console.log(data)
+    this.setData({
+      balanceupdatetime:data.balanceupdatetime,
+      balance:data.balance
+    })
     console.log("刷新执行了")
     const db = wx.cloud.database()
     const _ = db.command

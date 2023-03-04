@@ -13,9 +13,11 @@
     <view>积分余额：{{item.TradeInfo.Balance}}</view>
     <view>积分更新时间：{{item.TradeInfo.BalanceUpdateTime}}</view>
     <view>优惠等级：{{item.TradeInfo.DiscountLevel}}</view>
-    <view>优惠更新时间：{{item.TradeInfo.DiscountUpdateTime}}</view>
-    <view>推广等级：{{item.TradeInfo.PromoterLevel}}</view>
-    <view>推广更新时间：{{item.TradeInfo.PromoterUpdateTime}}</view>
+    <view>优惠起始日期：{{item.TradeInfo.DLStartDate}}</view>
+    <view>优惠终止日期：{{item.TradeInfo.DLEndDate}}</view>
+    <view>优惠更新时间：{{item.TradeInfo.DLUpdateTime}}</view>
+    <view>会员推广等级：{{item.TradeInfo.PromoterLevel}}</view>
+    <view>推广更新时间：{{item.TradeInfo.PLUpdateTime}}</view>
     <view>用户备注：{{item.Remark}}</view>
     <view>推荐人公司：{{item.UserInfo.InviterCompany}}</view>
     <view>推荐人姓名：{{item.UserInfo.InviterName}}</view>

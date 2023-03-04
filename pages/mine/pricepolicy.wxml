@@ -10,32 +10,25 @@
   </swiper>
 </view>
 <view class="title">
-  <text>价格政策</text>
+  <text>价格优惠</text>
 </view>
 <view class="mainframe">
   <l-card type="primary" plaintext="{{true}}">
-    <text>当前价格类型：{{dlname}}</text>
-    <text>卡券购买日期：{{adddate}}</text>
-    <text>卡券生效日期：{{dlstartdate}}</text>
-    <text>卡券失效日期：{{dlenddate}}</text>
+    <text class="maintext">当前价格类型：{{dlname}}</text>
+    <text class="maintext">卡券购买日期：{{adddate}}</text>
+    <text class="maintext">卡券生效日期：{{dlstartdate}}</text>
+    <text class="maintext">卡券失效日期：{{dlenddate}}</text>
   </l-card>
   <text>\n</text>
+  <view class="maincontent">
+        <text space="emsp" decode='true' class="maintext">  小税宝提供了根据用户过往业务量调整报价的方式，用户在前溯一年内具备相应的业务量即可在当前订单获得价格优惠；\n</text>
+        <text space="emsp" decode='true' class="maintext">  同时，小税宝也提供了用户购买折扣卡即可获得在一定期间内价格优惠的方式。\n</text>
+</view>
+<text>\n</text>
   <l-collapse>
-    <l-collapse-item title="价格优惠政策说明">
-      <l-card type="primary" plaintext="{{true}}">
-        <text space="emsp" decode='true'>  小税宝商品售价体系：普客价&gt;折扣价\n</text>
-        <text space="emsp" decode='true'>  例如注册及托管小规模企业的价格为：\n</text>
-        <text space="emsp" decode='true'>  普客价：7000元/年\n</text>
-        <text space="emsp" decode='true'>  折扣价：6000元/年\n</text>
-        <text space="emsp" decode='true'>  小税宝提供了根据用户业务量调整报价的方式，只需具备相应的业务量即可在当前订单获得价格优惠；\n</text>
-        <text space="emsp" decode='true'>  同时，小税宝也提供了用户购买折扣卡即可获得在一定期间内价格优惠的方式。\n</text>
-      </l-card>
-    </l-collapse-item>
-  </l-collapse>
-  <l-collapse>
-    <l-collapse-item title="一、根据业务量获得价格优惠政策">
+    <l-collapse-item title="一、根据业务量获得价格优惠">
       <l-card type="primary" plaintext="{{true}}" title="业务量符合以下任一条件可享折扣价">
-        <text decode='true'>前溯一年内办理自然人代开票金额≥100万；或</text>
+        <text decode='true'>前溯一年内办理自然人税票金额≥100万；或</text>
         <text decode='true'>前溯一年内办理企业注册数量≥1家；或</text>
         <text decode='true'>前溯一年内推广有效用户数量≥100人；</text>
       </l-card>
@@ -43,7 +36,7 @@
   </l-collapse>
   <view hidden="{{orderhidden==false}}">
     <l-collapse>
-      <l-collapse-item title="二、购买折扣卡获得价格优惠政策">
+      <l-collapse-item title="二、购买折扣卡获得价格优惠">
         <l-card type="avatar" plaintext="{{true}}" title="单次折扣价体验卡">
           <text>有效期：限30天内单次使用</text>
           <text>购卡费用：50元</text>

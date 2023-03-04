@@ -278,9 +278,10 @@ Page({
         UserId: app.globalData.Guserid
       }).update({
         data: {
-          DiscountLevel: this.data.orderlevel,
-          DLStartDate:this.data.orderstartdate,
-          DLEndDate:this.data.orderenddate,
+          ['TradeInfo.DiscountLevel']: this.data.orderlevel,
+          ['TradeInfo.DLStartDate']:this.data.orderstartdate,
+          ['TradeInfo.DLEndDate']:this.data.orderenddate,
+          ['TradeInfo.DLUpdateTime']:new Date().toLocaleString('chinese',{ hour12: false }),
         },
         success(res) {
           console.log("用户信息更新成功")

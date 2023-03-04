@@ -21,9 +21,9 @@ var newusertradeinfo = {
   Balance: 0,
   BalanceUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
   DiscountLevel: "DL4",
-  DiscountUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
+  DLUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
   PromoterLevel: "normal",
-  PromoterUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
+  PLUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
   UserType: "client"
 }
 
@@ -428,6 +428,31 @@ function _balancecheck() {
   });
   return promise;
 }
+
+function _pointscheck() {
+
+  var promise = new Promise((resolve, reject) => {
+    var balance=15
+    var balanceupdatetime=new Date().toLocaleString('chinese',{ hour12: false })
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        // 给数据库字库更新
+        ["TradeInfo.Balance"]: balance,
+        ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
+
+      },
+      success: res => {
+        resolve(balanceupdatetime,balance)
+      }
+    })
+  });
+  return promise;
+}
+
+
 module.exports = {
   _productcheck: _productcheck,
   _login: _login,
@@ -439,5 +464,6 @@ module.exports = {
   _indirectuser: _indirectuser,
   _discountcheck: _discountcheck,
   _promotercheck: _promotercheck,
-  _balancecheck:_balancecheck
+  _balancecheck:_balancecheck,
+  _pointscheck:_pointscheck
 }
