@@ -442,7 +442,6 @@ function _pointscheck() {
         // 给数据库字库更新
         ["TradeInfo.Balance"]: balance,
         ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
-
       },
       success: res => {
         resolve(balanceupdatetime,balance)
