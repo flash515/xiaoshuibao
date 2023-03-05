@@ -45,8 +45,8 @@ Page({
     servicesfee: 0,
     // 积分折减前总办理费用，自动计算
     temptotalfee: 0,
-    tempmaxpoints:0,//可用积分上限
-    maxpoints:0,//本次可用积分上限
+    tempmaxpoints: 0, //可用积分上限
+    maxpoints: 0, //本次可用积分上限
     tempprofit: 0,
     profit: 0, //可分配收益
     // 可用积分
@@ -55,16 +55,10 @@ Page({
     consumepoints: 0,
     // 总办理费用，自动计算 
     totalfee: 0,
-    // 推荐人积分计算
-    commissiontype: "",
-    // 直接推荐人，自动计算
-    inviterpoints: 0,
-    // 间接推荐人积分，自动计算
-    indirectinviterpoints: 0,
-    commission1total: 0,
-
-    // 间接推荐人，自动计算
-    commission2total: 0,
+    // 消费积分计算
+    silverpoints: 0,
+    goldpoints: 0,
+    platinumpoints: 0,
     sublock: false,
     ordersublock: false,
     paymentsublock: false,
@@ -119,22 +113,21 @@ Page({
     console.log("总费用", this.data.totalfee)
     this._pointscount()
   },
-  _maxpointscount(){
+  _maxpointscount() {
     this.setData({
-      tempmaxpoints:this.data.tempprofit* this.data.count*app.globalData.Gsetting.pointsmagnification
+      tempmaxpoints: this.data.tempprofit * this.data.count * app.globalData.Gsetting.pointsmagnification
     })
-    console.log("可用积分上限", this.data.tempmaxpoints)
-    if(this.data.balance>=this.data.tempmaxpoints){
+    console.log("此商品本次可用积分上限", this.data.tempmaxpoints)
+    if (this.data.balance >= this.data.tempmaxpoints) {
       this.setData({
-        maxpoints:this.data.tempmaxpoints
+        maxpoints: this.data.tempmaxpoints
       })
-    }      
-    else{
+    } else {
       this.setData({
-        maxpoints:this.data.balance
+        maxpoints: this.data.balance
       })
     }
-    console.log("本次积分上限", this.data.maxpoints)
+    console.log("用户本次可使用积分上限", this.data.maxpoints)
   },
   _pointscount() {
     this.setData({
@@ -142,11 +135,13 @@ Page({
     })
     console.log("可分配毛利润", this.data.profit)
     this.setData({
-      inviterpoints:Math.floor(this.data.profit/3) * 2 * app.globalData.Gsetting.pointsmagnification,
-      indirectinviterpoints:Math.floor(this.data.profit/3) * app.globalData.Gsetting.pointsmagnification
+      silverpoints: Math.floor(this.data.profit / 3) * app.globalData.Gsetting.pointsmagnification,
+      goldpoints: Math.floor(this.data.profit / 3) * 2 * app.globalData.Gsetting.pointsmagnification,
+      platinumpoints: Math.floor(this.data.profit / 3) * app.globalData.Gsetting.pointsmagnification
     })
-    console.log("inviterpoints", this.data.inviterpoints)
-    console.log("indirectinviterpoints", this.data.indirectinviterpoints)
+    console.log("silverpoints", this.data.silverpoints)
+    console.log("goldpoints", this.data.goldpoints)
+    console.log("platinumpoints", this.data.platinumpoints)
   },
   onLoad: async function (options) {
     //页面初始化 options为页面跳转所带来的参数
@@ -252,7 +247,9 @@ Page({
           TotalFee: this.data.totalfee,
 
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
         },
@@ -288,7 +285,9 @@ Page({
           Count: this.data.count,
           TotalFee: this.data.totalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
           PaymentStatus: "unchecked",
         },
         success(res) {
@@ -324,14 +323,18 @@ Page({
           TotalFee: this.data.totalfee,
           // 直接推荐人
           InviterId: app.globalData.Ginviterid,
-          InviterPoints: this.data.inviterpoints,
           // 间接推荐人
           IndirectInviterId: app.globalData.Gindirectinviterid,
-          IndirectInviterPoints: this.data.indirectinviterpoints,
+          //  消费积分
+          SilverPoints: this.data.silverpoints,
+          GoldPoints: this.data.goldpoints,
+          PlatinumPoints: this.data.platinumpoints,
           ConsumeId: app.globalData.Guserid,
           ConsumePoints: this.data.consumepoints,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
           PaymentStatus: "unchecked",
           PointsStatus: "unchecked",
         },

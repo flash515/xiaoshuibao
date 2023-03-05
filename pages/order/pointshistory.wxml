@@ -18,23 +18,14 @@
 
   </view>
   <view wx:else style="display:flex; flex-direction:column;">
-
     <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;">
-      <view style="align-items:center;color:#3683d6">积分余额：{{balance}}分</view>
+      <view style="align-items:center;color:#3683d6">推广积分余额：{{balance}}分</view>
+      <view style="align-items:center;color:#3683d6">消费积分余额：{{points1}}分</view>
       <view style="align-items:center;color:#3683d6">更新时间：{{balanceupdatetime}}</view>
-    </view>
-    <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;">
-      <view style="align-items:center;color:#3683d6">认证积分：{{points1}}分</view>
-      <view style="align-items:center;color:#3683d6">推广积分：{{points2}}</view>
-    </view>
-    <view style="display:flex; flex-direction:row;justify-content:space-between;font-size: 28rpx;">
-      <view style="align-items:center;color:#3683d6">消费积分：{{points3}}分</view>
-      <view style="align-items:center;color:#3683d6">积分使用：{{points4}}</view>
     </view>
     <view>
       <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
     </view>
-
     <view>
       <l-tabs>
         <l-tabpanel tab="会员认证奖励" key="one" slot="one">

@@ -13,17 +13,23 @@ var newuserinfo = {
   InviterId: "",
   InviterCompany: "",
   InviterName: "",
-  InviterPhone:"",
-  IndirectInviterId:"",
+  InviterPhone: "",
+  IndirectInviterId: "",
   Region: ["广东省", "深圳市", "南山区"],
 }
 var newusertradeinfo = {
   Balance: 0,
-  BalanceUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
+  BalanceUpdateTime: new Date().toLocaleString('chinese', {
+    hour12: false
+  }),
   DiscountLevel: "DL4",
-  DLUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
+  DLUpdateTime: new Date().toLocaleString('chinese', {
+    hour12: false
+  }),
   PromoterLevel: "normal",
-  PLUpdateTime: new Date().toLocaleString('chinese',{ hour12: false }),
+  PLUpdateTime: new Date().toLocaleString('chinese', {
+    hour12: false
+  }),
   UserType: "client"
 }
 
@@ -140,7 +146,9 @@ function _newuser(tempinviterid, params, remark) {
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+        AddDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
         UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
@@ -220,7 +228,7 @@ function _invitercheck() {
         app.globalData.Guserdata.UserInfo.InviterId = res.data[0].UserId
         app.globalData.Guserdata.UserInfo.InviterCompany = res.data[0].UserInfo.CompanyName
         app.globalData.Guserdata.UserInfo.InviterName = res.data[0].UserInfo.UserName
-        app.globalData.Ginviterphone= res.data[0].UserInfo.UserPhone
+        app.globalData.Ginviterphone = res.data[0].UserInfo.UserPhone
         const db = wx.cloud.database()
         db.collection('USER').where({
           UserId: app.globalData.Guserid
@@ -243,7 +251,9 @@ function _invitercheck() {
                 InviterId: app.globalData.Ginviterid,
                 InviterPoints: 5,
                 SysAddDate: new Date().getTime(),
-                AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+                AddDate: new Date().toLocaleString('chinese', {
+                  hour12: false
+                }),
                 PointsStatus: "checked",
               },
               success: res => {
@@ -390,6 +400,7 @@ function _promotercheck() {
   });
   return promise;
 }
+
 function _balancecheck() {
 
   var promise = new Promise((resolve, reject) => {
@@ -401,21 +412,21 @@ function _balancecheck() {
         collectionName: "POINTS",
         command: "or",
         where: [{
-          ["UserId"]: app.globalData.Guserid,
-          ["PointsStatus"]: "checked",
-          ["AddDate"]:_.gte(app.globalData.BalanceUpdateTime)
-        },
-        {
-          ["InviterId"]: app.globalData.Guserid,
-          ["PointsStatus"]: "checked",
-          ["AddDate"]:_.gte(app.globalData.BalanceUpdateTime)
-        },
-        {
-          ["IndirectInviterId"]: app.globalData.Guserid,
-          ["PointsStatus"]: "checked",
-          ["AddDate"]:_.gte(app.globalData.BalanceUpdateTime)
-        }
-      ]
+            ["UserId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.BalanceUpdateTime)
+          },
+          {
+            ["InviterId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.BalanceUpdateTime)
+          },
+          {
+            ["IndirectInviterId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.BalanceUpdateTime)
+          }
+        ]
       },
       success: res => {
         wx.setStorageSync('LPoints', res.result.data);
@@ -430,10 +441,47 @@ function _balancecheck() {
 }
 
 function _pointscheck() {
-
+console.log(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
   var promise = new Promise((resolve, reject) => {
-    var balance=15
-    var balanceupdatetime=new Date().toLocaleString('chinese',{ hour12: false })
+    const db = wx.cloud.database()
+    const _ = db.command
+    // 查询上次更新balance后的全部相关points记录
+    db.collection('POINTS').where(_.or([{
+        RegistrantId: app.globalData.Guserid,
+        PointsStatus: "checked",
+        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
+      },
+      {
+        InviterId: app.globalData.Guserid,
+        PointsStatus: "checked",
+        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
+      },
+      {
+        IndirectInviterId: app.globalData.Guserid,
+        PointsStatus: "checked",
+        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
+      },
+      {
+        ConsumeId: app.globalData.Guserid,
+        PointsStatus: "checked",
+        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
+      },
+    ])).get({
+      success: res => {
+        wx.setStorageSync('LPoints', res.data);
+        // 查询结果赋值给数组参数
+        console.log("云函数查询相关积分", res.data)
+        resolve(res.data)
+
+      }
+    })
+    return promise;
+  })
+}
+
+function _balanceupdate() {
+  var promise = new Promise((resolve, reject) => {
+    var balance = 15
     const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
@@ -441,17 +489,15 @@ function _pointscheck() {
       data: {
         // 给数据库字库更新
         ["TradeInfo.Balance"]: balance,
-        ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
+        ["TradeInfo.BalanceUpdateTime"]:new Date().toLocaleString('chinese', {hour12: false}),
       },
       success: res => {
-        resolve(balanceupdatetime,balance)
+        resolve(res)
       }
     })
   });
   return promise;
 }
-
-
 module.exports = {
   _productcheck: _productcheck,
   _login: _login,
@@ -463,6 +509,7 @@ module.exports = {
   _indirectuser: _indirectuser,
   _discountcheck: _discountcheck,
   _promotercheck: _promotercheck,
-  _balancecheck:_balancecheck,
-  _pointscheck:_pointscheck
+  _balanceupdate: _balanceupdate,
+  _balancecheck: _balancecheck,
+  _pointscheck: _pointscheck,
 }

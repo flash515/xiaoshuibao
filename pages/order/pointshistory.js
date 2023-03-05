@@ -5,7 +5,8 @@ const {
   startByBack
 } = require("../../utils/track");
 var {
-  _pointscheck
+  _pointscheck,
+  _balanceupdate,
 } = require("../../utils/initialize")
 Page({
 
@@ -37,41 +38,9 @@ Page({
     nextMargin: 0
   },
 
-  bvRefresh: async function(e) {
-    let data = await _pointscheck()
-console.log(data)
-    this.setData({
-      balanceupdatetime:data.balanceupdatetime,
-      balance:data.balance
-    })
+  bvRefresh: async function (e) {
+   await _pointscheck()
     console.log("刷新执行了")
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('POINTS').where(_.or([{
-      RegistrantId: app.globalData.Guserid,
-        // PointsStatus: "checked",
-        // AddDate:_.gte(app.globalData.BalanceUpdateTime)
-    },
-      {
-        InviterId: app.globalData.Guserid,
-        // PointsStatus: "checked",
-        // AddDate:_.gte(app.globalData.BalanceUpdateTime)
-      },
-      {
-        IndirectInviterId: app.globalData.Guserid,
-        // PointsStatus: "checked",
-        // AddDate:_.gte(app.globalData.BalanceUpdateTime)
-      }
-    ])).get({
-      success: res => {
-        wx.setStorageSync('LPoints', res.data);
-        // 查询结果赋值给数组参数
-        console.log("云函数查询相关积分", res.data)
-      },
-      complete:res => {
-        console.log(res)
-      },
-    })
 
   },
 

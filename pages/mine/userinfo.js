@@ -263,7 +263,19 @@ Page({
       })
       // 根据用户是否已验证手机号，提供首次验证积分
       if (this.data.useroldphone == "") {
-        console.log('加积分')
+        // 成为会员时间
+        const db = wx.cloud.database()
+        db.collection('USER').where({
+          UserId: this.data.openid
+        }).update({
+          data: {
+            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese',{ hour12: false })
+          },
+          success(res) {
+
+          },
+        })
+        console.log('推广积分')
         const db = wx.cloud.database()
         db.collection("POINTS").add({
           data: {
