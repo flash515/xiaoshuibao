@@ -15,13 +15,12 @@ Page({
    */
   data: {
     userphone: "",
-    balance: 0,
+    tradepoints: 0,
+    promoterpoints: 0,
     balanceupdatetime: "",
-    personalhistory: [],
-    inviterhistory: [],
-    indirectinviterhistory: [],
-    consumehistory: [],
     pointshistory: [],
+    tradehistory: [],
+    promoterhistory: [],
     Points: 0,
     inviterpoints: 0,
     indirectinviterpoints: 0,
@@ -39,9 +38,35 @@ Page({
   },
 
   bvRefresh: async function (e) {
-   await _pointscheck()
-    console.log("刷新执行了")
-
+    await _pointscheck().then(
+      console.log("刷新执行了") ,
+      wx.getStorage({
+        key: 'LPoints',
+        success: res => {
+          console.log(res.data)
+          var temppoints1 = [];
+          var temppoints2 = [];
+          var temppoints3 = [];
+          var temppoints4 = [];
+          for (var i = 0; i < res.data.length; i++) {
+            if (res.data[i].RegistrantId == app.globalData.Guserid || [res.data[i].InviterId == app.globalData.Guserid && res.data[i].InviterPoints != "" && res.data[i].InviterPoints != undefined] || [res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].IndirectInviterPoints != "" && res.data[i].IndirectInviterPoints != undefined]) {
+              temppoints1.push(res.data[i]);
+            }
+          }
+          this.setData({
+            promoterhistory: temppoints1
+          })
+          for (var i = 0; i < res.data.length; i++) {
+            if ([res.data[i].InviterId == app.globalData.Guserid && res.data[i].SliverPoints != "" && res.data[i].SliverPoints != undefined] || [res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].PlatinumPoints != "" && res.data[i].PlatinumPoints != undefined]) {
+              temppoints2.push(res.data[i]);
+            }
+          }
+          this.setData({
+            tradehistory: temppoints2
+          })
+        }
+      })
+    )
   },
 
   /**

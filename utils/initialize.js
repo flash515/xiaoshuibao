@@ -30,7 +30,8 @@ var newusertradeinfo = {
   PLUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
-  UserType: "client"
+  UserType: "client",
+  // MemberTime:""
 }
 
 function _productcheck() {
@@ -412,19 +413,28 @@ function _balancecheck() {
         collectionName: "POINTS",
         command: "or",
         where: [{
-            ["UserId"]: app.globalData.Guserid,
+          // 手机认证积分
+            ["RegistrantId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
-            ["AddDate"]: _.gte(app.globalData.BalanceUpdateTime)
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           },
           {
+            // 直接推荐积分
             ["InviterId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
-            ["AddDate"]: _.gte(app.globalData.BalanceUpdateTime)
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           },
           {
+            // 间接推荐积分
             ["IndirectInviterId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
-            ["AddDate"]: _.gte(app.globalData.BalanceUpdateTime)
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 积分使用
+            ["ConsumeId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           }
         ]
       },
@@ -432,7 +442,7 @@ function _balancecheck() {
         wx.setStorageSync('LPoints', res.result.data);
         // 查询结果赋值给数组参数
         console.log("云函数查询相关积分", res.result.data)
-        resolve(res.data)
+        resolve(res.result.data)
 
       }
     })
@@ -440,38 +450,48 @@ function _balancecheck() {
   return promise;
 }
 
-function _pointscheck() {
+async function _pointscheck() {
 console.log(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
   var promise = new Promise((resolve, reject) => {
     const db = wx.cloud.database()
     const _ = db.command
-    // 查询上次更新balance后的全部相关points记录
-    db.collection('POINTS').where(_.or([{
-        RegistrantId: app.globalData.Guserid,
-        PointsStatus: "checked",
-        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
+    // 查询成为会员后的全部相关points记录
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "or",
+        where: [{
+          // 手机认证积分
+            ["RegistrantId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 直接推荐积分
+            ["InviterId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 间接推荐积分
+            ["IndirectInviterId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 积分使用
+            ["ConsumeId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          }
+        ]
       },
-      {
-        InviterId: app.globalData.Guserid,
-        PointsStatus: "checked",
-        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
-      },
-      {
-        IndirectInviterId: app.globalData.Guserid,
-        PointsStatus: "checked",
-        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
-      },
-      {
-        ConsumeId: app.globalData.Guserid,
-        PointsStatus: "checked",
-        AddDate:_.gte(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
-      },
-    ])).get({
       success: res => {
-        wx.setStorageSync('LPoints', res.data);
+        wx.setStorageSync('LPoints', res.result.data);
         // 查询结果赋值给数组参数
-        console.log("云函数查询相关积分", res.data)
-        resolve(res.data)
+        console.log("云函数查询相关积分", res.result.data)
+        resolve(res.result.data)
 
       }
     })

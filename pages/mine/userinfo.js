@@ -276,7 +276,6 @@ Page({
           },
         })
         console.log('推广积分')
-        const db = wx.cloud.database()
         db.collection("POINTS").add({
           data: {
             RegistrantId: app.globalData.Guserid,

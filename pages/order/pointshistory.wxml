@@ -18,18 +18,21 @@
 
   </view>
   <view wx:else style="display:flex; flex-direction:column;">
-    <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;">
-      <view style="align-items:center;color:#3683d6">推广积分余额：{{balance}}分</view>
-      <view style="align-items:center;color:#3683d6">消费积分余额：{{points1}}分</view>
-      <view style="align-items:center;color:#3683d6">更新时间：{{balanceupdatetime}}</view>
+    <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 32rpx;">
+      <view style="align-items:center;color:#3683d6">推广积分余额：{{promoterpoints}}分</view>
+      <view style="align-items:center;color:#3683d6">消费积分余额：{{tradepoints}}分</view>
+
+    </view>
+    <view>
+      <view style="align-items:center;color:#3683d6;font-size: 32rpx;">更新时间：{{balanceupdatetime}}</view>
     </view>
     <view>
       <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
     </view>
     <view>
       <l-tabs>
-        <l-tabpanel tab="会员认证奖励" key="one" slot="one">
-          <view wx:for="{{personalhistory}}" wx:key="key">
+        <l-tabpanel tab="推广积分纪录" key="one" slot="one">
+          <view wx:for="{{promoterhistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
               <view>积分日期：{{item.AddDate}}</view>
               <view>积分事由：{{item.ProductName}}</view>
@@ -42,40 +45,12 @@
             </l-card>
           </view>
         </l-tabpanel>
-        <l-tabpanel tab="直接推广奖励" key="two" slot="two">
-          <view wx:for="{{inviterhistory}}" wx:key="key">
+        <l-tabpanel tab="消费积分纪录" key="two" slot="two">
+          <view wx:for="{{tradehistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
               <view>积分日期：{{item.AddDate}}</view>
               <view>积分事由：{{item.ProductName}}</view>
               <view>积分数值：{{item.InviterPoints}}</view>
-              <view style="display:flex; flex-direction:row;">
-                <view>入账状态：</view>
-                <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
-                <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
-              </view>
-            </l-card>
-          </view>
-        </l-tabpanel>
-        <l-tabpanel tab="间接推广奖励" key="three" slot="three">
-          <view wx:for="{{indirectinviterhistory}}" wx:key="key">
-            <l-card type="primary" plaintext="{{true}}">
-              <view>积分日期：{{item.AddDate}}</view>
-              <view>积分事由：{{item.ProductName}}</view>
-              <view>积分数值：{{item.IndirectInviterPoints}}</view>
-              <view style="display:flex; flex-direction:row;">
-                <view>入账状态：</view>
-                <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
-                <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
-              </view>
-            </l-card>
-          </view>
-        </l-tabpanel>
-        <l-tabpanel tab="积分使用纪录" key="four" slot="four">
-          <view wx:for="{{consumehistory}}" wx:key="key">
-            <l-card type="primary" plaintext="{{true}}">
-              <view>积分使用日期：{{item.AddDate}}</view>
-              <view>积分使用事由：{{item.ProductName}}</view>
-              <view>积分使用数值：{{item.ConsumePoints}}</view>
               <view style="display:flex; flex-direction:row;">
                 <view>入账状态：</view>
                 <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
