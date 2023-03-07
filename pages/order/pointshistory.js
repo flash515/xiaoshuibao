@@ -38,8 +38,8 @@ Page({
   },
 
   bvRefresh: async function (e) {
-    await _pointscheck().then(
-      console.log("刷新执行了") ,
+    let data = await _pointscheck()
+      console.log(data) ,
       wx.getStorage({
         key: 'LPoints',
         success: res => {
@@ -49,7 +49,7 @@ Page({
           var temppoints3 = [];
           var temppoints4 = [];
           for (var i = 0; i < res.data.length; i++) {
-            if (res.data[i].RegistrantId == app.globalData.Guserid || [res.data[i].InviterId == app.globalData.Guserid && res.data[i].InviterPoints != "" && res.data[i].InviterPoints != undefined] || [res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].IndirectInviterPoints != "" && res.data[i].IndirectInviterPoints != undefined]) {
+            if (res.data[i].RegistrantId == app.globalData.Guserid || (res.data[i].InviterId == app.globalData.Guserid && res.data[i].InviterPoints != undefined) ||(res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].IndirectInviterPoints != undefined) || (res.data[i].ConsumeId == app.globalData.Guserid && res.data[i].ConsumePoints != undefined)) {
               temppoints1.push(res.data[i]);
             }
           }
@@ -57,7 +57,7 @@ Page({
             promoterhistory: temppoints1
           })
           for (var i = 0; i < res.data.length; i++) {
-            if ([res.data[i].InviterId == app.globalData.Guserid && res.data[i].SliverPoints != "" && res.data[i].SliverPoints != undefined] || [res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].PlatinumPoints != "" && res.data[i].PlatinumPoints != undefined]) {
+            if ((res.data[i].InviterId == app.globalData.Guserid && res.data[i].SliverPoints != undefined) || (res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].PlatinumPoints != undefined)) {
               temppoints2.push(res.data[i]);
             }
           }
@@ -66,7 +66,7 @@ Page({
           })
         }
       })
-    )
+    
   },
 
   /**

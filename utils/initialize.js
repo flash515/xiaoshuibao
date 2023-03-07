@@ -450,8 +450,8 @@ function _balancecheck() {
   return promise;
 }
 
-async function _pointscheck() {
-console.log(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
+function _pointscheck() {
+console.log(app.globalData.Guserdata.TradeInfo.MemberTime)
   var promise = new Promise((resolve, reject) => {
     const db = wx.cloud.database()
     const _ = db.command
@@ -495,8 +495,8 @@ console.log(app.globalData.Guserdata.TradeInfo.BalanceUpdateTime)
 
       }
     })
-    return promise;
   })
+  return promise;
 }
 
 function _balanceupdate() {
