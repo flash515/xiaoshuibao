@@ -319,12 +319,14 @@ Page({
       PaymentStatus: "checked",
       OrderStatus: "checked",
     }).orderBy('SysAddDate', 'desc').limit(1).get({
+      // 根据添加日期排序并选择最后一个记录
       success: res => {
         console.log(res.data.length)
         if (res.data.length != 0) {
           this.setData({
             adddate: res.data[0].AddDate,
             plstartdate: res.data[0].PLStartDate,
+            plenddate:res.data[0].PLEndDate,
             promoterlevel: res.data[0].PromoterLevel,
             paymentstatus: res.data[0].PaymentStatus,
             orderstatus: res.data[0].OrderStatus,

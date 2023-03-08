@@ -5,8 +5,7 @@ const {
   startByBack
 } = require("../../utils/track");
 var {
-  _pointscheck,
-  _balanceupdate,
+  _PLcheck,
 } = require("../../utils/initialize")
 Page({
 
@@ -38,35 +37,9 @@ Page({
   },
 
   bvRefresh: async function (e) {
-    let data = await _pointscheck()
-      console.log(data) ,
-      wx.getStorage({
-        key: 'LPoints',
-        success: res => {
-          console.log(res.data)
-          var temppoints1 = [];
-          var temppoints2 = [];
-          var temppoints3 = [];
-          var temppoints4 = [];
-          for (var i = 0; i < res.data.length; i++) {
-            if (res.data[i].RegistrantId == app.globalData.Guserid || (res.data[i].InviterId == app.globalData.Guserid && res.data[i].InviterPoints != undefined) ||(res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].IndirectInviterPoints != undefined) || (res.data[i].ConsumeId == app.globalData.Guserid && res.data[i].ConsumePoints != undefined)) {
-              temppoints1.push(res.data[i]);
-            }
-          }
-          this.setData({
-            promoterhistory: temppoints1
-          })
-          for (var i = 0; i < res.data.length; i++) {
-            if ((res.data[i].InviterId == app.globalData.Guserid && res.data[i].SliverPoints != undefined) || (res.data[i].IndirectInviterId == app.globalData.Guserid && res.data[i].PlatinumPoints != undefined)) {
-              temppoints2.push(res.data[i]);
-            }
-          }
-          this.setData({
-            tradehistory: temppoints2
-          })
-        }
-      })
-    
+    var pl = await _PLcheck()
+    console.log(pl)
+
   },
 
   /**

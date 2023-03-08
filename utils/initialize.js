@@ -274,6 +274,7 @@ function _invitercheck() {
 }
 
 function _directuser() {
+  // 查询当前用户的推广总人数
   var promise = new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name: "NormalQuery",
@@ -379,6 +380,142 @@ function _discount() {
   return promise;
 }
 
+async function _membercheck() {
+  var promise = new Promise((resolve, reject) => {
+    // 查询是否是会员
+    const db = wx.cloud.database()
+    const _ = db.command
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserId"]: app.globalData.Ginviterid,
+        }]
+      },
+      success: res => {
+        console.log(res)
+        if (res.result.data[0].UserInfo.UserPhone == "" || res.result.data[0].UserInfo.UserPhone == undefined) {
+          console.log("执行到这里了")
+          var inviterPL = "normal"
+          resolve(inviterPL)
+        } else {
+          var inviterPL = "member"
+          resolve(inviterPL)
+        }
+      }
+    })
+  });
+  return promise;
+}
+
+function _inviterPLcheck(voliduser) {
+  var promise = new Promise((resolve, reject) => {
+    var now = new Date().getTime()
+    console.log("本地函数查询推荐人的Promoter订单")
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection('PROMOTERORDER').where({
+      UserId: app.globalData.Ginviterid,
+      PaymentStatus: "checked",
+      OrderStatus: "checked",
+    }).orderBy('SysAddDate', 'desc').limit(1).get({
+      // 根据添加日期排序并选择最后一个记录
+      success: res => {
+
+        console.log(res.data)
+        console.log(voliduser)
+        console.log(new Date(res.data[0].PLStartDate).getTime())
+        console.log(new Date(res.data[0].PLEndDate).getTime())
+        console.log(now)
+        if (res.data.length != 0) {
+          if (new Date(res.data[0].PLStartDate).getTime() <= now && now <= new Date(res.data[0].PLEndDate).getTime()) {
+            var inviterPL = res.data[0].PromoterLevel
+            console.log("2")
+            resolve(inviterPL)
+          } else if (new Date(res.data[0].PLEndDate).getTime() < now) {
+            // 已过期,进一步查询有效人数
+            if (res.data[0].PromoterLevel == "platinum" && voliduser >= 60) {
+              var inviterPL = "platinum"
+              console.log("PL为白金")
+              resolve(inviterPL)
+            } else if (res.data[0].PromoterLevel == "gold" && voliduser >= 20) {
+              var inviterPL = "gold"
+              console.log("PL为黄金")
+              resolve(inviterPL)
+            } else if (res.data[0].PromoterLevel == "sliver" && voliduser >= 2) {
+              var inviterPL = "sliver"
+              console.log("PL白银")
+              resolve(inviterPL)
+            } else {
+              var inviterPL = "member"
+              console.log("PL为会员")
+              resolve(inviterPL)
+            }
+          } else {
+            var inviterPL = "member"
+            console.log("PL为会员")
+            resolve(inviterPL)
+          }
+          // 进一步查询是否符合新条件
+          resolve(inviterPL)
+        }
+      }
+    })
+  })
+  return promise;
+}
+
+async function _validuser() {
+  var promise = new Promise((resolve, reject) => {
+    //云函数查询推荐人一年内的有效推广人数
+    var now = new Date().getTime
+    const db = wx.cloud.database()
+    const _ = db.command
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "USER",
+        command: "and",
+        where: [{
+          ["UserInfo.InviterId"]: app.globalData.Ginviterid,
+          ["UserInfo.UserPhone"]: _.neq(""),
+          ["SysAddDate"]: _.gte(now - 365 * 86400000)
+        }]
+      },
+      success: res => {
+        var validuser = res.result.data.length
+        // 查询结果赋值给数组参数
+        console.log("云函数查询直接推广用户", res.result.data)
+        resolve(validuser)
+      }
+    })
+
+  })
+  return promise;
+}
+
+async function _PLcheck() {
+  var promise = new Promise((resolve, reject) => {
+    let res = await _membercheck()
+    console.log(res)
+    if (res == "normal") {
+      console.log("不是会员")
+      // 赋值
+      var inviterPL = "member"
+    } else if (res == "member") {
+      console.log("是会员继续查询是否有PL订单")
+      let voliduser = await _validuser()
+      console.log(voliduser)
+      let inviterPL = await _inviterPLcheck(voliduser)
+      console.log(inviterPL)
+    }
+    resolve(inviterPL)
+  })
+  return promise;
+}
+
 function _promotercheck() {
   var promise = new Promise((resolve, reject) => {
     wx.cloud.callFunction({
@@ -413,7 +550,7 @@ function _balancecheck() {
         collectionName: "POINTS",
         command: "or",
         where: [{
-          // 手机认证积分
+            // 手机认证积分
             ["RegistrantId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
             ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
@@ -451,7 +588,7 @@ function _balancecheck() {
 }
 
 function _pointscheck() {
-console.log(app.globalData.Guserdata.TradeInfo.MemberTime)
+  console.log(app.globalData.Guserdata.TradeInfo.MemberTime)
   var promise = new Promise((resolve, reject) => {
     const db = wx.cloud.database()
     const _ = db.command
@@ -462,7 +599,7 @@ console.log(app.globalData.Guserdata.TradeInfo.MemberTime)
         collectionName: "POINTS",
         command: "or",
         where: [{
-          // 手机认证积分
+            // 手机认证积分
             ["RegistrantId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
             ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
@@ -509,7 +646,9 @@ function _balanceupdate() {
       data: {
         // 给数据库字库更新
         ["TradeInfo.Balance"]: balance,
-        ["TradeInfo.BalanceUpdateTime"]:new Date().toLocaleString('chinese', {hour12: false}),
+        ["TradeInfo.BalanceUpdateTime"]: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
       },
       success: res => {
         resolve(res)
@@ -532,4 +671,8 @@ module.exports = {
   _balanceupdate: _balanceupdate,
   _balancecheck: _balancecheck,
   _pointscheck: _pointscheck,
+  _inviterPLcheck: _inviterPLcheck,
+  _membercheck: _membercheck,
+  _validuser: _validuser,
+  _PLcheck:_PLcheck
 }
