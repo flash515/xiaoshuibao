@@ -380,7 +380,7 @@ function _discount() {
   return promise;
 }
 
-async function _membercheck() {
+async function _membercheck(eventid) {
   var promise = new Promise((resolve, reject) => {
     // 查询是否是会员
     const db = wx.cloud.database()
@@ -391,7 +391,7 @@ async function _membercheck() {
         collectionName: "USER",
         command: "and",
         where: [{
-          ["UserId"]: app.globalData.Ginviterid,
+          ["UserId"]: eventid,
         }]
       },
       success: res => {
@@ -467,7 +467,7 @@ function _inviterPLcheck(voliduser) {
   return promise;
 }
 
-async function _validuser() {
+async function _validuser(eventid) {
   var promise = new Promise((resolve, reject) => {
     //云函数查询推荐人一年内的有效推广人数
     var now = new Date().getTime
@@ -479,7 +479,7 @@ async function _validuser() {
         collectionName: "USER",
         command: "and",
         where: [{
-          ["UserInfo.InviterId"]: app.globalData.Ginviterid,
+          ["UserInfo.InviterId"]: eventid,
           ["UserInfo.UserPhone"]: _.neq(""),
           ["SysAddDate"]: _.gte(now - 365 * 86400000)
         }]
@@ -496,25 +496,25 @@ async function _validuser() {
   return promise;
 }
 
-async function _PLcheck(eventid) {
-  var promise = new Promise((resolve, reject) => {
-    let res = await _membercheck()
-    console.log(res)
-    if (res == "normal") {
-      console.log("不是会员")
-      // 赋值
-      var inviterPL = "member"
-    } else if (res == "member") {
-      console.log("是会员继续查询是否有PL订单")
-      let voliduser = await _validuser()
-      console.log(voliduser)
-      let inviterPL = await _inviterPLcheck(voliduser)
-      console.log(inviterPL)
-    }
-    resolve(inviterPL)
-  })
-  return promise;
-}
+// async function _PLcheck(eventid) {
+//   var promise = new Promise((resolve, reject) => {
+//     let res = await _membercheck()
+//     console.log(res)
+//     if (res == "normal") {
+//       console.log("不是会员")
+//       // 赋值
+//       var inviterPL = "member"
+//     } else if (res == "member") {
+//       console.log("是会员继续查询是否有PL订单")
+//       let voliduser = await _validuser()
+//       console.log(voliduser)
+//       let inviterPL = await _inviterPLcheck(voliduser)
+//       console.log(inviterPL)
+//     }
+//     resolve(inviterPL)
+//   })
+//   return promise;
+// }
 
 function _promotercheck() {
   var promise = new Promise((resolve, reject) => {
@@ -674,5 +674,5 @@ module.exports = {
   _inviterPLcheck: _inviterPLcheck,
   _membercheck: _membercheck,
   _validuser: _validuser,
-  _PLcheck:_PLcheck
+  // _PLcheck:_PLcheck
 }

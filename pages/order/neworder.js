@@ -6,10 +6,15 @@ const {
 } = require("../../utils/track");
 var {
   _discountcheck,
+  _inviterPLcheck,
+ _membercheck,
+_validuser,
+  // _PLcheck,
 } = require("../../utils/initialize")
 Page({
 
   data: {
+    eventid:"",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -65,9 +70,9 @@ Page({
     submitted: false,
     btnhidden: true
   },
-  _PLcheck(eventid) {
+  _PLcheck:async function(eventid) {
 
-      let res = await _membercheck()
+      let res = await _membercheck(eventid)
       console.log(res)
       if (res == "normal") {
         console.log("不是会员")
@@ -75,7 +80,7 @@ Page({
         var inviterPL = "member"
       } else if (res == "member") {
         console.log("是会员继续查询是否有PL订单")
-        let voliduser = await _validuser()
+        let voliduser = await _validuser(eventid)
         console.log(voliduser)
         let inviterPL = await _inviterPLcheck(voliduser)
         console.log(inviterPL)
@@ -160,6 +165,18 @@ Page({
     console.log("platinumpoints", this.data.platinumpoints)
   },
   onLoad: async function (options) {
+    this.setData({
+      eventid:app.globalData.Ginviterid
+    })
+    let pl1=await this._PLcheck(this.data.eventid)
+    console.log(pl1)
+    this.setData({
+      eventid:app.globalData.Gindirectinviterid
+    })
+    let pl2=await this._PLcheck(this.data.eventid)
+    console.log(pl2)
+ 
+
     //页面初始化 options为页面跳转所带来的参数
     console.log(options)
     let that = this;
