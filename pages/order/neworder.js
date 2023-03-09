@@ -65,7 +65,23 @@ Page({
     submitted: false,
     btnhidden: true
   },
+  _PLcheck(eventid) {
 
+      let res = await _membercheck()
+      console.log(res)
+      if (res == "normal") {
+        console.log("不是会员")
+        // 赋值
+        var inviterPL = "member"
+      } else if (res == "member") {
+        console.log("是会员继续查询是否有PL订单")
+        let voliduser = await _validuser()
+        console.log(voliduser)
+        let inviterPL = await _inviterPLcheck(voliduser)
+        console.log(inviterPL)
+      }
+  },
+  
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
