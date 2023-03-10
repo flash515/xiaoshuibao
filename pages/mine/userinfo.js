@@ -278,6 +278,7 @@ Page({
         console.log('推广积分')
         db.collection("POINTS").add({
           data: {
+            PointsType: "promoter",
             RegistrantId: app.globalData.Guserid,
             RegistrantPoints: 50,
             ProductName: "会员手机认证",

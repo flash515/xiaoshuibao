@@ -247,6 +247,7 @@ function _invitercheck() {
             console.log(res)
             db.collection("POINTS").add({
               data: {
+                PointsType: "promoter",
                 UserId: app.globalData.Guserid,
                 ProductName: "直接推广积分",
                 InviterId: app.globalData.Ginviterid,
@@ -273,7 +274,7 @@ function _invitercheck() {
   return promise;
 }
 
-function _directuser() {
+function _directuser(eventid) {
   // 查询当前用户的推广总人数
   var promise = new Promise((resolve, reject) => {
     wx.cloud.callFunction({
@@ -282,7 +283,7 @@ function _directuser() {
         collectionName: "USER",
         command: "and",
         where: [{
-          ["UserInfo.InviterId"]: app.globalData.Guserid
+          ["UserInfo.InviterId"]: eventid
         }]
       },
       success: res => {
@@ -297,7 +298,7 @@ function _directuser() {
   return promise;
 }
 
-function _indirectuser() {
+function _indirectuser(eventid) {
   var promise = new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name: "NormalQuery",
@@ -305,7 +306,7 @@ function _indirectuser() {
         collectionName: "USER",
         command: "and",
         where: [{
-          ["UserInfo.IndirectInviterId"]: app.globalData.Guserid
+          ["UserInfo.IndirectInviterId"]: eventid
         }]
       },
       success: res => {
@@ -379,7 +380,25 @@ function _discount() {
   });
   return promise;
 }
+async function _PLcheck(eventid) {
 
+  let res = await _membercheck(eventid)
+  console.log(res)
+  if (res == "normal") {
+    console.log("不是会员")
+    // 赋值
+    let PL = "normal"
+    return (PL)
+  } else if (res == "member") {
+    console.log("是会员继续查询是否有PL订单")
+    let voliduser = await _validuser(eventid)
+    console.log(voliduser)
+    let PL = await _PLordercheck(voliduser, eventid)
+    console.log(PL)
+    return (PL)
+  }
+
+}
 async function _membercheck(eventid) {
   var promise = new Promise((resolve, reject) => {
     // 查询是否是会员
@@ -398,11 +417,11 @@ async function _membercheck(eventid) {
         console.log(res)
         if (res.result.data[0].UserInfo.UserPhone == "" || res.result.data[0].UserInfo.UserPhone == undefined) {
           console.log("执行到这里了")
-          var inviterPL = "normal"
-          resolve(inviterPL)
+          var PL = "normal"
+          resolve(PL)
         } else {
-          var inviterPL = "member"
-          resolve(inviterPL)
+          var PL = "member"
+          resolve(PL)
         }
       }
     })
@@ -410,56 +429,56 @@ async function _membercheck(eventid) {
   return promise;
 }
 
-function _inviterPLcheck(voliduser) {
+function _PLordercheck(voliduser,eventid) {
   var promise = new Promise((resolve, reject) => {
     var now = new Date().getTime()
     console.log("本地函数查询推荐人的Promoter订单")
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('PROMOTERORDER').where({
-      UserId: app.globalData.Ginviterid,
+      UserId: eventid,
       PaymentStatus: "checked",
       OrderStatus: "checked",
     }).orderBy('SysAddDate', 'desc').limit(1).get({
-      // 根据添加日期排序并选择最后一个记录
+      // 根据添加日期排序,只需要提取最后一条购买记录就可以
       success: res => {
 
         console.log(res.data)
         console.log(voliduser)
-        console.log(new Date(res.data[0].PLStartDate).getTime())
-        console.log(new Date(res.data[0].PLEndDate).getTime())
         console.log(now)
         if (res.data.length != 0) {
-          if (new Date(res.data[0].PLStartDate).getTime() <= now && now <= new Date(res.data[0].PLEndDate).getTime()) {
-            var inviterPL = res.data[0].PromoterLevel
-            console.log("2")
-            resolve(inviterPL)
-          } else if (new Date(res.data[0].PLEndDate).getTime() < now) {
-            // 已过期,进一步查询有效人数
+          // 判断是否有效，根据购买规则，只存在有效或过期的情况，不存在购买后未生效的情况
+          if (new Date(res.data[0].PLStartDate).getTime() < now && now < new Date(res.data[0].PLEndDate).getTime()) {
+            // 在有效期内的PL
+            var PL = res.data[0].PromoterLevel
+            console.log("PL在有效期内")
+
+            resolve(PL)
+          } else if (new Date(res.data[0].PLEndDate).getTime()< now) {
+            // 已过期的PL,进一步查询有效人数，不符合维持条件就转为member
             if (res.data[0].PromoterLevel == "platinum" && voliduser >= 60) {
-              var inviterPL = "platinum"
+              var PL = "platinum"
               console.log("PL为白金")
-              resolve(inviterPL)
+              resolve(PL)
             } else if (res.data[0].PromoterLevel == "gold" && voliduser >= 20) {
-              var inviterPL = "gold"
+              var PL = "gold"
               console.log("PL为黄金")
-              resolve(inviterPL)
-            } else if (res.data[0].PromoterLevel == "sliver" && voliduser >= 2) {
-              var inviterPL = "sliver"
+              resolve(PL)
+            } else if (res.data[0].PromoterLevel == "silver" && voliduser >= 2) {
+              var PL = "silver"
               console.log("PL白银")
-              resolve(inviterPL)
+              resolve(PL)
             } else {
-              var inviterPL = "member"
+              var PL = "member"
               console.log("PL为会员")
-              resolve(inviterPL)
+              resolve(PL)
             }
-          } else {
-            var inviterPL = "member"
-            console.log("PL为会员")
-            resolve(inviterPL)
           }
-          // 进一步查询是否符合新条件
-          resolve(inviterPL)
+        }else {
+          // length=0,没有任何购买纪录,之前已确认最低是会员
+          var PL = "member"
+          console.log("PL为会员")
+          resolve(PL)
         }
       }
     })
@@ -496,48 +515,6 @@ async function _validuser(eventid) {
   return promise;
 }
 
-// async function _PLcheck(eventid) {
-//   var promise = new Promise((resolve, reject) => {
-//     let res = await _membercheck()
-//     console.log(res)
-//     if (res == "normal") {
-//       console.log("不是会员")
-//       // 赋值
-//       var inviterPL = "member"
-//     } else if (res == "member") {
-//       console.log("是会员继续查询是否有PL订单")
-//       let voliduser = await _validuser()
-//       console.log(voliduser)
-//       let inviterPL = await _inviterPLcheck(voliduser)
-//       console.log(inviterPL)
-//     }
-//     resolve(inviterPL)
-//   })
-//   return promise;
-// }
-
-function _promotercheck() {
-  var promise = new Promise((resolve, reject) => {
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "USER",
-        command: "and",
-        where: [{
-          ["UserInfo.InviterId"]: app.globalData.Guserid
-        }]
-      },
-      success: res => {
-        wx.setStorageSync('LDirectUser', res.result.data);
-        // 查询结果赋值给数组参数
-        console.log("云函数查询直接推广用户", res.result.data)
-        resolve(res.data)
-
-      }
-    })
-  });
-  return promise;
-}
 
 function _balancecheck() {
 
@@ -667,12 +644,11 @@ module.exports = {
   _directuser: _directuser,
   _indirectuser: _indirectuser,
   _discountcheck: _discountcheck,
-  _promotercheck: _promotercheck,
   _balanceupdate: _balanceupdate,
   _balancecheck: _balancecheck,
   _pointscheck: _pointscheck,
-  _inviterPLcheck: _inviterPLcheck,
+  _PLordercheck: _PLordercheck,
   _membercheck: _membercheck,
   _validuser: _validuser,
-  // _PLcheck:_PLcheck
+  _PLcheck:_PLcheck
 }

@@ -140,8 +140,8 @@ Page({
         console.log("noticearray", this.data.noticearray)
       }
     })
-    await _directuser()
-    await _indirectuser()
+    await _directuser(app.globalData.Guserid)
+    await _indirectuser(app.globalData.Guserid)
   },
 
 

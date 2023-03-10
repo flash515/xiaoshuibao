@@ -36,7 +36,7 @@
         </view>
       </picker>
       <view hidden="{{applyhidden}}">
-        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="sliver" data-name="白银会员" data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
+        <l-button size="mini" type="default" bind:lintap="bvApply" data-level="silver" data-name="白银会员" data-startdate="{{startdate1}}" data-price="1" shape="semicircle" plain="true">现在申请</l-button>
       </view>
       <view hidden="{{paymenthidden}}">
         <l-button size="mini" type="default" bind:lintap="bvWXPay" shape="semicircle" plain="true">微信即时支付</l-button>

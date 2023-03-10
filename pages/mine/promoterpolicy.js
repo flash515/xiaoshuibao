@@ -4,12 +4,16 @@ const {
   startByClick,
   startByBack
 } = require("../../utils/track");
+var {
+  _PLcheck,
+} = require("../../utils/initialize")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    eventid:"",
     adddate: "",
     startdate: "",
     startdate1: "",
@@ -284,12 +288,14 @@ Page({
     return `${Math.round(Math.random() * 1000)}${formateDate +
       Math.round(Math.random() * 89 + 100).toString()}`;
   },
-  onLoad: function (options) {
+  onLoad: async function (options) {
+
     let that = this
     var str = new Date()
     this.setData({
       image: app.globalData.Gimagearray,
-      startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
+      // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
+      startdate:new Date().toLocaleDateString()
     })
     console.log(this.data.startdate)
 
@@ -361,11 +367,11 @@ Page({
         })
         var directvalidfliter = [];
         for (var i = 0; i < this.data.directuser.length; i++) {
-          if (this.data.directuser[i].avatarUrl != "" && this.data.directuser[i].avatarUrl != undefined) {
+          if (this.data.directuser[i].UserInfo.UserPhone != "" && this.data.directuser[i].UserInfo.UserPhone != undefined) {
             directvalidfliter.push(this.data.directuser[i]);
           }
         }
-        if (directvalidfliter.length >= 1 && directvalidfliter.length < 100) {
+        if (directvalidfliter.length >= 10 && directvalidfliter.length < 100) {
           this._btn1check()
           console.log("btn1执行了")
         } else if (directvalidfliter.length >= 100 && directvalidfliter.length < 300) {
@@ -377,7 +383,7 @@ Page({
     })
   },
   _btn1check() {
-    if (this.data.promoterlevel == "" || this.data.promoterlevel == "normal" || this.data.promoterlevel == "member") {
+    if (this.data.promoterlevel == "member") {
       this.setData({
         btn1hidden: false
       })
@@ -385,7 +391,7 @@ Page({
     }
   },
   _btn2check() {
-    if (this.data.promoterlevel == "" || this.data.promoterlevel == "normal" || this.data.promoterlevel == "member" || this.data.promoterlevel == "sliver") {
+    if (this.data.promoterlevel == "silver") {
       this.setData({
         btn2hidden: false
       })
@@ -393,7 +399,7 @@ Page({
     }
   },
   _btn3check() {
-    if (this.data.promoterlevel == "" || this.data.promoterlevel == "normal" || this.data.promoterlevel == "member" || this.data.promoterlevel == "sliver" || this.data.promoterlevel == "gold") {
+    if (this.data.promoterlevel == "gold") {
       this.setData({
         btn3hidden: false
       })

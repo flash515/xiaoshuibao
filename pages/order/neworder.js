@@ -6,15 +6,17 @@ const {
 } = require("../../utils/track");
 var {
   _discountcheck,
-  _inviterPLcheck,
- _membercheck,
-_validuser,
-  // _PLcheck,
+  _PLordercheck,
+  _membercheck,
+  _validuser,
+  _PLcheck,
 } = require("../../utils/initialize")
 Page({
 
   data: {
-    eventid:"",
+    eventid: "",
+    inviterPL: "",
+    indirectinviterPL: "",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -61,6 +63,8 @@ Page({
     // 总办理费用，自动计算 
     totalfee: 0,
     // 消费积分计算
+    inviterpoints: 0,
+    indirectinviterpoints: 0,
     silverpoints: 0,
     goldpoints: 0,
     platinumpoints: 0,
@@ -70,23 +74,7 @@ Page({
     submitted: false,
     btnhidden: true
   },
-  _PLcheck:async function(eventid) {
 
-      let res = await _membercheck(eventid)
-      console.log(res)
-      if (res == "normal") {
-        console.log("不是会员")
-        // 赋值
-        var inviterPL = "member"
-      } else if (res == "member") {
-        console.log("是会员继续查询是否有PL订单")
-        let voliduser = await _validuser(eventid)
-        console.log(voliduser)
-        let inviterPL = await _inviterPLcheck(voliduser)
-        console.log(inviterPL)
-      }
-  },
-  
   onShow: function () {
     this.setData({
       image: app.globalData.Gimagearray,
@@ -156,26 +144,85 @@ Page({
     })
     console.log("可分配毛利润", this.data.profit)
     this.setData({
-      silverpoints: Math.floor(this.data.profit / 3) * app.globalData.Gsetting.pointsmagnification,
-      goldpoints: Math.floor(this.data.profit / 3) * 2 * app.globalData.Gsetting.pointsmagnification,
-      platinumpoints: Math.floor(this.data.profit / 3) * app.globalData.Gsetting.pointsmagnification
+      silverpoints: Math.floor(this.data.profit * 0.3) * app.globalData.Gsetting.pointsmagnification,
+      goldpoints: Math.floor(this.data.profit * 0.6) * app.globalData.Gsetting.pointsmagnification,
+      platinumpoints: Math.floor(this.data.profit * 0.6) * app.globalData.Gsetting.pointsmagnification
     })
     console.log("silverpoints", this.data.silverpoints)
     console.log("goldpoints", this.data.goldpoints)
     console.log("platinumpoints", this.data.platinumpoints)
+    // 根据推荐人PL确认对应税分，铂金、黄金、白银有积分，其他没有积分
+    if (this.data.inviterPL == "platinum") {
+      this.setData({
+        inviterpoints: this.data.platinumpoints
+      })
+    } else if (this.data.inviterPL == "gold") {
+      this.setData({
+        inviterpoints: this.data.goldpoints
+      })
+    } else if (this.data.inviterPL == "silver") {
+      this.setData({
+        inviterpoints: this.data.silverpoints
+      })
+    } else {
+      this.setData({
+        inviterpoints: 0
+      })
+    }
+    console.log("inviterpoints", this.data.inviterpoints)
+    if (this.data.indirectinviterPL == "platinum") {
+      // 间接推荐人为铂金时才有积分奖励，数值等于白银积分，其他情况没有积分
+      this.setData({
+        indirectinviterpoints: this.data.silverpoints
+      })
+    } else {
+      this.setData({
+        indirectinviterpoints: 0
+      })
+    }
+    console.log("indirectinviterpoints", this.data.indirectinviterpoints)
   },
+  // _PLcheck: async function (eventid) {
+
+  //   let res = await _membercheck(eventid)
+  //   console.log(res)
+  //   if (res == "normal") {
+  //     console.log("不是会员")
+  //     // 赋值
+  //     let PL = "normal"
+  //     return (PL)
+  //   } else if (res == "member") {
+  //     console.log("是会员继续查询是否有PL订单")
+  //     let voliduser = await _validuser(eventid)
+  //     console.log(voliduser)
+  //     let PL = await _PLordercheck(voliduser, eventid)
+  //     console.log(PL)
+  //     return (PL)
+  //   }
+
+  // },
+
   onLoad: async function (options) {
+    // 通过两次调用PLcheck查询推荐人和间接推荐人当前的PL
     this.setData({
-      eventid:app.globalData.Ginviterid
+      eventid: app.globalData.Ginviterid
     })
-    let pl1=await this._PLcheck(this.data.eventid)
+    console.log(this.data.eventid)
+    // let pl1 = await this._PLcheck(this.data.eventid)
+    let pl1 = await _PLcheck(this.data.eventid)
     console.log(pl1)
     this.setData({
-      eventid:app.globalData.Gindirectinviterid
+      eventid: app.globalData.Gindirectinviterid
     })
-    let pl2=await this._PLcheck(this.data.eventid)
+    console.log(this.data.eventid)
+    // let pl2 = await this._PLcheck(this.data.eventid)
+    let pl2 = await _PLcheck(this.data.eventid)
     console.log(pl2)
- 
+    this.setData({
+      inviterPL: pl1,
+      indirectinviterPL: pl2
+    })
+    console.log(this.data.inviterPL, this.data.indirectinviterPL)
 
     //页面初始化 options为页面跳转所带来的参数
     console.log(options)
@@ -348,6 +395,7 @@ Page({
       const db = wx.cloud.database()
       db.collection("POINTS").add({
         data: {
+          PointsType: "trade",
           OrderId: this.data.orderid,
           ProductId: this.data.productid,
           ProductName: this.data.productname,
@@ -356,12 +404,13 @@ Page({
           TotalFee: this.data.totalfee,
           // 直接推荐人
           InviterId: app.globalData.Ginviterid,
+          InviterPL: this.data.inviterPL,
+          InviterPoints: this.data.inviterpoints,
           // 间接推荐人
           IndirectInviterId: app.globalData.Gindirectinviterid,
-          //  消费积分
-          SilverPoints: this.data.silverpoints,
-          GoldPoints: this.data.goldpoints,
-          PlatinumPoints: this.data.platinumpoints,
+          IndirectInviterPL: this.data.indirectinviterPL,
+          IndirectInviterPoints: this.data.indirectinviterpoints,
+          // 本人消耗的积分
           ConsumeId: app.globalData.Guserid,
           ConsumePoints: this.data.consumepoints,
           SysAddDate: new Date().getTime(),

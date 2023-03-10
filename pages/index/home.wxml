@@ -153,7 +153,7 @@
     </l-grid-item>
 
   </l-grid>
-  <view wx:if="{{promoterlevel=='member' || promoterlevel=='sliver'|| promoterlevel=='gold' || promoterlevel=='platinum'}}">
+  <view wx:if="{{promoterlevel=='member' || promoterlevel=='silver'|| promoterlevel=='gold' || promoterlevel=='platinum'}}">
     <l-list title="会员专享服务" icon="notification" right-desc="更多" tag-position="right" />
     <l-grid>
       <l-grid-item key='one' slot='one'>
