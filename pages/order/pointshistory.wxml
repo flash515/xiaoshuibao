@@ -19,8 +19,8 @@
   </view>
   <view wx:else style="display:flex; flex-direction:column;">
     <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 32rpx;">
-      <view style="align-items:center;color:#3683d6">推广积分余额：{{promoterpoints}}分</view>
-      <view style="align-items:center;color:#3683d6">消费积分余额：{{tradepoints}}分</view>
+      <view style="align-items:center;color:#3683d6">推广积分余额：{{promotebalance}}分</view>
+      <view style="align-items:center;color:#3683d6">消费积分余额：{{tradebalance}}分</view>
 
     </view>
     <view>
@@ -31,31 +31,33 @@
     </view>
     <view>
       <l-tabs>
-        <l-tabpanel tab="推广积分纪录" key="one" slot="one">
-          <view wx:for="{{promoterhistory}}" wx:key="key">
+        <l-tabpanel tab="推广积分记录" key="one" slot="one">
+          <view wx:for="{{promotehistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
-              <view>积分日期：{{item.AddDate}}</view>
-              <view>积分事由：{{item.ProductName}}</view>
-              <view>积分数值：{{item.RegistrantPoints}}</view>
-              <view style="display:flex; flex-direction:row;">
-                <view>入账状态：</view>
-                <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
-                <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
-              </view>
+              <view>日期：{{item.AddDate}}</view>
+              <view>事由：{{item.ProductName}}</view>
+              <view wx:if="{{item.RegistrantId==userid}}">数值：{{item.RegistrantPoints}}</view>
+              <view wx:if="{{item.InviterId==userid}}">数值：{{item.InviterPoints}}</view>
+              <view wx:if="{{item.IndirectInviterId==userid}}">数值：{{item.IndirectInviterPoints}}</view>
             </l-card>
           </view>
         </l-tabpanel>
-        <l-tabpanel tab="消费积分纪录" key="two" slot="two">
+        <l-tabpanel tab="推广积分使用记录" key="two" slot="two">
+          <view wx:for="{{consumehistory}}" wx:key="key">
+            <l-card type="primary" plaintext="{{true}}">
+              <view>日期：{{item.AddDate}}</view>
+              <view>事由：{{item.ProductName}}</view>
+              <view wx:if="{{item.ConsumeId==userid}}">数值：-{{item.ConsumePoints}}</view>
+            </l-card>
+          </view>
+        </l-tabpanel>
+        <l-tabpanel tab="消费积分记录" key="three" slot="three">
           <view wx:for="{{tradehistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
-              <view>积分日期：{{item.AddDate}}</view>
-              <view>积分事由：{{item.ProductName}}</view>
-              <view>积分数值：{{item.InviterPoints}}</view>
-              <view style="display:flex; flex-direction:row;">
-                <view>入账状态：</view>
-                <view wx:if="{{item.PointsStatus =='unchecked'}}">待入账</view>
-                <view wx:if="{{item.PointsStatus =='checked'}}">已入账</view>
-              </view>
+              <view>日期：{{item.AddDate}}</view>
+              <view>事由：{{item.ProductName}}</view>
+              <view wx:if="{{item.InviterId==userid}}">数值：{{item.InviterPoints}}</view>
+              <view wx:if="{{item.IndirectInviterId==userid}}">数值：{{item.IndirectInviterPoints}}</view>
             </l-card>
           </view>
         </l-tabpanel>

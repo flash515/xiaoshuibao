@@ -7,7 +7,6 @@ const {
 var {
   _discountcheck,
   _PLordercheck,
-  _membercheck,
   _validuser,
   _PLcheck,
 } = require("../../utils/initialize")
@@ -182,25 +181,6 @@ Page({
     }
     console.log("indirectinviterpoints", this.data.indirectinviterpoints)
   },
-  // _PLcheck: async function (eventid) {
-
-  //   let res = await _membercheck(eventid)
-  //   console.log(res)
-  //   if (res == "normal") {
-  //     console.log("不是会员")
-  //     // 赋值
-  //     let PL = "normal"
-  //     return (PL)
-  //   } else if (res == "member") {
-  //     console.log("是会员继续查询是否有PL订单")
-  //     let voliduser = await _validuser(eventid)
-  //     console.log(voliduser)
-  //     let PL = await _PLordercheck(voliduser, eventid)
-  //     console.log(PL)
-  //     return (PL)
-  //   }
-
-  // },
 
   onLoad: async function (options) {
     // 通过两次调用PLcheck查询推荐人和间接推荐人当前的PL
@@ -208,14 +188,14 @@ Page({
       eventid: app.globalData.Ginviterid
     })
     console.log(this.data.eventid)
-    // let pl1 = await this._PLcheck(this.data.eventid)
+
     let pl1 = await _PLcheck(this.data.eventid)
     console.log(pl1)
     this.setData({
       eventid: app.globalData.Gindirectinviterid
     })
     console.log(this.data.eventid)
-    // let pl2 = await this._PLcheck(this.data.eventid)
+
     let pl2 = await _PLcheck(this.data.eventid)
     console.log(pl2)
     this.setData({
@@ -230,7 +210,7 @@ Page({
     this.setData({
       pageParam: options,
       productid: options.productid,
-      balance: app.globalData.Guserdata.TradeInfo.Balance,
+      balance: app.globalData.Guserdata.TradeInfo.PromoteBalance,
     })
     console.log(this.data.pageParam)
     await _discountcheck()

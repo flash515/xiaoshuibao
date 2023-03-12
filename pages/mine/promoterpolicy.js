@@ -21,7 +21,7 @@ Page({
     startdate3: "",
     plstartdate: "",
     promoterlevel: "",
-    promotername: "",
+    plname: "",
     // paymentid: "",
     productname: "",
     phone: "",
@@ -109,7 +109,7 @@ Page({
         data: {
           OrderId: this.data.orderid,
           PromoterLevel: this.data.orderlevel,
-          PromoterName: this.data.ordername,
+          PLName: this.data.ordername,
           PLStartDate: this.data.orderstartdate,
           TotalFee: this.data.orderfee,
           AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
@@ -310,7 +310,7 @@ Page({
       this._plcheck()
     } else {
       this.setData({
-        promotername: "普客",
+        plname: "普客",
       })
     }
 
@@ -330,17 +330,17 @@ Page({
         console.log(res.data.length)
         if (res.data.length != 0) {
           this.setData({
-            adddate: res.data[0].AddDate,
+            plname: res.data[0].PLName,
+            promoterlevel: res.data[0].PromoterLevel,
             plstartdate: res.data[0].PLStartDate,
             plenddate:res.data[0].PLEndDate,
-            promoterlevel: res.data[0].PromoterLevel,
             paymentstatus: res.data[0].PaymentStatus,
             orderstatus: res.data[0].OrderStatus,
-            promotername: res.data[0].PromoterName,
+
           })
         } else {
           this.setData({
-            promotername: "会员",
+            plname: "会员",
           })
           console.log("会员执行了")
         }
@@ -371,12 +371,12 @@ Page({
             directvalidfliter.push(this.data.directuser[i]);
           }
         }
-        if (directvalidfliter.length >= 10 && directvalidfliter.length < 100) {
+        if ((directvalidfliter.length > 10 || directvalidfliter.length == 10 ) && directvalidfliter.length < 100) {
           this._btn1check()
           console.log("btn1执行了")
-        } else if (directvalidfliter.length >= 100 && directvalidfliter.length < 300) {
+        } else if ((directvalidfliter.length > 100 || directvalidfliter.length == 100 )  && directvalidfliter.length < 300) {
           this._btn2check()
-        } else if (directvalidfliter.length >= 300) {
+        } else if (directvalidfliter.length > 300 || directvalidfliter.length == 300 ) {
           this._btn3check()
         }
       }

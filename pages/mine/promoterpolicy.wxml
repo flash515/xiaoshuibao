@@ -12,9 +12,8 @@
 </view>
 <view class="mainframe">
   <l-card type="primary" plaintext="{{true}}">
-    <text class="maintext">当前推广资格：{{promotername}}</text>
-    <text class="maintext">资格申请日期：{{adddate}}</text>
-    <text class="maintext">资格生效日期：{{plstartdate}}</text>
+    <text class="maintext">当前推广资格：{{plname}}</text>
+    <text class="maintext">资格起始时间：{{plstartdate}}</text>
   </l-card>
   <text>\n</text>
   <view class="maincontent">

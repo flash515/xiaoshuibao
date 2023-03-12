@@ -6,6 +6,8 @@ const {
 } = require("../../utils/track");
 var {
   _PLcheck,
+  _pointshistory,
+  _balanceupdate,
 } = require("../../utils/initialize")
 Page({
 
@@ -13,17 +15,15 @@ Page({
    * 页面的初始数据
    */
   data: {
+    userid: "",
     userphone: "",
-    tradepoints: 0,
-    promoterpoints: 0,
+    tradebalance: 0,
+    promotebalance: 0,
     balanceupdatetime: "",
-    pointshistory: [],
+    consumehistory: [],
     tradehistory: [],
-    promoterhistory: [],
-    Points: 0,
-    inviterpoints: 0,
-    indirectinviterpoints: 0,
-    consumepoints: 0,
+    promotehistory: [],
+
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -37,85 +37,87 @@ Page({
   },
 
   bvRefresh: async function (e) {
-    var pl = await _PLcheck()
-    console.log(pl)
+    if ((new Date().getTime() < new Date(this.data.balanceupdatetime).getTime()) + 60000) {
+      wx.showToast({
+        title: '间隔少于10分钟',
+        icon: 'error',
+        duration: 2000
+      })
 
+    } else {
+      this._balancecheck()
+    }
   },
+  async _balancecheck() {
+    let res = await _pointshistory()
+    console.log("积分记录", res)
+    this.setData({
+      promotehistory: res[0],
+      consumehistory: res[1],
+      tradehistory: res[2],
+    })
+    // 积分求和
 
+    let promoteregistrantpoints = 0
+    let promoteinviterpoints = 0
+    let promoteindirectinviterpoints = 0
+    let promoteconsumepoints = 0
+    let tradeinviterpoints = 0
+    let tradeindirectinviterpoints = 0
+    if (res[0].length != 0) {
+      for (let i = 0; i < res[0].length; i++) {
+        if (res[0][i].RegistrantId == app.globalData.Guserid) {
+          promoteregistrantpoints = promoteregistrantpoints + res[0][i].RegistrantPoints
+        } else if (res[0][i].InviterId == app.globalData.Guserid) {
+          promoteinviterpoints = promoteinviterpoints + res[0][i].InviterPoints
+        } else if (res[0][i].IndirectInviterId == app.globalData.Guserid) {
+          promoteindirectinviterpoints = promoteindirectinviterpoints + res[0][i].IndirectInviterPoints
+        }
+      }
+      console.log(promoteregistrantpoints, promoteinviterpoints, promoteindirectinviterpoints)
+    }
+    if (res[1].length != 0) {
+      for (let i = 0; i < res[1].length; i++) {
+        promoteconsumepoints = promoteconsumepoints + res[1][i].ConsumePoints
+      }
+      console.log(promoteconsumepoints)
+    }
+    this.setData({
+      promotebalance: promoteregistrantpoints + promoteinviterpoints + promoteindirectinviterpoints - promoteconsumepoints
+    })
+    if (res[2].length != 0) {
+      for (let i = 0; i < res[2].length; i++) {
+        if (res[2][i].InviterId == app.globalData.Guserid) {
+          tradeinviterpoints = tradeinviterpoints + res[2][i].InviterPoints
+        } else if (res[2][i].IndirectInviterId == app.globalData.Guserid) {
+          tradeindirectinviterpoints = tradeindirectinviterpoints + res[2][i].IndirectInviterPoints
+        }
+      }
+      console.log(tradeinviterpoints, tradeindirectinviterpoints)
+
+    }
+    this.setData({
+      tradebalance: tradeinviterpoints + tradeindirectinviterpoints,
+    })
+    this.setData({
+      balanceupdatetime: new Date().toLocaleString('chinese', {
+        hour12: false
+      })
+    })
+    _balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
+  },
   /**
    * 生命周期函数--监听页面加载
    */
 
-  onLoad: function (options) {
+  onLoad: async function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
+      userid: app.globalData.Guserid,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      balance: app.globalData.Guserdata.TradeInfo.Balance,
+      promotebalance: app.globalData.Guserdata.TradeInfo.PromoteBalance,
+      tradebalance: app.globalData.Guserdata.TradeInfo.TradeBalance,
       balanceupdatetime: app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,
-    })
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "POINTS",
-        command: "and",
-        where: [{
-          RegistrantId: app.globalData.Guserid,
-          PointsStatus: 'checked',
-        }]
-      },
-      success: res => {
-        this.setData({
-          personalhistory: res.result.data,
-        })
-      }
-    })
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "POINTS",
-        command: "and",
-        where: [{
-          InviterId: app.globalData.Guserid,
-          PointsStatus: 'checked',
-        }]
-      },
-      success: res => {
-        this.setData({
-          inviterhistory: res.result.data,
-        })
-      }
-    })
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "POINTS",
-        command: "and",
-        where: [{
-          IndirectInviterId: app.globalData.Guserid,
-          PointsStatus: 'checked',
-        }]
-      },
-      success: res => {
-        this.setData({
-          indirectinviterhistory: res.result.data,
-        })
-      }
-    })
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "POINTS",
-        command: "and",
-        where: [{
-          ConsumeId: app.globalData.Guserid,
-          PointsStatus: 'checked',
-        }]
-      },
-      success: res => {
-        this.setData({
-          consumehistory: res.result.data,
-        })
-      }
     })
 
   },

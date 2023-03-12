@@ -380,26 +380,8 @@ function _discount() {
   });
   return promise;
 }
+
 async function _PLcheck(eventid) {
-
-  let res = await _membercheck(eventid)
-  console.log(res)
-  if (res == "normal") {
-    console.log("不是会员")
-    // 赋值
-    let PL = "normal"
-    return (PL)
-  } else if (res == "member") {
-    console.log("是会员继续查询是否有PL订单")
-    let voliduser = await _validuser(eventid)
-    console.log(voliduser)
-    let PL = await _PLordercheck(voliduser, eventid)
-    console.log(PL)
-    return (PL)
-  }
-
-}
-async function _membercheck(eventid) {
   var promise = new Promise((resolve, reject) => {
     // 查询是否是会员
     const db = wx.cloud.database()
@@ -413,23 +395,28 @@ async function _membercheck(eventid) {
           ["UserId"]: eventid,
         }]
       },
-      success: res => {
+      success: async res => {
         console.log(res)
         if (res.result.data[0].UserInfo.UserPhone == "" || res.result.data[0].UserInfo.UserPhone == undefined) {
-          console.log("执行到这里了")
-          var PL = "normal"
+          console.log("普客")
+          // 赋值
+          let PL = "normal"
           resolve(PL)
         } else {
-          var PL = "member"
+          console.log("是会员继续查询是否有PL订单")
+          let voliduser = await _validuser(eventid)
+          console.log(voliduser)
+          let PL = await _PLordercheck(voliduser, eventid)
+          console.log(PL)
           resolve(PL)
         }
       }
     })
-  });
+  })
   return promise;
 }
 
-function _PLordercheck(voliduser,eventid) {
+function _PLordercheck(voliduser, eventid) {
   var promise = new Promise((resolve, reject) => {
     var now = new Date().getTime()
     console.log("本地函数查询推荐人的Promoter订单")
@@ -443,9 +430,9 @@ function _PLordercheck(voliduser,eventid) {
       // 根据添加日期排序,只需要提取最后一条购买记录就可以
       success: res => {
 
-        console.log(res.data)
-        console.log(voliduser)
-        console.log(now)
+        console.log("推广订单查询", res.data)
+        console.log("有效推广用户数", voliduser)
+        console.log("当前时间戳", now)
         if (res.data.length != 0) {
           // 判断是否有效，根据购买规则，只存在有效或过期的情况，不存在购买后未生效的情况
           if (new Date(res.data[0].PLStartDate).getTime() < now && now < new Date(res.data[0].PLEndDate).getTime()) {
@@ -454,7 +441,7 @@ function _PLordercheck(voliduser,eventid) {
             console.log("PL在有效期内")
 
             resolve(PL)
-          } else if (new Date(res.data[0].PLEndDate).getTime()< now) {
+          } else if (new Date(res.data[0].PLEndDate).getTime() < now) {
             // 已过期的PL,进一步查询有效人数，不符合维持条件就转为member
             if (res.data[0].PromoterLevel == "platinum" && voliduser >= 60) {
               var PL = "platinum"
@@ -474,8 +461,8 @@ function _PLordercheck(voliduser,eventid) {
               resolve(PL)
             }
           }
-        }else {
-          // length=0,没有任何购买纪录,之前已确认最低是会员
+        } else {
+          // length=0,没有任何购买记录,之前已确认最低是会员
           var PL = "member"
           console.log("PL为会员")
           resolve(PL)
@@ -485,11 +472,10 @@ function _PLordercheck(voliduser,eventid) {
   })
   return promise;
 }
-
+//云函数查询推荐人一年内的有效推广人数
 async function _validuser(eventid) {
   var promise = new Promise((resolve, reject) => {
-    //云函数查询推荐人一年内的有效推广人数
-    var now = new Date().getTime
+    var now = new Date().getTime()
     const db = wx.cloud.database()
     const _ = db.command
     wx.cloud.callFunction({
@@ -515,56 +501,7 @@ async function _validuser(eventid) {
   return promise;
 }
 
-
-function _balancecheck() {
-
-  var promise = new Promise((resolve, reject) => {
-    const db = wx.cloud.database()
-    const _ = db.command
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "POINTS",
-        command: "or",
-        where: [{
-            // 手机认证积分
-            ["RegistrantId"]: app.globalData.Guserid,
-            ["PointsStatus"]: "checked",
-            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-          },
-          {
-            // 直接推荐积分
-            ["InviterId"]: app.globalData.Guserid,
-            ["PointsStatus"]: "checked",
-            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-          },
-          {
-            // 间接推荐积分
-            ["IndirectInviterId"]: app.globalData.Guserid,
-            ["PointsStatus"]: "checked",
-            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-          },
-          {
-            // 积分使用
-            ["ConsumeId"]: app.globalData.Guserid,
-            ["PointsStatus"]: "checked",
-            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
-          }
-        ]
-      },
-      success: res => {
-        wx.setStorageSync('LPoints', res.result.data);
-        // 查询结果赋值给数组参数
-        console.log("云函数查询相关积分", res.result.data)
-        resolve(res.result.data)
-
-      }
-    })
-  });
-  return promise;
-}
-
-function _pointscheck() {
+function _pointshistory() {
   console.log(app.globalData.Guserdata.TradeInfo.MemberTime)
   var promise = new Promise((resolve, reject) => {
     const db = wx.cloud.database()
@@ -602,30 +539,41 @@ function _pointscheck() {
         ]
       },
       success: res => {
+        console.log("云函数查询积分记录", res.result.data)
         wx.setStorageSync('LPoints', res.result.data);
-        // 查询结果赋值给数组参数
-        console.log("云函数查询相关积分", res.result.data)
-        resolve(res.result.data)
-
+        // 根据查询结果筛选
+        let promotehistory = []
+        let consumehistory = []
+        let tradehistory = []
+        for (let i = 0; i < res.result.data.length; i++) {
+          if (res.result.data[i].PointsType == "promote") {
+            promotehistory.push(res.result.data[i])
+          } else if (res.result.data[i].PointsType == "trade") {
+            if (res.result.data[i].InviterId == app.globalData.Guserid || res.result.data[i].IndirectInviterId == app.globalData.Guserid) {
+              tradehistory.push(res.result.data[i])
+            } else if (res.result.data[i].ConsumeId == app.globalData.Guserid) {
+              consumehistory.push(res.result.data[i])
+            }
+          }
+        }
+        resolve([promotehistory, consumehistory, tradehistory])
       }
     })
   })
   return promise;
 }
 
-function _balanceupdate() {
+function _balanceupdate(promotebalance,tradebalance,balanceupdatetime) {
   var promise = new Promise((resolve, reject) => {
-    var balance = 15
     const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
     }).update({
       data: {
         // 给数据库字库更新
-        ["TradeInfo.Balance"]: balance,
-        ["TradeInfo.BalanceUpdateTime"]: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        ["TradeInfo.PromoteBalance"]: promotebalance,
+        ["TradeInfo.TradeBalance"]: tradebalance,
+        ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
       },
       success: res => {
         resolve(res)
@@ -645,10 +593,8 @@ module.exports = {
   _indirectuser: _indirectuser,
   _discountcheck: _discountcheck,
   _balanceupdate: _balanceupdate,
-  _balancecheck: _balancecheck,
-  _pointscheck: _pointscheck,
+  _pointshistory: _pointshistory,
   _PLordercheck: _PLordercheck,
-  _membercheck: _membercheck,
   _validuser: _validuser,
-  _PLcheck:_PLcheck
+  _PLcheck: _PLcheck
 }
