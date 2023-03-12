@@ -18,14 +18,12 @@
 
   </view>
   <view wx:else style="display:flex; flex-direction:column;">
-    <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 32rpx;">
+    <view style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;">
       <view style="align-items:center;color:#3683d6">推广积分余额：{{promotebalance}}分</view>
       <view style="align-items:center;color:#3683d6">消费积分余额：{{tradebalance}}分</view>
-
-    </view>
-    <view>
       <view style="align-items:center;color:#3683d6;font-size: 32rpx;">更新时间：{{balanceupdatetime}}</view>
     </view>
+
     <view>
       <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
     </view>

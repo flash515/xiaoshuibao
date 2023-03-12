@@ -17,24 +17,31 @@
           </l-input>
           <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
         </view>
+
+        <view class="line"></view>
         <view>
           <l-input type="number" label="验证码：" value="{{phonecode}}" bind:lininput="bvPhoneCode" required="{{true}}">
           </l-input>
         </view>
-        <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
-          <l-input type="text" label="我的头像："></l-input>
-          <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-            <image class="avatar" src="{{avatarurl}}"></image>
-          </button>
+
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">我的头像：</label>
+
+          <view style="padding-left: 50rpx;">
+            <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+              <image class="avatar" src="{{avatarurl}}"></image>
+            </button>
+          </view>
         </view>
+        <view class="line"></view>
 
-
-        <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
           <label class="labal">我的昵称：</label>
-          <input class="nicknameinput" type="nickname" name="nickname" placeholder="点击获取昵称" value="{{nickname}}" bind:input="bvNickName" />
-
+          <view style="padding-left: 50rpx;">
+            <input class="nicknameinput" type="nickname" placeholder="点击获取昵称" value="{{nickname}}" bind:input="bvNickName" />
+          </view>
         </view>
-<view class="line"></view>
+        <view class="line"></view>
 
         <view>
           <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName">
@@ -62,7 +69,7 @@
         <text>\n</text>
         <view hidden="{{btnhidden}}">
           <!-- <button class="nicknameBtn" plain="{{true}}" form-type="submit" type="primary" > 确认</button> -->
-          <l-button type="default"  shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="UpdateData">更新信息
+          <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="UpdateData">更新信息
           </l-button>
           <text space="emsp" decode="{{true}}">&emsp;</text>
           <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
