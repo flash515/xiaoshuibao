@@ -37,7 +37,8 @@ Page({
   },
 
   bvRefresh: async function (e) {
-    if ((new Date().getTime() < new Date(this.data.balanceupdatetime).getTime()) + 60000) {
+
+    if (new Date().getTime() < (new Date(this.data.balanceupdatetime).getTime() + 600000)) {
       wx.showToast({
         title: '间隔少于10分钟',
         icon: 'error',
