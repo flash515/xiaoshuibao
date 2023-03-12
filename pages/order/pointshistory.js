@@ -119,7 +119,7 @@ Page({
       tradebalance: app.globalData.Guserdata.TradeInfo.TradeBalance,
       balanceupdatetime: app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,
     })
-
+    this.bvRefresh()
   },
 
   /**
