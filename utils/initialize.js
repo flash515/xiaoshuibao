@@ -531,8 +531,20 @@ function _pointshistory() {
             ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           },
           {
-            // 积分使用
+            // 推广积分抵减
             ["ConsumeId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 积分兑换
+            ["ExchangeId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 消费积分提现
+            ["WithdrawId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
             ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           }
@@ -540,10 +552,8 @@ function _pointshistory() {
       },
       success: res => {
         console.log("云函数查询积分记录", res.result.data)
-        wx.setStorageSync('LPoints', res.result.data);
         // 根据查询结果筛选
         let promotehistory = []
-        let consumehistory = []
         let tradehistory = []
         for (let i = 0; i < res.result.data.length; i++) {
           if (res.result.data[i].PointsType == "promote") {
@@ -552,11 +562,11 @@ function _pointshistory() {
             if (res.result.data[i].InviterId == app.globalData.Guserid || res.result.data[i].IndirectInviterId == app.globalData.Guserid) {
               tradehistory.push(res.result.data[i])
             } else if (res.result.data[i].ConsumeId == app.globalData.Guserid) {
-              consumehistory.push(res.result.data[i])
+              promotehistory.push(res.result.data[i])
             }
           }
         }
-        resolve([promotehistory, consumehistory, tradehistory])
+        resolve([promotehistory, tradehistory])
       }
     })
   })
@@ -576,6 +586,9 @@ function _balanceupdate(promotebalance,tradebalance,balanceupdatetime) {
         ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
       },
       success: res => {
+        app.globalData.Guserdata.TradeInfo.PromoteBalance=promotebalance
+        app.globalData.Guserdata.TradeInfo.TradeBalance=tradebalance
+        app.globalData.Guserdata.TradeInfo.BalanceUpdateTime=balanceupdatetime
         resolve(res)
       }
     })

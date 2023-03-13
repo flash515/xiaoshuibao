@@ -30,6 +30,7 @@ exports.main = async (event, context) => {
       })
     }
     case"":{
+      // event.where为空时默认为and
       return queryByWhere({
         collectionName: event.collectionName,
         where: event.where,
@@ -43,7 +44,7 @@ exports.main = async (event, context) => {
   const countResult = await db.collection(param.collectionName).where(
     com(param.where)
       //传入的条件参数
-  ).count()
+  ).orderBy('_id','desc').count()
   const total = countResult.total
   // 计算需分几次取
   const batchTimes = Math.ceil(total / 100)
@@ -53,7 +54,7 @@ for (let i = 0; i < batchTimes; i++) {
   const promise = db.collection(param.collectionName).where(
     //传入的条件参数
     com(param.where)
-  ).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+  ).skip(i * MAX_LIMIT).limit(MAX_LIMIT).orderBy('_id','desc').get()
   tasks.push(promise)
 }
 // 等待所有

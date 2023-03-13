@@ -36,7 +36,7 @@ Page({
     nextMargin: 0
   },
 
-  bvRefresh: async function (e) {
+  bvBalanceCheck: async function (e) {
 
     if (new Date().getTime() < (new Date(this.data.balanceupdatetime).getTime() + 600000)) {
       wx.showToast({
@@ -54,51 +54,42 @@ Page({
     console.log("积分记录", res)
     this.setData({
       promotehistory: res[0],
-      consumehistory: res[1],
-      tradehistory: res[2],
+      tradehistory: res[1],
     })
     // 积分求和
 
-    let promoteregistrantpoints = 0
-    let promoteinviterpoints = 0
-    let promoteindirectinviterpoints = 0
-    let promoteconsumepoints = 0
-    let tradeinviterpoints = 0
-    let tradeindirectinviterpoints = 0
+    let promotepoints = 0
+    let tradepoints = 0
+
     if (res[0].length != 0) {
       for (let i = 0; i < res[0].length; i++) {
         if (res[0][i].RegistrantId == app.globalData.Guserid) {
-          promoteregistrantpoints = promoteregistrantpoints + res[0][i].RegistrantPoints
+          promotepoints = promotepoints + res[0][i].RegistrantPoints
         } else if (res[0][i].InviterId == app.globalData.Guserid) {
-          promoteinviterpoints = promoteinviterpoints + res[0][i].InviterPoints
+          promotepoints = promotepoints + res[0][i].InviterPoints
         } else if (res[0][i].IndirectInviterId == app.globalData.Guserid) {
-          promoteindirectinviterpoints = promoteindirectinviterpoints + res[0][i].IndirectInviterPoints
+          promotepoints = promotepoints + res[0][i].IndirectInviterPoints
+        }else if (res[0][i].ConsumeId == app.globalData.Guserid) {
+          promotepoints = promotepoints - res[0][i].ConsumePoints
         }
       }
-      console.log(promoteregistrantpoints, promoteinviterpoints, promoteindirectinviterpoints)
+      console.log(promotepoints)
     }
+
     if (res[1].length != 0) {
       for (let i = 0; i < res[1].length; i++) {
-        promoteconsumepoints = promoteconsumepoints + res[1][i].ConsumePoints
-      }
-      console.log(promoteconsumepoints)
-    }
-    this.setData({
-      promotebalance: promoteregistrantpoints + promoteinviterpoints + promoteindirectinviterpoints - promoteconsumepoints
-    })
-    if (res[2].length != 0) {
-      for (let i = 0; i < res[2].length; i++) {
-        if (res[2][i].InviterId == app.globalData.Guserid) {
-          tradeinviterpoints = tradeinviterpoints + res[2][i].InviterPoints
-        } else if (res[2][i].IndirectInviterId == app.globalData.Guserid) {
-          tradeindirectinviterpoints = tradeindirectinviterpoints + res[2][i].IndirectInviterPoints
+        if (res[1][i].InviterId == app.globalData.Guserid) {
+          tradepoints = tradepoints + res[1][i].InviterPoints
+        } else if (res[1][i].IndirectInviterId == app.globalData.Guserid) {
+          tradepoints = tradepoints + res[1][i].IndirectInviterPoints
         }
       }
-      console.log(tradeinviterpoints, tradeindirectinviterpoints)
+      console.log(tradepoints)
 
     }
     this.setData({
-      tradebalance: tradeinviterpoints + tradeindirectinviterpoints,
+      promotebalance: promotepoints,
+      tradebalance: tradepoints,
     })
     this.setData({
       balanceupdatetime: new Date().toLocaleString('chinese', {
@@ -120,7 +111,6 @@ Page({
       tradebalance: app.globalData.Guserdata.TradeInfo.TradeBalance,
       balanceupdatetime: app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,
     })
-    this.bvRefresh()
   },
 
   /**

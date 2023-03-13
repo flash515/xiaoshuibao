@@ -9,7 +9,7 @@
   </swiper>
 </view>
 <view class="title">
-  <text>会员积分记录</text>
+  <text>会员积分管理</text>
 </view>
 <view class="mainframe">
   <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
@@ -25,7 +25,7 @@
     </view>
 
     <view>
-      <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
+      <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvBalanceCheck" shape="semicircle" plain="{{true}}">查看并更新积分</l-button>
     </view>
     <view>
       <l-tabs>
@@ -37,19 +37,11 @@
               <view wx:if="{{item.RegistrantId==userid}}">数值：{{item.RegistrantPoints}}</view>
               <view wx:if="{{item.InviterId==userid}}">数值：{{item.InviterPoints}}</view>
               <view wx:if="{{item.IndirectInviterId==userid}}">数值：{{item.IndirectInviterPoints}}</view>
-            </l-card>
-          </view>
-        </l-tabpanel>
-        <l-tabpanel tab="推广积分使用记录" key="two" slot="two">
-          <view wx:for="{{consumehistory}}" wx:key="key">
-            <l-card type="primary" plaintext="{{true}}">
-              <view>日期：{{item.AddDate}}</view>
-              <view>事由：{{item.ProductName}}</view>
               <view wx:if="{{item.ConsumeId==userid}}">数值：-{{item.ConsumePoints}}</view>
             </l-card>
           </view>
         </l-tabpanel>
-        <l-tabpanel tab="消费积分记录" key="three" slot="three">
+        <l-tabpanel tab="消费积分记录" key="two" slot="two">
           <view wx:for="{{tradehistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
               <view>日期：{{item.AddDate}}</view>
