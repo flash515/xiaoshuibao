@@ -140,7 +140,6 @@ if(e.currentTarget.dataset.name=="ORDER"){
         this.setData({
           orderhistory: res.result.data
         })
-        wx.setStorageSync('LOrderHistory', res.result.data);
       }
     })
     wx.cloud.callFunction({
