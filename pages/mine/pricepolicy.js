@@ -333,11 +333,11 @@ Page({
             })
             if (tempfliter[0].DiscountLevel == "DL1") {
               this.setData({
-                dlname: "特惠折扣价"
+                dlname: "员工折扣价"
               })
             } else if (tempfliter[0].DiscountLevel == "DL2") {
               this.setData({
-                dlname: "巨惠折扣价"
+                dlname: "渠道折扣价"
               })
             } else if (tempfliter[0].DiscountLevel == "DL3") {
               this.setData({

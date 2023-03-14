@@ -7,3 +7,14 @@
 {
   padding: 10rpx;
 }
+.normalcard{
+  font-size:28rpx;
+  color:#333;
+}
+.discountcard{
+  font-size:28rpx;
+  border:0.5rpx solid blue;
+}
+.cardtitle{
+  font-size:32rpx !important;
+}
