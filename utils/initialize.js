@@ -404,9 +404,9 @@ async function _PLcheck(eventid) {
           resolve(PL)
         } else {
           console.log("是会员继续查询是否有PL订单")
-          let voliduser = await _validuser(eventid)
-          console.log(voliduser)
-          let PL = await _PLordercheck(voliduser, eventid)
+          let validuser = await _validuser1year(eventid)
+          console.log(validuser)
+          let PL = await _PLordercheck(validuser, eventid)
           console.log(PL)
           resolve(PL)
         }
@@ -416,7 +416,7 @@ async function _PLcheck(eventid) {
   return promise;
 }
 
-function _PLordercheck(voliduser, eventid) {
+function _PLordercheck(validuser, eventid) {
   var promise = new Promise((resolve, reject) => {
     var now = new Date().getTime()
     console.log("本地函数查询推荐人的Promoter订单")
@@ -431,7 +431,7 @@ function _PLordercheck(voliduser, eventid) {
       success: res => {
 
         console.log("推广订单查询", res.data)
-        console.log("有效推广用户数", voliduser)
+        console.log("有效推广用户数", validuser)
         console.log("当前时间戳", now)
         if (res.data.length != 0) {
           // 判断是否有效，根据购买规则，只存在有效或过期的情况，不存在购买后未生效的情况
@@ -443,15 +443,15 @@ function _PLordercheck(voliduser, eventid) {
             resolve(PL)
           } else if (new Date(res.data[0].PLEndDate).getTime() < now) {
             // 已过期的PL,进一步查询有效人数，不符合维持条件就转为member
-            if (res.data[0].PromoterLevel == "platinum" && voliduser >= 60) {
+            if (res.data[0].PromoterLevel == "platinum" && validuser >= 60) {
               var PL = "platinum"
               console.log("PL为白金")
               resolve(PL)
-            } else if (res.data[0].PromoterLevel == "gold" && voliduser >= 20) {
+            } else if (res.data[0].PromoterLevel == "gold" && validuser >= 20) {
               var PL = "gold"
               console.log("PL为黄金")
               resolve(PL)
-            } else if (res.data[0].PromoterLevel == "silver" && voliduser >= 2) {
+            } else if (res.data[0].PromoterLevel == "silver" && validuser >= 2) {
               var PL = "silver"
               console.log("PL白银")
               resolve(PL)
@@ -473,7 +473,7 @@ function _PLordercheck(voliduser, eventid) {
   return promise;
 }
 //云函数查询推荐人一年内的有效推广人数
-async function _validuser(eventid) {
+async function _validuser1year(eventid) {
   var promise = new Promise((resolve, reject) => {
     var now = new Date().getTime()
     const db = wx.cloud.database()
@@ -490,10 +490,10 @@ async function _validuser(eventid) {
         }]
       },
       success: res => {
-        var validuser = res.result.data.length
+        var validuser1year = res.result.data.length
         // 查询结果赋值给数组参数
         console.log("云函数查询直接推广用户", res.result.data)
-        resolve(validuser)
+        resolve(validuser1year)
       }
     })
 
@@ -608,6 +608,5 @@ module.exports = {
   _balanceupdate: _balanceupdate,
   _pointshistory: _pointshistory,
   _PLordercheck: _PLordercheck,
-  _validuser: _validuser,
   _PLcheck: _PLcheck
 }
