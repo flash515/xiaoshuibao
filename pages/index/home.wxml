@@ -15,21 +15,20 @@
 <view class="mainframe">
   <!-- <view style="display:flex; flex-direction:column; justify-content:space-between;align-items:center;"> -->
   <view>
-    <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+    <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
       <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
     <view wx:else style="display:flex; flex-direction:column;">
-      <view style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+      <view style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
         <view>用户号码：{{userphone}}</view>
         <view>用户类型：{{usertype}}</view>
-      </view>
-      <view  style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+        <view>会员级别：{{promoterlevel}}</view>
         <view>
           <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
             所在区域：{{region[0]}}/{{region[1]}}/{{region[2]}}
           </picker>
         </view>
-        <view>用户级别：{{promoterlevel}}</view>
+
       </view>
     </view>
   </view>

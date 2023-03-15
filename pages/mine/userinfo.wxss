@@ -42,7 +42,6 @@
 .nicknameinput {
   font-size: 28rpx;
   height: 80rpx;
-
 }
 
 .line {

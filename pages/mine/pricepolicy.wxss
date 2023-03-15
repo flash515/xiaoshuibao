@@ -13,7 +13,7 @@
 }
 .discountcard{
   font-size:28rpx;
-  border:0.5rpx solid blue;
+  border:0.5rpx solid #3683d6;
 }
 .cardtitle{
   font-size:32rpx !important;

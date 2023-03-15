@@ -19,6 +19,10 @@ Page({
     userphone: "",
     tradebalance: 0,
     promotebalance: 0,
+    consumepoints:0,
+    exchangepoints: 0,
+    withdrawpoints:0,
+    packetnumber:0,
     balanceupdatetime: "",
     consumehistory: [],
     tradehistory: [],
@@ -34,6 +38,49 @@ Page({
     duration: 500,
     previousMargin: 0,
     nextMargin: 0
+  },
+  bvExchangePoints(e) {
+    this.setData({
+      exchangepoints: e.detail.count,
+    })
+  },
+  bvPromotePointsShare: async function (e) {
+
+  },
+  bvTradePointsExchange: async function (e) {
+    // 兑换前check一下balance
+    this._balancecheck()
+    const db = wx.cloud.database()
+    db.collection("POINTS").add({
+      data: {
+        PointsType: "Exchange",
+        ProductId: this.data.productid,
+        ProductName: "消费积分兑换",
+        // 使用的消费积分
+        ExchangeId: app.globalData.Guserid,
+        ExchangePoints: this.data.exchangepoints,
+        SysAddDate: new Date().getTime(),
+        AddDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
+        PointsStatus: "checked",
+      },
+      success(res) {
+        // 兑换后更新一下balance
+        this._balancecheck()
+      },
+      fail(res) {
+        wx.showToast({
+          title: '提交失败请重试',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
+      }
+    })
+
+  },
+  bvTradePointsWithdraw: async function (e) {
+
   },
 
   bvBalanceCheck: async function (e) {
@@ -69,7 +116,7 @@ Page({
           promotepoints = promotepoints + res[0][i].InviterPoints
         } else if (res[0][i].IndirectInviterId == app.globalData.Guserid) {
           promotepoints = promotepoints + res[0][i].IndirectInviterPoints
-        }else if (res[0][i].ConsumeId == app.globalData.Guserid) {
+        } else if (res[0][i].ConsumeId == app.globalData.Guserid) {
           promotepoints = promotepoints - res[0][i].ConsumePoints
         }
       }

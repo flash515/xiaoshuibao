@@ -25,6 +25,7 @@
       <view>
         <l-counter count="1" min="1" bind:lintap="bvCount" disabled="{{submitted}}" />
       </view>
+      <view class="line"></view>
     </view>
     <view>
       <l-input label="订单总费用（元）：" placeholder="{{temptotalfee}}" type="number" label-layout="left" label-width="270" disabled="{{true}}" />
@@ -42,6 +43,7 @@
       <view>
         <l-counter round-float="true" count="{{consumepoints}}" min="0" step="10" max="{{maxpoints}}" bind:lintap="bvConsumePoints" disabled="{{submitted}}" />
       </view>
+      <view class="line"></view>
     </view>
     <view>
       <l-input label="实际支付费用（元）：" placeholder="{{totalfee}}" type="number" label-layout="left" label-width="270" disabled="{{true}}" />

@@ -12,7 +12,7 @@
   <text>订单记录</text>
 </view>
 <view class="mainframe">
-  <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
+  <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
       <navigator url="../mine/userinfo">请用手机号码登录</navigator>
     </view>
     <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
