@@ -1,0 +1,24 @@
+<view>
+  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
+    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <swiper-item>
+        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view class="mainframe">
+<view class="title">
+  <text>申请成为服务商</text>
+</view>
+<text>\n</text>
+
+<l-card type="primary" plaintext="{{true}}">
+  <l-button data-link="{{value}}" bind:lintap="bvViewFile" plain="{{true}}" shape="semicircle">《服务商服务协议》</l-button>
+  <text>\n</text>
+<l-button class="mainbtn" width="600" bind:lintap="bvApplyProvider" shape="semicircle" plain="{{true}}">申请成为服务商</l-button>
+<l-radio-group>
+    <l-radio key="1">我已阅读并接受《服务商服务协议》中的条款</l-radio>
+</l-radio-group>
+</l-card>
+</view>

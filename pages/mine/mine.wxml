@@ -35,7 +35,7 @@
   <l-list title="我的推广海报" icon="picture" url="../mine/poster" />
   <l-list title="推广详情" icon="user" url="../mine/shareuser" />
   <view wx:if="{{usertype != 'provider'}}">
-    <l-list title="成为服务商" icon="setting" url="../manage/providerapply" />
+    <l-list title="成为服务商" icon="setting" url="../mine/providerapply" />
   </view>
 </l-card>
   <view wx:if="{{usertype == 'provider'}}">

@@ -29,6 +29,7 @@
     "pages/mine/shareuser",
     "pages/mine/sharevalue",
     "pages/mine/newbooking",
+    "pages/mine/providerapply",
     "pages/provider/providerapply",
     "pages/scheme/schemelist",
     "pages/tools/meetingroom/expressmeeting",
