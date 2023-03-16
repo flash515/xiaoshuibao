@@ -37,7 +37,7 @@
 
       </view>
 
-      <l-button slot="more" size="mini" type="default" bind:lintap="bvPacketPoints" shape="semicircle" plain="true">确定</l-button>
+      <l-button slot="more" size="mini" type="default" open-type="share" shape="semicircle" plain="true">确定</l-button>
     </l-card>
     <text>\n</text>
     <l-card type="avatar" l-class="card" l-title-class="cardtitle" plaintext="{{true}}" title="消费积分兑换推广积分">

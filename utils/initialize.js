@@ -595,6 +595,28 @@ function _balanceupdate(promotebalance,tradebalance,balanceupdatetime) {
   });
   return promise;
 }
+const showLoading = (tips = '加载中...') => {
+  wx.showNavigationBarLoading()
+  wx.showLoading({
+    title: tips,
+  })
+}
+ 
+const hideLoading = () => {
+  wx.hideLoading()
+  wx.hideNavigationBarLoading()
+}
+ 
+const hideLoadingWithErrorTips = (err = '加载失败...') => {
+  hideLoading()
+  wx.showToast({
+    title: err,
+    icon: 'error',
+    duration: 2000
+  })
+}
+
+
 module.exports = {
   _productcheck: _productcheck,
   _login: _login,
@@ -608,5 +630,9 @@ module.exports = {
   _balanceupdate: _balanceupdate,
   _pointshistory: _pointshistory,
   _PLordercheck: _PLordercheck,
-  _PLcheck: _PLcheck
+  _PLcheck: _PLcheck,
+  showLoading: showLoading,
+  hideLoading: hideLoading,
+  hideLoadingWithErrorTips: hideLoadingWithErrorTips,
+
 }

@@ -14,11 +14,11 @@
 <text>\n</text>
 
 <l-card type="primary" plaintext="{{true}}">
-  <l-button data-link="{{value}}" bind:lintap="bvViewFile" plain="{{true}}" shape="semicircle">《服务商服务协议》</l-button>
+  <button class="button" bind:tap="previewFile" plain="true" >阅读《服务商服务协议》</button>
   <text>\n</text>
 <l-button class="mainbtn" width="600" bind:lintap="bvApplyProvider" shape="semicircle" plain="{{true}}">申请成为服务商</l-button>
 <l-radio-group>
-    <l-radio key="1">我已阅读并接受《服务商服务协议》中的条款</l-radio>
+    <l-radio key="1">我已阅读并接受《服务商服务协议》的条款</l-radio>
 </l-radio-group>
 </l-card>
 </view>

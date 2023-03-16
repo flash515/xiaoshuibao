@@ -27,6 +27,8 @@ Page({
     consumehistory: [],
     tradehistory: [],
     promotehistory: [],
+    packetnumber:0,
+    consumepoints:0,
 
     // 轮播参数
     image: [],
@@ -39,14 +41,23 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-  bvExchangePoints(e) {
+  bvConsumePoints(e) {
     this.setData({
-      exchangepoints: e.detail.count,
+      consumepoints: e.detail.value,
     })
   },
-  bvPromotePointsShare: async function (e) {
-
+  bvPacketNumber(e) {
+    this.setData({
+      packetnumber: e.detail.value,
+    })
   },
+
+  bvExchangePoints(e) {
+    this.setData({
+      exchangepoints: e.detail.value,
+    })
+  },
+
   bvTradePointsExchange: async function (e) {
     // 兑换前check一下balance
     this._balancecheck()
@@ -208,7 +219,29 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: app.globalData.Guserdata.UserInfo.nickName + '给您赠送了积分红包，请领取！',
+      path: '/pages/index/redpocket?userid=' + app.globalData.Guserid+"&pocketnumber={{this.data.packetnumber}}&pocketamount={{this.data.consumepoints}}",
+      imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log(this.data.path.value)
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
   }
 })

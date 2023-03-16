@@ -435,6 +435,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/providerapply",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

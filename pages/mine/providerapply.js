@@ -1,4 +1,6 @@
 // pages/mine/providerapply.js
+
+const util = require('../../utils/initialize')
 Page({
 
   /**
@@ -6,6 +8,41 @@ Page({
    */
   data: {
 
+  },
+
+    // 预览文件
+    previewFile(fileLink) {
+      
+      if(!fileLink) {
+          return false
+      }
+      util.showLoading()
+    
+      // 单次下载允许的最大文件为 200MB
+      wx.downloadFile({
+          url: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/%E6%9C%8D%E5%8A%A1%E5%95%86%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE20230315.pdf?sign=db764e5993fec167cbb57635ba08b104&t=1678967468", // 地址已打码，自己换个其他的地址("https://www.xxxxx.com/file/测试通知.pdf")
+          success: function (res) {
+              console.log(res, "wx.downloadFile success res")
+              if(res.statusCode != 200) {
+                  util.hideLoadingWithErrorTips()
+                  return false
+              }
+              var Path = res.tempFilePath //返回的文件临时地址，用于后面打开本地预览所用
+              wx.openDocument({
+                  filePath: Path,
+                  showMenu: true,
+                  success: function (res) {
+                      console.log('打开成功');
+                      util.hideLoading()
+                  }
+              })
+          },
+          fail: function (err) {
+              console.log(err, "wx.downloadFile fail err");
+              util.hideLoadingWithErrorTips()
+          }
+      })
+    
   },
 
   /**
