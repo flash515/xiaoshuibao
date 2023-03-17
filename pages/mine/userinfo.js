@@ -31,6 +31,9 @@ Page({
     nextMargin: 0,
     invitercompanyname: "",
     inviterusername: "",
+    bankshow:"",
+    bank:"",
+    account:"",
     companyname: "",
     companyid: "",
     businessscope: "",
@@ -81,6 +84,16 @@ Page({
         btnhidden: false
       })
     }
+  },
+  bvBank(e) {
+    this.setData({
+      bank: e.detail.value
+    })
+  },
+  bvAccount(e) {
+    this.setData({
+      account: e.detail.value
+    })
   },
   bvCompanyName(e) {
     this.setData({
@@ -192,9 +205,12 @@ Page({
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
       companyscale: app.globalData.Guserdata.UserInfo.CompanyScale,
       username: app.globalData.Guserdata.UserInfo.UserName,
+      bank: app.globalData.Guserdata.UserInfo.Bank,
+      account: app.globalData.Guserdata.UserInfo.Account,
+      bankshow: app.globalData.Guserdata.UserInfo.UserPhone,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      usertype: app.globalData.Guserdata.TradeInfo.UserType,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       adddate: app.globalData.Guserdata.UserInfo.AddDate,
       updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
       invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
@@ -210,16 +226,19 @@ Page({
     }).get({
       success: res => {
         this.setData({
-          avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
-          nickname: app.globalData.Guserdata.UserInfo.nickName,
+          avatarurl: res.data[0].UserInfo.avatarUrl,
+          nickname: res.data[0].UserInfo.nickName,
           companyname: res.data[0].UserInfo.CompanyName,
           companyid: res.data[0].UserInfo.CompanyId,
           businessscope: res.data[0].UserInfo.BusinessScope,
           companyscale: res.data[0].UserInfo.CompanyScale,
           username: res.data[0].UserInfo.UserName,
+          bank: res.data[0].UserInfo.Bank,
+          account: res.data[0].UserInfo.Account,
+          bankshow: res.data[0].UserInfo.UserPhone,
           useroldphone: res.data[0].UserInfo.UserPhone,
           userphone: res.data[0].UserInfo.UserPhone,
-          usertype: res.data[0].TradeInfo.UserType,
+          usertype: res.data[0].UserInfo.UserType,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
       }
@@ -236,14 +255,16 @@ Page({
         UserId: this.data.openid
       }).update({
         data: {
+          ["UserInfo.avatarUrl"]: this.data.avatarurl,
+          ["UserInfo.nickName"]: this.data.nickname,
+          ["UserInfo.UserName"]: this.data.username,
+          ["UserInfo.Bank"]: this.data.bank,
+          ["UserInfo.Account"]: this.data.account,
+          ["UserInfo.UserPhone"]: this.data.userphone,
           ["UserInfo.CompanyName"]: this.data.companyname,
           ["UserInfo.CompanyId"]: this.data.companyid,
           ["UserInfo.CompanyScale"]: this.data.companyscale,
           ["UserInfo.BusinessScope"]: this.data.businessscope,
-          ["UserInfo.UserName"]: this.data.username,
-          ["UserInfo.UserPhone"]: this.data.userphone,
-          ["UserInfo.avatarUrl"]: this.data.avatarurl,
-          ["UserInfo.nickName"]: this.data.nickname,
           ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success(res) {

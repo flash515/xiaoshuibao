@@ -7,6 +7,7 @@ const {
 Page({
   data: {
     usertype: "",
+    userphone:"",
     direct30user: [],
     directuser: [],
     // 轮播头图
@@ -54,7 +55,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      usertype: app.globalData.Guserdata.TradeInfo.UserType
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
+      userphone:app.globalData.Guserdata.UserInfo.UserPhone
     })
     wx.getSetting({
       withSubscriptions: true,

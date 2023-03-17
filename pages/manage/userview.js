@@ -17,9 +17,9 @@ Page({
         collectionName: "USER",
         command: "or",
         where: [{
-          ["TradeInfo.UserType"]: "client"
+          ["UserInfo.UserType"]: "client"
         }, {
-          ["TradeInfo.UserType"]: "provider"
+          ["UserInfo.UserType"]: "provider"
         }]
       },
       success: res => {

@@ -349,7 +349,7 @@ Page({
 
   onShow: function () {
     this.setData({
-      usertype: app.globalData.Guserdata.TradeInfo.UserType,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
     })

@@ -1,4 +1,4 @@
-// pages/provider/providerapply.js
+// pages/promote/pointspocket.js
 Page({
 
   /**

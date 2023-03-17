@@ -131,7 +131,7 @@ Page({
     console.log(this.data.sortarray)
     this.setData({
       image: app.globalData.Gimagearray,
-      usertype: app.globalData.Guserdata.TradeInfo.UserType,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
       priceshow: app.globalData.Gpriceshow,
       userphone:app.globalData.Guserdata.UserInfo.UserPhone,
@@ -177,7 +177,7 @@ Page({
         console.log(this.data.sortarray)
         this.setData({
           image: app.globalData.Gimagearray,
-          usertype: app.globalData.Guserdata.TradeInfo.UserType,
+          usertype: app.globalData.Guserdata.UserInfo.UserType,
           discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
           priceshow: app.globalData.Gpriceshow,
           userphone:app.globalData.Guserdata.UserInfo.UserPhone,

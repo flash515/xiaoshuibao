@@ -721,7 +721,7 @@ Page({
     var that = this;
     this.setData({
       productid: options.productid,
-      usertype: app.globalData.Guserdata.TradeInfo.UserType,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       sortarray: app.globalData.Gsortarray,
       // category1: app.globalData.Gsortarray[0].Category1Name,
       // category2: app.globalData.Gsortarray[0].Category2Array[0].Category2Name,

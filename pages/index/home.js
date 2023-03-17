@@ -110,15 +110,15 @@ Page({
         promoterlevel : "普客"
       })
     }
-    if (app.globalData.Guserdata.TradeInfo.UserType == "client") {
+    if (app.globalData.Guserdata.UserInfo.UserType == "client") {
       this.setData({
         usertype : "客户"
       })
-    } else if (app.globalData.Guserdata.TradeInfo.UserType == "provider") {
+    } else if (app.globalData.Guserdata.UserInfo.UserType == "provider") {
       this.setData({
         usertype : "供应伙伴"
       })
-    } else if (app.globalData.Guserdata.TradeInfo.UserType == "admin") {
+    } else if (app.globalData.Guserdata.UserInfo.UserType == "admin") {
       this.setData({
         usertype : "管理员"
       })

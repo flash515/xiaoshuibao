@@ -16,6 +16,7 @@ var newuserinfo = {
   InviterPhone: "",
   IndirectInviterId: "",
   Region: ["广东省", "深圳市", "南山区"],
+  UserType: "client",
 }
 var newusertradeinfo = {
   Balance: 0,
@@ -30,7 +31,6 @@ var newusertradeinfo = {
   PLUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
-  UserType: "client",
   // MemberTime:""
 }
 

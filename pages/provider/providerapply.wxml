@@ -1,8 +1,2 @@
-<view class="title">
-  <text>服务商功能</text>
-</view>
-<text>\n</text>
-<l-card type="primary" plaintext="{{true}}">
-  <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
-  <l-list title="商品管理" icon="setting" url="../manage/productview" />
-</l-card>
+<!--pages/provider/providerapply.wxml-->
+<text>pages/provider/providerapply.wxml</text>

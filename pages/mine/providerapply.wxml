@@ -8,17 +8,25 @@
   </swiper>
 </view>
 <view class="mainframe">
-<view class="title">
-  <text>申请成为服务商</text>
-</view>
-<text>\n</text>
-
-<l-card type="primary" plaintext="{{true}}">
-  <button class="button" bind:tap="previewFile" plain="true" >阅读《服务商服务协议》</button>
+  <view class="title">
+    <text>申请成为服务商</text>
+  </view>
   <text>\n</text>
-<l-button class="mainbtn" width="600" bind:lintap="bvApplyProvider" shape="semicircle" plain="{{true}}">申请成为服务商</l-button>
-<l-radio-group>
+<!-- wxif多个条件判断的写法 -->
+  <view wx:if="{{companyname=='' || companyid=='' ||businessscope=='' ||companyscale==''}}">
+    <label class="labal">请完善以下信息：</label>
+  </view>
+  <l-input type="text" label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
+  <l-input type="text" label="企业代码：" value="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
+  <l-input type="text" label="主营业务：" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-input>
+  <l-input type="text" label="企业规模：" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
+  <text>\n</text>
+  <button class="button" bind:tap="previewFile" plain="true">阅读《服务商服务协议》</button>
+  <text>\n</text>
+  <l-radio-group bind:linchange="bvContractCheck">
     <l-radio key="1">我已阅读并接受《服务商服务协议》的条款</l-radio>
-</l-radio-group>
-</l-card>
+  </l-radio-group>
+  <text>\n</text>
+
+  <l-button class="mainbtn" width="600" bind:lintap="bvApplyProvider" shape="semicircle" plain="{{true}}">申请成为服务商</l-button>
 </view>
