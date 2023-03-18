@@ -7,7 +7,7 @@ var {
   _newuser,
   _olduser,
   _invitercheck
-} = require("../../utils/initialize")
+} = require("../../utils/utils")
 const {
   startToTrack,
   startByClick,

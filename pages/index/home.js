@@ -8,7 +8,7 @@ const {
 var {
   _directuser,
   _indirectuser
-} = require("../../utils/initialize")
+} = require("../../utils/utils")
 Page({
 
   /**
@@ -71,8 +71,9 @@ Page({
           // 转发失败，其中 detail message 为详细失败信息
         }
       },
-    }
+  }
   },
+  // 分享朋友圈
   onShareTimeline: function () {
     return {
       title: '真的有宝哦，快来体验税筹资源小程序！',

@@ -1,6 +1,6 @@
 // pages/mine/providerapply.js
 const app = getApp()
-const util = require('../../utils/initialize')
+const util = require('../../utils/utils')
 Page({
 
   /**

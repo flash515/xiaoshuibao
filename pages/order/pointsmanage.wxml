@@ -20,14 +20,14 @@
       <view class="labal">推广积分余额：{{promotebalance}}分</view>
       <view class="labal">消费积分余额：{{tradebalance}}分</view>
       <view class="labal">更新时间：{{balanceupdatetime}}</view>
-      <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvBalanceCheck" shape="semicircle" plain="{{true}}">查看并更新积分</l-button>
+      <l-button class="mainbtn" width="600" data-name="POINTS" bind:lintap="bvReflash" shape="semicircle" plain="{{true}}">查看并更新积分</l-button>
     </view>
     <text>\n</text>
     <l-card type="avatar" l-class="card" l-title-class="cardtitle" plaintext="{{true}}" title="推广积分转让礼包">
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">转让积分总额：</label>
 
-        <input class="input" type="number" value="{{consumepoints}}" bind:input="bvConsumePoints" />
+        <input class="input" type="number" value="{{transferpoints}}" bind:input="bvTransferPoints" />
 
       </view>
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
@@ -71,6 +71,9 @@
               <view wx:if="{{item.InviterId==userid}}">数值：{{item.InviterPoints}}</view>
               <view wx:if="{{item.IndirectInviterId==userid}}">数值：{{item.IndirectInviterPoints}}</view>
               <view wx:if="{{item.ConsumeId==userid}}">数值：-{{item.ConsumePoints}}</view>
+              <view wx:if="{{item.ExchangeId==userid}}">数值：{{item.ExchangePoints}}</view>
+              <view wx:if="{{item.TransferId==userid}}">数值：-{{item.TransferPoints}}</view>
+              <view wx:if="{{item.DoneeId==userid}}">数值：{{item.DoneePoints}}</view>
             </l-card>
           </view>
         </l-tabpanel>
@@ -81,6 +84,7 @@
               <view>事由：{{item.ProductName}}</view>
               <view wx:if="{{item.InviterId==userid}}">数值：{{item.InviterPoints}}</view>
               <view wx:if="{{item.IndirectInviterId==userid}}">数值：{{item.IndirectInviterPoints}}</view>
+              <view wx:if="{{item.ExchangeId==userid}}">数值：-{{item.ExchangePoints}}</view>
             </l-card>
           </view>
         </l-tabpanel>

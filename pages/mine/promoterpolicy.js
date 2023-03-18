@@ -6,7 +6,7 @@ const {
 } = require("../../utils/track");
 var {
   _PLcheck,
-} = require("../../utils/initialize")
+} = require("../../utils/utils")
 Page({
 
   /**

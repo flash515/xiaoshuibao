@@ -537,6 +537,12 @@ function _pointshistory() {
             ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           },
           {
+            // 推广积分转让
+            ["TransferId"]: app.globalData.Guserid,
+            ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
             // 积分兑换
             ["ExchangeId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
@@ -546,6 +552,13 @@ function _pointshistory() {
             // 消费积分提现
             ["WithdrawId"]: app.globalData.Guserid,
             ["PointsStatus"]: "checked",
+            ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
+          },
+          {
+            // 消费积分提现
+            ["PointsType"]: "transfer",
+            ["PointsStatus"]: "checked",
+            ["DoneeId"]: app.globalData.Guserid,
             ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           }
         ]
@@ -564,6 +577,13 @@ function _pointshistory() {
             } else if (res.result.data[i].ConsumeId == app.globalData.Guserid) {
               promotehistory.push(res.result.data[i])
             }
+          }else if(res.result.data[i].PointsType == "exchange"){
+            promotehistory.push(res.result.data[i])
+            tradehistory.push(res.result.data[i])
+          }else if(res.result.data[i].PointsType == "withdraw"){
+            tradehistory.push(res.result.data[i])
+          }else if(res.result.data[i].PointsType == "transfer"){
+            promotehistory.push(res.result.data[i])
           }
         }
         resolve([promotehistory, tradehistory])

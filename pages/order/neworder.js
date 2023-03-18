@@ -9,7 +9,7 @@ var {
   _PLordercheck,
   _validuser,
   _PLcheck,
-} = require("../../utils/initialize")
+} = require("../../utils/utils")
 Page({
 
   data: {

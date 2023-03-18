@@ -7,7 +7,7 @@ var {
   _newuser,
   _discountcheck,
   _invitercheck
-} = require("../../utils/initialize")
+} = require("../../utils/utils")
 Page({
   data: {
     params: {},
@@ -53,13 +53,7 @@ Page({
       this.data.remark = "无参数进入"
       console.log("搜索进入参数:", this.data.tempinviterid);
     }
-    //准备调用云数据库
-    // if (!wx.cloud) {
-    //   wx.redirectTo({
-    //     url: '../chooseLib/chooseLib',
-    //   })
-    //   return
-    // }
+
     // 调用方法初始化
     _setting()
     _productcheck()

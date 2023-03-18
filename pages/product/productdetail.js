@@ -7,7 +7,7 @@ var {
   _newuser,
   _olduser,
   _invitercheck
-} = require("../../utils/initialize")
+} = require("../../utils/utils")
 // var {
 //   _productcheck,
 // } = require("../../utils/productcheck")

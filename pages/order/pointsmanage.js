@@ -8,7 +8,7 @@ var {
   _PLcheck,
   _pointshistory,
   _balanceupdate,
-} = require("../../utils/initialize")
+} = require("../../utils/utils")
 Page({
 
   /**
@@ -19,16 +19,14 @@ Page({
     userphone: "",
     tradebalance: 0,
     promotebalance: 0,
-    consumepoints:0,
+    transferpoints: 0,
     exchangepoints: 0,
-    withdrawpoints:0,
-    packetnumber:0,
+    withdrawpoints: 0,
+    packetnumber: 0,
     balanceupdatetime: "",
     consumehistory: [],
     tradehistory: [],
     promotehistory: [],
-    packetnumber:0,
-    consumepoints:0,
 
     // 轮播参数
     image: [],
@@ -41,20 +39,20 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
-  bvConsumePoints(e) {
+  bvTransferPoints(e) {
     this.setData({
-      consumepoints: e.detail.value,
+      transferpoints: parseInt(e.detail.value),
     })
   },
   bvPacketNumber(e) {
     this.setData({
-      packetnumber: e.detail.value,
+      packetnumber: parseInt(e.detail.value),
     })
   },
 
   bvExchangePoints(e) {
     this.setData({
-      exchangepoints: e.detail.value,
+      exchangepoints: parseInt(e.detail.value),
     })
   },
 
@@ -64,8 +62,7 @@ Page({
     const db = wx.cloud.database()
     db.collection("POINTS").add({
       data: {
-        PointsType: "Exchange",
-        ProductId: this.data.productid,
+        PointsType: "exchange",
         ProductName: "消费积分兑换",
         // 使用的消费积分
         ExchangeId: app.globalData.Guserid,
@@ -77,6 +74,14 @@ Page({
         PointsStatus: "checked",
       },
       success(res) {
+        wx.showToast({
+          title: '积分兑换成功',
+          icon: 'error',
+          duration: 2000 //持续的时间
+        })
+        this.setData({
+          exchangepoints: 0,
+        })
         // 兑换后更新一下balance
         this._balancecheck()
       },
@@ -94,7 +99,7 @@ Page({
 
   },
 
-  bvBalanceCheck: async function (e) {
+  bvReflash: async function (e) {
 
     if (new Date().getTime() < (new Date(this.data.balanceupdatetime).getTime() + 600000)) {
       wx.showToast({
@@ -129,6 +134,10 @@ Page({
           promotepoints = promotepoints + res[0][i].IndirectInviterPoints
         } else if (res[0][i].ConsumeId == app.globalData.Guserid) {
           promotepoints = promotepoints - res[0][i].ConsumePoints
+        } else if (res[0][i].ExchangeId == app.globalData.Guserid) {
+          promotepoints = promotepoints + res[0][i].ExchangePoints
+        } else if (res[0][i].TransferId == app.globalData.Guserid) {
+          promotepoints = promotepoints - res[0][i].TransferPoints
         }
       }
       console.log(promotepoints)
@@ -140,6 +149,10 @@ Page({
           tradepoints = tradepoints + res[1][i].InviterPoints
         } else if (res[1][i].IndirectInviterId == app.globalData.Guserid) {
           tradepoints = tradepoints + res[1][i].IndirectInviterPoints
+        } else if (res[1][i].ExchangeId == app.globalData.Guserid) {
+          tradepoints = tradepoints - res[1][i].ExchangePoints
+        } else if (res[1][i].WithdrawId == app.globalData.Guserid) {
+          tradepoints = tradepoints - res[1][i].WithdrawPoints
         }
       }
       console.log(tradepoints)
@@ -184,10 +197,6 @@ Page({
   // 点击 tab 时用此方法触发埋点
   onTabItemTap: () => startToTrack(),
   onShow: function () {
-    this.setData({
-      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      image: app.globalData.Gimagearray
-    })
     startToTrack()
   },
 
@@ -215,33 +224,90 @@ Page({
   onReachBottom: function () {
 
   },
-
+  _transferpointsadd() {
+    var promise = new Promise((resolve, reject) => {
+      const db = wx.cloud.database()
+      db.collection("POINTS").add({
+        data: {
+          PointsType: "transfer",
+          ProductName: "推广积分转让",
+          // 使用的消费积分
+          TransferId: app.globalData.Guserid,
+          TransferPoints: this.data.transferpoints,
+          PacketNumber: this.data.packetnumber,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          PointsStatus: "checked",
+        },
+        success: res => {
+          this.setData({
+            transferpoints: 0,
+            packetnumber: 0,
+          })
+          // 转让后更新一下balance
+          this._balancecheck()
+          resolve(res)
+        },
+        fail: res => {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    });
+    return promise;
+  },
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (res) {
+  onShareAppMessage: async function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '给您赠送了积分红包，请领取！',
-      path: '/pages/index/redpocket?userid=' + app.globalData.Guserid+"&pocketnumber={{this.data.packetnumber}}&pocketamount={{this.data.consumepoints}}",
-      imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
-      success: function (res) {
-        // 转发成功之后的回调
-        if (res.errMsg == 'shareAppMessage:ok') {
-          console.log(this.data.path.value)
-        }
-      },
-      fail: function () {
-        // 转发失败之后的回调
-        if (res.errMsg == 'shareAppMessage:fail cancel') {
-          // 用户取消转发
-        } else if (res.errMsg == 'shareAppMessage:fail') {
-          // 转发失败，其中 detail message 为详细失败信息
-        }
-      },
+      console.log(res)
+      await this._transferpointsadd()
+      return {
+        title: app.globalData.Guserdata.UserInfo.nickName + '送出的礼包！',
+        path: '/pages/promote/pointspacket?userid=' + app.globalData.Guserid + "&packetnumber={{this.data.packetnumber}}&packetamount={{this.data.consumepoints}}",
+        imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E7%A4%BC%E5%8C%85.png?sign=e79f00decafb4dc8fb227aa48443f5de&t=1679125766', //封面
+        success: function (res) {
+          // 转发成功之后的回调
+          console.log(res)
+
+        },
+        fail: function () {
+          // 转发失败之后的回调
+          if (res.errMsg == 'shareAppMessage:fail cancel') {
+            // 用户取消转发
+          } else if (res.errMsg == 'shareAppMessage:fail') {
+            // 转发失败，其中 detail message 为详细失败信息
+          }
+        },
+      }
+
+    } else {
+      return {
+        title: app.globalData.Guserdata.UserInfo.nickName + '邀请您体验：',
+        path: '/pages/index/index?userid=' + app.globalData.Guserid,
+        imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
+        success: function (res) {
+          // 转发成功之后的回调
+          if (res.errMsg == 'shareAppMessage:ok') {
+            console.log(this.data.path.value)
+          }
+        },
+        fail: function () {
+          // 转发失败之后的回调
+          if (res.errMsg == 'shareAppMessage:fail cancel') {
+            // 用户取消转发
+          } else if (res.errMsg == 'shareAppMessage:fail') {
+            // 转发失败，其中 detail message 为详细失败信息
+          }
+        },
+      }
     }
   }
 })
