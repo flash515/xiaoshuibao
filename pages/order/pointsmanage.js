@@ -4,11 +4,7 @@ const {
   startByClick,
   startByBack
 } = require("../../utils/track");
-var {
-  _PLcheck,
-  _pointshistory,
-  _balanceupdate,
-} = require("../../utils/utils")
+var utils = require("../../utils/utils")
 Page({
 
   /**
@@ -23,6 +19,7 @@ Page({
     exchangepoints: 0,
     withdrawpoints: 0,
     packetnumber: 0,
+    transferpacketid:"",
     balanceupdatetime: "",
     consumehistory: [],
     tradehistory: [],
@@ -113,7 +110,7 @@ Page({
     }
   },
   async _balancecheck() {
-    let res = await _pointshistory()
+    let res = await utils._pointshistory()
     console.log("积分记录", res)
     this.setData({
       promotehistory: res[0],
@@ -167,7 +164,7 @@ Page({
         hour12: false
       })
     })
-    _balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
+    utils._balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -225,6 +222,9 @@ Page({
 
   },
   _transferpointsadd() {
+
+    this.data.transferpacketid=utils._getGoodsRandomNumber()
+    console.log(this.data.transferpacketid)
     var promise = new Promise((resolve, reject) => {
       const db = wx.cloud.database()
       db.collection("POINTS").add({
@@ -232,9 +232,12 @@ Page({
           PointsType: "transfer",
           ProductName: "推广积分转让",
           // 使用的消费积分
+          TransferPacketId:this.data.transferpacketid,
           TransferId: app.globalData.Guserid,
           TransferPoints: this.data.transferpoints,
+          RemainPoints: this.data.transferpoints,
           PacketNumber: this.data.packetnumber,
+          RemainPacket:this.data.packetnumber,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleString('chinese', {
             hour12: false
@@ -271,7 +274,7 @@ Page({
       await this._transferpointsadd()
       return {
         title: app.globalData.Guserdata.UserInfo.nickName + '送出的礼包！',
-        path: '/pages/promote/pointspacket?userid=' + app.globalData.Guserid + "&packetnumber={{this.data.packetnumber}}&packetamount={{this.data.consumepoints}}",
+        path: '/pages/promote/pointspacket?userid=' + app.globalData.Guserid + "&transferpacketid="+this.data.transferpacketid,
         imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E7%A4%BC%E5%8C%85.png?sign=e79f00decafb4dc8fb227aa48443f5de&t=1679125766', //封面
         success: function (res) {
           // 转发成功之后的回调

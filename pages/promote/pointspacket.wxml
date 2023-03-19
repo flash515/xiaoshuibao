@@ -1,2 +1,26 @@
-<!--pages/promote/pointspacket.wxml-->
-<text>pages/promote/pointspacket.wxml</text>
+
+
+
+<view class="top">
+  <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
+    <label class="labal">请先输入手机号码登录：</label>
+    <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center">
+      <l-input type="number" label="手机号：" value="{{userphone}}" bind:lininput="bvUserPhone" required="{{true}}">
+      </l-input>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
+    </view>
+
+    <view class="line"></view>
+    <view>
+      <l-input type="number" label="验证码：" value="{{phonecode}}" bind:lininput="bvPhoneCode" required="{{true}}">
+      </l-input>
+    </view>
+  </view>
+  <view wx:else style="display:flex; flex-direction:column;">
+    <view style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;">
+      <view class="packettext">恭喜您获得{{doneepoints}}积分</view>
+      <button class="btn-open" bind:lintap="bvAccept" >开心收下</button>
+    </view>
+    <text>\n</text>
+  </view>
+</view>

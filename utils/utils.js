@@ -500,6 +500,30 @@ async function _validuser1year(eventid) {
   })
   return promise;
 }
+//云函数查询积分礼包
+async function _packetcheck(eventid) {
+  var promise = new Promise((resolve, reject) => {
+    var now = new Date().getTime()
+    const db = wx.cloud.database()
+    const _ = db.command
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "POINTS",
+        command: "and",
+        where: [{
+          TransferPacketId: eventid,
+        }]
+      },
+      success: res => {
+        console.log(res)
+        resolve([res.result.data[0].RemainPoints,res.result.data[0].RemainPacket])
+      }
+    })
+
+  })
+  return promise;
+}
 
 function _pointshistory() {
   console.log(app.globalData.Guserdata.TradeInfo.MemberTime)
@@ -615,6 +639,26 @@ function _balanceupdate(promotebalance,tradebalance,balanceupdatetime) {
   });
   return promise;
 }
+
+  // 根据时间戳随机订单号,订单号不能重复
+  function _getGoodsRandomNumber() {
+    const date = new Date(); // 当前时间
+    let Year = `${date.getFullYear()}`; // 获取年份
+    let Month = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+      }`; // 获取月
+    let Day = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`; // 获取天
+    let hour = `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+      }`; // 获取小时
+    let min = `${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+      }`; // 获取分钟
+    let sec = `${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+      }`; // 获取秒
+    let formateDate = `${Year}${Month}${Day}${hour}${min}${sec}`; // 时间
+    return `${Math.round(Math.random() * 1000)}${formateDate +
+      Math.round(Math.random() * 89 + 100).toString()}`;
+  }
+
+
 const showLoading = (tips = '加载中...') => {
   wx.showNavigationBarLoading()
   wx.showLoading({
@@ -651,6 +695,8 @@ module.exports = {
   _pointshistory: _pointshistory,
   _PLordercheck: _PLordercheck,
   _PLcheck: _PLcheck,
+  _packetcheck:_packetcheck,
+  _getGoodsRandomNumber:_getGoodsRandomNumber,
   showLoading: showLoading,
   hideLoading: hideLoading,
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,

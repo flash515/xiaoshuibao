@@ -9,7 +9,7 @@
   </swiper>
 </view>
 <view class="title">
-  <text>订单记录</text>
+  <text>会员订单记录</text>
 </view>
 <view class="mainframe">
   <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 32rpx;color: #3683d6;">

@@ -21,4 +21,6 @@
 .input {
   font-size: 32rpx;
   height: 50rpx;
+  width: 100rpx;
+  border-bottom:0.5rpx solid #f3f3f3;
 }

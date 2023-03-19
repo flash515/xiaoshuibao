@@ -442,6 +442,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/promote/pointspacket",
+          "query": "userid=omLS75Xib_obyxkVAahnBffPytcA&transferpacketid=56720230319171454162",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
