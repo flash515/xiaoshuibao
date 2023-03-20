@@ -1,9 +1,11 @@
 <view>
   <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <navigator url="{{item.link}}">
       <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
       </swiper-item>
+    </navigator>
     </block>
   </swiper>
 </view>
@@ -28,7 +30,7 @@
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">
   <l-list title="我的信息" icon="user" url="../mine/userinfo" />
-  <l-list title="推广奖励" icon="setting" url="../mine/promoterpolicy" />
+  <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
   <l-list title="小程序推广码" icon="picture" url="../mine/minicode" />

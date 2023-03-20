@@ -90,18 +90,20 @@ function _setting() {
           app.globalData.Gsetting = res.data[0];
 
           console.log("成功获取设置参数", res);
-          //异步获取图片生成轮播图地址
-          for (let i = 0; i < res.data[0].swiper.length; i++) {
-            wx.getImageInfo({
-              //把图片地址转换为本地地址
-              src: res.data[0].swiper[i],
-              success(res) {
-                tempimage.push(res.path)
-                app.globalData.Gimagearray = tempimage
-                resolve(res)
-              }
-            })
-          }
+          // //异步获取图片生成轮播图地址
+          // for (let i = 0; i < res.data[0].swiper.length; i++) {
+          //   wx.getImageInfo({
+          //     //把图片地址转换为本地地址
+          //     src: res.data[0].swiper[i],
+          //     success(res) {
+          //       tempimage.push(res.path)
+          //       app.globalData.Gimagearray = tempimage
+          //       resolve(res)
+          //     }
+          //   })
+          // }
+          app.globalData.Gimagearray = res.data[0].swiper
+          resolve(app.globalData.Gimagearray)
         }
       })
   });

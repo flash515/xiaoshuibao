@@ -3,9 +3,11 @@
     vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px"
     next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
+      <navigator url="{{item.link}}">
       <swiper-item>
-        <image src="{{item}}" class="swiper image" mode="scaleToFill" />
+        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
       </swiper-item>
+    </navigator>
     </block>
   </swiper>
 </view>
