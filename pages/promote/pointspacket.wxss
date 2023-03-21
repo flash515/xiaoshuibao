@@ -5,7 +5,7 @@ page {
 
 .top {
   background: linear-gradient(0deg, rgba(220, 87, 68, 1), rgba(213, 91, 70, 1));
-  height: 64vh;
+  height: 40vh;
   border-radius: 0rpx 0rpx 68% 68% / 0rpx 0rpx 25% 25%;
   box-shadow:0px 7rpx 30rpx 0px rgba(157,60,26,1);
   display: flex;
@@ -16,13 +16,14 @@ page {
 button[plain]{ 
   border:0
 }
+
 .packettext{
   margin: 0 auto;
-  margin-top: 250rpx;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 65rpx;
+  font-size: 100rpx;
   font-weight: bold;
   color:rgba(254,214,155,1)
 }
@@ -30,14 +31,41 @@ button[plain]{
   width: 220rpx;
   height: 220rpx;
   margin: 0 auto;
-  margin-top: 310rpx;
+  /* margin-top: 350rpx; */
   border-radius: 50%;
   background:rgba(254,214,155,1);
   box-shadow:0px 7rpx 30rpx 0px rgba(157,60,26,1);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36rpx;
+  font-size: 60rpx;
   font-weight: bold;
   color: #DA5844;
+  line-height: 60rpx;
+}
+.btn-open text {
+  vertical-align:middle;
+  display: table-cell;
+}
+.codebtn{
+  width: 250rpx;
+  height: 40rpx;
+  /* margin: 0 auto; */
+  /* margin-top: 350rpx; */
+  border-radius: 5%;
+  background:rgba(254,214,155,1);
+  box-shadow:0px 7rpx 30rpx 0px rgba(157,60,26,1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* font-weight: bold; */
+  color: #DA5844;
+
+}
+.codebtn text {
+  font-size: 40rpx;
+  line-height: 40rpx;
+  vertical-align:middle;
+  display: table-cell;
 }

@@ -68,6 +68,8 @@
     "l-icon": "/miniprogram_npm/lin-ui/icon/index",
     "l-radio-group": "/miniprogram_npm/lin-ui/radio-group/index",
     "l-radio": "/miniprogram_npm/lin-ui/radio/index",
+    "l-mask": "/miniprogram_npm/lin-ui/mask/index",
+    "l-popup": "/miniprogram_npm/lin-ui/popup/index",
     "l-notice-bar": "/miniprogram_npm/lin-ui/notice-bar/index",
     "l-transition": "/miniprogram_npm/lin-ui/transition/index",
     "l-search-bar": "/miniprogram_npm/lin-ui/search-bar/index",
