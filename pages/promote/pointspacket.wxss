@@ -43,29 +43,38 @@ button[plain]{
   color: #DA5844;
   line-height: 60rpx;
 }
-.btn-open text {
+.btn-open.text {
   vertical-align:middle;
   display: table-cell;
 }
 .codebtn{
-  width: 250rpx;
-  height: 40rpx;
-  /* margin: 0 auto; */
-  /* margin-top: 350rpx; */
+  width: 220rpx;
+  height: 50rpx;
+  margin-left: 20rpx;
+  padding: 0rpx;
   border-radius: 5%;
   background:rgba(254,214,155,1);
-  box-shadow:0px 7rpx 30rpx 0px rgba(157,60,26,1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* font-weight: bold; */
-  color: #DA5844;
-
 }
-.codebtn text {
+.codebtntext {
   font-size: 40rpx;
-  line-height: 40rpx;
+  line-height: 50rpx;
+  color: #DA5844;
   vertical-align:middle;
-  display: table-cell;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+.input {
+  height: 50rpx;
+  width: 250rpx;
+  font-size: 40rpx;
+  color:rgba(254,214,155,1);
+  border-bottom:1rpx solid rgba(254,214,155,1);
+}
+.labal {
+  width: 160rpx;
+  font-size: 40rpx;
+  color:rgba(254,214,155,1);
+  margin-left: 0rpx;
+  align-items:center;
 }

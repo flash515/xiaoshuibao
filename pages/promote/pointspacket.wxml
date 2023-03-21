@@ -1,23 +1,23 @@
 <view class="top">
-  <view style="display:flex; flex-direction:column; justify-content:space-between;">
+  <view style="display:flex; flex-direction:column;">
     <view class="packettext" style="margin-top: 140rpx;">
       <text>恭喜您获得</text>
     </view>
     <view class="packettext">
       <text>{{doneepoints}}积分</text>
     </view>
-    <view wx:if="{{loginshow}}" style="display:flex; flex-direction:column; align-items:center;font-size: 40rpx;color:rgba(254,214,155,1)">
+    <view wx:if="{{loginshow}}" style="display:flex; flex-direction:column; ">
       <text>\r\n</text>
     <text>\r\n</text>
-      <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center;margin-left: 50rpx;margin-right: 50rpx;">
-        <label style="width: 160rpx;">手机号：</label>
-        <input type="number" style="width: 300rpx;" value="{{userphone}}" bind:input="bvUserPhone" required="{{true}}" />
-        <button class="codebtn" shape="semicircle" bind:lintap="bvSendCode" size="mini" disabled="{{disabled}}">
-        <text class="text>">{{time}}</text></button>
+      <view style="display:flex; flex-direction:row;">
+        <label class="labal">手机号：</label>
+        <input class="input" type="number"  value="{{userphone}}" bind:input="bvUserPhone" required="{{true}}" />
+        <button class="codebtn" bind:lintap="bvSendCode" disabled="{{disabled}}">
+        <text class="codebtntext">{{time}}</text></button>
       </view>
-      <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center;margin-left: 50rpx;margin-right: 50rpx;">
-        <label style="width: 160rpx;">验证码：</label>
-        <input type="number" value="{{phonecode}}" bind:input="bvPhoneCode" required="{{true}}" />
+      <view style="display:flex; flex-direction:row;">
+        <label class="labal">验证码：</label>
+        <input class="input" type="number" value="{{phonecode}}" bind:input="bvPhoneCode" required="{{true}}" />
       </view>
       <text>\r\n</text>
       <button class="btn-open" bindtap="bvLogin">
