@@ -5,16 +5,21 @@ const {
   startByClick,
   startByBack,
 } = require("../../utils/track");
-var {
-  _directuser,
-  _indirectuser
-} = require("../../utils/utils")
+const utils = require("../../utils/utils");
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    loginshow: false,
+    loginbtnshow: false,
+    time: "获取验证码",
+    currentTime: 60,
+    disabled: false,
+    s_phonecode: "",
+    u_phonecode: "",
     region: [],
     usertype: "",
     avatarUrl: "",
@@ -33,6 +38,61 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
+  bvLoginShow: function (e) {
+    this.setData({
+      loginshow: true
+    })
+  },
+
+  bvUserPhone(e) {
+    this.setData({
+      userphone: e.detail.value
+    })
+  },
+  bvPhoneCode(e) {
+    this.setData({
+      u_phonecode: e.detail.value
+    })
+  },
+  bvSendCode: async function (){
+    this.data.s_phonecode = await utils._sendcode(this.data.userphone)
+    console.log("验证码", this.data.s_phonecode)
+    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
+    this._SendCodeBtn()
+  }
+  },
+
+  _SendCodeBtn() {
+    var that = this;
+    var currentTime = that.data.currentTime
+    var interval = setInterval(function () {
+      currentTime--;
+      that.setData({
+        time: currentTime + '秒'
+      })
+      if (currentTime <= 0) {
+        clearInterval(interval)
+        that.setData({
+          time: '重新发送',
+          currentTime: 60,
+          disabled: false
+        })
+      }
+    }, 1000)
+
+  },
+  bvLogin: async function (e) {
+    await utils._UserLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._RegistPointsAdd()
+    await utils._SendNewUserSMS()
+    this.setData({
+      loginshow: false,
+      loginbtnshow:false
+    })
+    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    console.log(app.globalData.Guserdata)
+  },
+  
   bindRegionChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
@@ -71,7 +131,7 @@ Page({
           // 转发失败，其中 detail message 为详细失败信息
         }
       },
-  }
+    }
   },
   // 分享朋友圈
   onShareTimeline: function () {
@@ -81,47 +141,62 @@ Page({
       imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
     }
   },
-
+  onHideMaskTap: function () {
+    this.setData({
+      loginshow: false
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
   //  */
   onLoad: async function (options) {
+    if(app.globalData.Guserdata.UserInfo.UserPhone!=''){
+      this.setData({
+        loginbtnshow: false
+      })
+    }else{
+      this.setData({
+        loginbtnshow: true
+      })
+    }
     this.setData({
+      image: app.globalData.Gimagearray,
+      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       region: app.globalData.Guserdata.UserInfo.Region
     })
     // 使用双等号是比较，否则单等号变成赋值
     if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "member") {
       this.setData({
-        promoterlevel : "会员"
+        promoterlevel: "会员"
       })
     } else if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "silver") {
       this.setData({
-        promoterlevel : "白银会员"
+        promoterlevel: "白银会员"
       })
     } else if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "gold") {
       this.setData({
-        promoterlevel : "黄金会员"
+        promoterlevel: "黄金会员"
       })
     } else if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "platinum") {
       this.setData({
-        promoterlevel : "铂金会员"
+        promoterlevel: "铂金会员"
       })
-    }else{
+    } else {
       this.setData({
-        promoterlevel : "普客"
+        promoterlevel: "普客"
       })
     }
     if (app.globalData.Guserdata.UserInfo.UserType == "client") {
       this.setData({
-        usertype : "客户"
+        usertype: "客户"
       })
     } else if (app.globalData.Guserdata.UserInfo.UserType == "provider") {
       this.setData({
-        usertype : "供应伙伴"
+        usertype: "供应伙伴"
       })
     } else if (app.globalData.Guserdata.UserInfo.UserType == "admin") {
       this.setData({
-        usertype : "管理员"
+        usertype: "管理员"
       })
     }
 
@@ -141,8 +216,8 @@ Page({
         console.log("noticearray", this.data.noticearray)
       }
     })
-    await _directuser(app.globalData.Guserid)
-    await _indirectuser(app.globalData.Guserid)
+    await utils._directuser(app.globalData.Guserid)
+    await utils._indirectuser(app.globalData.Guserid)
   },
 
 
@@ -157,11 +232,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.setData({
-      image: app.globalData.Gimagearray,
-      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-
-    })
 
   },
 

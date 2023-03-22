@@ -1,39 +1,61 @@
 <!--pages/index/home.wxml-->
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true" >
+    <view class='mask-content'>
+    <l-card type="primary"
+          plaintext="{{true}}"
+          l-title-class="cardtitle"
+          title="请输入手机号码登录">
+      <text>\r\n</text>
+      <view style="display:flex; flex-direction:row;justify-content:flex-start;">
+        <label class="labal">手机号：</label>
+        <input class="input" type="number"  value="{{userphone}}" bind:input="bvUserPhone" required="{{true}}" />
+      </view>
+      <view style="display:flex; flex-direction:row;justify-content:flex-start;">
+        <label class="labal">验证码：</label>
+        <input class="input" type="number" value="{{phonecode}}" bind:input="bvPhoneCode" required="{{true}}" />
+      </view>
+      <text>\r\n</text>
+      <view style="display:flex; flex-direction:row;justify-content:space-between">
+        <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
+        <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini" >取消登录</l-button>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini" >验证并登录</l-button>
+    </view>
+    </l-card>
+    </view>
+</l-mask>
 <!-- 轮播头图 -->
 <view>
   <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-    <navigator url="{{item.link}}">
-      <swiper-item>
-        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </navigator>
+      <navigator url="{{item.link}}">
+        <swiper-item>
+          <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
+        </swiper-item>
+      </navigator>
     </block>
   </swiper>
 </view>
+
 <!-- 通知栏 -->
 <l-notice-bar show="{{true}}" type="swip" speed="2000" front-icon-name="notification" front-icon-size="20" front-icon-color="#3683D6" bind:lintap="onNoticeView" swip-arr="{{noticearray}}">
 </l-notice-bar>
 <view class="mainframe">
-  <!-- <view style="display:flex; flex-direction:column; justify-content:space-between;align-items:center;"> -->
-  <view>
-    <view wx:if="{{userphone==''}}" style="display:flex; flex-direction:row; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
-      <navigator url="../mine/userinfo">请用手机号码登录</navigator>
-    </view>
-    <view wx:else style="display:flex; flex-direction:column;">
-      <view style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
-        <view>用户号码：{{userphone}}</view>
-        <view>用户类型：{{usertype}}</view>
-        <view>会员级别：{{promoterlevel}}</view>
-        <view>
-          <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
-            所在区域：{{region[0]}}/{{region[1]}}/{{region[2]}}
-          </picker>
-        </view>
 
-      </view>
-    </view>
+  <view wx:if="{{loginbtnshow==true}}" style="display:flex; justify-content:center;">
+    <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>
+  <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
+    <view>用户号码：{{userphone}}</view>
+    <view>用户类型：{{usertype}}</view>
+    <view>会员级别：{{promoterlevel}}</view>
+    <!-- <view>
+          <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+            选择区域：{{region[0]}}/{{region[1]}}/{{region[2]}}
+          </picker>
+        </view> -->
+  </view>
+
 
   <view style="display:flex; flex-direction:row; justify-content:space-between;align-items:center;margin-top: 25rpx;">
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="customer-service" icon-color="#3683d6" open-type="contact">联系客服</l-button>
@@ -140,13 +162,13 @@
         <view class="text">深圳食品经营</view>
       </navigator>
     </l-grid-item>
-      <l-grid-item key='five' slot='five'>
+    <l-grid-item key='five' slot='five'>
       <navigator url="../product/productview?category3=明光道路运输">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/道路运输.png"></image>
         <view class="text">明光道路运输</view>
       </navigator>
     </l-grid-item>
-      <l-grid-item key='six' slot='six'>
+    <l-grid-item key='six' slot='six'>
       <navigator url="../product/productview?category3=明光医疗器械">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/医疗器械.png"></image>
         <view class="text">明光医疗器械</view>

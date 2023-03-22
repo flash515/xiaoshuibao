@@ -10,7 +10,8 @@ Page({
     params: "",
     userphone: "",
     useroldphone: "",
-    loginshow: true,
+        //登录相关
+    loginshow: false,
     time: "获取验证码",
     s_phonecode: "",
     u_phonecode: "",
@@ -277,6 +278,7 @@ Page({
    */
   onLoad: async function (options) {
     console.log(options)
+
     this.setData({
       tempinviterid: options.userid,
       transferpacketid: options.transferpacketid,

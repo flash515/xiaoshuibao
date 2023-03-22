@@ -31,3 +31,48 @@ height: 100px;}
   background-color:gainsboro;
 
 }
+.cardtitle {
+  font-size: 40rpx !important;
+  color:#3683d6!important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.labal {
+  width: 150rpx;
+  height: 32;
+  line-height: 32rpx;
+  font-size: 32rpx;
+  color:#3683d6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input {
+  height: 32rpx;
+  line-height: 32rpx;
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+  border-bottom: 1rpx solid #3683d6;
+}
+
+.codebtn {
+  width: 200rpx;
+  height: 32rpx;
+  margin-left: 20rpx;
+  padding: 0rpx;
+  border-radius: 5%;
+  /* background:rgba(254,214,155,1); */
+}
+
+.codebtntext {
+  font-size: 32rpx;
+  line-height: 32rpx;
+  color: rgb(0, 0, 0);
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

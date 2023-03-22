@@ -56,7 +56,147 @@ function _productcheck() {
   return promise;
 }
 
-function _login() { // 通过云函数获取用户本人的小程序ID
+function _sendcode(userphone) { 
+  // 发送验证码
+  var promise = new Promise((resolve, reject) => {
+    if (userphone == "" || userphone == undefined) {
+      wx.showToast({
+        title: '请输入手机号码',
+        icon: 'error',
+        duration: 2000
+      })
+    } else {
+      let _this = this;
+      wx.cloud.callFunction({
+        name: 'sendmessage',
+        data: {
+          templateId: "985130",
+          nocode: false,
+          mobile: userphone,
+          nationcode: '86'
+        },
+        success: res => {
+          let code = res.result.res.body.params[0];
+          let result = res.errMsg;
+          if (result == "cloud.callFunction:ok") {
+            resolve(code)
+          } else {
+            wx.showToast({
+              title: '发送失败请重试',
+              icon: 'error',
+              duration: 2000
+            })
+          }
+        },
+        fail: err => {
+          console.error('[云函数] [sendsms] 调用失败', err)
+        }
+      })
+    }
+  });
+  return promise;
+}
+
+async function _UserLogin(userphone, s_phonecode, u_phonecode) {
+  var promise = new Promise((resolve, reject) => {
+    if (s_phonecode == u_phonecode && u_phonecode != "") {
+      console.log('手机验证码正确')
+      const db = wx.cloud.database()
+      db.collection('USER').where({
+        UserId: app.globalData.Guserid
+      }).update({
+        data: {
+          ["UserInfo.UserPhone"]: userphone,
+          ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success(res) {
+          wx.showToast({
+            title: '登录成功',
+            icon: 'success',
+            duration: 2000 //持续的时间
+          })
+          resolve(res)
+        },
+        fail(res) {
+          wx.showToast({
+            title: '登录不成功',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+
+    } else {
+      wx.showToast({
+        title: '验证码错误',
+        icon: 'error',
+        duration: 2000
+      })
+    }
+
+  });
+  return promise;
+}
+
+async function _RegistPointsAdd() { // 通过云函数获取用户本人的小程序ID
+  var promise = new Promise((resolve, reject) => {
+    console.log('推广积分')
+    const db = wx.cloud.database()
+    db.collection("POINTS").add({
+      data: {
+        PointsType: "promoter",
+        RegistrantId: app.globalData.Guserid,
+        RegistrantPoints: 50,
+        ProductName: "会员手机认证",
+        // 直接推荐人
+        InviterId: app.globalData.Ginviterid,
+        InviterPoints: 30,
+        // 间接推荐人
+        IndirectInviterId: app.globalData.Gindirectinviterid,
+        IndirectInviterPoints: 10,
+        SysAddDate: new Date().getTime(),
+        AddDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
+        PointsStatus: "checked",
+      },
+      success(res) {
+        resolve(res)
+      },
+    })
+  });
+  return promise;
+}
+async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程序ID
+  var promise = new Promise((resolve, reject) => {
+    //给推荐和和管理员发送短信
+    if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {
+      var tempmobile = [18954744612, app.globalData.Ginviterphone]
+    } else {
+      var tempmobile = [18954744612]
+    }
+    // 调用云函数发短信给推荐人和管理员
+    wx.cloud.callFunction({
+      name: 'sendsms',
+      data: {
+        templateId: "1569087",
+        nocode: true,
+        mobile: tempmobile
+      },
+      success: res => {
+        console.log("短信发送结果", res)
+        resolve(res)
+      },
+      fail: res => {
+        console.log(res)
+      },
+    })
+  });
+  return promise;
+}
+async function _login() { // 通过云函数获取用户本人的小程序ID
   var promise = new Promise((resolve, reject) => {
     wx.cloud.callFunction({
       name: 'login',
@@ -74,7 +214,7 @@ function _login() { // 通过云函数获取用户本人的小程序ID
   return promise;
 }
 
-function _setting() {
+async function _setting() {
   var promise = new Promise((resolve, reject) => {
     console.log("setting执行了")
     //获取小程序全局设置
@@ -519,7 +659,7 @@ async function _packetcheck(eventid) {
       },
       success: res => {
         console.log(res)
-        resolve([res.result.data[0].RemainPoints,res.result.data[0].RemainPacket])
+        resolve([res.result.data[0].RemainPoints, res.result.data[0].RemainPacket])
       }
     })
 
@@ -603,12 +743,12 @@ function _pointshistory() {
             } else if (res.result.data[i].ConsumeId == app.globalData.Guserid) {
               promotehistory.push(res.result.data[i])
             }
-          }else if(res.result.data[i].PointsType == "exchange"){
+          } else if (res.result.data[i].PointsType == "exchange") {
             promotehistory.push(res.result.data[i])
             tradehistory.push(res.result.data[i])
-          }else if(res.result.data[i].PointsType == "withdraw"){
+          } else if (res.result.data[i].PointsType == "withdraw") {
             tradehistory.push(res.result.data[i])
-          }else if(res.result.data[i].PointsType == "transfer"){
+          } else if (res.result.data[i].PointsType == "transfer") {
             promotehistory.push(res.result.data[i])
           }
         }
@@ -619,7 +759,7 @@ function _pointshistory() {
   return promise;
 }
 
-function _balanceupdate(promotebalance,tradebalance,balanceupdatetime) {
+function _balanceupdate(promotebalance, tradebalance, balanceupdatetime) {
   var promise = new Promise((resolve, reject) => {
     const db = wx.cloud.database()
     db.collection('USER').where({
@@ -632,9 +772,9 @@ function _balanceupdate(promotebalance,tradebalance,balanceupdatetime) {
         ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
       },
       success: res => {
-        app.globalData.Guserdata.TradeInfo.PromoteBalance=promotebalance
-        app.globalData.Guserdata.TradeInfo.TradeBalance=tradebalance
-        app.globalData.Guserdata.TradeInfo.BalanceUpdateTime=balanceupdatetime
+        app.globalData.Guserdata.TradeInfo.PromoteBalance = promotebalance
+        app.globalData.Guserdata.TradeInfo.TradeBalance = tradebalance
+        app.globalData.Guserdata.TradeInfo.BalanceUpdateTime = balanceupdatetime
         resolve(res)
       }
     })
@@ -642,23 +782,23 @@ function _balanceupdate(promotebalance,tradebalance,balanceupdatetime) {
   return promise;
 }
 
-  // 根据时间戳随机订单号,订单号不能重复
-  function _getGoodsRandomNumber() {
-    const date = new Date(); // 当前时间
-    let Year = `${date.getFullYear()}`; // 获取年份
-    let Month = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+// 根据时间戳随机订单号,订单号不能重复
+function _getGoodsRandomNumber() {
+  const date = new Date(); // 当前时间
+  let Year = `${date.getFullYear()}`; // 获取年份
+  let Month = `${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
       }`; // 获取月
-    let Day = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`; // 获取天
-    let hour = `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
+  let Day = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`; // 获取天
+  let hour = `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()
       }`; // 获取小时
-    let min = `${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+  let min = `${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
       }`; // 获取分钟
-    let sec = `${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
+  let sec = `${date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds()
       }`; // 获取秒
-    let formateDate = `${Year}${Month}${Day}${hour}${min}${sec}`; // 时间
-    return `${Math.round(Math.random() * 1000)}${formateDate +
+  let formateDate = `${Year}${Month}${Day}${hour}${min}${sec}`; // 时间
+  return `${Math.round(Math.random() * 1000)}${formateDate +
       Math.round(Math.random() * 89 + 100).toString()}`;
-  }
+}
 
 
 const showLoading = (tips = '加载中...') => {
@@ -667,12 +807,12 @@ const showLoading = (tips = '加载中...') => {
     title: tips,
   })
 }
- 
+
 const hideLoading = () => {
   wx.hideLoading()
   wx.hideNavigationBarLoading()
 }
- 
+
 const hideLoadingWithErrorTips = (err = '加载失败...') => {
   hideLoading()
   wx.showToast({
@@ -697,8 +837,12 @@ module.exports = {
   _pointshistory: _pointshistory,
   _PLordercheck: _PLordercheck,
   _PLcheck: _PLcheck,
-  _packetcheck:_packetcheck,
-  _getGoodsRandomNumber:_getGoodsRandomNumber,
+  _packetcheck: _packetcheck,
+  _getGoodsRandomNumber: _getGoodsRandomNumber,
+  _sendcode: _sendcode,
+  _UserLogin: _UserLogin,
+  _RegistPointsAdd: _RegistPointsAdd,
+  _SendNewUserSMS: _SendNewUserSMS,
   showLoading: showLoading,
   hideLoading: hideLoading,
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,

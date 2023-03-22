@@ -15,6 +15,15 @@ const {
 } = require("../../utils/track");
 Page({
   data: {
+    //登录相关
+    loginshow: false,
+    loginbtnshow: false,
+    time: "获取验证码",
+    currentTime: 60,
+    disabled: false,
+    s_phonecode: "",
+    u_phonecode: "",
+
     params:"",
     paramname:"",
     paramvalue:"",
@@ -39,7 +48,65 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
+  bvLoginShow: function (e) {
+    this.setData({
+      loginshow: true
+    })
+  },
 
+  bvUserPhone(e) {
+    this.setData({
+      userphone: e.detail.value
+    })
+  },
+  bvPhoneCode(e) {
+    this.setData({
+      u_phonecode: e.detail.value
+    })
+  },
+  bvSendCode: async function (){
+    this.data.s_phonecode = await utils._sendcode(this.data.userphone)
+    console.log("验证码", this.data.s_phonecode)
+    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
+    this._SendCodeBtn()
+  }
+  },
+
+  _SendCodeBtn() {
+    var that = this;
+    var currentTime = that.data.currentTime
+    var interval = setInterval(function () {
+      currentTime--;
+      that.setData({
+        time: currentTime + '秒'
+      })
+      if (currentTime <= 0) {
+        clearInterval(interval)
+        that.setData({
+          time: '重新发送',
+          currentTime: 60,
+          disabled: false
+        })
+      }
+    }, 1000)
+
+  },
+  bvLogin: async function (e) {
+    await utils._UserLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._RegistPointsAdd()
+    await utils._SendNewUserSMS()
+    this.setData({
+      loginshow: false,
+      loginbtnshow:false
+    })
+    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    console.log(app.globalData.Guserdata)
+  },
+  onHideMaskTap: function () {
+    this.setData({
+      loginshow: false
+    })
+  },
   bvSortChange(e) {
     console.log(e.currentTarget.dataset.name)
     console.log(e.currentTarget.dataset.index)
@@ -73,6 +140,15 @@ Page({
       params:options
     })
     console.log(options)
+    if(app.globalData.Guserdata.UserInfo.UserPhone!=''){
+      this.setData({
+        loginbtnshow: false
+      })
+    }else{
+      this.setData({
+        loginbtnshow: true
+      })
+    }
     var that = this
     if (app.globalData.Gproduct == undefined) {
 
