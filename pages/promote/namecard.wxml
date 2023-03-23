@@ -1,0 +1,8 @@
+<!--pages/promote/namecard.wxml-->
+<view>
+  <swiper autoplay circular indicator-dots style="height: {{swiperHeight}};">
+    <swiper-item wx:for="{{swiperData}}" wx:key="id">
+      <image mode="widthFix" src="{{item}}" style="width: 100%;" bindload="computeImgHeight"></image>
+    </swiper-item>
+  </swiper>
+</view>

@@ -1,0 +1,41 @@
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true">
+  <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
+    <text>\r\n</text>
+    <view class="logininputbox" style="justify-content:flex-start;">
+      <view style="padding: 10rpx;">手机号：</view>
+      <input style="width: 300rpx;" type="number" value="{{userphone}}" bind:input="bvUserPhone" required="{{true}}" />
+    </view>
+    <view class="logininputbox" style="justify-content:space-between;">
+      <view style="padding: 10rpx;">验证码：</view>
+      <input style="width: 150rpx;" type="number" value="{{phonecode}}" bind:input="bvPhoneCode" required="{{true}}" />
+      <button plain bindtap="bvSendCode" disabled='{{disabled}}'>{{time}}</button>
+    </view>
+    <text>\r\n</text>
+    <view class="loginbtnbox">
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini">取消登录</l-button>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini">验证并登录</l-button>
+    </view>
+  </l-card>
+</l-mask>
+<!-- 祝福卡 -->
+<view>
+  <swiper autoplay circular indicator-dots style="height: {{swiperHeight}};">
+    <swiper-item wx:for="{{swiperData}}" wx:key="id">
+      <image mode="widthFix" src="{{item}}" style="width: 100%;" bindload="computeImgHeight"></image>
+    </swiper-item>
+  </swiper>
+</view>
+<view class="mainframe"></view>
+<view>
+  我也要发送祝福
+</view>
+<view wx:if="{{loginbtnshow==true}}" style="display:flex; justify-content:center;">
+  <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录</l-button>
+</view>
+<view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
+  <view>图库选择图片或上传图片</view>
+  <view>选择音乐</view>
+  <view>填写文字</view>
+
+</view>

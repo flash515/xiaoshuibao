@@ -28,7 +28,6 @@
 
         <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
           <label class="labal">微信头像：</label>
-
           <view style="padding-left: 50rpx;">
             <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
               <image class="avatar" src="{{avatarurl}}"></image>
@@ -36,7 +35,13 @@
           </view>
         </view>
         <view class="line"></view>
-
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">微信昵称：</label>
+          <view style="padding-left: 50rpx;">
+            <input class="nicknameinput" name="nickname" type="nickname" placeholder="点击获取昵称" placeholder-class="left"/>
+          </view>
+        </view>
+        <view class="line"></view>
 
 
         <view>
