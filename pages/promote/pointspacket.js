@@ -11,7 +11,7 @@ Page({
     userphone: "",
     useroldphone: "",
         //登录相关
-    loginshow: false,
+    loginshow: true,
     time: "获取验证码",
     s_phonecode: "",
     u_phonecode: "",
@@ -284,11 +284,7 @@ Page({
       transferpacketid: options.transferpacketid,
       params: options,
     })
-    if (app.globalData.Guserdata.UserInfo.UserPhone != "") {
-      this.setData({
-        loginshow: false
-      })
-    }
+
     // 调用方法初始化
     utils._setting()
     utils._productcheck()
@@ -306,7 +302,11 @@ Page({
       console.log("当前用户信息", app.globalData.Guserdata);
       await utils._discountcheck()
     }
-
+    if (app.globalData.Guserdata.UserInfo.UserPhone != "") {
+      this.setData({
+        loginshow: false
+      })
+    }
     // 查询积分礼包
     let packet = await utils._packetcheck(this.data.transferpacketid)
     this.setData({

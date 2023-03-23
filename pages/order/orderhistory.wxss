@@ -27,48 +27,48 @@ height: 100px;}
   background-color: white;
   background-size: cover;
 }
-.cardtitle {
-  font-size: 40rpx !important;
-  color:#3683d6!important;
+.logincard {
+  width: 600rpx !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-.labal {
-  width: 150rpx;
-  height: 32;
-  line-height: 32rpx;
-  font-size: 32rpx;
-  color:#3683d6;
+.logincardtitle {
+  font-size: 40rpx !important;
+  color: #3683d6 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.logininputbox {
+  margin: 5rpx 20rpx;
+  border: 1rpx solid #3683d6;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-}
-
-.input {
-  height: 32rpx;
-  line-height: 32rpx;
   font-size: 32rpx;
-  color: rgb(0, 0, 0);
-  border-bottom: 1rpx solid #3683d6;
+  color: #3683d6;
+  width: 540rpx;
 }
 
-.codebtn {
-  width: 200rpx;
-  height: 32rpx;
-  margin-left: 20rpx;
-  padding: 0rpx;
-  border-radius: 5%;
-  /* background:rgba(254,214,155,1); */
-}
-
-.codebtntext {
-  font-size: 32rpx;
-  line-height: 32rpx;
-  color: rgb(0, 0, 0);
-  vertical-align: middle;
+.loginbtnbox {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 540rpx;
+  margin: 0rpx 20rpx;
+}
+
+button[plain] {
+  border: 0;
+  margin-right: 0;
+  padding: 0rpx 10rpx;
+  background-color: #fff;
+  line-height: 52rpx;
+  font-size: 32rpx;
+  color: #3683d6;
+  border-left: 1rpx solid #3683d6;
+  border-radius: 0%;
 }
