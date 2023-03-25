@@ -1,15 +1,20 @@
-/* pages/mine/userinfo.wxss */
+.bgimage
+{ width : 750rpx;height : 600rpx;  position: fixed;  z-index: -1;  
+}
+.namecard{
+  width : 750rpx;height : 600rpx; 
+}
 .avatar {
-  width: 100rpx;
-  height: 100rpx;
+  width: 80rpx;
+  height: 80rpx;
   border: none;
   background-size: cover;
   background-color: white;
 }
 
 .avatarBtn {
-  width: 100rpx;
-  height: 100rpx;
+  width: 80rpx;
+  height: 80rpx;
   border: 0.5;
   padding: 0;
   background-color: white;

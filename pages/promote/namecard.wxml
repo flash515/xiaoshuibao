@@ -1,8 +1,55 @@
-<!--pages/promote/namecard.wxml-->
-<view>
-  <swiper autoplay circular indicator-dots style="height: {{swiperHeight}};">
-    <swiper-item wx:for="{{swiperData}}" wx:key="id">
-      <image mode="widthFix" src="{{item}}" style="width: 100%;" bindload="computeImgHeight"></image>
-    </swiper-item>
-  </swiper>
+<!-- 背景层 -->
+<image class="bgimage" src="{{namecardbg}}" mode="scaleToFill" />
+<!-- 信息层 -->
+<view class="namecard">
+  <view>{{companylogo}}</view>
+  <view>{{companyname}}</view>
+  <view>{{username}}</view>
+  <view wx:if="{{positon!=''}}">职务：{{position}}</view>
+  <view>手机：{{userphone}}</view>
+  <view wx:if="{{weichat!=''}}">微信：{{weichat}}</view>
+  <view wx:if="{{email!=''}}">邮箱：{{email}}</view>
+  <view wx:if="{{telephone!=''}}">座机：{{telephone}}</view>
+  <view wx:if="{{address!=''}}">地址：{{address}}</view>
+</view>
+
+<view class="mainframe">
+  <l-tabs bind:linchange="changeTabs">
+    <l-tabpanel tab="企业简介" key="one" slot="one">
+      <text>主营业务：</text>
+      <text>{{businessscope}}</text>
+      <view>
+        <l-input type="text" label="主营业务：" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-input>
+      </view>
+      <view>
+        <l-input type="text" label="企业规模：" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
+      </view>
+      <view>
+        <l-input type="text" label="注册日期：" value="{{adddate}}" disabled="{{true}}"></l-input>
+      </view>
+      <view>
+        <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
+      </view>
+      <text>\n</text>
+      <view hidden="{{btnhidden}}">
+        <!-- <button class="nicknameBtn" plain="{{true}}" form-type="submit" type="primary" > 确认</button> -->
+        <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="UpdateData">更新信息
+        </l-button>
+        <text space="emsp" decode="{{true}}">&emsp;</text>
+        <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
+        </l-button>
+      </view>
+
+    </l-tabpanel>
+    <l-tabpanel tab="商品简介" key="two" slot="two">
+      <view>
+        <l-input type="text" label="邀请企业：" value="{{invitercompany}}" disabled="{{true}}"></l-input>
+      </view>
+      <view>
+        <l-input type="text" label="邀请人：" value="{{invitername}}" disabled="{{true}}"></l-input>
+      </view>
+    </l-tabpanel>
+  </l-tabs>
+
+
 </view>

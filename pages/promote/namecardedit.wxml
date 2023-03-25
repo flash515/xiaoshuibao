@@ -1,15 +1,17 @@
-<!-- 轮播头图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <navigator url="{{item.link}}">
-      <swiper-item>
-        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </navigator>
-    </block>
-  </swiper>
+<!-- 背景层 -->
+  <image class="bgimage" src="{{namecardbg}}" mode="scaleToFill" />
+<!-- 信息层 -->
+<view class="namecard">
+  <view>{{companylogo}}</view>
+<view>{{companyname}}</view>
+<view>{{username}}</view>
+<view>职务：{{position}}</view>
+<view>手机：{{userphone}}</view>
+<view>邮箱：{{email}}</view>
+<view>座机：{{telephone}}</view>
+<view>地址：{{address}}</view>
 </view>
+
 <view class="mainframe">
   <l-tabs bind:linchange="changeTabs">
     <l-tabpanel tab="本人信息" key="one" slot="one">
@@ -42,8 +44,6 @@
           </view>
         </view>
         <view class="line"></view>
-
-
         <view>
           <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName">
           </l-input>

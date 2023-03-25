@@ -20,15 +20,9 @@ Page({
     s_phonecode: "",
     u_phonecode: "",
     // 轮播参数
-    image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0,
+    cardshow:true,
+    namecardbg:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg2.jpg?sign=993ee89f0c2e6992d2eb21e8c7f433c5&t=1679737354",
+
     invitercompanyname: "",
     inviterusername: "",
     bankshow:"",
@@ -398,6 +392,28 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
+      imageUrl: '', //封面，留空自动抓取500*400生成图片
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log(this.data.path.value)
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
   }
 })

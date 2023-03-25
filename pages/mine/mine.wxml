@@ -29,12 +29,12 @@
   </l-grid-item>
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">
-  <l-list title="我的名片" icon="user" url="../mine/userinfo" />
+  <l-list title="我的名片" icon="user" url="../promote/namecard" />
   <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
-  <l-list title="小程序推广码" icon="picture" url="../mine/minicode" />
-  <l-list title="我的推广海报" icon="picture" url="../mine/poster" />
+  <l-list title="小程序推广码" icon="picture" url="../promote/minicode" />
+  <l-list title="我的推广海报" icon="picture" url="../promote/poster" />
   <view wx:if="{{userphone != ''}}">
     <l-list title="推广详情" icon="user" url="../mine/shareuser" />
     <l-list title="成为服务商" icon="setting" url="../mine/providerapply" />
