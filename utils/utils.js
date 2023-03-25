@@ -250,12 +250,12 @@ async function _setting() {
   return promise;
 }
 
-function _usercheck() {
+function _usercheck(eventid) {
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
     const db = wx.cloud.database()
     db.collection('USER').where({
-      UserId: app.globalData.Guserid,
+      UserId: eventid,
     }).get({
       success: res => {
         console.log("当前用户信息", res);

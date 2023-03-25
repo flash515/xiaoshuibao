@@ -1,8 +1,15 @@
 .bgimage
-{ width : 750rpx;height : 600rpx;  position: fixed;  z-index: -1;  
+{ width : 750rpx;
+  height : 600rpx;  
+  position:  absolute;
+    z-index: -1;  
 }
 .namecard{
-  width : 750rpx;height : 600rpx; 
+  width : 750rpx;
+  height : 600rpx; 
+  position: relative;
+  top:0;
+  padding: 20rpx;
 }
 .avatar {
   width: 80rpx;

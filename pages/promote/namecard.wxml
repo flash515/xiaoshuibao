@@ -31,13 +31,12 @@
         <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
       </view>
       <text>\n</text>
-      <view hidden="{{btnhidden}}">
-        <!-- <button class="nicknameBtn" plain="{{true}}" form-type="submit" type="primary" > 确认</button> -->
-        <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="UpdateData">更新信息
-        </l-button>
-        <text space="emsp" decode="{{true}}">&emsp;</text>
-        <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
-        </l-button>
+      <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;">
+        <navigator url="../promote/namecardedit">
+        <l-button type="default" shape="semicircle" bind:lintap="bvEditNameCard">制作电子名片</l-button>
+    </navigator>
+    <text space="emsp" decode="{{true}}">&emsp;</text>
+        <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
       </view>
 
     </l-tabpanel>
