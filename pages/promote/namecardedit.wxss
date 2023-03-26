@@ -4,15 +4,16 @@
   position:  absolute;
     z-index: -1;  
 }
-.namecard{
+.uplayout{
   width : 750rpx;
   height : 600rpx; 
   position: relative;
-  /* top:0rpx; */
-  /* left: 0rpx; */
+  top: 0rpx;
+  left: 0rpx;
   margin: 0rpx;
+}
+.namecard {
   padding: 60rpx 30rpx 0rpx 30rpx;
-
 }
 .user{
   width: 690rpx;
