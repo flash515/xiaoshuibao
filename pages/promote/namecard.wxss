@@ -35,7 +35,6 @@
 }
 .username {
   font-size: 45rpx;
-  font-weight:bold;
   color: rgb(0, 0, 0);
 }
 .position {
