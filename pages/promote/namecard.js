@@ -27,6 +27,7 @@ Page({
     bankshow: "",
     bank: "",
     account: "",
+    companylogo:"",
     companyname: "",
     companyid: "",
     businessscope: "",
@@ -134,6 +135,7 @@ Page({
       this.setData({
         companyname: user.UserInfo.CompanyName,
         businessscope: user.UserInfo.BusinessScope,
+        companylogo:user.UserInfo.CompanyLogo,
         username: user.UserInfo.UserName,
         userphone: user.UserInfo.UserPhone,
       })
@@ -159,6 +161,7 @@ Page({
         image: app.globalData.Gimagearray,
         avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
         nickname: app.globalData.Guserdata.UserInfo.nickName,
+        companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
         companyname: app.globalData.Guserdata.UserInfo.CompanyName,
         companyid: app.globalData.Guserdata.UserInfo.CompanyId,
         businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,

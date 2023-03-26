@@ -2,16 +2,15 @@
 <image class="bgimage" src="{{namecardbg}}" mode="scaleToFill" />
 <!-- 信息层 -->
 <view class="namecard">
-<view style="display:flex; flex-direction:row; justify-content:space-between;">
   <view class="companyname">{{companyname}}</view>
-  <view class="companylogo">{{companylogo}}</view>
-</view>
-
-<view>
+<view class="user" style="display:flex; flex-direction:row; justify-content:space-between;">
+<view style="display:flex;flex-direction:column;align-items:flex-end;">
+<text>\n</text>
   <view class="username">{{username}}</view>
   <view wx:if="{{positon!=''&&position!=undefined}}" class="position">{{position}}</view>
 </view>
-<text>\n</text>
+<image class="companylogo" src="{{companylogo}}"></image>
+</view>
 <view>
   <view class="userphone">手机：{{userphone}}</view>
   <view wx:if="{{weichat!=''&&weichat!=undefined}}" class="weichat">微信：{{weichat}}</view>
@@ -25,10 +24,7 @@
 <view class="mainframe">
   <l-tabs bind:linchange="changeTabs">
     <l-tabpanel tab="企业简介" key="one" slot="one">
-      <text>主营业务：</text>
-      <text>{{businessscope}}</text>
-
-
+      <text class="text">{{businessscope}}</text>
     </l-tabpanel>
     <l-tabpanel tab="商品简介" key="two" slot="two">
       <view>

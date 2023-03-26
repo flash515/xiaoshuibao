@@ -8,20 +8,34 @@
   width : 750rpx;
   height : 600rpx; 
   position: relative;
-  top:0;
-  padding: 100rpx 40rpx 40rpx 40rpx;
+  /* top:0rpx; */
+  /* left: 0rpx; */
+  margin: 0rpx;
+  padding: 60rpx 30rpx 0rpx 30rpx;
+
+}
+.user{
+  width: 690rpx;
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  padding-left: 0rpx;
+  padding-right: 0rpx;
 }
 .companyname{
-  font-size: 60rpx;
+  width: 690rpx;
+  font-size: 55rpx;
+  font-weight:bold;
   color: rgb(0, 0, 0);
+  text-align: center;
 }
 .companylogo {
-  width : 150rpx;
+  width : 150rpx !important;
   height : 150rpx; 
-  color: rgb(0, 0, 0);
+
 }
 .username {
   font-size: 45rpx;
+  font-weight:bold;
   color: rgb(0, 0, 0);
 }
 .position {
