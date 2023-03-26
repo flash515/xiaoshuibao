@@ -31,10 +31,16 @@ Page({
     companyname: "",
     companyid: "",
     businessscope: "",
-    companyscale: "",
     username: "",
+    position:"",
     userphone: "",
     useroldphone: "",
+    position:"",
+    weichat:"",
+    email:"",
+    telephone:"",
+    website:"",
+    address: "",
     result: "未发送",
     balance: "",
     usertype: "",
@@ -104,11 +110,6 @@ Page({
       businessscope: e.detail.value
     })
   },
-  bvCompanyScale(e) {
-    this.setData({
-      companyscale: e.detail.value
-    })
-  },
   bvUserName(e) {
     this.setData({
       username: e.detail.value
@@ -119,6 +120,37 @@ Page({
       userphone: e.detail.value
     })
   },
+  bvPosition(e) {
+    this.setData({
+      position: e.detail.value
+    })
+  },
+  bvWeiChat(e) {
+    this.setData({
+      weichat: e.detail.value
+    })
+  },
+  bvEmail(e) {
+    this.setData({
+      email: e.detail.value
+    })
+  },
+  bvTelephone(e) {
+    this.setData({
+      telephone: e.detail.value
+    })
+  },
+  bvWebsite(e) {
+    this.setData({
+      website: e.detail.value
+    })
+  },
+  bvAddress(e) {
+    this.setData({
+      address: e.detail.value
+    })
+  },
+
   _SendCodeBtn() {
 
     var that = this;
@@ -197,13 +229,18 @@ Page({
       companyname: app.globalData.Guserdata.UserInfo.CompanyName,
       companyid: app.globalData.Guserdata.UserInfo.CompanyId,
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
-      companyscale: app.globalData.Guserdata.UserInfo.CompanyScale,
+      address: app.globalData.Guserdata.UserInfo.Address,
       username: app.globalData.Guserdata.UserInfo.UserName,
       bank: app.globalData.Guserdata.UserInfo.Bank,
       account: app.globalData.Guserdata.UserInfo.Account,
       bankshow: app.globalData.Guserdata.UserInfo.UserPhone,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
+      position:app.globalData.Guserdata.UserInfo.Position,
+      weichat:app.globalData.Guserdata.UserInfo.WeiChat,
+      email:app.globalData.Guserdata.UserInfo.Email,
+      website:app.globalData.Guserdata.UserInfo.Website,
+      telephone:app.globalData.Guserdata.UserInfo.Telephone,
       usertype: app.globalData.Guserdata.UserInfo.UserType,
       adddate: app.globalData.Guserdata.UserInfo.AddDate,
       updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
@@ -225,8 +262,13 @@ Page({
           companyname: res.data[0].UserInfo.CompanyName,
           companyid: res.data[0].UserInfo.CompanyId,
           businessscope: res.data[0].UserInfo.BusinessScope,
-          companyscale: res.data[0].UserInfo.CompanyScale,
+          address: res.data[0].UserInfo.Address,
           username: res.data[0].UserInfo.UserName,
+          position:res.data[0].UserInfo.Position,
+          weichat:res.data[0].UserInfo.WeiChat,
+          email:res.data[0].UserInfo.Email,
+          website:res.data[0].UserInfo.Website,
+          telephone:res.data[0].UserInfo.Telephone,
           bank: res.data[0].UserInfo.Bank,
           account: res.data[0].UserInfo.Account,
           bankshow: res.data[0].UserInfo.UserPhone,
@@ -252,12 +294,17 @@ Page({
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
           ["UserInfo.UserName"]: this.data.username,
+          ["UserInfo.Position"]: this.data.position,
+          ["UserInfo.WeiChat"]: this.data.weichat,
+          ["UserInfo.Email"]: this.data.email,
+          ["UserInfo.Telephone"]: this.data.telephone,
+          ["UserInfo.Website"]: this.data.website,
           ["UserInfo.Bank"]: this.data.bank,
           ["UserInfo.Account"]: this.data.account,
           ["UserInfo.UserPhone"]: this.data.userphone,
           ["UserInfo.CompanyName"]: this.data.companyname,
           ["UserInfo.CompanyId"]: this.data.companyid,
-          ["UserInfo.CompanyScale"]: this.data.companyscale,
+          ["UserInfo.Address"]: this.data.address,
           ["UserInfo.BusinessScope"]: this.data.businessscope,
           ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese',{ hour12: false })
         },
