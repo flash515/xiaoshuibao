@@ -1,13 +1,5 @@
 const app = getApp()
-var {
-  _productcheck,
-  _login,
-  _setting,
-  _usercheck,
-  _newuser,
-  _olduser,
-  _invitercheck
-} = require("../../utils/utils")
+const utils = require("../../utils/utils");
 const {
   startToTrack,
   startByClick,
@@ -153,22 +145,22 @@ Page({
     if (app.globalData.Gproduct == undefined) {
 
       // 调用初始化
-      await _setting()
-      await _productcheck()
+      await utils._setting()
+      await utils._productcheck()
       console.log("这一步执行了")
-      await _login()
-      let data = await _usercheck()
+      await utils._login()
+      let data = await utils._usercheck()
       console.log("data", data);
       if (data.length == 0) {
-        await _newuser()
+        await utils._newuser()
       } else {
         app.globalData.Guserdata.UserInfo = data[0].UserInfo
         app.globalData.Guserdata.TradeInfo = data[0].TradeInfo
         console.log("当前用户信息", app.globalData.Guserdata.UserInfo);
         console.log("当前用户交易信息", app.globalData.Guserdata.TradeInfo);
-        await _olduser()
+        await utils._olduser()
       }
-      await _invitercheck()
+      await utils._invitercheck()
       console.log("这一步执行了")
     if (options.category2 != undefined && options.category2 != "") {
       for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {

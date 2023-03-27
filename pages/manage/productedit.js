@@ -470,61 +470,7 @@ Page({
       status: e.detail.value
     })
   },
-  bvChooseProductImage(e) {
-    this.setData({
-      productview: e.detail.all,
-      productimageuploadlock: false
-    })
-  },
-  bvRemoveProductImage(e) {
-    this.setData({
-      productview: e.detail.all,
-      productimageuploadlock: false
-    })
-  },
-  bvUploadProductImage(e) {
-    let that = this
-    // 判断商品id是否空值
-    if (this.data.productname == "" || this.data.productname == null) {
-      wx.showToast({
-        title: "商品名称不能为空",
-        icon: 'none',
-        duration: 2000
-      })
-    } else {
-      // 判断是否重复提交
-      if (this.data.productimageuploadlock) {
-        // 锁定时很执行
-        wx.showToast({
-          title: '请勿重复提交',
-          icon: 'none',
-          duration: 2000 //持续的时间
-        })
-      } else {
-        if (this.data.productview.length == 0) {
-          this.data.productimage = []
-        } else {
-          for (let i = 0; i < this.data.productview.length; i++) {
-            const filePath = this.data.productview[i]
-            const cloudPath = 'product/' + this.data.productname + '/' + this.data.productname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
-            wx.cloud.uploadFile({
-              cloudPath,
-              filePath,
-              success: res => {
-                console.log("fileID", res.fileID)
-                this.data.productimage = this.data.productimage.concat(res.fileID)
-                this.data.productimageuploadlock = true // 修改上传状态为锁定
-              }
-            })
-          }
 
-        }
-
-        console.log("productimage", that.data.productimage)
-        // 异步上传，打印attachment时尚未返回数据
-      }
-    }
-  },
   bvChooseProductImage(e) {
     this.setData({
       productview: e.detail.all,

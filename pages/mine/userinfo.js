@@ -7,7 +7,6 @@ const {
 } = require("../../utils/track");
 var interval = null //倒计时函数
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -20,34 +19,37 @@ Page({
     s_phonecode: "",
     u_phonecode: "",
     // 轮播参数
-    cardshow: true,
-    namecardbg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg2.jpg?sign=993ee89f0c2e6992d2eb21e8c7f433c5&t=1679737354",
-
+    image: [],
+    indicatorDots: true,
+    vertical: false,
+    autoplay: true,
+    circular: true,
+    interval: 4000,
+    duration: 500,
+    previousMargin: 0,
+    nextMargin: 0,
     invitercompanyname: "",
     inviterusername: "",
-    bankshow: "",
-    bank: "",
-    account: "",
-    companylogo: [],
     companyname: "",
     companyid: "",
     businessscope: "",
+    position:"",
+    weichat:"",
+    email:"",
+    telephone:"",
+    website:"",
+    address: "",
     username: "",
     userphone: "",
+    bankshow:"",
+    bank:"",
+    account:"",
     useroldphone: "",
-    position: "",
-    weichat: "",
-    email: "",
-    telephone: "",
-    website: "",
-    address: "",
     result: "未发送",
     balance: "",
     usertype: "",
     adddate: "",
-    updatedate: "",
-  logoview:[],
-    logouploadlock: false,
+    updatedate: ""
   },
   onChooseAvatar(e) {
     // const {
@@ -87,16 +89,6 @@ Page({
       })
     }
   },
-  bvBank(e) {
-    this.setData({
-      bank: e.detail.value
-    })
-  },
-  bvAccount(e) {
-    this.setData({
-      account: e.detail.value
-    })
-  },
   bvCompanyName(e) {
     this.setData({
       companyname: e.detail.value
@@ -110,16 +102,6 @@ Page({
   bvBusinessScope(e) {
     this.setData({
       businessscope: e.detail.value
-    })
-  },
-  bvUserName(e) {
-    this.setData({
-      username: e.detail.value
-    })
-  },
-  bvUserPhone(e) {
-    this.setData({
-      userphone: e.detail.value
     })
   },
   bvPosition(e) {
@@ -152,7 +134,26 @@ Page({
       address: e.detail.value
     })
   },
-
+  bvBank(e) {
+    this.setData({
+      bank: e.detail.value
+    })
+  },
+  bvAccount(e) {
+    this.setData({
+      account: e.detail.value
+    })
+  },
+  bvUserName(e) {
+    this.setData({
+      username: e.detail.value
+    })
+  },
+  bvUserPhone(e) {
+    this.setData({
+      userphone: e.detail.value
+    })
+  },
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -180,7 +181,6 @@ Page({
       })
     } else {
       let _this = this;
-
       this.setData({
         disabled: true
       })
@@ -218,89 +218,36 @@ Page({
       u_phonecode: e.detail.value
     })
   },
-  bvChooseLogo(e) {
-    console.log(e.detail)
-    // logo只有一个的情况不需要用数组
-    this.setData({
-      logoview: e.detail.all,
-      logouploadlock: false
-    })
-  },
-  bvRemoveLogo(e) {
-    this.setData({
-      logoview: e.detail.all,
-      logouploadlock: false
-    })
-  },
-  bvUploadLogo(e) {
-    let that = this
-    // 判断商品id是否空值
-    if (this.data.companyname == "" || this.data.companyname == null) {
-      wx.showToast({
-        title: "企业名称不能为空",
-        icon: 'none',
-        duration: 2000
-      })
-    } else {
-      // 判断是否重复提交
-      if (this.data.logouploadlock) {
-        // 锁定时很执行
-        wx.showToast({
-          title: '请勿重复提交',
-          icon: 'none',
-          duration: 2000 //持续的时间
-        })
-      } else {
-        if (this.data.logoview.length == 0) {
-          this.data.companylogo = []
-          this.data.logouploadlock = true // 修改上传状态为锁定
-          console.log("companylogo", this.data.companylogo)
-        } else {
-          for (let i = 0; i < this.data.logoview.length; i++) {
-          const filePath = this.data.logoview[i]
-          const cloudPath = 'namecard/' + this.data.companyname + filePath.match(/\.[^.]+?$/)
-          wx.cloud.uploadFile({
-            cloudPath,
-            filePath,
-            success: res => {
-              console.log("fileID", res.fileID)
-              // LOGO只有一个值的数组构建方式
-              this.data.companylogo=[res.fileID]
-              this.data.logouploadlock = true // 修改上传状态为锁定
-              console.log("companylogo", this.data.companylogo)
-            }
-          })
-        }
-        }
-
-        // 异步上传，打印attachment时尚未返回数据
-      }
-    }
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
+      avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickname: app.globalData.Guserdata.UserInfo.nickName,
       companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
-      logoview: app.globalData.Guserdata.UserInfo.CompanyLogo,
       companyname: app.globalData.Guserdata.UserInfo.CompanyName,
       companyid: app.globalData.Guserdata.UserInfo.CompanyId,
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
       address: app.globalData.Guserdata.UserInfo.Address,
       username: app.globalData.Guserdata.UserInfo.UserName,
+      bank: app.globalData.Guserdata.UserInfo.Bank,
+      account: app.globalData.Guserdata.UserInfo.Account,
+      bankshow: app.globalData.Guserdata.UserInfo.UserPhone,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      position: app.globalData.Guserdata.UserInfo.Position,
-      weichat: app.globalData.Guserdata.UserInfo.WeiChat,
-      email: app.globalData.Guserdata.UserInfo.Email,
-      website: app.globalData.Guserdata.UserInfo.Website,
-      telephone: app.globalData.Guserdata.UserInfo.Telephone,
+      position:app.globalData.Guserdata.UserInfo.Position,
+      weichat:app.globalData.Guserdata.UserInfo.WeiChat,
+      email:app.globalData.Guserdata.UserInfo.Email,
+      website:app.globalData.Guserdata.UserInfo.Website,
+      telephone:app.globalData.Guserdata.UserInfo.Telephone,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       adddate: app.globalData.Guserdata.UserInfo.AddDate,
       updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
+      invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
+      invitername: app.globalData.Guserdata.UserInfo.InviterName,
     })
-
   },
   // 刷新信息
   RefreshData() {
@@ -310,30 +257,31 @@ Page({
     }).get({
       success: res => {
         this.setData({
-
-          companylogo: res.data[0].UserInfo.CompanyLogo,
-          logoview:res.data[0].UserInfo.CompanyLogo,
+          avatarurl: res.data[0].UserInfo.avatarUrl,
+          nickname: res.data[0].UserInfo.nickName,
           companyname: res.data[0].UserInfo.CompanyName,
           companyid: res.data[0].UserInfo.CompanyId,
+          companylogo: res.data[0].UserInfo.CompanyLogo,
           businessscope: res.data[0].UserInfo.BusinessScope,
           address: res.data[0].UserInfo.Address,
           username: res.data[0].UserInfo.UserName,
-          position: res.data[0].UserInfo.Position,
-          weichat: res.data[0].UserInfo.WeiChat,
-          email: res.data[0].UserInfo.Email,
-          website: res.data[0].UserInfo.Website,
-          telephone: res.data[0].UserInfo.Telephone,
           useroldphone: res.data[0].UserInfo.UserPhone,
           userphone: res.data[0].UserInfo.UserPhone,
+          position:res.data[0].UserInfo.Position,
+          weichat:res.data[0].UserInfo.WeiChat,
+          email:res.data[0].UserInfo.Email,
+          website:res.data[0].UserInfo.Website,
+          bank: res.data[0].UserInfo.Bank,
+          account: res.data[0].UserInfo.Account,
+          bankshow: res.data[0].UserInfo.UserPhone,
+          usertype: res.data[0].TradeInfo.UserType,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
       }
     })
   },
-
   //修改数据操作
   UpdateData(e) {
-
     if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode != "") {
       console.log('手机验证码正确')
       const db = wx.cloud.database()
@@ -341,21 +289,23 @@ Page({
         UserId: this.data.openid
       }).update({
         data: {
+          ["UserInfo.CompanyName"]: this.data.companyname,
+          ["UserInfo.CompanyId"]: this.data.companyid,
+          ["UserInfo.CompanyLogo"]: this.data.companylogo,
+          ["UserInfo.BusinessScope"]: this.data.businessscope,
           ["UserInfo.UserName"]: this.data.username,
+          ["UserInfo.UserPhone"]: this.data.userphone,
+          ["UserInfo.avatarUrl"]: this.data.avatarurl,
+          ["UserInfo.nickName"]: this.data.nickname,
           ["UserInfo.Position"]: this.data.position,
-          ["UserInfo.WeiChat"]: this.data.weichat,
+          ["UserInfo.Weichat"]: this.data.weichat,
           ["UserInfo.Email"]: this.data.email,
           ["UserInfo.Telephone"]: this.data.telephone,
           ["UserInfo.Website"]: this.data.website,
-          ["UserInfo.UserPhone"]: this.data.userphone,
-          ["UserInfo.CompanyLogo"]: this.data.companylogo,
-          ["UserInfo.CompanyName"]: this.data.companyname,
-          ["UserInfo.CompanyId"]: this.data.companyid,
           ["UserInfo.Address"]: this.data.address,
-          ["UserInfo.BusinessScope"]: this.data.businessscope,
-          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
+          ["UserInfo.Bank"]: this.data.bank,
+          ["UserInfo.Account"]: this.data.account,
+          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success(res) {
           wx.showToast({
@@ -380,12 +330,9 @@ Page({
           UserId: this.data.openid
         }).update({
           data: {
-            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
-              hour12: false
-            })
+            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success(res) {
-
           },
         })
         console.log('推广积分')
@@ -402,9 +349,7 @@ Page({
             IndirectInviterId: app.globalData.Gindirectinviterid,
             IndirectInviterPoints: 10,
             SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
+            AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
             PointsStatus: "checked",
           },
           success(res) {
@@ -432,7 +377,6 @@ Page({
             })
           },
         })
-
       }
     } else {
       wx.showToast({
@@ -440,17 +384,13 @@ Page({
         icon: 'error',
         duration: 2000
       })
-
     }
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -459,61 +399,30 @@ Page({
   onShow: function () {
     startToTrack()
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
   },
-
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
     startByBack()
   },
-
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
   },
-
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
-      path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
-      imageUrl: '', //封面，留空自动抓取500*400生成图片
-      success: function (res) {
-        // 转发成功之后的回调
-        if (res.errMsg == 'shareAppMessage:ok') {
-          console.log(this.data.path.value)
-        }
-      },
-      fail: function () {
-        // 转发失败之后的回调
-        if (res.errMsg == 'shareAppMessage:fail cancel') {
-          // 用户取消转发
-        } else if (res.errMsg == 'shareAppMessage:fail') {
-          // 转发失败，其中 detail message 为详细失败信息
-        }
-      },
-    }
   }
 })

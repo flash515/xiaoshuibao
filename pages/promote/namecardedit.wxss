@@ -30,8 +30,8 @@
   text-align: center;
 }
 .companylogo {
-  width : 150rpx !important;
-  height : 150rpx; 
+  width : 250rpx;
+  height : 250rpx; 
 }
 .username {
   font-size: 45rpx;

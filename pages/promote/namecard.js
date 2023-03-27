@@ -5,6 +5,7 @@ const {
   startByClick,
   startByBack
 } = require("../../utils/track");
+const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
 
@@ -13,6 +14,7 @@ Page({
    */
   data: {
     // 登录参数
+    loginshow:false,
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
@@ -31,7 +33,6 @@ Page({
     companyname: "",
     companyid: "",
     businessscope: "",
-    companyscale: "",
     username: "",
     userphone: "",
     useroldphone: "",
@@ -120,6 +121,33 @@ Page({
       u_phonecode: e.detail.value
     })
   },
+  bvEditNameCard: function (e) {
+    if(app.globalData.Guserdata.UserInfo.UserPhone==''||app.globalData.Guserdata.UserInfo.UserPhone==undefined){
+    this.setData({
+      loginshow: true
+    })
+  }else{
+    wx.redirectTo({
+      url:"../promote/namecardedit"
+    })
+  }
+  },
+  bvLogin: async function (e) {
+    await utils._UserLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._RegistPointsAdd()
+    await utils._SendNewUserSMS()
+    this.setData({
+      loginshow: false,
+      loginbtnshow:false
+    })
+    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    console.log(app.globalData.Guserdata)
+  },
+  onHideMaskTap: function () {
+    this.setData({
+      loginshow: false
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -165,7 +193,6 @@ Page({
         companyname: app.globalData.Guserdata.UserInfo.CompanyName,
         companyid: app.globalData.Guserdata.UserInfo.CompanyId,
         businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
-        companyscale: app.globalData.Guserdata.UserInfo.CompanyScale,
         username: app.globalData.Guserdata.UserInfo.UserName,
         bank: app.globalData.Guserdata.UserInfo.Bank,
         account: app.globalData.Guserdata.UserInfo.Account,

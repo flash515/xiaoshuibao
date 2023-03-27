@@ -5,3 +5,7 @@ button[plain]{
 .button{
 font-size: 28rpx;
 }
+.labal {  
+  font-size: 28rpx;  
+  margin-left: 25rpx;  
+}

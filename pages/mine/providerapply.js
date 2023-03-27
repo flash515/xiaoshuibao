@@ -10,7 +10,7 @@ Page({
     companyname: "",
     companyid: "",
     businessscope: "",
-    companyscale: "",
+    address: "",
     contractchecked:false,
     // 轮播参数
     image: [],
@@ -73,9 +73,9 @@ Page({
       businessscope: e.detail.value
     })
   },
-  bvCompanyScale(e) {
+  bvAddress(e) {
     this.setData({
-      companyscale: e.detail.value
+      address: e.detail.value
     })
   },
   bvContractCheck(e) {
@@ -92,7 +92,7 @@ if(this.applysubmit==true|| this.data.applyproviderdate!=''){
     duration: 2000
   })
 }else{
-    if (this.data.companyname != "" && this.data.companyid != "" && this.data.businessscope != "" && this.data.companyscale != "") {
+    if (this.data.companyname != "" && this.data.companyid != "" && this.data.businessscope != "" && this.data.address != "") {
       console.log('已完善信息')
       if (this.data.contractchecked == true) {
         const db = wx.cloud.database()
@@ -102,7 +102,7 @@ if(this.applysubmit==true|| this.data.applyproviderdate!=''){
           data: {
             ["UserInfo.CompanyName"]: this.data.companyname,
             ["UserInfo.CompanyId"]: this.data.companyid,
-            ["UserInfo.CompanyScale"]: this.data.companyscale,
+            ["UserInfo.Address"]: this.data.address,
             ["UserInfo.BusinessScope"]: this.data.businessscope,
             ["UserInfo.ApplyProviderDate"]: new Date().toLocaleString('chinese', {
               hour12: false
@@ -169,7 +169,7 @@ if(this.applysubmit==true|| this.data.applyproviderdate!=''){
       companyname: app.globalData.Guserdata.UserInfo.CompanyName,
       companyid: app.globalData.Guserdata.UserInfo.CompanyId,
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
-      companyscale: app.globalData.Guserdata.UserInfo.CompanyScale,
+      address: app.globalData.Guserdata.UserInfo.Address,
       applyproviderdate:app.globalData.Guserdata.UserInfo.ApplyProviderDate,
     })
   },

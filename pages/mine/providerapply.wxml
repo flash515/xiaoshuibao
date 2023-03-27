@@ -15,13 +15,14 @@
   </view>
   <text>\n</text>
 <!-- wxif多个条件判断的写法 -->
-  <view wx:if="{{companyname=='' || companyid=='' ||businessscope=='' ||companyscale==''}}">
+  <view wx:if="{{companyname=='' || companyid=='' ||businessscope=='' ||address==''}}">
     <label class="labal">请完善以下信息：</label>
   </view>
   <l-input type="text" label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
   <l-input type="text" label="企业代码：" value="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
-  <l-input type="text" label="主营业务：" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-input>
-  <l-input type="text" label="企业规模：" value="{{companyscale}}" bind:lininput="bvCompanyScale"></l-input>
+  <l-input type="text" label="企业地址：" value="{{address}}" bind:lininput="bvAddress"></l-input>
+  <label class="labal">企业简介：</label>
+  <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-textarea>
   <text>\n</text>
   <button class="button" bind:tap="previewFile" plain="true">阅读《服务商服务协议》</button>
   <text>\n</text>
