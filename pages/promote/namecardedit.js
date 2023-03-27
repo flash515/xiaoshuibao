@@ -21,8 +21,8 @@ Page({
     u_phonecode: "",
     // 轮播参数
     cardshow: true,
-    namecardbg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg2.jpg?sign=993ee89f0c2e6992d2eb21e8c7f433c5&t=1679737354",
-
+    namecardbg: "",
+    namecardbgarray:[],
     invitercompanyname: "",
     inviterusername: "",
     bankshow: "",
@@ -46,6 +46,7 @@ Page({
     usertype: "",
     adddate: "",
     updatedate: "",
+
   logoview:[],
     logouploadlock: false,
   },
@@ -283,6 +284,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
+      namecardbgarray:app.globalData.Gsetting.namecardbg,
+      namecardbg:app.globalData.Guserdata.UserInfo.NameCardBg,
       companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
       logoview: app.globalData.Guserdata.UserInfo.CompanyLogo,
       companyname: app.globalData.Guserdata.UserInfo.CompanyName,
@@ -311,6 +314,7 @@ Page({
       success: res => {
         this.setData({
 
+          namecardbg:res.data[0].UserInfo.NameCardBg,
           companylogo: res.data[0].UserInfo.CompanyLogo,
           logoview:res.data[0].UserInfo.CompanyLogo,
           companyname: res.data[0].UserInfo.CompanyName,
@@ -353,6 +357,7 @@ Page({
           ["UserInfo.CompanyId"]: this.data.companyid,
           ["UserInfo.Address"]: this.data.address,
           ["UserInfo.BusinessScope"]: this.data.businessscope,
+          ["UserInfo.NameCardBg"]: this.data.namecardbg,
           ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
             hour12: false
           })

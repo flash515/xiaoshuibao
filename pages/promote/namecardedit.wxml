@@ -10,8 +10,8 @@
         <view class="username">{{username}}</view>
         <view wx:if="{{positon!=''&&position!=undefined}}" class="position">{{position}}</view>
         <view class="userphone">手机：{{userphone}}</view>
-      <view wx:if="{{weichat!=''&&weichat!=undefined}}" class="weichat">微信：{{weichat}}</view>
-      <view wx:if="{{telephone!=''&&telephone!= undefined}}" class="telephone">座机：{{telephone}}</view>
+        <view wx:if="{{weichat!=''&&weichat!=undefined}}" class="weichat">微信：{{weichat}}</view>
+        <view wx:if="{{telephone!=''&&telephone!= undefined}}" class="telephone">座机：{{telephone}}</view>
       </view>
       <image class="companylogo" src="{{companylogo}}"></image>
     </view>
@@ -72,17 +72,25 @@
 
     </l-tabpanel>
     <l-tabpanel tab="名片背景" key="two" slot="two">
+      <l-radio-group placement="row">
+        <block wx:for="{{namecardbgarray}}" wx:for-index="index" wx:key="key">
+          <l-radio custom="{{true}}" color="red" size="32" select-color="green">
+            <image slot="custom" key="{{index}}" src="{{item}}" class="bgarray" />
+
+          </l-radio>
+        </block>
+      </l-radio-group>
 
     </l-tabpanel>
     <l-tabpanel tab="企业Logo" key="three" slot="three">
-  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-    <label class="text">选择并上传企业Logo：</label>
+      <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+        <label class="text">选择并上传企业Logo：</label>
 
-  </view>
-  <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-    <l-image-picker size="2" count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{logoview}}" />
-    <l-button plain="{{true}}" bind:lintap="bvUploadLogo">上传图片</l-button>
-</view>
+      </view>
+      <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
+        <l-image-picker size="2" count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{logoview}}" />
+        <l-button plain="{{true}}" bind:lintap="bvUploadLogo">上传图片</l-button>
+      </view>
     </l-tabpanel>
   </l-tabs>
   <text>\n</text>
