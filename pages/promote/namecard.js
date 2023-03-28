@@ -22,8 +22,8 @@ Page({
     u_phonecode: "",
     // 名片参数
     cardshow: true,
-    namecardbg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg2.jpg?sign=993ee89f0c2e6992d2eb21e8c7f433c5&t=1679737354",
-
+    namecardbg: "",
+    imageview:[],
     invitercompanyname: "",
     inviterusername: "",
     bankshow: "",
@@ -187,6 +187,7 @@ Page({
       // 是从小程序打开，显示本人的名片信息
       this.setData({
         image: app.globalData.Gimagearray,
+        namecardbg:app.globalData.Guserdata.UserInfo.NameCardBg,
         avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
         nickname: app.globalData.Guserdata.UserInfo.nickName,
         companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
@@ -206,6 +207,7 @@ Page({
         website:app.globalData.Guserdata.UserInfo.Website,
         address: app.globalData.Guserdata.UserInfo.Address,
         usertype: app.globalData.Guserdata.UserInfo.UserType,
+        imageview:app.globalData.Guserdata.UserInfo.ImageView,
         adddate: app.globalData.Guserdata.UserInfo.AddDate,
         updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
         invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,

@@ -21,8 +21,10 @@ Page({
     u_phonecode: "",
     // 轮播参数
     cardshow: true,
+    imageview: [],
+    imageuploadlock: true,
     namecardbg: "",
-    namecardbgarray:[],
+    namecardbgarray: [],
     invitercompanyname: "",
     inviterusername: "",
     bankshow: "",
@@ -47,8 +49,8 @@ Page({
     adddate: "",
     updatedate: "",
 
-  logoview:[],
-    logouploadlock: false,
+    logoview: [],
+    logouploadlock: true,
   },
   onChooseAvatar(e) {
     // const {
@@ -153,7 +155,12 @@ Page({
       address: e.detail.value
     })
   },
-
+  bvBgSelect(e) {
+    console.log(e.detail.key)
+    this.setData({
+      namecardbg: e.detail.key
+    })
+  },
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -219,6 +226,65 @@ Page({
       u_phonecode: e.detail.value
     })
   },
+  bvChooseImage(e) {
+    console.log(e.detail)
+    this.setData({
+      imageview: e.detail.all,
+      imageuploadlock: false
+    })
+  },
+  bvRemoveImage(e) {
+    this.setData({
+      imageview: e.detail.all,
+      imageuploadlock: false
+    })
+  },
+  bvUploadImage(e) {
+    let that = this
+    // 判断商品id是否空值
+    if (this.data.companyname == "" || this.data.companyname == null) {
+      wx.showToast({
+        title: "企业名称不能为空",
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      // 判断是否重复提交
+      if (this.data.imageuploadlock) {
+        // 锁定时很执行
+        wx.showToast({
+          title: '请勿重复提交',
+          icon: 'none',
+          duration: 2000 //持续的时间
+        })
+      } else {
+        if (this.data.imageview.length == 0) {
+          wx.showToast({
+            title: '请先选取图片',
+            icon: 'none',
+            duration: 2000 //持续的时间
+          })
+        } else {
+          for (let i = 0; i < this.data.imageview.length; i++) {
+            const filePath = this.data.imageview[i]
+            const cloudPath = 'namecard/' + this.data.companyname + '/' + this.data.companyname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
+            wx.cloud.uploadFile({
+              cloudPath,
+              filePath,
+              success: res => {
+                console.log("fileID", res.fileID)
+                this.data.imageview = this.data.imageview.concat(res.fileID)
+                this.data.imageuploadlock = true // 修改上传状态为锁定
+
+              }
+            })
+          }
+        }
+
+        // 异步上传，打印attachment时尚未返回数据
+      }
+    }
+  },
   bvChooseLogo(e) {
     console.log(e.detail)
     // logo只有一个的情况不需要用数组
@@ -253,25 +319,27 @@ Page({
         })
       } else {
         if (this.data.logoview.length == 0) {
-          this.data.companylogo = []
-          this.data.logouploadlock = true // 修改上传状态为锁定
-          console.log("companylogo", this.data.companylogo)
+          wx.showToast({
+            title: '请先选取图片',
+            icon: 'none',
+            duration: 2000 //持续的时间
+          })
         } else {
           for (let i = 0; i < this.data.logoview.length; i++) {
-          const filePath = this.data.logoview[i]
-          const cloudPath = 'namecard/' + this.data.companyname + filePath.match(/\.[^.]+?$/)
-          wx.cloud.uploadFile({
-            cloudPath,
-            filePath,
-            success: res => {
-              console.log("fileID", res.fileID)
-              // LOGO只有一个值的数组构建方式
-              this.data.companylogo=[res.fileID]
-              this.data.logouploadlock = true // 修改上传状态为锁定
-              console.log("companylogo", this.data.companylogo)
-            }
-          })
-        }
+            const filePath = this.data.logoview[i]
+            const cloudPath = 'namecard/' + this.data.companyname + filePath.match(/\.[^.]+?$/)
+            wx.cloud.uploadFile({
+              cloudPath,
+              filePath,
+              success: res => {
+                console.log("fileID", res.fileID)
+                // LOGO只有一个值的数组构建方式
+                this.data.companylogo = [res.fileID]
+                this.data.logouploadlock = true // 修改上传状态为锁定
+                console.log("companylogo", this.data.companylogo)
+              }
+            })
+          }
         }
 
         // 异步上传，打印attachment时尚未返回数据
@@ -284,8 +352,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      namecardbgarray:app.globalData.Gsetting.namecardbg,
-      namecardbg:app.globalData.Guserdata.UserInfo.NameCardBg,
+      namecardbgarray: app.globalData.Gsetting.namecardbg,
+      namecardbg: app.globalData.Guserdata.UserInfo.NameCardBg,
       companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
       logoview: app.globalData.Guserdata.UserInfo.CompanyLogo,
       companyname: app.globalData.Guserdata.UserInfo.CompanyName,
@@ -300,6 +368,7 @@ Page({
       email: app.globalData.Guserdata.UserInfo.Email,
       website: app.globalData.Guserdata.UserInfo.Website,
       telephone: app.globalData.Guserdata.UserInfo.Telephone,
+      imageview: app.globalData.Guserdata.UserInfo.ImageView,
       adddate: app.globalData.Guserdata.UserInfo.AddDate,
       updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
     })
@@ -314,9 +383,9 @@ Page({
       success: res => {
         this.setData({
 
-          namecardbg:res.data[0].UserInfo.NameCardBg,
+          namecardbg: res.data[0].UserInfo.NameCardBg,
           companylogo: res.data[0].UserInfo.CompanyLogo,
-          logoview:res.data[0].UserInfo.CompanyLogo,
+          logoview: res.data[0].UserInfo.CompanyLogo,
           companyname: res.data[0].UserInfo.CompanyName,
           companyid: res.data[0].UserInfo.CompanyId,
           businessscope: res.data[0].UserInfo.BusinessScope,
@@ -329,6 +398,7 @@ Page({
           telephone: res.data[0].UserInfo.Telephone,
           useroldphone: res.data[0].UserInfo.UserPhone,
           userphone: res.data[0].UserInfo.UserPhone,
+          imageview: res.data[0].UserInfo.ImageView,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
       }
@@ -358,6 +428,7 @@ Page({
           ["UserInfo.Address"]: this.data.address,
           ["UserInfo.BusinessScope"]: this.data.businessscope,
           ["UserInfo.NameCardBg"]: this.data.namecardbg,
+          ["UserInfo.ImageView"]: this.data.imageview,
           ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
             hour12: false
           })
