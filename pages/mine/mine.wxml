@@ -32,6 +32,7 @@
   <l-list title="我的名片" icon="user" url="../promote/namecard" />
   <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
   <l-list title="我的信息" icon="user" url="../mine/userinfo" />
+  <l-list title="我的贺卡" icon="user" url="../promote/bless" />
   <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
