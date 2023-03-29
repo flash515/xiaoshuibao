@@ -259,7 +259,14 @@ Page({
   onReachBottom: function () {
 
   },
-
+  // 分享朋友圈
+  onShareTimeline: function () {
+    return {
+      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      query: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
+      imageUrl: '', //封面
+    }
+  },
   /**
    * 用户点击右上角分享
    */

@@ -16,72 +16,51 @@ Page({
     disabled: false,
     s_phonecode: "",
     u_phonecode: "",
-    // 轮播参数
-    cardshow: true,
-    imageview: [],
-    imageuploadlock: true,
-    blesstitle:"",
-    blesscontent:"",
-    blessbg: "",
-    blesscardbg: [],
-    adddate: "",
-    updatedate: "",
-    logoview: [],
-    logouploadlock: true,
-    sharetitle:"",
+    inputValue: '',
+    sharetitle: "",
+    videourl: '',
+    videodate: "",
+    videotitle: "",
+    videocontent: "",
+    danmuList: [{
+      text: '第 1s 出现的弹幕',
+      color: '#ff0000',
+      time: 1
+    }, {
+      text: '第 3s 出现的弹幕',
+      color: '#ff00ff',
+      time: 3
+    }],
+    sharetitle: "",
   },
-  onChooseAvatar(e) {
-    // const {
-    //   avatarUrl
-    // } = e.detail
-    console.log(e.detail)
-    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
-    wx.cloud.uploadFile({
-      cloudPath, // 上传至云端的路径
-      filePath: e.detail.avatarUrl, // 小程序临时文件路径
-      success: res => {
-        // 返回文件 ID
-        console.log(res.fileID)
-        // do something
-        this.setData({
-          avatarurl: res.fileID,
-        })
-      },
-      fail: console.error
-    })
-  },
-  bvNickName(e) {
-    console.log("真机测试才能获取到", e.detail.value)
-    this.setData({
-      nickname: e.detail.value,
-    })
-  },
-  changeTabs(e) {
-    console.log(e.detail)
-    if (e.detail.activeKey == "three") {
-      this.setData({
-        btnhidden: true
-      })
-    } else {
-      this.setData({
-        btnhidden: false
-      })
+  getRandomColor() {
+    const rgb = []
+    for (let i = 0; i < 3; ++i) {
+      let color = Math.floor(Math.random() * 256).toString(16)
+      color = color.length === 1 ? '0' + color : color
+      rgb.push(color)
     }
+    return '#' + rgb.join('')
   },
   bvShareTitle(e) {
     this.setData({
       sharetitle: e.detail.value
     })
   },
-  bvBlessTitle(e) {
+  bvVideoTitle(e) {
     this.setData({
-      blesstitle: e.detail.value
+      videotitle: e.detail.value
     })
   },
-
-  bvContent(e) {
+  bvVideoContent(e) {
     this.setData({
-      content: e.detail.value
+      videocontent: e.detail.value
+    })
+  },
+  bvVideoSelect(e) {
+    console.log(e.detail.key)
+    this.setData({
+      videourl: e.detail.key
     })
   },
 
@@ -91,12 +70,6 @@ Page({
     })
   },
 
-  bvBgSelect(e) {
-    console.log(e.detail.key)
-    this.setData({
-      blessbg: e.detail.key
-    })
-  },
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -287,15 +260,12 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-
-      blesscardbg: app.globalData.Gsetting.blesscardbg,
-      blessbg: app.globalData.Guserdata.Bless.background,
-      blesslogo: app.globalData.Guserdata.Bless.blesslogo,
-      sharetitle: app.globalData.Guserdata.Bless.sharetitle,
-      blesstitle: app.globalData.Guserdata.Bless.blesstitle,
-      blesscontent: app.globalData.Guserdata.Bless.content,
-      adddate: app.globalData.Guserdata.UserInfo.AddDate,
-      updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
+      infovideos: app.globalData.Gsetting.infovideos,
+      sharetitle: app.globalData.Guserdata.InfoShare.sharetitle,
+      videourl: app.globalData.Guserdata.InfoShare.videourl,
+      videotitle: app.globalData.Guserdata.InfoShare.videotitle,
+      videocontent: app.globalData.Guserdata.InfoShare.videocontent,
+      videodate: app.globalData.Guserdata.InfoShare.videodate,
     })
 
   },
@@ -307,15 +277,11 @@ Page({
     }).get({
       success: res => {
         this.setData({
-          blesscardbg: res.data[0].Bless.blesscardbg,
-          blessbg: res.data[0].Bless.background,
-          blesslogo: res.data[0].Bless.blesslogo,
-          sharetitle: res.data[0].Bless.sharetitle,
-          blesstitle: res.data[0].Bless.blesstitle,
-          blesscontent: res.data[0].Bless.content,
-          adddate: app.globalData.Guserdata.UserInfo.AddDate,
-          updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
-
+          videourl: res.data[0].InfoShare.videourl,
+          videotitle: res.data[0].InfoShare.videotitle,
+          videocontent: res.data[0].InfoShare.videocontent,
+          sharetitle: res.data[0].InfoShare.sharetitle,
+          videodate: res.data[0].InfoShare.videodate,
         })
       }
     })
@@ -331,15 +297,13 @@ Page({
         UserId: this.data.openid
       }).update({
         data: {
-          ["Bless.background"]: this.data.blessbg,
-          ["Bless.blesslogo"]: this.data.blesslogo,
-          ["Bless.sharetitle"]: this.data.sharetitle,
-          ["Bless.blesstitle"]: this.data.blesstitle,
-          ["Bless.content"]: this.data.blesscontant,
-
-          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
+          ["InfoShare.sharetitle"]: this.data.sharetitle,
+          ["InfoShare.videotitle"]: this.data.videotitle,
+          ["InfoShare.videocontent"]: this.data.videocontent,
+          ["InfoShare.videourl"]: this.data.videourl,
+          ["InfoShare.videodate"]: new Date().toLocaleString('chinese', {
             hour12: false
-          })
+          }),
         },
         success(res) {
           wx.showToast({
@@ -427,12 +391,52 @@ Page({
 
     }
   },
+  bindInputBlur(e) {
+    this.inputValue = e.detail.value
+  },
 
+  bindButtonTap() {
+    const that = this
+    wx.chooseMedia()({
+      sourceType: ['album', 'camera'],
+      maxDuration: 60,
+      camera: ['front', 'back'],
+      success(res) {
+        that.setData({
+          videourl: res.tempFilePath
+        })
+      }
+    })
+  },
+
+  bindVideoEnterPictureInPicture() {
+    console.log('进入小窗模式')
+  },
+
+  bindVideoLeavePictureInPicture() {
+    console.log('退出小窗模式')
+  },
+
+  bindPlayVideo() {
+    console.log('1')
+    this.videoContext.play()
+  },
+  bindSendDanmu() {
+    this.videoContext.sendDanmu({
+      text: this.inputValue,
+      color: this.getRandomColor()
+    })
+  },
+
+  videoErrorCallback(e) {
+    console.log('视频错误信息:')
+    console.log(e.detail.errMsg)
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.videoContext = wx.createVideoContext('myVideo')
   },
 
   /**
@@ -474,8 +478,8 @@ Page({
   // 分享朋友圈
   onShareTimeline: function () {
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName +this.data.sharetitle,
-      query: '/pages/promote/bless?userid=' + app.globalData.Guserid,
+      title: this.data.sharetitle,
+      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
       imageUrl: '', //封面
     }
   },
@@ -487,14 +491,14 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
     }
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName +this.data.sharetitle,
-      path: '/pages/promote/bless?userid=' + app.globalData.Guserid,
+      title: this.data.sharetitle,
+      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调
