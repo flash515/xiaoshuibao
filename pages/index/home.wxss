@@ -11,7 +11,9 @@
 .item {
   width: 50%;
 }
-
+.grid-item{
+  padding: 15rpx !important;
+}
 .userinfo,
 .uploader,
 .tunnel {

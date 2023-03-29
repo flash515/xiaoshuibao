@@ -25,6 +25,7 @@ Page({
     imageuploadlock: true,
     namecardbg: "",
     namecardbgarray: [],
+    namecardimages: [],
     invitercompanyname: "",
     inviterusername: "",
     bankshow: "",
@@ -244,7 +245,7 @@ Page({
     // 判断商品id是否空值
     if (this.data.companyname == "" || this.data.companyname == null) {
       wx.showToast({
-        title: "企业名称不能为空",
+        title: "企业名称不能空",
         icon: 'none',
         duration: 2000
       })
@@ -273,8 +274,9 @@ Page({
               filePath,
               success: res => {
                 console.log("fileID", res.fileID)
-                this.data.imageview = this.data.imageview.concat(res.fileID)
-                this.data.imageuploadlock = true // 修改上传状态为锁定
+                that.data.namecardimages = that.data.namecardimages.concat(res.fileID)
+                console.log("namecardimages", that.data.namecardimages)
+                that.data.imageuploadlock = true // 修改上传状态为锁定
 
               }
             })
@@ -354,6 +356,7 @@ Page({
       image: app.globalData.Gimagearray,
       namecardbgarray: app.globalData.Gsetting.namecardbg,
       namecardbg: app.globalData.Guserdata.UserInfo.NameCardBg,
+      namecardimages: app.globalData.Guserdata.UserInfo.NameCardImages,
       companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
       logoview: app.globalData.Guserdata.UserInfo.CompanyLogo,
       companyname: app.globalData.Guserdata.UserInfo.CompanyName,
@@ -368,7 +371,7 @@ Page({
       email: app.globalData.Guserdata.UserInfo.Email,
       website: app.globalData.Guserdata.UserInfo.Website,
       telephone: app.globalData.Guserdata.UserInfo.Telephone,
-      imageview: app.globalData.Guserdata.UserInfo.ImageView,
+      imageview: app.globalData.Guserdata.UserInfo.NameCardImages,
       adddate: app.globalData.Guserdata.UserInfo.AddDate,
       updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
     })
@@ -398,7 +401,8 @@ Page({
           telephone: res.data[0].UserInfo.Telephone,
           useroldphone: res.data[0].UserInfo.UserPhone,
           userphone: res.data[0].UserInfo.UserPhone,
-          imageview: res.data[0].UserInfo.ImageView,
+          namecardimages: res.data[0].UserInfo.NameCardImages,
+          imageview: res.data[0].UserInfo.NameCardImages,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
       }
@@ -428,7 +432,7 @@ Page({
           ["UserInfo.Address"]: this.data.address,
           ["UserInfo.BusinessScope"]: this.data.businessscope,
           ["UserInfo.NameCardBg"]: this.data.namecardbg,
-          ["UserInfo.ImageView"]: this.data.imageview,
+          ["UserInfo.NameCardImages"]: this.data.namecardimages,
           ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
             hour12: false
           })

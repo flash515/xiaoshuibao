@@ -76,7 +76,7 @@
       </view>
       <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
         <l-image-picker size="4" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{imageview}}" />
-        <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
+        <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片资料</l-button>
       </view>
     </l-tabpanel>
     <l-tabpanel tab="名片背景" key="three" slot="three">
