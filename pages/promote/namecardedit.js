@@ -266,31 +266,21 @@ Page({
             duration: 2000 //持续的时间
           })
         } else {
-          var tempimages = []
-          for (let i = 0; i < this.data.imageview.length; i++) {
-            var promise = new Promise((resolve, reject) => {
-              const filePath = this.data.imageview[i]
-              const cloudPath = 'namecard/' + this.data.companyname + '/' + this.data.companyname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
-              wx.cloud.uploadFile({
-                cloudPath,
-                filePath,
-                success: res => {
-                  console.log(res)
-                  resolve(res.fileID)
-                }
+          wx.cloud.callFunction({
+            name: "UploadFiles",
+            data: {
+              imageview: this.data.imageview,
+              cloudpath: 'namecard/' + this.data.companyname
+            },
+            success: res => {
+              console.log("res", res)
+              this.setData({
+                namecardimages: res.result,
+                imageuploadlock: true // 修改上传状态为锁定})
               })
-            });
-            tempimages = tempimages.concat(promise)
-            return;
-          }
-          this.setData({
-            namecardimages: tempimages,
-            imageuploadlock: true // 修改上传状态为锁定
+            }
           })
-          console.log("namecardimages", this.data.namecardimages)
         }
-
-        // 异步上传，打印attachment时尚未返回数据
       }
     }
   },
