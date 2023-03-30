@@ -240,7 +240,7 @@ Page({
       imageuploadlock: false
     })
   },
-  bvUploadImage(e) {
+  async bvUploadImage(e) {
     let that = this
     // 判断商品id是否空值
     if (this.data.companyname == "" || this.data.companyname == null) {
@@ -266,21 +266,28 @@ Page({
             duration: 2000 //持续的时间
           })
         } else {
+          var tempimages = []
           for (let i = 0; i < this.data.imageview.length; i++) {
-            const filePath = this.data.imageview[i]
-            const cloudPath = 'namecard/' + this.data.companyname + '/' + this.data.companyname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
-            wx.cloud.uploadFile({
-              cloudPath,
-              filePath,
-              success: res => {
-                console.log("fileID", res.fileID)
-                that.data.namecardimages = that.data.namecardimages.concat(res.fileID)
-                console.log("namecardimages", that.data.namecardimages)
-                that.data.imageuploadlock = true // 修改上传状态为锁定
-
-              }
-            })
+            var promise = new Promise((resolve, reject) => {
+              const filePath = this.data.imageview[i]
+              const cloudPath = 'namecard/' + this.data.companyname + '/' + this.data.companyname + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
+              wx.cloud.uploadFile({
+                cloudPath,
+                filePath,
+                success: res => {
+                  console.log(res)
+                  resolve(res.fileID)
+                }
+              })
+            });
+            tempimages = tempimages.concat(promise)
+            return;
           }
+          this.setData({
+            namecardimages: tempimages,
+            imageuploadlock: true // 修改上传状态为锁定
+          })
+          console.log("namecardimages", this.data.namecardimages)
         }
 
         // 异步上传，打印attachment时尚未返回数据
@@ -327,6 +334,7 @@ Page({
             duration: 2000 //持续的时间
           })
         } else {
+
           for (let i = 0; i < this.data.logoview.length; i++) {
             const filePath = this.data.logoview[i]
             const cloudPath = 'namecard/' + this.data.companyname + filePath.match(/\.[^.]+?$/)
@@ -336,8 +344,12 @@ Page({
               success: res => {
                 console.log("fileID", res.fileID)
                 // LOGO只有一个值的数组构建方式
-                this.data.companylogo = [res.fileID]
-                this.data.logouploadlock = true // 修改上传状态为锁定
+                this.setData({
+                  companylogo: [res.fileID],
+                  logouploadlock: true,
+                })
+                // this.data.companylogo = [res.fileID]
+                // this.data.logouploadlock = true // 修改上传状态为锁定
                 console.log("companylogo", this.data.companylogo)
               }
             })
@@ -353,7 +365,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      image: app.globalData.Gimagearray,
+
       namecardbgarray: app.globalData.Gsetting.namecardbg,
       namecardbg: app.globalData.Guserdata.UserInfo.NameCardBg,
       namecardimages: app.globalData.Guserdata.UserInfo.NameCardImages,
