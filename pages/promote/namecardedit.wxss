@@ -79,41 +79,9 @@
   color: rgb(0, 0, 0);
 }
 
-.avatarBtn {
-  width: 80rpx;
-  height: 80rpx;
-  border: 0.5;
-  padding: 0;
-  background-color: white;
-}
-
-/* .nicknameBtn {  
-  font-size: 28rpx;  
-  width: 100rpx;  
-  height: 60rpx;  
-  line-height: 20rpx;  
-  border: 0.5;  
-  border-color: blue;  
-  margin-right: 35rpx;  
-  background-color: white;  
-  padding: 20rpx;  
-} */
-.avatar {
-  width: 80rpx;
-  height: 80rpx;
-  border: none;
-  background-size: cover;
-  background-color: white;
-}
-
 .labal {
-  font-size: 28rpx;
+  font-size: 32rpx;
   margin-left: 25rpx;
-}
-
-.nicknameinput {
-  font-size: 28rpx;
-  height: 80rpx;
 }
 
 .text {
