@@ -29,11 +29,8 @@
   </l-grid-item>
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">
-  <l-list title="我的名片" icon="user" url="../promote/namecard" />
-  <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
+
   <l-list title="我的信息" icon="user" url="../mine/userinfo" />
-  <l-list title="我的贺卡" icon="user" url="../promote/bless" />
-  <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
   <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
@@ -55,6 +52,10 @@
   <view wx:if="{{usertype == 'admin'}}">
   <l-card type="primary" plaintext="{{true}}">
     <l-list title="管理员功能" icon="notification" right-desc="" tag-position="right" />
+    <l-list title="我的名片" icon="user" url="../promote/namecard" />
+  <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
+  <l-list title="我的贺卡" icon="user" url="../promote/bless" />
+  <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
