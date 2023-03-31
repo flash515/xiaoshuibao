@@ -250,6 +250,10 @@ async function _setting() {
   return promise;
 }
 
+async function _uploadfiles(filepath,cloudpath) {
+  // 批量上传文件并把本地地址数组转成云地址数组
+
+}
 function _usercheck(eventid) {
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
@@ -843,6 +847,7 @@ module.exports = {
   _UserLogin: _UserLogin,
   _RegistPointsAdd: _RegistPointsAdd,
   _SendNewUserSMS: _SendNewUserSMS,
+  _uploadfiles:_uploadfiles,
   showLoading: showLoading,
   hideLoading: hideLoading,
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,

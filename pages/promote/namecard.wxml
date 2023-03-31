@@ -51,7 +51,7 @@
   </view>
   <text>\n</text>
   <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
-    <l-button type="default" shape="semicircle" bind:lintap="bvEditNameCard">制作电子名片</l-button>
+    <l-button size="mini" shape="semicircle" bind:lintap="bvEditNameCard">制作电子名片</l-button>
     <text space="emsp" decode="{{true}}">&emsp;</text>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
   </view>

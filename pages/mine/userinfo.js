@@ -41,9 +41,6 @@ Page({
     address: "",
     username: "",
     userphone: "",
-    bankshow:"",
-    bank:"",
-    account:"",
     useroldphone: "",
     result: "未发送",
     balance: "",
@@ -134,16 +131,7 @@ Page({
       address: e.detail.value
     })
   },
-  bvBank(e) {
-    this.setData({
-      bank: e.detail.value
-    })
-  },
-  bvAccount(e) {
-    this.setData({
-      account: e.detail.value
-    })
-  },
+
   bvUserName(e) {
     this.setData({
       username: e.detail.value
@@ -232,9 +220,6 @@ Page({
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
       address: app.globalData.Guserdata.UserInfo.Address,
       username: app.globalData.Guserdata.UserInfo.UserName,
-      bank: app.globalData.Guserdata.UserInfo.Bank,
-      account: app.globalData.Guserdata.UserInfo.Account,
-      bankshow: app.globalData.Guserdata.UserInfo.UserPhone,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
       position:app.globalData.Guserdata.UserInfo.Position,
@@ -271,9 +256,6 @@ Page({
           weichat:res.data[0].UserInfo.WeiChat,
           email:res.data[0].UserInfo.Email,
           website:res.data[0].UserInfo.Website,
-          bank: res.data[0].UserInfo.Bank,
-          account: res.data[0].UserInfo.Account,
-          bankshow: res.data[0].UserInfo.UserPhone,
           usertype: res.data[0].TradeInfo.UserType,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
@@ -303,8 +285,6 @@ Page({
           ["UserInfo.Telephone"]: this.data.telephone,
           ["UserInfo.Website"]: this.data.website,
           ["UserInfo.Address"]: this.data.address,
-          ["UserInfo.Bank"]: this.data.bank,
-          ["UserInfo.Account"]: this.data.account,
           ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success(res) {

@@ -55,10 +55,6 @@
         <view>
           <l-input type="text" label="邮箱：" value="{{email}}" bind:lininput="bvEmail"></l-input>
         </view>
-        <view wx:if="{{bankshow!=''}}">
-        <l-input type="text" label="开户银行：" value="{{bank}}" bind:lininput="bvBank"></l-input>
-        <l-input type="text" label="银行账号：" value="{{account}}" bind:lininput="bvAccount"></l-input>
-      </view>
         <view>
           <l-input type="text" label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
         </view>

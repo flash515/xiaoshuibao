@@ -1,3 +1,23 @@
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true">
+  <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
+    <text>\r\n</text>
+    <view class="logininputbox" style="justify-content:flex-start;">
+      <view style="padding: 10rpx;">手机号：</view>
+      <input style="width: 300rpx;" type="number" value="{{userphone}}" bind:input="bvUserPhone" required="{{true}}" />
+    </view>
+    <view class="logininputbox" style="justify-content:space-between;">
+      <view style="padding: 10rpx;">验证码：</view>
+      <input style="width: 150rpx;" type="number" value="{{phonecode}}" bind:input="bvPhoneCode" required="{{true}}" />
+      <button plain bindtap="bvSendCode" disabled='{{disabled}}'>{{time}}</button>
+    </view>
+    <text>\r\n</text>
+    <view class="loginbtnbox">
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini">取消登录</l-button>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini">验证并登录</l-button>
+    </view>
+  </l-card>
+</l-mask>
 <!-- 背景层 -->
 <image class="bgimage" src="{{namecardbg}}" mode="scaleToFill" />
 <!-- 名片层 -->
@@ -23,7 +43,7 @@
   </view>
 </view>
 
-<view class="mainframe">
+<view wx:if="{{cardedit}}" class="mainframe">
   <l-tabs bind:linchange="changeTabs">
     <l-tabpanel tab="名片信息" key="one" slot="one">
       <view>
@@ -104,11 +124,23 @@
   <text>\n</text>
   <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;">
 
-    <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="UpdateData">保存信息
+    <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="bvUpdate">更新信息
     </l-button>
-    <text space="emsp" decode="{{true}}">&emsp;</text>
-    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="loading" icon-color="white">刷新信息
-    </l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="eye" icon-color="#3683d6" bind:lintap="bvView">预览名片</l-button>
   </view>
 
+</view>
+<view wx:else>
+  <view wx:if="{{imageview!=''&&imageview!=undefined}}" wx:for="{{imageview}}" wx:key="key">
+    <image src="{{item}}" mode="scaleToFill" />
+  </view>
+  <view wx:if="{{businessscope!=''&&businessscope!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;" class="mainframe">
+    <label class="labal">企业简介：</label>
+    <text space="emsp" decode='true' class="text">{{businessscope}}</text>
+  </view>
+  <text>\n</text>
+  <view style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
+    <l-button size="mini" icon="order" icon-color="white" shape="semicircle" bind:lintap="bvEdit">制作电子名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
+  </view>
 </view>
