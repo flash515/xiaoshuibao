@@ -13,16 +13,16 @@
     <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
       <l-radio-group placement="column" bind:linchange="bvPointsSelect" >
         <l-radio placement="left" color="black" select-color="green" size="40" key="1" l-class="radio" cell="{{buylikearray[0]}}" l-class="radio">
-          <text>50赞，8.50元</text>
+          <text>50赞，¥8.50元</text>
         </l-radio>
         <l-radio placement="left" color="black" select-color="green" size="40" key="2" l-class="radio" cell="{{buylikearray[1]}}" l-class="radio">
-          <text>100赞，17元</text>
+          <text>100赞，¥17元</text>
         </l-radio>
         <l-radio placement="left" color="black" select-color="green" size="40" key="3" l-class="radio" cell="{{buylikearray[2]}}" l-class="radio">
-          <text>200赞，34元</text>
+          <text>200赞，¥34元</text>
         </l-radio>
         <l-radio placement="left" color="black" select-color="green" size="40" key="4" l-class="radio" cell="{{buylikearray[3]}}" l-class="radio">
-          <text>300赞，51元</text>
+          <text>300赞，¥50元</text>
         </l-radio>
       </l-radio-group>
       <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvBuyLike">支付</l-button>

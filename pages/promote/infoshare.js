@@ -42,7 +42,7 @@ Page({
       time: 1
     }, {
       points:300,
-      price:51,
+      price:50,
       time: 1
     }
     ],
