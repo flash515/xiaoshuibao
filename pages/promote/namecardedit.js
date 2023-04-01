@@ -21,7 +21,7 @@ Page({
     s_phonecode: "",
     u_phonecode: "",
     // 轮播参数
-    cardedit: false,
+    cardshow: true,
     imageview: [],
     imageuploadlock: true,
     namecardbg: "",
@@ -37,7 +37,7 @@ Page({
     userphone: "",
     useroldphone: "",
     position: "",
-    weichat: "",
+    wechat: "",
     email: "",
     telephone: "",
     website: "",
@@ -120,9 +120,9 @@ Page({
       position: e.detail.value
     })
   },
-  bvWeiChat(e) {
+  bvWeChat(e) {
     this.setData({
-      weichat: e.detail.value
+      wechat: e.detail.value
     })
   },
   bvEmail(e) {
@@ -296,13 +296,13 @@ Page({
     })
   }else{
     this.setData({
-      cardedit: true
+      cardshow: false
     })
   }
   },
   bvView: function (e) {
     this.setData({
-      cardedit: false
+      cardshow: true
     })
 
   },
@@ -368,7 +368,7 @@ Page({
         data: {
           ["UserInfo.UserName"]: this.data.username,
           ["UserInfo.Position"]: this.data.position,
-          ["UserInfo.WeiChat"]: this.data.weichat,
+          ["UserInfo.WeChat"]: this.data.wechat,
           ["UserInfo.Email"]: this.data.email,
           ["UserInfo.Telephone"]: this.data.telephone,
           ["UserInfo.Website"]: this.data.website,
@@ -387,7 +387,7 @@ Page({
         success(res) {
           app.globalData.Guserdata.UserInfo.UserName= this.data.username,
           app.globalData.Guserdata.UserInfo.Position=this.data.position,
-          app.globalData.Guserdata.UserInfo.WeiChat=this.data.weichat,
+          app.globalData.Guserdata.UserInfo.WeChat=this.data.wechat,
           app.globalData.Guserdata.UserInfo.Email=this.data.email,
           app.globalData.Guserdata.UserInfo.Telephone=this.data.telephone,
           app.globalData.Guserdata.UserInfo.Website=this.data.website,
@@ -435,7 +435,7 @@ Page({
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
       position: app.globalData.Guserdata.UserInfo.Position,
-      weichat: app.globalData.Guserdata.UserInfo.WeiChat,
+      wechat: app.globalData.Guserdata.UserInfo.WeChat,
       email: app.globalData.Guserdata.UserInfo.Email,
       website: app.globalData.Guserdata.UserInfo.Website,
       telephone: app.globalData.Guserdata.UserInfo.Telephone,

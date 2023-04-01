@@ -34,7 +34,7 @@ Page({
     companyid: "",
     businessscope: "",
     position:"",
-    weichat:"",
+    wechat:"",
     email:"",
     telephone:"",
     website:"",
@@ -106,9 +106,9 @@ Page({
       position: e.detail.value
     })
   },
-  bvWeiChat(e) {
+  bvWeChat(e) {
     this.setData({
-      weichat: e.detail.value
+      wechat: e.detail.value
     })
   },
   bvEmail(e) {
@@ -223,7 +223,7 @@ Page({
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
       useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
       position:app.globalData.Guserdata.UserInfo.Position,
-      weichat:app.globalData.Guserdata.UserInfo.WeiChat,
+      wechat:app.globalData.Guserdata.UserInfo.WeChat,
       email:app.globalData.Guserdata.UserInfo.Email,
       website:app.globalData.Guserdata.UserInfo.Website,
       telephone:app.globalData.Guserdata.UserInfo.Telephone,
@@ -253,7 +253,7 @@ Page({
           useroldphone: res.data[0].UserInfo.UserPhone,
           userphone: res.data[0].UserInfo.UserPhone,
           position:res.data[0].UserInfo.Position,
-          weichat:res.data[0].UserInfo.WeiChat,
+          wechat:res.data[0].UserInfo.WeChat,
           email:res.data[0].UserInfo.Email,
           website:res.data[0].UserInfo.Website,
           usertype: res.data[0].TradeInfo.UserType,
@@ -280,7 +280,7 @@ Page({
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
           ["UserInfo.Position"]: this.data.position,
-          ["UserInfo.Weichat"]: this.data.weichat,
+          ["UserInfo.WeChat"]: this.data.wechat,
           ["UserInfo.Email"]: this.data.email,
           ["UserInfo.Telephone"]: this.data.telephone,
           ["UserInfo.Website"]: this.data.website,

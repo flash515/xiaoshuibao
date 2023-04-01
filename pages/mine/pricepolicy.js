@@ -82,7 +82,7 @@ Page({
           discountname: e.currentTarget.dataset.name,
           discountstartdate: e.currentTarget.dataset.startdate,
           discountenddate: e.currentTarget.dataset.enddate,
-          discounttotalfee: e.currentTarget.dataset.totalfee,
+          discounttotalfee: e.currentTarget.dataset.price,
           discounttype:e.currentTarget.dataset.type,
           // 生成订单号
           orderid:this._getGoodsRandomNumber(),
@@ -154,7 +154,7 @@ Page({
           Database:"DISCOUNTORDER"
         },
         success(res) {
-          console.log("payment成功")
+          console.log("paymentadd成功")
           that.setData({
             paymentsublock: true,
           })

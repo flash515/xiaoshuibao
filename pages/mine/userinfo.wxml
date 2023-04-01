@@ -50,7 +50,7 @@
           </l-input>
         </view>
         <view>
-          <l-input type="text" label="微信：" value="{{weichat}}" bind:lininput="bvWeiChat"></l-input>
+          <l-input type="text" label="微信：" value="{{wechat}}" bind:lininput="bvWeChat"></l-input>
         </view>
         <view>
           <l-input type="text" label="邮箱：" value="{{email}}" bind:lininput="bvEmail"></l-input>

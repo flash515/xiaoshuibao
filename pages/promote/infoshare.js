@@ -4,6 +4,7 @@ const {
   startByClick,
   startByBack
 } = require("../../utils/track");
+const wxpay = require("../../utils/WxPay");
 var interval = null //倒计时函数
 Page({
 
@@ -16,12 +17,35 @@ Page({
     disabled: false,
     s_phonecode: "",
     u_phonecode: "",
+    buylikehidden:true,
+    like:50,
+    likepoints:0,
+    totalfee:0,
+    infoshow:true,
     inputValue: '',
     sharetitle: "",
     videourl: '',
     videodate: "",
     videotitle: "",
     videocontent: "",
+    buylikearray:[{
+      points:50,
+      price:8.5,
+      time: 1
+    }, {
+      points:100,
+      price:17,
+      time: 1
+    }, {
+      points:200,
+      price:34,
+      time: 1
+    }, {
+      points:300,
+      price:51,
+      time: 1
+    }
+    ],
     danmuList: [{
       text: '第 1s 出现的弹幕',
       color: '#ff0000',
@@ -32,6 +56,168 @@ Page({
       time: 3
     }],
     sharetitle: "",
+  },
+  bvBuyLikeHidden(e) {
+    this.setData({
+      buylikehidden: false
+    })
+  },
+  bvAddLike(e) {
+    this.setData({
+      buylikehidden: false
+    })
+  },
+  bvBuyLike(e) {
+
+        if (this.data.ordersublock == false && this.data.paymentsublock == false) {
+          this.setData({
+            discountlevel: e.currentTarget.dataset.level,
+            discountid: e.currentTarget.dataset.id,
+            discountname: e.currentTarget.dataset.name,
+            discountstartdate: e.currentTarget.dataset.startdate,
+            discountenddate: e.currentTarget.dataset.enddate,
+            discounttotalfee: e.currentTarget.dataset.price,
+            discounttype:e.currentTarget.dataset.type,
+            // 生成订单号
+            orderid:this._getGoodsRandomNumber(),
+          })
+          this._orderadd()
+          this._paymentadd()
+        }else {
+          wx.showToast({
+            title: '请勿重复提交',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+
+
+    this.setData({
+      buylikehidden: true
+    })
+  },
+  bvPointsSelect(e){
+    console.log(e.detail.cell)
+    this.setData({
+      totalfee:e.detail.cell.price,
+      points:e.detail.cell.points
+    })
+  },
+    // 点击支付按钮,发起支付
+bvBuyLike(event) {
+      const goodsnum = wxpay._getGoodsRandomNumber();
+      const body = "资讯打赏";
+      const PayVal = this.data.totalfee * 100;
+      this._callWXPay(body, goodsnum, PayVal);
+    },
+    // 请求WXPay云函数,调用支付能力
+_callWXPay(body, goodsnum, payVal) {
+      let that = this
+      wx.cloud.callFunction({
+          name: 'WXPay',
+          data: {
+            // 需要将data里面的参数传给WXPay云函数
+            body,
+            goodsnum, // 商品订单号不能重复
+            payVal, // 这里必须整数,不能是小数,而且类型是number,否则就会报错
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          const payment = res.result.payment;
+          console.log(payment); // 里面包含appId,nonceStr,package,paySign,signType,timeStamp这些支付参数
+          wx.requestPayment({
+            // 根据获取到的参数调用支付 API 发起支付
+            ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
+            success: (res) => {
+              console.log('支付成功', res);
+              wxpay._orderupdate();
+              wxpay._paymentupdate();
+              wxpay._userupdate();
+              that.setData({
+                paymenthidden:true
+              })
+            },
+            fail: (err) => {
+              console.error('支付失败', err);
+            },
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+  _orderadd(){
+    let that = this
+    if (this.data.ordersublock) {
+      that._hidden()
+    } else {
+      const db = wx.cloud.database()
+      // 新增数据
+      db.collection("DISCOUNTORDER").add({
+        data: {
+          OrderId:this.data.orderid,
+          DiscountLevel: this.data.discountlevel,
+          DiscountId: this.data.discountid,
+          DiscountName: this.data.discountname,
+          DiscountType: this.data.discounttype,
+          DLStartDate: this.data.discountstartdate,
+          DLEndDate: this.data.discountenddate,
+          TotalFee: this.data.discounttotalfee,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          PaymentStatus:"unchecked",
+          OrderStatus:"unchecked",
+          Available:false
+        },
+        success(res) {
+          that.setData({
+            ordersublock: true
+          })
+          that._hidden()
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    }
+  },
+  _paymentadd() {
+    let that = this
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
+      const db = wx.cloud.database()
+      db.collection("PAYMENT").add({
+        data: {
+          OrderId:this.data.orderid,
+          ProductId: this.data.discountid,
+          ProductName: this.data.discountname,
+          TotalFee: this.data.discounttotalfee,
+          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          PaymentStatus: "unchecked",
+          Database:"DISCOUNTORDER"
+        },
+        success(res) {
+          console.log("paymentadd成功")
+          that.setData({
+            paymentsublock: true,
+          })
+          that._hidden()
+        },
+        fail(res) {
+          wx.showToast({
+            title: '提交失败请重试',
+            icon: 'error',
+            duration: 2000 //持续的时间
+          })
+        }
+      })
+    }
   },
   getRandomColor() {
     const rgb = []
@@ -254,6 +440,17 @@ Page({
         // 异步上传，打印attachment时尚未返回数据
       }
     }
+  },
+  bvEdit: function (e) {
+    if(app.globalData.Guserdata.UserInfo.UserPhone==''||app.globalData.Guserdata.UserInfo.UserPhone==undefined){
+    this.setData({
+      loginshow: true
+    })
+  }else{
+    this.setData({
+      infoshow: false
+    })
+  }
   },
   /**
    * 生命周期函数--监听页面加载

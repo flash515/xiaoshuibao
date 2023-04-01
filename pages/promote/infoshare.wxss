@@ -1,7 +1,10 @@
 .videoCss {
   width:100%;
 }
-
+.buylikecard{
+  font-size:28rpx;
+  border:0.5rpx solid #3683d6;
+}
 .companyname {
   width: 690rpx;
   font-size: 55rpx;
@@ -21,7 +24,7 @@
 
 .radio {
   margin-top: 20rpx;
-  justify-content:center;
+  justify-content:left;
 }
 
 .bgarray {

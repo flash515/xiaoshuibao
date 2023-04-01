@@ -30,7 +30,7 @@
         <view class="username">{{username}}</view>
         <view wx:if="{{positon!=''&&position!=undefined}}" class="position">{{position}}</view>
         <view class="userphone">手机：{{userphone}}</view>
-        <view wx:if="{{weichat!=''&&weichat!=undefined}}" class="weichat">微信：{{weichat}}</view>
+        <view wx:if="{{wechat!=''&&wechat!=undefined}}" class="wechat">微信：{{wechat}}</view>
         <view wx:if="{{telephone!=''&&telephone!= undefined}}" class="telephone">座机：{{telephone}}</view>
       </view>
       <image class="companylogo" src="{{companylogo}}"></image>
@@ -43,7 +43,21 @@
   </view>
 </view>
 
-<view wx:if="{{cardedit}}" class="mainframe">
+<view wx:if="{{cardshow}}" class="mainframe">
+  <view wx:if="{{imageview!=''&&imageview!=undefined}}" wx:for="{{imageview}}" wx:key="key">
+    <image style="display: block" src="{{item}}" mode="scaleToFill" />
+  </view>
+  <view wx:if="{{businessscope!=''&&businessscope!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;" class="mainframe">
+    <label class="labal">企业简介：</label>
+    <text space="emsp" decode='true' class="text">{{businessscope}}</text>
+  </view>
+  <view style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
+    <l-button size="mini" icon="order" icon-color="white" shape="semicircle" bind:lintap="bvEdit">制作电子名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
+  </view>
+
+</view>
+<view wx:else>
   <l-tabs bind:linchange="changeTabs">
     <l-tabpanel tab="名片信息" key="one" slot="one">
       <view>
@@ -65,7 +79,7 @@
         </l-input>
       </view>
       <view>
-        <l-input type="text" label="微信：" value="{{weichat}}" bind:lininput="bvWeiChat"></l-input>
+        <l-input type="text" label="微信：" value="{{wechat}}" bind:lininput="bvWeChat"></l-input>
       </view>
       <view>
         <l-input type="text" label="邮箱：" value="{{email}}" bind:lininput="bvEmail"></l-input>
@@ -128,17 +142,4 @@
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="eye" icon-color="#3683d6" bind:lintap="bvView">预览名片</l-button>
   </view>
 
-</view>
-<view wx:else>
-  <view wx:if="{{imageview!=''&&imageview!=undefined}}" wx:for="{{imageview}}" wx:key="key">
-    <image style="display: block" src="{{item}}" mode="scaleToFill" />
-  </view>
-  <view wx:if="{{businessscope!=''&&businessscope!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;" class="mainframe">
-    <label class="labal">企业简介：</label>
-    <text space="emsp" decode='true' class="text">{{businessscope}}</text>
-  </view>
-  <view style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
-    <l-button size="mini" icon="order" icon-color="white" shape="semicircle" bind:lintap="bvEdit">制作电子名片</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
-  </view>
 </view>
