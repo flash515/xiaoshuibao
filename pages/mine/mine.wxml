@@ -55,6 +55,7 @@
     <l-list title="我的名片" icon="user" url="../promote/namecard" />
   <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
   <l-list title="我的贺卡" icon="user" url="../promote/bless" />
+  <l-list title="资讯分享" icon="user" url="../promote/infoshareedit" />
   <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />

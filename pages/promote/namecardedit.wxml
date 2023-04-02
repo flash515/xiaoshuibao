@@ -43,7 +43,7 @@
   </view>
 </view>
 
-<view wx:if="{{cardshow}}" class="mainframe">
+<view wx:if="{{cardshow}}">
   <view wx:if="{{imageview!=''&&imageview!=undefined}}" wx:for="{{imageview}}" wx:key="key">
     <image style="display: block" src="{{item}}" mode="scaleToFill" />
   </view>

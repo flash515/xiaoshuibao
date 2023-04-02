@@ -1,22 +1,15 @@
 const app = getApp()
-var {
-  _productcheck,
-  _login,
-  _setting,
-  _usercheck,
-  _newuser,
-  _discountcheck,
-  _invitercheck
-} = require("../../utils/utils")
+var utils = require("../../utils/utils")
 Page({
   data: {
+        // 初始化相关
     params: {},
     inviterid: "",
     tempinviterid: "",
     remark: "",
     indirectinviterid: "",
-    tempimage: [],
     userinfo: {},
+    tempimage: [],
   },
   onLoad: async function (options) {
     //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,productid产品id
@@ -55,21 +48,21 @@ Page({
     }
 
     // 调用方法初始化
-    _setting()
-    _productcheck()
-    await _login()
-    let data = await _usercheck()
+    utils._setting()
+    utils._productcheck()
+    await utils._login()
+    let data = await utils._usercheck()
     console.log("data", data);
     if (data.length == 0) {
-      await _newuser(this.data.tempinviterid,this.data.params,this.data.remark)
-      await _invitercheck()
+      await utils._newuser(this.data.tempinviterid,this.data.params,this.data.remark)
+      await utils._invitercheck()
     } else {
       app.globalData.Guserdata = data[0]
       app.globalData.Gindirectinviterid=data[0].UserInfo.IndirectInviterId
       app.globalData.Ginviterid=data[0].UserInfo.InviterId
       app.globalData.Ginviterphone=data[0].UserInfo.InviterPhone
       console.log("当前用户信息", app.globalData.Guserdata);
-      await _discountcheck()
+      await utils._discountcheck()
     }
 
     if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
