@@ -8,16 +8,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    infoshares: [],
-    sysvideos: [],
-    sysimages: [],
-    infovideo: "",
-    infoimages: "",
-    buylikehidden: true,
-    sharetitle: "",
+    infoshares: [], //已保存的资讯分享
+    infoshare: [], //当前要编辑的资讯
+    sysvideos: [], //系统预存视频
+    sysimages: [], //系统预存图片
+    infotitle: "",
+    infocontent: "",
+    infovideo: "", //用户选定的视频，一个
+    infoimages: [], //用户选定的图片组，多张
+    likepoints: 0, //资讯获赞数
+    adddate: "", //资讯创建时间
     videourl: '',
-    videodate: "",
-    videotitle: "",
     videocontent: "",
     danmuList: [{
       text: '第 1s 出现的弹幕',
@@ -28,46 +29,46 @@ Page({
       color: '#ff00ff',
       time: 3
     }],
-    tempvideourl: [],
-    tempimageview: [],
-    sptemp:"",
-    videouploadlock: false,
-    imageuploadlock: false,
+    tempvideourl: [], //用户上传视频的临时路径
+    tempimageview: [], //用户上传图片的临时路径
+    sptemp: "", //视频路径转换的中间临时变量
+    videouploadlock: false, //视频上传锁定状态
+    imageuploadlock: false, //图片上传锁定状态
+    editstatus: false, //编辑状态
   },
-  bvBuyLikeHidden(e) {
+  bvInfoShareSelect(e) {
+    console.log(e.detail.cell)
+    this.data.infoshare = e.detail.cell
+  },
+
+  bvInfoTitle(e) {
     this.setData({
-      buylikehidden: false
+      infotitle: e.detail.value
     })
   },
-  bvAddLike(e) {
+  bvInfoContent(e) {
     this.setData({
-      buylikehidden: false
+      infocontent: e.detail.value
     })
   },
 
-  bvShareTitle(e) {
-    this.setData({
-      sharetitle: e.detail.value
-    })
-  },
-  bvVideoTitle(e) {
-    this.setData({
-      videotitle: e.detail.value
-    })
-  },
-  bvVideoContent(e) {
-    this.setData({
-      videocontent: e.detail.value
-    })
-  },
   bvVideoSelect(e) {
+    //从系统视频中选取
     console.log(e.detail.key)
     this.setData({
-      videourl: e.detail.key
+      infovideo: e.detail.key
     })
   },
-
+  bvImageSelect(e) {
+    //从系统图片中选取
+    console.log(e.detail.key)
+    this.setData({
+      infoimages: [e.detail.key]
+    })
+    console.log("infoimages", this.data.infoimages)
+  },
   bvChooseImage(e) {
+    //用户图片
     console.log(e.detail)
     this.setData({
       tempimageview: e.detail.all,
@@ -99,7 +100,7 @@ Page({
         })
       } else {
         // for循环里等待异步执行结果的方法，重要内容
-        var cloudpath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone 
+        var cloudpath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone
         let that = this
         var tempfiles = []
         for (let i = 0; i < that.data.tempimageview.length; ++i) {
@@ -161,10 +162,10 @@ Page({
         } else {
           //符合大小限制，进行上传
           console.log("可以上传！！！")
-          // that.uploadvideo({
-          //   url: api.uploadfiletofastdfs, //视频上传的接口
-          //   path: tempFilePath, //选取的视频资源临时地址
-          // });
+          that.uploadvideo({
+            // url: api.uploadfiletofastdfs, //视频上传的接口
+            path: tempFilePath, //选取的视频资源临时地址
+          });
         }
       },
     })
@@ -172,7 +173,7 @@ Page({
 
 
   //视频上传
-  bvUploadVideo: function (data) {
+  uploadvideo: function (data) {
     wx.showLoading({
       title: '上传中...',
       mask: true,
@@ -189,20 +190,32 @@ Page({
           sptemp: res.tempFilePath
         })
         //上传视频
+        // wx.uploadFile({
+        //   url: data.url,
+        //   filePath: res.tempFilePath,
+        //   name: 'uploadFile',
+        //   header: {
+        //     "X-Access-Token":wx.getStorageSync('token')
+        //   },
+        //   success: (resp) => {
+        //     wx.hideLoading();
+        //     //获取fastDFS返回的存储路径
+        //     console.log(resp)
+        //   },
+
         // 只上传一个video时
-        const filePath = sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + filePath.match(/\.[^.]+?$/)
+        const filePath = that.data.sptemp
+        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone+'/'+app.globalData.Guserdata.UserInfo.UserPhone + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
-          success: (resp) => {
+          success: (res) => {
             wx.hideLoading();
-            //获取fastDFS返回的存储路径
-            console.log(resp)
+            console.log(res)
             console.log("fileID", res.fileID)
-            this.data.videourl = [res.fileID]
+            this.data.infovideo = [res.fileID]
             this.data.videouploadlock = true // 修改上传状态为锁定
-            console.log("videourl", this.data.videourl)
+            console.log("infovideo", this.data.infovideo)
           },
         });
       },
@@ -210,37 +223,54 @@ Page({
   },
 
   bvEdit: function (e) {
-
+    this.setData({
+      infotitle: this.data.infoshare.InfoTitle,
+      infocontent: this.data.infoshare.InfoContent,
+      infovideo: this.data.infoshare.VideoUrl,
+      infoimages: this.data.infoshare.ImagesUrl,
+      likepoints: this.data.infoshare.LikePoints,
+      adddate: this.data.infoshare.AddDate,
+      editstatus: true,
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
-
-    // 此页面的数据
     this.setData({
       sysvideos: app.globalData.Gsetting.infovideos,
       sysimages: app.globalData.Gsetting.infoimages,
-      sharetitle: app.globalData.Guserdata.InfoShare.sharetitle,
-      videotitle: app.globalData.Guserdata.InfoShare.videotitle,
-      videocontent: app.globalData.Guserdata.InfoShare.videocontent,
-      videourl: app.globalData.Guserdata.InfoShare.videourl,
-      videodate: app.globalData.Guserdata.InfoShare.videodate,
     })
-
+    // 查询本人提交的InfoShare
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "INFOSHARE",
+        command: "and",
+        where: [{
+          UserId: app.globalData.Guserid,
+        }]
+      },
+      success: res => {
+        this.setData({
+          infoshares: res.result.data,
+        })
+        console.log("全部分享资讯", this.data.infoshares)
+      }
+    })
   },
 
-  bvSave(e) {
+  bvAdd(e) {
     const db = wx.cloud.database()
     // 新增数据
     db.collection("INFOSHARE").add({
       data: {
         InfoShareId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
         UserId: app.globalData.Guserid,
-        InfoTitle: this.data.sharetitle,
-        InfoContent: this.data.videotitle,
-        InfoVideo: this.data.infovideo,
-        InfoImages: this.data.infoimages,
+        InfoTitle: this.data.infotitle,
+        InfoContent: this.data.infocontent,
+        VideoUrl: this.data.infovideo,
+        ImagesUrl: this.data.infoimages,
         LikePoints: 0,
         AddDate: new Date().toLocaleString('chinese', {
           hour12: false
@@ -262,6 +292,48 @@ Page({
         })
       }
 
+    })
+  },
+
+  bvSave(e) {
+    const db = wx.cloud.database()
+    // 新增数据
+    db.collection("INFOSHARE").where({
+      InfoShareId: this.data.infoshare.InfoShareId
+    }).update({
+      data: {
+        InfoShareId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
+        UserId: app.globalData.Guserid,
+        InfoTitle: this.data.infotitle,
+        InfoContent: this.data.infocontent,
+        VideoUrl: this.data.infovideo,
+        ImagesUrl: this.data.infoimages,
+        LikePoints: 0,
+        AddDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
+        InfoStatus: "unchecked",
+      },
+      success(res) {
+        wx.showToast({
+          title: '已保存',
+          icon: 'success',
+          duration: 2000 //持续的时间
+        })
+      },
+      fail(res) {
+        wx.showToast({
+          title: '保存失败请重试',
+          icon: 'fail',
+          duration: 2000 //持续的时间
+        })
+      }
+
+    })
+  },
+  bvPreView() {
+    wx.navigateTo({
+      url: '../promote/infoshare?infoshareid=' + this.data.infoshare.InfoShareId,
     })
   },
 
@@ -351,7 +423,7 @@ Page({
   // 分享朋友圈
   onShareTimeline: function () {
     return {
-      title: this.data.sharetitle,
+      title: this.data.infotitle,
       query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
       imageUrl: '', //封面
     }
@@ -370,7 +442,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: this.data.sharetitle,
+      title: this.data.infotitle,
       path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {

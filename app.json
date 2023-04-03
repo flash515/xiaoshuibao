@@ -42,6 +42,8 @@
     "pages/promote/bless",
     "pages/promote/infoshare",
     "pages/promote/infoshareedit",
+    "pages/promote/namecardsquare",
+    "pages/promote/infosquare",
     "pages/test/databass",
     "pages/test/productdetail",
     "pages/test/test"

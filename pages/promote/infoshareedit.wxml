@@ -5,30 +5,31 @@
         <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
           <block wx:for="{{infoshares}}" wx:key="key">
             <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infoshares[index]}}" l-class="radio">
-              <text>{{infoshares[index].InfoShareTitle}}</text>
+              <text>{{infoshares[index].InfoTitle}}</text>
             </l-radio>
           </block>
         </l-radio-group>
         <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvEdit">编辑</l-button>
     </view>
       </scroll-view>
+
   <l-tabs>
     <l-tabpanel tab="资讯文案" key="one" slot="one">
       <view>
-        <l-input type="text" label="分享标题：" value="{{sharetitle}}" bind:lininput="bvShareTitle">
+        <l-input type="text" label="分享标题：" value="{{infotitle}}" bind:lininput="bvInfoTitle">
         </l-input>
-        <l-input type="text" label="视频标题：" value="{{videotitle}}" bind:lininput="bvVideoTitle">
+        <l-input type="text" label="视频标题：" value="{{infocontent}}" bind:lininput="bvInfoContent">
         </l-input>
       </view>
     </l-tabpanel>
 
-
     <l-tabpanel tab="选择视频" key="two" slot="two">
+      <label class="text">选取系统视频：</label>
       <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
         <l-radio-group placement="column" bind:linchange="bvVideoSelect">
           <block wx:for="{{sysvideos}}" wx:key="key">
             <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
-              <video id="myVideo" src="{{item}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
+              <video id="myVideo" src="{{item}}" binderror="videoErrorCallback" show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
             </l-radio>
           </block>
         </l-radio-group>
@@ -37,18 +38,18 @@
         <label class="text">上传视频：</label>
       </view>
       <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-        <video  src="{{sptemp}}" ></video>
+        <video src="{{sptemp}}" show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{false}}"></video>
         <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择视频</l-button>
-        <l-button plain="{{true}}" bind:lintap="bvUploadVideo">上传视频</l-button>
+        <!-- <l-button plain="{{true}}" bind:lintap="bvUploadVideo">上传视频</l-button> -->
       </view>
     </l-tabpanel>
 
     <l-tabpanel tab="选择图片"  key="three" slot="three">
       <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-        <label class="text">上传图片：</label>
+        <label class="text">选取系统图片：</label>
       </view>
       <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
-        <l-radio-group placement="column" none-checked="{{false}}" bind:linchange="bvBgSelect">
+        <l-radio-group placement="column" none-checked="{{false}}" bind:linchange="bvImageSelect">
         <block wx:for="{{sysimages}}" wx:key="key">
           <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
             <image src="{{item}}" class="bgarray" />
@@ -56,6 +57,7 @@
         </block>
       </l-radio-group>
   </scroll-view>
+  <label class="text">上传图片：</label>
       <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
         <l-image-picker size="4" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{tempimageview}}" />
         <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
@@ -64,11 +66,16 @@
   </l-tabs>
   <text>\n</text>
   <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;">
-
+  <view wx:if="{{editstatus}}">
     <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="bvSave">保存
     </l-button>
+  </view>
+  <view wx:else>
+    <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="bvAdd">新建
+    </l-button>
+  </view>
     <text space="emsp" decode="{{true}}">&emsp;</text>
-    <l-button type="default" bind:lintap="RefreshData" shape="semicircle" icon="eye" icon-color="white">预览
+    <l-button type="default" bind:lintap="bvPreView" shape="semicircle" icon="eye" icon-color="white">预览
     </l-button>
   </view>
 

@@ -54,9 +54,11 @@
     <l-list title="管理员功能" icon="notification" right-desc="" tag-position="right" />
     <l-list title="我的名片" icon="user" url="../promote/namecard" />
   <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
-  <l-list title="我的贺卡" icon="user" url="../promote/bless" />
-  <l-list title="资讯分享" icon="user" url="../promote/infoshareedit" />
+  <l-list title="名片广场" icon="user" url="../promote/namecardsquare" />
+  <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
   <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
+  <l-list title="资讯广场" icon="user" url="../promote/infosquare" />
+
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />

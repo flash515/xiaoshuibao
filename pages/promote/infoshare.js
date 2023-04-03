@@ -26,42 +26,42 @@ Page({
     disabled: false,
     s_phonecode: "",
     u_phonecode: "",
-
-    buylikehidden: true,
+    // 页面相关
+    infoshareid: "",
+    buylikeshow: false,
     like: 50,
     likepoints: 0,
     totalfee: 0,
     infoshow: true,
     inputValue: '',
-    sharetitle: "",
-    videourl: '',
-    videodate: "",
-    videotitle: "",
-    videocontent: "",
+    infotitle: "",
+    infovideo: "",
+    adddate: "",
+    infocontent: "",
     buylikearray: [{
       likepoints: 50,
       price: 5,
-      creatorpoints:2.5,
+      creatorpoints: 2.5,
       inviterpoints: 0.75,
-      indirectinviterpoints:0.25,
+      indirectinviterpoints: 0.25,
     }, {
       likepoints: 110,
       price: 10,
-      creatorpoints:5,
+      creatorpoints: 5,
       inviterpoints: 1.5,
-      indirectinviterpoints:0.5,
+      indirectinviterpoints: 0.5,
     }, {
       likepoints: 230,
       price: 20,
-      creatorpoints:10,
+      creatorpoints: 10,
       inviterpoints: 3,
-      indirectinviterpoints:1,
+      indirectinviterpoints: 1,
     }, {
       likepoints: 350,
       price: 30,
-      creatorpoints:15,
+      creatorpoints: 15,
       inviterpoints: 4.5,
-      indirectinviterpoints:1.5,
+      indirectinviterpoints: 1.5,
     }],
     danmuList: [{
       text: '第 1s 出现的弹幕',
@@ -74,14 +74,20 @@ Page({
     }],
     sharetitle: "",
   },
-  bvBuyLikeHidden(e) {
+  bvBuyLikeShow(e) {
+    if(this.data.buylikeshow==true){
+      this.setData({
+        buylikeshow: false
+      })
+    }else if(this.data.buylikeshow==false){
     this.setData({
-      buylikehidden: false
+      buylikeshow: true
     })
+  }
   },
   bvAddLike(e) {
     this.setData({
-      buylikehidden: false
+      buylikeshow: false
     })
   },
   bvBuyLike(e) {
@@ -110,7 +116,7 @@ Page({
 
 
     this.setData({
-      buylikehidden: true
+      buylikeshow: true
     })
   },
   bvPointsSelect(e) {
@@ -364,19 +370,36 @@ Page({
       }
 
     }
-    // 此页面的数据
-    this.setData({
-      infovideos: app.globalData.Gsetting.infovideos,
-      sharetitle: app.globalData.Guserdata.InfoShare.sharetitle,
-      videourl: app.globalData.Guserdata.InfoShare.videourl,
-      videotitle: app.globalData.Guserdata.InfoShare.videotitle,
-      videocontent: app.globalData.Guserdata.InfoShare.videocontent,
-      videodate: app.globalData.Guserdata.InfoShare.videodate,
+    // 查询InfoShare
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "INFOSHARE",
+        command: "and",
+        where: [{
+          InfoShareId: options.infoshareid,
+          InfoStatus: 'checked'
+        }]
+      },
+      success: res => {
+        this.setData({
+          infotitle: res.result.data[0].InfoTitle,
+          infocontent: res.result.data[0].InfoContent,
+          infovideo: res.result.data[0].VideoUrl,
+          infoimages: res.result.data[0].ImagesUrl,
+          likepoints: res.result.data[0].LikePoints,
+          adddate: res.result.data[0].AddDate,
+        })
+        console.log("全部分享资讯", res)
+      },
+      fail: res => {
+console.log(res)
+      }
     })
 
   },
 
-  
+
   //修改数据操作
   UpdateData(e) {
 
@@ -574,7 +597,7 @@ Page({
     }
     return {
       title: this.data.sharetitle,
-      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
+      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoshareid=' + this.data.infoshareid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调
