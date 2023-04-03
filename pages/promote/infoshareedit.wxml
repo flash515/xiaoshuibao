@@ -39,7 +39,7 @@
       </view>
       <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
         <video src="{{sptemp}}" show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{false}}"></video>
-        <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择视频</l-button>
+        <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择并上传视频</l-button>
         <!-- <l-button plain="{{true}}" bind:lintap="bvUploadVideo">上传视频</l-button> -->
       </view>
     </l-tabpanel>
