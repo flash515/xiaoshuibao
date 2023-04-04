@@ -39,6 +39,9 @@ Page({
   bvInfoShareSelect(e) {
     console.log(e.detail.cell)
     this.data.infoshare = e.detail.cell
+    this.setData({
+      sptemp:e.detail.cell.VideoUrl
+    })
   },
 
   bvInfoTitle(e) {
@@ -54,9 +57,10 @@ Page({
 
   bvVideoSelect(e) {
     //从系统视频中选取
-    console.log(e.detail.key)
+    console.log(e.detail.cell)
     this.setData({
-      infovideo: e.detail.key
+      infovideo: e.detail.cell,
+      sptemp:e.detail.cell.videourl
     })
   },
   bvImageSelect(e) {

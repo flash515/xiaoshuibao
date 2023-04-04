@@ -1,3 +1,7 @@
+<view>
+<video wx:if="{{sptemp}}" class="videoCss" id="myVideo" src="{{sptemp}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
+<image wx:if="{{infoimages!=''}}" class="images" src="{{infoimages}}" mode="scaleToFill" />
+</view>
 <view class="mainframe">
 <text>已保存的图文资讯</text>
   <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
@@ -28,8 +32,9 @@
       <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
         <l-radio-group placement="column" bind:linchange="bvVideoSelect">
           <block wx:for="{{sysvideos}}" wx:key="key">
-            <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
-              <video id="myVideo" src="{{item}}" binderror="videoErrorCallback" show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
+            <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{sysvideos[index]}}" l-class="radio">
+<text>{{sysvideos[index].videotitle}}</text>
+
             </l-radio>
           </block>
         </l-radio-group>
@@ -38,7 +43,7 @@
         <label class="text">上传视频：</label>
       </view>
       <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-        <video src="{{sptemp}}" show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{false}}"></video>
+
         <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择并上传视频</l-button>
         <!-- <l-button plain="{{true}}" bind:lintap="bvUploadVideo">上传视频</l-button> -->
       </view>
