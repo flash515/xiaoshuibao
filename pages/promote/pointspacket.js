@@ -103,7 +103,7 @@ Page({
       console.log('手机验证码正确')
       const db = wx.cloud.database()
       db.collection('USER').where({
-        UserId: this.data.openid
+        UserId: app.globalData.Guserid
       }).update({
         data: {
           ["UserInfo.UserPhone"]: this.data.userphone,
@@ -131,7 +131,7 @@ Page({
         // 成为会员时间
         const db = wx.cloud.database()
         db.collection('USER').where({
-          UserId: this.data.openid
+          UserId: app.globalData.Guserid
         }).update({
           data: {
             ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {

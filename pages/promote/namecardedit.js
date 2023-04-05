@@ -363,7 +363,7 @@ Page({
     bvUpdate(e) {
       const db = wx.cloud.database()
       db.collection('USER').where({
-        UserId: this.data.openid
+        UserId: app.globalData.Guserid
       }).update({
         data: {
           ["UserInfo.UserName"]: this.data.username,

@@ -64,16 +64,20 @@ Page({
       console.log("当前用户信息", app.globalData.Guserdata);
       await utils._discountcheck()
     }
-
-    if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
-      wx.navigateTo({
-        url: app.globalData.Gparams.page,
-      })
-    } else {
       wx.switchTab({
         url: '../index/home',
       })
-    }
+
+//页面跳转设置
+    // if (app.globalData.Gparams.page != undefined && app.globalData.Gparams.page != "") {
+    //   wx.navigateTo({
+    //     url: app.globalData.Gparams.page,
+    //   })
+    // } else {
+    //   wx.switchTab({
+    //     url: '../index/home',
+    //   })
+    // }
 
 
   },

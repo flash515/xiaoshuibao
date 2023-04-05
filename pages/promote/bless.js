@@ -361,7 +361,7 @@ Page({
         // 成为会员时间
         const db = wx.cloud.database()
         db.collection('USER').where({
-          UserId: this.data.openid
+          UserId: app.globalData.Guserid
         }).update({
           data: {
             ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {

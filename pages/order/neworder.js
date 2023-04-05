@@ -116,14 +116,14 @@ Page({
   _totalfee() {
     // 计算总费用
     this.setData({
-      totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gsetting.pointsmagnification),
+      totalfee: this.data.temptotalfee - (this.data.consumepoints / app.globalData.Gsetting.PointsMagnification),
     })
     console.log("总费用", this.data.totalfee)
     this._pointscount()
   },
   _maxpointscount() {
     this.setData({
-      tempmaxpoints: this.data.tempprofit * this.data.count * app.globalData.Gsetting.pointsmagnification
+      tempmaxpoints: this.data.tempprofit * this.data.count * app.globalData.Gsetting.PointsMagnification
     })
     console.log("此商品本次可用积分上限", this.data.tempmaxpoints)
     if (this.data.balance >= this.data.tempmaxpoints) {
@@ -139,13 +139,13 @@ Page({
   },
   _pointscount() {
     this.setData({
-      profit: this.data.tempprofit * this.data.count - this.data.consumepoints / app.globalData.Gsetting.pointsmagnification
+      profit: this.data.tempprofit * this.data.count - this.data.consumepoints / app.globalData.Gsetting.PointsMagnification
     })
     console.log("可分配毛利润", this.data.profit)
     this.setData({
-      silverpoints: Math.floor(this.data.profit * 0.3) * app.globalData.Gsetting.pointsmagnification,
-      goldpoints: Math.floor(this.data.profit * 0.6) * app.globalData.Gsetting.pointsmagnification,
-      platinumpoints: Math.floor(this.data.profit * 0.6) * app.globalData.Gsetting.pointsmagnification
+      silverpoints: Math.floor(this.data.profit * 0.3) * app.globalData.Gsetting.PointsMagnification,
+      goldpoints: Math.floor(this.data.profit * 0.6) * app.globalData.Gsetting.PointsMagnification,
+      platinumpoints: Math.floor(this.data.profit * 0.6) * app.globalData.Gsetting.PointsMagnification
     })
     console.log("silverpoints", this.data.silverpoints)
     console.log("goldpoints", this.data.goldpoints)

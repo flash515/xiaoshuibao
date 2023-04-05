@@ -67,7 +67,7 @@ Page({
     const db = wx.cloud.database()
     db.collection('setting')
       .where({
-        currentstatus: "effect"
+        CurrentStatus: "effect"
       })
       .get({
         success: res => {

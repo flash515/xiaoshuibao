@@ -148,11 +148,11 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
       data: {
         PointsType: "promoter",
         RegistrantId: app.globalData.Guserid,
-        RegistrantPoints: 50,
+        RegistrantPoints: 30,
         ProductName: "会员手机认证",
         // 直接推荐人
         InviterId: app.globalData.Ginviterid,
-        InviterPoints: 30,
+        InviterPoints: 20,
         // 间接推荐人
         IndirectInviterId: app.globalData.Gindirectinviterid,
         IndirectInviterPoints: 10,
@@ -222,7 +222,7 @@ async function _setting() {
     const db = wx.cloud.database()
     db.collection('setting')
       .where({
-        currentstatus: "effect"
+        CurrentStatus: "effect"
       })
       .get({
         success: res => {
@@ -825,9 +825,50 @@ const hideLoadingWithErrorTips = (err = '加载失败...') => {
     duration: 2000
   })
 }
-
+// 提示信息
+function _SuccessToast(title) {
+  wx.showToast({
+    title: title,
+    icon: 'success',
+    duration: 2000 //持续的时间
+  })
+}
+function _ErrorToast(title) {
+  wx.showToast({
+    title: title,
+    icon: 'error',
+    duration: 2000 //持续的时间
+  })
+}
+// 快捷会议室
+function _roomapply(promotebalance, tradebalance, balanceupdatetime) {
+  var promise = new Promise((resolve, reject) => {
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        // 给数据库字库更新
+        ["TradeInfo.PromoteBalance"]: promotebalance,
+        ["TradeInfo.TradeBalance"]: tradebalance,
+        ["TradeInfo.BalanceUpdateTime"]: balanceupdatetime,
+      },
+      success: res => {
+        app.globalData.Guserdata.TradeInfo.PromoteBalance = promotebalance
+        app.globalData.Guserdata.TradeInfo.TradeBalance = tradebalance
+        app.globalData.Guserdata.TradeInfo.BalanceUpdateTime = balanceupdatetime
+        resolve(res)
+      }
+    })
+  });
+  return promise;
+}
 
 module.exports = {
+  // 提示信息
+  _SuccessToast:_SuccessToast,
+  _ErrorToast: _ErrorToast,
+  
   _productcheck: _productcheck,
   _login: _login,
   _setting: _setting,
@@ -851,5 +892,7 @@ module.exports = {
   showLoading: showLoading,
   hideLoading: hideLoading,
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,
+  // 快捷会议室
+  _roomapply:_roomapply,
 
 }

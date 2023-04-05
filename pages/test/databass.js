@@ -118,7 +118,7 @@ Page({
     const db = wx.cloud.database()
     // 查询当前用户所有的 counters
     db.collection('USER').where({
-      UserId: this.data.openid,
+      UserId: app.globalData.Guserid,
       UserName: this.data.cxusername,
       //UserPhone: this.data.cxuserphone,
       //CompanyName: this.data.cxcompanyname,
