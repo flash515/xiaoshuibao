@@ -337,36 +337,87 @@ Page({
   },
   //修改数据操作
   bvPublish(e) {
-    const db = wx.cloud.database()
-    db.collection('NAMECARD').add({
-      data: {
-        UserName: this.data.username,
-        Position: this.data.position,
-        WeChat: this.data.wechat,
-        Email: this.data.email,
-        Telephone: this.data.telephone,
-        Website: this.data.website,
-        UserPhone: this.data.userphone,
-        CompanyLogo: this.data.companylogo,
-        CompanyName: this.data.companyname,
-        CompanyId: this.data.companyid,
-        Address: this.data.address,
-        BusinessScope: this.data.businessscope,
-        BusinessSort: this.data.businesssort,
-        KeyWords: this.data.keywords,
-        NameCardBg: this.data.namecardbg,
-        NameCardImages: this.data.namecardimages,
-        PublishDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
-      },
-      success(res) {
-        utils._SuccessToast("名片发布成功")
-      },
-      fail(res) {
-        utils._ErrorToast("名片发布不成功")
-      }
-    })
+    if (this.data.publishstatus == false) {
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').add({
+        data: {
+          UserId: app.globalData.Guserid,
+          UserName: this.data.username,
+          Position: this.data.position,
+          WeChat: this.data.wechat,
+          Email: this.data.email,
+          Telephone: this.data.telephone,
+          Website: this.data.website,
+          UserPhone: this.data.userphone,
+          CompanyLogo: this.data.companylogo,
+          CompanyName: this.data.companyname,
+          CompanyId: this.data.companyid,
+          Address: this.data.address,
+          BusinessScope: this.data.businessscope,
+          BusinessSort: this.data.businesssort,
+          KeyWords: this.data.keywords,
+          NameCardBg: this.data.namecardbg,
+          NameCardImages: this.data.namecardimages,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success(res) {
+          utils._SuccessToast("名片发布成功")
+          this.data.publishstatus = true
+          db.collection('USER').where({
+            UserId: app.globalData.Guserid
+          }).update({
+            data: {
+              ["UserInfo.NameCarePublishStatus"]: this.data.publishstatus,
+            },
+            success(res) {
+              utils._SuccessToast("名片发布成功")
+            },
+            fail(res) {
+              utils._ErrorToast("名片发布不成功")
+            }
+          })
+        },
+        fail(res) {
+          utils._ErrorToast("名片发布不成功")
+        }
+      })
+    } else {
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').where({
+        UserId: app.globalData.Guserid
+      }).update({
+        data: {
+          UserName: this.data.username,
+          Position: this.data.position,
+          WeChat: this.data.wechat,
+          Email: this.data.email,
+          Telephone: this.data.telephone,
+          Website: this.data.website,
+          UserPhone: this.data.userphone,
+          CompanyLogo: this.data.companylogo,
+          CompanyName: this.data.companyname,
+          CompanyId: this.data.companyid,
+          Address: this.data.address,
+          BusinessScope: this.data.businessscope,
+          BusinessSort: this.data.businesssort,
+          KeyWords: this.data.keywords,
+          NameCardBg: this.data.namecardbg,
+          NameCardImages: this.data.namecardimages,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success(res) {
+          utils._SuccessToast("名片发布成功")
+        },
+        fail(res) {
+          utils._ErrorToast("名片发布不成功")
+        }
+      })
+    }
+
 
   },
   //修改数据操作
@@ -423,7 +474,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-
+      publishstatus: app.globalData.Guserdata.UserInfo.NameCardPublishStatus,
       namecardbgarray: app.globalData.Gsetting.namecardbg,
       namecardbg: app.globalData.Guserdata.UserInfo.NameCardBg,
       namecardimages: app.globalData.Guserdata.UserInfo.NameCardImages,
