@@ -43,9 +43,9 @@
   </view>
 </view>
   <view wx:if="{{imageview!=''&&imageview!=undefined}}" wx:for="{{imageview}}" wx:key="key">
-    <image src="{{item}}" mode="scaleToFill" />
+    <image style="display: block" src="{{item}}" mode="scaleToFill" />
   </view>
-  <view wx:if="{{businessscope!=''&&businessscope!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;">
+  <view wx:if="{{businessscope!=''&&businessscope!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;" class="mainframe">
     <label class="labal">企业简介：</label>
     <text space="emsp" decode='true' class="text">{{businessscope}}</text>
   </view>

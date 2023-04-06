@@ -169,34 +169,22 @@ Page({
     let that = this
     // 判断商品id是否空值
     if (this.data.companyname == "" || this.data.companyname == null) {
-      wx.showToast({
-        title: "企业名称不能空",
-        icon: 'none',
-        duration: 2000
-      })
+      utils._ErrorToast("企业名称不能空")
     } else {
       // 判断是否重复提交
       if (this.data.imageuploadlock) {
         // 锁定时很执行
-        wx.showToast({
-          title: '请勿重复提交',
-          icon: 'none',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请勿重复提交")
       } else {
         if (this.data.imageview.length == 0) {
-          wx.showToast({
-            title: '请先选取图片',
-            icon: 'none',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("请先选取图片")
         } else {
           // for循环里等待异步执行结果的方法，重要内容
           var cloudpath = 'namecard/' + this.data.companyname
           let that = this
           var tempfiles = []
           for (let i = 0; i < that.data.imageview.length; ++i) {
-            tempfiles=tempfiles.concat(new Promise((resolve, reject) => {
+            tempfiles = tempfiles.concat(new Promise((resolve, reject) => {
               const filePath = that.data.imageview[i]
               const cloudPath = cloudpath + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
               wx.cloud.uploadFile({
@@ -241,27 +229,15 @@ Page({
     let that = this
     // 判断商品id是否空值
     if (this.data.companyname == "" || this.data.companyname == null) {
-      wx.showToast({
-        title: "企业名称不能为空",
-        icon: 'none',
-        duration: 2000
-      })
+      utils._ErrorToast("企业名称不能空")
     } else {
       // 判断是否重复提交
       if (this.data.logouploadlock) {
         // 锁定时很执行
-        wx.showToast({
-          title: '请勿重复提交',
-          icon: 'none',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请勿重复提交")
       } else {
         if (this.data.logoview.length == 0) {
-          wx.showToast({
-            title: '请先选取图片',
-            icon: 'none',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("请先选取图片")
         } else {
 
           for (let i = 0; i < this.data.logoview.length; i++) {
@@ -290,15 +266,15 @@ Page({
     }
   },
   bvEdit: function (e) {
-    if(app.globalData.Guserdata.UserInfo.UserPhone==''||app.globalData.Guserdata.UserInfo.UserPhone==undefined){
-    this.setData({
-      loginshow: true
-    })
-  }else{
-    this.setData({
-      cardshow: false
-    })
-  }
+    if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
+      this.setData({
+        loginshow: true
+      })
+    } else {
+      this.setData({
+        cardshow: false
+      })
+    }
   },
   bvView: function (e) {
     this.setData({
@@ -316,12 +292,12 @@ Page({
       u_phonecode: e.detail.value
     })
   },
-  bvSendCode: async function (){
+  bvSendCode: async function () {
     this.data.s_phonecode = await utils._sendcode(this.data.userphone)
     console.log("验证码", this.data.s_phonecode)
-    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
-    this._SendCodeBtn()
-  }
+    if (this.data.s_phonecode != '' && this.data.s_phonecode != undefined) {
+      this._SendCodeBtn()
+    }
   },
 
   _SendCodeBtn() {
@@ -349,9 +325,9 @@ Page({
     await utils._SendNewUserSMS()
     this.setData({
       loginshow: false,
-      loginbtnshow:false
+      loginbtnshow: false
     })
-    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    app.globalData.Guserdata.UserInfo.UserPhone = this.data.userphone
     console.log(app.globalData.Guserdata)
   },
   onHideMaskTap: function () {
@@ -359,61 +335,87 @@ Page({
       loginshow: false
     })
   },
-    //修改数据操作
-    bvUpdate(e) {
-      const db = wx.cloud.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          ["UserInfo.UserName"]: this.data.username,
-          ["UserInfo.Position"]: this.data.position,
-          ["UserInfo.WeChat"]: this.data.wechat,
-          ["UserInfo.Email"]: this.data.email,
-          ["UserInfo.Telephone"]: this.data.telephone,
-          ["UserInfo.Website"]: this.data.website,
-          ["UserInfo.UserPhone"]: this.data.userphone,
-          ["UserInfo.CompanyLogo"]: this.data.companylogo,
-          ["UserInfo.CompanyName"]: this.data.companyname,
-          ["UserInfo.CompanyId"]: this.data.companyid,
-          ["UserInfo.Address"]: this.data.address,
-          ["UserInfo.BusinessScope"]: this.data.businessscope,
-          ["UserInfo.NameCardBg"]: this.data.namecardbg,
-          ["UserInfo.NameCardImages"]: this.data.namecardimages,
-          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
-        },
-        success(res) {
-          app.globalData.Guserdata.UserInfo.UserName= this.data.username,
-          app.globalData.Guserdata.UserInfo.Position=this.data.position,
-          app.globalData.Guserdata.UserInfo.WeChat=this.data.wechat,
-          app.globalData.Guserdata.UserInfo.Email=this.data.email,
-          app.globalData.Guserdata.UserInfo.Telephone=this.data.telephone,
-          app.globalData.Guserdata.UserInfo.Website=this.data.website,
-          app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone,
-          app.globalData.Guserdata.UserInfo.CompanyLogo=this.data.companylogo,
-          app.globalData.Guserdata.UserInfo.CompanyName=this.data.companyname,
-          app.globalData.Guserdata.UserInfo.CompanyId=this.data.companyid,
-          app.globalData.Guserdata.UserInfo.Address=this.data.address,
-          app.globalData.Guserdata.UserInfo.BusinessScope=this.data.businessscope,
-          app.globalData.Guserdata.UserInfo.NameCardBg=this.data.namecardbg,
-          app.globalData.Guserdata.UserInfo.NameCardImages=this.data.namecardimages,
+  //修改数据操作
+  bvPublish(e) {
+    const db = wx.cloud.database()
+    db.collection('NAMECARD').add({
+      data: {
+        UserName: this.data.username,
+        Position: this.data.position,
+        WeChat: this.data.wechat,
+        Email: this.data.email,
+        Telephone: this.data.telephone,
+        Website: this.data.website,
+        UserPhone: this.data.userphone,
+        CompanyLogo: this.data.companylogo,
+        CompanyName: this.data.companyname,
+        CompanyId: this.data.companyid,
+        Address: this.data.address,
+        BusinessScope: this.data.businessscope,
+        BusinessSort: this.data.businesssort,
+        KeyWords: this.data.keywords,
+        NameCardBg: this.data.namecardbg,
+        NameCardImages: this.data.namecardimages,
+        PublishDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        })
+      },
+      success(res) {
+        utils._SuccessToast("名片发布成功")
+      },
+      fail(res) {
+        utils._ErrorToast("名片发布不成功")
+      }
+    })
 
-          wx.showToast({
-            title: '更新信息成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
-        },
-        fail(res) {
-          wx.showToast({
-            title: '更新信息失败',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
-        }
-      })
+  },
+  //修改数据操作
+  bvUpdate(e) {
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        ["UserInfo.UserName"]: this.data.username,
+        ["UserInfo.Position"]: this.data.position,
+        ["UserInfo.WeChat"]: this.data.wechat,
+        ["UserInfo.Email"]: this.data.email,
+        ["UserInfo.Telephone"]: this.data.telephone,
+        ["UserInfo.Website"]: this.data.website,
+        ["UserInfo.UserPhone"]: this.data.userphone,
+        ["UserInfo.CompanyLogo"]: this.data.companylogo,
+        ["UserInfo.CompanyName"]: this.data.companyname,
+        ["UserInfo.CompanyId"]: this.data.companyid,
+        ["UserInfo.Address"]: this.data.address,
+        ["UserInfo.BusinessScope"]: this.data.businessscope,
+        ["UserInfo.NameCardBg"]: this.data.namecardbg,
+        ["UserInfo.NameCardImages"]: this.data.namecardimages,
+        ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
+          hour12: false
+        })
+      },
+      success(res) {
+        app.globalData.Guserdata.UserInfo.UserName = this.data.username,
+          app.globalData.Guserdata.UserInfo.Position = this.data.position,
+          app.globalData.Guserdata.UserInfo.WeChat = this.data.wechat,
+          app.globalData.Guserdata.UserInfo.Email = this.data.email,
+          app.globalData.Guserdata.UserInfo.Telephone = this.data.telephone,
+          app.globalData.Guserdata.UserInfo.Website = this.data.website,
+          app.globalData.Guserdata.UserInfo.UserPhone = this.data.userphone,
+          app.globalData.Guserdata.UserInfo.CompanyLogo = this.data.companylogo,
+          app.globalData.Guserdata.UserInfo.CompanyName = this.data.companyname,
+          app.globalData.Guserdata.UserInfo.CompanyId = this.data.companyid,
+          app.globalData.Guserdata.UserInfo.Address = this.data.address,
+          app.globalData.Guserdata.UserInfo.BusinessScope = this.data.businessscope,
+          app.globalData.Guserdata.UserInfo.NameCardBg = this.data.namecardbg,
+          app.globalData.Guserdata.UserInfo.NameCardImages = this.data.namecardimages,
+
+          utils._SuccessToast("名片保存成功")
+      },
+      fail(res) {
+        utils._ErrorToast("名片保存不成功")
+      }
+    })
 
   },
   /**
