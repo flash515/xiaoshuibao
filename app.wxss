@@ -36,7 +36,7 @@
 .userinfo-nickname::after {
   border: none;
 }
-.container {
+/* .container {
   height: 100%;
   display: flex; 
   flex-direction: column;
@@ -44,11 +44,14 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
-} 
+}  */
+
+/* 轮播图区域样式 */
 .swiper {
   height: 100px;
   width: 100%;
 }
+/* 轮播图样式 */
 .swiper image {
   height: 100px;
   width: 100%;
@@ -73,14 +76,7 @@ font-weight: bold;
   padding:10rpx;
   line-height: 2;
 }
-.flex-row{
-  display: flex;
-  align-items: center;
-}
-.flex-column{
-  display: flex;
-  align-items: center;
-}
+
 .mainframe{
   margin:20rpx 20rpx;
   padding:10rpx
@@ -98,6 +94,8 @@ font-weight: bold;
 .text {
   font-size: 28rpx;
 }
+
+/* 手机号登录窗样式 */
 .logincard {
   width: 600rpx !important;
   display: flex !important;

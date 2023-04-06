@@ -165,7 +165,7 @@ Component({
         for (const docChange of snapshot.docChanges) {
           switch (docChange.queueType) {
             case 'enqueue': {
-              hasOthersMessage = docChange.doc.UserId !== this.data.openId
+              hasOthersMessage = docChange.doc._openid !== this.data.openId
               const ind = chats.findIndex(chat => chat._id === docChange.doc._id)
               if (ind > -1) {
                 if (chats[ind].msgType === 'image' && chats[ind].tempFilePath) {
@@ -218,7 +218,7 @@ Component({
             ...this.data.chats,
             {
               ...doc,
-              UserId: this.data.openId,
+              _openid: this.data.openId,
               writeStatus: 'pending',
             },
           ],
@@ -263,7 +263,7 @@ Component({
               ...this.data.chats,
               {
                 ...doc,
-                UserId: this.data.openId,
+                _openid: this.data.openId,
                 tempFilePath: res.tempFilePaths[0],
                 writeStatus: 0,
               },

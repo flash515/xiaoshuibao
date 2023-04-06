@@ -29,7 +29,7 @@ Page({
     room2time: "",
     room3time: "",
 
-    expressroomavailable: "",
+    expressroomavailable: false,
     expressroomtime: "",
 
     // 轮播参数
@@ -217,6 +217,9 @@ Page({
     }
   },
   bvExpressRoomApply(e) {
+    this.setData({
+      expressroomavailable:false
+    })
     this.data.expressroomtime = Date.parse(new Date()),
       wx.cloud.callFunction({
         name: 'MeetingRoomSetting',
@@ -228,9 +231,6 @@ Page({
         },
         success: res => {
           console.log("执行了")
-          this.setData({
-            expressroomavailable:false
-          })
         }
       })
   },
@@ -383,12 +383,14 @@ Page({
             value2: "",
           },
           success: res => {
-            wx.showToast({
-              title: '会议室已重置',
-              icon: 'success',
-              duration: 2000 //持续的时间
+            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomTime=""
+            app.globalData.Gsetting.MeetingRoom[3].ExpressRoomAvailable=true
+            this.setData({
+              expressroomtime: "",
+              expressroomavailable:true,
             })
-
+            utils._SuccessToast("会议室已重置")
+            console.log(app.globalData.Gsetting)
           }
         })
       }

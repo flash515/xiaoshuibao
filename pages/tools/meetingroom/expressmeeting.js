@@ -88,7 +88,7 @@ Page({
         // onGetUserInfo: this.onGetUserInfo,
         getOpenID: this.getOpenID,
       })
-
+// 解决IPHONE显示不正常的设置
       wx.getSystemInfo({
         success: res => {
           console.log('system info', res)
@@ -102,7 +102,7 @@ Page({
             })
 
             this.setData({
-              chatheight: res.windowHeight * 750 / res.windowWidth - 180
+              chatheight: res.windowHeight * 750 / res.windowWidth - 200
             })
             console.log("containerStyle", this.data.containerStyle)
             console.log("chatheight", this.data.chatheight)
@@ -125,16 +125,29 @@ Page({
     return result.openid
   },
 
-  onShareAppMessage() {
+  onShareAppMessage(res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
     }
     return {
       title: '请加入快捷会议室，此邀请60分钟内有效',
-      path: '/pages/tools/meetingroom/meetingroom1?userid=' + app.globalData.Guserid + '&starttime=' + this.data.starttime,
+      path: '/pages/tools/meetingroom/expressmeeting?userid=' + app.globalData.Guserid,
       imageUrl: app.globalData.Gsetting.MeetingRoomImage, //封面
     }
   },
+  onShow: function () {
+    wx.hideHomeButton({
+      success: function () {
+        console.log("hide home success");
+      },
+      fail: function () {
+        console.log("hide home fail");
+      },
+      complete: function () {
+        console.log("hide home complete");
+      },
+    });
+  }
 
 })

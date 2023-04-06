@@ -37,7 +37,7 @@
         <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
           <label class="labal">微信昵称：</label>
           <view style="padding-left: 50rpx;">
-            <input class="nicknameinput" type="nickname" placeholder="点击获取昵称" value="{{nickname}}" bind:input="bvNickName" />
+            <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bind:input="bvNickName" />
           </view>
         </view>
         <view class="line"></view>

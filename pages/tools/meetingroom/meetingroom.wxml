@@ -106,19 +106,21 @@
     </l-tabpanel>
 
   </l-tabs>
-  <view wx:if="{{usertype == 'admin'}}" style="display: flex;flex-direction:row; justify-content:space-around;align-items:center;">
-    <text>管理员专用</text>
-    <view wx:if="{{expressroomavailable}}">
+  <view wx:if="{{usertype == 'admin'}}" style="display: flex;flex-direction:column; justify-content:center;">
+    <text>\n</text>
+    <text>超级快捷会议室</text>
+    <text>\n</text>
+    <view wx:if="{{expressroomavailable}}" style="display: flex;flex-direction:row; justify-content:space-between;align-items:center;">
       <l-button type="success" shape="semicircle" size="mini">可使用</l-button>
       <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvExpressRoomApply" size="mini">
-        进入会议室</l-button>
+        申请会议室</l-button>
     </view>
-    <view wx:else>
+    <view wx:else style="display: flex;flex-direction:row; justify-content:space-between;align-items:center;">
       <l-button type="warning" shape="semicircle" size="mini">使用中</l-button>
-    </view>
     <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvExpressRoomlogin" size="mini">
       进入会议室</l-button>
     <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvExpressEnd">结束会议</l-button>
+  </view>
   </view>
 
 </view>

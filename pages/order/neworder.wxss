@@ -18,3 +18,11 @@
   background-color: #f3f3f3;
 
 }
+.flex-row{
+  display: flex;
+  align-items: center;
+}
+.flex-column{
+  display: flex;
+  align-items: center;
+}
