@@ -51,7 +51,7 @@ Page({
     utils._setting()
     utils._productcheck()
     await utils._login()
-    let data = await utils._usercheck()
+    let data = await utils._usercheck(app.globalData.Guserid)
     console.log("data", data);
     if (data.length == 0) {
       await utils._newuser(this.data.tempinviterid,this.data.params,this.data.remark)

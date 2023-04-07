@@ -149,7 +149,7 @@ Page({
       await utils._productcheck()
       console.log("这一步执行了")
       await utils._login()
-      let data = await utils._usercheck()
+      let data = await utils._usercheck(app.globalData.Guserid)
       console.log("data", data);
       if (data.length == 0) {
         await utils._newuser()

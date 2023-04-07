@@ -11,6 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    membershow: false,
     avatarurl: defaultAvatarUrl,
     nickname: "",
     time: "获取验证码",
@@ -33,11 +34,11 @@ Page({
     companyname: "",
     companyid: "",
     businessscope: "",
-    position:"",
-    wechat:"",
-    email:"",
-    telephone:"",
-    website:"",
+    position: "",
+    wechat: "",
+    email: "",
+    telephone: "",
+    website: "",
     address: "",
     username: "",
     userphone: "",
@@ -212,27 +213,34 @@ Page({
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
-      nickname: app.globalData.Guserdata.UserInfo.nickName,
-      companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
-      companyname: app.globalData.Guserdata.UserInfo.CompanyName,
-      companyid: app.globalData.Guserdata.UserInfo.CompanyId,
-      businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
-      address: app.globalData.Guserdata.UserInfo.Address,
-      username: app.globalData.Guserdata.UserInfo.UserName,
-      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      position:app.globalData.Guserdata.UserInfo.Position,
-      wechat:app.globalData.Guserdata.UserInfo.WeChat,
-      email:app.globalData.Guserdata.UserInfo.Email,
-      website:app.globalData.Guserdata.UserInfo.Website,
-      telephone:app.globalData.Guserdata.UserInfo.Telephone,
-      usertype: app.globalData.Guserdata.UserInfo.UserType,
-      adddate: app.globalData.Guserdata.UserInfo.AddDate,
-      updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
-      invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
-      invitername: app.globalData.Guserdata.UserInfo.InviterName,
     })
+    if (app.globalData.Guserdata.UserInfo.UserPhone != '' && app.globalData.Guserdata.UserInfo.UserPhone != undefined) {
+      this.setData({
+        membershow: true,
+        avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
+        nickname: app.globalData.Guserdata.UserInfo.nickName,
+        companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
+        companyname: app.globalData.Guserdata.UserInfo.CompanyName,
+        companyid: app.globalData.Guserdata.UserInfo.CompanyId,
+        businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
+        address: app.globalData.Guserdata.UserInfo.Address,
+        username: app.globalData.Guserdata.UserInfo.UserName,
+        userphone: app.globalData.Guserdata.UserInfo.UserPhone,
+        useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
+        position: app.globalData.Guserdata.UserInfo.Position,
+        wechat: app.globalData.Guserdata.UserInfo.WeChat,
+        email: app.globalData.Guserdata.UserInfo.Email,
+        website: app.globalData.Guserdata.UserInfo.Website,
+        telephone: app.globalData.Guserdata.UserInfo.Telephone,
+        usertype: app.globalData.Guserdata.UserInfo.UserType,
+        adddate: app.globalData.Guserdata.UserInfo.AddDate,
+        updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
+        invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
+        invitername: app.globalData.Guserdata.UserInfo.InviterName,
+      })
+
+    }
+
   },
   // 刷新信息
   RefreshData() {
@@ -252,10 +260,10 @@ Page({
           username: res.data[0].UserInfo.UserName,
           useroldphone: res.data[0].UserInfo.UserPhone,
           userphone: res.data[0].UserInfo.UserPhone,
-          position:res.data[0].UserInfo.Position,
-          wechat:res.data[0].UserInfo.WeChat,
-          email:res.data[0].UserInfo.Email,
-          website:res.data[0].UserInfo.Website,
+          position: res.data[0].UserInfo.Position,
+          wechat: res.data[0].UserInfo.WeChat,
+          email: res.data[0].UserInfo.Email,
+          website: res.data[0].UserInfo.Website,
           usertype: res.data[0].TradeInfo.UserType,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
@@ -285,7 +293,9 @@ Page({
           ["UserInfo.Telephone"]: this.data.telephone,
           ["UserInfo.Website"]: this.data.website,
           ["UserInfo.Address"]: this.data.address,
-          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese',{ hour12: false })
+          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
         },
         success(res) {
           wx.showToast({
@@ -310,10 +320,11 @@ Page({
           UserId: app.globalData.Guserid
         }).update({
           data: {
-            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese',{ hour12: false })
+            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
+              hour12: false
+            })
           },
-          success(res) {
-          },
+          success(res) {},
         })
         console.log('推广积分')
         db.collection("POINTS").add({
@@ -329,7 +340,9 @@ Page({
             IndirectInviterId: app.globalData.Gindirectinviterid,
             IndirectInviterPoints: 10,
             SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+            AddDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            }),
             PointsStatus: "checked",
           },
           success(res) {
@@ -369,8 +382,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-  },
+  onReady: function () {},
   /**
    * 生命周期函数--监听页面显示
    */
@@ -382,8 +394,7 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-  },
+  onHide: function () {},
   /**
    * 生命周期函数--监听页面卸载
    */
@@ -393,16 +404,13 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-  },
+  onPullDownRefresh: function () {},
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-  },
+  onReachBottom: function () {},
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  }
+  onShareAppMessage: function () {}
 })

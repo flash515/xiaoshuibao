@@ -25,6 +25,7 @@
 
         </view>
         <view class="line"></view>
+        <view wx:if="{{membershow}}">
         <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
           <label class="labal">微信头像：</label>
           <view style="padding-left: 50rpx;">
@@ -81,6 +82,7 @@
         <view>
           <l-input type="text" label="更新日期：" value="{{updatedate}}" disabled="{{true}}"></l-input>
         </view>
+      </view>
         <text>\n</text>
         <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;">
 
