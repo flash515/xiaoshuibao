@@ -13,17 +13,7 @@
   padding: 0;
   background-color: white;
 }
-.nicknameBtn {
-  font-size: 28rpx;
-  width: 100rpx;
-  height: 60rpx;
-  line-height: 20rpx;
-  border: 0.5;
-  border-color: blue;
-  margin-right: 35rpx;
-  background-color: white;
-  padding: 20rpx;
-}
+
 .text {
   font-size: 28rpx;
   color: rgb(0, 0, 0);
