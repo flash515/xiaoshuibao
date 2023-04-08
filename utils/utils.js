@@ -207,6 +207,7 @@ async function _login() { // 通过云函数获取用户本人的小程序ID
         // 查询小程序数据库是否有当前用户信息
         // _usercheck()
         // _setting()
+        console.log("res",res)
         resolve(res.result.openid)
       }
     })

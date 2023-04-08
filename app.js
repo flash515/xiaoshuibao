@@ -34,7 +34,7 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-
+console.log("res",res)
       }
     })
     // 获取用户授权信息
