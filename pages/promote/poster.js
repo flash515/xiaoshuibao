@@ -28,16 +28,8 @@ Page({
     headPath: "" //头像地址
   },
   checkQRCode: function () {
-    const db = wx.cloud.database()
-    const _ = db.command
-    db.collection('USER').where({
-      UserId: app.globalData.Guserid,
-      // UserId:'omLS75Xib_obyxkVAahnBffPytcA'
-    }).get({
-      success: res => {
-        console.log(res);
-        console.log(res.data[0].QRCode);
-        if (res.data[0].QRCode == undefined) {
+
+        if (app.globalData.Guserdata.UserInfo.QRCode == undefined || app.globalData.Guserdata.UserInfo.QRCode=="") {
           wx.showModal({
             title: '提示',
             content: '您还没有专属小税宝推广码，请先到推广码页面获取吧！',
@@ -45,7 +37,7 @@ Page({
               if (res.confirm) {
                 console.log('确定')
                 wx.navigateTo({
-                  url: '../mine/minicode',
+                  url: '../promote/minicode',
                 })
               } else if (res.cancel) {
                 console.log('取消')
@@ -54,14 +46,14 @@ Page({
           })
         } else {
           this.setData({
-            qrcodeurl: res.data[0].QRCode,
-            headPath: res.data[0].QRCode,
-            sendName: "小税宝推广会员" + res.data[0].UserName
+            qrcodeurl: app.globalData.Guserdata.UserInfo.QRCode,
+            headPath: app.globalData.Guserdata.UserInfo.QRCode,
+            sendName: "小税宝推广会员" + app.globalData.Guserdata.UserInfo.UserName
           })
           this.getPicture()
         }
-      }
-    })
+
+
   },
   /*图片浏览及上传 */
   getPicture: function () {

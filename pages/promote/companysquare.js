@@ -8,7 +8,8 @@ Page({
    */
   data: {
     userphone: "",
-
+    // 显示在 Tip 区域的文字
+    indexText: "",
 
     // 轮播头图
     image: [],
@@ -60,6 +61,12 @@ Page({
       }
     })
   },
+  // 页面监听函数
+  onPageScroll(res) {
+
+  },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
