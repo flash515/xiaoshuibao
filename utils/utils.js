@@ -202,13 +202,14 @@ async function _login() { // 通过云函数获取用户本人的小程序ID
       name: 'login',
       data: {},
       success: res => {
-        app.globalData.Guserid = res.result.openid
+        // userid使用unionid
+        app.globalData.Guserid = res.result.unionid
         console.log("login成功:", app.globalData.Guserid)
         // 查询小程序数据库是否有当前用户信息
         // _usercheck()
         // _setting()
         console.log("res",res)
-        resolve(res.result.openid)
+        resolve(res.result.unionid)
       }
     })
   });

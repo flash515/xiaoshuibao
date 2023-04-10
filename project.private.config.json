@@ -152,9 +152,10 @@
           "scene": null
         },
         {
-          "name": "pages/tools/test",
-          "pathName": "pages/tools/test",
+          "name": "pages/test/test",
+          "pathName": "pages/test/test",
           "query": "",
+          "launchMode": "default",
           "scene": null
         },
         {

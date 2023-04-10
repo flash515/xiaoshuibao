@@ -155,10 +155,17 @@ Component({
         }
       }
     },
-
+    ConText(e) {
+      this.setData({
+        textInputValue: e.detail.value
+      })
+      console.log(this.data.textInputValue)
+    },
     async onConfirmSendText(e) {
+
       this.try(async () => {
-        if (!e.detail.value) {
+
+        if (!this.data.textInputValue) {
           return
         }
 
@@ -174,7 +181,8 @@ Component({
           avatar: this.properties.avatarUrl,
           nickName: this.properties.nickName,
           msgType: 'text',
-          textContent: e.detail.value,
+          textContent: this.data.textInputValue,
+          // textContent: e.detail.value,
           sendTime: new Date(),
           sendTimeTS: Date.now(), // fallback
         }

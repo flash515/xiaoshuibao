@@ -34,18 +34,18 @@
 <view hidden="{{onlinehidden}}">
   <l-collapse>
   <l-collapse-item title="扫码支付">
-    <l-card type="primary" position="left" image="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png">
+    <l-card type="primary" position="left" image="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/微信收款码.png">
       <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存微信付款码到手机相册后，用微信扫一扫打开相册图片，扫码付款 </view>
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/微信收款码.png">保存到相册</l-button>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/微信收款码.png">保存到相册</l-button>
       <view class="content"  hidden="{{openSettingBtnHidden}}">
         请前往设置页面授权保存到相册，然后保存付款码到手机相册后，用微信扫一扫打开相册图片，扫码付款 
     <l-button open-type="openSetting" size="medium" shape="semicircle" plain="{{true}}" bind:lintap="saveImage" >前往设置页面</l-button>
       </view>    
     </l-card>
     <text>\n</text>
-    <l-card type="primary" position="left" image="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg">
+    <l-card type="primary" position="left" image="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/支付宝收款码.jpg">
       <view class="content" hidden="{{openSettingBtnHidden==false}}">请先保存支付宝付款码到手机相册后，用支付宝扫一扫打开相册图片，扫码付款 </view>
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/omLS75Xib_obyxkVAahnBffPytcA/支付宝收款码.jpg">保存到相册</l-button>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="saveImage" data-src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/支付宝收款码.jpg">保存到相册</l-button>
       <view class="content"  hidden="{{openSettingBtnHidden}}">
         请前往设置页面授权保存到相册，然后保存付款码到手机相册后，用支付宝扫一扫打开相册图片，扫码付款 
     <l-button open-type="openSetting" size="medium" shape="semicircle" plain="{{true}}" bind:lintap="saveImage" >前往设置页面</l-button>

@@ -27,6 +27,12 @@ Page({
       this.setData({
         tempinviterid: options.userid,
       })
+      // openid升级unionid后的适配，老名片用完后一年后可删除
+      if(options.userid=="omLS75Xib_obyxkVAahnBffPytcA"){
+        this.setData({
+          tempinviterid:"oo7kw5rohI15ogf6TCX_SGAxYUao"
+        })
+      }
       console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.tempinviterid);
       // 接收参数方法一结束
     } else if (options.scene) {
@@ -42,8 +48,8 @@ Page({
       console.log("扫码参数:", this.data.tempinviterid);
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
-      this.data.tempinviterid = "omLS75Xib_obyxkVAahnBffPytcA"
-      this.data.remark = "无参数进入"
+      this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
+      this.data.remark = "小税宝无参数进入"
       console.log("搜索进入参数:", this.data.tempinviterid);
     }
 
