@@ -289,8 +289,17 @@ Component({
     },
 
     onMessageImageTap(e) {
-      wx.previewImage({
-        urls: [e.target.dataset.fileid],
+      // wx.previewImage({
+      //   urls: [e.target.dataset.fileid],
+      // })
+      wx.scanCode({
+        success: function (res) {
+          console.log(res),
+          wx.navigateTo({
+            url: res.result,
+          })
+
+        }
       })
     },
 
