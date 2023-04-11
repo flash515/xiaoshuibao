@@ -22,7 +22,7 @@
 
 <image src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202304111826131.png?sign=d5a759a70f9a07cdf99683f4490defbf&t=1681208822" mode="aspectFit" data-src='https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202304111826131.png?sign=d5a759a70f9a07cdf99683f4490defbf&t=1681208822' bind:longpress="handleImageLongpress"></image>
 
-<image src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230411182613.png?sign=949109594c562ae05276db833061586e&t=1681208849"  show-menu-by-longpress="{{true}}" mode="aspectFit" bindtap='previewImage' data-src='https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202304111826131.png?sign=d5a759a70f9a07cdf99683f4490defbf&t=1681208822'></image>
+<image src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230411182613.png?sign=949109594c562ae05276db833061586e&t=1681208849"  mode="aspectFit" bindtap='previewImage' data-src='https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_202304111826131.png?sign=d5a759a70f9a07cdf99683f4490defbf&t=1681208822' bind:longpress="handleImageLongpress"></image>
 <canvas id="canvas" canvas-id="canvas" type="2d"></canvas>
 
 
