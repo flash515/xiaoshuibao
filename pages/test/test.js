@@ -1,4 +1,7 @@
-const app = getApp()
+const app = getApp();
+// const uPng = require('upng-js');
+// const {default:jsQR} = require('jsqr');
+// const qrcodeParser = require('qrcode-parser');
 Page({
   /**
    * 页面的初始数据
@@ -14,7 +17,39 @@ Page({
     date7: "",
     date8: "",
     date9: "",
+    url: "",
   },
+  scanCode(src) {
+    let that = this
+    wx.scanCode({
+      success: res => {
+        console.log(res.result)
+        if (res.result != "" && res.result != undefined) {
+          this.setData({
+            url: res.result
+          })
+          wx.navigateTo({
+            url: '../tools/webpage?url=' + this.data.url,
+          })
+        }
+      }
+    })
+  },
+
+  handleImageLongpress(e){
+    const src = e.currentTarget.dataset.src;
+    wx.showActionSheet({itemList:['识别二维码']}).then((res) => {
+this.scanCode(src)
+    });
+  },
+
+  previewImage: function (e){
+    console.log(e.target.dataset.src);
+    var current = e.target.dataset.src;   //这里获取到的是一张本地的图片
+    wx.previewImage({
+      current: current,//需要预览的图片链接列表
+    urls: [current]  //当前显示图片的链接
+  })},
   bvRefresh(e) {
     console.log("刷新执行了")
     const db = wx.cloud.database()
@@ -74,7 +109,7 @@ Page({
           console.log(res.tempFilePath);
           wx.saveImageToPhotosAlbum({ //保存图片到系统相册----缺点没有返回该图片的路径
             filePath: res.tempFilePath,
-            success: function (res){}
+            success: function (res) {}
           })
 
         },
