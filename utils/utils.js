@@ -173,17 +173,17 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
 }
 async function UserLogin(tempinviterid, params, remark) { // 用户登录时的操作
   var promise = new Promise((resolve, reject) => {
-    this._setting()
+    _setting();
     // 产品查询不是需要和折扣查询、会员等级查询可以的需要的时候再调用
-    this._productcheck()
-    await this._login()
-    let data = await this._usercheck(app.globalData.Guserid)
+    _productcheck();
+    await _login();
+    let data = await _usercheck(app.globalData.Guserid)
     console.log("data", data);
     if (data.length == 0) {
       // 新用户执行操作
       app.globalData.Ginviterid = tempinviterid
-      await this._invitercheck(app.globalData.Ginviterid)
-      await this._newuser(app.globalData.Ginviterid, params, remark)
+      await _invitercheck(app.globalData.Ginviterid)
+      await _newuser(app.globalData.Ginviterid, params, remark)
     } else {
       // 老用户执行操作
       app.globalData.Guserdata = data[0]
@@ -191,7 +191,7 @@ async function UserLogin(tempinviterid, params, remark) { // 用户登录时的�
       app.globalData.Ginviterid = data[0].UserInfo.InviterId
       app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
       console.log("当前用户信息", app.globalData.Guserdata);
-      await this._discountcheck()
+      await _discountcheck()
     }
   });
   return promise;

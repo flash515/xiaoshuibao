@@ -11,14 +11,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    membershow: false,
-    avatarurl: "",
-    nickname: "",
-    time: "获取验证码",
-    currentTime: 60,
-    disabled: false,
-    s_phonecode: "",
-    u_phonecode: "",
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -29,23 +21,34 @@ Page({
     duration: 500,
     previousMargin: 0,
     nextMargin: 0,
-    invitercompany: "",
-    invitername: "",
-    companyname: "",
-    companyid: "",
-    businessscope: "",
+    // 用户信息
+    membershow: false,
+    avatarurl: "",
+    nickname: "",
+    userphone: "",
+    useroldphone: "",
+    time: "获取验证码",
+    currentTime: 60,
+    disabled: false,
+    s_phonecode: "",
+    u_phonecode: "",
+    inviteravatar: "",
+    inviternickname: "",
+    adddate: "",
+
+    // 会员用户信息
+    username: "",
     position: "",
     wechat: "",
     email: "",
     telephone: "",
     website: "",
     address: "",
-    username: "",
-    userphone: "",
-    useroldphone: "",
+    companyname: "",
+    companyid: "",
+    businessscope: "",
     result: "未发送",
-    adddate: "",
-    updatedate: ""
+    updatedate: "",
   },
   onChooseAvatar(e) {
     // const {
@@ -232,8 +235,8 @@ Page({
         telephone: app.globalData.Guserdata.UserInfo.Telephone,
         adddate: app.globalData.Guserdata.UserInfo.AddDate,
         updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
-        invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
-        invitername: app.globalData.Guserdata.UserInfo.InviterName,
+        inviteravatar: app.globalData.Guserdata.UserInfo.InviterCompany,
+        inviternickname: app.globalData.Guserdata.UserInfo.InviterName,
       })
 
     }

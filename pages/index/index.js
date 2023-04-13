@@ -1,5 +1,5 @@
-const app = getApp()
-var utils = require("../../utils/utils")
+const app = getApp();
+const utils = require("../../utils/utils");
 Page({
   data: {
     // 初始化相关

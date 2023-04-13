@@ -22,10 +22,8 @@
           <l-input type="number" label="验证码：" value="{{phonecode}}" bind:lininput="bvPhoneCode" required="{{true}}">
           </l-input>
           <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
-
         </view>
         <view class="line"></view>
-        <view wx:if="{{membershow}}">
         <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
           <label class="labal">微信头像：</label>
           <view style="padding-left: 50rpx;">
@@ -42,6 +40,8 @@
           </view>
         </view>
         <view class="line"></view>
+        <view wx:if="{{membershow}}">
+
         <view>
           <l-input type="text" label="我的姓名：" value="{{username}}" bind:lininput="bvUserName">
           </l-input>
@@ -96,10 +96,10 @@
     </l-tabpanel>
     <l-tabpanel tab="邀请人信息" key="two" slot="two">
       <view>
-        <l-input type="text" label="邀请企业：" value="{{invitercompany}}" disabled="{{true}}"></l-input>
+        <l-input type="text" label="邀请人头像：" value="{{inviteravatar}}" disabled="{{true}}"></l-input>
       </view>
       <view>
-        <l-input type="text" label="邀请人：" value="{{invitername}}" disabled="{{true}}"></l-input>
+        <l-input type="text" label="邀请人昵称：" value="{{inviternickname}}" disabled="{{true}}"></l-input>
       </view>
     </l-tabpanel>
   </l-tabs>
