@@ -8,6 +8,7 @@ Page({
   data: {
     currentTab:0,
     key1: 0,
+    // 计算屏幕滚动窗口的高度
     windowH: "",
     url: "",
     sortarray: [],

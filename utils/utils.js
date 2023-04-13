@@ -4,16 +4,11 @@ const app = getApp()
 var newuserinfo = {
   nickName: "",
   avatarUrl: "",
-  UserName: "",
   UserPhone: "",
-  CompanyName: "",
-  CompanyId: "",
-  BusinessScope: "",
-  CompanyScale: "",
   InviterId: "",
-  InviterCompany: "",
-  InviterName: "",
   InviterPhone: "",
+  InviterAvatar: "",
+  InviterNickName: "",
   IndirectInviterId: "",
   Region: ["广东省", "深圳市", "南山区"],
   UserType: "client",
@@ -34,29 +29,9 @@ var newusertradeinfo = {
   // MemberTime:""
 }
 
-function _productcheck() {
-  var promise = new Promise((resolve, reject) => {
-    console.log("productcheck执行了")
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "PRODUCT",
-        command: "or",
-        where: [{
-          Status: "在售"
-        }]
-      },
-      success: res => {
-        app.globalData.Gproduct = res.result.data
-        // _login()
-        resolve(res.result.data)
-      }
-    })
-  });
-  return promise;
-}
 
-function _sendcode(userphone) { 
+
+function _sendcode(userphone) {
   // 发送验证码
   var promise = new Promise((resolve, reject) => {
     if (userphone == "" || userphone == undefined) {
@@ -196,55 +171,44 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
   });
   return promise;
 }
-async function _login() { // 通过云函数获取用户本人的小程序ID
+async function UserLogin(tempinviterid, params, remark) { // 用户登录时的操作
   var promise = new Promise((resolve, reject) => {
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        // userid使用unionid
-        app.globalData.Guserid = res.result.unionid
-        console.log("login成功:", app.globalData.Guserid)
-        // 查询小程序数据库是否有当前用户信息
-        // _usercheck()
-        // _setting()
-        console.log("res",res)
-        resolve(res.result.unionid)
-      }
-    })
+    this._setting()
+    // 产品查询不是需要和折扣查询、会员等级查询可以的需要的时候再调用
+    this._productcheck()
+    await this._login()
+    let data = await this._usercheck(app.globalData.Guserid)
+    console.log("data", data);
+    if (data.length == 0) {
+      // 新用户执行操作
+      app.globalData.Ginviterid = tempinviterid
+      await this._invitercheck(app.globalData.Ginviterid)
+      await this._newuser(app.globalData.Ginviterid, params, remark)
+    } else {
+      // 老用户执行操作
+      app.globalData.Guserdata = data[0]
+      app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
+      app.globalData.Ginviterid = data[0].UserInfo.InviterId
+      app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
+      console.log("当前用户信息", app.globalData.Guserdata);
+      await this._discountcheck()
+    }
   });
   return promise;
 }
 
-async function _setting() {
+async function _setting() { // 通过本地数据库查询指令取得小程序设置参数
   var promise = new Promise((resolve, reject) => {
     console.log("setting执行了")
     //获取小程序全局设置
-    var tempimage = []
     const db = wx.cloud.database()
     db.collection('setting')
-      .where({
-        CurrentStatus: "effect"
-      })
+      .doc('28ee4e3e60c48c3821c54eee6564dec5')
       .get({
         success: res => {
-          wx.setStorageSync('LSetting', res.data[0]) //应使用全局参数替代，待调整
-          app.globalData.Gsetting = res.data[0];
-
           console.log("成功获取设置参数", res);
-          // //异步获取图片生成轮播图地址
-          // for (let i = 0; i < res.data[0].swiper.length; i++) {
-          //   wx.getImageInfo({
-          //     //把图片地址转换为本地地址
-          //     src: res.data[0].swiper[i],
-          //     success(res) {
-          //       tempimage.push(res.path)
-          //       app.globalData.Gimagearray = tempimage
-          //       resolve(res)
-          //     }
-          //   })
-          // }
-          app.globalData.Gimagearray = res.data[0].swiper
+          app.globalData.Gsetting = res.data;
+          app.globalData.Gimagearray = res.data.swiper
           resolve(app.globalData.Gimagearray)
         }
       })
@@ -252,11 +216,29 @@ async function _setting() {
   return promise;
 }
 
-async function _uploadfiles(filepath,cloudpath) {
+async function _login() { // 通过云函数获取当前用户本人的小程序unionid
+  var promise = new Promise((resolve, reject) => {
+    console.log("login执行了")
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        // userid使用unionid
+        app.globalData.Guserid = res.result.unionid
+        console.log("用户unionid:", app.globalData.Guserid)
+        resolve(res.result.unionid)
+      }
+    })
+  });
+  return promise;
+}
+
+async function _uploadfiles(filepath, cloudpath) {
   // 批量上传文件并把本地地址数组转成云地址数组
 
 }
-function _usercheck(eventid) {
+
+function _usercheck(eventid) { // 通过本地函数查询当前用户是否是老用户
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
     const db = wx.cloud.database()
@@ -266,29 +248,54 @@ function _usercheck(eventid) {
       success: res => {
         console.log("当前用户信息", res);
         resolve(res.data)
-
       }
     })
   });
   return promise;
 }
 
-function _newuser(tempinviterid, params, remark) {
-  console.log(tempinviterid)
+function _invitercheck(eventid) {
+  var promise = new Promise((resolve, reject) => {
+    console.log("invitercheck执行了")
+    // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      UserId: eventid
+    }).get({
+      success: res => {
+        console.log(res)
+        // 给本地数据赋值
+        app.globalData.Ginviterid = res.data[0].UserId
+        app.globalData.Ginviterphone = res.data[0].UserInfo.UserPhone
+        app.globalData.Guserdata.UserInfo.InviterAvatar = res.data[0].UserInfo.avatarUrl
+        app.globalData.Guserdata.UserInfo.InviterNickName = res.data[0].UserInfo.nickName
+        app.globalData.Gindirectinviterid = res.data[0].UserInfo.InviterId
+
+        newuserinfo.InviterId = res.data[0].UserId
+        newuserinfo.InviterPhone = res.data[0].UserInfo.UserPhone
+        newuserinfo.InviterAvatar = res.data[0].UserInfo.avatarUrl
+        newuserinfo.InviterNickName = res.data[0].UserInfo.nickName
+        newuserinfo.IndirectInviterId = res.data[0].UserInfo.InviterId
+
+      },
+    })
+  });
+  return promise;
+}
+
+function _newuser(params,remark) {
   console.log(params)
   console.log(remark)
   var promise = new Promise((resolve, reject) => {
     console.log("新用户操作执行了")
-    // 如果是新用户，检查是否有传递过来的推荐人id
-    app.globalData.Ginviterid = tempinviterid
     // Guserdata的子项未在app中定义，须先构建obj再赋值给Guserdata
     var obj = new Object();
     obj = {
       UserInfo: newuserinfo,
-      TradeInfo: newusertradeinfo
+      TradeInfo: newusertradeinfo,
     }
     app.globalData.Guserdata = obj
-    console.log("Ginviterid", app.globalData.Ginviterid)
+
     console.log("Guserdata", app.globalData.Guserdata)
     // 在USER数据库中新增用户信息
     const db = wx.cloud.database()
@@ -300,17 +307,54 @@ function _newuser(tempinviterid, params, remark) {
         }),
         UserId: app.globalData.Guserid,
         Params: params,
-        SystemInfo: app.globalData.Gsysteminfo,
+        // SystemInfo: app.globalData.Gsysteminfo,
         UserInfo: newuserinfo,
         TradeInfo: newusertradeinfo,
         Remark: remark,
       },
       success: res => {
         console.log("新增用户数据执行成功")
-        // 查询推荐人信息
-        // _invitercheck()
-        resolve(res.data)
+        db.collection("POINTS").add({
+          data: {
+            PointsType: "promoter",
+            UserId: app.globalData.Guserid,
+            ProductName: "直接推广积分",
+            InviterId: app.globalData.Ginviterid,
+            InviterPoints: 5,
+            SysAddDate: new Date().getTime(),
+            AddDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            }),
+            PointsStatus: "checked",
+          },
+          success: res => {
+            console.log("执行到最后位置了", res)
+            resolve(res.data)
+          },
+        })
       },
+    })
+  });
+  return promise;
+}
+
+function _productcheck() { // 通过云函数查询在售商品
+  var promise = new Promise((resolve, reject) => {
+    console.log("productcheck执行了")
+    // 使用云函数避免每次20条数据限制
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "PRODUCT",
+        command: "or",
+        where: [{
+          Status: "在售"
+        }]
+      },
+      success: res => {
+        app.globalData.Gproduct = res.result.data
+        resolve(res.result.data)
+      }
     })
   });
   return promise;
@@ -357,66 +401,6 @@ function _discountcheck() {
         // _invitercheck()
         resolve(res)
       }
-    })
-  });
-  return promise;
-}
-
-function _invitercheck() {
-  var promise = new Promise((resolve, reject) => {
-    console.log("invitercheck执行了")
-    // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
-    const db = wx.cloud.database()
-    db.collection('USER').where({
-      UserId: app.globalData.Ginviterid
-    }).get({
-      success: res => {
-        console.log(res)
-        // 给本地数据赋值
-        app.globalData.Gindirectinviterid = res.data[0].UserInfo.InviterId
-        app.globalData.Guserdata.UserInfo.InviterId = res.data[0].UserId
-        app.globalData.Guserdata.UserInfo.InviterCompany = res.data[0].UserInfo.CompanyName
-        app.globalData.Guserdata.UserInfo.InviterName = res.data[0].UserInfo.UserName
-        app.globalData.Ginviterphone = res.data[0].UserInfo.UserPhone
-        const db = wx.cloud.database()
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            // 给数据库字库更新
-            ["UserInfo.InviterId"]: res.data[0].UserId,
-            ["UserInfo.InviterCompany"]: res.data[0].UserInfo.CompanyName,
-            ["UserInfo.InviterName"]: res.data[0].UserInfo.UserName,
-            ["UserInfo.InviterPhone"]: res.data[0].UserInfo.UserPhone,
-            ["UserInfo.IndirectInviterId"]: res.data[0].UserInfo.InviterId,
-
-          },
-          success: res => {
-            console.log(res)
-            db.collection("POINTS").add({
-              data: {
-                PointsType: "promoter",
-                UserId: app.globalData.Guserid,
-                ProductName: "直接推广积分",
-                InviterId: app.globalData.Ginviterid,
-                InviterPoints: 5,
-                SysAddDate: new Date().getTime(),
-                AddDate: new Date().toLocaleString('chinese', {
-                  hour12: false
-                }),
-                PointsStatus: "checked",
-              },
-              success: res => {
-                console.log("执行到最后位置了", res)
-                resolve(res.data)
-              },
-            })
-          }
-        })
-
-        console.log(app.globalData.Guserdata)
-
-      },
     })
   });
   return promise;
@@ -835,6 +819,7 @@ function _SuccessToast(title) {
     duration: 2000 //持续的时间
   })
 }
+
 function _ErrorToast(title) {
   wx.showToast({
     title: title,
@@ -868,9 +853,10 @@ function _roomapply(promotebalance, tradebalance, balanceupdatetime) {
 
 module.exports = {
   // 提示信息
-  _SuccessToast:_SuccessToast,
+  _SuccessToast: _SuccessToast,
   _ErrorToast: _ErrorToast,
-  
+
+  UserLogin: UserLogin,
   _productcheck: _productcheck,
   _login: _login,
   _setting: _setting,
@@ -890,11 +876,11 @@ module.exports = {
   _UserLogin: _UserLogin,
   _RegistPointsAdd: _RegistPointsAdd,
   _SendNewUserSMS: _SendNewUserSMS,
-  _uploadfiles:_uploadfiles,
+  _uploadfiles: _uploadfiles,
   showLoading: showLoading,
   hideLoading: hideLoading,
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,
   // 快捷会议室
-  _roomapply:_roomapply,
+  _roomapply: _roomapply,
 
 }

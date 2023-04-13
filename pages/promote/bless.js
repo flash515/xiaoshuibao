@@ -328,7 +328,7 @@ Page({
       console.log('手机验证码正确')
       const db = wx.cloud.database()
       db.collection('USER').where({
-        UserId: this.data.openid
+        UserId: app.globalData.Guserid
       }).update({
         data: {
           ["Bless.background"]: this.data.blessbg,

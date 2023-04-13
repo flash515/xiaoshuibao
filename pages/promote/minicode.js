@@ -41,6 +41,7 @@ Page({
       avatarUrl,
     })
     // 更新数据
+    const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
     }).update({
@@ -48,76 +49,9 @@ Page({
         ["UserInfo.avatarUrl"]: this.data.avatarUrl,
       },
     })
-    // 以上更新数据结束
-    wx.showToast({
-      icon: 'success',
-      title: '头像已更新',
-    })
-  },
-  //单独打开该页时取得用户id,实际应该用不到
-  onGetOpenid: function () {
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
-        wx.navigateTo({
-          url: '../userConsole/userConsole',
-        })
-      },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
-        })
-      }
-    })
-  },
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "获取你的头像以生成小程序码",
-      success: res => {
-        console.log("获得的用户微信信息", res)
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl
-        })
-        console.log("获得的用户头像地址", res.userInfo.avatarUrl)
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon: 'success',
-          title: '头像已更新',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
-      }
-    })
 
   },
+
   getUrlLink() {
     // 调用云函数
     wx.cloud.callFunction({
@@ -164,10 +98,10 @@ Page({
         // scene: "5678"
       },
       success: res => {
-        console.log("tempqrcodeurl", res.result);
         that.setData({
           tempqrcodeurl: res.result
         })
+        console.log("tempqrcodeurl", this.data.tempqrcodeurl);
         // 执行下一个方法的方法
         that.drawCanvas()
       }

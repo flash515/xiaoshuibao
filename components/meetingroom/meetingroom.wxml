@@ -18,7 +18,7 @@
         <block wx:if="{{item.msgType === 'image'}}">
           <view class="image-wrapper">
             <view class="loading" wx:if="{{item.writeStatus > -1}}">{{item.writeStatus}}%</view>
-            <image src="{{item.tempFilePath || item.imgFileID}}" data-fileid="{{item.tempFilePath || item.imgFileID}}" class="image-content" style="{{item.imgStyle}}" mode="scallToFill" show-menu-by-longpress="{{true}}" bindtap="onMessageImageTap"></image>
+            <image src="{{item.tempFilePath || item.imgFileID}}" data-fileid="{{item.tempFilePath || item.imgFileID}}" class="image-content" style="{{item.imgStyle}}" mode="aspectFit" show-menu-by-longpress="{{true}}" bindtap="onMessageImageTap"></image>
           </view>
         </block>
         <block wx:else>

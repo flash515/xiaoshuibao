@@ -12,7 +12,7 @@ Page({
    */
   data: {
     membershow: false,
-    avatarurl: defaultAvatarUrl,
+    avatarurl: "",
     nickname: "",
     time: "获取验证码",
     currentTime: 60,
@@ -29,8 +29,8 @@ Page({
     duration: 500,
     previousMargin: 0,
     nextMargin: 0,
-    invitercompanyname: "",
-    inviterusername: "",
+    invitercompany: "",
+    invitername: "",
     companyname: "",
     companyid: "",
     businessscope: "",
@@ -44,8 +44,6 @@ Page({
     userphone: "",
     useroldphone: "",
     result: "未发送",
-    balance: "",
-    usertype: "",
     adddate: "",
     updatedate: ""
   },
@@ -232,7 +230,6 @@ Page({
         email: app.globalData.Guserdata.UserInfo.Email,
         website: app.globalData.Guserdata.UserInfo.Website,
         telephone: app.globalData.Guserdata.UserInfo.Telephone,
-        usertype: app.globalData.Guserdata.UserInfo.UserType,
         adddate: app.globalData.Guserdata.UserInfo.AddDate,
         updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
         invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
@@ -264,7 +261,6 @@ Page({
           wechat: res.data[0].UserInfo.WeChat,
           email: res.data[0].UserInfo.Email,
           website: res.data[0].UserInfo.Website,
-          usertype: res.data[0].TradeInfo.UserType,
           updatedate: res.data[0].UserInfo.UpdateDate,
         })
       }
@@ -276,7 +272,7 @@ Page({
       console.log('手机验证码正确')
       const db = wx.cloud.database()
       db.collection('USER').where({
-        UserId: this.data.openid
+        UserId: app.globalData.Guserid
       }).update({
         data: {
           ["UserInfo.CompanyName"]: this.data.companyname,
@@ -347,7 +343,7 @@ Page({
           },
           success(res) {
             console.log("POINTS更新成功")
-            //给推荐和和管理员发送短信
+            //给推荐人和和管理员发送短信
             if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {
               var tempmobile = [18954744612, app.globalData.Ginviterphone]
             } else {
