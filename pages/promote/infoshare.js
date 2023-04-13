@@ -344,7 +344,7 @@ Page({
    */
   onLoad: async function (options) {
     console.log("接收到的参数", options)
-    app.globalData.Gparams = options
+
     if (options.userid) {
       // 有userid是通过分享进入
       console.log("if操作执行了")

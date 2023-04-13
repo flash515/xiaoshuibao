@@ -41,7 +41,7 @@ Page({
     }
 
     // 调用方法初始化
-    utils.Login(this.data.tempinviterid,this.data.params,this.data.remark)
+    await utils.UserLogin(this.data.tempinviterid,this.data.params,this.data.remark)
     // utils._setting()
     // utils._productcheck()
     // await utils._login()
