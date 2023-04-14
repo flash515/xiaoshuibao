@@ -41,26 +41,7 @@ Page({
     }
 
     // 调用方法初始化
-    await utils.UserLogin(this.data.tempinviterid,this.data.params,this.data.remark)
-    // utils._setting()
-    // utils._productcheck()
-    // await utils._login()
-    // let data = await utils._usercheck(app.globalData.Guserid)
-    // console.log("data", data);
-    // if (data.length == 0) {
-    //   // 新用户执行操作
-    //   app.globalData.Ginviterid=this.data.tempinviterid
-    //   await utils._invitercheck(app.globalData.Ginviterid)
-    //   await utils._newuser(this.data.tempinviterid, this.data.params, this.data.remark)
-    // } else {
-    //   // 老用户执行操作
-    //   app.globalData.Guserdata = data[0]
-    //   app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
-    //   app.globalData.Ginviterid = data[0].UserInfo.InviterId
-    //   app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
-    //   console.log("当前用户信息", app.globalData.Guserdata);
-    //   await utils._discountcheck()
-    // }
+  await utils.UserLogin(this.data.tempinviterid,this.data.params,this.data.remark)
     wx.switchTab({
       url: '../index/home',
     })

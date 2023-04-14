@@ -76,7 +76,7 @@ Page({
             Status: "",
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
@@ -84,7 +84,7 @@ Page({
             })
 
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',
@@ -119,14 +119,14 @@ Page({
             Status: "",
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',
@@ -161,14 +161,14 @@ Page({
             Status: "",
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',
@@ -203,14 +203,14 @@ Page({
             Status: "",
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '留言发送成功',
               icon: 'none',
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',

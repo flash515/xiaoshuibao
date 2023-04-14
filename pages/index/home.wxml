@@ -4,11 +4,11 @@
     <text>\r\n</text>
     <view class="logininputbox" style="justify-content:flex-start;">
       <view style="padding: 10rpx;">手机号：</view>
-      <input style="width: 300rpx;" type="number" value="{{userphone}}" bind:input="bvUserPhone" required="{{true}}" />
+      <input style="width: 300rpx;" type="number" bind:input="bvUserPhone" required="{{true}}" />
     </view>
     <view class="logininputbox" style="justify-content:space-between;">
       <view style="padding: 10rpx;">验证码：</view>
-      <input style="width: 150rpx;" type="number" value="{{phonecode}}" bind:input="bvPhoneCode" required="{{true}}" />
+      <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
       <button plain bindtap="bvSendCode" disabled='{{disabled}}'>{{time}}</button>
     </view>
     <text>\r\n</text>
@@ -34,8 +34,8 @@
 <!-- 通知栏 -->
 <l-notice-bar show="{{true}}" type="swip" speed="2000" front-icon-name="notification" front-icon-size="20" front-icon-color="#3683D6" bind:lintap="onNoticeView" swip-arr="{{noticearray}}">
 </l-notice-bar>
-<view class="mainframe">
 
+<view class="mainframe">
   <view wx:if="{{loginbtnshow==true}}" style="display:flex; justify-content:center;">
     <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>

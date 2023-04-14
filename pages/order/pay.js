@@ -120,7 +120,7 @@ Page({
         OrderStatus: "checked",
         Available: true,
       },
-      success(res) {
+      success: res => {
         console.log("商品订单更新成功")
       }
     })
@@ -134,7 +134,7 @@ Page({
         PaymentStatus: "checked",
         PointsStatus: "checked",
       },
-      success(res) {
+      success: res => {
         console.log("积分状态更新成功")
       },
     })
@@ -212,7 +212,7 @@ Page({
           data: {
             Balance: app.globalData.Guserdata.UserInfo.Balance - that.data.consumepoints,
           },
-          success(res) {
+          success: res => {
             console.log("个人积分更新成功")
           }
         })
@@ -368,7 +368,7 @@ Page({
               BookingStatus: "unchecked",
               AddDate: new Date().toLocaleString('chinese',{ hour12: false })
             },
-            success(res) {
+            success: res => {
               console.log('预约提交成功', res.data)
               wx.showToast({
                 title: '预约提交成功',
@@ -376,7 +376,7 @@ Page({
                 duration: 2000 //持续的时间
               })
             },
-            fail(res) {
+            fail: res => {
               console.log("提交失败", res)
               wx.showToast({
                 title: '预约提交失败',

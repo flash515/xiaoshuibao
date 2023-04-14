@@ -61,7 +61,7 @@ Page({
           RefProduct: this.data.refproduct,
           Status: this.data.status,
         },
-        success(res) {
+        success: res => {
           console.log('新增数据成功', res)
           thispage.setData({
             sublock: true // 修改上传状态并返回前端

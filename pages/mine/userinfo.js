@@ -1,10 +1,7 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
+const track = require("../../utils/track");
+const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
   /**
@@ -22,7 +19,7 @@ Page({
     previousMargin: 0,
     nextMargin: 0,
     // 用户信息
-    membershow: false,
+
     avatarurl: "",
     nickname: "",
     userphone: "",
@@ -35,25 +32,11 @@ Page({
     inviteravatar: "",
     inviternickname: "",
     adddate: "",
-
-    // 会员用户信息
-    username: "",
-    position: "",
-    wechat: "",
-    email: "",
-    telephone: "",
-    website: "",
-    address: "",
-    companyname: "",
-    companyid: "",
-    businessscope: "",
-    result: "未发送",
     updatedate: "",
   },
+
   onChooseAvatar(e) {
-    // const {
-    //   avatarUrl
-    // } = e.detail
+
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     wx.cloud.uploadFile({
@@ -88,61 +71,21 @@ Page({
       })
     }
   },
-  bvCompanyName(e) {
-    this.setData({
-      companyname: e.detail.value
-    })
+
+  bvUserPhone(e) {
+    this.data.userphone = e.detail.value
+    console.log(this.data.userphone)
   },
-  bvCompanyId(e) {
-    this.setData({
-      companyid: e.detail.value
-    })
-  },
-  bvBusinessScope(e) {
-    this.setData({
-      businessscope: e.detail.value
-    })
-  },
-  bvPosition(e) {
-    this.setData({
-      position: e.detail.value
-    })
-  },
-  bvWeChat(e) {
-    this.setData({
-      wechat: e.detail.value
-    })
-  },
-  bvEmail(e) {
-    this.setData({
-      email: e.detail.value
-    })
-  },
-  bvTelephone(e) {
-    this.setData({
-      telephone: e.detail.value
-    })
-  },
-  bvWebsite(e) {
-    this.setData({
-      website: e.detail.value
-    })
-  },
-  bvAddress(e) {
-    this.setData({
-      address: e.detail.value
-    })
+  bvPhoneCode(e) {
+    this.data.u_phonecode = e.detail.value
   },
 
-  bvUserName(e) {
-    this.setData({
-      username: e.detail.value
-    })
-  },
-  bvUserPhone(e) {
-    this.setData({
-      userphone: e.detail.value
-    })
+  bvSendCode: async function () {
+    this.data.s_phonecode = await utils._sendcode(this.data.userphone)
+    console.log("验证码", this.data.s_phonecode)
+    if (this.data.s_phonecode != '' && this.data.s_phonecode != undefined) {
+      this._SendCodeBtn()
+    }
   },
   _SendCodeBtn() {
     var that = this;
@@ -162,220 +105,50 @@ Page({
       }
     }, 1000)
   },
-  bvSendCode() {
-    if (this.data.userphone == "" || this.data.userphone == undefined) {
-      wx.showToast({
-        title: '请输入手机号码',
-        icon: 'error',
-        duration: 2000
-      })
-    } else {
-      let _this = this;
-      this.setData({
-        disabled: true
-      })
-      wx.cloud.callFunction({
-        name: 'sendmessage',
-        data: {
-          templateId: "985130",
-          nocode: false,
-          mobile: _this.data.userphone,
-          nationcode: '86'
-        },
-        success: res => {
-          let code = res.result.res.body.params[0];
-          let result = res.errMsg;
-          if (result == "cloud.callFunction:ok") {
-            _this.setData({
-              result: "发送成功",
-              s_phonecode: code
-            })
-            this._SendCodeBtn()
-          } else {
-            _this.setData({
-              result: "发送失败"
-            })
-          }
-        },
-        fail: err => {
-          console.error('[云函数] [sendsms] 调用失败', err)
-        }
-      })
-    }
-  },
-  bvPhoneCode(e) {
-    this.setData({
-      u_phonecode: e.detail.value
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-    })
-    if (app.globalData.Guserdata.UserInfo.UserPhone != '' && app.globalData.Guserdata.UserInfo.UserPhone != undefined) {
-      this.setData({
-        membershow: true,
-        avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
-        nickname: app.globalData.Guserdata.UserInfo.nickName,
-        companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
-        companyname: app.globalData.Guserdata.UserInfo.CompanyName,
-        companyid: app.globalData.Guserdata.UserInfo.CompanyId,
-        businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
-        address: app.globalData.Guserdata.UserInfo.Address,
-        username: app.globalData.Guserdata.UserInfo.UserName,
-        userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-        useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
-        position: app.globalData.Guserdata.UserInfo.Position,
-        wechat: app.globalData.Guserdata.UserInfo.WeChat,
-        email: app.globalData.Guserdata.UserInfo.Email,
-        website: app.globalData.Guserdata.UserInfo.Website,
-        telephone: app.globalData.Guserdata.UserInfo.Telephone,
-        adddate: app.globalData.Guserdata.UserInfo.AddDate,
-        updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
-        inviteravatar: app.globalData.Guserdata.UserInfo.InviterCompany,
-        inviternickname: app.globalData.Guserdata.UserInfo.InviterName,
-      })
-
-    }
-
-  },
-  // 刷新信息
-  RefreshData() {
-    const db = wx.cloud.database()
-    db.collection('USER').where({
-      UserId: app.globalData.Guserid
-    }).get({
-      success: res => {
-        this.setData({
-          avatarurl: res.data[0].UserInfo.avatarUrl,
-          nickname: res.data[0].UserInfo.nickName,
-          companyname: res.data[0].UserInfo.CompanyName,
-          companyid: res.data[0].UserInfo.CompanyId,
-          companylogo: res.data[0].UserInfo.CompanyLogo,
-          businessscope: res.data[0].UserInfo.BusinessScope,
-          address: res.data[0].UserInfo.Address,
-          username: res.data[0].UserInfo.UserName,
-          useroldphone: res.data[0].UserInfo.UserPhone,
-          userphone: res.data[0].UserInfo.UserPhone,
-          position: res.data[0].UserInfo.Position,
-          wechat: res.data[0].UserInfo.WeChat,
-          email: res.data[0].UserInfo.Email,
-          website: res.data[0].UserInfo.Website,
-          updatedate: res.data[0].UserInfo.UpdateDate,
-        })
-      }
+      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
+      useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
+      avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickname: app.globalData.Guserdata.UserInfo.nickName,
+      adddate: app.globalData.Guserdata.UserInfo.AddDate,
+      updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
+      inviteravatar: app.globalData.Guserdata.UserInfo.InviterCompany,
+      inviternickname: app.globalData.Guserdata.UserInfo.InviterName,
     })
   },
+
   //修改数据操作
-  UpdateData(e) {
+  async UpdateData(e) {
     if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode != "") {
       console.log('手机验证码正确')
       const db = wx.cloud.database()
-      db.collection('USER').where({
+     db.collection('USER').where({
         UserId: app.globalData.Guserid
       }).update({
         data: {
-          ["UserInfo.CompanyName"]: this.data.companyname,
-          ["UserInfo.CompanyId"]: this.data.companyid,
-          ["UserInfo.CompanyLogo"]: this.data.companylogo,
-          ["UserInfo.BusinessScope"]: this.data.businessscope,
-          ["UserInfo.UserName"]: this.data.username,
           ["UserInfo.UserPhone"]: this.data.userphone,
+          ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
-          ["UserInfo.Position"]: this.data.position,
-          ["UserInfo.WeChat"]: this.data.wechat,
-          ["UserInfo.Email"]: this.data.email,
-          ["UserInfo.Telephone"]: this.data.telephone,
-          ["UserInfo.Website"]: this.data.website,
-          ["UserInfo.Address"]: this.data.address,
-          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
         },
-        success(res) {
-          wx.showToast({
-            title: '更新信息成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
+        success: res => {
+          utils._SuccessToast("信息更新成功")
+          // 根据用户是否已验证手机号，提供首次验证积分
+          if (this.data.useroldphone == "") {
+            utils._RegistPointsAdd()
+            utils._SendNewUserSMS()
+          }
         },
-        fail(res) {
-          wx.showToast({
-            title: '更新信息失败',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
-        }
       })
-      // 根据用户是否已验证手机号，提供首次验证积分
-      if (this.data.useroldphone == "") {
-        // 成为会员时间
-        const db = wx.cloud.database()
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
-              hour12: false
-            })
-          },
-          success(res) {},
-        })
-        console.log('推广积分')
-        db.collection("POINTS").add({
-          data: {
-            PointsType: "promoter",
-            RegistrantId: app.globalData.Guserid,
-            RegistrantPoints: 50,
-            ProductName: "会员手机认证",
-            // 直接推荐人
-            InviterId: app.globalData.Ginviterid,
-            InviterPoints: 30,
-            // 间接推荐人
-            IndirectInviterId: app.globalData.Gindirectinviterid,
-            IndirectInviterPoints: 10,
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
-            PointsStatus: "checked",
-          },
-          success(res) {
-            console.log("POINTS更新成功")
-            //给推荐人和和管理员发送短信
-            if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {
-              var tempmobile = [18954744612, app.globalData.Ginviterphone]
-            } else {
-              var tempmobile = [18954744612]
-            }
-            // 调用云函数发短信给推荐人和管理员
-            wx.cloud.callFunction({
-              name: 'sendsms',
-              data: {
-                templateId: "1569087",
-                nocode: true,
-                mobile: tempmobile
-              },
-              success: res => {
-                console.log("短信发送结果", res)
-              },
-              fail: res => {
-                console.log(res)
-              },
-            })
-          },
-        })
-      }
     } else {
-      wx.showToast({
-        title: '验证码错误',
-        icon: 'error',
-        duration: 2000
-      })
+      utils._ErrorToast("验证码错误")
     }
   },
   /**
@@ -386,9 +159,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => startToTrack(),
+  onTabItemTap: () => track.startToTrack(),
   onShow: function () {
-    startToTrack()
+    track.startToTrack()
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -398,7 +171,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    startByBack()
+    track.startByBack()
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

@@ -86,9 +86,7 @@ Page({
   },
 
   bvUserPhone(e) {
-    this.setData({
-      userphone: e.detail.value
-    })
+    this.data.userphone= e.detail.value
   },
 
   bvBgSelect(e) {
@@ -158,9 +156,7 @@ Page({
     }
   },
   bvPhoneCode(e) {
-    this.setData({
-      u_phonecode: e.detail.value
-    })
+    this.data.u_phonecode= e.detail.value
   },
   bvChooseImage(e) {
     console.log(e.detail)
@@ -341,14 +337,14 @@ Page({
             hour12: false
           })
         },
-        success(res) {
+        success: res => {
           wx.showToast({
             title: '更新信息成功',
             icon: 'success',
             duration: 2000 //持续的时间
           })
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '更新信息失败',
             icon: 'error',
@@ -368,7 +364,7 @@ Page({
               hour12: false
             })
           },
-          success(res) {
+          success: res => {
 
           },
         })
@@ -391,7 +387,7 @@ Page({
             }),
             PointsStatus: "checked",
           },
-          success(res) {
+          success: res => {
             console.log("POINTS更新成功")
             //给推荐和和管理员发送短信
             if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {

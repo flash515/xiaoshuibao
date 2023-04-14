@@ -11,12 +11,12 @@
     <text>\r\n</text>
       <view style="display:flex; flex-direction:row;">
         <label class="labal">手机号：</label>
-        <input class="input" type="number"  value="{{userphone}}" bind:input="bvUserPhone" required="{{true}}" />
+        <input class="input" type="number"  bind:input="bvUserPhone" required="{{true}}" />
 
       </view>
       <view style="display:flex; flex-direction:row;">
         <label class="labal">验证码：</label>
-        <input class="input" type="number" value="{{phonecode}}" bind:input="bvPhoneCode" required="{{true}}" />
+        <input class="input" type="number" bind:input="bvPhoneCode" required="{{true}}" />
         <button class="codebtn" bindtap="bvSendCode" disabled="{{disabled}}">
         <text class="codebtntext">{{time}}</text></button>
       </view>

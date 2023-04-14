@@ -121,13 +121,13 @@ Page({
           OrderStatus:"unchecked",
           Available:false
         },
-        success(res) {
+        success: res => {
           that.setData({
             ordersublock: true
           })
           that._hidden()
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '提交失败请重试',
             icon: 'error',
@@ -153,14 +153,14 @@ Page({
           PaymentStatus: "unchecked",
           Database:"DISCOUNTORDER"
         },
-        success(res) {
+        success: res => {
           console.log("paymentadd成功")
           that.setData({
             paymentsublock: true,
           })
           that._hidden()
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '提交失败请重试',
             icon: 'error',
@@ -254,7 +254,7 @@ Page({
           OrderStatus: "checked",
           Available:true
         },
-        success(res) {
+        success: res => {
           console.log("商品订单付款成功")
         }
       })
@@ -267,7 +267,7 @@ Page({
         data: {
           PaymentStatus: "checked",
         },
-        success(res) {
+        success: res => {
           console.log("支付订单付款成功")
         },
       })
@@ -283,7 +283,7 @@ Page({
           ['TradeInfo.DLEndDate']:this.data.orderenddate,
           ['TradeInfo.DLUpdateTime']:new Date().toLocaleString('chinese',{ hour12: false }),
         },
-        success(res) {
+        success: res => {
           console.log("用户信息更新成功")
         },
       })

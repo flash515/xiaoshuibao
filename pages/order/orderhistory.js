@@ -38,14 +38,10 @@ Page({
   },
 
   bvUserPhone(e) {
-    this.setData({
-      userphone: e.detail.value
-    })
+    this.data.userphone= e.detail.value
   },
   bvPhoneCode(e) {
-    this.setData({
-      u_phonecode: e.detail.value
-    })
+    this.data.u_phonecode= e.detail.value
   },
   bvSendCode: async function (){
     this.data.s_phonecode = await utils._sendcode(this.data.userphone)
@@ -75,7 +71,7 @@ Page({
 
   },
   bvLogin: async function (e) {
-    await utils._UserLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._NewLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
     await utils._RegistPointsAdd()
     await utils._SendNewUserSMS()
     this.setData({

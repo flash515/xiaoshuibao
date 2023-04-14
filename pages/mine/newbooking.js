@@ -80,7 +80,7 @@ Page({
             BookingStatus: "unchecked",
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             console.log('预约提交成功', res.data)
             wx.showToast({
               title: '预约提交成功',
@@ -88,7 +88,7 @@ Page({
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("提交失败", res)
             wx.showToast({
               title: '预约提交失败',
@@ -113,7 +113,7 @@ Page({
           BookingStatus: "unchecked",
           UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
         },
-        success(res) {
+        success: res => {
           console.log('预约更新成功', res.data)
           wx.showToast({
             title: '预约更新成功',
@@ -121,7 +121,7 @@ Page({
             duration: 2000 //持续的时间
           })
         },
-        fail(res) {
+        fail: res => {
           console.log("更新失败", res)
           wx.showToast({
             title: '预约更新失败',

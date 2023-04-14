@@ -281,14 +281,14 @@ Page({
         }),
         InfoStatus: "unchecked",
       },
-      success(res) {
+      success: res => {
         wx.showToast({
           title: '已保存',
           icon: 'success',
           duration: 2000 //持续的时间
         })
       },
-      fail(res) {
+      fail: res => {
         wx.showToast({
           title: '保存失败请重试',
           icon: 'fail',
@@ -318,14 +318,14 @@ Page({
         }),
         InfoStatus: "unchecked",
       },
-      success(res) {
+      success: res => {
         wx.showToast({
           title: '已保存',
           icon: 'success',
           duration: 2000 //持续的时间
         })
       },
-      fail(res) {
+      fail: res => {
         wx.showToast({
           title: '保存失败请重试',
           icon: 'fail',
@@ -351,7 +351,7 @@ Page({
       sourceType: ['album', 'camera'],
       maxDuration: 60,
       camera: ['front', 'back'],
-      success(res) {
+      success: res => {
         that.setData({
           videourl: res.tempFilePath
         })

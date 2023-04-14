@@ -432,10 +432,10 @@ Page({
       data: {
         Search: _.push(e.detail.value)
       },
-      success(res) {
+      success: res => {
         console.log(res)
       },
-      fail(res) {
+      fail: res => {
         console.log(res)
       }
     })

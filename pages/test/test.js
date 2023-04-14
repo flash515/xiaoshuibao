@@ -113,7 +113,7 @@ this.scanCode(src)
           })
 
         },
-        fail(res) {
+        fail: res => {
           wx.hideLoading()
           console.log("fail res:")
           console.log(res)

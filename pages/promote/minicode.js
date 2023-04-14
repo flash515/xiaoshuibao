@@ -75,9 +75,9 @@ Page({
     let that = this;
     wx.setClipboardData({
       data: that.data.urllink, //这个是要复制的数据
-      success(res) {
+      success: res => {
         wx.getClipboardData({
-          success(res) {
+          success: res => {
             console.log(res.data) // data
           }
         })

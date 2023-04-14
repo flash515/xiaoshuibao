@@ -282,15 +282,9 @@ Page({
     })
 
   },
-  bvUserPhone(e) {
-    this.setData({
-      userphone: e.detail.value
-    })
-  },
+
   bvPhoneCode(e) {
-    this.setData({
-      u_phonecode: e.detail.value
-    })
+    this.data.u_phonecode= e.detail.value
   },
   bvSendCode: async function () {
     this.data.s_phonecode = await utils._sendcode(this.data.userphone)
@@ -320,7 +314,7 @@ Page({
 
   },
   bvLogin: async function (e) {
-    await utils._UserLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._NewLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
     await utils._RegistPointsAdd()
     await utils._SendNewUserSMS()
     this.setData({
@@ -362,7 +356,7 @@ Page({
             hour12: false
           })
         },
-        success(res) {
+        success: res => {
           utils._SuccessToast("名片发布成功")
           this.data.publishstatus = true
           db.collection('USER').where({
@@ -371,15 +365,15 @@ Page({
             data: {
               ["UserInfo.NameCarePublishStatus"]: this.data.publishstatus,
             },
-            success(res) {
+            success: res => {
               utils._SuccessToast("名片发布成功")
             },
-            fail(res) {
+            fail: res => {
               utils._ErrorToast("名片发布不成功")
             }
           })
         },
-        fail(res) {
+        fail: res => {
           utils._ErrorToast("名片发布不成功")
         }
       })
@@ -409,10 +403,10 @@ Page({
             hour12: false
           })
         },
-        success(res) {
+        success: res => {
           utils._SuccessToast("名片发布成功")
         },
-        fail(res) {
+        fail: res => {
           utils._ErrorToast("名片发布不成功")
         }
       })
@@ -445,7 +439,7 @@ Page({
           hour12: false
         })
       },
-      success(res) {
+      success: res => {
         app.globalData.Guserdata.UserInfo.UserName = this.data.username,
           app.globalData.Guserdata.UserInfo.Position = this.data.position,
           app.globalData.Guserdata.UserInfo.WeChat = this.data.wechat,
@@ -463,7 +457,7 @@ Page({
 
           utils._SuccessToast("名片保存成功")
       },
-      fail(res) {
+      fail: res => {
         utils._ErrorToast("名片保存不成功")
       }
     })

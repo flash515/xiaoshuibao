@@ -35,11 +35,7 @@ function _sendcode(userphone) {
   // 发送验证码
   var promise = new Promise((resolve, reject) => {
     if (userphone == "" || userphone == undefined) {
-      wx.showToast({
-        title: '请输入手机号码',
-        icon: 'error',
-        duration: 2000
-      })
+      _ErrorToast("请输入手机号码")
     } else {
       let _this = this;
       wx.cloud.callFunction({
@@ -56,11 +52,7 @@ function _sendcode(userphone) {
           if (result == "cloud.callFunction:ok") {
             resolve(code)
           } else {
-            wx.showToast({
-              title: '发送失败请重试',
-              icon: 'error',
-              duration: 2000
-            })
+            _ErrorToast("发送失败请重试")
           }
         },
         fail: err => {
@@ -72,7 +64,7 @@ function _sendcode(userphone) {
   return promise;
 }
 
-async function _UserLogin(userphone, s_phonecode, u_phonecode) {
+async function _NewLogin(userphone, s_phonecode, u_phonecode) {
   var promise = new Promise((resolve, reject) => {
     if (s_phonecode == u_phonecode && u_phonecode != "") {
       console.log('手机验证码正确')
@@ -86,31 +78,13 @@ async function _UserLogin(userphone, s_phonecode, u_phonecode) {
             hour12: false
           })
         },
-        success(res) {
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
+        success: res => {
           resolve(res)
         },
-        fail(res) {
-          wx.showToast({
-            title: '登录不成功',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
-        }
       })
-
     } else {
-      wx.showToast({
-        title: '验证码错误',
-        icon: 'error',
-        duration: 2000
-      })
+      _ErrorToast("验证码错误")
     }
-
   });
   return promise;
 }
@@ -137,7 +111,7 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
         }),
         PointsStatus: "checked",
       },
-      success(res) {
+      success: res => {
         resolve(res)
       },
     })
@@ -172,7 +146,7 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
   return promise;
 }
 async function UserLogin(tempinviterid, params, remark) { // 用户登录时的操作
-  var promise = new Promise((resolve, reject) => {
+
     _setting();
     // 产品查询不是需要和折扣查询、会员等级查询可以的需要的时候再调用
     _productcheck();
@@ -193,8 +167,7 @@ async function UserLogin(tempinviterid, params, remark) { // 用户登录时的�
       console.log("当前用户信息", app.globalData.Guserdata);
       await _discountcheck()
     }
-  });
-  return promise;
+
 }
 
 async function _setting() { // 通过本地数据库查询指令取得小程序设置参数
@@ -873,7 +846,7 @@ module.exports = {
   _packetcheck: _packetcheck,
   _getGoodsRandomNumber: _getGoodsRandomNumber,
   _sendcode: _sendcode,
-  _UserLogin: _UserLogin,
+  _NewLogin: _NewLogin,
   _RegistPointsAdd: _RegistPointsAdd,
   _SendNewUserSMS: _SendNewUserSMS,
   _uploadfiles: _uploadfiles,

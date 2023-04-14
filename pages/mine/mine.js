@@ -60,7 +60,7 @@ Page({
     })
     wx.getSetting({
       withSubscriptions: true,
-      success(res) {
+      success: res => {
         console.log(res.authSetting)
         // res.authSetting = {
         //   "scope.userInfo": true,

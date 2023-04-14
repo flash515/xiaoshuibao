@@ -313,13 +313,13 @@ Page({
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
         },
-        success(res) {
+        success: res => {
           that.setData({
             ordersublock: true // 修改上传状态并返回前端
           })
           that._hidden()
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '提交失败请重试',
             icon: 'fail',
@@ -350,13 +350,13 @@ Page({
           }),
           PaymentStatus: "unchecked",
         },
-        success(res) {
+        success: res => {
           that.setData({
             paymentsublock: true
           })
           that._hidden()
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '提交失败请重试',
             icon: 'error',
@@ -400,13 +400,13 @@ Page({
           PaymentStatus: "unchecked",
           PointsStatus: "unchecked",
         },
-        success(res) {
+        success: res => {
           that.setData({
             paymentsublock: true
           })
           that._hidden()
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '提交失败请重试',
             icon: 'error',

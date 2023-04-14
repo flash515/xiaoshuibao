@@ -108,7 +108,7 @@ if(this.applysubmit==true|| this.data.applyproviderdate!=''){
               hour12: false
             })
           },
-          success(res) {
+          success: res => {
             wx.showToast({
               title: '申请信息已发送',
               icon: 'success',
@@ -133,7 +133,7 @@ if(this.applysubmit==true|| this.data.applyproviderdate!=''){
             //   },
             // })
           },
-          fail(res) {
+          fail: res => {
             wx.showToast({
               title: '更新信息失败',
               icon: 'error',

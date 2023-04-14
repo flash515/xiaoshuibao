@@ -691,7 +691,7 @@ Page({
             ProductImage: this.data.productimage,
             AttachmentFile: this.data.attachmentfile,
           },
-          success(res) {
+          success: res => {
             console.log('新增数据成功', res)
             wx.showToast({
               title: '新增数据成功',
@@ -699,7 +699,7 @@ Page({
               duration: 2000 //持续的时间
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("新增数据失败", res)
             wx.showToast({
               title: '新增数据失败',
@@ -753,7 +753,7 @@ Page({
         Score: this.data.score,
         UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
       },
-      success(res) {
+      success: res => {
         console.log('更新数据成功', res)
         wx.showToast({
           title: '更新数据成功',
@@ -780,7 +780,7 @@ Page({
           }
         })
       },
-      fail(res) {
+      fail: res => {
         console.log("更新数据失败", res)
         wx.showToast({
           title: '更新数据失败',

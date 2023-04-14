@@ -217,7 +217,7 @@ Page({
             Status: "",
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
-          success(res) {
+          success: res => {
             console.log('留言发送成功', res.data)
             wx.showToast({
               title: '留言发送成功',
@@ -241,7 +241,7 @@ Page({
               },
             })
           },
-          fail(res) {
+          fail: res => {
             console.log("留言发送失败", res)
             wx.showToast({
               title: '留言发送失败',

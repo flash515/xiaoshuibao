@@ -158,10 +158,10 @@ Page({
     db.collection('USERINFO').where({
       UserName: this.data.nameDelete
     }).remove({
-      success(res) {
+      success: res => {
         console.log('删除数据成功', res.data) 
       },
-      fail(res) {
+      fail: res => {
         console.log("删除数据失败", res)
       }
     })
@@ -195,10 +195,10 @@ Page({
       data: {
         UserPhone: this.data.updatePhone
       },
-      success(res) {
+      success: res => {
         console.log('修改更新数据成功', res.data)
       },
-      fail(res) {
+      fail: res => {
         console.log("修改更新数据失败", res)
       }
     })
@@ -208,11 +208,11 @@ Page({
     const db = wx.cloud.database()
     db.collection('USERINFO').where(
       {_id: "{{item._id}}"}).remove({
-      success(res) {
+      success: res => {
         console.log('{{item._id}}', res.data) 
         console.log('删除数据成功', res.data) 
       },
-      fail(res) {
+      fail: res => {
         console.log("删除数据失败", res)
       }
     })

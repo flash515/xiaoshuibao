@@ -117,7 +117,7 @@ Page({
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
         },
-        success(res) {
+        success: res => {
           console.log("promoter成功")
           // 下面好像不应该用that,直接用this就可以的，但是用that应该也没影响
           that.setData({
@@ -125,7 +125,7 @@ Page({
           })
           that._hidden()
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '提交失败请重试',
             icon: 'error',
@@ -153,14 +153,14 @@ Page({
           PaymentStatus: "unchecked",
           Database: "PROMOTERORDER"
         },
-        success(res) {
+        success: res => {
           console.log("payment成功")
           that.setData({
             paymentsublock: true,
           })
           that._hidden()
         },
-        fail(res) {
+        fail: res => {
           wx.showToast({
             title: '提交失败请重试',
             icon: 'error',
@@ -233,7 +233,7 @@ Page({
         PaymentStatus: "checked",
         OrderStatus: "checked",
       },
-      success(res) {
+      success: res => {
         console.log("商品订单付款成功")
       }
     })
@@ -246,7 +246,7 @@ Page({
       data: {
         PaymentStatus: "checked",
       },
-      success(res) {
+      success: res => {
         console.log("支付订单付款成功")
       },
     })
@@ -260,7 +260,7 @@ Page({
         PromoterLevel: this.data.orderlevel,
         PLStartDate: this.data.orderstartdate,
       },
-      success(res) {
+      success: res => {
         console.log("支付订单付款成功")
       },
     })
