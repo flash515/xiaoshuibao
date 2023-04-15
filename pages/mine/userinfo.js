@@ -1,6 +1,5 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-const track = require("../../utils/track");
 const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
@@ -59,18 +58,6 @@ Page({
       nickname: e.detail.value,
     })
   },
-  changeTabs(e) {
-    console.log(e.detail)
-    if (e.detail.activeKey == "three") {
-      this.setData({
-        btnhidden: true
-      })
-    } else {
-      this.setData({
-        btnhidden: false
-      })
-    }
-  },
 
   bvUserPhone(e) {
     this.data.userphone = e.detail.value
@@ -117,9 +104,14 @@ Page({
       nickname: app.globalData.Guserdata.UserInfo.nickName,
       adddate: app.globalData.Guserdata.UserInfo.AddDate,
       updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
-      inviteravatar: app.globalData.Guserdata.UserInfo.InviterCompany,
-      inviternickname: app.globalData.Guserdata.UserInfo.InviterName,
+      inviteravatar: app.globalData.Guserdata.UserInfo.InviterAvatar,
+      inviternickname: app.globalData.Guserdata.UserInfo.InviterNickName,
     })
+    if(this.data.avatarurl==""){
+      this.setData({
+        avatarurl:defaultAvatarUrl
+      })
+    }
   },
 
   //修改数据操作
@@ -158,10 +150,9 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => track.startToTrack(),
+
   onShow: function () {
-    track.startToTrack()
+
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -171,7 +162,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    track.startByBack()
+
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作

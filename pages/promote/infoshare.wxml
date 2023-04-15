@@ -1,3 +1,24 @@
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true">
+  <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
+    <text>\r\n</text>
+    <view class="logininputbox" style="justify-content:flex-start;">
+      <view style="padding: 10rpx;">手机号：</view>
+      <input style="width: 300rpx;" type="number" bind:input="bvInputPhone" required="{{true}}" />
+    </view>
+    <view class="logininputbox" style="justify-content:space-between;">
+      <view style="padding: 10rpx;">验证码：</view>
+      <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
+      <button plain bindtap="bvSendCode" disabled='{{disabled}}'>{{time}}</button>
+    </view>
+    <text>\r\n</text>
+    <view class="loginbtnbox">
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini">取消登录</l-button>
+      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini">验证并登录</l-button>
+    </view>
+  </l-card>
+</l-mask>
+
 <video class="videoCss" id="myVideo" src="{{infovideo}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
 <view class="mainframe">
   <!-- <view class="page-section tc">
@@ -8,7 +29,6 @@
       <button type="primary" class="page-body-button" bindtap="bindPlayVideo">小窗模式</button>
     </navigator>
   </view> -->
-
 
   <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
     <l-button size="mini" shape="semicircle" bind:lintap="bvEdit" plain="{{true}}" icon="edit" icon-color="#3683d6">制作</l-button>

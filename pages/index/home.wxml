@@ -4,7 +4,7 @@
     <text>\r\n</text>
     <view class="logininputbox" style="justify-content:flex-start;">
       <view style="padding: 10rpx;">手机号：</view>
-      <input style="width: 300rpx;" type="number" bind:input="bvUserPhone" required="{{true}}" />
+      <input style="width: 300rpx;" type="number" bind:input="bvInputPhone" required="{{true}}" />
     </view>
     <view class="logininputbox" style="justify-content:space-between;">
       <view style="padding: 10rpx;">验证码：</view>

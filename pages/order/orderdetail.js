@@ -1,10 +1,9 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+
 Page({
 
   data: {
-    avatarUrl: "",
-    nickName: "",
+
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -59,12 +58,7 @@ Page({
   },
 
   onShow: function () {
-    this.setData({
-      image: app.globalData.Gimagearray,
-      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
-      nickName: app.globalData.Guserdata.UserInfo.nickName,
-    })
-    startToTrack()
+
   },
 
 
@@ -72,6 +66,7 @@ Page({
     var that = this;
     this.setData({
       pageParam: options.id,
+      image: app.globalData.Gimagearray,
     })
     console.log("pageParam", this.data.pageParam.id);
 

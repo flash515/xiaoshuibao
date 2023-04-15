@@ -1,15 +1,5 @@
 const app = getApp()
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
-var {
-  _discountcheck,
-  _PLordercheck,
-  _validuser,
-  _PLcheck,
-} = require("../../utils/utils")
+var utils = require("../../utils/utils")
 Page({
 
   data: {
@@ -75,10 +65,7 @@ Page({
   },
 
   onShow: function () {
-    this.setData({
-      image: app.globalData.Gimagearray,
-    })
-    startToTrack()
+
   },
   // 随机生成支付订单号,订单号不能重复
   _getGoodsRandomNumber() {
@@ -185,18 +172,13 @@ Page({
   onLoad: async function (options) {
     // 通过两次调用PLcheck查询推荐人和间接推荐人当前的PL
     this.setData({
-      eventid: app.globalData.Ginviterid
+      image: app.globalData.Gimagearray,
     })
-    console.log(this.data.eventid)
 
-    let pl1 = await _PLcheck(this.data.eventid)
+    let pl1 = await utils._PLcheck(app.globalData.Ginviterid)
     console.log(pl1)
-    this.setData({
-      eventid: app.globalData.Gindirectinviterid
-    })
-    console.log(this.data.eventid)
 
-    let pl2 = await _PLcheck(this.data.eventid)
+    let pl2 = await utils._PLcheck(app.globalData.Gindirectinviterid)
     console.log(pl2)
     this.setData({
       inviterPL: pl1,
@@ -213,7 +195,7 @@ Page({
       balance: app.globalData.Guserdata.TradeInfo.PromoteBalance,
     })
     console.log(this.data.pageParam)
-    await _discountcheck()
+    await utils._discountcheck()
 
     // 筛选指定记录
     var fliter = [];

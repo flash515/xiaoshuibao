@@ -1,5 +1,5 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const track = require("../../utils/track");
 Page({
 
   /**
@@ -37,9 +37,9 @@ this.setData({
   /**
    * 生命周期函数--监听页面显示
    */
-  onTabItemTap: () => startToTrack(),
+  onTabItemTap: () => track.startToTrack(),
   onShow: function () {
-    startToTrack()
+    track.startToTrack()
   },
 
   /**
@@ -53,7 +53,7 @@ this.setData({
    * 生命周期函数--监听页面卸载
    */
     onUnload: function () {
-    startByBack()
+      track.startByBack()
   },
 
   /**

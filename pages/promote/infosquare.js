@@ -1,5 +1,5 @@
 const app = getApp();
-const track = require("../../utils/track");
+
 const utils = require("../../utils/utils");
 Page({
 

@@ -11,7 +11,7 @@
   </swiper>
 </view>
 <view class="mainframe">
-  <l-tabs bind:linchange="changeTabs">
+  <l-tabs>
     <l-tabpanel tab="本人信息" key="one" slot="one">
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">手机号：</label>
@@ -23,7 +23,7 @@
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">验证码：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" placeholder="请输入验证码" bind:input="bvNickName" />
+          <input class="input" bind:input="bvNickName" />
         </view>
         <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
       </view>
@@ -58,9 +58,13 @@
       </view>
     </l-tabpanel>
     <l-tabpanel tab="邀请人信息" key="two" slot="two">
-      <view>
-        <l-input type="text" label="邀请人头像：" value="{{inviteravatar}}" disabled="{{true}}"></l-input>
-      </view>
+      <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">邀请人头像：</label>
+          <view style="padding-left: 50rpx;">
+              <image class="avatar" src="{{inviteravatar}}"></image>
+          </view>
+        </view>
+        <view class="line"></view>
       <view>
         <l-input type="text" label="邀请人昵称：" value="{{inviternickname}}" disabled="{{true}}"></l-input>
       </view>

@@ -1,10 +1,5 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
 const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
@@ -15,11 +10,6 @@ Page({
   data: {
     avatarurl: defaultAvatarUrl,
     nickname: "",
-    time: "获取验证码",
-    currentTime: 60,
-    disabled: false,
-    s_phonecode: "",
-    u_phonecode: "",
     // 轮播参数
     cardshow: true,
     imageview: [],
@@ -35,7 +25,6 @@ Page({
     businessscope: "",
     username: "",
     userphone: "",
-    useroldphone: "",
     position: "",
     wechat: "",
     email: "",
@@ -314,7 +303,7 @@ Page({
 
   },
   bvLogin: async function (e) {
-    await utils._NewLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._NewMember(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
     await utils._RegistPointsAdd()
     await utils._SendNewUserSMS()
     this.setData({
@@ -480,7 +469,6 @@ Page({
       address: app.globalData.Guserdata.UserInfo.Address,
       username: app.globalData.Guserdata.UserInfo.UserName,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
       position: app.globalData.Guserdata.UserInfo.Position,
       wechat: app.globalData.Guserdata.UserInfo.WeChat,
       email: app.globalData.Guserdata.UserInfo.Email,
@@ -505,10 +493,9 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => startToTrack(),
+
   onShow: function () {
-    startToTrack()
+
   },
 
   /**
@@ -522,7 +509,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    startByBack()
+
   },
 
   /**

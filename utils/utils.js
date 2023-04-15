@@ -5,13 +5,13 @@ var newuserinfo = {
   nickName: "",
   avatarUrl: "",
   UserPhone: "",
+  UserType: "client",
+  Region: ["广东省", "深圳市", "南山区"],
   InviterId: "",
   InviterPhone: "",
   InviterAvatar: "",
   InviterNickName: "",
   IndirectInviterId: "",
-  Region: ["广东省", "深圳市", "南山区"],
-  UserType: "client",
 }
 var newusertradeinfo = {
   Balance: 0,
@@ -28,8 +28,6 @@ var newusertradeinfo = {
   }),
   // MemberTime:""
 }
-
-
 
 function _sendcode(userphone) {
   // 发送验证码
@@ -48,15 +46,10 @@ function _sendcode(userphone) {
         },
         success: res => {
           let code = res.result.res.body.params[0];
-          let result = res.errMsg;
-          if (result == "cloud.callFunction:ok") {
-            resolve(code)
-          } else {
-            _ErrorToast("发送失败请重试")
-          }
+          resolve(code)
         },
         fail: err => {
-          console.error('[云函数] [sendsms] 调用失败', err)
+          _ErrorToast("发送失败请重试")
         }
       })
     }
@@ -64,7 +57,7 @@ function _sendcode(userphone) {
   return promise;
 }
 
-async function _NewLogin(userphone, s_phonecode, u_phonecode) {
+async function _NewMember(userphone, s_phonecode, u_phonecode) {
   var promise = new Promise((resolve, reject) => {
     if (s_phonecode == u_phonecode && u_phonecode != "") {
       console.log('手机验证码正确')
@@ -91,14 +84,14 @@ async function _NewLogin(userphone, s_phonecode, u_phonecode) {
 
 async function _RegistPointsAdd() { // 通过云函数获取用户本人的小程序ID
   var promise = new Promise((resolve, reject) => {
-    console.log('推广积分')
+    console.log('新会员手机认证积分')
     const db = wx.cloud.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "promoter",
         RegistrantId: app.globalData.Guserid,
         RegistrantPoints: 30,
-        ProductName: "会员手机认证",
+        ProductName: "新会员手机认证积分",
         // 直接推荐人
         InviterId: app.globalData.Ginviterid,
         InviterPoints: 20,
@@ -147,26 +140,26 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
 }
 async function UserLogin(tempinviterid, params, remark) { // 用户登录时的操作
 
-    _setting();
-    // 产品查询不是需要和折扣查询、会员等级查询可以的需要的时候再调用
-    _productcheck();
-    await _login();
-    let data = await _usercheck(app.globalData.Guserid)
-    console.log("data", data);
-    if (data.length == 0) {
-      // 新用户执行操作
-      app.globalData.Ginviterid = tempinviterid
-      await _invitercheck(app.globalData.Ginviterid)
-      await _newuser(app.globalData.Ginviterid, params, remark)
-    } else {
-      // 老用户执行操作
-      app.globalData.Guserdata = data[0]
-      app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
-      app.globalData.Ginviterid = data[0].UserInfo.InviterId
-      app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
-      console.log("当前用户信息", app.globalData.Guserdata);
-      await _discountcheck()
-    }
+  _setting();
+  // 产品查询不是需要和折扣查询、会员等级查询可以的需要的时候再调用
+  _productcheck();
+  await _login();
+  let data = await _usercheck(app.globalData.Guserid)
+  console.log("data", data);
+  if (data.length == 0) {
+    // 新用户执行操作
+    app.globalData.Ginviterid = tempinviterid
+    await _invitercheck(app.globalData.Ginviterid)
+    await _newuser(params, remark)
+  } else {
+    // 老用户执行操作
+    app.globalData.Guserdata = data[0]
+    app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
+    app.globalData.Ginviterid = data[0].UserInfo.InviterId
+    app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
+    console.log("当前用户信息", app.globalData.Guserdata);
+    await _discountcheck()
+  }
 
 }
 
@@ -206,11 +199,6 @@ async function _login() { // 通过云函数获取当前用户本人的小程序
   return promise;
 }
 
-async function _uploadfiles(filepath, cloudpath) {
-  // 批量上传文件并把本地地址数组转成云地址数组
-
-}
-
 function _usercheck(eventid) { // 通过本地函数查询当前用户是否是老用户
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
@@ -238,10 +226,7 @@ function _invitercheck(eventid) {
       success: res => {
         console.log(res)
         // 给本地数据赋值
-        app.globalData.Ginviterid = res.data[0].UserId
         app.globalData.Ginviterphone = res.data[0].UserInfo.UserPhone
-        app.globalData.Guserdata.UserInfo.InviterAvatar = res.data[0].UserInfo.avatarUrl
-        app.globalData.Guserdata.UserInfo.InviterNickName = res.data[0].UserInfo.nickName
         app.globalData.Gindirectinviterid = res.data[0].UserInfo.InviterId
 
         newuserinfo.InviterId = res.data[0].UserId
@@ -249,14 +234,14 @@ function _invitercheck(eventid) {
         newuserinfo.InviterAvatar = res.data[0].UserInfo.avatarUrl
         newuserinfo.InviterNickName = res.data[0].UserInfo.nickName
         newuserinfo.IndirectInviterId = res.data[0].UserInfo.InviterId
-
+        resolve(res)
       },
     })
   });
   return promise;
 }
 
-function _newuser(params,remark) {
+function _newuser(params, remark) {
   console.log(params)
   console.log(remark)
   var promise = new Promise((resolve, reject) => {
@@ -287,24 +272,31 @@ function _newuser(params,remark) {
       },
       success: res => {
         console.log("新增用户数据执行成功")
-        db.collection("POINTS").add({
-          data: {
-            PointsType: "promoter",
-            UserId: app.globalData.Guserid,
-            ProductName: "直接推广积分",
-            InviterId: app.globalData.Ginviterid,
-            InviterPoints: 5,
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
-            PointsStatus: "checked",
-          },
-          success: res => {
-            console.log("执行到最后位置了", res)
-            resolve(res.data)
-          },
-        })
+        resolve(res)
+      },
+    })
+  });
+  return promise;
+}
+
+function _newuserpoints() {
+  var promise = new Promise((resolve, reject) => {
+    db.collection("POINTS").add({
+      data: {
+        PointsType: "promoter",
+        UserId: app.globalData.Guserid,
+        ProductName: "直接推广新用户积分",
+        InviterId: app.globalData.Ginviterid,
+        InviterPoints: 5,
+        SysAddDate: new Date().getTime(),
+        AddDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
+        PointsStatus: "checked",
+      },
+      success: res => {
+        console.log("执行到最后位置了", res)
+        resolve(res)
       },
     })
   });
@@ -830,26 +822,30 @@ module.exports = {
   _ErrorToast: _ErrorToast,
 
   UserLogin: UserLogin,
-  _productcheck: _productcheck,
   _login: _login,
   _setting: _setting,
   _usercheck: _usercheck,
-  _newuser: _newuser,
   _invitercheck: _invitercheck,
+  _newuser: _newuser,
+  _newuserpoints: _newuserpoints,
+
+  _productcheck: _productcheck,
+  _discountcheck: _discountcheck,
   _directuser: _directuser,
   _indirectuser: _indirectuser,
-  _discountcheck: _discountcheck,
+
   _balanceupdate: _balanceupdate,
   _pointshistory: _pointshistory,
   _PLordercheck: _PLordercheck,
   _PLcheck: _PLcheck,
   _packetcheck: _packetcheck,
   _getGoodsRandomNumber: _getGoodsRandomNumber,
+
   _sendcode: _sendcode,
-  _NewLogin: _NewLogin,
+  _NewMember: _NewMember,
   _RegistPointsAdd: _RegistPointsAdd,
   _SendNewUserSMS: _SendNewUserSMS,
-  _uploadfiles: _uploadfiles,
+
   showLoading: showLoading,
   hideLoading: hideLoading,
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,

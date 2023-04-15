@@ -25,8 +25,8 @@ Page({
     temppoints: 0,
     temppacket: 0
   },
-  bvUserPhone(e) {
-    this.data.userphone= e.detail.value
+  bvInputPhone(e) {
+    this.data.inputphone= e.detail.value
   },
   _SendCodeBtn() {
 

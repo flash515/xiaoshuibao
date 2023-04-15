@@ -1,12 +1,4 @@
 const app = getApp()
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
-var {
-  _PLcheck,
-} = require("../../utils/utils")
 Page({
 
   /**

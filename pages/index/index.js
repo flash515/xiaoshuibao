@@ -4,12 +4,8 @@ Page({
   data: {
     // 初始化相关
     params: {},
-    inviterid: "",
     tempinviterid: "",
     remark: "",
-    indirectinviterid: "",
-    userinfo: {},
-    tempimage: [],
   },
   onLoad: async function (options) {
     //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,productid产品id
@@ -36,7 +32,7 @@ Page({
       console.log("小程序码进入参数:", this.data.tempinviterid);
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
-      this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
+      this.data.tempinviterid = "0001"
       this.data.remark = "通过小税宝无参数进入"
     }
 

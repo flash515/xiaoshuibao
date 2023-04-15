@@ -1,6 +1,5 @@
 // pages/order/orderhistory.js
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
 const utils= require("../../utils/utils");
 Page({
 
@@ -8,14 +7,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-        //登录相关
+    // 登录窗相关变量
     loginshow: false,
     loginbtnshow: false,
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
+    inputphone:"",
     s_phonecode: "",
     u_phonecode: "",
+
     userphone:"",
     orderhistory:[],
     discounthistory:[],
@@ -37,20 +38,17 @@ Page({
     })
   },
 
-  bvUserPhone(e) {
-    this.data.userphone= e.detail.value
+  bvInputPhone(e) {
+    this.data.inputphone= e.detail.value
   },
-  bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
-  },
+
   bvSendCode: async function (){
-    this.data.s_phonecode = await utils._sendcode(this.data.userphone)
+    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
     console.log("验证码", this.data.s_phonecode)
     if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
     this._SendCodeBtn()
   }
   },
-
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -68,19 +66,25 @@ Page({
         })
       }
     }, 1000)
-
   },
+
+  bvPhoneCode(e) {
+    this.data.u_phonecode= e.detail.value
+  },
+
   bvLogin: async function (e) {
-    await utils._NewLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
     await utils._RegistPointsAdd()
     await utils._SendNewUserSMS()
     this.setData({
       loginshow: false,
-      loginbtnshow:false
+      loginbtnshow:false,
+      userphone:this.data.inputphone,
     })
     app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
     console.log(app.globalData.Guserdata)
   },
+  
   onHideMaskTap: function () {
     this.setData({
       loginshow: false
@@ -126,55 +130,15 @@ if(e.currentTarget.dataset.name=="ORDER"){
       }
     })
   },
-  getUserProfile: function (e) {
-    wx.getUserProfile({
-      desc: "登录小税宝以查看更多信息",
-      success: res => {
-        console.log("获得的用户微信信息", res)
-        this.setData({
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
-        })
-        app.globalData.Guserdata.UserInfo.avatarUrl=res.userInfo.avatarUrl
-        app.globalData.Guserdata.UserInfo.nickName=res.userInfo.nickName
-        // 获取数据库引用
-        const db = wx.cloud.database()
-        // 更新数据
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            avatarUrl: res.userInfo.avatarUrl,
-            city: res.userInfo.city,
-            country: res.userInfo.country,
-            gender: res.userInfo.gender,
-            language: res.userInfo.language,
-            nickName: res.userInfo.nickName,
-            province: res.userInfo.province
-          },
-        })
-        // 以上更新数据结束
-        wx.showToast({
-          icon:'success',
-          title: '登录成功',
-        })
-        return;
-      },
-      fail: res => {
-        //拒绝授权
-        wx.showToast({
-          icon: 'error',
-          title: '您拒绝了请求',
-        })
-        return;
-      }
-    })
 
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      userphone:app.globalData.Guserdata.UserInfo.UserPhone,
+      image: app.globalData.Gimagearray
+    })
     if(app.globalData.Guserdata.UserInfo.UserPhone!=''){
       this.setData({
         loginbtnshow: false
@@ -242,16 +206,10 @@ if(e.currentTarget.dataset.name=="ORDER"){
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+
   onShow: function () {
-    this.setData({
-      avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
-      nickName: app.globalData.Guserdata.UserInfo.nickName,
-      userphone:app.globalData.Guserdata.UserInfo.UserPhone,
-      image: app.globalData.Gimagearray
-    })
-    startToTrack()
+
+
   },
 
   /**
@@ -265,7 +223,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
    * 生命周期函数--监听页面卸载
    */
     onUnload: function () {
-    startByBack()
+
   },
 
   /**

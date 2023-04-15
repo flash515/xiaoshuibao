@@ -1,10 +1,6 @@
 // pages/manage/sortedit.js
 const app = getApp()
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");;
+
 const SortArray = [{
     "Category1Code": "01",
     "Category1Name": "地址服务",

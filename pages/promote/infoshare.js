@@ -1,10 +1,5 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
 const wxpay = require("../../utils/WxPay");
 var interval = null //倒计时函数
 Page({
@@ -20,12 +15,15 @@ Page({
     remark: "",
     indirectinviterid: "",
     userinfo: {},
-    // 登录框相关
+    // 登录窗相关变量
+    loginshow: false,
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
+    inputphone:"",
     s_phonecode: "",
     u_phonecode: "",
+    userphone: "",
     // 页面相关
     infoshareid: "",
     buylikeshow: false,
@@ -74,16 +72,67 @@ Page({
     }],
     sharetitle: "",
   },
+  bvLoginShow: function (e) {
+    this.setData({
+      loginshow: true
+    })
+  },
+
+  bvInputPhone(e) {
+    this.data.inputphone= e.detail.value
+  },
+
+  bvSendCode: async function (){
+    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+    console.log("验证码", this.data.s_phonecode)
+    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
+    this._SendCodeBtn()
+  }
+  },
+  _SendCodeBtn() {
+    var that = this;
+    var currentTime = that.data.currentTime
+    var interval = setInterval(function () {
+      currentTime--;
+      that.setData({
+        time: currentTime + '秒'
+      })
+      if (currentTime <= 0) {
+        clearInterval(interval)
+        that.setData({
+          time: '重新发送',
+          currentTime: 60,
+          disabled: false
+        })
+      }
+    }, 1000)
+  },
+
+  bvPhoneCode(e) {
+    this.data.u_phonecode= e.detail.value
+  },
+
+  bvLogin: async function (e) {
+    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._RegistPointsAdd()
+    await utils._SendNewUserSMS()
+    this.setData({
+      loginshow: false,
+      userphone:this.data.inputphone,
+    })
+    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    console.log(app.globalData.Guserdata)
+  },
   bvBuyLikeShow(e) {
-    if(this.data.buylikeshow==true){
+    if (this.data.buylikeshow == true) {
       this.setData({
         buylikeshow: false
       })
-    }else if(this.data.buylikeshow==false){
-    this.setData({
-      buylikeshow: true
-    })
-  }
+    } else if (this.data.buylikeshow == false) {
+      this.setData({
+        buylikeshow: true
+      })
+    }
   },
   bvAddLike(e) {
     this.setData({
@@ -256,74 +305,6 @@ Page({
     return '#' + rgb.join('')
   },
 
-  bvUserPhone(e) {
-    this.data.userphone= e.detail.value
-  },
-
-  _SendCodeBtn() {
-    var that = this;
-    var currentTime = that.data.currentTime
-    interval = setInterval(function () {
-      currentTime--;
-      that.setData({
-        time: currentTime + '秒'
-      })
-      if (currentTime <= 0) {
-        clearInterval(interval)
-        that.setData({
-          time: '重新发送',
-          currentTime: 60,
-          disabled: false
-        })
-      }
-    }, 1000)
-  },
-  bvSendCode() {
-    if (this.data.userphone == "" || this.data.userphone == undefined) {
-      wx.showToast({
-        title: '请输入手机号码',
-        icon: 'error',
-        duration: 2000
-      })
-    } else {
-      let _this = this;
-
-      this.setData({
-        disabled: true
-      })
-      wx.cloud.callFunction({
-        name: 'sendmessage',
-        data: {
-          templateId: "985130",
-          nocode: false,
-          mobile: _this.data.userphone,
-          nationcode: '86'
-        },
-        success: res => {
-          let code = res.result.res.body.params[0];
-          let result = res.errMsg;
-          if (result == "cloud.callFunction:ok") {
-            _this.setData({
-              result: "发送成功",
-              s_phonecode: code
-            })
-            this._SendCodeBtn()
-          } else {
-            _this.setData({
-              result: "发送失败"
-            })
-          }
-        },
-        fail: err => {
-          console.error('[云函数] [sendsms] 调用失败', err)
-        }
-      })
-    }
-  },
-  bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
-  },
-
   bvEdit: function (e) {
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
       this.setData({
@@ -389,117 +370,12 @@ Page({
         console.log("全部分享资讯", res)
       },
       fail: res => {
-console.log(res)
+        console.log(res)
       }
     })
 
   },
 
-
-  //修改数据操作
-  UpdateData(e) {
-
-    if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode != "") {
-      console.log('手机验证码正确')
-      const db = wx.cloud.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          ["InfoShare.sharetitle"]: this.data.sharetitle,
-          ["InfoShare.videotitle"]: this.data.videotitle,
-          ["InfoShare.videocontent"]: this.data.videocontent,
-          ["InfoShare.videourl"]: this.data.videourl,
-          ["InfoShare.videodate"]: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-        },
-        success: res => {
-          wx.showToast({
-            title: '更新信息成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
-        },
-        fail: res => {
-          wx.showToast({
-            title: '更新信息失败',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
-        }
-      })
-      // 根据用户是否已验证手机号，提供首次验证积分
-      if (this.data.useroldphone == "") {
-        // 成为会员时间
-        const db = wx.cloud.database()
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
-              hour12: false
-            })
-          },
-          success: res => {
-
-          },
-        })
-        console.log('推广积分')
-        db.collection("POINTS").add({
-          data: {
-            PointsType: "promoter",
-            RegistrantId: app.globalData.Guserid,
-            RegistrantPoints: 50,
-            ProductName: "会员手机认证",
-            // 直接推荐人
-            InviterId: app.globalData.Ginviterid,
-            InviterPoints: 30,
-            // 间接推荐人
-            IndirectInviterId: app.globalData.Gindirectinviterid,
-            IndirectInviterPoints: 10,
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
-            PointsStatus: "checked",
-          },
-          success: res => {
-            console.log("POINTS更新成功")
-            //给推荐和和管理员发送短信
-            if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {
-              var tempmobile = [18954744612, app.globalData.Ginviterphone]
-            } else {
-              var tempmobile = [18954744612]
-            }
-            // 调用云函数发短信给推荐人和管理员
-            wx.cloud.callFunction({
-              name: 'sendsms',
-              data: {
-                templateId: "1569087",
-                nocode: true,
-                mobile: tempmobile
-              },
-              success: res => {
-                console.log("短信发送结果", res)
-              },
-              fail: res => {
-                console.log(res)
-              },
-            })
-          },
-        })
-
-      }
-    } else {
-      wx.showToast({
-        title: '验证码错误',
-        icon: 'error',
-        duration: 2000
-      })
-
-    }
-  },
   bindInputBlur(e) {
     this.inputValue = e.detail.value
   },
@@ -537,10 +413,9 @@ console.log(res)
   /**
    * 生命周期函数--监听页面显示
    */
-  // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => startToTrack(),
+
   onShow: function () {
-    startToTrack()
+
   },
 
   /**
@@ -554,7 +429,7 @@ console.log(res)
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    startByBack()
+
   },
 
   /**

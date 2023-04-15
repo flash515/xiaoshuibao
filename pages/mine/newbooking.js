@@ -1,5 +1,6 @@
 const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const track = require("../../utils/track");
 Page({
 
   /**

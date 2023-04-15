@@ -1,10 +1,5 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
 const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
@@ -20,6 +15,7 @@ Page({
     disabled: false,
     s_phonecode: "",
     u_phonecode: "",
+    inputphone:"",
     // 名片参数
     cardshow: true,
     namecardbg: "",
@@ -32,28 +28,39 @@ Page({
     businessscope: "",
     username: "",
     userphone: "",
-    useroldphone: "",
     position:"",
     wechat:"",
     email:"",
     telephone:"",
     website:"",
     address: "",
-    result: "未发送",
+
     balance: "",
     usertype: "",
     adddate: "",
     updatedate: ""
   },
+  bvLoginShow: function (e) {
+    this.setData({
+      loginshow: true
+    })
+  },
 
-  bvUserPhone(e) {
-    this.data.userphone= e.detail.value
+  bvInputPhone(e) {
+    this.data.inputphone= e.detail.value
+  },
+
+  bvSendCode: async function (){
+    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+    console.log("验证码", this.data.s_phonecode)
+    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
+    this._SendCodeBtn()
+  }
   },
   _SendCodeBtn() {
-
     var that = this;
     var currentTime = that.data.currentTime
-    interval = setInterval(function () {
+    var interval = setInterval(function () {
       currentTime--;
       that.setData({
         time: currentTime + '秒'
@@ -67,53 +74,24 @@ Page({
         })
       }
     }, 1000)
-
   },
-  bvSendCode() {
-    if (this.data.userphone == "" || this.data.userphone == undefined) {
-      wx.showToast({
-        title: '请输入手机号码',
-        icon: 'error',
-        duration: 2000
-      })
-    } else {
-      let _this = this;
 
-      this.setData({
-        disabled: true
-      })
-      wx.cloud.callFunction({
-        name: 'sendmessage',
-        data: {
-          templateId: "985130",
-          nocode: false,
-          mobile: _this.data.userphone,
-          nationcode: '86'
-        },
-        success: res => {
-          let code = res.result.res.body.params[0];
-          let result = res.errMsg;
-          if (result == "cloud.callFunction:ok") {
-            _this.setData({
-              result: "发送成功",
-              s_phonecode: code
-            })
-            this._SendCodeBtn()
-          } else {
-            _this.setData({
-              result: "发送失败"
-            })
-          }
-        },
-        fail: err => {
-          console.error('[云函数] [sendsms] 调用失败', err)
-        }
-      })
-    }
-  },
   bvPhoneCode(e) {
     this.data.u_phonecode= e.detail.value
   },
+
+  bvLogin: async function (e) {
+    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._RegistPointsAdd()
+    await utils._SendNewUserSMS()
+    this.setData({
+      loginshow: false,
+      userphone:this.data.inputphone,
+    })
+    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    console.log(app.globalData.Guserdata)
+  },
+  
   bvEditNameCard: function (e) {
     if(app.globalData.Guserdata.UserInfo.UserPhone==''||app.globalData.Guserdata.UserInfo.UserPhone==undefined){
     this.setData({
@@ -125,17 +103,7 @@ Page({
     })
   }
   },
-  bvLogin: async function (e) {
-    await utils._NewLogin(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
-    await utils._RegistPointsAdd()
-    await utils._SendNewUserSMS()
-    this.setData({
-      loginshow: false,
-      loginbtnshow:false
-    })
-    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
-    console.log(app.globalData.Guserdata)
-  },
+
   onHideMaskTap: function () {
     this.setData({
       loginshow: false
@@ -189,7 +157,6 @@ Page({
         businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
         username: app.globalData.Guserdata.UserInfo.UserName,
         userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-        useroldphone: app.globalData.Guserdata.UserInfo.UserPhone,
         position:app.globalData.Guserdata.UserInfo.Position,
         wechat:app.globalData.Guserdata.UserInfo.WeChat,
         email:app.globalData.Guserdata.UserInfo.Email,
@@ -216,10 +183,9 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => startToTrack(),
+
   onShow: function () {
-    startToTrack()
+
   },
 
   /**
@@ -233,7 +199,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    startByBack()
+
   },
 
   /**

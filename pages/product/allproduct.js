@@ -1,9 +1,5 @@
 const app = getApp()
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
+const track = require("../../utils/track");
 Page({
   data: {
     currentTab:0,
@@ -97,10 +93,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => startToTrack(),
+  onTabItemTap: () => track.startToTrack(),
   onShow: function () {
 
-    startToTrack()
+    track.startToTrack()
   },
 
   /**
@@ -114,7 +110,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    startByBack()
+    track.startByBack()
   },
 
   /**

@@ -1,5 +1,5 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+
 Page({
 
   /**
@@ -85,10 +85,9 @@ wx.navigateTo({
   /**
    * 生命周期函数--监听页面显示
    */
-    	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+
   onShow: function () {
-    startToTrack()
+
   },
 
   /**
@@ -102,7 +101,7 @@ wx.navigateTo({
    * 生命周期函数--监听页面卸载
    */
     onUnload: function () {
-    startByBack()
+
   },
 
   /**

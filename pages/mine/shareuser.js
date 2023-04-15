@@ -1,9 +1,4 @@
-// pages/mine/userlist.js
-const {
-  startToTrack,
-  startByClick,
-  startByBack
-} = require("../../utils/track");
+const utils = require("../../utils/utils");
 var app = getApp()
 Page({
   /**
@@ -37,11 +32,14 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
       promoterlevel: app.globalData.Guserdata.TradeInfo.PromoterLevel,
     })
+    // 查询直接推广用户与间接推广用户
+    await utils._directuser(app.globalData.Guserid)
+    await utils._indirectuser(app.globalData.Guserid)
     //查询直接用户及30天内直接用户
     wx.getStorage({
       key: 'LDirectUser',
@@ -118,10 +116,9 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  // 点击 tab 时用此方法触发埋点
-  onTabItemTap: () => startToTrack(),
+
   onShow: function () {
-    startToTrack()
+
   },
 
   /**
@@ -135,7 +132,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    startByBack()
+
   },
 
   /**
