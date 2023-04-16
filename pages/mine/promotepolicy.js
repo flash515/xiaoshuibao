@@ -1,4 +1,5 @@
 const app = getApp()
+const utils = require("../../utils/utils")
 Page({
 
   /**
@@ -63,11 +64,7 @@ Page({
   bvApply(e) {
     if (this.data.orderstartdate == "" || this.data.orderstartdate == 'undefined') {
       // 如果没有选择生效日期则提示
-      wx.showToast({
-        title: '请选择生效日期',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请选择生效日期")
     } else {
       if (this.data.applysublock == false && this.data.paymentsublock == false) {
         // 确认不是重复提交
@@ -118,11 +115,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     }
@@ -153,11 +146,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     }
@@ -340,11 +329,7 @@ Page({
         this._condition()
       },
       fail: res => {
-        wx.showToast({
-          title: '查询失败请刷新',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("查询失败请刷新")
       }
     })
   },

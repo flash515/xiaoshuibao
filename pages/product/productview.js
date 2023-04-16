@@ -3,7 +3,7 @@ const utils = require("../../utils/utils");
 const track = require("../../utils/track");
 Page({
   data: {
-    // 登录窗相关变量
+    // 登录框相关变量
     loginshow: false,
     loginbtnshow: false,
     time: "获取验证码",

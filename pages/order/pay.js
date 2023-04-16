@@ -1,4 +1,5 @@
 const app = getApp()
+const utils = require("../../utils/utils")
 Page({
 
   /**
@@ -249,10 +250,7 @@ Page({
         wx.saveImageToPhotosAlbum({
           filePath: res.path,
           success: (res) => {
-            wx.showToast({
-              title: '支付码保存成功，请从手机相册打开并扫码支付',
-              duration: 2000
-            })
+            utils._SuccessToast("手机相册中打开")
           },
           fail: (err) => {
             console.log(err);
@@ -261,33 +259,21 @@ Page({
               that.setData({
                 openSettingBtnHidden: false
               })
-              wx.showToast({
-                title: '缺少授权，请点击授权',
-                icon: 'none',
-                duration: 2000
-              })
-              // this.$apply()
+              utils._ErrorToast("请点击授权")
+                 // this.$apply()
             } else if (err.errMsg === 'saveImageToPhotosAlbum:fail cancel') {
               // this.openSettingBtnHidden = false
               that.setData({
                 openSettingBtnHidden: true
               })
-              wx.showToast({
-                title: '取消保存',
-                icon: 'none',
-                duration: 2000
-              })
+              utils._ErrorToast("取消保存")
               // this.$apply()
             } else if (err.errMsg === 'saveImageToPhotosAlbum:fail:auth denied') {
               // this.openSettingBtnHidden = false
               that.setData({
                 openSettingBtnHidden: false
               })
-              wx.showToast({
-                title: '已拒绝授权，请点击重新授权',
-                icon: 'none',
-                duration: 2000
-              })
+              utils._ErrorToast("请重新授权")
             }
           }
         })
@@ -336,18 +322,10 @@ Page({
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
     } else {
       if (this.data.address == "" || this.data.phone == "" || this.data.contacts == "" || this.data.date == "" || this.data.time == "") {
-        wx.showToast({
-          title: '请提供详细信息',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请提供详细信息")
       } else {
         // 未锁定时执行
         // 获取数据库引用
@@ -365,19 +343,11 @@ Page({
             },
             success: res => {
               console.log('预约提交成功', res.data)
-              wx.showToast({
-                title: '预约提交成功',
-                icon: 'success',
-                duration: 2000 //持续的时间
-              })
+              utils._SuccessToast("预约提交成功")
             },
             fail: res => {
               console.log("提交失败", res)
-              wx.showToast({
-                title: '预约提交失败',
-                icon: 'error',
-                duration: 2000 //持续的时间
-              })
+              utils._ErrorToast("预约提交失败")
             }
           }),
           this.data.booklock = true // 修改上传状态为锁定

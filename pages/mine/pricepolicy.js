@@ -1,6 +1,7 @@
 const {
   dateLater
 } = require("../../utils/getDates.js")
+const utils = require("../../utils/utils")
 const app = getApp()
 Page({
 
@@ -68,11 +69,7 @@ Page({
   bvBuy(e) {
     if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
       // 未选定日期时弹窗
-      wx.showToast({
-        title: '请选择生效日期',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请选择生效日期")
     } else {
       if (this.data.ordersublock == false && this.data.paymentsublock == false) {
         this.setData({
@@ -89,11 +86,8 @@ Page({
         this._orderadd()
         this._paymentadd()
       }else {
-        wx.showToast({
-          title: '请勿重复提交',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请勿重复提交")
+
       }
       }
   },
@@ -127,11 +121,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     }
@@ -160,11 +150,8 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
+
         }
       })
     }

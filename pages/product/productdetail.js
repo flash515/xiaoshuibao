@@ -1,22 +1,25 @@
 const app = getApp()
-var {
-  _productcheck,
-  _login,
-  _setting,
-  _usercheck,
-  _newuser,
-  _olduser,
-  _invitercheck
-} = require("../../utils/utils")
-// var {
-//   _productcheck,
-// } = require("../../utils/productcheck")
+const utils = require("../../utils/utils")
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    // 初始化相关
+    params: {},
+    tempinviterid: "",
+    remark: "",
+    // 登录框相关变量
+    loginshow: false,
+    loginbtnshow: false,
+    time: "获取验证码",
+    currentTime: 60,
+    disabled: false,
+    inputphone: "",
+    s_phonecode: "",
+    u_phonecode: "",
     //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
+    userphone:"",
     DetailHidden: false,
     QAHidden: true,
     AttachmentHidden: true,
@@ -44,7 +47,58 @@ Page({
     previousMargin: 0,
     nextMargin: 0
   },
+  bvLoginShow: function (e) {
+    this.setData({
+      loginshow: true
+    })
+  },
 
+  bvInputPhone(e) {
+    this.data.inputphone= e.detail.value
+  },
+
+  bvSendCode: async function (){
+    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+    console.log("验证码", this.data.s_phonecode)
+    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
+    this._SendCodeBtn()
+  }
+  },
+  _SendCodeBtn() {
+    var that = this;
+    var currentTime = that.data.currentTime
+    var interval = setInterval(function () {
+      currentTime--;
+      that.setData({
+        time: currentTime + '秒'
+      })
+      if (currentTime <= 0) {
+        clearInterval(interval)
+        that.setData({
+          time: '重新发送',
+          currentTime: 60,
+          disabled: false
+        })
+      }
+    }, 1000)
+  },
+
+  bvPhoneCode(e) {
+    this.data.u_phonecode= e.detail.value
+  },
+
+  bvLogin: async function (e) {
+    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
+    await utils._RegistPointsAdd()
+    await utils._SendNewUserSMS()
+    this.setData({
+      loginshow: false,
+      loginbtnshow:false,
+      userphone:this.data.inputphone,
+    })
+    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    console.log(app.globalData.Guserdata)
+  },
   computeImgHeight(e) {
     var winWid = wx.getSystemInfoSync().windowWidth; //获取当前屏幕的宽度
     var imgh = e.detail.height; //图片高度
@@ -137,11 +191,8 @@ Page({
     // 判断是否重复提交
     if (this.data.replylock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
+
     } else {
       // 未锁定时执行
       wx.cloud.callFunction({
@@ -152,15 +203,13 @@ Page({
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: new Date().toLocaleString('chinese',{ hour12: false })
+          updatedate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
         },
         success: res => {
           console.log(res)
-          wx.showToast({
-            title: '回复信息发送成功',
-            icon: 'none',
-            duration: 2000 //持续的时间
-          })
+          utils._SuccessToast("信息发送成功")
         },
       })
 
@@ -178,11 +227,7 @@ Page({
         },
         success: res => {
           console.log(res)
-          wx.showToast({
-            title: '订阅消息发送成功',
-            icon: 'none',
-            duration: 2000 //持续的时间
-          })
+          utils._SuccessToast("消息发送成功")
         },
         fail: err => {
           console.log(err)
@@ -200,11 +245,8 @@ Page({
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
+
     } else {
       // 未锁定时执行
       // 获取数据库引用
@@ -215,15 +257,13 @@ Page({
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "",
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            AddDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            })
           },
           success: res => {
             console.log('留言发送成功', res.data)
-            wx.showToast({
-              title: '留言发送成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
+            utils._SuccessToast("留言发送成功")
             var tempmobile = [18954744612]
             // 调用云函数发短信给推荐人和管理员
             wx.cloud.callFunction({
@@ -243,11 +283,7 @@ Page({
           },
           fail: res => {
             console.log("留言发送失败", res)
-            wx.showToast({
-              title: '留言发送失败',
-              icon: 'none',
-              duration: 2000 //持续的时间
-            })
+            utils._ErrorToast("留言发送失败")
           }
         }),
         this.data.sublock = true // 修改上传状态为锁定
@@ -302,32 +338,14 @@ Page({
       pageParam: options,
     })
 
-    // if (app.globalData.Guserdata.UserInfo == undefined) {
-    //   _login()
-    // }
-    //判断全局变量是否有值，注意写法格式没有引号
-
     //如果通过分享链接进入没有产品数据，则查询产品数据
-    if (app.globalData.Gproduct == undefined) {
-
-    // 调用初始化
-    _setting()
-    await _productcheck()
-    this._productfliter()
-    console.log("这一步执行了")
-    await _login()
-    let data = await _usercheck()
-    console.log("data", data);
-    if (data.length == 0) {
-      await _newuser()
-    } else {
-      app.globalData.Guserdata.UserInfo = data[0].UserInfo
-      app.globalData.Guserdata.TradeInfo = data[0].TradeInfo
-      console.log("当前用户信息", app.globalData.Guserdata.UserInfo);
-      console.log("当前用户交易信息", app.globalData.Guserdata.TradeInfo);
-      await _olduser()
-    }
-    await _invitercheck()
+    if (options.userid) {
+      // 如果是通过链接打开
+      this.data.params = options
+      this.data.tempinviterid = options.userid
+      this.data.remark = "通过小税宝用户分享链接进入"
+      console.log("通过链接打开接收到的参数", this.data.tempinviterid)
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
     } else {
       this._productfliter()
       console.log("这一步执行了")

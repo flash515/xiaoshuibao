@@ -1,5 +1,6 @@
 const app = getApp()
 const defaultAvatarUrl = 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/0.png?sign=cd6db771ef94030b49c3335b6ba8a2cc&t=1667888022'
+const utils = require("../../../utils/utils")
 Page({
   data: {
     inviterid: "",
@@ -19,12 +20,7 @@ Page({
   formsumit(e) {
     console.log(e)
     if (e.detail.value.nickname == "") {
-      wx.showToast({
-        title: '请点击获取昵称',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
-
+      utils._ErrorToast("请点击获取昵称")
     } else {
       this.setData({
         nickName: e.detail.value.nickname

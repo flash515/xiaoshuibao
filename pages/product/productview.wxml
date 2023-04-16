@@ -53,7 +53,7 @@
           <label class="boldtext">简介：</label>{{item.Outline}}
         </view>
         <view style="display:flex; flex-direction:column;">
-          <view wx:if="{{loginbtnshow==true}}">
+          <view wx:if="{{loginbtnshow}}">
     <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>
           <view wx:else style="display:flex; flex-direction:column">

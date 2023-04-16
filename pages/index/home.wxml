@@ -36,7 +36,7 @@
 </l-notice-bar>
 
 <view class="mainframe">
-  <view wx:if="{{loginbtnshow==true}}" style="display:flex; justify-content:center;">
+  <view wx:if="{{loginbtnshow}}" style="display:flex; justify-content:center;">
     <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>
   <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">

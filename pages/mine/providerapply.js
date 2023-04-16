@@ -86,11 +86,7 @@ Page({
   },
   bvApplyProvider(e) {
 if(this.applysubmit==true|| this.data.applyproviderdate!=''){
-  wx.showToast({
-    title: '请勿重复提交',
-    icon: 'error',
-    duration: 2000
-  })
+  utils._ErrorToast("请勿重复提交")
 }else{
     if (this.data.companyname != "" && this.data.companyid != "" && this.data.businessscope != "" && this.data.address != "") {
       console.log('已完善信息')
@@ -109,11 +105,7 @@ if(this.applysubmit==true|| this.data.applyproviderdate!=''){
             })
           },
           success: res => {
-            wx.showToast({
-              title: '申请信息已发送',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
+            utils._SuccessToast("申请信息已发送")
             this.applysubmit=true
             //给管理员发送短信
             var tempmobile = [18954744612]
@@ -134,29 +126,16 @@ if(this.applysubmit==true|| this.data.applyproviderdate!=''){
             // })
           },
           fail: res => {
-            wx.showToast({
-              title: '更新信息失败',
-              icon: 'error',
-              duration: 2000 //持续的时间
-            })
+            utils._ErrorToast("更新信息失败")
           }
         })
 
       } else {
-        wx.showToast({
-          title: '请确认协议条款',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请确认协议条款")
       }
 
     } else {
-      wx.showToast({
-        title: '请完善信息',
-        icon: 'error',
-        duration: 2000
-      })
-
+      utils._ErrorToast("请完善信息")
     }
   }
   },

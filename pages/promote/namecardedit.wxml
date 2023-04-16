@@ -23,27 +23,7 @@
   </view>
 </view>
 
-<view wx:if="{{cardshow}}">
-  <view wx:if="{{imageview!=''&&imageview!=undefined}}" wx:for="{{imageview}}" wx:key="key">
-    <image style="display: block" src="{{item}}" mode="scaleToFill" />
-  </view>
-  <view wx:if="{{sort!=''&&sort!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;" class="mainframe">
-    <label class="labal">行业分类：</label>
-    <text space="emsp" decode='true' class="text">{{sort}}</text>
-  </view>
-  <view wx:if="{{businessscope!=''&&businessscope!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;" class="mainframe">
-    <label class="labal">企业简介：</label>
-    <text space="emsp" decode='true' class="text">{{businessscope}}</text>
-  </view>
-  <text>\n</text>
-  <view style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
-    <l-button size="mini" icon="order" icon-color="#3683d6" plain="{{true}}" shape="semicircle" bind:lintap="bvEdit">编辑名片</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvPublish">发布到企业广场</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
-  </view>
-
-</view>
-<view wx:else class="mainframe">
+<view class="mainframe">
   <l-tabs bind:linchange="changeTabs">
     <l-tabpanel tab="名片信息" key="one" slot="one">
       <l-input type="text" label="姓名：" value="{{username}}" bind:lininput="bvUserName">
@@ -109,5 +89,5 @@
     </l-button>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="eye" icon-color="#3683d6" bind:lintap="bvView">预览名片</l-button>
   </view>
-
+  <text>\n</text>
 </view>

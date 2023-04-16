@@ -14,11 +14,13 @@ var newuserinfo = {
   IndirectInviterId: "",
 }
 var newusertradeinfo = {
-  Balance: 0,
+  PromoteBalance: 0,
+  TradeBalance:0,
   BalanceUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
   DiscountLevel: "DL4",
+  DiscountType:"",
   DLUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
@@ -88,7 +90,7 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
     const db = wx.cloud.database()
     db.collection("POINTS").add({
       data: {
-        PointsType: "promoter",
+        PointsType: "promote",
         RegistrantId: app.globalData.Guserid,
         RegistrantPoints: 30,
         ProductName: "新会员手机认证积分",
@@ -138,7 +140,7 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
   });
   return promise;
 }
-async function UserLogin(tempinviterid, params, remark) { // 用户登录时的操作
+async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
 
   _setting();
   // 产品查询不是需要和折扣查询、会员等级查询可以的需要的时候再调用
@@ -151,6 +153,7 @@ async function UserLogin(tempinviterid, params, remark) { // 用户登录时的�
     app.globalData.Ginviterid = tempinviterid
     await _invitercheck(app.globalData.Ginviterid)
     await _newuser(params, remark)
+    _newuserpoints()
   } else {
     // 老用户执行操作
     app.globalData.Guserdata = data[0]
@@ -215,13 +218,13 @@ function _usercheck(eventid) { // 通过本地函数查询当前用户是否是�
   return promise;
 }
 
-function _invitercheck(eventid) {
+function _invitercheck(inviterid) {
   var promise = new Promise((resolve, reject) => {
     console.log("invitercheck执行了")
     // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
     const db = wx.cloud.database()
     db.collection('USER').where({
-      UserId: eventid
+      UserId: inviterid
     }).get({
       success: res => {
         console.log(res)
@@ -265,7 +268,7 @@ function _newuser(params, remark) {
         }),
         UserId: app.globalData.Guserid,
         Params: params,
-        // SystemInfo: app.globalData.Gsysteminfo,
+        SystemInfo: app.globalData.Gsysteminfo,
         UserInfo: newuserinfo,
         TradeInfo: newusertradeinfo,
         Remark: remark,
@@ -283,7 +286,7 @@ function _newuserpoints() {
   var promise = new Promise((resolve, reject) => {
     db.collection("POINTS").add({
       data: {
-        PointsType: "promoter",
+        PointsType: "promote",
         UserId: app.globalData.Guserid,
         ProductName: "直接推广新用户积分",
         InviterId: app.globalData.Ginviterid,
@@ -343,7 +346,7 @@ function _discountcheck() {
         if (res.data.length != 0) {
           var tempfliter = []
           for (var i = 0; i < res.data.length; i++) {
-            if (new Date(res.data[i].DLStartDate).getTime() <= new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() >= new Date().getTime()) {
+            if (new Date(res.data[i].DLStartDate).getTime() < new Date().getTime() && new Date(res.data[i].DLEndDate).getTime() > new Date().getTime()) {
               tempfliter.push(res.data[i]);
             }
           }
@@ -387,8 +390,7 @@ function _directuser(eventid) {
         wx.setStorageSync('LDirectUser', res.result.data);
         // 查询结果赋值给数组参数
         console.log("云函数查询直接推广用户", res.result.data)
-        resolve(res.data)
-
+        resolve(res.result.data)
       }
     })
   });
@@ -410,7 +412,7 @@ function _indirectuser(eventid) {
         wx.setStorageSync('LIndirectUser', res.result.data);
         // 查询结果赋值给数组参数
         console.log("云函数查询间接推广用户", res.result.data)
-        resolve(res.data)
+        resolve(res.result.data)
 
       }
     })
@@ -676,7 +678,7 @@ function _pointshistory() {
             ["AddDate"]: _.gte(app.globalData.Guserdata.TradeInfo.MemberTime)
           },
           {
-            // 消费积分提现
+            // 消费积分转让
             ["PointsType"]: "transfer",
             ["PointsStatus"]: "checked",
             ["DoneeId"]: app.globalData.Guserid,
@@ -770,11 +772,7 @@ const hideLoading = () => {
 
 const hideLoadingWithErrorTips = (err = '加载失败...') => {
   hideLoading()
-  wx.showToast({
-    title: err,
-    icon: 'error',
-    duration: 2000
-  })
+  _ErrorToast("加载失败...")
 }
 // 提示信息
 function _SuccessToast(title) {
@@ -821,7 +819,7 @@ module.exports = {
   _SuccessToast: _SuccessToast,
   _ErrorToast: _ErrorToast,
 
-  UserLogin: UserLogin,
+  UserLogon: UserLogon,
   _login: _login,
   _setting: _setting,
   _usercheck: _usercheck,

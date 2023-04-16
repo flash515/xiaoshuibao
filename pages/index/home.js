@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // 登录窗相关变量
+    // 登录框相关变量
     loginshow: false,
     loginbtnshow: false,
     time: "获取验证码",

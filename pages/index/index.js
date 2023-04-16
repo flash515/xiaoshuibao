@@ -32,12 +32,12 @@ Page({
       console.log("小程序码进入参数:", this.data.tempinviterid);
     } else {
       // 两种都不带参数，则是自主搜索小程序进入，推荐人指定为开发人
-      this.data.tempinviterid = "0001"
-      this.data.remark = "通过小税宝无参数进入"
+      this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
+      this.data.remark = "小税宝无参数进入"
     }
 
     // 调用方法初始化
-  await utils.UserLogin(this.data.tempinviterid,this.data.params,this.data.remark)
+  await utils.UserLogon(this.data.tempinviterid,this.data.params,this.data.remark)
     wx.switchTab({
       url: '../index/home',
     })

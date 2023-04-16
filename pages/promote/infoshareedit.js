@@ -90,18 +90,10 @@ Page({
     // 判断是否重复提交
     if (this.data.imageuploadlock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
     } else {
       if (this.data.tempimageview.length == 0) {
-        wx.showToast({
-          title: '请先选取图片',
-          icon: 'none',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请先选取图片")
       } else {
         // for循环里等待异步执行结果的方法，重要内容
         var cloudpath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone
@@ -282,18 +274,10 @@ Page({
         InfoStatus: "unchecked",
       },
       success: res => {
-        wx.showToast({
-          title: '已保存',
-          icon: 'success',
-          duration: 2000 //持续的时间
-        })
+        utils._SuccessToast("已保存")
       },
       fail: res => {
-        wx.showToast({
-          title: '保存失败请重试',
-          icon: 'fail',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("保存失败请重试")
       }
 
     })
@@ -319,18 +303,10 @@ Page({
         InfoStatus: "unchecked",
       },
       success: res => {
-        wx.showToast({
-          title: '已保存',
-          icon: 'success',
-          duration: 2000 //持续的时间
-        })
+        utils._SuccessToast("已保存")
       },
       fail: res => {
-        wx.showToast({
-          title: '保存失败请重试',
-          icon: 'fail',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("保存失败请重试")
       }
 
     })

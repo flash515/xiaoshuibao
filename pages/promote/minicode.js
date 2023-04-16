@@ -1,9 +1,8 @@
-// pages/mine/qrcode.js
+
 const app = getApp()
+const utils = require("../../utils/utils")
 Page({
-  /**
-   * 页面的初始数据
-   */
+
   data: {
     windowW: '', // 画布宽度
     windowH: '', // 画布高，没用到
@@ -190,11 +189,7 @@ Page({
         wx.saveImageToPhotosAlbum({
           filePath: res.tempFilePath,
           success(result) {
-            wx.showToast({
-              title: '推广码保存成功',
-              icon: 'success',
-              duration: 2000
-            })
+            utils._SuccessToast("推广码保存成功")
             console.log("res5", that.data.qrcodeuploadlock)
             that.uploadqrcode()
           }

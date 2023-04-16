@@ -34,7 +34,7 @@
   <text>会员积分管理</text>
 </view>
 <view class="mainframe">
-  <view wx:if="{{loginbtnshow==true}}" style="display:flex; justify-content:center;">
+  <view wx:if="{{loginbtnshow}}" style="display:flex; justify-content:center;">
     <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>
   <view wx:else style="display:flex; flex-direction:column;">

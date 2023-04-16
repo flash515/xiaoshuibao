@@ -64,7 +64,7 @@
     </view>
     </view>
     <view wx:else>
-    <view text-align:center>尚未获得铂金推广会员资格</view>
+    <view text-align:center>尚未获得铂金会员资格</view>
     </view>
   </l-tabpanel>
 </l-tabs>

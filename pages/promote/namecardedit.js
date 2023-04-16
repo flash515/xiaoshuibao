@@ -10,8 +10,8 @@ Page({
   data: {
     avatarurl: defaultAvatarUrl,
     nickname: "",
+    userphone: "",
     // 轮播参数
-    cardshow: true,
     imageview: [],
     imageuploadlock: true,
     namecardbg: "",
@@ -24,7 +24,7 @@ Page({
     companyid: "",
     businessscope: "",
     username: "",
-    userphone: "",
+    handphone: "",
     position: "",
     wechat: "",
     email: "",
@@ -99,9 +99,9 @@ Page({
       username: e.detail.value
     })
   },
-  bvUserPhone(e) {
+  bvHandPhone(e) {
     this.setData({
-      userphone: e.detail.value
+      handphone: e.detail.value
     })
   },
   bvPosition(e) {

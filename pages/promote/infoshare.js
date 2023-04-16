@@ -15,7 +15,7 @@ Page({
     remark: "",
     indirectinviterid: "",
     userinfo: {},
-    // 登录窗相关变量
+    // 登录框相关变量
     loginshow: false,
     time: "获取验证码",
     currentTime: 60,
@@ -156,11 +156,8 @@ Page({
       this._orderadd()
       this._paymentadd()
     } else {
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
+
     }
 
 
@@ -251,11 +248,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     }
@@ -286,11 +279,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     }

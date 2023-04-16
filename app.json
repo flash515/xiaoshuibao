@@ -17,7 +17,7 @@
     "pages/order/neworder",
     "pages/order/orderdetail",
     "pages/order/orderhistory",
-    "pages/order/pointsmanage",
+
     "pages/order/pay",
     "pages/mine/pricepolicy",
     "pages/mine/promotepolicy",
@@ -26,6 +26,7 @@
     "pages/mine/shareuser",
     "pages/mine/sharevalue",
     "pages/mine/newbooking",
+    "pages/mine/pointsmanage",
     "pages/mine/providerapply",
     "pages/mine/userinfo",
     "pages/scheme/schemelist",
@@ -107,7 +108,7 @@
         "text": "订单"
       },
       {
-        "pagePath": "pages/order/pointsmanage",
+        "pagePath": "pages/mine/pointsmanage",
         "iconPath": "/img/payment.png",
         "selectedIconPath": "/img/payment1.png",
         "text": "积分"

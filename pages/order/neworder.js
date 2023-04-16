@@ -302,11 +302,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'fail',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
 
       })
@@ -339,11 +335,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     }
@@ -389,11 +381,7 @@ Page({
           that._hidden()
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     }
@@ -403,11 +391,7 @@ Page({
       this.setData({
         submitted: true
       })
-      wx.showToast({
-        title: '订单提交成功',
-        icon: 'success',
-        duration: 2000, //持续的时间
-      })
+      utils._SuccessToast("订单提交成功")
     }
   },
   bvPay() {

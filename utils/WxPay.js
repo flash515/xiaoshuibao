@@ -1,11 +1,9 @@
+const app = getApp()
+const utils = require("../utils/utils")
 function bvBuy(e) {
   if (e.currentTarget.dataset.startdate == "" || e.currentTarget.dataset.startdate == undefined) {
     // 未选定日期时弹窗
-    wx.showToast({
-      title: '请选择生效日期',
-      icon: 'error',
-      duration: 2000 //持续的时间
-    })
+    utils._ErrorToast("请选择生效日期")
   } else {
     if (this.data.ordersublock == false && this.data.paymentsublock == false) {
       this.setData({
@@ -22,11 +20,7 @@ function bvBuy(e) {
       this._orderadd()
       this._paymentadd()
     }else {
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
     }
     }
 }
@@ -60,11 +54,7 @@ function _orderadd(){
         that._hidden()
       },
       fail: res => {
-        wx.showToast({
-          title: '提交失败请重试',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("提交失败请重试")
       }
     })
   }
@@ -93,11 +83,7 @@ function _paymentadd() {
         that._hidden()
       },
       fail: res => {
-        wx.showToast({
-          title: '提交失败请重试',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("提交失败请重试")
       }
     })
   }

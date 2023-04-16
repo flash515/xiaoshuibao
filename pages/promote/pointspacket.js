@@ -50,11 +50,7 @@ Page({
   },
   bvSendCode() {
     if (this.data.userphone == "" || this.data.userphone == undefined) {
-      wx.showToast({
-        title: '请输入手机号码',
-        icon: 'error',
-        duration: 2000
-      })
+      utils._ErrorToast("请输入手机号码")
     } else {
       let _this = this;
 
@@ -108,18 +104,11 @@ Page({
           })
         },
         success: res => {
-          wx.showToast({
-            title: '更新信息成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
+          utils._SuccessToast("更新信息成功")
+
         },
         fail: res => {
-          wx.showToast({
-            title: '更新信息失败',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("更新信息失败")
         }
       })
       // 根据用户是否已验证手机号，提供首次验证积分
@@ -141,7 +130,7 @@ Page({
         console.log('推广积分')
         db.collection("POINTS").add({
           data: {
-            PointsType: "promoter",
+            PointsType: "promote",
             RegistrantId: app.globalData.Guserid,
             RegistrantPoints: 50,
             ProductName: "会员手机认证",
@@ -185,12 +174,7 @@ Page({
 
       }
     } else {
-      wx.showToast({
-        title: '验证码错误',
-        icon: 'error',
-        duration: 2000
-      })
-
+      utils._ErrorToast("验证码错误")
     }
   },
   _pointsupdate() {
@@ -207,12 +191,7 @@ Page({
 
       },
       success: res => {
-        wx.showToast({
-          title: '积分已领取入账',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
-
+        utils._SuccessToast("积分已领取入账")
       },
       fail: res => {
 
@@ -256,11 +235,7 @@ Page({
         PointsStatus: "checked",
       },
       success: res => {
-        wx.showToast({
-          title: '积分已领取入账',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._SuccessToast("积分已领取入账")
         this._pointsupdate()
         //云函数更新礼包余额
       },
@@ -311,11 +286,7 @@ Page({
     })
     console.log(this.data.remainpoints, this.data.remainpacket)
     if (packet[1] == 0) {
-      wx.showToast({
-        title: '积分礼包已领完',
-        icon: 'error',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("积分礼包已领完")
     } else if (packet[1] == 1) {
       this.setData({
         doneepoints: packet[0],

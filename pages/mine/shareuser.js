@@ -38,14 +38,8 @@ Page({
       promoterlevel: app.globalData.Guserdata.TradeInfo.PromoterLevel,
     })
     // 查询直接推广用户与间接推广用户
-    await utils._directuser(app.globalData.Guserid)
-    await utils._indirectuser(app.globalData.Guserid)
-    //查询直接用户及30天内直接用户
-    wx.getStorage({
-      key: 'LDirectUser',
-      success: res => {
         this.setData({
-          directuser: res.data,
+          directuser:await utils._directuser(app.globalData.Guserid),
         })
         var directvalidfliter = [];
         for (var i = 0; i < this.data.directuser.length; i++) {
@@ -65,17 +59,15 @@ Page({
           }
         }
         app.globalData.Gdirect1yearvaliduser = direct1yearfliter.length
-        console.log("3  一年有效用户人数", app.globalData.Gdirect1yearvaliduser);
-        wx.setStorageSync('LDirect1YearValidUser', direct1yearfliter);
-      }
-    })
+        console.log("3  一年直接推广有效用户人数", app.globalData.Gdirect1yearvaliduser);
+
+   
+
     //查询间接用户及30天内间接用户，放在分享数量页面onload
+
     // 从本地存储中读取
-    wx.getStorage({
-      key: 'LIndirectUser',
-      success: res => {
         this.setData({
-          indirectuser: res.data,
+          indirectuser: await utils._indirectuser(app.globalData.Guserid),
         })
         // *直接查询结果
         console.log("间接用户人数", res.data.length);
@@ -88,20 +80,18 @@ Page({
         this.setData({
           indirectvaliduser: indirectvalidfliter,
         })
-        // 筛选特定时间注册人数
+        // 筛选30天内有效间接注册人数
         var indirect30fliter = [];
-        for (var i = 0; i < res.data.length; i++) {
+        for (var i = 0; i < this.data.indirectvaliduser.length; i++) {
           if (res.data[i].SysAddDate > (new Date().getTime() - 30 * 86400000)) {
-            indirect30fliter.push(res.data[i]);
+            indirect30fliter.push(this.data.indirectvaliduser[i]);
           }
         }
         this.setData({
           indirect30user: indirect30fliter
         })
         console.log("3  30天内分享的间接用户人数", indirect30fliter.length);
-        wx.setStorageSync('LIndirect30User', indirect30fliter);
-      }
-    })
+
 
   },
 

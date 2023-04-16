@@ -1,12 +1,12 @@
 const app = getApp()
-var utils = require("../../utils/utils")
+const utils = require("../../utils/utils")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    // 登录窗相关变量
+    // 登录框相关变量
     loginshow: false,
     loginbtnshow: false,
     time: "获取验证码",
@@ -133,11 +133,7 @@ Page({
         PointsStatus: "checked",
       },
       success: res => {
-        wx.showToast({
-          title: '积分兑换成功',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._SuccessToast("积分兑换成功")
         this.setData({
           exchangepoints: 0,
         })
@@ -145,11 +141,7 @@ Page({
         this._balancecheck()
       },
       fail: res => {
-        wx.showToast({
-          title: '提交失败请重试',
-          icon: 'error',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("提交失败请重试")
       }
     })
 
@@ -161,12 +153,7 @@ Page({
   bvReflash: async function (e) {
 
     if (new Date().getTime() < (new Date(this.data.balanceupdatetime).getTime() + 600000)) {
-      wx.showToast({
-        title: '间隔少于10分钟',
-        icon: 'error',
-        duration: 2000
-      })
-
+      utils._ErrorToast("间隔少于10分钟")
     } else {
       this._balancecheck()
     }
@@ -235,21 +222,20 @@ Page({
   onLoad: async function (options) {
     if(app.globalData.Guserdata.UserInfo.UserPhone!=''){
       this.setData({
-        loginbtnshow: false
+        loginbtnshow: false,
+        image: app.globalData.Gimagearray,
+        userid: app.globalData.Guserid,
+        userphone: app.globalData.Guserdata.UserInfo.UserPhone,
+        promotebalance: app.globalData.Guserdata.TradeInfo.PromoteBalance,
+        tradebalance: app.globalData.Guserdata.TradeInfo.TradeBalance,
+        balanceupdatetime: app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,
       })
     }else{
       this.setData({
         loginbtnshow: true
       })
     }
-    this.setData({
-      image: app.globalData.Gimagearray,
-      userid: app.globalData.Guserid,
-      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      promotebalance: app.globalData.Guserdata.TradeInfo.PromoteBalance,
-      tradebalance: app.globalData.Guserdata.TradeInfo.TradeBalance,
-      balanceupdatetime: app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,
-    })
+
   },
 
   /**
@@ -324,11 +310,7 @@ Page({
           resolve(res)
         },
         fail: res => {
-          wx.showToast({
-            title: '提交失败请重试',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utils._ErrorToast("提交失败请重试")
         }
       })
     });

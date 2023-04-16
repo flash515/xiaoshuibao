@@ -48,7 +48,7 @@ font-weight: bold;
   font-size: 28rpx;
 }
 
-/* 手机号登录窗样式 */
+/* 手机号登录框样式 */
 .logincard {
   width: 600rpx !important;
   display: flex !important;
