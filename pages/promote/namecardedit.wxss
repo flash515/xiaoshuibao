@@ -96,7 +96,7 @@ background-color: wheat;
 
 .radio {
   margin-top: 20rpx;
-  justify-content:center;
+  justify-content:left;
 }
 
 .bgarray {
