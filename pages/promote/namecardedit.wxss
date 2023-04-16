@@ -3,6 +3,7 @@
   height: 600rpx;
   position: absolute;
   z-index: -1;
+background-color: wheat;
 }
 
 .uplayout {
@@ -49,7 +50,7 @@
   color: rgb(0, 0, 0);
 }
 
-.userphone {
+.handphone {
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
