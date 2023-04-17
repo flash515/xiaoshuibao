@@ -1,42 +1,41 @@
 const app = getApp()
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 const utils = require("../../utils/utils");
-var interval = null //倒计时函数
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    // 登录参数
-    loginshow:false,
+    // 初始化相关
+    params: {},
+    tempinviterid: "",
+    remark: "",
+    // 登录框参数
+    loginshow: false,
     time: "获取验证码",
     currentTime: 60,
     disabled: false,
     s_phonecode: "",
     u_phonecode: "",
-    inputphone:"",
+    inputphone: "",
     // 名片参数
-    cardshow: true,
-    namecardbg: "",
-    imageview:[],
-    invitercompanyname: "",
-    inviterusername: "",
-    companylogo:"",
-    companyname: "",
-    companyid: "",
-    businessscope: "",
-    username: "",
-    userphone: "",
-    position:"",
-    wechat:"",
-    email:"",
-    telephone:"",
-    website:"",
-    address: "",
-
-    balance: "",
-    usertype: "",
+    cardinfo: {},
+    sample: {
+      namecardbg: "",
+      imageview: [],
+      companylogo: "",
+      companyname: "小税宝有限公司（样版）",
+      businessscope: "小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
+      username: "小税宝",
+      userphone: "123456",
+      position: "产品经理",
+      wechat: "123456",
+      email: "123456@163.com",
+      telephone: "0755-12345678",
+      website: "www.123456.com",
+      address: "广东省深圳市南山区粤海街道",
+    },
     adddate: "",
     updatedate: ""
   },
@@ -47,15 +46,15 @@ Page({
   },
 
   bvInputPhone(e) {
-    this.data.inputphone= e.detail.value
+    this.data.inputphone = e.detail.value
   },
 
-  bvSendCode: async function (){
+  bvSendCode: async function () {
     this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
     console.log("验证码", this.data.s_phonecode)
-    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
-    this._SendCodeBtn()
-  }
+    if (this.data.s_phonecode != '' && this.data.s_phonecode != undefined) {
+      this._SendCodeBtn()
+    }
   },
   _SendCodeBtn() {
     var that = this;
@@ -77,7 +76,7 @@ Page({
   },
 
   bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
+    this.data.u_phonecode = e.detail.value
   },
 
   bvLogin: async function (e) {
@@ -86,22 +85,22 @@ Page({
     await utils._SendNewUserSMS()
     this.setData({
       loginshow: false,
-      userphone:this.data.inputphone,
+      userphone: this.data.inputphone,
     })
-    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    app.globalData.Guserdata.UserInfo.UserPhone = this.data.userphone
     console.log(app.globalData.Guserdata)
   },
-  
-  bvEditNameCard: function (e) {
-    if(app.globalData.Guserdata.UserInfo.UserPhone==''||app.globalData.Guserdata.UserInfo.UserPhone==undefined){
-    this.setData({
-      loginshow: true
-    })
-  }else{
-    wx.redirectTo({
-      url:"../promote/namecardedit"
-    })
-  }
+
+  bvEdit: function (e) {
+    if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
+      this.setData({
+        loginshow: true
+      })
+    } else {
+      wx.redirectTo({
+        url: "../promote/namecardedit"
+      })
+    }
   },
 
   onHideMaskTap: function () {
@@ -109,68 +108,98 @@ Page({
       loginshow: false
     })
   },
+  //发布到企业广场
+  bvPublish(e) {
+    if (this.data.publishstatus == false) {
+      // 首次发布新增记录
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').add({
+        data: {
+          UserId: app.globalData.Guserid,
+          CardInfo: this.data.cardinfo,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success: res => {
+          this.data.publishstatus = true
+          db.collection('USER').where({
+            UserId: app.globalData.Guserid
+          }).update({
+            data: {
+              ["NameCard.PublishStatus"]: this.data.publishstatus,
+            },
+            success: res => {
+              utils._SuccessToast("名片发布成功")
+            },
+          })
+        },
+      })
+    } else {
+      // 再次发布是更新
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').where({
+        UserId: app.globalData.Guserid
+      }).update({
+        data: {
+          CardInfo: this.data.cardinfo,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success: res => {
+          utils._SuccessToast("名片发布成功")
+        },
+      })
+    }
+
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
-    console.log(options)
-    this.setData({
-      tempinviterid: options.userid,
-      params: options,
-    })
-    if (options.userid != '' && options.userid != undefined) {
-      // 从推广名片进入，显示推广人的名片
-      let user = await utils._usercheck(options.userid)
+    console.log("传入的参数为",options)
+    if (options.userid) {
+      // 如果是通过分享链接进入
+      this.data.params = options
+      this.data.remark = "通过小税宝用户分享名片进入"
       this.setData({
-        companyname: user.UserInfo.CompanyName,
-        businessscope: user.UserInfo.BusinessScope,
-        companylogo:user.UserInfo.CompanyLogo,
-        username: user.UserInfo.UserName,
-        userphone: user.UserInfo.UserPhone,
+        // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
+        tempinviterid: options.userid
       })
-      // 调用方法初始化
-      utils._setting()
-      utils._productcheck()
-      await utils._login()
-      let data = await utils._usercheck(app.globalData.Guserid)
-      console.log("data", data);
-      if (data.length == 0) {
-        await utils._newuser(this.data.tempinviterid, this.data.params, this.data.remark)
-        await utils._invitercheck()
-      } else {
-        app.globalData.Guserdata = data[0]
-        app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
-        app.globalData.Ginviterid = data[0].UserInfo.InviterId
-        app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
-        console.log("当前用户信息", app.globalData.Guserdata);
-      }
+      // 本地函数查询分享人的名片信息
+      const db = wx.cloud.database()
+      db.collection('USER').where({
+        UserId: options.userid
+      }).get({
+        success: res => {
+          // 展示名片分享人的名片
+          this.setData({
+            // cardinfo: res.data[0].NameCard
+            cardinfo:this.data.sample
+          })
+        }
+      })
+      // 通过分享进入，执行用户登录操作，展示分享人的名片信息
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
     } else {
-      // 是从小程序打开，显示本人的名片信息
-      this.setData({
-        image: app.globalData.Gimagearray,
-        namecardbg:app.globalData.Guserdata.UserInfo.NameCardBg,
-        avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
-        nickname: app.globalData.Guserdata.UserInfo.nickName,
-        companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
-        companyname: app.globalData.Guserdata.UserInfo.CompanyName,
-        companyid: app.globalData.Guserdata.UserInfo.CompanyId,
-        businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
-        username: app.globalData.Guserdata.UserInfo.UserName,
-        userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-        position:app.globalData.Guserdata.UserInfo.Position,
-        wechat:app.globalData.Guserdata.UserInfo.WeChat,
-        email:app.globalData.Guserdata.UserInfo.Email,
-        telephone:app.globalData.Guserdata.UserInfo.Telephone,
-        website:app.globalData.Guserdata.UserInfo.Website,
-        address: app.globalData.Guserdata.UserInfo.Address,
-        usertype: app.globalData.Guserdata.UserInfo.UserType,
-        imageview:app.globalData.Guserdata.UserInfo.NameCardImages,
-        adddate: app.globalData.Guserdata.UserInfo.AddDate,
-        updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
-        invitercompany: app.globalData.Guserdata.UserInfo.InviterCompany,
-        invitername: app.globalData.Guserdata.UserInfo.InviterName,
-      })
+      // 在本人小程序中打开
+      console.log("在本人小程序中打开")
+      if (app.globalData.Guserdata.NameCard == undefined) {
+        // 没有名片展示样本
+        console.log("执行了")
+        this.setData({
+          cardinfo: this.data.sample
+        })
+      } else {
+        // 有名片展示本人名片
+        this.setData({
+          cardinfo: app.globalData.Guserdata.NameCard
+        })
+      }
     }
+
   },
 
   /**

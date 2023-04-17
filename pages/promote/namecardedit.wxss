@@ -3,7 +3,7 @@
   height: 600rpx;
   position: absolute;
   z-index: -1;
-background-color: wheat;
+  background-color: aquamarine;
 }
 
 .uplayout {

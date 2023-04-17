@@ -1,5 +1,4 @@
 const app = getApp()
-const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 const utils = require("../../utils/utils");
 var interval = null //倒计时函数
 Page({
@@ -8,20 +7,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-    avatarurl: defaultAvatarUrl,
-    nickname: "",
-    userphone: "",
-    // 轮播参数
-    imageview: [],
-    imageuploadlock: true,
-    namecardbg: "",
-    namecardbgarray: [],
-    namecardimages: [],
+    cardbg: "",//名片背景
+    cardbgarray: [],//系统背景
+    bgview:"",//自选背景时的临时文件
+
+    imageview: [],//名片其他图片资料的临时文件
+    imageuploadlock: true,//其他图片上传锁定
+    cardimages: [],//名片其他图片资料
     invitercompanyname: "",
     inviterusername: "",
     companylogo: [],
+    logoview:[],//选择logo时的临时文件
     companyname: "",
-    companyid: "",
     businessscope: "",
     username: "",
     handphone: "",
@@ -31,13 +28,9 @@ Page({
     telephone: "",
     website: "",
     address: "",
-    result: "未发送",
-    balance: "",
-    usertype: "",
-    adddate: "",
+    keywords: [],
+    companysort: [],
     updatedate: "",
-
-    logoview: [],
     logouploadlock: true,
   },
   onChooseAvatar(e) {
@@ -84,11 +77,7 @@ Page({
       companyname: e.detail.value
     })
   },
-  bvCompanyId(e) {
-    this.setData({
-      companyid: e.detail.value
-    })
-  },
+
   bvBusinessScope(e) {
     this.setData({
       businessscope: e.detail.value
@@ -137,7 +126,7 @@ Page({
   bvBgSelect(e) {
     console.log(e.detail.key)
     this.setData({
-      namecardbg: e.detail.key
+      cardbg: e.detail.key
     })
   },
 
@@ -189,7 +178,7 @@ Page({
           Promise.all(tempfiles).then(res => {
             console.log(res)
             this.setData({
-              namecardimages: res,
+              cardimages: res,
               imageuploadlock: true // 修改上传状态为锁定})
             })
           }, err => {
@@ -205,13 +194,48 @@ Page({
     // logo只有一个的情况不需要用数组
     this.setData({
       logoview: e.detail.all,
-      logouploadlock: false
+      // logouploadlock: false
     })
+    for (let i = 0; i < this.data.logoview.length; i++) {
+      const filePath = this.data.logoview[i]
+      const cloudPath = 'namecard/' +app.globalData.Guserid+ '/companylogo' + filePath.match(/\.[^.]+?$/)
+      wx.cloud.uploadFile({
+        cloudPath,
+        filePath,
+        success: res => {
+          console.log("fileID", res.fileID)
+          // LOGO只有一个值的数组构建方式
+          this.setData({
+            companylogo: [res.fileID],
+            // logouploadlock: true,
+          })
+          // this.data.companylogo = [res.fileID]
+          // this.data.logouploadlock = true // 修改上传状态为锁定
+          console.log("companylogo", this.data.companylogo)
+        }
+      })
+    }
   },
   bvRemoveLogo(e) {
     this.setData({
       logoview: e.detail.all,
       logouploadlock: false
+    })
+    console.log(this.data.companylogo)
+    wx.cloud.callFunction({
+      name: 'DeleteFiles',
+      data:{
+        event: this.data.companylogo,
+      },
+
+      success: res => {
+        console.log(res)
+        utils._SuccessToast("删除成功")
+      },
+      fail: err => {
+        console.log(err)
+        utils._ErrorToast("删除失败请重试")
+      }
     })
   },
   bvUploadLogo(e) {
@@ -231,7 +255,7 @@ Page({
 
           for (let i = 0; i < this.data.logoview.length; i++) {
             const filePath = this.data.logoview[i]
-            const cloudPath = 'namecard/' + this.data.companyname + filePath.match(/\.[^.]+?$/)
+            const cloudPath = 'namecard/' +app.globalData.Guserid+ '/companylogo' + filePath.match(/\.[^.]+?$/)
             wx.cloud.uploadFile({
               cloudPath,
               filePath,
@@ -254,201 +278,46 @@ Page({
       }
     }
   },
-  bvEdit: function (e) {
-    if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
-      this.setData({
-        loginshow: true
-      })
-    } else {
-      this.setData({
-        cardshow: false
-      })
-    }
-  },
+
   bvView: function (e) {
-    this.setData({
-      cardshow: true
+    wx.redirectTo({
+      url: "../promote/namecard"
     })
-
   },
 
-  bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
-  },
-  bvSendCode: async function () {
-    this.data.s_phonecode = await utils._sendcode(this.data.userphone)
-    console.log("验证码", this.data.s_phonecode)
-    if (this.data.s_phonecode != '' && this.data.s_phonecode != undefined) {
-      this._SendCodeBtn()
+  //保存名片信息
+  bvSave(e) {
+    var cardinfo = {
+      ["CardBg"]: this.data.cardbg,
+      ["CardImages"]: this.data.cardimages,
+      ["UserName"]: this.data.username,
+      ["Position"]: this.data.position,
+      ["WeChat"]: this.data.wechat,
+      ["Email"]: this.data.email,
+      ["Telephone"]: this.data.telephone,
+      ["Website"]: this.data.website,
+      ["HandPhone"]: this.data.handphone,
+      ["CompanyLogo"]: this.data.companylogo,
+      ["CompanyName"]: this.data.companyname,
+      ["Address"]: this.data.address,
+      ["KeyWords"]: this.data.keywords,
+      ["CompanySort"]: this.data.companysort,
+      ["BusinessScope"]: this.data.businessscope,
     }
-  },
-
-  _SendCodeBtn() {
-    var that = this;
-    var currentTime = that.data.currentTime
-    var interval = setInterval(function () {
-      currentTime--;
-      that.setData({
-        time: currentTime + '秒'
-      })
-      if (currentTime <= 0) {
-        clearInterval(interval)
-        that.setData({
-          time: '重新发送',
-          currentTime: 60,
-          disabled: false
-        })
-      }
-    }, 1000)
-
-  },
-  bvLogin: async function (e) {
-    await utils._NewMember(this.data.userphone, this.data.s_phonecode, this.data.u_phonecode)
-    await utils._RegistPointsAdd()
-    await utils._SendNewUserSMS()
-    this.setData({
-      loginshow: false,
-      loginbtnshow: false
-    })
-    app.globalData.Guserdata.UserInfo.UserPhone = this.data.userphone
-    console.log(app.globalData.Guserdata)
-  },
-  onHideMaskTap: function () {
-    this.setData({
-      loginshow: false
-    })
-  },
-  //修改数据操作
-  bvPublish(e) {
-    if (this.data.publishstatus == false) {
-      const db = wx.cloud.database()
-      db.collection('NAMECARD').add({
-        data: {
-          UserId: app.globalData.Guserid,
-          UserName: this.data.username,
-          Position: this.data.position,
-          WeChat: this.data.wechat,
-          Email: this.data.email,
-          Telephone: this.data.telephone,
-          Website: this.data.website,
-          UserPhone: this.data.userphone,
-          CompanyLogo: this.data.companylogo,
-          CompanyName: this.data.companyname,
-          CompanyId: this.data.companyid,
-          Address: this.data.address,
-          BusinessScope: this.data.businessscope,
-          BusinessSort: this.data.businesssort,
-          KeyWords: this.data.keywords,
-          NameCardBg: this.data.namecardbg,
-          NameCardImages: this.data.namecardimages,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
-        },
-        success: res => {
-          utils._SuccessToast("名片发布成功")
-          this.data.publishstatus = true
-          db.collection('USER').where({
-            UserId: app.globalData.Guserid
-          }).update({
-            data: {
-              ["UserInfo.NameCarePublishStatus"]: this.data.publishstatus,
-            },
-            success: res => {
-              utils._SuccessToast("名片发布成功")
-            },
-            fail: res => {
-              utils._ErrorToast("名片发布不成功")
-            }
-          })
-        },
-        fail: res => {
-          utils._ErrorToast("名片发布不成功")
-        }
-      })
-    } else {
-      const db = wx.cloud.database()
-      db.collection('NAMECARD').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          UserName: this.data.username,
-          Position: this.data.position,
-          WeChat: this.data.wechat,
-          Email: this.data.email,
-          Telephone: this.data.telephone,
-          Website: this.data.website,
-          UserPhone: this.data.userphone,
-          CompanyLogo: this.data.companylogo,
-          CompanyName: this.data.companyname,
-          CompanyId: this.data.companyid,
-          Address: this.data.address,
-          BusinessScope: this.data.businessscope,
-          BusinessSort: this.data.businesssort,
-          KeyWords: this.data.keywords,
-          NameCardBg: this.data.namecardbg,
-          NameCardImages: this.data.namecardimages,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
-        },
-        success: res => {
-          utils._SuccessToast("名片发布成功")
-        },
-        fail: res => {
-          utils._ErrorToast("名片发布不成功")
-        }
-      })
-    }
-
-
-  },
-  //修改数据操作
-  bvUpdate(e) {
     const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
     }).update({
       data: {
-        ["UserInfo.UserName"]: this.data.username,
-        ["UserInfo.Position"]: this.data.position,
-        ["UserInfo.WeChat"]: this.data.wechat,
-        ["UserInfo.Email"]: this.data.email,
-        ["UserInfo.Telephone"]: this.data.telephone,
-        ["UserInfo.Website"]: this.data.website,
-        ["UserInfo.UserPhone"]: this.data.userphone,
-        ["UserInfo.CompanyLogo"]: this.data.companylogo,
-        ["UserInfo.CompanyName"]: this.data.companyname,
-        ["UserInfo.CompanyId"]: this.data.companyid,
-        ["UserInfo.Address"]: this.data.address,
-        ["UserInfo.BusinessScope"]: this.data.businessscope,
-        ["UserInfo.NameCardBg"]: this.data.namecardbg,
-        ["UserInfo.NameCardImages"]: this.data.namecardimages,
+        NameCard: cardinfo,
         ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
           hour12: false
         })
       },
       success: res => {
-        app.globalData.Guserdata.UserInfo.UserName = this.data.username,
-          app.globalData.Guserdata.UserInfo.Position = this.data.position,
-          app.globalData.Guserdata.UserInfo.WeChat = this.data.wechat,
-          app.globalData.Guserdata.UserInfo.Email = this.data.email,
-          app.globalData.Guserdata.UserInfo.Telephone = this.data.telephone,
-          app.globalData.Guserdata.UserInfo.Website = this.data.website,
-          app.globalData.Guserdata.UserInfo.UserPhone = this.data.userphone,
-          app.globalData.Guserdata.UserInfo.CompanyLogo = this.data.companylogo,
-          app.globalData.Guserdata.UserInfo.CompanyName = this.data.companyname,
-          app.globalData.Guserdata.UserInfo.CompanyId = this.data.companyid,
-          app.globalData.Guserdata.UserInfo.Address = this.data.address,
-          app.globalData.Guserdata.UserInfo.BusinessScope = this.data.businessscope,
-          app.globalData.Guserdata.UserInfo.NameCardBg = this.data.namecardbg,
-          app.globalData.Guserdata.UserInfo.NameCardImages = this.data.namecardimages,
-
+        app.globalData.Guserdata.NameCard = cardinfo,
           utils._SuccessToast("名片保存成功")
       },
-      fail: res => {
-        utils._ErrorToast("名片保存不成功")
-      }
     })
 
   },
@@ -457,28 +326,30 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      publishstatus: app.globalData.Guserdata.UserInfo.NameCardPublishStatus,
-      namecardbgarray: app.globalData.Gsetting.namecardbg,
-      namecardbg: app.globalData.Guserdata.UserInfo.NameCardBg,
-      namecardimages: app.globalData.Guserdata.UserInfo.NameCardImages,
-      companylogo: app.globalData.Guserdata.UserInfo.CompanyLogo,
-      logoview: app.globalData.Guserdata.UserInfo.CompanyLogo,
-      companyname: app.globalData.Guserdata.UserInfo.CompanyName,
-      companyid: app.globalData.Guserdata.UserInfo.CompanyId,
-      businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
-      address: app.globalData.Guserdata.UserInfo.Address,
-      username: app.globalData.Guserdata.UserInfo.UserName,
-      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      position: app.globalData.Guserdata.UserInfo.Position,
-      wechat: app.globalData.Guserdata.UserInfo.WeChat,
-      email: app.globalData.Guserdata.UserInfo.Email,
-      website: app.globalData.Guserdata.UserInfo.Website,
-      telephone: app.globalData.Guserdata.UserInfo.Telephone,
-      imageview: app.globalData.Guserdata.UserInfo.NameCardImages,
-      adddate: app.globalData.Guserdata.UserInfo.AddDate,
-      updatedate: app.globalData.Guserdata.UserInfo.UpdateDate,
+      cardbgarray: app.globalData.Gsetting.namecardbg,
     })
-
+    if (app.globalData.Guserdata.NameCard != undefined) {
+    this.setData({
+      cardbg: app.globalData.Guserdata.NameCard.CardBg,
+      companylogo: app.globalData.Guserdata.NameCard.CompanyLogo,
+      companyname: app.globalData.Guserdata.NameCard.CompanyName,
+      username: app.globalData.Guserdata.NameCard.UserName,
+      handphone: app.globalData.Guserdata.NameCard.HandPhone,
+      position: app.globalData.Guserdata.NameCard.Position,
+      wechat: app.globalData.Guserdata.NameCard.WeChat,
+      email: app.globalData.Guserdata.NameCard.Email,
+      website: app.globalData.Guserdata.NameCard.Website,
+      telephone: app.globalData.Guserdata.NameCard.Telephone,
+      businessscope: app.globalData.Guserdata.NameCard.BusinessScope,
+      keywords:app.globalData.Guserdata.NameCard.KeyWords,
+      companysort:app.globalData.Guserdata.NameCard.CompanySort,
+      address: app.globalData.Guserdata.NameCard.Address,
+      updatedate: app.globalData.Guserdata.NameCard.UpdateDate,
+      bgview: app.globalData.Guserdata.NameCard.CardBg,
+      logoview:app.globalData.Guserdata.NameCard.CompanyLogo,
+      imageview: app.globalData.Guserdata.NameCard.CardImages,
+    })
+    }
   },
 
 

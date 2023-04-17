@@ -457,6 +457,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/promote/namecard",
+          "query": "userid=0000",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

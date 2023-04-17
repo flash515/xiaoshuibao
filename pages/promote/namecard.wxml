@@ -19,39 +19,47 @@
   </l-card>
 </l-mask>
 <!-- 背景层 -->
-<image class="bgimage" src="{{namecardbg}}" mode="scaleToFill" />
+<image class="bgimage" src="{{cardinfo.cardbg}}" mode="scaleToFill" />
 <!-- 名片层 -->
 <view class="uplayout">
   <view class="namecard">
-    <view class="companyname">{{companyname}}</view>
+    <view class="companyname">{{cardinfo.companyname}}</view>
     <view class="user" style="display:flex; flex-direction:row; justify-content:space-between;align-items:flex-end;">
       <view style="display:flex;flex-direction:column;justify-content:flex-start;">
         <text>\n</text>
-        <view class="username">{{username}}</view>
-        <view wx:if="{{positon!=''&&position!=undefined}}" class="position">{{position}}</view>
-        <view class="userphone">手机：{{userphone}}</view>
-        <view wx:if="{{wechat!=''&&wechat!=undefined}}" class="wechat">微信：{{wechat}}</view>
-        <view wx:if="{{telephone!=''&&telephone!= undefined}}" class="telephone">座机：{{telephone}}</view>
+        <view class="username">{{cardinfo.username}}</view>
+        <view class="position">{{cardinfo.position}}</view>
+        <text>\n</text>
+        <view wx:if="{{cardinfo.handphone}}" class="userphone">手机：{{cardinfo.handphone}}</view>
+        <view wx:if="{{cardinfo.wechat}}" class="wechat">微信：{{cardinfo.wechat}}</view>
+        <view wx:if="{{cardinfo.telephone}}" class="telephone">座机：{{cardinfo.telephone}}</view>
       </view>
-      <image class="companylogo" src="{{companylogo}}"></image>
+      <image class="companylogo" src="{{cardinfo.companylogo}}"></image>
     </view>
     <view>
-      <view wx:if="{{email!=''&&email!=undefined}}" class="email">邮箱：{{email}}</view>
-      <view wx:if="{{website!=''&&website!=undefined}}" class="website">网站：{{website}}</view>
-      <view wx:if="{{address!=''&&address!=undefined}}" class="address">地址：{{address}}</view>
+      <view wx:if="{{cardinfo.email}}" class="email">邮箱：{{cardinfo.email}}</view>
+      <view wx:if="{{cardinfo.website}}" class="website">网站：{{cardinfo.website}}</view>
+      <view wx:if="{{cardinfo.address}}" class="address">地址：{{cardinfo.address}}</view>
     </view>
   </view>
 </view>
-  <view wx:if="{{imageview!=''&&imageview!=undefined}}" wx:for="{{imageview}}" wx:key="key">
-    <image style="display: block" src="{{item}}" mode="scaleToFill" />
-  </view>
-  <view wx:if="{{businessscope!=''&&businessscope!=undefined}}" style="display:flex;flex-direction:column;justify-content:flex-start;" class="mainframe">
+<view wx:if="{{cardinfo.imageview}}" wx:for="{{cardinfo.imageview}}" wx:key="key">
+  <image style="display: block" src="{{item}}" mode="scaleToFill" />
+</view>
+<view class="mainframe">
+  <view wx:if="{{cardinfo.businessscope}}" style="display:flex;flex-direction:column;justify-content:flex-start;">
     <label class="labal">企业简介：</label>
-    <text space="emsp" decode='true' class="text">{{businessscope}}</text>
+    <text space="emsp" decode='true' class="text">{{cardinfo.businessscope}}</text>
   </view>
   <text>\n</text>
-  <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
-    <l-button size="mini" shape="semicircle" bind:lintap="bvEditNameCard">制作电子名片</l-button>
-    <text space="emsp" decode="{{true}}">&emsp;</text>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
+  <view style="display:flex; flex-direction:row; justify-content:space-between;">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6"  bind:lintap="bvEdit">编辑制作</l-button>
+    <view wx:if="{{tempinviterid}}">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvSave">收存</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvReply">回递</l-button>
   </view>
+    <view wx:else>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">发布</l-button>
+    </view>
+  </view>
+</view>
