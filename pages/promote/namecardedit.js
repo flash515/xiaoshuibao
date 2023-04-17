@@ -225,48 +225,8 @@ Page({
         console.log("companylogo", this.data.companylogo)
       }
     })
-
   },
-  bvUploadLogo(e) {
-    let that = this
-    // 判断商品id是否空值
-    if (this.data.companyname == "" || this.data.companyname == null) {
-      utils._ErrorToast("企业名称不能空")
-    } else {
-      // 判断是否重复提交
-      if (this.data.logouploadlock) {
-        // 锁定时很执行
-        utils._ErrorToast("请勿重复提交")
-      } else {
-        if (this.data.logoview.length == 0) {
-          utils._ErrorToast("请先选取图片")
-        } else {
 
-          for (let i = 0; i < this.data.logoview.length; i++) {
-            const filePath = this.data.logoview[i]
-            const cloudPath = 'namecard/' +app.globalData.Guserid+ '/companylogo' + filePath.match(/\.[^.]+?$/)
-            wx.cloud.uploadFile({
-              cloudPath,
-              filePath,
-              success: res => {
-                console.log("fileID", res.fileID)
-                // LOGO只有一个值的数组构建方式
-                this.setData({
-                  companylogo: [res.fileID],
-                  logouploadlock: true,
-                })
-                // this.data.companylogo = [res.fileID]
-                // this.data.logouploadlock = true // 修改上传状态为锁定
-                console.log("companylogo", this.data.companylogo)
-              }
-            })
-          }
-        }
-
-        // 异步上传，打印attachment时尚未返回数据
-      }
-    }
-  },
 
   bvView: function (e) {
     wx.redirectTo({
