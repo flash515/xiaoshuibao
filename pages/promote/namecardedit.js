@@ -207,36 +207,25 @@ Page({
           // LOGO只有一个值的数组构建方式
           this.setData({
             companylogo: [res.fileID],
-            // logouploadlock: true,
           })
-          // this.data.companylogo = [res.fileID]
-          // this.data.logouploadlock = true // 修改上传状态为锁定
           console.log("companylogo", this.data.companylogo)
         }
       })
     }
   },
   bvRemoveLogo(e) {
-    this.setData({
-      logoview: e.detail.all,
-      logouploadlock: false
-    })
-    console.log(this.data.companylogo)
-    wx.cloud.callFunction({
-      name: 'DeleteFiles',
-      data:{
-        event: this.data.companylogo,
-      },
-
+    wx.cloud.deleteFile({
+      fileList: this.data.companylogo,
       success: res => {
-        console.log(res)
-        utils._SuccessToast("删除成功")
-      },
-      fail: err => {
-        console.log(err)
-        utils._ErrorToast("删除失败请重试")
+        console.log("companylogo", res.fileList)
+        this.setData({
+          companylogo: [],
+          logoview: [],
+        })
+        console.log("companylogo", this.data.companylogo)
       }
     })
+
   },
   bvUploadLogo(e) {
     let that = this
