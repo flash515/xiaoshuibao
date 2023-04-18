@@ -6,7 +6,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    onlinehidden: false,
     payalready: false,
     booklock: false,
     address: "",
@@ -366,7 +365,6 @@ Page({
       productname: options.productname,
       totalfee: options.totalfee,
       database: options.database,
-      onlinehidden: options.onlinehidden,
       image: app.globalData.Gimagearray,
       // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })

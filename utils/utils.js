@@ -59,10 +59,8 @@ function _sendcode(userphone) {
   return promise;
 }
 
-async function _NewMember(userphone, s_phonecode, u_phonecode) {
+async function _NewMember(userphone) {
   var promise = new Promise((resolve, reject) => {
-    if (s_phonecode == u_phonecode && u_phonecode != "") {
-      console.log('手机验证码正确')
       const db = wx.cloud.database()
       db.collection('USER').where({
         UserId: app.globalData.Guserid
@@ -77,9 +75,7 @@ async function _NewMember(userphone, s_phonecode, u_phonecode) {
           resolve(res)
         },
       })
-    } else {
-      _ErrorToast("验证码错误")
-    }
+   
   });
   return promise;
 }
