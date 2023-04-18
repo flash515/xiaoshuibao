@@ -7,17 +7,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    cardbg: "",//名片背景
-    cardbgarray: [],//系统背景
-    bgview:"",//自选背景时的临时文件
-
-    imageview: [],//名片其他图片资料的临时文件
-    imageuploadlock: true,//其他图片上传锁定
-    cardimages: [],//名片其他图片资料
+    cardbg: "", //名片背景
+    cardbgarray: [], //系统背景
+    bgview: "", //自选背景时的临时文件
+    imageview: [], //名片其他图片资料的临时文件
+    cardimages: [], //名片其他图片资料
     invitercompanyname: "",
     inviterusername: "",
     companylogo: [],
-    logoview:[],//选择logo时的临时文件
+    logoview: [], //选择logo时的临时文件
     companyname: "",
     businessscope: "",
     username: "",
@@ -58,18 +56,6 @@ Page({
     this.setData({
       nickname: e.detail.value,
     })
-  },
-  changeTabs(e) {
-    console.log(e.detail)
-    if (e.detail.activeKey == "three") {
-      this.setData({
-        btnhidden: true
-      })
-    } else {
-      this.setData({
-        btnhidden: false
-      })
-    }
   },
 
   bvCompanyName(e) {
@@ -129,18 +115,58 @@ Page({
       cardbg: e.detail.key
     })
   },
+  bvChooseBg(e) {
+    console.log(e.detail)
+    this.setData({
+      bgview: e.detail.all,
+    })
+    // const filePath = this.data.bgview[0]
+    // const cloudPath = 'namecard/' + app.globalData.Guserid + '/cardbg' + filePath.match(/\.[^.]+?$/)
+    // wx.cloud.uploadFile({
+    //   cloudPath,
+    //   filePath,
+    //   success: res => {
+    //     // LOGO只有一个值的数组构建方式
+    //     this.setData({
+    //       cardbg: [res.fileID],
+    //     })
+    //     console.log("cardbg", this.data.cardbg)
+    //   }
+    // })
+
+  },
+  bvRemoveBg(e) {
+    wx.cloud.deleteFile({
+      fileList: this.data.cardbg,
+      success: res => {
+        this.setData({
+          bgview: [],
+          cardbg: [],
+        })
+        console.log("cardbg", this.data.cardbg)
+      }
+    })
+  },
 
   bvChooseImage(e) {
     console.log(e.detail)
     this.setData({
       imageview: e.detail.all,
-      imageuploadlock: false
     })
+
   },
+
   bvRemoveImage(e) {
-    this.setData({
-      imageview: e.detail.all,
-      imageuploadlock: false
+    var fileList = [e.detail.current]
+    wx.cloud.deleteFile({
+      fileList,
+      success: res => {
+        this.setData({
+          imageview: this.data.imageview.splice(e.detail.index, 1),
+          cardimages: this.data.imageview.splice(e.detail.index, 1),
+        })
+        console.log("cardimages", this.data.cardimages)
+      }
     })
   },
   async bvUploadImage(e) {
@@ -191,27 +217,26 @@ Page({
   },
   bvChooseLogo(e) {
     console.log(e.detail)
-    // logo只有一个的情况不需要用数组
     this.setData({
       logoview: e.detail.all,
       // logouploadlock: false
     })
-    for (let i = 0; i < this.data.logoview.length; i++) {
-      const filePath = this.data.logoview[i]
-      const cloudPath = 'namecard/' +app.globalData.Guserid+ '/companylogo' + filePath.match(/\.[^.]+?$/)
-      wx.cloud.uploadFile({
-        cloudPath,
-        filePath,
-        success: res => {
-          console.log("fileID", res.fileID)
-          // LOGO只有一个值的数组构建方式
-          this.setData({
-            companylogo: [res.fileID],
-          })
-          console.log("companylogo", this.data.companylogo)
-        }
-      })
-    }
+    // for (let i = 0; i < this.data.logoview.length; i++) {
+    //   const filePath = this.data.logoview[i]
+    //   const cloudPath = 'namecard/' + app.globalData.Guserid + '/companylogo' + filePath.match(/\.[^.]+?$/)
+    //   wx.cloud.uploadFile({
+    //     cloudPath,
+    //     filePath,
+    //     success: res => {
+    //       console.log("fileID", res.fileID)
+    //       // LOGO只有一个值的数组构建方式
+    //       this.setData({
+    //         companylogo: [res.fileID],
+    //       })
+    //       console.log("companylogo", this.data.companylogo)
+    //     }
+    //   })
+    // }
   },
   bvRemoveLogo(e) {
     wx.cloud.deleteFile({
@@ -233,12 +258,32 @@ Page({
       url: "../promote/namecard"
     })
   },
+  //保存名片信息
+  async bvUpdate(e) {
+    let cloudpath = 'namecard/' + app.globalData.Guserid + '/cardbg'
+    let files1=await utils._UploadFiles(this.data.bgview,cloudpath)
+  cloudpath = 'namecard/' + app.globalData.Guserid + '/companylogo'
+    let files2=await utils._UploadFiles(this.data.logoview,cloudpath)
+  cloudpath = 'namecard/' + app.globalData.Guserid + '/cardimages'
+    let files3=await utils._UploadFiles(this.data.imageview,cloudpath)
+  console.log(files1,files2,files3)
+    },
+
 
   //保存名片信息
-  bvSave(e) {
+ async bvSave(e) {
+  let cloudpath = 'namecard/' + app.globalData.Guserid + '/cardbg'
+  let files1=await utils._UploadFiles(this.data.bgview,cloudpath)
+cloudpath = 'namecard/' + app.globalData.Guserid + '/companylogo'
+  let files2=await utils._UploadFiles(this.data.logoview,cloudpath)
+cloudpath = 'namecard/' + app.globalData.Guserid + '/cardimages'
+  let files3=await utils._UploadFiles(this.data.imageview,cloudpath)
+console.log(files1,files2,files3)
+
     var cardinfo = {
-      ["CardBg"]: this.data.cardbg,
-      ["CardImages"]: this.data.cardimages,
+      ["CardBg"]: files1,
+      ["CompanyLogo"]: files2,
+      ["CardImages"]: files3,
       ["UserName"]: this.data.username,
       ["Position"]: this.data.position,
       ["WeChat"]: this.data.wechat,
@@ -246,7 +291,6 @@ Page({
       ["Telephone"]: this.data.telephone,
       ["Website"]: this.data.website,
       ["HandPhone"]: this.data.handphone,
-      ["CompanyLogo"]: this.data.companylogo,
       ["CompanyName"]: this.data.companyname,
       ["Address"]: this.data.address,
       ["KeyWords"]: this.data.keywords,
@@ -278,26 +322,26 @@ Page({
       cardbgarray: app.globalData.Gsetting.namecardbg,
     })
     if (app.globalData.Guserdata.NameCard != undefined) {
-    this.setData({
-      cardbg: app.globalData.Guserdata.NameCard.CardBg,
-      companylogo: app.globalData.Guserdata.NameCard.CompanyLogo,
-      companyname: app.globalData.Guserdata.NameCard.CompanyName,
-      username: app.globalData.Guserdata.NameCard.UserName,
-      handphone: app.globalData.Guserdata.NameCard.HandPhone,
-      position: app.globalData.Guserdata.NameCard.Position,
-      wechat: app.globalData.Guserdata.NameCard.WeChat,
-      email: app.globalData.Guserdata.NameCard.Email,
-      website: app.globalData.Guserdata.NameCard.Website,
-      telephone: app.globalData.Guserdata.NameCard.Telephone,
-      businessscope: app.globalData.Guserdata.NameCard.BusinessScope,
-      keywords:app.globalData.Guserdata.NameCard.KeyWords,
-      companysort:app.globalData.Guserdata.NameCard.CompanySort,
-      address: app.globalData.Guserdata.NameCard.Address,
-      updatedate: app.globalData.Guserdata.NameCard.UpdateDate,
-      bgview: app.globalData.Guserdata.NameCard.CardBg,
-      logoview:app.globalData.Guserdata.NameCard.CompanyLogo,
-      imageview: app.globalData.Guserdata.NameCard.CardImages,
-    })
+      this.setData({
+        cardbg: app.globalData.Guserdata.NameCard.CardBg,
+        companylogo: app.globalData.Guserdata.NameCard.CompanyLogo,
+        companyname: app.globalData.Guserdata.NameCard.CompanyName,
+        username: app.globalData.Guserdata.NameCard.UserName,
+        handphone: app.globalData.Guserdata.NameCard.HandPhone,
+        position: app.globalData.Guserdata.NameCard.Position,
+        wechat: app.globalData.Guserdata.NameCard.WeChat,
+        email: app.globalData.Guserdata.NameCard.Email,
+        website: app.globalData.Guserdata.NameCard.Website,
+        telephone: app.globalData.Guserdata.NameCard.Telephone,
+        businessscope: app.globalData.Guserdata.NameCard.BusinessScope,
+        keywords: app.globalData.Guserdata.NameCard.KeyWords,
+        companysort: app.globalData.Guserdata.NameCard.CompanySort,
+        address: app.globalData.Guserdata.NameCard.Address,
+        updatedate: app.globalData.Guserdata.NameCard.UpdateDate,
+        bgview: app.globalData.Guserdata.NameCard.CardBg,
+        logoview: app.globalData.Guserdata.NameCard.CompanyLogo,
+        imageview: app.globalData.Guserdata.NameCard.CardImages,
+      })
     }
   },
 

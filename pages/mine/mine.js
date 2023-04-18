@@ -18,28 +18,6 @@ Page({
     nextMargin: 0
   },
 
-  bvGoToShareValue() {
-    if (app.globalData.Guserdata.UserInfo.PromoterLevel == "normal") {
-      wx.showModal({
-        title: '提示',
-        content: '您尚未取得推广会员资格，是否转到资格购买页面？',
-        success: function (res) {
-          if (res.confirm) {
-            console.log('确定')
-            wx.navigateTo({
-              url: '../mine/promoterorder',
-            })
-          } else if (res.cancel) {
-            console.log('取消')
-          }
-        }
-      })
-    } else {
-      wx.navigateTo({
-        url: '../mine/sharevalue',
-      })
-    }
-  },
   bvSubMessage(e) {
     wx.requestSubscribeMessage({ //获取下发权限
       tmplIds: ['Ap6SsQZ-fj8SZkyVv9ZvIg8EcJ5b1jgmMQko_o4LyAw', 'H4fK4iyDUqkVVxrd7RWuDQh5DOhoChTn8phqFGlfwRU', 'tXhFEK36Dqkasd9Cmmuh5EKZ6LZycrWfgn4xqBreQz4'],

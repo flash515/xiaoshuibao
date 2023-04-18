@@ -43,7 +43,7 @@ Page({
         })
         var directvalidfliter = [];
         for (var i = 0; i < this.data.directuser.length; i++) {
-          if (this.data.directuser[i].UserPhone != "" && this.data.directuser[i].UserPhone != undefined) {
+          if (this.data.directuser[i].UserInfo.UserPhone != "" && this.data.directuser[i].UserInfo.UserPhone != undefined) {
             directvalidfliter.push(this.data.directuser[i]);
           }
         }
@@ -60,13 +60,10 @@ Page({
         }
         app.globalData.Gdirect1yearvaliduser = direct1yearfliter.length
         console.log("3  一年直接推广有效用户人数", app.globalData.Gdirect1yearvaliduser);
-
    
 
     //查询间接用户及30天内间接用户，放在分享数量页面onload
-
-    // 从本地存储中读取
-        this.setData({
+       this.setData({
           indirectuser: await utils._indirectuser(app.globalData.Guserid),
         })
         // *直接查询结果

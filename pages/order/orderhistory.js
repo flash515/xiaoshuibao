@@ -90,6 +90,7 @@ Page({
       loginshow: false
     })
   },
+  
   bvOrdertDetail(e) {
     console.log(e.currentTarget.dataset.id)
     wx.navigateTo({

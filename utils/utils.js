@@ -814,6 +814,41 @@ function _roomapply(promotebalance, tradebalance, balanceupdatetime) {
   return promise;
 }
 
+async function _UploadFiles(filelist,cloudpath) {
+    // for循环里等待异步执行结果的方法，重要内容
+    var promise = new Promise((resolve, reject) => {
+    var tempfiles = []
+    for (let i = 0; i < filelist.length; ++i) {
+      tempfiles = tempfiles.concat(new Promise((resolve, reject) => {
+        const filePath = filelist[i]
+        const cloudPath = cloudpath + [i+1] + filePath.match(/\.[^.]+?$/)
+        wx.cloud.uploadFile({
+          cloudPath,
+          filePath,
+          success: res => {
+            console.log('res', res.fileID)
+            resolve(res.fileID)
+          }
+        })
+      }))
+    }
+    Promise.all(tempfiles).then(res => {
+      console.log(res)
+      resolve(res)
+    }, err => {
+      console.log(err)
+    })
+  });
+  return promise;
+}
+async function _RemoveFiles(filelist) {
+  wx.cloud.deleteFile({
+    fileList:filelist,
+    success: res => {
+
+    }
+  })
+}
 module.exports = {
   // 提示信息
   _SuccessToast: _SuccessToast,
@@ -849,5 +884,7 @@ module.exports = {
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,
   // 快捷会议室
   _roomapply: _roomapply,
+  _UploadFiles:_UploadFiles,
+  _RemoveFiles:_RemoveFiles
 
 }

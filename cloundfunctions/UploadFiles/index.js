@@ -9,24 +9,28 @@ cloud.init({
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  var tempimages = []
-  for (let i = 0; i < event.imageview.length; i++) {
     var promise = new Promise((resolve, reject) => {
-      const filePath = event.imageview[i]
-      const cloudPath = event.cloudpath + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
-      cloud.uploadFile({
-        cloudPath,
-        filePath,
-        success: res => {
-          resolve(res.fileID)
-        }
-      })
-    });
-    tempimages = tempimages.concat((await promise).data)
-  }
-  return {
-    tempimages,
-    event,
-    
-  }
+    var tempfiles = []
+    for (let i = 0; i < event.filelist.length; ++i) {
+      tempfiles = tempfiles.concat(new Promise((resolve, reject) => {
+        const filePath = event.filelist[i]
+        const cloudPath = event.cloudpath + [i+1] + filePath.match(/\.[^.]+?$/)
+        wx.cloud.uploadFile({
+          cloudPath,
+          filePath,
+          success: res => {
+            console.log('res', res.fileID)
+            resolve(res.fileID)
+          }
+        })
+      }))
+    }
+    Promise.all(tempfiles).then(res => {
+      console.log(res)
+      resolve(res)
+    }, err => {
+      console.log(err)
+    })
+  });
+  return promise;
 }
