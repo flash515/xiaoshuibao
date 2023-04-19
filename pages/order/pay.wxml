@@ -13,8 +13,10 @@
     </block>
   </swiper>
 </view>
-
-<text>\n\n</text>
+<view class="title">
+  <text>订单付款</text>
+</view>
+<view class="mainframe">
 <l-card type="primary" plaintext="{{true}}">
 <view style="display:flex; flex-direction:row; justify-content:space-between">
   <label class="title1">订单总金额:</label>
@@ -70,3 +72,4 @@
     </l-card>
   </l-collapse-item>
 </l-collapse>
+</view>

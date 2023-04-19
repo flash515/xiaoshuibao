@@ -8,13 +8,17 @@ Page({
   data: {
     tempinviterid: "",
     params: "",
-    userphone: "",
-    useroldphone: "",
-        //登录相关
-    loginshow: true,
+
+    // 登录框相关变量
+    loginshow: false,
+    loginbtnshow: false,
     time: "获取验证码",
+    currentTime: 60,
+    disabledstatus: false,
+    inputphone:"",
     s_phonecode: "",
     u_phonecode: "",
+
     remark: "积分红包",
     transferpacketid: "",
     transferpoints: 0,
@@ -28,8 +32,28 @@ Page({
   bvInputPhone(e) {
     this.data.inputphone= e.detail.value
   },
-  _SendCodeBtn() {
 
+  bvPhoneCode(e) {
+    this.data.u_phonecode = e.detail.value
+  },
+  bvSendCode: async function () {
+    if (this.data.inputphone == '') {
+      utils._ErrorToast("请输入手机号码")
+    } else {
+      if (this.data.disabledstatus == false) {
+        this.setData({
+          disabledstatus: true
+        })
+        this._SendCodeBtn()
+        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+        console.log("验证码", this.data.s_phonecode)
+      }else{
+        utils._ErrorToast("已发送，请等待")
+      }
+    }
+  },
+
+  _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
     interval = setInterval(function () {
@@ -42,141 +66,28 @@ Page({
         that.setData({
           time: '重新发送',
           currentTime: 60,
-          disabled: false
+          disabledstatus: false
         })
       }
     }, 1000)
-
   },
-  bvSendCode() {
-    if (this.data.userphone == "" || this.data.userphone == undefined) {
-      utils._ErrorToast("请输入手机号码")
-    } else {
-      let _this = this;
 
+  bvLogin: async function (e) {
+    if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
       this.setData({
-        disabled: true
+        loginshow: false,
+        loginbtnshow:false,
       })
-      wx.cloud.callFunction({
-        name: 'sendmessage',
-        data: {
-          templateId: "985130",
-          nocode: false,
-          mobile: _this.data.userphone,
-          nationcode: '86'
-        },
-        success: res => {
-          let code = res.result.res.body.params[0];
-          let result = res.errMsg;
-          if (result == "cloud.callFunction:ok") {
-            _this.setData({
-              result: "发送成功",
-              s_phonecode: code
-            })
-            this._SendCodeBtn()
-          } else {
-            _this.setData({
-              result: "发送失败"
-            })
-          }
-        },
-        fail: err => {
-          console.error('[云函数] [sendsms] 调用失败', err)
-        }
-      })
-    }
-  },
-  bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
-  },
-  bvLogin(e) {
-
-    if (this.data.s_phonecode == this.data.u_phonecode && this.data.u_phonecode != "") {
-      console.log('手机验证码正确')
-      const db = wx.cloud.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          ["UserInfo.UserPhone"]: this.data.userphone,
-          ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
-        },
-        success: res => {
-          utils._SuccessToast("更新信息成功")
-
-        },
-        fail: res => {
-          utils._ErrorToast("更新信息失败")
-        }
-      })
-      // 根据用户是否已验证手机号，提供首次验证积分
-      if (this.data.useroldphone == "") {
-        // 成为会员时间
-        const db = wx.cloud.database()
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
-              hour12: false
-            })
-          },
-          success: res => {
-
-          },
-        })
-        console.log('推广积分')
-        db.collection("POINTS").add({
-          data: {
-            PointsType: "promote",
-            RegistrantId: app.globalData.Guserid,
-            RegistrantPoints: 50,
-            ProductName: "会员手机认证",
-            // 直接推荐人
-            InviterId: app.globalData.Ginviterid,
-            InviterPoints: 30,
-            // 间接推荐人
-            IndirectInviterId: app.globalData.Gindirectinviterid,
-            IndirectInviterPoints: 10,
-            SysAddDate: new Date().getTime(),
-            AddDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            }),
-            PointsStatus: "checked",
-          },
-          success: res => {
-            console.log("POINTS更新成功")
-            //给推荐和和管理员发送短信
-            if (app.globalData.Ginviterphone != undefined && app.globalData.Ginviterphone != "") {
-              var tempmobile = [18954744612, app.globalData.Ginviterphone]
-            } else {
-              var tempmobile = [18954744612]
-            }
-            // 调用云函数发短信给推荐人和管理员
-            wx.cloud.callFunction({
-              name: 'sendsms',
-              data: {
-                templateId: "1569087",
-                nocode: true,
-                mobile: tempmobile
-              },
-              success: res => {
-                console.log("短信发送结果", res)
-              },
-              fail: res => {
-                console.log(res)
-              },
-            })
-          },
-        })
-
-      }
-    } else {
+      utils._NewMember(this.data.inputphone)
+      utils._RegistPointsAdd()
+      utils._SendNewUserSMS()
+      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+    }else {
       utils._ErrorToast("验证码错误")
     }
+    console.log(app.globalData.Guserdata)
   },
+
   _pointsupdate() {
     this.data.temppoints = this.data.remainpoints - this.data.doneepoints
     this.data.temppacket = this.data.remainpacket - 1
@@ -198,25 +109,6 @@ Page({
       }
     })
 
-
-    // wx.cloud.callFunction({
-    //   name: 'NormalUpdate',
-    //   data: {
-    //     collectionName: 'POINTS',
-    //     key: 'TransferPacketId',
-    //     id: this.data.transferpacketid,
-    //     key1: 'RemainPoints',
-    //     key2: 'RemainPacket',
-    //     value1: this.data.temppoints,
-    //     value2: this.data.temppacket,
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //   },
-    //   fail: function (res) {
-    //     console.log(res)
-    //   }
-    // })
   },
   bvAccept() {
     const db = wx.cloud.database()
@@ -249,30 +141,17 @@ Page({
    */
   onLoad: async function (options) {
     console.log(options)
-
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       tempinviterid: options.userid,
       transferpacketid: options.transferpacketid,
       params: options,
     })
+      // 通过分享进入，执行用户登录操作
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
 
-    // 调用方法初始化
-    utils._setting()
-    utils._productcheck()
-    await utils._login()
-    let data = await utils._usercheck(app.globalData.Guserid)
-    console.log("data", data);
-    if (data.length == 0) {
-      await utils._newuser(this.data.tempinviterid, this.data.params, this.data.remark)
-      await utils._invitercheck()
-    } else {
-      app.globalData.Guserdata = data[0]
-      app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
-      app.globalData.Ginviterid = data[0].UserInfo.InviterId
-      app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
-      console.log("当前用户信息", app.globalData.Guserdata);
-      await utils._discountcheck()
-    }
     if (app.globalData.Guserdata.UserInfo.UserPhone != "") {
       this.setData({
         loginshow: false
@@ -284,6 +163,7 @@ Page({
       remainpoints: packet[0],
       remainpacket: packet[1]
     })
+    wx.hideLoading()
     console.log(this.data.remainpoints, this.data.remainpacket)
     if (packet[1] == 0) {
       utils._ErrorToast("积分礼包已领完")

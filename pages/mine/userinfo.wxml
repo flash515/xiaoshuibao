@@ -16,16 +16,16 @@
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">手机号：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" type="nickname" value="{{userphone}}" placeholder="请输入手机号" bind:input="bvUserPhone" />
+          <input class="input" type="number" value="{{userphone}}" placeholder="请输入手机号" bind:input="bvInputPhone" />
         </view>
       </view>
       <view class="line"></view>
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">验证码：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" bind:input="bvNickName" />
+          <input class="input" type="number" bind:input="bvPhoneCode" />
         </view>
-        <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabled}}'>{{time}}</l-button>
+        <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabledstatus}}'>{{time}}</l-button>
       </view>
       <view class="line"></view>
 
@@ -54,7 +54,7 @@
       </view>
       <text>\n</text>
       <view style="display:flex; justify-content:center;padding: 0rpx;">
-      <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="UpdateData">更新账号信息</l-button>
+      <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvUpdateData">更新账号信息</l-button>
       </view>
     </l-tabpanel>
     <l-tabpanel tab="邀请人信息" key="two" slot="two">
@@ -65,9 +65,13 @@
           </view>
         </view>
         <view class="line"></view>
-      <view>
-        <l-input type="text" label="邀请人昵称：" value="{{inviternickname}}" disabled="{{true}}"></l-input>
-      </view>
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">邀请人昵称：</label>
+          <view style="padding-left: 50rpx;">
+            <input class="input" value="{{inviternickname}}" disabled="{{true}}"/>
+          </view>
+        </view>
+        <view class="line"></view>
     </l-tabpanel>
   </l-tabs>
 </view>

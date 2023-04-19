@@ -464,6 +464,13 @@
           "query": "userid=0000",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/product/productview",
+          "query": "userid=0000&category3=深圳注册",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

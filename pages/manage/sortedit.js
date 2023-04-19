@@ -92,17 +92,20 @@ const SortArray = [{
         "Category2Name": "个体户托管",
         "Category3Array": [{
             "Category3Code": "01",
-            "Category3Name": "南昌托管",
+            "Category3Name": "江西托管",
           },
           {
             "Category3Code": "02",
-            "Category3Name": "西安托管",
+            "Category3Name": "陕西托管",
           },
           {
           "Category3Code": "03",
-          "Category3Name": "玉溪托管",
+          "Category3Name": "云南托管",
         },
-
+        {
+          "Category3Code": "04",
+          "Category3Name": "河南托管",
+        },
         ]
       },
       {
@@ -114,12 +117,16 @@ const SortArray = [{
           },
           {
             "Category3Code": "02",
-            "Category3Name": "明光托管",
+            "Category3Name": "安徽托管",
           },
 
           {
             "Category3Code": "03",
-            "Category3Name": "宁波托管",
+            "Category3Name": "浙江托管",
+          },
+          {
+            "Category3Code": "04",
+            "Category3Name": "河南托管",
           },
         ]
       },
@@ -146,11 +153,7 @@ const SortArray = [{
           },
           {
             "Category3Code": "02",
-            "Category3Name": "明光道路运输",
-          },
-          {
-            "Category3Code": "02",
-            "Category3Name": "宁波道路运输",
+            "Category3Name": "安徽道路运输",
           },
         ]
       },
@@ -163,11 +166,11 @@ const SortArray = [{
           },
           {
             "Category3Code": "02",
-            "Category3Name": "明光医疗器械",
+            "Category3Name": "安徽医疗器械",
           },
           {
-            "Category3Code": "02",
-            "Category3Name": "宁波医疗器械",
+            "Category3Code": "03",
+            "Category3Name": "浙江医疗器械",
           },
         ]
       },
@@ -192,7 +195,7 @@ Page({
       name: 'MeetingRoomSetting',
       data: {
         key1: "SortArray",
-        value1: this.data.sortarray,
+        value1: SortArray,
       },
       success: res => {
         console.log("执行了")

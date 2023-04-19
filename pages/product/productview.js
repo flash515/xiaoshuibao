@@ -8,12 +8,11 @@ Page({
     loginbtnshow: false,
     time: "获取验证码",
     currentTime: 60,
-    disabled: false,
-    inputphone:"",
+    disabledstatus: false,
+    inputphone: "",
     s_phonecode: "",
     u_phonecode: "",
 
-    userphone: "",
     params: "",
     paramname: "",
     paramvalue: "",
@@ -25,7 +24,6 @@ Page({
     usertype: "",
     promoterlevel: "",
     discountlevel: "",
-    priceshow: "",
 
     // 轮播参数
     image: [],
@@ -45,16 +43,26 @@ Page({
   },
 
   bvInputPhone(e) {
-    this.data.inputphone= e.detail.value
+    this.data.inputphone = e.detail.value
   },
 
-  bvSendCode: async function (){
-    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
-    console.log("验证码", this.data.s_phonecode)
-    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
-    this._SendCodeBtn()
-  }
+  bvSendCode: async function () {
+    if (this.data.inputphone == '') {
+      utils._ErrorToast("请输入手机号码")
+    } else {
+      if (this.data.disabledstatus == false) {
+        this.setData({
+          disabledstatus: true
+        })
+        this._SendCodeBtn()
+        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+        console.log("验证码", this.data.s_phonecode)
+      }else{
+        utils._ErrorToast("已发送，请等待")
+      }
+    }
   },
+  
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -68,28 +76,42 @@ Page({
         that.setData({
           time: '重新发送',
           currentTime: 60,
-          disabled: false
+          disabledstatus: false
         })
       }
     }, 1000)
   },
 
   bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
+    this.data.u_phonecode = e.detail.value
   },
 
   bvLogin: async function (e) {
-    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
-    await utils._RegistPointsAdd()
-    await utils._SendNewUserSMS()
-    this.setData({
-      loginshow: false,
-      loginbtnshow:false,
-      userphone:this.data.inputphone,
-    })
-    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
-    console.log(app.globalData.Guserdata)
+    if (this.data.inputphone == "998189" && this.data.u_phonecode == "981899") {
+      // 使用测试账号登录
+      this.setData({
+        loginshow: false,
+        loginbtnshow: false,
+      })
+      utils._NewMember(this.data.inputphone)
+      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+    } else {
+      if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
+        this.setData({
+          loginshow: false,
+          loginbtnshow: false,
+        })
+        utils._NewMember(this.data.inputphone)
+        utils._RegistPointsAdd()
+        utils._SendNewUserSMS()
+        app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+      } else {
+        utils._ErrorToast("验证码错误")
+      }
+      console.log(app.globalData.Guserdata)
+    }
   },
+
   onHideMaskTap: function () {
     this.setData({
       loginshow: false
@@ -124,131 +146,79 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
-    this.setData({
-      params: options
-    })
     console.log(options)
+    this.setData({
+      image: app.globalData.Gimagearray,
+    })
     if (app.globalData.Guserdata.UserInfo.UserPhone != '') {
-      this.setData({
-        loginbtnshow: false
-      })
+      //loginbtnshow已赋值
     } else {
       this.setData({
         loginbtnshow: true
       })
-    }
-    var that = this
-    if (app.globalData.Gproduct == undefined) {
-
-      // 调用初始化
-      await utils._setting()
+    wx.showLoading({
+      title: '加载中',
+    })
+    if(app.globalData.Gproduct==undefined){
       await utils._productcheck()
-      console.log("这一步执行了")
-      await utils._login()
-      let data = await utils._usercheck(app.globalData.Guserid)
-      console.log("data", data);
-      if (data.length == 0) {
-        await utils._newuser()
-      } else {
-        app.globalData.Guserdata.UserInfo = data[0].UserInfo
-        app.globalData.Guserdata.TradeInfo = data[0].TradeInfo
-        console.log("当前用户信息", app.globalData.Guserdata.UserInfo);
-        console.log("当前用户交易信息", app.globalData.Guserdata.TradeInfo);
-        await utils._olduser()
-      }
-      await utils._invitercheck()
-      console.log("这一步执行了")
-      if (options.category2 != undefined && options.category2 != "") {
-        for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {
-          for (var j = 0; j < app.globalData.Gsetting.SortArray[i].Category2Array.length; j++) {
-            if (app.globalData.Gsetting.SortArray[i].Category2Array[j].Category2Name == options.category2) {
-              var tempsort = app.globalData.Gsetting.SortArray[i].Category2Array[j].Category3Array
-            }
-          }
-        }
-        this.setData({
-          sortarray: tempsort,
-          paramname: "category2",
-          paramvalue: options.category2
-        })
-        console.log(this.data.sortarray)
-        // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
-        var category = tempsort[0].Category3Name
-        this._setproductarray(category)
-      }
-      if (options.category3 != undefined && options.category3 != "") {
-        // 把单个三级分类名称构建成数组形式以便于前端页面按统一的方法渲染
-        var tempsort = []
-        var obj = new Object();
-        obj = {
-          "Category3Name": options.category3
-        }
-        tempsort.push(obj)
-        this.setData({
-          sortarray: tempsort,
-          paramname: "category3",
-          paramvalue: options.category3
-        })
-        var category = options.category3
-        this._setproductarray(category)
-      }
-      console.log(this.data.sortarray)
-      this.setData({
-        image: app.globalData.Gimagearray,
-        usertype: app.globalData.Guserdata.UserInfo.UserType,
-        discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
-        priceshow: app.globalData.Gpriceshow,
-        userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      })
-
-    } else {
-      console.log("这一步执行了")
-      if (options.category2 != undefined && options.category2 != "") {
-        for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {
-          for (var j = 0; j < app.globalData.Gsetting.SortArray[i].Category2Array.length; j++) {
-            if (app.globalData.Gsetting.SortArray[i].Category2Array[j].Category2Name == options.category2) {
-              var tempsort = app.globalData.Gsetting.SortArray[i].Category2Array[j].Category3Array
-            }
-          }
-        }
-        this.setData({
-          sortarray: tempsort,
-          paramname: "category2",
-          paramvalue: options.category2
-        })
-        console.log(this.data.sortarray)
-        // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
-        var category = tempsort[0].Category3Name
-        this._setproductarray(category)
-      }
-      if (options.category3 != undefined && options.category3 != "") {
-        // 把单个三级分类名称构建成数组形式以便于前端页面按统一的方法渲染
-        var tempsort = []
-        var obj = new Object();
-        obj = {
-          "Category3Name": options.category3
-        }
-        tempsort.push(obj)
-        this.setData({
-          sortarray: tempsort,
-          paramname: "category3",
-          paramvalue: options.category3
-        })
-        var category = options.category3
-        this._setproductarray(category)
-      }
-      console.log(this.data.sortarray)
-      this.setData({
-        image: app.globalData.Gimagearray,
-        usertype: app.globalData.Guserdata.UserInfo.UserType,
-        discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
-        priceshow: app.globalData.Gpriceshow,
-        userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-      })
+    }
+    this.data.params = options
+    if (options.userid) {
+      // 如果是通过分享链接打开，需要先初始化
+      this.data.params = options
+      this.data.tempinviterid = options.userid
+      this.data.remark = "通过小税宝用户分享链接进入"
+      console.log("通过链接打开接收到的参数", this.data.tempinviterid)
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+      console.log("执行顺序测试")
+    }
+    wx.hideLoading()
 
     }
 
-
+    if (options.category2 != undefined && options.category2 != "") {
+      // 参数是二级分类时
+      console.log("执行顺序测试",app.globalData.Gsetting.SortArray)
+      var tempsort=[]
+      for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {
+        for (var j = 0; j < app.globalData.Gsetting.SortArray[i].Category2Array.length; j++) {
+          if (app.globalData.Gsetting.SortArray[i].Category2Array[j].Category2Name == options.category2) {
+            var tempsort = app.globalData.Gsetting.SortArray[i].Category2Array[j].Category3Array
+          }
+        }
+      }
+      this.setData({
+        sortarray: tempsort,
+        paramname: "category2",
+        paramvalue: options.category2
+      })
+      console.log(this.data.sortarray)
+      // SortArray是静态数组，不需要重新排序，直接以下标就可以确定首位key
+      var category = tempsort[0].Category3Name
+      this._setproductarray(category)
+    }
+    if (options.category3 != undefined && options.category3 != "") {
+      console.log("执行顺序测试")
+      // 参数是三级分类时，把单个三级分类名称构建成数组形式以便于前端页面按统一的方法渲染
+      var tempsort = []
+      var obj = new Object();
+      obj = {
+        "Category3Name": options.category3
+      }
+      tempsort.push(obj)
+      this.setData({
+        sortarray: tempsort,
+        paramname: "category3",
+        paramvalue: options.category3
+      })
+      var category = options.category3
+      this._setproductarray(category)
+    }
+    console.log(this.data.sortarray)
+    console.log("执行顺序测试")
+    this.setData({
+      discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
+    })
   },
 
   bvProductDetail(e) {

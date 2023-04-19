@@ -11,13 +11,12 @@ Page({
     loginbtnshow: false,
     time: "获取验证码",
     currentTime: 60,
-    disabled: false,
+    disabledstatus: false,
     inputphone:"",
     s_phonecode: "",
     u_phonecode: "",
 
     userid: "",
-    userphone: "",
     tradebalance: 0,
     promotebalance: 0,
     transferpoints: 0,
@@ -51,13 +50,23 @@ Page({
     this.data.inputphone= e.detail.value
   },
 
-  bvSendCode: async function (){
-    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
-    console.log("验证码", this.data.s_phonecode)
-    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
-    this._SendCodeBtn()
-  }
+  bvSendCode: async function () {
+    if (this.data.inputphone == '') {
+      utils._ErrorToast("请输入手机号码")
+    } else {
+      if (this.data.disabledstatus == false) {
+        this.setData({
+          disabledstatus: true
+        })
+        this._SendCodeBtn()
+        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+        console.log("验证码", this.data.s_phonecode)
+      }else{
+        utils._ErrorToast("已发送，请等待")
+      }
+    }
   },
+  
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -71,7 +80,7 @@ Page({
         that.setData({
           time: '重新发送',
           currentTime: 60,
-          disabled: false
+          disabledstatus: false
         })
       }
     }, 1000)
@@ -82,17 +91,31 @@ Page({
   },
 
   bvLogin: async function (e) {
-    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
-    await utils._RegistPointsAdd()
-    await utils._SendNewUserSMS()
-    this.setData({
-      loginshow: false,
-      loginbtnshow:false,
-      userphone:this.data.inputphone,
-    })
-    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    if(this.data.inputphone=="998189" && this.data.u_phonecode=="981899"){
+      // 使用测试账号登录
+      this.setData({
+        loginshow: false,
+        loginbtnshow:false,
+      })
+      utils._NewMember(this.data.inputphone)
+      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+    }else{
+    if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
+      this.setData({
+        loginshow: false,
+        loginbtnshow:false,
+      })
+      utils._NewMember(this.data.inputphone)
+      utils._RegistPointsAdd()
+      utils._SendNewUserSMS()
+      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+    }else {
+      utils._ErrorToast("验证码错误")
+    }
     console.log(app.globalData.Guserdata)
+  }
   },
+
   onHideMaskTap: function () {
     this.setData({
       loginshow: false
@@ -220,12 +243,11 @@ Page({
    */
 
   onLoad: async function (options) {
+    this.setData({image:app.globalData.Gimagearray})
     if(app.globalData.Guserdata.UserInfo.UserPhone!=''){
       this.setData({
         loginbtnshow: false,
-        image: app.globalData.Gimagearray,
         userid: app.globalData.Guserid,
-        userphone: app.globalData.Guserdata.UserInfo.UserPhone,
         promotebalance: app.globalData.Guserdata.TradeInfo.PromoteBalance,
         tradebalance: app.globalData.Guserdata.TradeInfo.TradeBalance,
         balanceupdatetime: app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,

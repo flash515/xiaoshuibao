@@ -9,7 +9,7 @@
     <view class="logininputbox" style="justify-content:space-between;">
       <view style="padding: 10rpx;">验证码：</view>
       <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
-      <button plain bindtap="bvSendCode" disabled='{{disabled}}'>{{time}}</button>
+      <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
     </view>
     <text>\r\n</text>
     <view class="loginbtnbox">
@@ -38,7 +38,6 @@
     <l-button size="large" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
   </view>
     <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 28rpx;color: #3683d6;">
-      <!-- <view>用户：{{userphone}}</view> -->
       <l-tabs>
         <l-tabpanel tab="业务订单" key="one" slot="one">
           <l-button class="mainbtn" width="600" data-name="ORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>

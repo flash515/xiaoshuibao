@@ -19,11 +19,10 @@ Page({
     loginshow: false,
     time: "获取验证码",
     currentTime: 60,
-    disabled: false,
+    disabledstatus: false,
     inputphone:"",
     s_phonecode: "",
     u_phonecode: "",
-    userphone: "",
     // 页面相关
     infoshareid: "",
     buylikeshow: false,
@@ -82,13 +81,23 @@ Page({
     this.data.inputphone= e.detail.value
   },
 
-  bvSendCode: async function (){
-    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
-    console.log("验证码", this.data.s_phonecode)
-    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
-    this._SendCodeBtn()
-  }
+  bvSendCode: async function () {
+    if (this.data.inputphone == '') {
+      utils._ErrorToast("请输入手机号码")
+    } else {
+      if (this.data.disabledstatus == false) {
+        this.setData({
+          disabledstatus: true
+        })
+        this._SendCodeBtn()
+        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+        console.log("验证码", this.data.s_phonecode)
+      }else{
+        utils._ErrorToast("已发送，请等待")
+      }
+    }
   },
+  
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -102,7 +111,7 @@ Page({
         that.setData({
           time: '重新发送',
           currentTime: 60,
-          disabled: false
+          disabledstatus: false
         })
       }
     }, 1000)
@@ -113,27 +122,21 @@ Page({
   },
 
   bvLogin: async function (e) {
-    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
-    await utils._RegistPointsAdd()
-    await utils._SendNewUserSMS()
-    this.setData({
-      loginshow: false,
-      userphone:this.data.inputphone,
-    })
-    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
+    if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
+      this.setData({
+        loginshow: false,
+        loginbtnshow:false,
+      })
+      utils._NewMember(this.data.inputphone)
+      utils._RegistPointsAdd()
+      utils._SendNewUserSMS()
+      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+    }else {
+      utils._ErrorToast("验证码错误")
+    }
     console.log(app.globalData.Guserdata)
   },
-  bvBuyLikeShow(e) {
-    if (this.data.buylikeshow == true) {
-      this.setData({
-        buylikeshow: false
-      })
-    } else if (this.data.buylikeshow == false) {
-      this.setData({
-        buylikeshow: true
-      })
-    }
-  },
+
   bvAddLike(e) {
     this.setData({
       buylikeshow: false

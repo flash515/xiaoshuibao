@@ -240,58 +240,7 @@ Page({
       });
     }
   },
-  // 保存到手机
-  saveImage: function (event) {
-    let that = this
-    wx.getImageInfo({
-      src: event.currentTarget.dataset.src,
-      success: (res) => {
-        wx.saveImageToPhotosAlbum({
-          filePath: res.path,
-          success: (res) => {
-            utils._SuccessToast("手机相册中打开")
-          },
-          fail: (err) => {
-            console.log(err);
-            if (err.errMsg === 'saveImageToPhotosAlbum:fail auth deny') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: false
-              })
-              utils._ErrorToast("请点击授权")
-                 // this.$apply()
-            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail cancel') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: true
-              })
-              utils._ErrorToast("取消保存")
-              // this.$apply()
-            } else if (err.errMsg === 'saveImageToPhotosAlbum:fail:auth denied') {
-              // this.openSettingBtnHidden = false
-              that.setData({
-                openSettingBtnHidden: false
-              })
-              utils._ErrorToast("请重新授权")
-            }
-          }
-        })
-      }
-    })
-  },
-  //图片点击事件
-  enlarge: function (event) {
-    var src = event.currentTarget.dataset.src; //获取data-src
-    var imgList = [
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/微信收款码.png',
-      'cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/支付宝收款码.jpg'
-    ]
-    //图片预览
-    wx.previewImage({
-      current: src, // 当前显示图片的http链接
-      urls: imgList // 需要预览的图片http链接列表
-    })
-  },
+
   bvTime(e) {
     this.setData({
       time: e.detail.value,
@@ -357,8 +306,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var str = new Date()
-    // 订单编号orderid、商品编号productid、商品名称productname、订单总费用totalfee、订单数据库database、微信即时支付是否隐藏onlinehidden
+    // 订单编号orderid、商品编号productid、商品名称productname、订单总费用totalfee、订单数据库database
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       orderid: options.orderid,
       productid: options.productid,
@@ -366,8 +317,8 @@ Page({
       totalfee: options.totalfee,
       database: options.database,
       image: app.globalData.Gimagearray,
-      // startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
+    wx.hideLoading()
   },
 
   /**

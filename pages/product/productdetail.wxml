@@ -1,5 +1,5 @@
 <!-- 登录层 -->
-<l-mask show="{{loginshow}}" center="true" >
+<l-mask show="{{loginshow}}" center="true">
   <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
     <text>\r\n</text>
     <view class="logininputbox" style="justify-content:flex-start;">
@@ -9,7 +9,7 @@
     <view class="logininputbox" style="justify-content:space-between;">
       <view style="padding: 10rpx;">验证码：</view>
       <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
-      <button plain bindtap="bvSendCode" disabled='{{disabled}}'>{{time}}</button>
+      <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
     </view>
     <text>\r\n</text>
     <view class="loginbtnbox">
@@ -55,10 +55,6 @@
         <label class="title1">服务地区：</label>
         <view>{{product.ServiceArea}}</view>
       </view>
-      <view wx:if="{{product.HandlePlace != undefined && product.HandlePlace != ''}}">
-        <label class="title1">办理地点：</label>
-        <view>{{product.HandlePlace}}</view>
-
       <view wx:if="{{product.Forbid != undefined && product.Forbid != ''}}">
         <label class="title1">限制性事项：</label>
         <view>{{product.Forbid}}</view>
@@ -82,16 +78,16 @@
       <view>
         <label class="title1">办理费用：</label>
         <view wx:if="{{loginbtnshow}}">
-    <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
-  </view>
+          <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
+        </view>
         <view wx:else>
           <view wx:if="{{discountlevel == 'DL1'}}">
             <l-price unit="" value="原价：{{product.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
-            <view>员工价：{{Price1}}</view>
+            <view>员工价：{{product.Price1}}</view>
           </view>
           <view wx:if="{{discountlevel == 'DL2'}}">
             <l-price unit="" value="原价：{{product.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
-            <view>渠道价：{{Price2}}</view>
+            <view>渠道价：{{product.Price2}}</view>
           </view>
           <view wx:if="{{discountlevel == 'DL3'}}">
             <l-price unit="" value="原价：{{product.Price4}}" deleted="{{true}}" del-color="#3963bc"></l-price>
@@ -100,8 +96,8 @@
           <view wx:if="{{discountlevel == 'DL4'}}">{{product.Price4}}</view>
         </view>
       </view>
+
     </view>
-  </view>
     <view hidden="{{AttachmentHidden}}">
       <text>\t\n</text>
       <!-- 附件资料 -->

@@ -14,12 +14,11 @@ Page({
     loginbtnshow: false,
     time: "获取验证码",
     currentTime: 60,
-    disabled: false,
+    disabledstatus: false,
     inputphone: "",
     s_phonecode: "",
     u_phonecode: "",
     //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
-    userphone:"",
     DetailHidden: false,
     QAHidden: true,
     AttachmentHidden: true,
@@ -54,16 +53,26 @@ Page({
   },
 
   bvInputPhone(e) {
-    this.data.inputphone= e.detail.value
+    this.data.inputphone = e.detail.value
   },
 
-  bvSendCode: async function (){
-    this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
-    console.log("验证码", this.data.s_phonecode)
-    if(this.data.s_phonecode!='' &&this.data.s_phonecode!=undefined){
-    this._SendCodeBtn()
-  }
+  bvSendCode: async function () {
+    if (this.data.inputphone == '') {
+      utils._ErrorToast("请输入手机号码")
+    } else {
+      if (this.data.disabledstatus == false) {
+        this.setData({
+          disabledstatus: true
+        })
+        this._SendCodeBtn()
+        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+        console.log("验证码", this.data.s_phonecode)
+      }else{
+        utils._ErrorToast("已发送，请等待")
+      }
+    }
   },
+  
   _SendCodeBtn() {
     var that = this;
     var currentTime = that.data.currentTime
@@ -77,28 +86,42 @@ Page({
         that.setData({
           time: '重新发送',
           currentTime: 60,
-          disabled: false
+          disabledstatus: false
         })
       }
     }, 1000)
   },
 
   bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
+    this.data.u_phonecode = e.detail.value
   },
 
   bvLogin: async function (e) {
-    await utils._NewMember(this.data.inputphone, this.data.s_phonecode, this.data.u_phonecode)
-    await utils._RegistPointsAdd()
-    await utils._SendNewUserSMS()
-    this.setData({
-      loginshow: false,
-      loginbtnshow:false,
-      userphone:this.data.inputphone,
-    })
-    app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
-    console.log(app.globalData.Guserdata)
+    if (this.data.inputphone == "998189" && this.data.u_phonecode == "981899") {
+      // 使用测试账号登录
+      this.setData({
+        loginshow: false,
+        loginbtnshow: false,
+      })
+      utils._NewMember(this.data.inputphone)
+      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+    } else {
+      if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
+        this.setData({
+          loginshow: false,
+          loginbtnshow: false,
+        })
+        utils._NewMember(this.data.inputphone)
+        utils._RegistPointsAdd()
+        utils._SendNewUserSMS()
+        app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+      } else {
+        utils._ErrorToast("验证码错误")
+      }
+      console.log(app.globalData.Guserdata)
+    }
   },
+
   computeImgHeight(e) {
     var winWid = wx.getSystemInfoSync().windowWidth; //获取当前屏幕的宽度
     var imgh = e.detail.height; //图片高度
@@ -331,14 +354,19 @@ Page({
     })
   },
   onLoad: async function (options) {
-    var that = this;
     console.log("页面接收参数", options)
-    console.log("Gproduct", app.globalData.Gproduct)
     this.setData({
+      image:app.globalData.Gimagearray,
       pageParam: options,
     })
-
+    wx.showLoading({
+      title: '加载中',
+    })
     //如果通过分享链接进入没有产品数据，则查询产品数据
+    if (app.globalData.Gproduct == undefined) {
+      await utils._productcheck()
+    }
+
     if (options.userid) {
       // 如果是通过链接打开
       this.data.params = options
@@ -346,12 +374,14 @@ Page({
       this.data.remark = "通过小税宝用户分享链接进入"
       console.log("通过链接打开接收到的参数", this.data.tempinviterid)
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-    } else {
-      this._productfliter()
-      console.log("这一步执行了")
     }
+    this._productfliter()
     this._productQA()
-    console.log("这一步执行了")
+    this.setData({
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
+      discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
+    })
+    wx.hideLoading()
   },
 
   /**
@@ -366,11 +396,7 @@ Page({
    */
 
   onShow: function () {
-    this.setData({
-      usertype: app.globalData.Guserdata.UserInfo.UserType,
-      discountlevel: app.globalData.Guserdata.TradeInfo.DiscountLevel,
-      userphone: app.globalData.Guserdata.UserInfo.UserPhone,
-    })
+
 
   },
   bvNewOrder(e) {

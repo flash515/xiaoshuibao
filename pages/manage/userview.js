@@ -14,16 +14,13 @@ Page({
       name: "NormalQuery",
       data: {
         collectionName: "USER",
-        command: "or",
-        where: [{
-          ["UserInfo.UserType"]: "client"
-        }, {
-          ["UserInfo.UserType"]: "provider"
-        }]
+        command: "",
+        where: [{["UserInfo.UserType"]:"client"}],
+        orderbykey:"sysAddDate",
+        orderby:"desc",
       },
       success: res => {
         console.log("全部用户",  res)
-        wx.setStorageSync('LUser', res.result.data);
         //括号1开始
         this.setData({
           userarray: res.result.data,

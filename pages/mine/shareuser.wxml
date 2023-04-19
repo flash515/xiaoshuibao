@@ -47,8 +47,7 @@
     <view wx:for="{{directvaliduser}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>日期：{{item.AddDate}}</view>
-        <view>受邀人姓名：{{item.UserName}}</view>
-        <view>受邀人昵称：{{item.nickName}}</view>
+        <view wx:if="{{item.UserInfo.nickName}}">受邀人昵称：{{item.UserInfo.nickName}}</view>
       </l-card>
     </view>
   </l-tabpanel>
@@ -58,8 +57,7 @@
     <view wx:for="{{indirectvaliduser}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>日期：{{item.AddDate}}</view>
-        <view>受邀人姓名：{{item.UserName}}</view>
-        <view>受邀人昵称：{{item.nickName}}</view>
+        <view wx:if="{{item.UserInfo.nickName}}">受邀人昵称：{{item.UserInfo.nickName}}</view>
       </l-card>
     </view>
     </view>

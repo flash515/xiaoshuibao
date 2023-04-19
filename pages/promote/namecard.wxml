@@ -9,7 +9,7 @@
     <view class="logininputbox" style="justify-content:space-between;">
       <view style="padding: 10rpx;">验证码：</view>
       <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
-      <button plain bindtap="bvSendCode" disabled='{{disabled}}'>{{time}}</button>
+      <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
     </view>
     <text>\r\n</text>
     <view class="loginbtnbox">

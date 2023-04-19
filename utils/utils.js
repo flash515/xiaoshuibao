@@ -139,8 +139,6 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
 
   _setting();
-  // 产品查询不是需要和折扣查询、会员等级查询可以的需要的时候再调用
-  _productcheck();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
   console.log("data", data);

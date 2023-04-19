@@ -12,6 +12,7 @@ Page({
     // 30天直接推荐人数
     direct30user: [],
     directvaliduser: [],
+    
     indirectvaliduser:[],
     // 直接推荐价值
     indirectuser: [],
