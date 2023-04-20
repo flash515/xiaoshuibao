@@ -2,6 +2,7 @@ const app = getApp()
 
 Page({
   data: {
+    productlist:"",
     currentTab: 0,
     index: 0,
     sortarray: [],

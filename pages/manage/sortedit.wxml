@@ -4,4 +4,22 @@
 <text>pages/manage/sortedit.wxml</text>
 
 
+<view style="display: flex;flex-direction: column;">
+  <text>\n</text>
+  <view wx:for="{{sortarray}}" wx:key="key" wx:for-index="key1" wx:for-item="sort1">
+    <text space="emsp" decode='true'>{{sort1.Category1Code}}</text>
+    <text space="emsp" decode='true'>{{sort1.Category1Name}}</text>
+    <view wx:for="{{sort1.Category2Array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort2">
+      <text space="emsp" decode='true'>  {{sort2.Category2Code}}</text>
+      <text space="emsp" decode='true'>{{sort2.Category2Name}}</text>
+      <view wx:for="{{sort2.Category3Array}}" wx:key="key" wx:for-index="key2" wx:for-item="sort3">
+        <text space="emsp" decode='true'>    {{sort3.Category3Code}}</text>
+        <text space="emsp" decode='true'>{{sort3.Category3Name}}</text>
+      </view>
+    </view>
+  </view>
+
+</view>
+<text>\n</text>
+
 <l-button bg-color="#06c05f" bind:lintap="SortUpdate">更新类别</l-button>

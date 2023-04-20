@@ -156,6 +156,7 @@ Page({
       this.setData({
         loginbtnshow: true
       })
+    }
     wx.showLoading({
       title: '加载中',
     })
@@ -173,8 +174,6 @@ Page({
       console.log("执行顺序测试")
     }
     wx.hideLoading()
-
-    }
 
     if (options.category2 != undefined && options.category2 != "") {
       // 参数是二级分类时
