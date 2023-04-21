@@ -447,7 +447,7 @@
         {
           "name": "",
           "pathName": "pages/promote/pointspacket",
-          "query": "userid=omLS75Xib_obyxkVAahnBffPytcA&transferpacketid=56720230319171454162",
+          "query": "userid=0001&transferpacketid=56720230319171454162",
           "launchMode": "default",
           "scene": null
         },
@@ -469,6 +469,13 @@
           "name": "",
           "pathName": "pages/product/productview",
           "query": "userid=0000&category3=深圳注册",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/promote/activity",
+          "query": "userid=0001",
           "launchMode": "default",
           "scene": null
         }
