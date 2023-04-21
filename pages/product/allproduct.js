@@ -68,11 +68,11 @@ Page({
       })
       .get({
         success: res => {
-          app.globalData.Gsortarray = res.data[0].SortArray;
+          app.globalData.Gsortarray = res.data[0].ProductSort;
           that.setData({
-            sortarray: res.data[0].SortArray
+            sortarray: res.data[0].ProductSort
           })
-          var category = res.data[0].SortArray[0].Category1Name
+          var category = res.data[0].ProductSort[0].Category1Name
           that._setarray(category)
           console.log(category)
           console.log(that.data.sortarray)

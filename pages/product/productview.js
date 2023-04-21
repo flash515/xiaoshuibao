@@ -177,12 +177,12 @@ Page({
 
     if (options.category2 != undefined && options.category2 != "") {
       // 参数是二级分类时
-      console.log("执行顺序测试",app.globalData.Gsetting.SortArray)
+      console.log("执行顺序测试",app.globalData.Gsetting.ProductSort)
       var tempsort=[]
-      for (let i = 0; i < app.globalData.Gsetting.SortArray.length; i++) {
-        for (var j = 0; j < app.globalData.Gsetting.SortArray[i].Category2Array.length; j++) {
-          if (app.globalData.Gsetting.SortArray[i].Category2Array[j].Category2Name == options.category2) {
-            var tempsort = app.globalData.Gsetting.SortArray[i].Category2Array[j].Category3Array
+      for (let i = 0; i < app.globalData.Gsetting.ProductSort.length; i++) {
+        for (var j = 0; j < app.globalData.Gsetting.ProductSort[i].Category2Array.length; j++) {
+          if (app.globalData.Gsetting.ProductSort[i].Category2Array[j].Category2Name == options.category2) {
+            var tempsort = app.globalData.Gsetting.ProductSort[i].Category2Array[j].Category3Array
           }
         }
       }

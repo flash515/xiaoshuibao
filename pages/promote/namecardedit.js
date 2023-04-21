@@ -26,11 +26,79 @@ Page({
     telephone: "",
     website: "",
     address: "",
+
+    // 商品分类参数
+    inputShow: false,
+    boxShow: false,
+    businesssortarray:[],
+    category1: "",
+    category1name: "",
+    pIndex: 0,
+    category2: "",
+    category2name: "",
+    cIndex: 0,
+    category3: "",
+    category3name: "",
+    aIndex: 0,
+
     keywords: [],
     companysort: [],
     updatedate: "",
     logouploadlock: true,
   },
+    // 展示弹框
+    getbox: function () {
+      this.setData({
+        boxShow: true,
+        inputShow: true
+      })
+    },
+    // 隐藏弹框
+    hidebox: function () {
+      this.setData({
+        boxShow: false,
+        inputShow: false
+      })
+    },
+    // 确认按钮
+    confirm: function () {
+      this.setData({
+        category1: this.data.category1name,
+        category2: this.data.category2name,
+        category3: this.data.category3name,
+        boxShow: false,
+        inputShow: false,
+      })
+  
+    },
+    changeCategory1: function (e) {
+      const val = e.detail.value
+      this.setData({
+        pIndex: val,
+        cIndex: 0,
+        aIndex: 0,
+        category1name: this.data.businesssortarray[val].Category1Name,
+        category2name: this.data.businesssortarray[val].Category2Array[0].Category2Name,
+        category3name: this.data.businesssortarray[val].Category2Array[0].Category3Array[0].Category3Name,
+      })
+    },
+    changeCategory2: function (e) {
+      const val = e.detail.value
+      this.setData({
+        cIndex: val,
+        aIndex: 0,
+        category2name: this.data.businesssortarray[this.data.pIndex].Category2Array[val].Category2Name,
+        category3name: this.data.businesssortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
+  
+      })
+    },
+    changeCategory3: function (e) {
+      const val = e.detail.value
+      this.setData({
+        aIndex: val,
+        category3name: this.data.businesssortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
+      })
+    },
   onChooseAvatar(e) {
     // const {
     //   avatarUrl
@@ -320,6 +388,7 @@ console.log(files1,files2,files3)
   onLoad: function (options) {
     this.setData({
       cardbgarray: app.globalData.Gsetting.namecardbg,
+      businesssortarray:app.globalData.Gsetting.BusinessSort
     })
     if (app.globalData.Guserdata.NameCard != undefined) {
       this.setData({

@@ -799,7 +799,7 @@ Page({
     console.log(options)
     this.setData({
       recordid: options._id,
-      sortarray: app.globalData.Gsetting.SortArray,
+      sortarray: app.globalData.Gsetting.ProductSort,
     })
 
     if (options._id != undefined && options._id != "") {
