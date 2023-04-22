@@ -202,7 +202,7 @@ Page({
       // 在本人小程序中打开
       console.log("在本人小程序中打开")
       if (app.globalData.Guserdata.NameCard == undefined) {
-        // 没有名片展示样本
+        // 没有名片则展示样本
         console.log("执行了")
         this.setData({
           cardinfo: this.data.sample

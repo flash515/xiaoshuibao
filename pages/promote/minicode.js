@@ -1,4 +1,3 @@
-
 const app = getApp()
 const utils = require("../../utils/utils")
 Page({
@@ -26,8 +25,10 @@ Page({
     avatarUrl: "",
     tempfilepath: "",
     qrcodeuploadlock: false,
-    page:'pages/index/index',
-    params:"",
+    // 附带的参数
+    page: 'pages/index/index',
+    params: "",
+    color:{"r":254,"g":214,"b":155},
   },
   onChooseAvatar(e) {
     const {
@@ -47,20 +48,24 @@ Page({
     })
 
   },
-bvPage(e){
-this.data.page=e.detail.value
-console.log(this.data.page)
-},
-bvParams(e){
-  this.data.params=e.detail.value
-  console.log(this.data.params)
+  bvPage(e) {
+    this.data.page = e.detail.value
+    console.log(this.data.page)
+  },
+  bvParams(e) {
+    this.data.params = e.detail.value
+    console.log(this.data.params)
+  },
+  bvColor(e) {
+    this.data.coloe = e.detail.value
+    console.log(this.data.color)
   },
   getUrlLink() {
     // 调用云函数
     wx.cloud.callFunction({
       name: 'URLLink',
       data: {
-        quey: 'userid=' + app.globalData.Guserid
+        quey: 'userid=' + app.globalData.Guserid + "&page=" + this.data.page + "&params=" + this.data.params
       },
       success: res => {
         console.log('result', res.result)
@@ -74,7 +79,8 @@ bvParams(e){
       }
     })
   },
-  copy: function (e) {
+
+  bvCopy: function (e) {
     let that = this;
     wx.setClipboardData({
       data: that.data.urllink, //这个是要复制的数据
@@ -98,9 +104,10 @@ bvParams(e){
       data: {
         // userid参数是使用在上传文件夹命名中
         userid: app.globalData.Guserid,
-        // 小程序码中包含的用户信息
-        scene: app.globalData.Guserid,
-        page:this.data.page,
+        // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
+        scene: app.globalData.Guserid+'&'+this.data.params,
+        page: this.data.page,
+        color:this.data.color,
         // userid: "1234",
         // scene: "5678"
       },
