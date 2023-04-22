@@ -28,6 +28,10 @@
 
 <view hidden="{{urllink.length==0}}">{{urllink}}<text decode="{{true}}">&emsp;</text><l-button type="default" size="mini" shape="semicircle" plain="{{true}}" bind:lintap="copy">复制链接</l-button></view>
 <text>\n</text>
+<view wx:if="{{usertype==admin}}">
+  <l-input type="text" label="自定义页面路径：" bind:linblur="bvPage"></l-input>
+  <l-input type="text" label="自定义附加参数：" bind:linblur="bvParams"></l-input>
+</view>
 <view class="btn" bindtap="getQRCode">一键生成您的专属小税宝推广码</view>
 <text>\r\n</text>
 <view class="content">

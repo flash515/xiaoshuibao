@@ -12,7 +12,7 @@ exports.main = async(event, context) => {
       // 小程序传入的 scene 参数
       scene: event.scene,
       // 可以换成任意 page
-      page: 'pages/index/index',
+      page: event.page,
       is_hyaline:true,
     };
     // 调用接口

@@ -25,7 +25,9 @@ Page({
     tempqrcodeurl: "",
     avatarUrl: "",
     tempfilepath: "",
-    qrcodeuploadlock: false
+    qrcodeuploadlock: false,
+    page:'pages/index/index',
+    params:"",
   },
   onChooseAvatar(e) {
     const {
@@ -45,7 +47,14 @@ Page({
     })
 
   },
-
+bvPage(e){
+this.data.page=e.detail.value
+console.log(this.data.page)
+},
+bvParams(e){
+  this.data.params=e.detail.value
+  console.log(this.data.params)
+  },
   getUrlLink() {
     // 调用云函数
     wx.cloud.callFunction({
@@ -78,6 +87,7 @@ Page({
       }
     })
   },
+
   getQRCode() {
     // 调用云函数
     // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
@@ -86,8 +96,11 @@ Page({
     wx.cloud.callFunction({
       name: 'getQRCode',
       data: {
+        // userid参数是使用在上传文件夹命名中
         userid: app.globalData.Guserid,
-        scene: app.globalData.Guserid
+        // 小程序码中包含的用户信息
+        scene: app.globalData.Guserid,
+        page:this.data.page,
         // userid: "1234",
         // scene: "5678"
       },
@@ -96,7 +109,7 @@ Page({
           tempqrcodeurl: res.result
         })
         console.log("tempqrcodeurl", this.data.tempqrcodeurl);
-        // 执行下一个方法的方法
+        // 执行下一个方法的方法，把头像合并到小程序码里
         that.drawCanvas()
       }
     })
