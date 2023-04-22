@@ -1,34 +1,35 @@
 <view class="top">
-  <view style="display:flex; flex-direction:column;">
-    <view class="packettext" style="margin-top: 140rpx;">
-      <text>恭喜您获得</text>
-    </view>
-    <view class="packettext">
-      <text>礼品一份</text>
-    </view>
-    <view wx:if="{{loginshow}}" style="display:flex; flex-direction:column; ">
-      <text>\r\n</text>
-    <text>\r\n</text>
+  <view style="display:flex; flex-direction:column; justify-content: center;align-items: center; ">
+    <image style="height: 380rpx;width: 380rpx; color:rgb(254,214,155);" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/%E5%B8%A6unionid%E5%8F%82%E6%95%B0%E9%80%8F%E6%98%8E.png?sign=cb6c9a51272824af2df6ecf9691637b5&t=1682159674"></image>
+    <view wx:if="{{loginshow}}" style="display:flex; flex-direction:column; margin-top: 180rpx;">
+
       <view style="display:flex; flex-direction:row;">
         <label class="labal">手机号：</label>
-        <input class="input" type="number"  bind:input="bvInputPhone" required="{{true}}" />
-
+        <input class="input" type="number" bind:input="bvInputPhone" required="{{true}}" />
+        <button class="codebtn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber"><text class="codebtntext">获取手机号</text></button>
       </view>
+      <text>\r\n</text>
       <view style="display:flex; flex-direction:row;">
         <label class="labal">验证码：</label>
         <input class="input" type="number" bind:input="bvPhoneCode" required="{{true}}" />
         <button class="codebtn" bindtap="bvSendCode" disabled="{{disabledstatus}}">
-        <text class="codebtntext">{{time}}</text></button>
+          <text class="codebtntext">{{time}}</text></button>
       </view>
+
+      <text>\r\n</text>
+      <text>\r\n</text>
       <text>\r\n</text>
       <button class="btn-open" bindtap="bvLogin">
-        <text>登录领取</text>
+        <text>用户登记</text>
       </button>
     </view>
     <view wx:else>
-      <button class="btn-open" style="margin-top: 300rpx;" bindtap="bvAccept">
-        <text>开心收下</text>
-      </button>
+      <view class="packettext" style="margin-top: 350rpx;">
+        <text>用户{{userphone}}</text>
+      </view>
+      <view class="packettext">
+        <text>登记完成</text>
+      </view>
     </view>
   </view>
   <text>\n</text>

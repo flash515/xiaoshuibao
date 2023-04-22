@@ -386,10 +386,18 @@ console.log(files1,files2,files3)
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      cardbgarray: app.globalData.Gsetting.namecardbg,
-      businesssortarray:app.globalData.Gsetting.BusinessSort
+
+    const db = wx.cloud.database()
+    db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
+      success: res => {
+        this.setData({
+          cardbgarray: res.data.NameCardBg,
+          businesssortarray:res.data.BusinessSortArray
+        })
+        console.log("行业类别更新成功")
+      }
     })
+
     if (app.globalData.Guserdata.NameCard != undefined) {
       this.setData({
         cardbg: app.globalData.Guserdata.NameCard.CardBg,

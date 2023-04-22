@@ -59,7 +59,8 @@
   <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
   <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
   <l-list title="资讯广场" icon="user" url="../promote/infosquare" />
-
+  <l-list title="幸运抽奖" icon="user" url="../promote/luckydraw" />
+  <l-list title="推广活动" icon="user" url="../promote/activity" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />

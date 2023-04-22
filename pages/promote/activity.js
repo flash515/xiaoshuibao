@@ -10,8 +10,8 @@ Page({
     params: "",
 
     // 登录框相关变量
-    loginshow: false,
-    loginbtnshow: false,
+    loginshow: true,
+    loginbtnshow: true,
     time: "获取验证码",
     currentTime: 60,
     disabledstatus: false,
@@ -19,15 +19,7 @@ Page({
     s_phonecode: "",
     u_phonecode: "",
 
-    remark: "积分红包",
-    transferpacketid: "",
-    transferpoints: 0,
-    packetnumber: 0,
-    doneepoints: 0,
-    remainpoints: 0,
-    remainpacket: 0,
-    temppoints: 0,
-    temppacket: 0
+    remark: "活动登记",
   },
   bvInputPhone(e) {
     this.data.inputphone= e.detail.value
@@ -79,60 +71,52 @@ Page({
         loginbtnshow:false,
       })
       utils._NewMember(this.data.inputphone)
-      utils._RegistPointsAdd()
-      utils._SendNewUserSMS()
       app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
     }else {
       utils._ErrorToast("验证码错误")
     }
     console.log(app.globalData.Guserdata)
   },
-
-  _pointsupdate() {
-    this.data.temppoints = this.data.remainpoints - this.data.doneepoints
-    this.data.temppacket = this.data.remainpacket - 1
-    console.log(this.data.temppoints, this.data.temppacket)
-    const db = wx.cloud.database()
-    db.collection("POINTS").where({
-      TransferPacketId: this.data.transferpacketid
-    }).update({
-      data: {
-        RemainPoints: this.data.temppoints,
-        RemainPacket: this.data.temppacket,
-
-      },
-      success: res => {
-        utils._SuccessToast("积分已领取入账")
-      },
-      fail: res => {
-
-      }
-    })
-
+  onGetPhoneNumber(e) {
+    console.log(e.detail)
+    console.log(e.detail.code)
   },
-  bvAccept() {
-    const db = wx.cloud.database()
-    db.collection("POINTS").add({
-      data: {
-        PointsType: "transfer",
-        ProductName: "推广积分转让",
-        // 使用的消费积分
-        PacketId: this.data.transferpacketid,
-        DoneeId: app.globalData.Guserid,
-        DoneePoints: this.data.doneepoints,
-        SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        PointsStatus: "checked",
-      },
-      success: res => {
-        utils._SuccessToast("积分已领取入账")
-        this._pointsupdate()
-        //云函数更新礼包余额
-      },
-      fail: res => {
-
+ PhoneNumber(e) {
+    var that = this;
+    wx.login({
+      success (res) {
+        if (res.code) {
+          console.log('步骤2获检查用户登录状态，获取用户电话号码！', res)
+          wx.request({
+            url: '这里写自己的接口',
+            data: {code: res.code},
+            success: function(res) {
+              console.log("步骤三获取授权码，获取授权openid，session_key",res);
+              var userphone=res.data.data;
+              wx.setStorageSync('userphoneKey',userphone);
+              //解密手机号
+              var msg = e.detail.errMsg;
+              var sessionID=wx.getStorageSync("userphoneKey").session_key;
+              var encryptedData=e.detail.encryptedData;
+              var iv=e.detail.iv;
+              if (msg == 'getPhoneNumber:ok') {//这里表示获取授权成功
+                wx.checkSession({
+                  success:function(){
+                        //这里进行请求服务端解密手机号
+                    that.deciyption(sessionID,encryptedData,iv);
+                  },
+                  fail:function(){
+                    // that.userlogin()
+                  }
+                })
+              }
+            },fail:function(res){
+                console.log("fail",res);
+            }
+          })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
       }
     })
   },
@@ -146,36 +130,16 @@ Page({
     })
     this.setData({
       tempinviterid: options.userid,
-      transferpacketid: options.transferpacketid,
       params: options,
     })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-
     if (app.globalData.Guserdata.UserInfo.UserPhone != "") {
       this.setData({
         loginshow: false
       })
     }
-    // 查询积分礼包
-    let packet = await utils._packetcheck(this.data.transferpacketid)
-    this.setData({
-      remainpoints: packet[0],
-      remainpacket: packet[1]
-    })
     wx.hideLoading()
-    console.log(this.data.remainpoints, this.data.remainpacket)
-    if (packet[1] == 0) {
-      utils._ErrorToast("积分礼包已领完")
-    } else if (packet[1] == 1) {
-      this.setData({
-        doneepoints: packet[0],
-      })
-    } else {
-      this.setData({
-        doneepoints: parseInt(Math.random() * packet[0])
-      })
-    }
   },
 
   /**
