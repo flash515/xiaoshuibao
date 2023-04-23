@@ -1,4 +1,7 @@
 <!-- 登录层 -->
+<loginmask>
+
+</loginmask>
 <l-mask show="{{loginshow}}" center="true" >
   <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
     <text>\r\n</text>

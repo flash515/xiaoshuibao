@@ -17,7 +17,6 @@
     "pages/order/neworder",
     "pages/order/orderdetail",
     "pages/order/orderhistory",
-
     "pages/order/pay",
     "pages/mine/pricepolicy",
     "pages/mine/promotepolicy",
@@ -50,9 +49,9 @@
     "pages/test/databass",
     "pages/test/productdetail",
     "pages/test/test",
-    "pages/test/test1"
+    "pages/test/test1",
+    "components/loginmask/loginmask"
   ],
-
   "permission": {
     "scope.userLocation": {
       "desc": "请点击确定"
