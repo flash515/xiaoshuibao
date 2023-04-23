@@ -155,7 +155,8 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
     app.globalData.Ginviterid = data[0].UserInfo.InviterId
     app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
     console.log("当前用户信息", app.globalData.Guserdata);
-    await _discountcheck()
+    // 价格折扣查询不宜放在初始化中，改在产品页面
+    // await _discountcheck()
   }
 
 }

@@ -14,12 +14,12 @@ exports.main = async (event, context) => {
       // 可以换成任意 page
       page: event.page,
       // 生成透明底色
-      is_hyaline: true,
+      isHyaline: true,
       // 是否使用自动颜色
-      auto_color: false,
-      // 自定义颜色
-      line_color: event.color,
-    };
+      autoColor: false,
+      // 自定义颜色,rgb不能超过185，不然生成的码不能被识别，所以将自动转为黑色码
+      lineColor: event.color
+    }
     // 调用接口
     var result = await cloud.openapi.wxacode.getUnlimited(param)
     // 将资源上传至云存储空间

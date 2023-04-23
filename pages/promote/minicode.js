@@ -28,7 +28,7 @@ Page({
     // 附带的参数
     page: 'pages/index/index',
     params: "",
-    color:{"r":254,"g":214,"b":155},
+    color:{"r":0,"g":0,"b":0},
   },
   onChooseAvatar(e) {
     const {
@@ -57,8 +57,9 @@ Page({
     console.log(this.data.params)
   },
   bvColor(e) {
-    this.data.coloe = e.detail.value
-    console.log(this.data.color)
+    console.log(e.detail.value)
+    this.data.color = e.detail.value
+        console.log(this.data.color)
   },
   getUrlLink() {
     // 调用云函数
@@ -123,7 +124,7 @@ Page({
   },
 
 
-  //获取二维码，有效，但当前方法用不到了
+  //通过https方式调用wxacodeunlimit获取二维码，有效，但当前方法用不到了
   getcode(getAccessToken) {
     var that = this;
     var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
