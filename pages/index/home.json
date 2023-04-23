@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "loginmask":"/components/loginmask/loginmask"
+  }
 }
