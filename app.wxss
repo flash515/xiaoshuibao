@@ -6,10 +6,10 @@
   width: 100%;
 }
 /* 轮播图样式 */
-.swiper image {
+/* .swiper image {
   height: 100px;
   width: 100%;
-}
+} */
 
 .title
 {color: black;
@@ -49,6 +49,7 @@ font-weight: bold;
 }
 
 /* 手机号登录框样式 */
+/* 已转到component，可删除 */
 .logincard {
   width: 600rpx !important;
   display: flex !important;

@@ -12,13 +12,6 @@ Page({
     // 登录框相关变量
     loginshow: false,
     loginbtnshow: false,
-    time: "获取验证码",
-    currentTime: 60,
-    disabledstatus: false,
-    inputphone: "",
-    s_phonecode: "",
-    u_phonecode: "",
-
     region: [],
     usertype: "",
     userphone: "",
@@ -26,14 +19,6 @@ Page({
     noticearray: [],
     // 轮播头图
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
   bvLoginShow: function (e) {
     this.setData({
@@ -41,76 +26,12 @@ Page({
     })
   },
 
-  bvInputPhone(e) {
-    this.data.inputphone = e.detail.value
-  },
-
-  bvSendCode: async function () {
-    if (this.data.inputphone == '') {
-      utils._ErrorToast("请输入手机号码")
-    } else {
-      if (this.data.disabledstatus == false) {
-        this.setData({
-          disabledstatus: true
-        })
-        this._SendCodeBtn()
-        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
-        console.log("验证码", this.data.s_phonecode)
-      }else{
-        utils._ErrorToast("已发送，请等待")
-      }
-    }
-  },
-
-  _SendCodeBtn() {
-    var that = this;
-    var currentTime = that.data.currentTime
-    var interval = setInterval(function () {
-      currentTime--;
-      that.setData({
-        time: currentTime + '秒'
-      })
-      if (currentTime <= 0) {
-        clearInterval(interval)
-        that.setData({
-          time: '重新发送',
-          currentTime: 60,
-          disabledstatus: false
-        })
-      }
-    }, 1000)
-  },
-
-  bvPhoneCode(e) {
-    this.data.u_phonecode = e.detail.value
-  },
-
-  bvLogin: async function (e) {
-    if (this.data.inputphone == "998189" && this.data.u_phonecode == "981899") {
-      // 使用测试账号登录
-      this.setData({
-        loginshow: false,
-        loginbtnshow: false,
-        userphone: this.data.inputphone,
-      })
-      utils._NewMember(this.data.inputphone)
-      app.globalData.Guserdata.UserInfo.UserPhone = this.data.inputphone
-    } else {
-      if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
-        this.setData({
-          loginshow: false,
-          loginbtnshow: false,
-          userphone: this.data.inputphone,
-        })
-        utils._NewMember(this.data.inputphone)
-        utils._RegistPointsAdd()
-        utils._SendNewUserSMS()
-        app.globalData.Guserdata.UserInfo.UserPhone = this.data.inputphone
-      } else {
-        utils._ErrorToast("验证码错误")
-      }
-      console.log(app.globalData.Guserdata)
-    }
+  onLogin(e){
+    this.setData({
+      loginshow:e.detail.loginshow,
+      loginbtnshow:e.detail.loginbtnshow,
+      userphone:e.detail.userphone,
+    })
   },
 
   bindRegionChange: function (e) {
@@ -161,11 +82,7 @@ Page({
       imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/sharepic.png?sign=550a147f349dddb2a06196826020450d&t=1659681079', //封面
     }
   },
-  onHideMaskTap: function () {
-    this.setData({
-      loginshow: false
-    })
-  },
+
   /**
    * 生命周期函数--监听页面加载
   //  */

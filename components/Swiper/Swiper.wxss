@@ -1,0 +1,9 @@
+.swiper {
+  height: 240rpx;
+  width: 100%;
+}
+/* 轮播图样式 */
+.swiper image {
+  height: 240rpx;
+  width: 100%;
+}

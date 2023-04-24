@@ -474,13 +474,6 @@
         },
         {
           "name": "",
-          "pathName": "pages/promote/activity",
-          "query": "userid=0001",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "",
           "pathName": "pages/promote/luckydraw",
           "query": "",
           "launchMode": "default",

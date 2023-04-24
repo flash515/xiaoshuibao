@@ -30,7 +30,37 @@ var newusertradeinfo = {
   }),
   // MemberTime:""
 }
-
+async function _GetPhoneNumber(code) {
+  var promise = new Promise((resolve, reject) => {
+  console.log('步骤2获取accessToken')
+  wx.cloud.callFunction({
+      // 云函数名称
+      name: 'getAccessToken',
+      // 传给云函数的参数
+      data: {},
+    })
+    .then(res => {
+        let accessToken= res.result
+      console.log('云函数获取this.data.accessToken：', accessToken);
+      wx.request({
+        method: 'POST',
+        url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + accessToken,
+        data: {
+          code:code
+        },
+        success: function (res) {
+          console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
+          resolve(res.data.phone_info.phoneNumber)
+        },
+        fail: function (res) {
+          console.log("fail", res);
+        }
+      })
+    })
+    .catch(console.error)
+});
+  return promise;
+}
 function _sendcode(userphone) {
   // 发送验证码
   var promise = new Promise((resolve, reject) => {
@@ -848,7 +878,7 @@ module.exports = {
   // 提示信息
   _SuccessToast: _SuccessToast,
   _ErrorToast: _ErrorToast,
-
+  _GetPhoneNumber:_GetPhoneNumber,
   UserLogon: UserLogon,
   _login: _login,
   _setting: _setting,
