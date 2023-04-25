@@ -27,7 +27,7 @@ Page({
     website: "",
     address: "",
 
-    // 商品分类参数
+    // 行业分类参数
     inputShow: false,
     boxShow: false,
     businesssortarray:[],
