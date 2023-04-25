@@ -13,21 +13,26 @@ Component({
     currentTime: 60,
     disabledstatus: false,
     inputphone: "",
+    phoneremark: "",
     s_phonecode: "",
     u_phonecode: "",
   },
   methods: {
+    onGetPhoneNumber: async function (e) {
+      console.log('步骤1获取授权code', e.detail)
+      if (e.detail.errMsg == 'getPhoneNumber:ok') {
+        let phonenumber = await utils._GetPhoneNumber(e.detail.code)
+        this.setData({
+          inputphone: phonenumber,
+          getnumbersuccess: true
+        })
+      }
+    },
+
     bvInputPhone(e) {
       this.data.inputphone = e.detail.value
     },
-    onGetPhoneNumber: async function (e) {
-      console.log('步骤1获取授权code', e.detail.code)
-      let phonenumber = await utils._GetPhoneNumber(e.detail.code)
-      this.setData({
-        inputphone: phonenumber,
-        getnumbersuccess: true
-      })
-    },
+
     bvSendCode: async function () {
       if (this.data.inputphone == '') {
         utils._ErrorToast("请输入手机号码")
@@ -76,7 +81,7 @@ Component({
           loginbtnshow: false,
           userphone: this.data.inputphone,
         });
-        utils._NewMember(this.data.inputphone)
+        utils._NewMember(this.data.inputphone, this.data.phoneremark)
         app.globalData.Guserdata.UserInfo.UserPhone = this.data.inputphone
       } else {
         // 如果通过授权得到手机号，跳过验证码验证环节
@@ -86,7 +91,8 @@ Component({
             loginbtnshow: false,
             userphone: this.data.inputphone,
           });
-          utils._NewMember(this.data.inputphone)
+          this.data.phoneremark = "微信绑定手机号码"
+          utils._NewMember(this.data.inputphone, this.data.phoneremark)
           utils._RegistPointsAdd()
           utils._SendNewUserSMS()
           app.globalData.Guserdata.UserInfo.UserPhone = this.data.inputphone
@@ -98,7 +104,8 @@ Component({
               loginbtnshow: false,
               userphone: this.data.inputphone,
             });
-            utils._NewMember(this.data.inputphone)
+            this.data.phoneremark = "短信验证手机号码"
+            utils._NewMember(this.data.inputphone, this.data.phoneremark)
             utils._RegistPointsAdd()
             utils._SendNewUserSMS()
             app.globalData.Guserdata.UserInfo.UserPhone = this.data.inputphone

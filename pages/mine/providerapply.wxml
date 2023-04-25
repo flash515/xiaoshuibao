@@ -18,11 +18,11 @@
   <view wx:if="{{companyname=='' || companyid=='' ||businessscope=='' ||address==''}}">
     <label class="labal">请完善以下信息：</label>
   </view>
-  <l-input type="text" label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName"></l-input>
-  <l-input type="text" label="企业代码：" value="{{companyid}}" bind:lininput="bvCompanyId"></l-input>
-  <l-input type="text" label="企业地址：" value="{{address}}" bind:lininput="bvAddress"></l-input>
+  <l-input type="text" label="企业名称：" value="{{companyname}}" bind:linblur="bvCompanyName"></l-input>
+  <l-input type="text" label="企业代码：" value="{{companyid}}" bind:linblur="bvCompanyId"></l-input>
+  <l-input type="text" label="企业地址：" value="{{address}}" bind:linblur="bvAddress"></l-input>
   <label class="labal">企业简介：</label>
-  <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-textarea>
+  <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:linblur="bvBusinessScope"></l-textarea>
   <text>\n</text>
   <l-radio-group bind:linchange="bvContractCheck">
     <l-radio key="1">我已阅读并接受<button class="button" bind:tap="previewFile" plain="true">《服务商服务协议》</button>的条款</l-radio>

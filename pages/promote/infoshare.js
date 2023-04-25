@@ -445,11 +445,7 @@ Page({
       imageUrl: '', //封面
     }
   },
-  onHideMaskTap: function () {
-    this.setData({
-      loginshow: false
-    })
-  },
+
   /**
    * 用户点击右上角分享
    */

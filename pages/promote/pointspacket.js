@@ -10,12 +10,12 @@ Page({
     params: "",
 
     // 登录框相关变量
-    loginshow: false,
-    loginbtnshow: false,
+    loginshow: true,
+    getnumbersuccess: false,
     time: "获取验证码",
     currentTime: 60,
     disabledstatus: false,
-    inputphone:"",
+    inputphone: "",
     s_phonecode: "",
     u_phonecode: "",
 
@@ -29,8 +29,19 @@ Page({
     temppoints: 0,
     temppacket: 0
   },
+  onGetPhoneNumber: async function (e) {
+    console.log('步骤1获取授权code', e.detail)
+    if (e.detail.errMsg == 'getPhoneNumber:ok') {
+      let phonenumber = await utils._GetPhoneNumber(e.detail.code)
+      this.setData({
+        inputphone: phonenumber,
+        getnumbersuccess:true
+      })
+    }
+  },
+
   bvInputPhone(e) {
-    this.data.inputphone= e.detail.value
+    this.data.inputphone = e.detail.value
   },
 
   bvPhoneCode(e) {
@@ -47,7 +58,7 @@ Page({
         this._SendCodeBtn()
         this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
         console.log("验证码", this.data.s_phonecode)
-      }else{
+      } else {
         utils._ErrorToast("已发送，请等待")
       }
     }
@@ -73,17 +84,28 @@ Page({
   },
 
   bvLogin: async function (e) {
-    if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
+    // 如果通过授权得到手机号，跳过验证码验证环节
+    if (this.data.getnumbersuccess == true) {
       this.setData({
         loginshow: false,
-        loginbtnshow:false,
-      })
+        userphone: this.data.inputphone,
+      });
       utils._NewMember(this.data.inputphone)
       utils._RegistPointsAdd()
       utils._SendNewUserSMS()
-      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
-    }else {
-      utils._ErrorToast("验证码错误")
+      app.globalData.Guserdata.UserInfo.UserPhone = this.data.inputphone
+    } else {
+      if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
+        this.setData({
+          loginshow: false,
+        })
+        utils._NewMember(this.data.inputphone)
+        utils._RegistPointsAdd()
+        utils._SendNewUserSMS()
+        app.globalData.Guserdata.UserInfo.UserPhone = this.data.inputphone
+      } else {
+        utils._ErrorToast("验证码错误")
+      }
     }
     console.log(app.globalData.Guserdata)
   },
@@ -149,9 +171,9 @@ Page({
       transferpacketid: options.transferpacketid,
       params: options,
     })
-      // 通过分享进入，执行用户登录操作
-      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-
+    // 通过分享进入，执行用户登录操作
+    await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+    console.log(app.globalData.Guserdata.UserInfo.UserPhone)
     if (app.globalData.Guserdata.UserInfo.UserPhone != "") {
       this.setData({
         loginshow: false

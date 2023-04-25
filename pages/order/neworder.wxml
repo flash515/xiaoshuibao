@@ -1,15 +1,6 @@
-<!-- <text>订单页面</text> -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <navigator url="{{item.link}}">
-      <swiper-item>
-        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </navigator>
-    </block>
-  </swiper>
-</view>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
+
 <view class="mainframe">
   <!-- 传入的商品信息 -->
   <view class="title">

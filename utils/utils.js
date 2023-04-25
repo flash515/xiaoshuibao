@@ -61,6 +61,7 @@ async function _GetPhoneNumber(code) {
 });
   return promise;
 }
+
 function _sendcode(userphone) {
   // 发送验证码
   var promise = new Promise((resolve, reject) => {
@@ -89,7 +90,7 @@ function _sendcode(userphone) {
   return promise;
 }
 
-async function _NewMember(userphone) {
+async function _NewMember(userphone,phoneremark) {
   var promise = new Promise((resolve, reject) => {
       const db = wx.cloud.database()
       db.collection('USER').where({
@@ -97,6 +98,7 @@ async function _NewMember(userphone) {
       }).update({
         data: {
           ["UserInfo.UserPhone"]: userphone,
+          ["UserInfo.PhoneRemark"]: phoneremark,
           ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
             hour12: false
           })

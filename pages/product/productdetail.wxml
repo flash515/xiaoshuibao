@@ -1,24 +1,8 @@
 <!-- 登录层 -->
-<l-mask show="{{loginshow}}" center="true">
-  <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
-    <text>\r\n</text>
-    <view class="logininputbox" style="justify-content:flex-start;">
-      <view style="padding: 10rpx;">手机号：</view>
-      <input style="width: 300rpx;" type="number" bind:input="bvInputPhone" required="{{true}}" />
-    </view>
-    <view class="logininputbox" style="justify-content:space-between;">
-      <view style="padding: 10rpx;">验证码：</view>
-      <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
-      <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
-    </view>
-    <text>\r\n</text>
-    <view class="loginbtnbox">
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini">取消登录</l-button>
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini">验证并登录</l-button>
-    </view>
-  </l-card>
+<l-mask show="{{loginshow}}" center="true" >
+<loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
-<!-- 轮播图 -->
+<!-- 产品轮播图 -->
 <view>
   <swiper autoplay circular indicator-dots style="height: {{swiperHeight}};">
     <swiper-item wx:for="{{swiperData}}" wx:key="id">
@@ -127,7 +111,7 @@
         <label class="title1">留言咨询：</label>
 
         <view>
-          <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示在里" maxlength='30' bind:lininput="bvQuestion"></l-textarea>
+          <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示在里" maxlength='30' bind:linblur="bvQuestion"></l-textarea>
         </view>
         <view>
           <l-button icon="to-top" icon-color="#3683d6" shape="semicircle" bind:lintap='bvSubmit' plain="{{true}}">发送留言</l-button>
@@ -140,7 +124,7 @@
               <label class="title1">问：{{item.Question}}</label>
               <text>\n</text>
               <label class="title1">答：</label>
-              <l-textarea type='text' placeholder="请输入回复内容" maxlength='30' bind:lininput="bvAnswer"></l-textarea>
+              <l-textarea type='text' placeholder="请输入回复内容" maxlength='30' bind:linblur="bvAnswer"></l-textarea>
               <l-button data-id="{{item._id}}" data-openid="{{item.UserId}}" data-question="{{item.Question}}" data-adddate="{{item.AddDate}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
               <text>\t</text>
               <l-button bind:lintap='bvUnlock' plain="{{true}}">解除锁定</l-button>

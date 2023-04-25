@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "loginmask":"/components/loginmask/loginmask",
-    "Swiper":"/components/Swiper/Swiper"
+
+
   }
 }

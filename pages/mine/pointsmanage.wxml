@@ -1,35 +1,9 @@
 <!-- 登录层 -->
 <l-mask show="{{loginshow}}" center="true" >
-  <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
-    <text>\r\n</text>
-    <view class="logininputbox" style="justify-content:flex-start;">
-      <view style="padding: 10rpx;">手机号：</view>
-      <input style="width: 300rpx;" type="number" bind:input="bvInputPhone" required="{{true}}" />
-    </view>
-    <view class="logininputbox" style="justify-content:space-between;">
-      <view style="padding: 10rpx;">验证码：</view>
-      <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
-      <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
-    </view>
-    <text>\r\n</text>
-    <view class="loginbtnbox">
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini">取消登录</l-button>
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini">验证并登录</l-button>
-    </view>
-  </l-card>
+<loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
-<!-- 轮播图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <navigator url="{{item.link}}">
-      <swiper-item>
-        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </navigator>
-    </block>
-  </swiper>
-</view>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
 <view class="title">
   <text>会员积分管理</text>
 </view>
@@ -49,12 +23,12 @@
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">转让积分总额：</label>
 
-        <input class="input" type="number" bind:input="bvTransferPoints" />
+        <input class="input" type="number" bindblur="bvTransferPoints" />
         <label class="labal">积分</label>
       </view>
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">转让礼包个数：</label>
-        <input class="input" type="number" bind:input="bvPacketNumber" />
+        <input class="input" type="number" bindblur="bvPacketNumber" />
         <label class="labal">个</label>
       </view>
 
@@ -64,7 +38,7 @@
     <l-card type="avatar" l-class="card" l-title-class="cardtitle" plaintext="{{true}}" title="消费积分兑换推广积分">
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">积分兑换数额：</label>
-        <input class="input" type="number" bind:input="bvExchangePoints" />
+        <input class="input" type="number" bindblur="bvExchangePoints" />
         <label class="labal">积分</label>
       </view>
       <l-button slot="more" size="mini" type="default" bind:lintap="bvTradePointsExchange" shape="semicircle" plain="{{true}}">确定</l-button>
@@ -73,7 +47,7 @@
     <l-card type="avatar" l-class="card" l-title-class="cardtitle" plaintext="{{true}}" title="消费积分折现">
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">折现积分数额：</label>
-        <input class="input" type="number" bind:input="bvWithdrawPoints" />
+        <input class="input" type="number" bindblur="bvWithdrawPoints" />
         <label class="labal">积分</label>
       </view>
       <l-button slot="more" size="mini" type="default" bind:lintap="bvTradePointsWithdraw" shape="semicircle" plain="{{true}}">确定</l-button>

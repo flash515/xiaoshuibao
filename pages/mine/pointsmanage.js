@@ -9,12 +9,6 @@ Page({
     // 登录框相关变量
     loginshow: false,
     loginbtnshow: false,
-    time: "获取验证码",
-    currentTime: 60,
-    disabledstatus: false,
-    inputphone:"",
-    s_phonecode: "",
-    u_phonecode: "",
 
     userid: "",
     tradebalance: 0,
@@ -31,94 +25,17 @@ Page({
 
     // 轮播参数
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
   bvLoginShow: function (e) {
     this.setData({
       loginshow: true
     })
   },
-
-  bvInputPhone(e) {
-    this.data.inputphone= e.detail.value
-  },
-
-  bvSendCode: async function () {
-    if (this.data.inputphone == '') {
-      utils._ErrorToast("请输入手机号码")
-    } else {
-      if (this.data.disabledstatus == false) {
-        this.setData({
-          disabledstatus: true
-        })
-        this._SendCodeBtn()
-        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
-        console.log("验证码", this.data.s_phonecode)
-      }else{
-        utils._ErrorToast("已发送，请等待")
-      }
-    }
-  },
-  
-  _SendCodeBtn() {
-    var that = this;
-    var currentTime = that.data.currentTime
-    var interval = setInterval(function () {
-      currentTime--;
-      that.setData({
-        time: currentTime + '秒'
-      })
-      if (currentTime <= 0) {
-        clearInterval(interval)
-        that.setData({
-          time: '重新发送',
-          currentTime: 60,
-          disabledstatus: false
-        })
-      }
-    }, 1000)
-  },
-
-  bvPhoneCode(e) {
-    this.data.u_phonecode= e.detail.value
-  },
-
-  bvLogin: async function (e) {
-    if(this.data.inputphone=="998189" && this.data.u_phonecode=="981899"){
-      // 使用测试账号登录
-      this.setData({
-        loginshow: false,
-        loginbtnshow:false,
-      })
-      utils._NewMember(this.data.inputphone)
-      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
-    }else{
-    if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
-      this.setData({
-        loginshow: false,
-        loginbtnshow:false,
-      })
-      utils._NewMember(this.data.inputphone)
-      utils._RegistPointsAdd()
-      utils._SendNewUserSMS()
-      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
-    }else {
-      utils._ErrorToast("验证码错误")
-    }
-    console.log(app.globalData.Guserdata)
-  }
-  },
-
-  onHideMaskTap: function () {
+  onLogin(e){
     this.setData({
-      loginshow: false
+      loginshow:e.detail.loginshow,
+      loginbtnshow:e.detail.loginbtnshow,
+      userphone:e.detail.userphone,
     })
   },
   bvTransferPoints(e) {

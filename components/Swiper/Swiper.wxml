@@ -2,7 +2,7 @@
     <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
       <navigator url="{{item.link}}">
         <swiper-item>
-          <image class="swiper image" mode="scaleToFill" src="{{item.image_url}}"  />
+          <image class="swiper" mode="scaleToFill" src="{{item.image_url}}"  />
         </swiper-item>
       </navigator>
     </block>

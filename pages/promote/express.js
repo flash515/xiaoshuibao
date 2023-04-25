@@ -15,6 +15,7 @@ Page({
     currentTime: 60,
     disabledstatus: false,
     inputphone: "",
+    phoneremark:"",
     s_phonecode: "",
     u_phonecode: "",
     // 获取手机号用的accesstoken
@@ -25,6 +26,17 @@ Page({
     userphone:"",
     statusinfo:""
   },
+  onGetPhoneNumber: async function (e) {
+    console.log('步骤1获取授权code', e.detail)
+    if (e.detail.errMsg == 'getPhoneNumber:ok') {
+    let phonenumber = await utils._GetPhoneNumber(e.detail.code)
+    this.setData({
+      inputphone: phonenumber,
+      getnumbersuccess: true
+    })
+  }
+  },
+
   bvInputPhone(e) {
     this.data.inputphone = e.detail.value
   },
@@ -73,7 +85,8 @@ Page({
       this.setData({
         loginshow: false,
       })
-      utils._NewMember(this.data.inputphone)
+      this.data.phoneremark="微信绑定手机号码"
+      utils._NewMember(this.data.inputphone,this.data.phoneremark)
       this.setData({
         userphone:this.data.inputphone,
         statusinfo:"登记成功"
@@ -84,7 +97,8 @@ Page({
       this.setData({
         loginshow: false,
       })
-      utils._NewMember(this.data.inputphone)
+      this.data.phoneremark="短信验证手机号码"
+      utils._NewMember(this.data.inputphone,this.data.phoneremark)
       this.setData({
         userphone:this.data.inputphone,
         statusinfo:"登记成功"
@@ -97,45 +111,6 @@ Page({
     console.log(app.globalData.Guserdata)
   },
 
-  onGetPhoneNumber: async function (e) {
-    let that = this
-    console.log(e.detail)
-    console.log('步骤1获取授权code', e.detail.code)
-    console.log('步骤2获取accessToken')
-    await wx.cloud.callFunction({
-        // 云函数名称
-        name: 'getAccessToken',
-        // 传给云函数的参数
-        data: {},
-      })
-      .then(res => {
-        this.setData({
-          accessToken: res.result
-        });
-        console.log('云函数获取res.result：', res.result);
-        console.log('云函数获取this.data.accessToken：', this.data.accessToken);
-      })
-      .catch(console.error)
-    console.log('步骤3调用接口获取手机号', e.detail.code)
-    wx.request({
-      method: 'POST',
-      url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + this.data.accessToken,
-      data: {
-        code: e.detail.code
-      },
-      success: function (res) {
-        console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
-        that.setData({
-          inputphone: res.data.phone_info.phoneNumber,
-          getnumbersuccess:true,
-        })
-      },
-      fail: function (res) {
-        console.log("fail", res);
-      }
-    })
-
-  },
 
   /**
    * 生命周期函数--监听页面加载

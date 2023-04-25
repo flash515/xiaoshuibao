@@ -28,8 +28,8 @@ Page({
       companyname: "小税宝有限公司（样版）",
       businessscope: "小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
       username: "小税宝",
-      userphone: "123456",
-      position: "产品经理",
+      handphone: "123456",
+      title: "产品经理",
       wechat: "123456",
       email: "123456@163.com",
       telephone: "0755-12345678",
@@ -39,71 +39,15 @@ Page({
     adddate: "",
     updatedate: ""
   },
-  bvLoginShow: function (e) {
+
+  onLogin(e) {
     this.setData({
-      loginshow: true
+      loginshow: e.detail.loginshow,
+      userphone: e.detail.userphone,
     })
-  },
-
-  bvInputPhone(e) {
-    this.data.inputphone = e.detail.value
-  },
-
-  bvSendCode: async function () {
-    if (this.data.inputphone == '') {
-      utils._ErrorToast("请输入手机号码")
-    } else {
-      if (this.data.disabledstatus == false) {
-        this.setData({
-          disabledstatus: true
-        })
-        this._SendCodeBtn()
-        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
-        console.log("验证码", this.data.s_phonecode)
-      }else{
-        utils._ErrorToast("已发送，请等待")
-      }
-    }
-  },
-  
-  _SendCodeBtn() {
-    var that = this;
-    var currentTime = that.data.currentTime
-    var interval = setInterval(function () {
-      currentTime--;
-      that.setData({
-        time: currentTime + '秒'
-      })
-      if (currentTime <= 0) {
-        clearInterval(interval)
-        that.setData({
-          time: '重新发送',
-          currentTime: 60,
-          disabledstatus: false
-        })
-      }
-    }, 1000)
-  },
-
-  bvPhoneCode(e) {
-    this.data.u_phonecode = e.detail.value
-  },
-
-  bvLogin: async function (e) {
-    if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
-      this.setData({
-        loginshow: false,
-        loginbtnshow:false,
-        userphone:this.data.inputphone,
-      })
-      utils._NewMember(this.data.inputphone)
-      utils._RegistPointsAdd()
-      utils._SendNewUserSMS()
-      app.globalData.Guserdata.UserInfo.UserPhone=this.data.userphone
-    }else {
-      utils._ErrorToast("验证码错误")
-    }
-    console.log(app.globalData.Guserdata)
+    wx.redirectTo({
+      url: "../promote/namecardedit"
+    })
   },
 
   bvEdit: function (e) {
@@ -117,12 +61,36 @@ Page({
       })
     }
   },
-
-  onHideMaskTap: function () {
-    this.setData({
-      loginshow: false
+  // 长按号码响应函数
+  bvPhoneNumTap: function () {
+    wx.makePhoneCall({
+      phoneNumber: this.data.cardinfo.handphone,
     })
   },
+
+  addContact: function () {
+    var that = this;
+    wx.showActionSheet({
+      itemList: ['添加联系人'],
+      success: function (res) {
+        // 添加到手机通讯录
+        wx.addPhoneContact({
+          firstName: that.data.cardinfo.username, //联系人姓名
+          title: that.data.cardinfo.title, //联系人职位
+          mobilePhoneNumber: that.data.cardinfo.handphone, //联系人手机号
+          weChatNumber: that.data.cardinfo.wechat, //微信
+          email: that.data.cardinfo.email, //电子邮件
+          organization: that.data.cardinfo.companyname, //公司
+          url: that.data.cardinfo.website, //公司网站
+
+        })
+      }
+    })
+  },
+
+  // 回递名片
+  bvReplyCard(){},
+
   //发布到企业广场
   bvPublish(e) {
     if (this.data.publishstatus == false) {
@@ -174,7 +142,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
-    console.log("传入的参数为",options)
+    console.log("传入的参数为", options)
     if (options.userid) {
       // 如果是通过分享链接进入
       this.data.params = options
@@ -192,7 +160,7 @@ Page({
           // 展示名片分享人的名片
           this.setData({
             // cardinfo: res.data[0].NameCard
-            cardinfo:this.data.sample
+            cardinfo: this.data.sample
           })
         }
       })

@@ -1,35 +1,9 @@
 <!-- 登录层 -->
 <l-mask show="{{loginshow}}" center="true" >
-  <l-card type="primary" plaintext="{{true}}" l-title-class="logincardtitle" l-class="logincard" title="请输入手机号码登录">
-    <text>\r\n</text>
-    <view class="logininputbox" style="justify-content:flex-start;">
-      <view style="padding: 10rpx;">手机号：</view>
-      <input style="width: 300rpx;" type="number" bind:input="bvInputPhone" required="{{true}}" />
-    </view>
-    <view class="logininputbox" style="justify-content:space-between;">
-      <view style="padding: 10rpx;">验证码：</view>
-      <input style="width: 150rpx;" type="number" bind:input="bvPhoneCode" required="{{true}}" />
-      <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
-    </view>
-    <text>\r\n</text>
-    <view class="loginbtnbox">
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="onHideMaskTap" size="mini">取消登录</l-button>
-      <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvLogin" size="mini">验证并登录</l-button>
-    </view>
-  </l-card>
+<loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
-<!-- 轮播图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <navigator url="{{item.link}}">
-      <swiper-item>
-        <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-      </swiper-item>
-    </navigator>
-    </block>
-  </swiper>
-</view>
+<!-- 轮播头图 -->
+<Swiper class="swiper" image="{{image}}"></Swiper>
 <view class="title">
   <text>会员订单记录</text>
 </view>

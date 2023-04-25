@@ -1,29 +1,20 @@
 <!-- 轮播头图 -->
-<view>
-  <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
-    <block wx:for="{{image}}" wx:for-index="index" wx:key="key">
-      <navigator url="{{item.link}}">
-        <swiper-item>
-          <image src="{{item.image_url}}" class="swiper image" mode="scaleToFill" />
-        </swiper-item>
-      </navigator>
-    </block>
-  </swiper>
-</view>
+<Swiper class="swiper" image="{{image}}"></Swiper>
+
 <view class="mainframe">
   <l-tabs>
     <l-tabpanel tab="本人信息" key="one" slot="one">
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">手机号：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" type="number" value="{{userphone}}" placeholder="请输入手机号" bind:input="bvInputPhone" />
+          <input class="input" type="number" value="{{userphone}}" placeholder="请输入手机号" bindblur="bvInputPhone" />
         </view>
       </view>
       <view class="line"></view>
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">验证码：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" type="number" bind:input="bvPhoneCode" />
+          <input class="input" type="number" bindblur="bvPhoneCode" />
         </view>
         <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabledstatus}}'>{{time}}</l-button>
       </view>
@@ -41,7 +32,7 @@
         <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
           <label class="labal">微信昵称：</label>
           <view style="padding-left: 50rpx;">
-            <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bind:input="bvNickName" />
+            <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
           </view>
         </view>
         <view class="line"></view>

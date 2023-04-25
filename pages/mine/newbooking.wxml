@@ -24,9 +24,9 @@
   </l-radio-group>
   <l-input type="text" label="创建日期：" value="{{adddate}}" disabled="{{true}}"></l-input>
 
-  <l-input type="text" label="联系人：" value="{{contacts}}" bind:lininput="bvContacts"></l-input>
-  <l-input type="text" label="联系电话：" value="{{phone}}" bind:lininput="bvPhone"></l-input>
-  <l-input type="text" label="预约地址：" value="{{address}}" bind:lininput="bvAddress"></l-input>
+  <l-input type="text" label="联系人：" value="{{contacts}}" bind:linblur="bvContacts"></l-input>
+  <l-input type="text" label="联系电话：" value="{{phone}}" bind:linblur="bvPhone"></l-input>
+  <l-input type="text" label="预约地址：" value="{{address}}" bind:linblur="bvAddress"></l-input>
   <picker mode="date" value="{{date}}" start="{{startdate}}" bindchange="bvDate">
     <view class="picker">
       <text class="text">预约日期：{{date}}</text>

@@ -8,14 +8,6 @@ Page({
   data: {
   // 轮播头图
   image: [],
-indicatorDots: true,
-vertical: false,
-autoplay: true,
-circular: true,
-interval: 4000,
-duration: 500,
-previousMargin: 0,
-nextMargin: 0
   },
 
   /**

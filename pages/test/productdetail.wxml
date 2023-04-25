@@ -148,7 +148,7 @@
     </view>
   </view>
   <view hidden="{{showvalue6==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" name="outline" value="{{outline}}" bind:lininput="bvOutline"></l-textarea>
+    <l-textarea type="text" name="outline" value="{{outline}}" bind:linblur="bvOutline"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -164,7 +164,7 @@
     </view>
   </view>
   <view hidden="{{showvalue7==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{description}}" bind:lininput="bvDescription"></l-textarea>
+    <l-textarea type="text" value="{{description}}" bind:linblur="bvDescription"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -180,7 +180,7 @@
     </view>
   </view>
   <view hidden="{{showvalue8==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{situation}}" bind:lininput="bvSituation"></l-textarea>
+    <l-textarea type="text" value="{{situation}}" bind:linblur="bvSituation"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -196,7 +196,7 @@
     </view>
   </view>
   <view hidden="{{showvalue9==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{forbid}}" bind:lininput="bvForbid"></l-textarea>
+    <l-textarea type="text" value="{{forbid}}" bind:linblur="bvForbid"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -212,7 +212,7 @@
     </view>
   </view>
   <view hidden="{{showvalue10==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{doclist}}" bind:lininput="bvDocList"></l-textarea>
+    <l-textarea type="text" value="{{doclist}}" bind:linblur="bvDocList"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -228,7 +228,7 @@
     </view>
   </view>
   <view hidden="{{showvalue11==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{reward}}" bind:lininput="bvReward"></l-textarea>
+    <l-textarea type="text" value="{{reward}}" bind:linblur="bvReward"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -244,7 +244,7 @@
     </view>
   </view>
   <view hidden="{{showvalue12==false}}" style="margin-top: 10rpx;">
-    <l-textarea type="text" value="{{rewardtime}}" bind:lininput="bvRewardTime"></l-textarea>
+    <l-textarea type="text" value="{{rewardtime}}" bind:linblur="bvRewardTime"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">

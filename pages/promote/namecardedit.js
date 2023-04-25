@@ -20,7 +20,7 @@ Page({
     businessscope: "",
     username: "",
     handphone: "",
-    position: "",
+    title: "",
     wechat: "",
     email: "",
     telephone: "",
@@ -147,9 +147,9 @@ Page({
       handphone: e.detail.value
     })
   },
-  bvPosition(e) {
+  bvTitle(e) {
     this.setData({
-      position: e.detail.value
+      title: e.detail.value
     })
   },
   bvWeChat(e) {
@@ -353,7 +353,7 @@ console.log(files1,files2,files3)
       ["CompanyLogo"]: files2,
       ["CardImages"]: files3,
       ["UserName"]: this.data.username,
-      ["Position"]: this.data.position,
+      ["Title"]: this.data.title,
       ["WeChat"]: this.data.wechat,
       ["Email"]: this.data.email,
       ["Telephone"]: this.data.telephone,
@@ -405,7 +405,7 @@ console.log(files1,files2,files3)
         companyname: app.globalData.Guserdata.NameCard.CompanyName,
         username: app.globalData.Guserdata.NameCard.UserName,
         handphone: app.globalData.Guserdata.NameCard.HandPhone,
-        position: app.globalData.Guserdata.NameCard.Position,
+        title: app.globalData.Guserdata.NameCard.Title,
         wechat: app.globalData.Guserdata.NameCard.WeChat,
         email: app.globalData.Guserdata.NameCard.Email,
         website: app.globalData.Guserdata.NameCard.Website,
