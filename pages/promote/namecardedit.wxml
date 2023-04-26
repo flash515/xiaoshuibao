@@ -3,44 +3,40 @@
 <!-- 名片层 -->
 <view class="uplayout">
   <view class="namecard">
-    <view class="companyname">{{companyname}}</view>
-    <view class="user" style="display:flex; flex-direction:row; justify-content:space-between;align-items:flex-end;">
-      <view style="display:flex;flex-direction:column;justify-content:flex-start;">
+    <input class="companyname" placeholder="企业名称" bindblur="bvCompanyName" />
+    <text>\n</text>
+    <view class="user" style="display:flex; flex-direction:row;align-items:flex-end;">
+      <view style="display:flex;flex-direction:column;justify-content:left;">
+        <view style="display:flex; flex-direction:row;align-items:flex-end;">
+          <input class="username" style="display:flex;justify-content:left;" placeholder="姓名" bindblur="bvUserName" />
+          <input class="namecardtitle" style="display:flex;justify-content:left;" placeholder="职位" bindblur="bvTitle" />
+        </view>
         <text>\n</text>
-        <view class="username">{{username}}</view>
-        <view wx:if="{{title}}" class="title">{{title}}</view>
-        <view wx:if="{{handphone}}" class="handphone">手机：{{handphone}}</view>
-        <view wx:if="{{wechat}}" class="wechat">微信：{{wechat}}</view>
-        <view wx:if="{{telephone}}" class="telephone">座机：{{telephone}}</view>
+        <view class="handphone" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">手机：<input style="width: 250rpx;" placeholder="手机" bindblur="bvHandPhone" /></view>
+        <view class="wechat" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">微信：<input style="width: 250rpx;" placeholder="微信" bindblur="bvWeChat" /></view>
+        <view class="telephone" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">座机：<input style="width: 250rpx;" placeholder="座机" bindblur="bvTelePhone" /></view>
       </view>
-      <image class="companylogo" src="{{companylogo}}"></image>
+      <view class="logolayout">
+        <l-image-picker l-item-class="companylogo" count="1" bind:linchange="bvChooseLogo" custom="{{true}}" bind:linremove="bvRemoveLogo" urls="{{logoview}}">
+          <view>
+            <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E9%80%89%E6%8B%A9logo.png?sign=3c5fa6e303deb8cf1d8c25e6c38c9363&t=1682515522" />
+          </view>
+        </l-image-picker>
+      </view>
     </view>
     <view>
-      <view wx:if="{{email}}" class="email">邮箱：{{email}}</view>
-      <view wx:if="{{website}}" class="website">网站：{{website}}</view>
-      <view wx:if="{{address}}" class="address">地址：{{address}}</view>
+      <view class="email" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">邮箱：<input placeholder="邮箱" bindblur="bvEmail" /></view>
+      <view class="website" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">网站：<input placeholder="网站" bindblur="bvWebsite" /></view>
+      <view class="address" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">地址：<input placeholder="地址" bindblur="bvAddress" /></view>
     </view>
   </view>
 </view>
 
 <view class="mainframe">
   <l-tabs bind:linchange="changeTabs">
-    <l-tabpanel tab="名片信息" key="one" slot="one">
-      <l-input type="text" label="姓名：" value="{{username}}" bind:linblur="bvUserName">
-      </l-input>
-      <l-input type="text" label="职务：" value="{{title}}" bind:linblur="bvTitle">
-      </l-input>
-      <l-input type="number" label="手机：" value="{{handphone}}" bind:linblur="bvHandPhone">
-      </l-input>
-      <l-input type="text" label="微信：" value="{{wechat}}" bind:linblur="bvWeChat"></l-input>
-      <l-input type="text" label="邮箱：" value="{{email}}" bind:linblur="bvEmail"></l-input>
-      <l-input type="text" label="企业名称：" value="{{companyname}}" bind:linblur="bvCompanyName"></l-input>
-      <l-input type="text" label="座机：" value="{{telephone}}" bind:linblur="bvTelephone"></l-input>
-      <l-input type="text" label="网站：" value="{{website}}" bind:linblur="bvWebsite"></l-input>
-      <l-input type="text" label="地址：" value="{{address}}" bind:linblur="bvAddress"></l-input>
-      <l-input type="text" label="行业分类：" value="{{sort}}" bind:linblur="bvSort"></l-input>
+    <l-tabpanel tab="企业信息" key="one" slot="one">
       <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-        <label class="text">行业分类：</label>
+        <label class="labal">行业分类：</label>
       </view>
       <view>
         <view class="input" bindtap="getbox" wx:if="{{inputShow}}" style="color: #999;">{{category1name}}/{{category2name}}/{{category3name}}</view>
@@ -75,7 +71,8 @@
           </view>
         </view>
       </view>
-      <l-input type="text" label="关键词：" value="{{keyword}}" bind:linblur="bvKeyWord"></l-input>
+      <label class="labal">搜索关键词：</label>
+      <l-textarea type="text" indicator="{{true}}" maxlength="20" auto-height="{{true}}" value="{{keywords}}" bind:linblur="bvKeyWords"></l-textarea>
       <label class="labal">企业简介：</label>
       <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:linblur="bvBusinessScope"></l-textarea>
 
@@ -83,16 +80,19 @@
     </l-tabpanel>
     <l-tabpanel tab="名片背景" key="two" slot="two">
       <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
-        <label class="text">系统背景：</label>
+        <label class="labal">系统背景：</label>
         <l-radio-group placement="column" bind:linchange="bvBgSelect">
           <block wx:for="{{cardbgarray}}" wx:key="key">
             <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
               <image class="bgarray" src="{{item}}" />
             </l-radio>
           </block>
-          <label class="text">自选背景：</label>
+          <label class="labal">自选背景：</label>
           <l-radio placement="left" color="black" select-color="green" size="40" key="{{bgview}}" l-class="radio">
-            <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg" urls="{{bgview}}" custom="{{true}}" l-item-class="bgarray" l-class="bgarray">
+            <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg" urls="{{bgview}}" custom="{{true}}">
+              <view>
+                <image class="bgarray" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=1acdfb709f87f6d2b53ac2698c7c7c0b&t=1682515463" />
+              </view>
             </l-image-picker>
           </l-radio>
         </l-radio-group>
@@ -100,29 +100,20 @@
       </scroll-view>
       <text>\n</text>
     </l-tabpanel>
-    <l-tabpanel tab="企业Logo" key="three" slot="three">
+    <l-tabpanel tab="图片资料" key="three" slot="three">
       <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-        <label class="text">选择并上传企业Logo：</label>
+        <label class="labal">选择并上传图片资料：</label>
 
       </view>
       <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-        <l-image-picker size="3" count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{logoview}}" />
-
+        <l-image-picker count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{imageview}}" custom="{{true}}">
+          <view>
+            <image class="bgarray" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=17ef3b027a74488e284e902d682514c4&t=1682515422" />
+          </view>
+        </l-image-picker>
       </view>
       <text>\n</text>
     </l-tabpanel>
-    <l-tabpanel tab="图片资料" key="four" slot="four">
-      <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-        <label class="text">选择并上传图片资料：</label>
-
-      </view>
-      <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-        <l-image-picker size="3" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{imageview}}" />
-      </view>
-      <text>\n</text>
-    </l-tabpanel>
-
-
   </l-tabs>
   <view style="display:flex; flex-direction:row; justify-content:space-between;">
 

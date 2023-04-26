@@ -22,14 +22,14 @@ Page({
     // 名片参数
     cardinfo: {},
     sample: {
-      namecardbg: "",
+      cardbg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg4.jpg?sign=d6efb4092f3b166f2dd79649a46f19a0&t=1682499042",
       imageview: [],
-      companylogo: "",
+      companylogo: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/%E5%B8%A6unionid%E5%8F%82%E6%95%B0%E9%80%8F%E6%98%8E.png?sign=a2fe221407105d1394df92016c9ab7b4&t=1682498686",
       companyname: "小税宝有限公司（样版）",
-      businessscope: "小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
+      businessscope: "  小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
       username: "小税宝",
-      handphone: "123456",
       title: "产品经理",
+      handphone: "123456",
       wechat: "123456",
       email: "123456@163.com",
       telephone: "0755-12345678",

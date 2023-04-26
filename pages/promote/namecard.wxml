@@ -11,8 +11,7 @@
     <view class="user" style="display:flex; flex-direction:row; justify-content:space-between;align-items:flex-end;">
       <view style="display:flex;flex-direction:column;justify-content:flex-start;">
         <text>\n</text>
-        <view class="username">{{cardinfo.username}}</view>
-        <view class="title">{{cardinfo.title}}</view>
+        <view><text class="username">{{cardinfo.username}}</text><text space="emsp" decode='true' class="title"> {{cardinfo.title}}</text></view>
         <text>\n</text>
         <view wx:if="{{cardinfo.handphone}}" class="userphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.handphone}}</view>
         <view wx:if="{{cardinfo.wechat}}" class="wechat">微信：{{cardinfo.wechat}}</view>
@@ -32,7 +31,7 @@
 </view>
 <view class="mainframe">
   <view wx:if="{{cardinfo.businessscope}}" style="display:flex;flex-direction:column;justify-content:flex-start;">
-    <label class="labal">企业简介：</label>
+    <label class="text">企业简介：</label>
     <text space="emsp" decode='true' class="text">{{cardinfo.businessscope}}</text>
   </view>
   <text>\n</text>

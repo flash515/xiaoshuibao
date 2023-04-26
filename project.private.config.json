@@ -485,6 +485,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/promote/namecardedit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

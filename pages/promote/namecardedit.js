@@ -40,9 +40,8 @@ Page({
     category3: "",
     category3name: "",
     aIndex: 0,
-
-    keywords: [],
-    companysort: [],
+//关键词
+    keywords:"",
     updatedate: "",
     logouploadlock: true,
   },
@@ -99,36 +98,15 @@ Page({
         category3name: this.data.businesssortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
       })
     },
-  onChooseAvatar(e) {
-    // const {
-    //   avatarUrl
-    // } = e.detail
-    console.log(e.detail)
-    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
-    wx.cloud.uploadFile({
-      cloudPath, // 上传至云端的路径
-      filePath: e.detail.avatarUrl, // 小程序临时文件路径
-      success: res => {
-        // 返回文件 ID
-        console.log(res.fileID)
-        // do something
-        this.setData({
-          avatarurl: res.fileID,
-        })
-      },
-      fail: console.error
-    })
-  },
-  bvNickName(e) {
-    console.log("真机测试才能获取到", e.detail.value)
-    this.setData({
-      nickname: e.detail.value,
-    })
-  },
 
   bvCompanyName(e) {
     this.setData({
       companyname: e.detail.value
+    })
+  },
+  bvKeyWords(e) {
+    this.setData({
+      keywords: e.detail.value
     })
   },
 
@@ -361,9 +339,11 @@ console.log(files1,files2,files3)
       ["HandPhone"]: this.data.handphone,
       ["CompanyName"]: this.data.companyname,
       ["Address"]: this.data.address,
-      ["KeyWords"]: this.data.keywords,
-      ["CompanySort"]: this.data.companysort,
       ["BusinessScope"]: this.data.businessscope,
+      ["KeyWords"]: this.data.keywords,
+      ["Category1"]: this.data.category1,
+      ["Category2"]: this.data.category2,
+      ["Category3"]: this.data.category3,
     }
     const db = wx.cloud.database()
     db.collection('USER').where({
@@ -411,13 +391,15 @@ console.log(files1,files2,files3)
         website: app.globalData.Guserdata.NameCard.Website,
         telephone: app.globalData.Guserdata.NameCard.Telephone,
         businessscope: app.globalData.Guserdata.NameCard.BusinessScope,
-        keywords: app.globalData.Guserdata.NameCard.KeyWords,
-        companysort: app.globalData.Guserdata.NameCard.CompanySort,
         address: app.globalData.Guserdata.NameCard.Address,
         updatedate: app.globalData.Guserdata.NameCard.UpdateDate,
         bgview: app.globalData.Guserdata.NameCard.CardBg,
         logoview: app.globalData.Guserdata.NameCard.CompanyLogo,
         imageview: app.globalData.Guserdata.NameCard.CardImages,
+        category1:app.globalData.Guserdata.NameCard.Category1,
+        category2:app.globalData.Guserdata.NameCard.Category2,
+        category3:app.globalData.Guserdata.NameCard.Category3,
+        keywords:app.globalData.Guserdata.NameCard.KeyWords,
       })
     }
   },

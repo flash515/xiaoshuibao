@@ -10,6 +10,7 @@
   width: 750rpx;
   height: 600rpx;
   position: relative;
+  z-index: 1;
   top: 0rpx;
   left: 0rpx;
   margin: 0rpx;
@@ -33,42 +34,54 @@
   font-weight: bold;
   color: rgb(0, 0, 0);
   text-align: center;
+  min-height: 55rpx;
+}
+.logolayout {
+  position: relative;
+  z-index: 2;
 }
 
 .companylogo {
-  width: 250rpx;
-  height: 250rpx;
+  width : 180rpx;
+  height : 180rpx; 
 }
 
 .username {
+  width: 180rpx;
   font-size: 45rpx;
+  font-weight: bold;
   color: rgb(0, 0, 0);
 }
 
-.title {
+.namecardtitle {
+  width: 180rpx;
   font-size: 32rpx;
+  font-weight: bold;
   color: rgb(0, 0, 0);
 }
 
 .handphone {
+  width: 350rpx;
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
 
 .wechat {
+  width: 350rpx;
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
-
+.telephone {
+  width: 350rpx;
+  font-size: 32rpx;
+  color: rgb(0, 0, 0);
+}
 .email {
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
 
-.telephone {
-  font-size: 32rpx;
-  color: rgb(0, 0, 0);
-}
+
 
 .website {
   font-size: 32rpx;
@@ -81,13 +94,8 @@
 }
 
 .labal {
-  font-size: 32rpx;
+  font-size: 28rpx;
   margin-left: 25rpx;
-}
-
-.text {
-  font-size: 32rpx;
-  color: rgb(0, 0, 0);
 }
 
 .phonecode {

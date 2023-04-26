@@ -36,18 +36,19 @@
 }
 
 .companylogo {
-  width : 250rpx;
-  height : 250rpx; 
-
+  width : 180rpx;
+  height : 180rpx; 
 }
 
 .username {
   font-size: 45rpx;
+  font-weight: bold;
   color: rgb(0, 0, 0);
 }
 
 .title {
   font-size: 32rpx;
+  /* font-style: italic; */
   color: rgb(0, 0, 0);
 }
 
