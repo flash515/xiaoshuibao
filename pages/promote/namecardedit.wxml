@@ -5,16 +5,16 @@
   <view class="namecard">
     <input class="companyname" placeholder="企业名称" bindblur="bvCompanyName" />
     <text>\n</text>
-    <view class="user" style="display:flex; flex-direction:row;align-items:flex-end;">
+    <view class="user">
       <view style="display:flex;flex-direction:column;justify-content:left;">
         <view style="display:flex; flex-direction:row;align-items:flex-end;">
-          <input class="username" style="display:flex;justify-content:left;" placeholder="姓名" bindblur="bvUserName" />
-          <input class="namecardtitle" style="display:flex;justify-content:left;" placeholder="职位" bindblur="bvTitle" />
+          <input class="username" style="justify-content:left;" placeholder="姓名" bindblur="bvUserName" />
+          <input class="namecardtitle" style="justify-content:left;" placeholder="职位" bindblur="bvTitle" />
         </view>
         <text>\n</text>
-        <view class="handphone" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">手机：<input style="width: 250rpx;" placeholder="手机" bindblur="bvHandPhone" /></view>
-        <view class="wechat" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">微信：<input style="width: 250rpx;" placeholder="微信" bindblur="bvWeChat" /></view>
-        <view class="telephone" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">座机：<input style="width: 250rpx;" placeholder="座机" bindblur="bvTelePhone" /></view>
+        <view class="handphone" style="flex-direction:row;justify-content:left;align-items:center;">手机：<input style="width: 250rpx;" placeholder="手机" bindblur="bvHandPhone" /></view>
+        <view class="wechat" style=" flex-direction:row;justify-content:left;align-items:center;">微信：<input style="width: 250rpx;" placeholder="微信" bindblur="bvWeChat" /></view>
+        <view class="telephone" style="flex-direction:row;justify-content:left;align-items:center;">座机：<input style="width: 250rpx;" placeholder="座机" bindblur="bvTelePhone" /></view>
       </view>
       <view class="logolayout">
         <l-image-picker l-item-class="companylogo" count="1" bind:linchange="bvChooseLogo" custom="{{true}}" bind:linremove="bvRemoveLogo" urls="{{logoview}}">
@@ -25,9 +25,9 @@
       </view>
     </view>
     <view>
-      <view class="email" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">邮箱：<input placeholder="邮箱" bindblur="bvEmail" /></view>
-      <view class="website" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">网站：<input placeholder="网站" bindblur="bvWebsite" /></view>
-      <view class="address" style="display:flex; flex-direction:row;justify-content:left;align-items:center;">地址：<input placeholder="地址" bindblur="bvAddress" /></view>
+      <view class="email" style="flex-direction:row;justify-content:left;align-items:center;">邮箱：<input placeholder="邮箱" bindblur="bvEmail" /></view>
+      <view class="website" style="flex-direction:row;justify-content:left;align-items:center;">网站：<input placeholder="网站" bindblur="bvWebsite" /></view>
+      <view class="address" style="flex-direction:row;justify-content:left;align-items:center;">地址：<input placeholder="地址" bindblur="bvAddress" /></view>
     </view>
   </view>
 </view>

@@ -22,6 +22,10 @@
 
 .user {
   width: 690rpx;
+  display:flex; 
+  flex-direction:row;
+  align-items:flex-end;
+  justify-content:space-between;
   margin-left: 0rpx;
   margin-right: 0rpx;
   padding-left: 0rpx;
@@ -37,6 +41,8 @@
   min-height: 55rpx;
 }
 .logolayout {
+  display:flex; 
+  justify-content:right;
   position: relative;
   z-index: 2;
 }
@@ -47,6 +53,7 @@
 }
 
 .username {
+  display:flex;
   width: 180rpx;
   font-size: 45rpx;
   font-weight: bold;
@@ -54,6 +61,7 @@
 }
 
 .namecardtitle {
+  display:flex;
   width: 180rpx;
   font-size: 32rpx;
   font-weight: bold;
@@ -61,34 +69,38 @@
 }
 
 .handphone {
+  display:flex; 
   width: 350rpx;
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
 
 .wechat {
+  display:flex;
   width: 350rpx;
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
 .telephone {
+  display:flex;
   width: 350rpx;
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
 .email {
+  display:flex; 
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
 
-
-
 .website {
+  display:flex; 
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
 
 .address {
+  display:flex; 
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }
