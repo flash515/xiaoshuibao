@@ -358,7 +358,7 @@ const BusinessSortArray = [{
       },
       {
         "Category2Code": "20",
-        "Category2Name": "皮革、毛皮、羽毛及其制品和制鞋业",
+        "Category2Name": "木材加工和木、竹、藤、棕、草制品业",
         "Category3Array": [{
             "Category3Code": "201",
             "Category3Name": "木材加工",

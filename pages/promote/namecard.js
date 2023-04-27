@@ -20,21 +20,22 @@ Page({
     u_phonecode: "",
     inputphone: "",
     // 名片参数
-    cardinfo: {},
+    type: "",
+    cardinfo: [],
     sample: {
-      cardbg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg4.jpg?sign=d6efb4092f3b166f2dd79649a46f19a0&t=1682499042",
-      imageview: [],
-      companylogo: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/%E5%B8%A6unionid%E5%8F%82%E6%95%B0%E9%80%8F%E6%98%8E.png?sign=a2fe221407105d1394df92016c9ab7b4&t=1682498686",
-      companyname: "小税宝有限公司（样版）",
-      businessscope: "  小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
-      username: "小税宝",
-      title: "产品经理",
-      handphone: "123456",
-      wechat: "123456",
-      email: "123456@163.com",
-      telephone: "0755-12345678",
-      website: "www.123456.com",
-      address: "广东省深圳市南山区粤海街道",
+      CardBg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg4.jpg?sign=d6efb4092f3b166f2dd79649a46f19a0&t=1682499042",
+      CardImages: [],
+      CompanyLogo: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/%E5%B8%A6unionid%E5%8F%82%E6%95%B0%E9%80%8F%E6%98%8E.png?sign=a2fe221407105d1394df92016c9ab7b4&t=1682498686",
+      CompanyName: "小税宝有限公司（样版）",
+      BusinessScope: "  小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
+      UserName: "小税宝",
+      Title: "产品经理",
+      HandPhone: "123456",
+      WeChat: "123456",
+      Email: "123456@163.com",
+      Telephone: "0755-12345678",
+      Website: "www.123456.com",
+      Address: "广东省深圳市南山区粤海街道",
     },
     adddate: "",
     updatedate: ""
@@ -89,55 +90,10 @@ Page({
   },
 
   // 回递名片
-  bvReplyCard(){},
-
-  //发布到企业广场
-  bvPublish(e) {
-    if (this.data.publishstatus == false) {
-      // 首次发布新增记录
-      const db = wx.cloud.database()
-      db.collection('NAMECARD').add({
-        data: {
-          UserId: app.globalData.Guserid,
-          CardInfo: this.data.cardinfo,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
-        },
-        success: res => {
-          this.data.publishstatus = true
-          db.collection('USER').where({
-            UserId: app.globalData.Guserid
-          }).update({
-            data: {
-              ["NameCard.PublishStatus"]: this.data.publishstatus,
-            },
-            success: res => {
-              utils._SuccessToast("名片发布成功")
-            },
-          })
-        },
-      })
-    } else {
-      // 再次发布是更新
-      const db = wx.cloud.database()
-      db.collection('NAMECARD').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          CardInfo: this.data.cardinfo,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
-        },
-        success: res => {
-          utils._SuccessToast("名片发布成功")
-        },
-      })
-    }
+  bvReplyCard() {},
 
 
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -169,18 +125,18 @@ Page({
     } else {
       // 在本人小程序中打开
       console.log("在本人小程序中打开")
-      if (app.globalData.Guserdata.NameCard == undefined) {
+      if (app.globalData.Guserdata == undefined || app.globalData.Guserdata.NameCard == undefined) {
         // 没有名片则展示样本
         console.log("执行了")
         this.setData({
           cardinfo: this.data.sample
         })
-      } else {
         // 有名片展示本人名片
         this.setData({
           cardinfo: app.globalData.Guserdata.NameCard
         })
       }
+
     }
 
   },

@@ -461,7 +461,7 @@
         {
           "name": "",
           "pathName": "pages/promote/namecard",
-          "query": "userid=0000",
+          "query": "",
           "launchMode": "default",
           "scene": null
         },

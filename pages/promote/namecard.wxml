@@ -3,46 +3,46 @@
   <loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
 <!-- 背景层 -->
-<image class="bgimage" src="{{cardinfo.cardbg}}" mode="scaleToFill" />
+<image class="bgimage" src="{{cardinfo.CardBg}}" mode="scaleToFill" />
 <!-- 名片层 -->
 <view class="uplayout">
   <view class="namecard">
-    <view class="companyname">{{cardinfo.companyname}}</view>
+    <view class="companyname">{{cardinfo.CompanyName}}</view>
     <view class="user" style="display:flex; flex-direction:row; justify-content:space-between;align-items:flex-end;">
       <view style="display:flex;flex-direction:column;justify-content:flex-start;">
         <text>\n</text>
-        <view><text class="username">{{cardinfo.username}}</text><text space="emsp" decode='true' class="title"> {{cardinfo.title}}</text></view>
+        <view><text class="username">{{cardinfo.UserName}}</text><text space="emsp" decode='true' class="title"> {{cardinfo.Title}}</text></view>
         <text>\n</text>
-        <view wx:if="{{cardinfo.handphone}}" class="userphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.handphone}}</view>
-        <view wx:if="{{cardinfo.wechat}}" class="wechat">微信：{{cardinfo.wechat}}</view>
-        <view wx:if="{{cardinfo.telephone}}" class="telephone">座机：{{cardinfo.telephone}}</view>
+        <view wx:if="{{cardinfo.HandPhone}}" class="userphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.HandPhone}}</view>
+        <view wx:if="{{cardinfo.WeChat}}" class="wechat">微信：{{cardinfo.WeChat}}</view>
+        <view wx:if="{{cardinfo.Telephone}}" class="telephone">座机：{{cardinfo.Telephone}}</view>
       </view>
-      <image class="companylogo" src="{{cardinfo.companylogo}}"></image>
+      <image class="companylogo" src="{{cardinfo.CompanyLogo}}"></image>
     </view>
     <view>
-      <view wx:if="{{cardinfo.email}}" class="email">邮箱：{{cardinfo.email}}</view>
-      <view wx:if="{{cardinfo.website}}" class="website">网站：{{cardinfo.website}}</view>
-      <view wx:if="{{cardinfo.address}}" class="address">地址：{{cardinfo.address}}</view>
+      <view wx:if="{{cardinfo.Email}}" class="email">邮箱：{{cardinfo.Email}}</view>
+      <view wx:if="{{cardinfo.Website}}" class="website">网站：{{cardinfo.Website}}</view>
+      <view wx:if="{{cardinfo.Address}}" class="address">地址：{{cardinfo.Address}}</view>
     </view>
   </view>
 </view>
-<view wx:if="{{cardinfo.imageview}}" wx:for="{{cardinfo.imageview}}" wx:key="key">
+<view wx:if="{{cardinfo.CardImages}}" wx:for="{{cardinfo.CardImages}}" wx:key="key">
   <image style="display: block" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
-  <view wx:if="{{cardinfo.businessscope}}" style="display:flex;flex-direction:column;justify-content:flex-start;">
+  <view wx:if="{{cardinfo.BusinessScope}}" style="display:flex;flex-direction:column;justify-content:flex-start;">
     <label class="text">企业简介：</label>
-    <text space="emsp" decode='true' class="text">{{cardinfo.businessscope}}</text>
+    <text space="emsp" decode='true' class="text">{{cardinfo.BusinessScope}}</text>
   </view>
   <text>\n</text>
-  <view style="display:flex; flex-direction:row; justify-content:space-between;">
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvEdit">制作</l-button>
-    <view wx:if="{{tempinviterid}}">
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" catchtap='addContact' bind:lintap="bvSave">收存</l-button>
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvReplyCard">回递</l-button>
+
+    <view wx:if="{{tempinviterid}}" style="display:flex; flex-direction:row; justify-content:space-between;">
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">制作</l-button>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="down" icon-color="#3683d6" catchtap='addContact' bind:lintap="bvSave">收存</l-button>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="up" icon-color="#3683d6" bind:lintap="bvReplyCard">回递</l-button>
     </view>
-    <view wx:else>
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">发布</l-button>
-    </view>
+    <view wx:else style="display:flex; flex-direction:row; justify-content:space-between;">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">编辑</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="download" icon-color="#3683d6" bind:lintap="bvReceive">已收名片</l-button>
   </view>
 </view>

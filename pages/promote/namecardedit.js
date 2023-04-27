@@ -7,13 +7,12 @@ Page({
    * 页面的初始数据
    */
   data: {
+    cardinfo:[],
     cardbg: "", //名片背景
     cardbgarray: [], //系统背景
     bgview: "", //自选背景时的临时文件
     imageview: [], //名片其他图片资料的临时文件
     cardimages: [], //名片其他图片资料
-    invitercompanyname: "",
-    inviterusername: "",
     companylogo: [],
     logoview: [], //选择logo时的临时文件
     companyname: "",
@@ -300,8 +299,28 @@ Page({
 
 
   bvView: function (e) {
+    this.data.cardinfo = {
+      ["CardBg"]: this.data.cardbg,
+      ["CompanyLogo"]: this.data.logoview,
+      ["CardImages"]: this.data.imageview,
+      ["UserName"]: this.data.username,
+      ["Title"]: this.data.title,
+      ["WeChat"]: this.data.wechat,
+      ["Email"]: this.data.email,
+      ["Telephone"]: this.data.telephone,
+      ["Website"]: this.data.website,
+      ["HandPhone"]: this.data.handphone,
+      ["CompanyName"]: this.data.companyname,
+      ["Address"]: this.data.address,
+      ["BusinessScope"]: this.data.businessscope,
+      ["KeyWords"]: this.data.keywords,
+      ["Category1"]: this.data.category1,
+      ["Category2"]: this.data.category2,
+      ["Category3"]: this.data.category3,
+    }
+    wx.setStorageSync('NameCard', this.data.cardinfo)
     wx.redirectTo({
-      url: "../promote/namecard"
+      url: "../promote/namecard?type=preview"
     })
   },
   //保存名片信息
@@ -314,9 +333,53 @@ Page({
     let files3=await utils._UploadFiles(this.data.imageview,cloudpath)
   console.log(files1,files2,files3)
     },
+  //发布到企业广场
+  bvPublish(e) {
+    if (this.data.publishstatus == false) {
+      // 首次发布新增记录
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').add({
+        data: {
+          UserId: app.globalData.Guserid,
+          CardInfo: this.data.cardinfo,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success: res => {
+          this.data.publishstatus = true
+          db.collection('USER').where({
+            UserId: app.globalData.Guserid
+          }).update({
+            data: {
+              ["NameCard.PublishStatus"]: this.data.publishstatus,
+            },
+            success: res => {
+              utils._SuccessToast("名片发布成功")
+            },
+          })
+        },
+      })
+    } else {
+      // 再次发布是更新
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').where({
+        UserId: app.globalData.Guserid
+      }).update({
+        data: {
+          CardInfo: this.data.cardinfo,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          })
+        },
+        success: res => {
+          utils._SuccessToast("名片发布成功")
+        },
+      })
+    }
+  },
 
-
-  //保存名片信息
+  //暂存名片信息
  async bvSave(e) {
   let cloudpath = 'namecard/' + app.globalData.Guserid + '/cardbg'
   let files1=await utils._UploadFiles(this.data.bgview,cloudpath)
@@ -326,7 +389,7 @@ cloudpath = 'namecard/' + app.globalData.Guserid + '/cardimages'
   let files3=await utils._UploadFiles(this.data.imageview,cloudpath)
 console.log(files1,files2,files3)
 
-    var cardinfo = {
+    this.data.cardinfo = {
       ["CardBg"]: files1,
       ["CompanyLogo"]: files2,
       ["CardImages"]: files3,
