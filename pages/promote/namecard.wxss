@@ -21,6 +21,10 @@
 
 .user {
   width: 690rpx;
+  display:flex; 
+  flex-direction:row;
+  align-items:flex-end;
+  justify-content:space-between;
   margin-left: 0rpx;
   margin-right: 0rpx;
   padding-left: 0rpx;
@@ -52,7 +56,7 @@
   color: rgb(0, 0, 0);
 }
 
-.userphone {
+.handphone {
   font-size: 32rpx;
   color: rgb(0, 0, 0);
 }

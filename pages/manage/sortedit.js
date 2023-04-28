@@ -118,10 +118,6 @@ const ProductSortArray = [{
             "Category3Code": "03",
             "Category3Name": "浙江托管",
           },
-          {
-            "Category3Code": "04",
-            "Category3Name": "河南托管",
-          },
         ]
       },
     ]
@@ -1240,66 +1236,135 @@ const BusinessSortArray = [{
     "Category2Array": [{
         "Category2Code": "54",
         "Category2Name": "道路运输业",
-        "Category3Array": [{'Category3Code': '541','Category3Name': '城市公共交通运输',},
-        {'Category3Code': '542','Category3Name': '公路旅客运输',},
-        {'Category3Code': '543','Category3Name': '道路货物运输',},
-        {'Category3Code': '544','Category3Name': '道路运输辅助活动',},
-        
+        "Category3Array": [{
+            'Category3Code': '541',
+            'Category3Name': '城市公共交通运输',
+          },
+          {
+            'Category3Code': '542',
+            'Category3Name': '公路旅客运输',
+          },
+          {
+            'Category3Code': '543',
+            'Category3Name': '道路货物运输',
+          },
+          {
+            'Category3Code': '544',
+            'Category3Name': '道路运输辅助活动',
+          },
+
         ]
       },
       {
         "Category2Code": "55",
         "Category2Name": "水上运输业",
-        "Category3Array": [{'Category3Code': '551','Category3Name': '水上旅客运输',},
-        {'Category3Code': '552','Category3Name': '水上货物运输',},
-        {'Category3Code': '553','Category3Name': '水上运输辅助活动',},
-       
+        "Category3Array": [{
+            'Category3Code': '551',
+            'Category3Name': '水上旅客运输',
+          },
+          {
+            'Category3Code': '552',
+            'Category3Name': '水上货物运输',
+          },
+          {
+            'Category3Code': '553',
+            'Category3Name': '水上运输辅助活动',
+          },
+
         ]
       },
       {
         "Category2Code": "56",
         "Category2Name": "航空运输业",
-        "Category3Array": [{'Category3Code': '561','Category3Name': '航空客货运输',},
-        {'Category3Code': '562','Category3Name': '通用航空服务',},
-        {'Category3Code': '563','Category3Name': '航空运输辅助活动',},
-        
+        "Category3Array": [{
+            'Category3Code': '561',
+            'Category3Name': '航空客货运输',
+          },
+          {
+            'Category3Code': '562',
+            'Category3Name': '通用航空服务',
+          },
+          {
+            'Category3Code': '563',
+            'Category3Name': '航空运输辅助活动',
+          },
+
         ]
       },
       {
         "Category2Code": "57",
         "Category2Name": "管道运输业",
-        "Category3Array": [{'Category3Code': '571','Category3Name': '海底管道运输',},
-        {'Category3Code': '572','Category3Name': '陆地管道运输',},
-        
+        "Category3Array": [{
+            'Category3Code': '571',
+            'Category3Name': '海底管道运输',
+          },
+          {
+            'Category3Code': '572',
+            'Category3Name': '陆地管道运输',
+          },
+
         ]
       },
       {
         "Category2Code": "58",
         "Category2Name": "多式联运和运输代理业",
-        "Category3Array": [{'Category3Code': '581','Category3Name': '多式联运',},
-        {'Category3Code': '582','Category3Name': '运输代理业',},
-        
+        "Category3Array": [{
+            'Category3Code': '581',
+            'Category3Name': '多式联运',
+          },
+          {
+            'Category3Code': '582',
+            'Category3Name': '运输代理业',
+          },
+
         ]
       },
       {
         "Category2Code": "59",
         "Category2Name": "装卸搬运和仓储业",
-        "Category3Array": [{'Category3Code': '591','Category3Name': '装卸搬运',},
-        {'Category3Code': '592','Category3Name': '通用仓储',},
-        {'Category3Code': '593','Category3Name': '低温仓储',},
-        {'Category3Code': '594','Category3Name': '危险品仓储',},
-        {'Category3Code': '595','Category3Name': '谷物、棉花等农产品仓储',},
-        {'Category3Code': '596','Category3Name': '中药材仓储',},
-        {'Category3Code': '599','Category3Name': '其他仓储业',},
-        
+        "Category3Array": [{
+            'Category3Code': '591',
+            'Category3Name': '装卸搬运',
+          },
+          {
+            'Category3Code': '592',
+            'Category3Name': '通用仓储',
+          },
+          {
+            'Category3Code': '593',
+            'Category3Name': '低温仓储',
+          },
+          {
+            'Category3Code': '594',
+            'Category3Name': '危险品仓储',
+          },
+          {
+            'Category3Code': '595',
+            'Category3Name': '谷物、棉花等农产品仓储',
+          },
+          {
+            'Category3Code': '596',
+            'Category3Name': '中药材仓储',
+          },
+          {
+            'Category3Code': '599',
+            'Category3Name': '其他仓储业',
+          },
+
         ]
       },
       {
         "Category2Code": "60",
         "Category2Name": "邮政业",
-        "Category3Array": [{'Category3Code': '602','Category3Name': '快递服务',},
-        {'Category3Code': '609','Category3Name': '其他寄递服务',},
-       
+        "Category3Array": [{
+            'Category3Code': '602',
+            'Category3Name': '快递服务',
+          },
+          {
+            'Category3Code': '609',
+            'Category3Name': '其他寄递服务',
+          },
+
         ]
       },
     ]
@@ -1310,22 +1375,52 @@ const BusinessSortArray = [{
     "Category2Array": [{
         "Category2Code": "61",
         "Category2Name": "住宿业",
-        "Category3Array": [{'Category3Code': '611','Category3Name': '旅游饭店',},
-        {'Category3Code': '612','Category3Name': '一般旅馆',},
-        {'Category3Code': '613','Category3Name': '民宿服务',},
-        {'Category3Code': '614','Category3Name': '露营地服务',},
-        {'Category3Code': '619','Category3Name': '其他住宿业',},
-         ]
+        "Category3Array": [{
+            'Category3Code': '611',
+            'Category3Name': '旅游饭店',
+          },
+          {
+            'Category3Code': '612',
+            'Category3Name': '一般旅馆',
+          },
+          {
+            'Category3Code': '613',
+            'Category3Name': '民宿服务',
+          },
+          {
+            'Category3Code': '614',
+            'Category3Name': '露营地服务',
+          },
+          {
+            'Category3Code': '619',
+            'Category3Name': '其他住宿业',
+          },
+        ]
       },
       {
         "Category2Code": "62",
         "Category2Name": "餐饮业",
-        "Category3Array": [{'Category3Code': '621','Category3Name': '正餐服务',},
-        {'Category3Code': '622','Category3Name': '快餐服务',},
-        {'Category3Code': '623','Category3Name': '饮料及冷饮服务',},
-        {'Category3Code': '624','Category3Name': '餐饮配送及外卖送餐服务',},
-        {'Category3Code': '629','Category3Name': '其他餐饮业',},
-        
+        "Category3Array": [{
+            'Category3Code': '621',
+            'Category3Name': '正餐服务',
+          },
+          {
+            'Category3Code': '622',
+            'Category3Name': '快餐服务',
+          },
+          {
+            'Category3Code': '623',
+            'Category3Name': '饮料及冷饮服务',
+          },
+          {
+            'Category3Code': '624',
+            'Category3Name': '餐饮配送及外卖送餐服务',
+          },
+          {
+            'Category3Code': '629',
+            'Category3Name': '其他餐饮业',
+          },
+
         ]
       },
     ]
@@ -1336,35 +1431,86 @@ const BusinessSortArray = [{
     "Category2Array": [{
         "Category2Code": "63",
         "Category2Name": "电信、广播电视和卫星传输服务",
-        "Category3Array": [{'Category3Code': '631','Category3Name': '电信',},
-        {'Category3Code': '632','Category3Name': '广播电视传输服务',},
-        {'Category3Code': '633','Category3Name': '卫星传输服务',},
-         ]
+        "Category3Array": [{
+            'Category3Code': '631',
+            'Category3Name': '电信',
+          },
+          {
+            'Category3Code': '632',
+            'Category3Name': '广播电视传输服务',
+          },
+          {
+            'Category3Code': '633',
+            'Category3Name': '卫星传输服务',
+          },
+        ]
       },
       {
         "Category2Code": "64",
         "Category2Name": "互联网和相关服务",
-        "Category3Array": [{'Category3Code': '641','Category3Name': '互联网接入及相关服务',},
-        {'Category3Code': '642','Category3Name': '互联网信息服务',},
-        {'Category3Code': '643','Category3Name': '互联网平台',},
-        {'Category3Code': '644','Category3Name': '互联网安全服务',},
-        {'Category3Code': '645','Category3Name': '互联网数据服务',},
-        {'Category3Code': '649','Category3Name': '其他互联网服务',},
-        
+        "Category3Array": [{
+            'Category3Code': '641',
+            'Category3Name': '互联网接入及相关服务',
+          },
+          {
+            'Category3Code': '642',
+            'Category3Name': '互联网信息服务',
+          },
+          {
+            'Category3Code': '643',
+            'Category3Name': '互联网平台',
+          },
+          {
+            'Category3Code': '644',
+            'Category3Name': '互联网安全服务',
+          },
+          {
+            'Category3Code': '645',
+            'Category3Name': '互联网数据服务',
+          },
+          {
+            'Category3Code': '649',
+            'Category3Name': '其他互联网服务',
+          },
+
         ]
       },
       {
         "Category2Code": "65",
         "Category2Name": "软件和信息技术服务业",
-        "Category3Array": [{'Category3Code': '651','Category3Name': '软件开发',},
-        {'Category3Code': '652','Category3Name': '集成电路设计',},
-        {'Category3Code': '653','Category3Name': '信息系统集成和物联网技术服务',},
-        {'Category3Code': '654','Category3Name': '运行维护服务',},
-        {'Category3Code': '655','Category3Name': '信息处理和存储支持服务',},
-        {'Category3Code': '656','Category3Name': '信息技术咨询服务',},
-        {'Category3Code': '657','Category3Name': '数字内容服务',},
-        {'Category3Code': '659','Category3Name': '其他信息技术服务业',},
-        
+        "Category3Array": [{
+            'Category3Code': '651',
+            'Category3Name': '软件开发',
+          },
+          {
+            'Category3Code': '652',
+            'Category3Name': '集成电路设计',
+          },
+          {
+            'Category3Code': '653',
+            'Category3Name': '信息系统集成和物联网技术服务',
+          },
+          {
+            'Category3Code': '654',
+            'Category3Name': '运行维护服务',
+          },
+          {
+            'Category3Code': '655',
+            'Category3Name': '信息处理和存储支持服务',
+          },
+          {
+            'Category3Code': '656',
+            'Category3Name': '信息技术咨询服务',
+          },
+          {
+            'Category3Code': '657',
+            'Category3Name': '数字内容服务',
+          },
+          {
+            'Category3Code': '659',
+            'Category3Name': '其他信息技术服务业',
+          },
+
         ]
       },
     ]
@@ -1375,38 +1521,79 @@ const BusinessSortArray = [{
     "Category2Array": [{
         "Category2Code": "66",
         "Category2Name": "货币金融服务",
-        "Category3Array": [{'Category3Code': '663','Category3Name': '非货币银行服务',},
-      ]
+        "Category3Array": [{
+          'Category3Code': '663',
+          'Category3Name': '非货币银行服务',
+        }, ]
       },
       {
         "Category2Code": "67",
         "Category2Name": "资本市场服务",
-        "Category3Array": [{'Category3Code': '671','Category3Name': '证券市场服务',},
-        {'Category3Code': '672','Category3Name': '公开募集证券投资基金',},
-        {'Category3Code': '673','Category3Name': '非公开募集证券投资基金',},
-        {'Category3Code': '676','Category3Name': '资本投资服务',},
-        {'Category3Code': '679','Category3Name': '其他资本市场服务',},
-        
+        "Category3Array": [{
+            'Category3Code': '671',
+            'Category3Name': '证券市场服务',
+          },
+          {
+            'Category3Code': '672',
+            'Category3Name': '公开募集证券投资基金',
+          },
+          {
+            'Category3Code': '673',
+            'Category3Name': '非公开募集证券投资基金',
+          },
+          {
+            'Category3Code': '676',
+            'Category3Name': '资本投资服务',
+          },
+          {
+            'Category3Code': '679',
+            'Category3Name': '其他资本市场服务',
+          },
+
         ]
       },
       {
         "Category2Code": "68",
         "Category2Name": "保险业",
-        "Category3Array": [{'Category3Code': '685','Category3Name': '保险中介服务',},
-        {'Category3Code': '689','Category3Name': '其他保险活动',},
-        
+        "Category3Array": [{
+            'Category3Code': '685',
+            'Category3Name': '保险中介服务',
+          },
+          {
+            'Category3Code': '689',
+            'Category3Name': '其他保险活动',
+          },
+
         ]
       },
       {
         "Category2Code": "69",
         "Category2Name": "其他金融业",
-        "Category3Array": [{'Category3Code': '691','Category3Name': '金融信托与管理服务',},
-        {'Category3Code': '692','Category3Name': '控股公司服务',},
-        {'Category3Code': '693','Category3Name': '非金融机构支付服务',},
-        {'Category3Code': '694','Category3Name': '金融信息服务',},
-        {'Category3Code': '695','Category3Name': '金融资产管理公司',},
-        {'Category3Code': '699','Category3Name': '其他未列明金融业',},
-        
+        "Category3Array": [{
+            'Category3Code': '691',
+            'Category3Name': '金融信托与管理服务',
+          },
+          {
+            'Category3Code': '692',
+            'Category3Name': '控股公司服务',
+          },
+          {
+            'Category3Code': '693',
+            'Category3Name': '非金融机构支付服务',
+          },
+          {
+            'Category3Code': '694',
+            'Category3Name': '金融信息服务',
+          },
+          {
+            'Category3Code': '695',
+            'Category3Name': '金融资产管理公司',
+          },
+          {
+            'Category3Code': '699',
+            'Category3Name': '其他未列明金融业',
+          },
+
         ]
       },
     ]
@@ -1415,44 +1602,94 @@ const BusinessSortArray = [{
     "Category1Code": "K",
     "Category1Name": "房地产业",
     "Category2Array": [{
-        "Category2Code": "70",
-        "Category2Name": "房地产业",
-        "Category3Array": [{'Category3Code': '701','Category3Name': '房地产开发经营',},
-        {'Category3Code': '702','Category3Name': '物业管理',},
-        {'Category3Code': '703','Category3Name': '房地产中介服务',},
-        {'Category3Code': '704','Category3Name': '房地产租赁经营',},
-        {'Category3Code': '709','Category3Name': '其他房地产业',},
-        ]
-      },
-    ]
+      "Category2Code": "70",
+      "Category2Name": "房地产业",
+      "Category3Array": [{
+          'Category3Code': '701',
+          'Category3Name': '房地产开发经营',
+        },
+        {
+          'Category3Code': '702',
+          'Category3Name': '物业管理',
+        },
+        {
+          'Category3Code': '703',
+          'Category3Name': '房地产中介服务',
+        },
+        {
+          'Category3Code': '704',
+          'Category3Name': '房地产租赁经营',
+        },
+        {
+          'Category3Code': '709',
+          'Category3Name': '其他房地产业',
+        },
+      ]
+    }, ]
   },
   {
     "Category1Code": "L",
     "Category1Name": "租赁和商务服务业",
     "Category2Array": [{
-      "Category2Code": "71",
-      "Category2Name": "租赁业",
-      "Category3Array": [{'Category3Code': '711','Category3Name': '机械设备经营租赁',},
-      {'Category3Code': '712','Category3Name': '文体设备和用品出租',},
-      {'Category3Code': '713','Category3Name': '  日用品出租',},
-      
-      ]
-    },
-    {
-      "Category2Code": "72",
-      "Category2Name": "商务服务业",
-      "Category3Array": [{'Category3Code': '721','Category3Name': '组织管理服务',},
-      {'Category3Code': '722','Category3Name': '综合管理服务',},
-      {'Category3Code': '723','Category3Name': '法律服务',},
-      {'Category3Code': '724','Category3Name': '咨询与调查',},
-      {'Category3Code': '725','Category3Name': '广告业',},
-      {'Category3Code': '726','Category3Name': '人力资源服务',},
-      {'Category3Code': '727','Category3Name': '安全保护服务 安全服务',},
-      {'Category3Code': '728','Category3Name': '会议、展览及相关服务',},
-      {'Category3Code': '729','Category3Name': '其他商务服务业',},
-      
-      ]
-    },
+        "Category2Code": "71",
+        "Category2Name": "租赁业",
+        "Category3Array": [{
+            'Category3Code': '711',
+            'Category3Name': '机械设备经营租赁',
+          },
+          {
+            'Category3Code': '712',
+            'Category3Name': '文体设备和用品出租',
+          },
+          {
+            'Category3Code': '713',
+            'Category3Name': '  日用品出租',
+          },
+
+        ]
+      },
+      {
+        "Category2Code": "72",
+        "Category2Name": "商务服务业",
+        "Category3Array": [{
+            'Category3Code': '721',
+            'Category3Name': '组织管理服务',
+          },
+          {
+            'Category3Code': '722',
+            'Category3Name': '综合管理服务',
+          },
+          {
+            'Category3Code': '723',
+            'Category3Name': '法律服务',
+          },
+          {
+            'Category3Code': '724',
+            'Category3Name': '咨询与调查',
+          },
+          {
+            'Category3Code': '725',
+            'Category3Name': '广告业',
+          },
+          {
+            'Category3Code': '726',
+            'Category3Name': '人力资源服务',
+          },
+          {
+            'Category3Code': '727',
+            'Category3Name': '安全保护服务 安全服务',
+          },
+          {
+            'Category3Code': '728',
+            'Category3Name': '会议、展览及相关服务',
+          },
+          {
+            'Category3Code': '729',
+            'Category3Name': '其他商务服务业',
+          },
+
+        ]
+      },
     ]
   },
 
@@ -1462,32 +1699,74 @@ const BusinessSortArray = [{
     "Category2Array": [{
         "Category2Code": "73",
         "Category2Name": "研究和试验发展",
-        "Category3Array": [{'Category3Code': '731','Category3Name': '自然科学研究和试验发展',},
-        {'Category3Code': '732','Category3Name': '工程和技术研究和试验发展',},
-        {'Category3Code': '733','Category3Name': '农业科学研究和试验发展',},
-        {'Category3Code': '734','Category3Name': '医学研究和试验发展',},
-        {'Category3Code': '735','Category3Name': '社会人文科学研究',},
+        "Category3Array": [{
+            'Category3Code': '731',
+            'Category3Name': '自然科学研究和试验发展',
+          },
+          {
+            'Category3Code': '732',
+            'Category3Name': '工程和技术研究和试验发展',
+          },
+          {
+            'Category3Code': '733',
+            'Category3Name': '农业科学研究和试验发展',
+          },
+          {
+            'Category3Code': '734',
+            'Category3Name': '医学研究和试验发展',
+          },
+          {
+            'Category3Code': '735',
+            'Category3Name': '社会人文科学研究',
+          },
         ]
       },
       {
         "Category2Code": "74",
         "Category2Name": "专业技术服务业",
-        "Category3Array": [{'Category3Code': '745','Category3Name': '质检技术服务',},
-        {'Category3Code': '746','Category3Name': '环境与生态监测检测服务',},
-        {'Category3Code': '748','Category3Name': '工程技术与设计服务',},
-        {'Category3Code': '749','Category3Name': '工业与专业设计及其他专业技术服务',},
-        
+        "Category3Array": [{
+            'Category3Code': '745',
+            'Category3Name': '质检技术服务',
+          },
+          {
+            'Category3Code': '746',
+            'Category3Name': '环境与生态监测检测服务',
+          },
+          {
+            'Category3Code': '748',
+            'Category3Name': '工程技术与设计服务',
+          },
+          {
+            'Category3Code': '749',
+            'Category3Name': '工业与专业设计及其他专业技术服务',
+          },
+
         ]
       },
       {
         "Category2Code": "75",
         "Category2Name": "科技推广和应用服务业",
-        "Category3Array": [{'Category3Code': '751','Category3Name': '技术推广服务',},
-        {'Category3Code': '752','Category3Name': '知识产权服务',},
-        {'Category3Code': '753','Category3Name': '科技中介服务',},
-        {'Category3Code': '754','Category3Name': '创业空间服务',},
-        {'Category3Code': '759','Category3Name': '其他科技推广服务业',},
-        
+        "Category3Array": [{
+            'Category3Code': '751',
+            'Category3Name': '技术推广服务',
+          },
+          {
+            'Category3Code': '752',
+            'Category3Name': '知识产权服务',
+          },
+          {
+            'Category3Code': '753',
+            'Category3Name': '科技中介服务',
+          },
+          {
+            'Category3Code': '754',
+            'Category3Name': '创业空间服务',
+          },
+          {
+            'Category3Code': '759',
+            'Category3Name': '其他科技推广服务业',
+          },
+
         ]
       },
     ]
@@ -1498,34 +1777,82 @@ const BusinessSortArray = [{
     "Category2Array": [{
         "Category2Code": "80",
         "Category2Name": "居民服务业",
-        "Category3Array": [{'Category3Code': '801','Category3Name': '家庭服务',},
-        {'Category3Code': '802','Category3Name': '托儿所服务',},
-        {'Category3Code': '803','Category3Name': '洗染服务',},
-        {'Category3Code': '804','Category3Name': '理发及美容服务',},
-        {'Category3Code': '805','Category3Name': '洗浴和保健养生服务',},
-        {'Category3Code': '806','Category3Name': '摄影扩印服务',},
-        {'Category3Code': '807','Category3Name': '婚姻服务',},
-        {'Category3Code': '808','Category3Name': '殡葬服务',},
-        {'Category3Code': '809','Category3Name': '其他居民服务业',},
-         ]
+        "Category3Array": [{
+            'Category3Code': '801',
+            'Category3Name': '家庭服务',
+          },
+          {
+            'Category3Code': '802',
+            'Category3Name': '托儿所服务',
+          },
+          {
+            'Category3Code': '803',
+            'Category3Name': '洗染服务',
+          },
+          {
+            'Category3Code': '804',
+            'Category3Name': '理发及美容服务',
+          },
+          {
+            'Category3Code': '805',
+            'Category3Name': '洗浴和保健养生服务',
+          },
+          {
+            'Category3Code': '806',
+            'Category3Name': '摄影扩印服务',
+          },
+          {
+            'Category3Code': '807',
+            'Category3Name': '婚姻服务',
+          },
+          {
+            'Category3Code': '808',
+            'Category3Name': '殡葬服务',
+          },
+          {
+            'Category3Code': '809',
+            'Category3Name': '其他居民服务业',
+          },
+        ]
       },
       {
         "Category2Code": "81",
         "Category2Name": "机动车、电子产品和日用产品修理业",
-        "Category3Array": [{'Category3Code': '811','Category3Name': '汽车、摩托车等修理与维护',},
-        {'Category3Code': '812','Category3Name': '计算机和办公设备维修',},
-        {'Category3Code': '813','Category3Name': '家用电器修理',},
-        {'Category3Code': '819','Category3Name': '其他日用产品修理业',},
-        
+        "Category3Array": [{
+            'Category3Code': '811',
+            'Category3Name': '汽车、摩托车等修理与维护',
+          },
+          {
+            'Category3Code': '812',
+            'Category3Name': '计算机和办公设备维修',
+          },
+          {
+            'Category3Code': '813',
+            'Category3Name': '家用电器修理',
+          },
+          {
+            'Category3Code': '819',
+            'Category3Name': '其他日用产品修理业',
+          },
+
         ]
       },
       {
         "Category2Code": "82",
         "Category2Name": "其他服务业",
-        "Category3Array": [{'Category3Code': '821','Category3Name': '清洁服务',},
-        {'Category3Code': '822','Category3Name': '宠物服务',},
-        {'Category3Code': '829','Category3Name': '其他未列明服务业',},
-        
+        "Category3Array": [{
+            'Category3Code': '821',
+            'Category3Name': '清洁服务',
+          },
+          {
+            'Category3Code': '822',
+            'Category3Name': '宠物服务',
+          },
+          {
+            'Category3Code': '829',
+            'Category3Name': '其他未列明服务业',
+          },
+
         ]
       },
     ]
@@ -1534,17 +1861,34 @@ const BusinessSortArray = [{
     "Category1Code": "P",
     "Category1Name": "教育",
     "Category2Array": [{
-        "Category2Code": "83",
-        "Category2Name": "教育",
-        "Category3Array": [{'Category3Code': '831','Category3Name': '学前教育',},
-        {'Category3Code': '832','Category3Name': '初等教育',},
-        {'Category3Code': '833','Category3Name': '中等教育',},
-        {'Category3Code': '834','Category3Name': '高等教育',},
-        {'Category3Code': '835','Category3Name': '特殊教育',},
-        {'Category3Code': '839','Category3Name': '技能培训、教育辅助及其他教育',},
-         ]
-      },
-    ]
+      "Category2Code": "83",
+      "Category2Name": "教育",
+      "Category3Array": [{
+          'Category3Code': '831',
+          'Category3Name': '学前教育',
+        },
+        {
+          'Category3Code': '832',
+          'Category3Name': '初等教育',
+        },
+        {
+          'Category3Code': '833',
+          'Category3Name': '中等教育',
+        },
+        {
+          'Category3Code': '834',
+          'Category3Name': '高等教育',
+        },
+        {
+          'Category3Code': '835',
+          'Category3Name': '特殊教育',
+        },
+        {
+          'Category3Code': '839',
+          'Category3Name': '技能培训、教育辅助及其他教育',
+        },
+      ]
+    }, ]
   },
   {
     "Category1Code": "R",
@@ -1552,57 +1896,138 @@ const BusinessSortArray = [{
     "Category2Array": [{
         "Category2Code": "86",
         "Category2Name": "新闻和出版业",
-        "Category3Array": [{'Category3Code': '861','Category3Name': '新闻业',},
-        {'Category3Code': '862','Category3Name': '出版业',},
+        "Category3Array": [{
+            'Category3Code': '861',
+            'Category3Name': '新闻业',
+          },
+          {
+            'Category3Code': '862',
+            'Category3Name': '出版业',
+          },
         ]
       },
       {
         "Category2Code": "87",
         "Category2Name": "广播、电视、电影和录音制作业",
-        "Category3Array": [{'Category3Code': '871','Category3Name': '广播',},
-        {'Category3Code': '872','Category3Name': '电视',},
-        {'Category3Code': '873','Category3Name': '影视节目制作',},
-        {'Category3Code': '874','Category3Name': '广播电视集成播控',},
-        {'Category3Code': '875','Category3Name': '电影和广播电视节目发行',},
-        {'Category3Code': '876','Category3Name': '电影放映',},
-        {'Category3Code': '877','Category3Name': '录音制作',},
-        
+        "Category3Array": [{
+            'Category3Code': '871',
+            'Category3Name': '广播',
+          },
+          {
+            'Category3Code': '872',
+            'Category3Name': '电视',
+          },
+          {
+            'Category3Code': '873',
+            'Category3Name': '影视节目制作',
+          },
+          {
+            'Category3Code': '874',
+            'Category3Name': '广播电视集成播控',
+          },
+          {
+            'Category3Code': '875',
+            'Category3Name': '电影和广播电视节目发行',
+          },
+          {
+            'Category3Code': '876',
+            'Category3Name': '电影放映',
+          },
+          {
+            'Category3Code': '877',
+            'Category3Name': '录音制作',
+          },
+
         ]
       },
       {
         "Category2Code": "88",
         "Category2Name": "文化艺术业",
-        "Category3Array": [{'Category3Code': '881','Category3Name': '文艺创作与表演',},
-        {'Category3Code': '882','Category3Name': '艺术表演场馆',},
-        {'Category3Code': '883','Category3Name': '图书馆与档案馆',},
-        {'Category3Code': '884','Category3Name': '文物及非物质文化遗产保护',},
-        {'Category3Code': '885','Category3Name': '博物馆',},
-        {'Category3Code': '886','Category3Name': '烈士陵园、纪念馆',},
-        {'Category3Code': '887','Category3Name': '群众文体活动',},
-        {'Category3Code': '889','Category3Name': '其他文化艺术业',},
-        
+        "Category3Array": [{
+            'Category3Code': '881',
+            'Category3Name': '文艺创作与表演',
+          },
+          {
+            'Category3Code': '882',
+            'Category3Name': '艺术表演场馆',
+          },
+          {
+            'Category3Code': '883',
+            'Category3Name': '图书馆与档案馆',
+          },
+          {
+            'Category3Code': '884',
+            'Category3Name': '文物及非物质文化遗产保护',
+          },
+          {
+            'Category3Code': '885',
+            'Category3Name': '博物馆',
+          },
+          {
+            'Category3Code': '886',
+            'Category3Name': '烈士陵园、纪念馆',
+          },
+          {
+            'Category3Code': '887',
+            'Category3Name': '群众文体活动',
+          },
+          {
+            'Category3Code': '889',
+            'Category3Name': '其他文化艺术业',
+          },
+
         ]
       },
       {
         "Category2Code": "89",
         "Category2Name": "体育",
-        "Category3Array": [{'Category3Code': '891','Category3Name': '体育组织',},
-        {'Category3Code': '892','Category3Name': '体育场地设施管理',},
-        {'Category3Code': '893','Category3Name': '健身休闲活动',},
-        {'Category3Code': '899','Category3Name': '其他体育',},
-        
+        "Category3Array": [{
+            'Category3Code': '891',
+            'Category3Name': '体育组织',
+          },
+          {
+            'Category3Code': '892',
+            'Category3Name': '体育场地设施管理',
+          },
+          {
+            'Category3Code': '893',
+            'Category3Name': '健身休闲活动',
+          },
+          {
+            'Category3Code': '899',
+            'Category3Name': '其他体育',
+          },
+
         ]
       },
       {
         "Category2Code": "90",
         "Category2Name": "娱乐业",
-        "Category3Array": [{'Category3Code': '901','Category3Name': '室内娱乐活动',},
-        {'Category3Code': '902','Category3Name': '游乐园',},
-        {'Category3Code': '903','Category3Name': '休闲观光活动',},
-        {'Category3Code': '904','Category3Name': '彩票活动',},
-        {'Category3Code': '905','Category3Name': '文化体育娱乐活动与经纪代理服务 文化活动服务',},
-        {'Category3Code': '909','Category3Name': '其他娱乐业',},
-        
+        "Category3Array": [{
+            'Category3Code': '901',
+            'Category3Name': '室内娱乐活动',
+          },
+          {
+            'Category3Code': '902',
+            'Category3Name': '游乐园',
+          },
+          {
+            'Category3Code': '903',
+            'Category3Name': '休闲观光活动',
+          },
+          {
+            'Category3Code': '904',
+            'Category3Name': '彩票活动',
+          },
+          {
+            'Category3Code': '905',
+            'Category3Name': '文化体育娱乐活动与经纪代理服务 文化活动服务',
+          },
+          {
+            'Category3Code': '909',
+            'Category3Name': '其他娱乐业',
+          },
+
         ]
       },
     ]
@@ -1622,8 +2047,11 @@ Page({
 
 
   ProductSortUpdate() {
+    // 数据库的设置不是管理员本人所以需要用云函数更新
     wx.cloud.callFunction({
+      // 云函数名称
       name: 'MeetingRoomSetting',
+      // 传给云函数的参数
       data: {
         key1: "ProductSort",
         value1: ProductSortArray,

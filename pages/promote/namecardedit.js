@@ -319,9 +319,7 @@ Page({
       ["Category3"]: this.data.category3,
     }
     wx.setStorageSync('NameCard', this.data.cardinfo)
-    wx.redirectTo({
-      url: "../promote/namecard?type=preview"
-    })
+
   },
   //保存名片信息
   async bvUpdate(e) {
@@ -333,6 +331,7 @@ Page({
     let files3=await utils._UploadFiles(this.data.imageview,cloudpath)
   console.log(files1,files2,files3)
     },
+
   //发布到企业广场
   bvPublish(e) {
     if (this.data.publishstatus == false) {
@@ -521,7 +520,7 @@ console.log(files1,files2,files3)
       console.log(res.target)
     }
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      title: '这是我的名片，请您多关照！',
       path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {

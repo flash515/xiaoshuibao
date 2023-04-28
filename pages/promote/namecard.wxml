@@ -8,12 +8,12 @@
 <view class="uplayout">
   <view class="namecard">
     <view class="companyname">{{cardinfo.CompanyName}}</view>
-    <view class="user" style="display:flex; flex-direction:row; justify-content:space-between;align-items:flex-end;">
+    <view class="user">
       <view style="display:flex;flex-direction:column;justify-content:flex-start;">
         <text>\n</text>
         <view><text class="username">{{cardinfo.UserName}}</text><text space="emsp" decode='true' class="title"> {{cardinfo.Title}}</text></view>
         <text>\n</text>
-        <view wx:if="{{cardinfo.HandPhone}}" class="userphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.HandPhone}}</view>
+        <view wx:if="{{cardinfo.HandPhone}}" class="handphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.HandPhone}}</view>
         <view wx:if="{{cardinfo.WeChat}}" class="wechat">微信：{{cardinfo.WeChat}}</view>
         <view wx:if="{{cardinfo.Telephone}}" class="telephone">座机：{{cardinfo.Telephone}}</view>
       </view>

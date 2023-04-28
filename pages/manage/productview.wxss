@@ -31,3 +31,9 @@ height: 100px;}
   background-color:gainsboro;
 
 }
+.line {
+  margin-left: 0rpx;
+  margin-right: 0rpx;
+  height: 0.5px;
+  background-color: #f3f3f3;
+}

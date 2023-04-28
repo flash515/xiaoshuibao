@@ -57,7 +57,7 @@ Page({
   bvEditProduct(e) {
     console.log(e.currentTarget.dataset.id);
     wx.navigateTo({
-      url: '../manage/productedit?_id=' + e.currentTarget.dataset.id
+      url: '../manage/productedit?id=' + e.currentTarget.dataset.id
     })
   },
   bvSortChange(e) {

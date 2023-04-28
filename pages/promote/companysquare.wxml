@@ -6,46 +6,55 @@
 <view class="mainframe">
   <!-- 搜索栏 -->
   <view>
-    <l-search-bar placeholder="模糊搜索办理地、服务类型、服务状态" bind:linconfirm="onSearch" />
+    <l-search-bar placeholder="关键词搜索" bind:linconfirm="onSearch" />
   </view>
   <text>\n</text>
-  <text>已保存的图文资讯</text>
+  <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
+    <label class="label">行业分类搜索：</label>
+  </view>
+  <view>
+    <view class="sortinput" bindtap="getbox" wx:if="{{inputShow}}" style="color: #999;">【{{category1name}}】 / 【{{category2name}}】 / 【{{category3name}}】</view>
+    <view class="sortinput" bindtap="getbox" wx:if="{{!inputShow}}">【{{category1}}】 / 【{{category2}}】 / 【{{category3}}】</view>
+    <!-- 三级分类弹框 -->
+    <view class="box" wx:if="{{boxShow}}">
+      <!-- 阴影 -->
+      <view class="black" bindtap="hidebox"></view>
+      <!-- 内容 -->
+      <view class="nr">
+        <view class="item">
+          <l-button plain="{{true}}" bind:lintap="hidebox">取消</l-button>
+          <l-button bg-color="#06c05f" bind:lintap="confirm">确认</l-button>
+        </view>
+        <view style="display:flex;width: 100%;height: 300rpx;">
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center;" value="{{pIndex}}" bindchange="changeCategory1">
+            <picker-view-column>
+              <view wx:for="{{businesssortarray}}" wx:key="Category1Name" style="line-height: 100rpx;">{{item.Category1Name}}</view>
+            </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center" value="{{cIndex}}" bindchange="changeCategory2">
+            <picker-view-column>
+              <view wx:for="{{businesssortarray[pIndex].Category2Array}}" wx:key="Category2Name" style="line-height: 100rpx">{{item.Category2Name}}</view>
+            </picker-view-column>
+          </picker-view>
+          <picker-view indicator-style="height: 100rpx;" style="width: 100%;height: 300rpx;font-size: 28rpx; text-align: center" value="{{aIndex}}" bindchange="changeCategory3">
+            <picker-view-column>
+              <view wx:for="{{businesssortarray[pIndex].Category2Array[cIndex].Category3Array}}" wx:key="Category3Name" style="line-height: 100rpx">{{item.Category3Name}}</view>
+            </picker-view-column>
+          </picker-view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <text>已发布的名片</text>
   <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
     <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
-        <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
-          <block wx:for="{{infoshares}}" wx:key="key">
-            <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infoshares[index]}}" l-class="radio">
-              <text>{{infoshares[index].InfoTitle}}</text>
-            </l-radio>
-          </block>
-        </l-radio-group>
-        <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvEdit">编辑</l-button>
+      <l-radio-group placement="column" bind:linchange="bvNameCardSelect">
+        <block wx:for="{{namecards}}" wx:key="key">
+          <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{namecards[index]}}" l-class="radio">
+            <text>{{namecards[index].CompanyName}}</text>
+          </l-radio>
+        </block>
+      </l-radio-group>
     </view>
-      </scroll-view>
-  <!-- 使用 sidebar-data 自定义索引内容 -->
-  <l-index-list sidebar-data="{{sidebarData}}" bind:linselected="onSelected" scroll-top="{{scrollTop}}">
-
-    <!-- 使用插槽自定义 Tip -->
-    <view slot="tip">
-      <view>{{indexText}}</view>
-    </view>
-
-    <view>
-      <!-- 使用插槽自定义 Anchor -->
-      <l-index-anchor>
-        <view>热门</view>
-      </l-index-anchor>
-
-      <view>鞍山</view>
-      <view>安庆</view>
-      <view>安阳</view>
-    </view>
-
-    <view>
-      <l-index-anchor>B</l-index-anchor>
-      <view>鞍山</view>
-      <view>安庆</view>
-      <view>安阳</view>
-    </view>
-  </l-index-list>
+  </scroll-view>
 </view>

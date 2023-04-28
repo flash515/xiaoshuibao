@@ -1,5 +1,5 @@
 const app = getApp()
-
+var utils = require("../../utils/utils")
 Page({
   data: {
     x: 0,
@@ -307,21 +307,13 @@ Page({
         status: "在售",
         onsalechecked: true
       })
-      wx.showToast({
-        title: '已开启在售开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._SuccessToast("已开启在售开关")
     } else {
       this.setData({
         status: "停售",
         onsalechecked: false
       })
-      wx.showToast({
-        title: '已关闭在售开关',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._SuccessToast("已关闭在售开关")
     }
   },
 
@@ -487,23 +479,15 @@ Page({
     let that = this
     // 判断商品id是否空值
     if (this.data.productname == "" || this.data.productname == null) {
-      wx.showToast({
-        title: "商品名称不能为空",
-        icon: 'none',
-        duration: 2000
-      })
+      utils._ErrorToast("商品名称不能为空")
     } else {
       // 判断是否重复提交
       if (this.data.imageuploadlock) {
         // 锁定时很执行
-        wx.showToast({
-          title: '请勿重复提交',
-          icon: 'none',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请勿重复提交")
       } else {
         if (this.data.productview.length == 0) {
-          this.data.attachmentimage = []
+          this.data.productimage = []
         } else {
           for (let i = 0; i < this.data.productview.length; i++) {
             const filePath = this.data.productview[i]
@@ -514,11 +498,12 @@ Page({
               success: res => {
                 console.log("fileID", res.fileID)
                 this.data.productimage = this.data.productimage.concat(res.fileID)
-                this.data.imageuploadlock = true // 修改上传状态为锁定
               }
             })
           }
-
+          this.setData({
+            imageuploadlock: true // 修改上传状态为锁定
+          })
         }
 
         console.log("productimage", that.data.productimage)
@@ -574,20 +559,13 @@ Page({
   bvUploadFile(e) {
     // 判断individualname是否空值
     if (this.data.productname == "" || this.data.productname == null) {
-      wx.showToast({
-        title: "请先填写商品编号后再尝试上传资料",
-        icon: 'none',
-        duration: 2000
-      })
+      utils._ErrorToast("商品名称不能空")
     } else {
       // 判断是否重复提交
       if (this.data.fileuploadlock) {
         // 锁定时很执行
-        wx.showToast({
-          title: '请勿重复提交',
-          icon: 'none',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("请勿重复提交")
+
       } else {
         for (let i = 0; i < this.data.tempFilePaths.length; i++) {
           const filePath = this.data.tempFilePaths[i].path
@@ -606,11 +584,7 @@ Page({
               }
               // 构建数组并合并起来
               this.data.attachmentfile.push(obj)
-              wx.showToast({
-                title: this.data.tempFilePaths[i].name + '上传成功',
-                icon: 'none',
-                duration: 2000 //持续的时间
-              })
+              utils._SuccessToast("上传成功")
               this.data.fileuploadlock = true // 修改上传状态为锁定
             },
             complete: res => {
@@ -645,11 +619,7 @@ Page({
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
-      wx.showToast({
-        title: '请勿重复提交',
-        icon: 'none',
-        duration: 2000 //持续的时间
-      })
+      utils._ErrorToast("请勿重复提交")
     } else {
       // 未锁定时执行
       // 获取数据库引用
@@ -657,7 +627,9 @@ Page({
       // 新增数据
       db.collection("PRODUCT").add({
           data: {
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+            AddDate: new Date().toLocaleString('chinese', {
+              hour12: false
+            }),
             Status: this.data.status,
             ProductName: this.data.productname,
             Outline: this.data.outline,
@@ -693,19 +665,11 @@ Page({
           },
           success: res => {
             console.log('新增数据成功', res)
-            wx.showToast({
-              title: '新增数据成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
+            utils._SuccessToast("新增数据成功")
           },
           fail: res => {
             console.log("新增数据失败", res)
-            wx.showToast({
-              title: '新增数据失败',
-              icon: 'fail',
-              duration: 2000 //持续的时间
-            })
+            utils._ErrorToast("新增数据失败")
           }
         }),
         // 以上新增数据结束
@@ -751,15 +715,13 @@ Page({
         ProductImage: this.data.productimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
-        UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
+        UpdateDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        })
       },
       success: res => {
         console.log('更新数据成功', res)
-        wx.showToast({
-          title: '更新数据成功',
-          icon: 'success',
-          duration: 2000 //持续的时间
-        })
+        utils._SuccessToast("更新数据成功")
         // 更新成功后再次云函数查询商品并存入本地
         wx.cloud.callFunction({
           name: "NormalQuery",
@@ -782,11 +744,7 @@ Page({
       },
       fail: res => {
         console.log("更新数据失败", res)
-        wx.showToast({
-          title: '更新数据失败',
-          icon: 'fail',
-          duration: 2000 //持续的时间
-        })
+        utils._ErrorToast("更新数据失败")
       }
     })
     // 以上更新数据结束
@@ -798,11 +756,11 @@ Page({
     //页面初始化 options为页面跳转所带来的参数
     console.log(options)
     this.setData({
-      recordid: options._id,
+      recordid: options.id,
       sortarray: app.globalData.Gsetting.ProductSort,
     })
 
-    if (options._id != undefined && options._id != "") {
+    if (options.id != undefined && options.id != "") {
       // 筛选指定记录,此处数据范围是之前根据admin身份获取的全部产品数据，供应伙伴页面应缩小范围为本人提交产品
       var fliter = [];
       // var _this = this
@@ -813,7 +771,6 @@ Page({
       }
       console.log(fliter);
       this.setData({
-        productdetail: fliter,
         recordid: fliter[0]._id,
         adddate: fliter[0].AddDate,
         status: fliter[0].Status,
@@ -848,8 +805,9 @@ Page({
         score: fliter[0].Score,
         updatedate: fliter[0].UpdateDate,
         productview: fliter[0].ProductImage,
+        productimage:fliter[0].ProductImage,
         attachmentfile: fliter[0].AttachmentFile,
-        username: fliter[0].UserId,
+        user: fliter[0]._openid,
       })
     }
   },

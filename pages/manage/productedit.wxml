@@ -39,7 +39,7 @@
 
   </view>
   <view>
-    <input class="input" bindinput="bvProductName" bindfocus="bvProductName" placeholder="商品名称不超12个字" maxlength="12" value="{{productname}}" />
+    <input class="input" bindblur="bvProductName" bindfocus="bvProductName" placeholder="商品名称不超12个字" maxlength="12" value="{{productname}}" />
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -83,7 +83,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" name="outline" bindblur="bvOutline" value="{{outline}}"></l-textarea>
+    <l-textarea type="text" bind:linblur="bvOutline" value="{{outline}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -166,7 +166,7 @@
 
   </view>
   <view>
-    <input class="input" pleaceholder="" bindinput="bvIssuedBy" value="{{issuedby}}"></input>
+    <input class="input" pleaceholder="" bindblur="bvIssuedBy" value="{{issuedby}}"></input>
   </view>
 
 
@@ -175,7 +175,7 @@
 
   </view>
   <view>
-    <input class="input" bindinput="bvProcessingTime" value="{{processingtime}}"></input>
+    <input class="input" bindblur="bvProcessingTime" value="{{processingtime}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -183,7 +183,7 @@
 
   </view>
   <view>
-    <input class="input" bindinput="bvProvider" value="{{provider}}"></input>
+    <input class="input" bindblur="bvProvider" value="{{provider}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -191,7 +191,7 @@
 
   </view>
   <view>
-    <input class="input" bindinput="bvProviderPrice" value="{{providerprice}}"></input>
+    <input class="input" bindblur="bvProviderPrice" value="{{providerprice}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -199,7 +199,7 @@
 
   </view>
   <view>
-    <input type="digit" class="input" bindinput="bvProviderCountPrice" value="{{providercountprice}}"></input>
+    <input type="digit" class="input" bindblur="bvProviderCountPrice" value="{{providercountprice}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -207,7 +207,7 @@
 
   </view>
   <view>
-    <input type="text" class="input" placeholder="文字形式价格说明" bindinput="bvPrice1" value="{{price1}}"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice1" value="{{price1}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -215,7 +215,7 @@
 
   </view>
   <view>
-    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindinput="bvPrice1Count" value="{{price1count}}"></input>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice1Count" value="{{price1count}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -223,7 +223,7 @@
 
   </view>
   <view>
-    <input type="text" class="input" placeholder="文字形式价格说明" bindinput="bvPrice2" value="{{price2}}"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice2" value="{{price2}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -231,7 +231,7 @@
 
   </view>
   <view>
-    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindinput="bvPrice2Count" value="{{price2count}}"></input>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice2Count" value="{{price2count}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -239,7 +239,7 @@
 
   </view>
   <view>
-    <input type="text" class="input" placeholder="文字形式价格说明" bindinput="bvPrice3" value="{{price3}}"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice3" value="{{price3}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -247,7 +247,7 @@
 
   </view>
   <view>
-    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindinput="bvPrice3Count" value="{{price3count}}"></input>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice3Count" value="{{price3count}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -255,7 +255,7 @@
 
   </view>
   <view>
-    <input type="text" class="input" placeholder="文字形式价格说明" bindinput="bvPrice4" value="{{price4}}"></input>
+    <input type="text" class="input" placeholder="文字形式价格说明" bindblur="bvPrice4" value="{{price4}}"></input>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -263,7 +263,7 @@
 
   </view>
   <view>
-    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindinput="bvPrice4Count" value="{{price4count}}"></input>
+    <input type="digit" class="input" placeholder="数字形式用于系统计算" bindblur="bvPrice4Count" value="{{price4count}}"></input>
   </view>
 
 
@@ -291,28 +291,21 @@
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
     <label class="text">30.推荐程度:</label>
-
   </view>
   <view>
-    <input type="number" class="input" bindinput="bvChangeScore" value="{{score}}"></input>
+    <input type="number" class="input" bindblur="bvChangeScore" value="{{score}}"></input>
   </view>
-
-
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
     <label class="text">31.商品状态:</label>
-
   </view>
   <view>
-    <input type="text" class="input" bindinput="bvChangeStatus" value="{{status}}"></input>
+    <input type="text" class="input" bindblur="bvChangeStatus" value="{{status}}"></input>
   </view>
-
-
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
     <label class="text">32.录入人员:</label>
-
   </view>
   <view>
-    <input type="text" class="input" placeholder="{{username}}" disabled="true"></input>
+    <input type="text" class="input" placeholder="{{user}}" disabled="true"></input>
   </view>
 
 

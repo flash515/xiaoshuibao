@@ -4,16 +4,16 @@
 <view class="uplayout">
   <view class="namecard">
     <view class="companyname">{{companyname}}</view>
-    <view class="user" style="display:flex; flex-direction:row; justify-content:space-between;align-items:flex-end;">
+    <view class="user">
       <view style="display:flex;flex-direction:column;justify-content:flex-start;">
         <text>\n</text>
-        <view><text class="username">{{username}}</text><text space="emsp" decode='true' class="title"> {{title}}</text></view>
+        <view style="display:flex;flex-direction:row;justify-content:flex-start;align-items:flex-end"><text class="username">{{username}}</text><text space="emsp" decode='true' class="title"> {{title}}</text></view>
         <text>\n</text>
-        <view wx:if="{{handphone}}" class="userphone" bindlongpress="bvPhoneNumTap">手机：{{handphone}}</view>
+        <view wx:if="{{handphone}}" class="handphone" bindlongpress="bvPhoneNumTap">手机：{{handphone}}</view>
         <view wx:if="{{wechat}}" class="wechat">微信：{{wechat}}</view>
         <view wx:if="{{telephone}}" class="telephone">座机：{{telephone}}</view>
       </view>
-      <image class="companylogo" src="{{companylogo}}"></image>
+      <image class="companylogo" src="{{logoview}}"></image>
     </view>
     <view>
       <view wx:if="{{email}}" class="email">邮箱：{{email}}</view>
@@ -22,7 +22,9 @@
     </view>
   </view>
 </view>
-
+<view wx:if="{{imageview}}" wx:for="{{imageview}}" wx:key="key">
+  <image style="display: block" src="{{item}}" mode="scaleToFill" />
+</view>
 <view class="mainframe">
   <l-tabs bind:linchange="changeTabs">
     <l-tabpanel tab="名片信息" key="one" slot="one">
@@ -92,7 +94,7 @@
           <l-radio placement="left" color="black" select-color="green" size="40" key="{{bgview}}" l-class="radio">
             <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg" urls="{{bgview}}" custom="{{true}}">
               <view>
-                <image style="width: 200rpx;height: 200rpx;" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242" />
+                <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242" />
               </view>
             </l-image-picker>
           </l-radio>
@@ -119,7 +121,7 @@
       <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
         <l-image-picker count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{imageview}}" custom="{{true}}">
           <view>
-            <image style="width: 200rpx;height: 200rpx;" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
+            <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
           </view>
         </l-image-picker>
       </view>
@@ -128,10 +130,9 @@
   </l-tabs>
   <view style="display:flex; flex-direction:row; justify-content:space-between;">
 
-    <l-button size="mini" shape="semicircle" icon="up" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvSave">暂存信息
+    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvSave">暂存
     </l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="eye" icon-color="#3683d6" bind:lintap="bvView">预览名片</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvPublish">发布</l-button>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvPublish">发布</l-button>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">派发</l-button>
 
   </view>
