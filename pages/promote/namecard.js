@@ -53,6 +53,7 @@ Page({
 
   bvEdit: function (e) {
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
+      // 非会员先调用登录框
       this.setData({
         loginshow: true
       })
@@ -115,8 +116,7 @@ Page({
         success: res => {
           // 展示名片分享人的名片
           this.setData({
-            // cardinfo: res.data[0].NameCard
-            cardinfo: this.data.sample
+            cardinfo: res.data[0].NameCard
           })
         }
       })
@@ -131,14 +131,13 @@ Page({
         this.setData({
           cardinfo: this.data.sample
         })
+      } else {
         // 有名片展示本人名片
         this.setData({
           cardinfo: app.globalData.Guserdata.NameCard
         })
       }
-
     }
-
   },
 
   /**

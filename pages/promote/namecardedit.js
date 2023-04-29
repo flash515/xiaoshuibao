@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    cardinfo:[],
+    cardinfo: [],
     cardbg: "", //名片背景
     cardbgarray: [], //系统背景
     bgview: "", //自选背景时的临时文件
@@ -25,11 +25,11 @@ Page({
     telephone: "",
     website: "",
     address: "",
-
+    publishstatus: Boolean,
     // 行业分类参数
     inputShow: false,
     boxShow: false,
-    businesssortarray:[],
+    businesssortarray: [],
     category1: "",
     category1name: "",
     pIndex: 0,
@@ -39,64 +39,64 @@ Page({
     category3: "",
     category3name: "",
     aIndex: 0,
-//关键词
-    keywords:"",
+    //关键词
+    keywords: "",
     updatedate: "",
     logouploadlock: true,
   },
-    // 展示弹框
-    getbox: function () {
-      this.setData({
-        boxShow: true,
-        inputShow: true
-      })
-    },
-    // 隐藏弹框
-    hidebox: function () {
-      this.setData({
-        boxShow: false,
-        inputShow: false
-      })
-    },
-    // 确认按钮
-    confirm: function () {
-      this.setData({
-        category1: this.data.category1name,
-        category2: this.data.category2name,
-        category3: this.data.category3name,
-        boxShow: false,
-        inputShow: false,
-      })
-  
-    },
-    changeCategory1: function (e) {
-      const val = e.detail.value
-      this.setData({
-        pIndex: val,
-        cIndex: 0,
-        aIndex: 0,
-        category1name: this.data.businesssortarray[val].Category1Name,
-        category2name: this.data.businesssortarray[val].Category2Array[0].Category2Name,
-        category3name: this.data.businesssortarray[val].Category2Array[0].Category3Array[0].Category3Name,
-      })
-    },
-    changeCategory2: function (e) {
-      const val = e.detail.value
-      this.setData({
-        cIndex: val,
-        aIndex: 0,
-        category2name: this.data.businesssortarray[this.data.pIndex].Category2Array[val].Category2Name,
-        category3name: this.data.businesssortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
-  
-      })
-    },
-    changeCategory3: function (e) {
-      const val = e.detail.value
-      this.setData({
-        aIndex: val,
-        category3name: this.data.businesssortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
-      })
-    },
+  // 展示弹框
+  getbox: function () {
+    this.setData({
+      boxShow: true,
+      inputShow: true
+    })
+  },
+  // 隐藏弹框
+  hidebox: function () {
+    this.setData({
+      boxShow: false,
+      inputShow: false
+    })
+  },
+  // 确认按钮
+  confirm: function () {
+    this.setData({
+      category1: this.data.category1name,
+      category2: this.data.category2name,
+      category3: this.data.category3name,
+      boxShow: false,
+      inputShow: false,
+    })
+
+  },
+  changeCategory1: function (e) {
+    const val = e.detail.value
+    this.setData({
+      pIndex: val,
+      cIndex: 0,
+      aIndex: 0,
+      category1name: this.data.businesssortarray[val].Category1Name,
+      category2name: this.data.businesssortarray[val].Category2Array[0].Category2Name,
+      category3name: this.data.businesssortarray[val].Category2Array[0].Category3Array[0].Category3Name,
+    })
+  },
+  changeCategory2: function (e) {
+    const val = e.detail.value
+    this.setData({
+      cIndex: val,
+      aIndex: 0,
+      category2name: this.data.businesssortarray[this.data.pIndex].Category2Array[val].Category2Name,
+      category3name: this.data.businesssortarray[this.data.pIndex].Category2Array[val].Category3Array[0].Category3Name,
+
+    })
+  },
+  changeCategory3: function (e) {
+    const val = e.detail.value
+    this.setData({
+      aIndex: val,
+      category3name: this.data.businesssortarray[this.data.pIndex].Category2Array[this.data.cIndex].Category3Array[val].Category3Name,
+    })
+  },
 
   bvCompanyName(e) {
     this.setData({
@@ -155,12 +155,14 @@ Page({
     })
   },
   bvBgSelect(e) {
+    // 设定名片背景
     console.log(e.detail.key)
     this.setData({
       cardbg: e.detail.key
     })
   },
   bvChooseBg(e) {
+    // 选择自有背景
     console.log(e.detail)
     this.setData({
       bgview: e.detail.all,
@@ -181,16 +183,20 @@ Page({
 
   },
   bvRemoveBg(e) {
-    wx.cloud.deleteFile({
-      fileList: this.data.cardbg,
-      success: res => {
-        this.setData({
-          bgview: [],
-          cardbg: [],
-        })
-        console.log("cardbg", this.data.cardbg)
-      }
+    console.log(e.detail)
+    this.setData({
+      bgview: e.detail.all,
     })
+    // wx.cloud.deleteFile({
+    //   fileList: this.data.cardbg,
+    //   success: res => {
+    //     this.setData({
+    //       bgview: [],
+    //       cardbg: [],
+    //     })
+    //     console.log("cardbg", this.data.cardbg)
+    //   }
+    // })
   },
 
   bvChooseImage(e) {
@@ -202,18 +208,23 @@ Page({
   },
 
   bvRemoveImage(e) {
-    var fileList = [e.detail.current]
-    wx.cloud.deleteFile({
-      fileList,
-      success: res => {
-        this.setData({
-          imageview: this.data.imageview.splice(e.detail.index, 1),
-          cardimages: this.data.imageview.splice(e.detail.index, 1),
-        })
-        console.log("cardimages", this.data.cardimages)
-      }
+    console.log(e.detail)
+    this.setData({
+      imageview: e.detail.all,
     })
+    // var fileList = [e.detail.current]
+    // wx.cloud.deleteFile({
+    //   fileList,
+    //   success: res => {
+    //     this.setData({
+    //       imageview: this.data.imageview.splice(e.detail.index, 1),
+    //       cardimages: this.data.imageview.splice(e.detail.index, 1),
+    //     })
+    //     console.log("cardimages", this.data.cardimages)
+    //   }
+    // })
   },
+  // 已放到utils中，可删除
   async bvUploadImage(e) {
     let that = this
     // 判断商品id是否空值
@@ -321,20 +332,11 @@ Page({
     wx.setStorageSync('NameCard', this.data.cardinfo)
 
   },
-  //保存名片信息
-  async bvUpdate(e) {
-    let cloudpath = 'namecard/' + app.globalData.Guserid + '/cardbg'
-    let files1=await utils._UploadFiles(this.data.bgview,cloudpath)
-  cloudpath = 'namecard/' + app.globalData.Guserid + '/companylogo'
-    let files2=await utils._UploadFiles(this.data.logoview,cloudpath)
-  cloudpath = 'namecard/' + app.globalData.Guserid + '/cardimages'
-    let files3=await utils._UploadFiles(this.data.imageview,cloudpath)
-  console.log(files1,files2,files3)
-    },
 
   //发布到企业广场
-  bvPublish(e) {
-    if (this.data.publishstatus == false) {
+  async bvPublish(e) {
+    await this.bvUpdateNameCard()
+    if (this.data.publishstatus == false || this.data.publishstatus == undefined) {
       // 首次发布新增记录
       const db = wx.cloud.database()
       db.collection('NAMECARD').add({
@@ -379,14 +381,71 @@ Page({
   },
 
   //暂存名片信息
- async bvSave(e) {
-  let cloudpath = 'namecard/' + app.globalData.Guserid + '/cardbg'
-  let files1=await utils._UploadFiles(this.data.bgview,cloudpath)
-cloudpath = 'namecard/' + app.globalData.Guserid + '/companylogo'
-  let files2=await utils._UploadFiles(this.data.logoview,cloudpath)
-cloudpath = 'namecard/' + app.globalData.Guserid + '/cardimages'
-  let files3=await utils._UploadFiles(this.data.imageview,cloudpath)
-console.log(files1,files2,files3)
+  async bvSave(e) {
+    this.data.cardinfo = {
+      ["CardBg"]: this.data.cardbg,
+      ["CompanyLogo"]: this.data.logoview,
+      ["CardImages"]: this.data.imageview,
+      ["UserName"]: this.data.username,
+      ["Title"]: this.data.title,
+      ["WeChat"]: this.data.wechat,
+      ["Email"]: this.data.email,
+      ["Telephone"]: this.data.telephone,
+      ["Website"]: this.data.website,
+      ["HandPhone"]: this.data.handphone,
+      ["CompanyName"]: this.data.companyname,
+      ["Address"]: this.data.address,
+      ["BusinessScope"]: this.data.businessscope,
+      ["KeyWords"]: this.data.keywords,
+      ["Category1"]: this.data.category1,
+      ["Category2"]: this.data.category2,
+      ["Category3"]: this.data.category3,
+    }
+    wx.setStorageSync('LNameCard', this.data.cardinfo)
+    utils._SuccessToast("名片已暂存")
+
+  },
+
+  //保存名片信息
+  async bvUpdateNameCard(e) {
+    if (this.data.cardbg != "" && this.data.cardbg != undefined) {
+      console.log("背景有值")
+      if (this.data.cardbg == this.data.bgview) {
+        console.log("值为自选背景时才上传，bgview初始值为空，如符合条件一定是新上传了背景且指定了该背景")
+        let cloudpath1 = 'namecard/' + app.globalData.Guserid + '/cardbg'
+        var files1 = await utils._UploadFile(this.data.cardbg, cloudpath1)
+      } else {
+        var files1 = this.data.cardbg
+      }
+    } else {
+      var files1 = ""
+    }
+    if (this.data.logoview[0] != "" && this.data.logoview[0] != undefined) {
+      console.log(this.data.logoview[0])
+      console.log("公司LOGO有值")
+      if (this.data.logoview != app.globalData.Guserdata.NameCard.CompanyLogo) {
+        console.log("新的LOGO上传")
+        let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/companylogo'
+        var files2 = await utils._UploadFiles(this.data.logoview, cloudpath2)
+      } else {
+        var files2 = this.data.logoview
+      }
+    } else {
+      var files2 = []
+    }
+    if (this.data.imageview[0] != "" && this.data.imageview[0] != undefined) {
+      console.log("其他资料有值")
+      if (this.data.imageview != app.globalData.Guserdata.NameCard.CompanyLogo) {
+        console.log("其他资料上传")
+        let cloudpath3 = 'namecard/' + app.globalData.Guserid + '/cardimages'
+        var files3 = await utils._UploadFiles(this.data.imageview, cloudpath3)
+      } else {
+        var files3 = this.data.imageview
+      }
+    } else {
+      var files3 = []
+    }
+    console.log(files1, files2, files3)
 
     this.data.cardinfo = {
       ["CardBg"]: files1,
@@ -406,19 +465,19 @@ console.log(files1,files2,files3)
       ["Category1"]: this.data.category1,
       ["Category2"]: this.data.category2,
       ["Category3"]: this.data.category3,
+      ["UpdateDate"]: new Date().toLocaleString('chinese', {
+        hour12: false
+      })
     }
     const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
     }).update({
       data: {
-        NameCard: cardinfo,
-        ["UserInfo.UpdateDate"]: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
+        NameCard: this.data.cardinfo,
       },
       success: res => {
-        app.globalData.Guserdata.NameCard = cardinfo,
+        app.globalData.Guserdata.NameCard = this.data.cardinfo,
           utils._SuccessToast("名片保存成功")
       },
     })
@@ -434,7 +493,7 @@ console.log(files1,files2,files3)
       success: res => {
         this.setData({
           cardbgarray: res.data.NameCardBg,
-          businesssortarray:res.data.BusinessSortArray
+          businesssortarray: res.data.BusinessSortArray
         })
         console.log("行业类别更新成功")
       }
@@ -443,7 +502,8 @@ console.log(files1,files2,files3)
     if (app.globalData.Guserdata.NameCard != undefined) {
       this.setData({
         cardbg: app.globalData.Guserdata.NameCard.CardBg,
-        companylogo: app.globalData.Guserdata.NameCard.CompanyLogo,
+        logoview: app.globalData.Guserdata.NameCard.CompanyLogo,
+        imageview: app.globalData.Guserdata.NameCard.CardImages,
         companyname: app.globalData.Guserdata.NameCard.CompanyName,
         username: app.globalData.Guserdata.NameCard.UserName,
         handphone: app.globalData.Guserdata.NameCard.HandPhone,
@@ -455,13 +515,12 @@ console.log(files1,files2,files3)
         businessscope: app.globalData.Guserdata.NameCard.BusinessScope,
         address: app.globalData.Guserdata.NameCard.Address,
         updatedate: app.globalData.Guserdata.NameCard.UpdateDate,
-        bgview: app.globalData.Guserdata.NameCard.CardBg,
-        logoview: app.globalData.Guserdata.NameCard.CompanyLogo,
-        imageview: app.globalData.Guserdata.NameCard.CardImages,
-        category1:app.globalData.Guserdata.NameCard.Category1,
-        category2:app.globalData.Guserdata.NameCard.Category2,
-        category3:app.globalData.Guserdata.NameCard.Category3,
-        keywords:app.globalData.Guserdata.NameCard.KeyWords,
+
+        category1: app.globalData.Guserdata.NameCard.Category1,
+        category2: app.globalData.Guserdata.NameCard.Category2,
+        category3: app.globalData.Guserdata.NameCard.Category3,
+        keywords: app.globalData.Guserdata.NameCard.KeyWords,
+        publishstatus: app.globalData.Guserdata.NameCard.PublishStatus,
       })
     }
   },
@@ -520,7 +579,7 @@ console.log(files1,files2,files3)
       console.log(res.target)
     }
     return {
-      title: '这是我的名片，请您多关照！',
+      title: '呈送名片，请多关照！',
       path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {

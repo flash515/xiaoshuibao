@@ -840,8 +840,24 @@ function _roomapply(promotebalance, tradebalance, balanceupdatetime) {
   });
   return promise;
 }
+async function _UploadFile(filePath,cloudpath) {
+  // for循环里等待异步执行结果的方法，重要内容
+  var promise = new Promise((resolve, reject) => {
+      const cloudPath = cloudpath + filePath.match(/\.[^.]+?$/)
+      wx.cloud.uploadFile({
+        cloudPath,
+        filePath,
+        success: res => {
+          console.log('res', res.fileID)
+          resolve(res.fileID)
+        }
+      })
+    });
+return promise;
+}
 
 async function _UploadFiles(filelist,cloudpath) {
+  // 上传数组型文件
     // for循环里等待异步执行结果的方法，重要内容
     var promise = new Promise((resolve, reject) => {
     var tempfiles = []
@@ -868,6 +884,7 @@ async function _UploadFiles(filelist,cloudpath) {
   });
   return promise;
 }
+
 async function _RemoveFiles(filelist) {
   wx.cloud.deleteFile({
     fileList:filelist,
@@ -911,6 +928,7 @@ module.exports = {
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,
   // 快捷会议室
   _roomapply: _roomapply,
+  _UploadFile:_UploadFile,
   _UploadFiles:_UploadFiles,
   _RemoveFiles:_RemoveFiles
 
