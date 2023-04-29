@@ -502,8 +502,8 @@ Page({
     if (app.globalData.Guserdata.NameCard != undefined) {
       this.setData({
         cardbg: app.globalData.Guserdata.NameCard.CardBg,
-        logoview: app.globalData.Guserdata.NameCard.CompanyLogo,
-        imageview: app.globalData.Guserdata.NameCard.CardImages,
+        companylogo: app.globalData.Guserdata.NameCard.CompanyLogo,
+        cardimages: app.globalData.Guserdata.NameCard.CardImages,
         companyname: app.globalData.Guserdata.NameCard.CompanyName,
         username: app.globalData.Guserdata.NameCard.UserName,
         handphone: app.globalData.Guserdata.NameCard.HandPhone,

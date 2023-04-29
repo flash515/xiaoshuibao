@@ -13,7 +13,7 @@
         <view wx:if="{{wechat}}" class="wechat">微信：{{wechat}}</view>
         <view wx:if="{{telephone}}" class="telephone">座机：{{telephone}}</view>
       </view>
-      <image class="companylogo" src="{{logoview}}"></image>
+      <image class="companylogo" src="{{companylogo}}"></image>
     </view>
     <view>
       <view wx:if="{{email}}" class="email">邮箱：{{email}}</view>
@@ -22,7 +22,7 @@
     </view>
   </view>
 </view>
-<view wx:if="{{imageview}}" wx:for="{{imageview}}" wx:key="key">
+<view wx:if="{{cardimages}}" wx:for="{{cardimages}}" wx:key="key">
   <image style="display: block" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
