@@ -53,16 +53,12 @@
 }
 
 .username {
-  display:flex;
-  width: 180rpx;
   font-size: 45rpx;
   font-weight: bold;
   color: rgb(0, 0, 0);
 }
 
 .namecardtitle {
-  display:flex;
-  width: 180rpx;
   font-size: 32rpx;
   font-weight: bold;
   color: rgb(0, 0, 0);

@@ -1,21 +1,23 @@
-<view>
-<video wx:if="{{sptemp}}" class="videoCss" id="myVideo" src="{{sptemp}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
-<image wx:if="{{infoimages!=''}}" class="images" src="{{infoimages}}" mode="scaleToFill" />
+<view wx:if="{{infovideo}}">
+  <video wx:if="{{sptemp}}" class="videoCss" id="myVideo" src="{{sptemp}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
+</view>
+<view wx:if="{{infoimages}}" wx:for="{{infoimages}}" wx:key="key">
+  <image style="display: block" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
-<text>已保存的图文资讯</text>
+  <text>已保存的图文资讯</text>
   <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
     <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
-        <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
-          <block wx:for="{{infoshares}}" wx:key="key">
-            <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infoshares[index]}}" l-class="radio">
-              <text>{{infoshares[index].InfoTitle}}</text>
-            </l-radio>
-          </block>
-        </l-radio-group>
-        <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvEdit">编辑</l-button>
+      <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
+        <block wx:for="{{infoshares}}" wx:key="key">
+          <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infoshares[index]}}" l-class="radio">
+            <text>{{infoshares[index].InfoTitle}}</text>
+          </l-radio>
+        </block>
+      </l-radio-group>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvEdit">编辑</l-button>
     </view>
-      </scroll-view>
+  </scroll-view>
 
   <l-tabs>
     <l-tabpanel tab="资讯文案" key="one" slot="one">
@@ -33,7 +35,7 @@
         <l-radio-group placement="column" bind:linchange="bvVideoSelect">
           <block wx:for="{{sysvideos}}" wx:key="key">
             <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{sysvideos[index]}}" l-class="radio">
-<text>{{sysvideos[index].videotitle}}</text>
+              <text>{{sysvideos[index].videotitle}}</text>
 
             </l-radio>
           </block>
@@ -49,36 +51,41 @@
       </view>
     </l-tabpanel>
 
-    <l-tabpanel tab="选择图片"  key="three" slot="three">
+    <l-tabpanel tab="选择图片" key="three" slot="three">
       <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
-        <label class="text">选取系统图片：</label>
+        <label class="text">系统图片：</label>
       </view>
       <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
         <l-radio-group placement="column" none-checked="{{false}}" bind:linchange="bvImageSelect">
-        <block wx:for="{{sysimages}}" wx:key="key">
-          <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
-            <image src="{{item}}" class="bgarray" />
+          <block wx:for="{{sysimages}}" wx:key="key">
+            <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
+              <image src="{{item}}" class="bgarray" />
+            </l-radio>
+          </block>
+
+          <label class="text">自选图片：</label>
+          <l-radio placement="left" color="black" select-color="green" size="40" key="{{imageview}}" l-class="radio">
+            <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg">
+              <view>
+                <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
+              </view>
+            </l-image-picker>
           </l-radio>
-        </block>
-      </l-radio-group>
-  </scroll-view>
-  <label class="text">上传图片：</label>
-      <view style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-        <l-image-picker size="4" count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{tempimageview}}" />
-        <l-button plain="{{true}}" bind:lintap="bvUploadImage">上传图片</l-button>
-      </view>
+        </l-radio-group>
+      </scroll-view>
+
     </l-tabpanel>
   </l-tabs>
   <text>\n</text>
   <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;">
-  <view wx:if="{{editstatus}}">
-    <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="bvSave">保存
-    </l-button>
-  </view>
-  <view wx:else>
-    <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="bvAdd">新建
-    </l-button>
-  </view>
+    <view wx:if="{{editstatus}}">
+      <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="bvSave">保存
+      </l-button>
+    </view>
+    <view wx:else>
+      <l-button type="default" shape="semicircle" icon="to-top" icon-color="white" form-type="submit" bind:lintap="bvAdd">新建
+      </l-button>
+    </view>
     <text space="emsp" decode="{{true}}">&emsp;</text>
     <l-button type="default" bind:lintap="bvPreView" shape="semicircle" icon="eye" icon-color="white">预览
     </l-button>

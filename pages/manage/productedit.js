@@ -737,7 +737,7 @@ Page({
             ]
           },
           success: res => {
-            wx.setStorageSync('LProductList', res.data)
+            wx.setStorageSync('LProductList', res.result.data)
             console.log(res)
           }
         })

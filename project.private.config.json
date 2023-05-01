@@ -492,6 +492,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/promote/infoshare",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/promote/infoshareedit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

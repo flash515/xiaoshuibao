@@ -52,7 +52,7 @@
 
 .title {
   font-size: 32rpx;
-  /* font-style: italic; */
+  font-weight: bold;
   color: rgb(0, 0, 0);
 }
 

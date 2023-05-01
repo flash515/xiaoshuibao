@@ -2,8 +2,13 @@
 <l-mask show="{{loginshow}}" center="true" >
 <loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
-
+<view wx:if="{{infovideo}}">
 <video class="videoCss" id="myVideo" src="{{infovideo}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
+</view>
+<view wx:if="{{infoimages}}" wx:for="{{infoimages}}" wx:key="key">
+  <image style="display: block" src="{{item}}" mode="scaleToFill" />
+</view>
+
 <view class="mainframe">
   <!-- <view class="page-section tc">
     <view style="margin: 30rpx auto" class="weui-label">弹幕内容</view>

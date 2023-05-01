@@ -24,6 +24,7 @@
   <l-list title="我的信息" icon="user" url="../mine/userinfo" />
   <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
+  <l-list title="数字名片" icon="user" url="../promote/namecard" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
   <l-list title="小程序推广码" icon="picture" url="../promote/minicode" />
   <l-list title="我的推广海报" icon="picture" url="../promote/poster" />
@@ -45,7 +46,7 @@
     <l-list title="管理员功能" icon="notification" right-desc="" tag-position="right" />
     <l-list title="快捷会议室" icon="user" url="../tools/meetingroom/expressmeeting" />
     <l-list title="快捷推广" icon="user" url="../promote/express" />
-    <l-list title="我的名片" icon="user" url="../promote/namecard" />
+
   <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
   <l-list title="企业广场" icon="user" url="../promote/companysquare" />
   <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />

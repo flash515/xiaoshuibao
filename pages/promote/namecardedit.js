@@ -156,180 +156,84 @@ Page({
   },
   bvBgSelect(e) {
     // 设定名片背景
-    console.log(e.detail.key)
     this.setData({
       cardbg: e.detail.key
     })
+    console.log("cardbg", e.detail.key)
   },
-  bvChooseBg(e) {
-    // 选择自有背景
-    console.log(e.detail)
-    this.setData({
-      bgview: e.detail.all,
-    })
-    // const filePath = this.data.bgview[0]
-    // const cloudPath = 'namecard/' + app.globalData.Guserid + '/cardbg' + filePath.match(/\.[^.]+?$/)
-    // wx.cloud.uploadFile({
-    //   cloudPath,
-    //   filePath,
-    //   success: res => {
-    //     // LOGO只有一个值的数组构建方式
-    //     this.setData({
-    //       cardbg: [res.fileID],
-    //     })
-    //     console.log("cardbg", this.data.cardbg)
-    //   }
-    // })
 
+  async bvChooseBg(e) {
+    // 选择自有背景,使用单个文件上传，返回字符型结果
+    console.log(e.detail.current)
+    let cloudpath1 = 'namecard/' + app.globalData.Guserid + '/cardbg'
+    var files1 = await utils._UploadFile(e.detail.current, cloudpath1)
+    this.setData({
+      bgview: files1,
+    })
+    console.log(this.data.bgview)
   },
+
   bvRemoveBg(e) {
-    console.log(e.detail)
-    this.setData({
-      bgview: e.detail.all,
-    })
-    // wx.cloud.deleteFile({
-    //   fileList: this.data.cardbg,
-    //   success: res => {
-    //     this.setData({
-    //       bgview: [],
-    //       cardbg: [],
-    //     })
-    //     console.log("cardbg", this.data.cardbg)
-    //   }
-    // })
-  },
-
-  bvChooseImage(e) {
-    console.log(e.detail)
-    this.setData({
-      imageview: e.detail.all,
-    })
-
-  },
-
-  bvRemoveImage(e) {
-    console.log(e.detail)
-    this.setData({
-      imageview: e.detail.all,
-    })
-    // var fileList = [e.detail.current]
-    // wx.cloud.deleteFile({
-    //   fileList,
-    //   success: res => {
-    //     this.setData({
-    //       imageview: this.data.imageview.splice(e.detail.index, 1),
-    //       cardimages: this.data.imageview.splice(e.detail.index, 1),
-    //     })
-    //     console.log("cardimages", this.data.cardimages)
-    //   }
-    // })
-  },
-  // 已放到utils中，可删除
-  async bvUploadImage(e) {
-    let that = this
-    // 判断商品id是否空值
-    if (this.data.companyname == "" || this.data.companyname == null) {
-      utils._ErrorToast("企业名称不能空")
-    } else {
-      // 判断是否重复提交
-      if (this.data.imageuploadlock) {
-        // 锁定时很执行
-        utils._ErrorToast("请勿重复提交")
-      } else {
-        if (this.data.imageview.length == 0) {
-          utils._ErrorToast("请先选取图片")
-        } else {
-          // for循环里等待异步执行结果的方法，重要内容
-          var cloudpath = 'namecard/' + this.data.companyname
-          let that = this
-          var tempfiles = []
-          for (let i = 0; i < that.data.imageview.length; ++i) {
-            tempfiles = tempfiles.concat(new Promise((resolve, reject) => {
-              const filePath = that.data.imageview[i]
-              const cloudPath = cloudpath + (new Date()).getTime() + filePath.match(/\.[^.]+?$/)
-              wx.cloud.uploadFile({
-                cloudPath,
-                filePath,
-                success: res => {
-                  console.log('res', res.fileID)
-                  resolve(res.fileID)
-                }
-              })
-            }))
-          }
-          Promise.all(tempfiles).then(res => {
-            console.log(res)
-            this.setData({
-              cardimages: res,
-              imageuploadlock: true // 修改上传状态为锁定})
-            })
-          }, err => {
-            console.log(err)
-          })
-
-        }
+    console.log(e.detail.current)
+    wx.cloud.deleteFile({
+      fileList: [e.detail.current],
+      success: res => {
+        console.log(res)
+        this.setData({
+          cardbg: "",
+        })
       }
-    }
-  },
-  bvChooseLogo(e) {
-    console.log(e.detail)
-    this.setData({
-      logoview: e.detail.all,
-      // logouploadlock: false
     })
-    // for (let i = 0; i < this.data.logoview.length; i++) {
-    //   const filePath = this.data.logoview[i]
-    //   const cloudPath = 'namecard/' + app.globalData.Guserid + '/companylogo' + filePath.match(/\.[^.]+?$/)
-    //   wx.cloud.uploadFile({
-    //     cloudPath,
-    //     filePath,
-    //     success: res => {
-    //       console.log("fileID", res.fileID)
-    //       // LOGO只有一个值的数组构建方式
-    //       this.setData({
-    //         companylogo: [res.fileID],
-    //       })
-    //       console.log("companylogo", this.data.companylogo)
-    //     }
-    //   })
-    // }
   },
+
+  async bvChooseLogo(e) {
+    console.log(e.detail.all)
+    let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/companylogo'
+    var files2 = await utils._UploadFiles(e.detail.all, cloudpath2)
+    console.log(files2)
+    this.setData({
+      companylogo: files2
+    })
+  },
+
   bvRemoveLogo(e) {
+    console.log("companylogo", e.detail.current)
     wx.cloud.deleteFile({
       fileList: this.data.companylogo,
       success: res => {
-        console.log("companylogo", res.fileList)
         this.setData({
           companylogo: [],
-          logoview: [],
         })
         console.log("companylogo", this.data.companylogo)
       }
     })
   },
 
+  async bvChooseImage(e) {
+    console.log(e.detail.all)
+    let cloudpath3 = 'namecard/' + app.globalData.Guserid + '/cardimages'
+    var files3 = await utils._UploadFiles(e.detail.all, cloudpath3)
+    this.setData({
+      cardimages: files3
+    })
 
-  bvView: function (e) {
-    this.data.cardinfo = {
-      ["CardBg"]: this.data.cardbg,
-      ["CompanyLogo"]: this.data.logoview,
-      ["CardImages"]: this.data.imageview,
-      ["UserName"]: this.data.username,
-      ["Title"]: this.data.title,
-      ["WeChat"]: this.data.wechat,
-      ["Email"]: this.data.email,
-      ["Telephone"]: this.data.telephone,
-      ["Website"]: this.data.website,
-      ["HandPhone"]: this.data.handphone,
-      ["CompanyName"]: this.data.companyname,
-      ["Address"]: this.data.address,
-      ["BusinessScope"]: this.data.businessscope,
-      ["KeyWords"]: this.data.keywords,
-      ["Category1"]: this.data.category1,
-      ["Category2"]: this.data.category2,
-      ["Category3"]: this.data.category3,
-    }
-    wx.setStorageSync('NameCard', this.data.cardinfo)
+  },
+
+  bvRemoveImage(e) {
+    console.log(e.detail.index)
+    // 用一个指令即创建了fileList用于下一步删除，也改变了cardimages数组
+    var fileList = this.data.cardimages.splice(e.detail.index, 1)
+    this.setData({
+      cardimages: this.data.cardimages
+    })
+    console.log("cardimages", this.data.cardimages)
+    console.log(fileList)
+    wx.cloud.deleteFile({
+      fileList,
+      success: res => {
+        console.log("res", res)
+      }
+    })
 
   },
 
@@ -342,10 +246,26 @@ Page({
       db.collection('NAMECARD').add({
         data: {
           UserId: app.globalData.Guserid,
-          CardInfo: this.data.cardinfo,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
-          })
+          }),
+          CardBg: this.data.cardbg,
+          CompanyLogo: this.data.companylogo,
+          CardImages: this.data.cardimages,
+          UserName: this.data.username,
+          Title: this.data.title,
+          WeChat: this.data.wechat,
+          Email: this.data.email,
+          Telephone: this.data.telephone,
+          Website: this.data.website,
+          HandPhone: this.data.handphone,
+          CompanyName: this.data.companyname,
+          Address: this.data.address,
+          BusinessScope: this.data.businessscope,
+          KeyWords: this.data.keywords,
+          Category1: this.data.category1,
+          Category2: this.data.category2,
+          Category3: this.data.category3,
         },
         success: res => {
           this.data.publishstatus = true
@@ -368,10 +288,26 @@ Page({
         UserId: app.globalData.Guserid
       }).update({
         data: {
-          CardInfo: this.data.cardinfo,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
-          })
+          }),
+          CardBg: this.data.cardbg,
+          CompanyLogo: this.data.companylogo,
+          CardImages: this.data.cardimages,
+          UserName: this.data.username,
+          Title: this.data.title,
+          WeChat: this.data.wechat,
+          Email: this.data.email,
+          Telephone: this.data.telephone,
+          Website: this.data.website,
+          HandPhone: this.data.handphone,
+          CompanyName: this.data.companyname,
+          Address: this.data.address,
+          BusinessScope: this.data.businessscope,
+          KeyWords: this.data.keywords,
+          Category1: this.data.category1,
+          Category2: this.data.category2,
+          Category3: this.data.category3,
         },
         success: res => {
           utils._SuccessToast("名片发布成功")
@@ -380,77 +316,12 @@ Page({
     }
   },
 
-  //暂存名片信息
-  async bvSave(e) {
-    this.data.cardinfo = {
-      ["CardBg"]: this.data.cardbg,
-      ["CompanyLogo"]: this.data.logoview,
-      ["CardImages"]: this.data.imageview,
-      ["UserName"]: this.data.username,
-      ["Title"]: this.data.title,
-      ["WeChat"]: this.data.wechat,
-      ["Email"]: this.data.email,
-      ["Telephone"]: this.data.telephone,
-      ["Website"]: this.data.website,
-      ["HandPhone"]: this.data.handphone,
-      ["CompanyName"]: this.data.companyname,
-      ["Address"]: this.data.address,
-      ["BusinessScope"]: this.data.businessscope,
-      ["KeyWords"]: this.data.keywords,
-      ["Category1"]: this.data.category1,
-      ["Category2"]: this.data.category2,
-      ["Category3"]: this.data.category3,
-    }
-    wx.setStorageSync('LNameCard', this.data.cardinfo)
-    utils._SuccessToast("名片已暂存")
-
-  },
-
   //保存名片信息
   async bvUpdateNameCard(e) {
-    if (this.data.cardbg != "" && this.data.cardbg != undefined) {
-      console.log("背景有值")
-      if (this.data.cardbg == this.data.bgview) {
-        console.log("值为自选背景时才上传，bgview初始值为空，如符合条件一定是新上传了背景且指定了该背景")
-        let cloudpath1 = 'namecard/' + app.globalData.Guserid + '/cardbg'
-        var files1 = await utils._UploadFile(this.data.cardbg, cloudpath1)
-      } else {
-        var files1 = this.data.cardbg
-      }
-    } else {
-      var files1 = ""
-    }
-    if (this.data.logoview[0] != "" && this.data.logoview[0] != undefined) {
-      console.log(this.data.logoview[0])
-      console.log("公司LOGO有值")
-      if (this.data.logoview != app.globalData.Guserdata.NameCard.CompanyLogo) {
-        console.log("新的LOGO上传")
-        let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/companylogo'
-        var files2 = await utils._UploadFiles(this.data.logoview, cloudpath2)
-      } else {
-        var files2 = this.data.logoview
-      }
-    } else {
-      var files2 = []
-    }
-    if (this.data.imageview[0] != "" && this.data.imageview[0] != undefined) {
-      console.log("其他资料有值")
-      if (this.data.imageview != app.globalData.Guserdata.NameCard.CompanyLogo) {
-        console.log("其他资料上传")
-        let cloudpath3 = 'namecard/' + app.globalData.Guserid + '/cardimages'
-        var files3 = await utils._UploadFiles(this.data.imageview, cloudpath3)
-      } else {
-        var files3 = this.data.imageview
-      }
-    } else {
-      var files3 = []
-    }
-    console.log(files1, files2, files3)
-
-    this.data.cardinfo = {
-      ["CardBg"]: files1,
-      ["CompanyLogo"]: files2,
-      ["CardImages"]: files3,
+    this.data.cardinfo={
+      ["CardBg"]: this.data.cardbg,
+      ["CompanyLogo"]: this.data.companylogo,
+      ["CardImages"]: this.data.cardimages,
       ["UserName"]: this.data.username,
       ["Title"]: this.data.title,
       ["WeChat"]: this.data.wechat,
@@ -474,7 +345,7 @@ Page({
       UserId: app.globalData.Guserid
     }).update({
       data: {
-        NameCard: this.data.cardinfo,
+        ["NameCard"]: this.data.cardinfo,
       },
       success: res => {
         app.globalData.Guserdata.NameCard = this.data.cardinfo,
@@ -524,8 +395,6 @@ Page({
       })
     }
   },
-
-
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -579,7 +448,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: '呈送名片，请多关照！',
+      title: '恭呈名片，请多关照！',
       path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {

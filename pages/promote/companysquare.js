@@ -9,7 +9,8 @@ Page({
     userphone: "",
     // 显示在 Tip 区域的文字
     indexText: "",
-
+    allcards: [],
+    namecard: [],
     // 轮播头图
     image: [],
   },
@@ -56,15 +57,30 @@ Page({
   onPageScroll(res) {
 
   },
-
-
+  bvNameCardSelect(e) {
+    // 设定名片背景
+    this.setData({
+      namecard: e.detail.cell
+    })
+    console.log("cardbg", e.detail.key)
+  },
+  // 长按号码响应函数
+  bvPhoneNumTap: function () {
+    wx.makePhoneCall({
+      phoneNumber: this.data.cardinfo.handphone,
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  async onLoad(options) {
     this.setData({
       image: app.globalData.Gimagearray,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
+    })
+    let allcards = await utils._NameCardCheck()
+    this.setData({
+      allcards: allcards
     })
   },
 
