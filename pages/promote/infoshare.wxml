@@ -1,9 +1,9 @@
 <!-- 登录层 -->
-<l-mask show="{{loginshow}}" center="true" >
-<loginmask bind:myevent="onLogin"></loginmask>
+<l-mask show="{{loginshow}}" center="true">
+  <loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
 <view wx:if="{{infovideo}}">
-<video class="videoCss" id="myVideo" src="{{infovideo}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
+  <video class="videoCss" id="myVideo" src="{{infovideo}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
 </view>
 <view wx:if="{{infoimages}}" wx:for="{{infoimages}}" wx:key="key">
   <image style="display: block" src="{{item}}" mode="scaleToFill" />
@@ -25,25 +25,25 @@
     <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvBuyLikeShow">加速赞</l-button>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发</l-button>
   </view>
-  <view hidden="{{buylikeshow}}">
-    <l-card plaintext="{{true}}" l-class="buylikecard" plaintext="{{true}}" >
-    <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
-      <l-radio-group placement="column" bind:linchange="bvPointsSelect" >
-        <l-radio placement="left" color="black" select-color="green" size="40" key="1" l-class="radio" cell="{{buylikearray[0]}}" l-class="radio">
-          <text>50赞，¥5元</text>
-        </l-radio>
-        <l-radio placement="left" color="black" select-color="green" size="40" key="2" l-class="radio" cell="{{buylikearray[1]}}" l-class="radio">
-          <text>110赞，¥10元</text>
-        </l-radio>
-        <l-radio placement="left" color="black" select-color="green" size="40" key="3" l-class="radio" cell="{{buylikearray[2]}}" l-class="radio">
-          <text>230赞，¥20元</text>
-        </l-radio>
-        <l-radio placement="left" color="black" select-color="green" size="40" key="4" l-class="radio" cell="{{buylikearray[3]}}" l-class="radio">
-          <text>350赞，¥30元</text>
-        </l-radio>
-      </l-radio-group>
-      <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvBuyLike">支付</l-button>
-    </view>
+  <view wx:if="{{buylikeshow}}">
+    <l-card plaintext="{{true}}" l-class="buylikecard" plaintext="{{true}}">
+      <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
+        <l-radio-group placement="column" bind:linchange="bvPointsSelect">
+          <l-radio placement="left" color="black" select-color="green" size="40" key="1" l-class="radio" cell="{{buylikearray[0]}}" l-class="radio">
+            <text>50赞，¥5元</text>
+          </l-radio>
+          <l-radio placement="left" color="black" select-color="green" size="40" key="2" l-class="radio" cell="{{buylikearray[1]}}" l-class="radio">
+            <text>110赞，¥10元</text>
+          </l-radio>
+          <l-radio placement="left" color="black" select-color="green" size="40" key="3" l-class="radio" cell="{{buylikearray[2]}}" l-class="radio">
+            <text>230赞，¥20元</text>
+          </l-radio>
+          <l-radio placement="left" color="black" select-color="green" size="40" key="4" l-class="radio" cell="{{buylikearray[3]}}" l-class="radio">
+            <text>350赞，¥30元</text>
+          </l-radio>
+        </l-radio-group>
+        <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvBuyLike">支付</l-button>
+      </view>
     </l-card>
-    </view>
+  </view>
 </view>

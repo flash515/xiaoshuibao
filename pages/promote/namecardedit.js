@@ -165,7 +165,7 @@ Page({
   async bvChooseBg(e) {
     // 选择自有背景,使用单个文件上传，返回字符型结果
     console.log(e.detail.current)
-    let cloudpath1 = 'namecard/' + app.globalData.Guserid + '/cardbg'
+    let cloudpath1 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone +'/'+app.globalData.Guserdata.UserInfo.UserPhone+ 'cardbg'
     var files1 = await utils._UploadFile(e.detail.current, cloudpath1)
     this.setData({
       bgview: files1,
@@ -188,7 +188,7 @@ Page({
 
   async bvChooseLogo(e) {
     console.log(e.detail.all)
-    let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/companylogo'
+    let cloudpath2 = 'namecard/' +app.globalData.Guserdata.UserInfo.UserPhone +'/'+app.globalData.Guserdata.UserInfo.UserPhone+ 'companylogo'
     var files2 = await utils._UploadFiles(e.detail.all, cloudpath2)
     console.log(files2)
     this.setData({
@@ -211,7 +211,7 @@ Page({
 
   async bvChooseImage(e) {
     console.log(e.detail.all)
-    let cloudpath3 = 'namecard/' + app.globalData.Guserid + '/cardimages'
+    let cloudpath3 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone +'/'+app.globalData.Guserdata.UserInfo.UserPhone+ 'cardimages'
     var files3 = await utils._UploadFiles(e.detail.all, cloudpath3)
     this.setData({
       cardimages: files3
@@ -318,6 +318,7 @@ Page({
 
   //保存名片信息
   async bvUpdateNameCard(e) {
+    console.log("保存执行了")
     this.data.cardinfo={
       ["CardBg"]: this.data.cardbg,
       ["CompanyLogo"]: this.data.companylogo,
@@ -442,11 +443,12 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (res) {
+  onShareAppMessage: async function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
     }
+    await this.bvUpdateNameCard()
     return {
       title: '恭呈名片，请多关照！',
       path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,

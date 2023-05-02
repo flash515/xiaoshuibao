@@ -24,7 +24,7 @@ Page({
     s_phonecode: "",
     u_phonecode: "",
     // 页面相关
-    infoshareid: "",
+    infoid: "",
     buylikeshow: false,
     like: 50,
     likepoints: 0,
@@ -313,58 +313,41 @@ Page({
    */
   onLoad: async function (options) {
     console.log("接收到的参数", options)
-
     if (options.userid) {
-      // 有userid是通过分享进入
-      console.log("if操作执行了")
-      this.data.tempinviterid = options.userid,
-        console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.tempinviterid);
+       // 如果是通过分享链接进入
+       this.data.params = options
+       this.data.remark = "通过小税宝用户分享资讯进入"
+       this.setData({
+         // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
+         tempinviterid: options.userid
+       })
 
-      // 调用方法初始化
-      utils._setting()
-      utils._productcheck()
-      await utils._login()
-      let data = await utils._usercheck(app.globalData.Guserid)
-      console.log("data", data);
-      if (data.length == 0) {
-        await utils._newuser(this.data.tempinviterid, this.data.params, this.data.remark)
-        await utils._invitercheck()
-      } else {
-        app.globalData.Guserdata = data[0]
-        app.globalData.Gindirectinviterid = data[0].UserInfo.IndirectInviterId
-        app.globalData.Ginviterid = data[0].UserInfo.InviterId
-        app.globalData.Ginviterphone = data[0].UserInfo.InviterPhone
-        console.log("当前用户信息", app.globalData.Guserdata);
-        await utils._discountcheck()
-      }
+      // 本地函数查询资讯信息
+      const db = wx.cloud.database()
+      db.collection('INFOSHARE').where({
+        InfoId: options.infoid,
+        InfoStatus: 'checked'
+      }).get({
+        success: res => {
+          console.log(res)
+          // 展示名片分享人的名片
+          this.setData({
+              infotitle: res.data[0].InfoTitle,
+              infocontent: res.data[0].InfoContent,
+              infovideo: res.data[0].VideoUrl,
+              infoimages: res.data[0].ImagesUrl,
+              likepoints: res.data[0].LikePoints,
+              publishdate: res.data[0].PublishDate,
+          })
+        }
+      })
+      // 通过分享进入，执行用户登录操作，展示分享人的名片信息
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+    }else {
+      // 在本人小程序中打开
+      console.log("在本人小程序中打开")
 
     }
-    // 查询InfoShare
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "INFOSHARE",
-        command: "and",
-        where: [{
-          InfoShareId: options.infoshareid,
-          InfoStatus: 'checked'
-        }]
-      },
-      success: res => {
-        this.setData({
-          infotitle: res.result.data[0].InfoTitle,
-          infocontent: res.result.data[0].InfoContent,
-          infovideo: res.result.data[0].VideoUrl,
-          infoimages: res.result.data[0].ImagesUrl,
-          likepoints: res.result.data[0].LikePoints,
-          adddate: res.result.data[0].AddDate,
-        })
-        console.log("全部分享资讯", res)
-      },
-      fail: res => {
-        console.log(res)
-      }
-    })
 
   },
 
@@ -456,7 +439,7 @@ Page({
     }
     return {
       title: this.data.sharetitle,
-      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoshareid=' + this.data.infoshareid,
+      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调

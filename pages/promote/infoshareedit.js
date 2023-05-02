@@ -12,6 +12,7 @@ Page({
     infoshare: [], //当前要编辑的资讯
     sysvideos: [], //系统预存视频
     sysimages: [], //系统预存图片
+    infoid: "",
     infotitle: "",
     infocontent: "",
     infovideo: "", //用户选定的视频，一个
@@ -38,9 +39,16 @@ Page({
   },
   bvInfoShareSelect(e) {
     console.log(e.detail.cell)
-    this.data.infoshare = e.detail.cell
     this.setData({
-      sptemp:e.detail.cell.VideoUrl
+      infoid:e.detail.cell.InfoId,
+        infotitle: e.detail.cell.InfoTitle,
+        infocontent: e.detail.cell.InfoContent,
+        infovideo: e.detail.cell.VideoUrl,
+        infoimages: e.detail.cell.ImagesUrl,
+        infostatus:  e.detail.cell.InfoStatus,
+    })
+    this.setData({
+      sptemp: e.detail.cell.VideoUrl
     })
   },
 
@@ -60,7 +68,7 @@ Page({
     console.log(e.detail.cell)
     this.setData({
       infovideo: e.detail.cell,
-      sptemp:e.detail.cell.videourl
+      sptemp: e.detail.cell.videourl
     })
   },
   bvImageSelect(e) {
@@ -71,59 +79,29 @@ Page({
     })
     console.log("infoimages", this.data.infoimages)
   },
-  bvChooseImage(e) {
-    //用户图片
-    console.log(e.detail)
+
+  async bvChooseImage(e) {
+    // 选择自有背景,使用单个文件上传，返回字符型结果
+    console.log(e.detail.current)
+    let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/'+app.globalData.Guserdata.UserInfo.UserPhone+'infoimage'
+    var files1 = await utils._UploadFile(e.detail.current, cloudpath1)
     this.setData({
-      tempimageview: e.detail.all,
-      imageuploadlock: false
+      imageview: [files1],
     })
+    console.log(this.data.infoimages)
   },
+
   bvRemoveImage(e) {
-    this.setData({
-      tempimageview: e.detail.all,
-      imageuploadlock: false
-    })
-  },
-  bvUploadImage(e) {
-    let that = this
-    // 判断是否重复提交
-    if (this.data.imageuploadlock) {
-      // 锁定时很执行
-      utils._ErrorToast("请勿重复提交")
-    } else {
-      if (this.data.tempimageview.length == 0) {
-        utils._ErrorToast("请先选取图片")
-      } else {
-        // for循环里等待异步执行结果的方法，重要内容
-        var cloudpath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone
-        let that = this
-        var tempfiles = []
-        for (let i = 0; i < that.data.tempimageview.length; ++i) {
-          tempfiles = tempfiles.concat(new Promise((resolve, reject) => {
-            const filePath = that.data.tempimageview[i]
-            const cloudPath = cloudpath + new Date().getTime() + filePath.match(/\.[^.]+?$/)
-            wx.cloud.uploadFile({
-              cloudPath,
-              filePath,
-              success: res => {
-                console.log('res', res.fileID)
-                resolve(res.fileID)
-              }
-            })
-          }))
-        }
-        Promise.all(tempfiles).then(res => {
-          console.log(res)
-          this.setData({
-            imageview: res,
-            imageuploadlock: true // 修改上传状态为锁定})
-          })
-        }, err => {
-          console.log(err)
+    console.log(e.detail.current)
+    wx.cloud.deleteFile({
+      fileList: [e.detail.current],
+      success: res => {
+        console.log(res)
+        this.setData({
+          infoimages:[],
         })
       }
-    }
+    })
   },
 
   bvChooseVideo(e) {
@@ -185,23 +163,10 @@ Page({
         that.setData({
           sptemp: res.tempFilePath
         })
-        //上传视频
-        // wx.uploadFile({
-        //   url: data.url,
-        //   filePath: res.tempFilePath,
-        //   name: 'uploadFile',
-        //   header: {
-        //     "X-Access-Token":wx.getStorageSync('token')
-        //   },
-        //   success: (resp) => {
-        //     wx.hideLoading();
-        //     //获取fastDFS返回的存储路径
-        //     console.log(resp)
-        //   },
 
         // 只上传一个video时
         const filePath = that.data.sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone+'/'+app.globalData.Guserdata.UserInfo.UserPhone + filePath.match(/\.[^.]+?$/)
+        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
@@ -219,15 +184,62 @@ Page({
   },
 
   bvEdit: function (e) {
-    this.setData({
-      infotitle: this.data.infoshare.InfoTitle,
-      infocontent: this.data.infoshare.InfoContent,
-      infovideo: this.data.infoshare.VideoUrl,
-      infoimages: this.data.infoshare.ImagesUrl,
-      likepoints: this.data.infoshare.LikePoints,
-      adddate: this.data.infoshare.AddDate,
-      editstatus: true,
-    })
+
+  },
+
+  //发布到资讯广场
+  async bvPublish(e) {
+    if (this.data.infoshares.length < 3) {
+      // 会员只能发布最多3条资讯
+      const db = wx.cloud.database()
+      db.collection('INFOSHARE').add({
+        data: {
+          UserId: app.globalData.Guserid,
+          InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
+          InfoTitle: this.data.infotitle,
+          InfoContent: this.data.infocontent,
+          VideoUrl: this.data.infovideo,
+          ImagesUrl: this.data.infoimages,
+          LikePoints: 0,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          InfoStatus: "unchecked",
+        },
+        success: res => {
+          utils._SuccessToast("已保存")
+        },
+        fail: res => {
+          utils._ErrorToast("保存失败请重试")
+        }
+      })
+    } else {
+      utils._ErrorToast("超过数量限制")
+
+    }
+  },
+
+  //保存信息
+  async bvUpdate(e) {
+      // 再次发布是更新
+      const db = wx.cloud.database()
+      db.collection('INFOSHARE').where({
+        InfoId: this.data.infoid
+      }).update({
+        data: {
+          InfoTitle: this.data.infotitle,
+          InfoContent: this.data.infocontent,
+          VideoUrl: this.data.infovideo,
+          ImagesUrl: this.data.infoimages,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          InfoStatus: "unchecked",
+        },
+        success: res => {
+          utils._SuccessToast("资讯更新成功")
+        },
+      })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -251,69 +263,8 @@ Page({
         this.setData({
           infoshares: res.result.data,
         })
-        console.log("全部分享资讯", this.data.infoshares)
+        console.log("本人全部资讯", this.data.infoshares)
       }
-    })
-  },
-
-  bvAdd(e) {
-    const db = wx.cloud.database()
-    // 新增数据
-    db.collection("INFOSHARE").add({
-      data: {
-        InfoShareId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
-        UserId: app.globalData.Guserid,
-        InfoTitle: this.data.infotitle,
-        InfoContent: this.data.infocontent,
-        VideoUrl: this.data.infovideo,
-        ImagesUrl: this.data.infoimages,
-        LikePoints: 0,
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        InfoStatus: "unchecked",
-      },
-      success: res => {
-        utils._SuccessToast("已保存")
-      },
-      fail: res => {
-        utils._ErrorToast("保存失败请重试")
-      }
-
-    })
-  },
-
-  bvSave(e) {
-    const db = wx.cloud.database()
-    // 新增数据
-    db.collection("INFOSHARE").where({
-      InfoShareId: this.data.infoshare.InfoShareId
-    }).update({
-      data: {
-        InfoShareId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
-        UserId: app.globalData.Guserid,
-        InfoTitle: this.data.infotitle,
-        InfoContent: this.data.infocontent,
-        VideoUrl: this.data.infovideo,
-        ImagesUrl: this.data.infoimages,
-        LikePoints: 0,
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        InfoStatus: "unchecked",
-      },
-      success: res => {
-        utils._SuccessToast("已保存")
-      },
-      fail: res => {
-        utils._ErrorToast("保存失败请重试")
-      }
-
-    })
-  },
-  bvPreView() {
-    wx.navigateTo({
-      url: '../promote/infoshare?infoshareid=' + this.data.infoshare.InfoShareId,
     })
   },
 
@@ -404,7 +355,7 @@ Page({
   onShareTimeline: function () {
     return {
       title: this.data.infotitle,
-      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
+      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid+ '&infoid=' + this.data.infoid,
       imageUrl: '', //封面
     }
   },
@@ -419,7 +370,7 @@ Page({
     }
     return {
       title: this.data.infotitle,
-      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
+      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调
