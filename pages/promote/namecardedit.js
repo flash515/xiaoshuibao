@@ -154,6 +154,7 @@ Page({
       address: e.detail.value
     })
   },
+  
   bvBgSelect(e) {
     // 设定名片背景
     this.setData({
@@ -163,10 +164,10 @@ Page({
   },
 
   async bvChooseBg(e) {
-    // 选择自有背景,使用单个文件上传，返回字符型结果
+    // 选择自有背景,使用单个文件上传，返回字符型结果,注意current是数组
     console.log(e.detail.current)
     let cloudpath1 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone +'/'+app.globalData.Guserdata.UserInfo.UserPhone+ 'cardbg'
-    var files1 = await utils._UploadFile(e.detail.current, cloudpath1)
+    var files1 = await utils._UploadFile(e.detail.current[0], cloudpath1)
     this.setData({
       bgview: files1,
     })

@@ -138,8 +138,11 @@ Page({
   },
 
   bvAddLike(e) {
+
+  },
+  bvBuyLikeShow(){
     this.setData({
-      buylikeshow: false
+      buylikeshow: true
     })
   },
   bvBuyLike(e) {

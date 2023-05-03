@@ -15,7 +15,7 @@
 
     <view class="text">
       <l-button special="{{true}}" open-type="contact">
-      联系客服</l-button>
+        联系客服</l-button>
     </view>
   </l-grid-item>
 </l-grid>
@@ -25,6 +25,7 @@
   <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
   <l-list title="数字名片" icon="user" url="../promote/namecard" />
+  <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
   <l-list title="小程序推广码" icon="picture" url="../promote/minicode" />
   <l-list title="我的推广海报" icon="picture" url="../promote/poster" />
@@ -33,27 +34,24 @@
     <l-list title="成为服务商" icon="setting" url="../mine/providerapply" />
   </view>
 </l-card>
-  <view wx:if="{{usertype == 'provider'}}">
-    <text>\n</text>
-    <l-card type="primary" plaintext="{{true}}">
+<view wx:if="{{usertype == 'provider'}}">
+  <text>\n</text>
+  <l-card type="primary" plaintext="{{true}}">
     <l-list title="服务商功能" icon="notification" right-desc="" tag-position="right" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
     <l-list title="商品管理" icon="setting" url="../manage/productview" />
   </l-card>
-  </view>
-  <view wx:if="{{usertype == 'admin'}}">
+</view>
+<view wx:if="{{usertype == 'admin'}}">
   <l-card type="primary" plaintext="{{true}}">
     <l-list title="管理员功能" icon="notification" right-desc="" tag-position="right" />
     <l-list title="快捷会议室" icon="user" url="../tools/meetingroom/expressmeeting" />
     <l-list title="快捷推广" icon="user" url="../promote/express" />
-
-  <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
-  <l-list title="企业广场" icon="user" url="../promote/companysquare" />
-  <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
-  <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
-  <l-list title="资讯广场" icon="user" url="../promote/infosquare" />
-  <l-list title="幸运抽奖" icon="user" url="../promote/luckydraw" />
-
+    <l-list title="幸运抽奖" icon="user" url="../promote/luckydraw" />
+    <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
+    <l-list title="企业广场" icon="user" url="../promote/companysquare" />
+    <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
+    <l-list title="资讯广场" icon="user" url="../promote/infosquare" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
@@ -63,5 +61,4 @@
     <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
     <l-list title="测试页面" icon="address" url="../test/databass" />
   </l-card>
-  </view>
-
+</view>

@@ -15,12 +15,12 @@ var newuserinfo = {
 }
 var newusertradeinfo = {
   PromoteBalance: 0,
-  TradeBalance:0,
+  TradeBalance: 0,
   BalanceUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
   DiscountLevel: "DL4",
-  DiscountType:"",
+  DiscountType: "",
   DLUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
@@ -32,33 +32,33 @@ var newusertradeinfo = {
 }
 async function _GetPhoneNumber(code) {
   var promise = new Promise((resolve, reject) => {
-  console.log('步骤2获取accessToken')
-  wx.cloud.callFunction({
-      // 云函数名称
-      name: 'getAccessToken',
-      // 传给云函数的参数
-      data: {},
-    })
-    .then(res => {
-        let accessToken= res.result
-      console.log('云函数获取this.data.accessToken：', accessToken);
-      wx.request({
-        method: 'POST',
-        url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + accessToken,
-        data: {
-          code:code
-        },
-        success: function (res) {
-          console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
-          resolve(res.data.phone_info.phoneNumber)
-        },
-        fail: function (res) {
-          console.log("fail", res);
-        }
+    console.log('步骤2获取accessToken')
+    wx.cloud.callFunction({
+        // 云函数名称
+        name: 'getAccessToken',
+        // 传给云函数的参数
+        data: {},
       })
-    })
-    .catch(console.error)
-});
+      .then(res => {
+        let accessToken = res.result
+        console.log('云函数获取this.data.accessToken：', accessToken);
+        wx.request({
+          method: 'POST',
+          url: 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=' + accessToken,
+          data: {
+            code: code
+          },
+          success: function (res) {
+            console.log("步骤三获取手机号码", res.data.phone_info.phoneNumber);
+            resolve(res.data.phone_info.phoneNumber)
+          },
+          fail: function (res) {
+            console.log("fail", res);
+          }
+        })
+      })
+      .catch(console.error)
+  });
   return promise;
 }
 
@@ -90,24 +90,24 @@ function _sendcode(userphone) {
   return promise;
 }
 
-async function _NewMember(userphone,phoneremark) {
+async function _NewMember(userphone, phoneremark) {
   var promise = new Promise((resolve, reject) => {
-      const db = wx.cloud.database()
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          ["UserInfo.UserPhone"]: userphone,
-          ["UserInfo.PhoneRemark"]: phoneremark,
-          ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
-        },
-        success: res => {
-          resolve(res)
-        },
-      })
-   
+    const db = wx.cloud.database()
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        ["UserInfo.UserPhone"]: userphone,
+        ["UserInfo.PhoneRemark"]: phoneremark,
+        ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
+          hour12: false
+        })
+      },
+      success: res => {
+        resolve(res)
+      },
+    })
+
   });
   return promise;
 }
@@ -840,32 +840,32 @@ function _roomapply(promotebalance, tradebalance, balanceupdatetime) {
   });
   return promise;
 }
-async function _UploadFile(filelist,cloudpath) {
+async function _UploadFile(file, cloudpath) {
   // 单个文件上传
   var promise = new Promise((resolve, reject) => {
-    const filePath = filelist[0]
-      const cloudPath = cloudpath + filePath.match(/\.[^.]+?$/)
-      wx.cloud.uploadFile({
-        cloudPath,
-        filePath,
-        success: res => {
-          console.log('res', res.fileID)
-          resolve(res.fileID)
-        }
-      })
-    });
-return promise;
+    const filePath = file
+    const cloudPath = cloudpath + filePath.match(/\.[^.]+?$/)
+    wx.cloud.uploadFile({
+      cloudPath,
+      filePath,
+      success: res => {
+        console.log('res', res.fileID)
+        resolve(res.fileID)
+      }
+    })
+  });
+  return promise;
 }
 
-async function _UploadFiles(filelist,cloudpath) {
+async function _UploadFiles(filelist, cloudpath) {
   // 上传数组型文件
-    // for循环里等待异步执行结果的方法，重要内容
-    var promise = new Promise((resolve, reject) => {
+  // for循环里等待异步执行结果的方法，重要内容
+  var promise = new Promise((resolve, reject) => {
     var tempfiles = []
     for (let i = 0; i < filelist.length; ++i) {
       tempfiles = tempfiles.concat(new Promise((resolve, reject) => {
         const filePath = filelist[i]
-        const cloudPath = cloudpath + [i+1] + filePath.match(/\.[^.]+?$/)
+        const cloudPath = cloudpath + [i + 1] + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
@@ -888,12 +888,13 @@ async function _UploadFiles(filelist,cloudpath) {
 
 async function _RemoveFiles(filelist) {
   wx.cloud.deleteFile({
-    fileList:filelist,
+    fileList: filelist,
     success: res => {
 
     }
   })
 }
+
 function _NameCardCheck() { // 通过云函数查询在售商品
   var promise = new Promise((resolve, reject) => {
     console.log("productcheck执行了")
@@ -919,7 +920,7 @@ module.exports = {
   // 提示信息
   _SuccessToast: _SuccessToast,
   _ErrorToast: _ErrorToast,
-  _GetPhoneNumber:_GetPhoneNumber,
+  _GetPhoneNumber: _GetPhoneNumber,
   UserLogon: UserLogon,
   _login: _login,
   _setting: _setting,
@@ -933,7 +934,7 @@ module.exports = {
   _directuser: _directuser,
   _indirectuser: _indirectuser,
 
-  _NameCardCheck:_NameCardCheck,
+  _NameCardCheck: _NameCardCheck,
 
   _balanceupdate: _balanceupdate,
   _pointshistory: _pointshistory,
@@ -952,8 +953,8 @@ module.exports = {
   hideLoadingWithErrorTips: hideLoadingWithErrorTips,
   // 快捷会议室
   _roomapply: _roomapply,
-  _UploadFile:_UploadFile,
-  _UploadFiles:_UploadFiles,
-  _RemoveFiles:_RemoveFiles
+  _UploadFile: _UploadFile,
+  _UploadFiles: _UploadFiles,
+  _RemoveFiles: _RemoveFiles
 
 }

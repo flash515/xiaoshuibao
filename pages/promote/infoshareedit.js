@@ -1,6 +1,5 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const wxpay = require("../../utils/WxPay");
 var interval = null //倒计时函数
 Page({
 
@@ -12,6 +11,7 @@ Page({
     infoshare: [], //当前要编辑的资讯
     sysvideos: [], //系统预存视频
     sysimages: [], //系统预存图片
+    infoselected: false,
     infoid: "",
     infotitle: "",
     infocontent: "",
@@ -33,19 +33,22 @@ Page({
     tempvideourl: [], //用户上传视频的临时路径
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
+    videotemp: "", //待选择视频的网络路径
+    videotemptitle: "",
     videouploadlock: false, //视频上传锁定状态
     imageuploadlock: false, //图片上传锁定状态
     editstatus: false, //编辑状态
   },
   bvInfoShareSelect(e) {
-    console.log(e.detail.cell)
+    console.log(e.detail)
     this.setData({
-      infoid:e.detail.cell.InfoId,
-        infotitle: e.detail.cell.InfoTitle,
-        infocontent: e.detail.cell.InfoContent,
-        infovideo: e.detail.cell.VideoUrl,
-        infoimages: e.detail.cell.ImagesUrl,
-        infostatus:  e.detail.cell.InfoStatus,
+      infoselected: e.detail.checked,
+      infoid: e.detail.cell.InfoId,
+      infotitle: e.detail.cell.InfoTitle,
+      infocontent: e.detail.cell.InfoContent,
+      infovideo: e.detail.cell.VideoUrl,
+      infoimages: e.detail.cell.ImagesUrl,
+      infostatus: e.detail.cell.InfoStatus,
     })
     this.setData({
       sptemp: e.detail.cell.VideoUrl
@@ -63,14 +66,7 @@ Page({
     })
   },
 
-  bvVideoSelect(e) {
-    //从系统视频中选取
-    console.log(e.detail.cell)
-    this.setData({
-      infovideo: e.detail.cell,
-      sptemp: e.detail.cell.videourl
-    })
-  },
+
   bvImageSelect(e) {
     //从系统图片中选取
     console.log(e.detail.key)
@@ -81,10 +77,10 @@ Page({
   },
 
   async bvChooseImage(e) {
-    // 选择自有背景,使用单个文件上传，返回字符型结果
+    // 选择自有背景,使用单个文件上传，返回字符型结果,current是数组
     console.log(e.detail.current)
-    let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/'+app.globalData.Guserdata.UserInfo.UserPhone+'infoimage'
-    var files1 = await utils._UploadFile(e.detail.current, cloudpath1)
+    let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infoimage'
+    var files1 = await utils._UploadFile(e.detail.current[0], cloudpath1)
     this.setData({
       imageview: [files1],
     })
@@ -98,9 +94,17 @@ Page({
       success: res => {
         console.log(res)
         this.setData({
-          infoimages:[],
+          infoimages: [],
         })
       }
+    })
+  },
+
+  bvVideoSelect(e) {
+    //从系统视频中选取
+    console.log(e.detail.key)
+    this.setData({
+      infovideo: e.detail.key,
     })
   },
 
@@ -166,17 +170,17 @@ Page({
 
         // 只上传一个video时
         const filePath = that.data.sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + filePath.match(/\.[^.]+?$/)
+        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infovideo' + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
           success: (res) => {
             wx.hideLoading();
-            console.log(res)
             console.log("fileID", res.fileID)
-            this.data.infovideo = [res.fileID]
-            this.data.videouploadlock = true // 修改上传状态为锁定
-            console.log("infovideo", this.data.infovideo)
+            that.setData({
+              videotemp: res.fileID,
+              videotemptitle:"自选video"
+            })
           },
         });
       },
@@ -221,25 +225,25 @@ Page({
 
   //保存信息
   async bvUpdate(e) {
-      // 再次发布是更新
-      const db = wx.cloud.database()
-      db.collection('INFOSHARE').where({
-        InfoId: this.data.infoid
-      }).update({
-        data: {
-          InfoTitle: this.data.infotitle,
-          InfoContent: this.data.infocontent,
-          VideoUrl: this.data.infovideo,
-          ImagesUrl: this.data.infoimages,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-          InfoStatus: "unchecked",
-        },
-        success: res => {
-          utils._SuccessToast("资讯更新成功")
-        },
-      })
+    // 再次发布是更新
+    const db = wx.cloud.database()
+    db.collection('INFOSHARE').where({
+      InfoId: this.data.infoid
+    }).update({
+      data: {
+        InfoTitle: this.data.infotitle,
+        InfoContent: this.data.infocontent,
+        VideoUrl: this.data.infovideo,
+        ImagesUrl: this.data.infoimages,
+        PublishDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
+        InfoStatus: "unchecked",
+      },
+      success: res => {
+        utils._SuccessToast("资讯更新成功")
+      },
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -355,7 +359,7 @@ Page({
   onShareTimeline: function () {
     return {
       title: this.data.infotitle,
-      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid+ '&infoid=' + this.data.infoid,
+      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: '', //封面
     }
   },
