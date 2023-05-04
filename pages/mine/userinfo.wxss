@@ -13,19 +13,19 @@
   padding: 0;
   background-color: white;
 }
-
-.text {
-  font-size: 28rpx;
-  color: rgb(0, 0, 0);
-}
 .labal {
   font-size: 28rpx;
   color: rgb(0, 0, 0);
   margin-left: 25rpx;
 }
+
 .input {
   font-size: 28rpx;
   height: 80rpx;
+}
+.text {
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
 }
 .line {
   margin-left: 0rpx;

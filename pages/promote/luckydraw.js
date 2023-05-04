@@ -126,20 +126,20 @@ Page({
   })
   var _this = this;
   var indexSelect = 0
-  var i = 0;
+  var i = Math.round(Math.random()*7)*10
+  console.log(i)
   var timer = setInterval(function () {
    indexSelect++;
+   console.log(indexSelect)
    //这里我只是简单粗暴用y=30*x+200函数做的处理.可根据自己的需求改变转盘速度
-   i += 30;
-   if (i > 1000) {
+   i += 10;
+   if (i > 300) {
     //去除循环
     clearInterval(timer)
     //获奖提示
-
-
     wx.showModal({
      title: '恭喜您',
-     content: '获得了第' + (_this.data.indexSelect + 1) + "个优惠券",
+     content: '获得了第' + (_this.data.indexSelect+1) + "个奖品",
      showCancel: false,//去掉取消按钮
      success: function (res) {
       if (res.confirm) {
@@ -150,6 +150,8 @@ Page({
      }
     })
    }
+   console.log(i)
+  //  除以8的余数是保证结果是在8个奖项范围内
    indexSelect = indexSelect % 8;
    _this.setData({
     indexSelect: indexSelect

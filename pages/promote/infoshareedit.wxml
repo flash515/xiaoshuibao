@@ -19,11 +19,27 @@
 
   <l-tabs>
     <l-tabpanel tab="资讯文案" key="one" slot="one">
+      <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">微信头像：</label>
+          <view style="padding-left: 50rpx;">
+            <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+              <image class="avatar" src="{{avatarurl}}"></image>
+            </button>
+          </view>
+        </view>
+        <view class="line"></view>
+        <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+          <label class="labal">微信昵称：</label>
+          <view style="padding-left: 50rpx;">
+            <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
+          </view>
+        </view>
+        <view class="line"></view>
       <view>
-        <l-input type="text" label="分享标题：" value="{{infotitle}}" bind:linblur="bvInfoTitle">
+        <l-input type="text" label="资讯标题：" value="{{infotitle}}" bind:linblur="bvInfoTitle">
         </l-input>
-        <l-input type="text" label="视频标题：" value="{{infocontent}}" bind:linblur="bvInfoContent">
-        </l-input>
+        <l-textarea indicator="{{true}}" maxlength="140" type="text" label="资讯内容：" value="{{infocontent}}" bind:linblur="bvInfoContent">
+        </l-textarea>
       </view>
     </l-tabpanel>
 

@@ -506,6 +506,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/test/test1",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

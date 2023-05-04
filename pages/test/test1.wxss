@@ -1,1 +1,57 @@
-/* pages/test/test1.wxss */
+page {
+  background-color: #000;
+}
+
+swiper {
+  height: 100vh;
+  width: 100vw;
+}
+
+swiper video {
+  height: 100vh;
+  width: 100vw;
+}
+
+.video-right {
+  display: flex;
+  flex-direction: column;
+  height: 38vh;
+  width: 80rpx;
+  position: fixed;
+  right: 15rpx;
+  top: 50vh;
+  color: #fff;
+}
+
+.video-right-img {
+  height: 80rpx;
+  width: 80rpx;
+  border-radius: 100rpx;
+  background-color: aquamarine;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.video-right-icon {
+  display: flex;
+  justify-content: center;
+  font-size: 28rpx;
+}
+
+.content {
+  font-size: 32rpx;
+}
+
+.video-btm {
+  height: 180rpx;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  color: #fff;
+}
+
+.video-btm-con {
+  width: 90vw;
+  margin: 0 auto;
+}

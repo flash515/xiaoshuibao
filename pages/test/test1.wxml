@@ -1,2 +1,27 @@
-<!--pages/test/test1.wxml-->
-<web-view src="https://smbs.hainan.chinatax.gov.cn/smbsxt/smcj/#/entry/smrz/sftxForm?key=SXaAFM2cT6qbtNql0bNcoJV2ML2Hq8HM"></web-view>
+<swiper vertical="true" bindchange="nextVideo">
+  <swiper-item wx:for="{{infoshares}}">
+    <video loop="true" enable-progress-gesture="true"	object-fit="fill" src="{{item.VideoUrl}}" id="video{{index}}" />  
+    <view class="video-right" >
+      <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-user_id="{{item.UserId}}" bindtap="toOtherUser"></view>
+      <view class="video-right-icon"><l-icon name="like" color="white"/></view>
+      <view class="video-right-icon">1{{item.LikePoints.length}}</view>
+      
+
+      <view class="video-right-icon"><l-icon name="comment" color="white"/></view>
+      <view class="video-right-icon">2{{item.Comment.length}}</view>
+      
+
+      <view class="video-right-icon"><l-icon name="favor" color="white"/></view>
+      <view class="video-right-icon">3{{item.Favor.length}}</view>
+
+      <view class="video-right-icon"><l-icon name="share" color="white"/></view>
+      <view class="video-right-icon">4{{item.Share.length}}</view>
+    </view>
+    <view class="video-btm">
+      <view class="video-btm-con">
+        <text>{{item.InfoTitle}}@{{item.nickName}}</text>
+        <view class="content">{{item.InfoContent}}</view>
+      </view>
+    </view>
+  </swiper-item>
+</swiper>

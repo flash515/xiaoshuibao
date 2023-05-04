@@ -7,6 +7,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 用户信息
+    avatarurl: "",
+    nickname: "",
     infoshares: [], //已保存的资讯分享
     infoshare: [], //当前要编辑的资讯
     sysvideos: [], //系统预存视频
@@ -20,7 +23,6 @@ Page({
     likepoints: 0, //资讯获赞数
     adddate: "", //资讯创建时间
     videourl: '',
-    videocontent: "",
     danmuList: [{
       text: '第 1s 出现的弹幕',
       color: '#ff0000',
@@ -39,6 +41,32 @@ Page({
     imageuploadlock: false, //图片上传锁定状态
     editstatus: false, //编辑状态
   },
+  onChooseAvatar(e) {
+
+    console.log(e.detail)
+    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
+    wx.cloud.uploadFile({
+      cloudPath, // 上传至云端的路径
+      filePath: e.detail.avatarUrl, // 小程序临时文件路径
+      success: res => {
+        // 返回文件 ID
+        console.log(res.fileID)
+        // do something
+        this.setData({
+          avatarurl: res.fileID,
+        })
+      },
+      fail: console.error
+    })
+  },
+
+  bvNickName(e) {
+    console.log("真机测试才能获取到", e.detail.value)
+    this.setData({
+      nickname: e.detail.value,
+    })
+  },
+
   bvInfoShareSelect(e) {
     console.log(e.detail)
     this.setData({
@@ -179,7 +207,7 @@ Page({
             console.log("fileID", res.fileID)
             that.setData({
               videotemp: res.fileID,
-              videotemptitle:"自选video"
+              videotemptitle: "自选video"
             })
           },
         });
@@ -205,6 +233,9 @@ Page({
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
           LikePoints: 0,
+          Commont:0,
+          avatarUrl:this.data.avatarurl,
+          nickName:this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
@@ -216,6 +247,17 @@ Page({
         fail: res => {
           utils._ErrorToast("保存失败请重试")
         }
+      })
+      db.collection('USER').where({
+        UserId: app.globalData.Guserid
+      }).update({
+        data: {
+          ["UserInfo.avatarUrl"]: this.data.avatarurl,
+          ["UserInfo.nickName"]: this.data.nickname,
+        },
+        success: res => {
+          utils._SuccessToast("信息更新成功")
+          }
       })
     } else {
       utils._ErrorToast("超过数量限制")
@@ -235,6 +277,8 @@ Page({
         InfoContent: this.data.infocontent,
         VideoUrl: this.data.infovideo,
         ImagesUrl: this.data.infoimages,
+        avatarUrl:this.data.avatarurl,
+        nickName:this.data.nickname,
         PublishDate: new Date().toLocaleString('chinese', {
           hour12: false
         }),
@@ -244,12 +288,25 @@ Page({
         utils._SuccessToast("资讯更新成功")
       },
     })
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        ["UserInfo.avatarUrl"]: this.data.avatarurl,
+        ["UserInfo.nickName"]: this.data.nickname,
+      },
+      success: res => {
+        utils._SuccessToast("信息更新成功")
+        }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
     this.setData({
+      avatarurl:app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickname:app.globalData.Guserdata.UserInfo.nickName,
       sysvideos: app.globalData.Gsetting.infovideos,
       sysimages: app.globalData.Gsetting.infoimages,
     })
