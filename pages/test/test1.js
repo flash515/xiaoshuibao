@@ -6,83 +6,90 @@ Page({
    * 页面的初始数据
    */
   data: {
-        // 初始化相关
-        params: {},
-        inviterid: "",
-        tempinviterid: "",
-        remark: "",
-        indirectinviterid: "",
-        userinfo: {},
-        // 登录框相关变量
-        loginshow: false,
-        time: "获取验证码",
-        currentTime: 60,
-        disabledstatus: false,
-        inputphone:"",
-        s_phonecode: "",
-        u_phonecode: "",
-        // 页面相关
-        infoshares:[],
-
-        infoid: "",
-        donateshow: false,
-        commentshow:false,
-        replyshow:false,
-        praise: 50,
-        praisepoints: 0,
-        totalfee: 0,
-        infoshow: true,
-        inputValue: '',
-        infotitle: "",
-        infovideo: "",
-        adddate: "",
-        infocontent: "",
-        donate: [{
-          praisepoints: 50,
-          price: 5,
-          creatorpoints: 2.5,
-          inviterpoints: 0.75,
-          indirectinviterpoints: 0.25,
-        }, {
-          praisepoints: 110,
-          price: 10,
-          creatorpoints: 5,
-          inviterpoints: 1.5,
-          indirectinviterpoints: 0.5,
-        }, {
-          praisepoints: 230,
-          price: 20,
-          creatorpoints: 10,
-          inviterpoints: 3,
-          indirectinviterpoints: 1,
-        }, {
-          praisepoints: 350,
-          price: 30,
-          creatorpoints: 15,
-          inviterpoints: 4.5,
-          indirectinviterpoints: 1.5,
-        }],
-    viList:[
-      {
-        vio:'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
-        avatar:'https://profile-avatar.csdnimg.cn/6ef2193c2e9649c88356336c626e5777_m0_64944135.jpg',
-        name:'xiaoshen'
+    // 初始化相关
+    params: {},
+    inviterid: "",
+    tempinviterid: "",
+    remark: "",
+    indirectinviterid: "",
+    userinfo: {},
+    // 登录框相关变量
+    loginshow: false,
+    time: "获取验证码",
+    currentTime: 60,
+    disabledstatus: false,
+    inputphone: "",
+    s_phonecode: "",
+    u_phonecode: "",
+    // 页面相关
+    infoshares: [],
+    tempinfoid:"",
+    comments: [],
+    infoid: "",
+    avatarurl:"",
+    nickname:"",
+    donateshow: false,
+    commentshow: false,
+    replyshow: false,
+    praise: 50,
+    praisepoints: 0,
+    totalfee: 0,
+    infoshow: true,
+    inputValue: '',
+    infotitle: "",
+    infovideo: "",
+    adddate: "",
+    infocontent: "",
+    donate: [{
+      praisepoints: 50,
+      price: 5,
+      creatorpoints: 2.5,
+      inviterpoints: 0.75,
+      indirectinviterpoints: 0.25,
+    }, {
+      praisepoints: 110,
+      price: 10,
+      creatorpoints: 5,
+      inviterpoints: 1.5,
+      indirectinviterpoints: 0.5,
+    }, {
+      praisepoints: 230,
+      price: 20,
+      creatorpoints: 10,
+      inviterpoints: 3,
+      indirectinviterpoints: 1,
+    }, {
+      praisepoints: 350,
+      price: 30,
+      creatorpoints: 15,
+      inviterpoints: 4.5,
+      indirectinviterpoints: 1.5,
+    }],
+    viList: [{
+        vio: 'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
+        avatar: 'https://profile-avatar.csdnimg.cn/6ef2193c2e9649c88356336c626e5777_m0_64944135.jpg',
+        name: 'xiaoshen'
       },
       {
-        vio:'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
-        avatar:'	https://profile.csdnimg.cn/7/A/9/1_2201_75886543',
-        name:'kami'
+        vio: 'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
+        avatar: '	https://profile.csdnimg.cn/7/A/9/1_2201_75886543',
+        name: 'kami'
       }
     ]
   },
-  bvDonateShow(){
+  bvDonateShow() {
     this.setData({
       donateshow: !this.data.donateshow
     })
   },
-  bvCommentShow(){
+  bvComment(e) {
     this.setData({
-      commentshow:true,
+      comment: e.detail.value,
+    })
+  },
+  bvCommentShow() {
+    this.setData({
+      commentshow: true,
     })
     // if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
     //   // 非会员先调用登录框
@@ -95,36 +102,79 @@ Page({
     //   })
     // }
   },
-bvreply(){
-if(this.data.avatarurl==""|| this.data.nickname==""){
-  utils._ErrorToast("需要头像和昵称")
-}else{
-    // 新增留言
-  const db = wx.cloud.database()
-  db.collection("InfoShareComment").add({
-    data: {
-      InfoId: this.data.infoid,
-      UserId: app.globalData.Guserid,
-      avatarUrl: this.data.avatarurl,
-      nickName: this.data.nickname,
-      Location:this.data.location,
-      Comment: this.data.comment,
-      PublishDate: new Date().toLocaleString('chinese', {
-        hour12: false
-      }),
-      Status: "unchecked",
-    },
-    success: res => {
-this.setData({
-  replyshow:false
-})
-    },
-    fail: res => {
-      utils._ErrorToast("提交失败请重试")
+  onChooseAvatar(e) {
+
+    console.log(e.detail)
+    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
+    wx.cloud.uploadFile({
+      cloudPath, // 上传至云端的路径
+      filePath: e.detail.avatarUrl, // 小程序临时文件路径
+      success: res => {
+        // 返回文件 ID
+        console.log(res.fileID)
+        // do something
+        this.setData({
+          avatarurl: res.fileID,
+        })
+      },
+      fail: console.error
+    })
+  },
+  bvNickName(e) {
+    console.log("真机测试才能获取到", e.detail.value)
+    this.setData({
+      nickname: e.detail.value,
+    })
+  },
+  _getComments(id) {
+    // 云函数查询评论内容
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "InfoShareComment",
+        command: "and",
+        where: [{
+          InfoId: id
+        }]
+      },
+      success: res => {
+        console.log(res)
+        this.setData({
+          comments: res.result.data
+        })
+      }
+    })
+  },
+  bvPublish() {
+    if (this.data.avatarurl == "" || this.data.nickname == "") {
+      utils._ErrorToast("需要头像和昵称")
+    } else {
+      // 新增留言
+      const db = wx.cloud.database()
+      db.collection("InfoShareComment").add({
+        data: {
+          InfoId: this.data.tempinfoid,
+          UserId: app.globalData.Guserid,
+          avatarUrl: this.data.avatarurl,
+          nickName: this.data.nickname,
+          Location: this.data.location,
+          Comment: this.data.comment,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          Status: "unchecked",
+        },
+        success: res => {
+          this.setData({
+            replyshow: false
+          })
+        },
+        fail: res => {
+          utils._ErrorToast("提交失败请重试")
+        }
+      })
     }
-  })
-}
-},
+  },
 
   bvDonateSelect(e) {
     console.log(e.detail.cell)
@@ -134,8 +184,8 @@ this.setData({
     })
   },
 
-   // 点击支付按钮,发起支付
-   bvToDonate(event) {
+  // 点击支付按钮,发起支付
+  bvToDonate(event) {
     const goodsnum = wxpay._getGoodsRandomNumber();
     const body = "资讯打赏";
     const PayVal = this.data.totalfee * 100;
@@ -257,68 +307,73 @@ this.setData({
   },
 
   onLoad(options) {
-        // 查询本人提交的InfoShare
-        wx.cloud.callFunction({
-          name: "NormalQuery",
-          data: {
-            collectionName: "INFOSHARE",
-            command: "and",
-            where: [{
-              InfoStatus: "checked",
-            }]
-          },
-          success: res => {
-            this.setData({
-              infoshares: res.result.data,
-            })
-            console.log("本人全部资讯", this.data.infoshares)
-          }
+    // 查询本人提交的InfoShare
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "INFOSHARE",
+        command: "and",
+        where: [{
+          InfoStatus: "checked",
+        }]
+      },
+      success: res => {
+        this.setData({
+          infoshares: res.result.data,
         })
+        console.log("本人全部资讯", this.data.infoshares)
+      }
+    })
+    this._getComments()
     // 调用播放视频方法
     this.startUp()
   },
- 
+
   // 进页面时播放视频
-  startUp(){
+  startUp() {
     // 获取video节点
     let createVideoContext = wx.createVideoContext('video0')
     // 播放视频
     createVideoContext.play()
   },
- 
+
   // 切换视频的时候播放视频
   // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
-  nextVideo(e){
+  nextVideo(e) {
+    this.data.tempinfoid=this.data.infoshares[e.detail.current].InfoId
+    console.log(this.data.tempinfoid)
     // 播放当前页面视频
     let index = 'video' + e.detail.current
     this.playVio(index)
     // 暂停前一个页面视频
-    if(e.detail.current-1 >= 0){
-      let index1 = 'video' + (e.detail.current-1)
+    if (e.detail.current - 1 >= 0) {
+      let index1 = 'video' + (e.detail.current - 1)
       this.pauseVio(index1)
     }
     // 暂停后一个页面视频
-    if(e.detail.current+1 < this.data.viList.length){
-      let index2 = 'video' + (e.detail.current+1)
+    if (e.detail.current + 1 < this.data.viList.length) {
+      let index2 = 'video' + (e.detail.current + 1)
       this.pauseVio(index2)
     }
+    this._getComments(this.data.tempinfoid)
   },
- 
+
   // 播放视频
-  playVio(index){
+  playVio(index) {
     // 获取video节点
     let createVideoContext = wx.createVideoContext(index)
     // 播放视频
     createVideoContext.play()
   },
- 
+
   // 暂停视频
-  pauseVio(index){
+  pauseVio(index) {
     // 获取video节点
     let createVideoContext = wx.createVideoContext(index)
     // 暂停视频
     createVideoContext.pause()
   },
+
   // 分享朋友圈
   onShareTimeline: function () {
     return {

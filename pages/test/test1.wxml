@@ -59,16 +59,15 @@
 <!-- 评论层 -->
 <l-popup show="{{commentshow}}" content-align="bottom">
   <l-card l-class="" full="{{true}}" plaintext="{{true}}">
-    <label style="font-size: 20rpx;">{{comment.length}}条评论</label>
+    <label style="font-size: 20rpx;">{{comments.length}}条评论</label>
     <view wx:for="{{comments}}" key="key">
       <view style="display: flex; flex-direction: row;">
-        <view class="avatar">{{item.avatarUrl}}</view>
+        <view><image class="avatar" src="{{item.avatarUrl}}"></image></view>
         <view style="display: flex;flex-direction: column;">
-          <view class="nickName">{{item.nickName}}</view>
-          <view class="comment">{{item.Comment}}</view>
+          <view class="input">{{item.nickName}}</view>
+          <view class="comment" style="font-size: 28rpx;">{{item.Comment}}</view>
           <view style="display: flex;flex-direction: row;">
             <view class="comment">{{item.PublishDate}}</view>
-            <view class="comment">{{item.Location}}</view>
             <view class="reply" bindtap="bvReply">回复</view>
           </view>
           <l-collapse>
@@ -87,7 +86,7 @@
     </view>
 
     <!-- 留言模块 -->
-    <view wx:if="{{replyshow}}" style="display: flex;flex-direction:column;">
+    <view style="display: flex;flex-direction:column;">
       <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:linblur="bvComment"></l-textarea>
       <view style="display: flex;flex-direction: row;justify-content: space-between;">
 
@@ -97,7 +96,7 @@
 
         <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
 
-        <l-button size="mini" bind:lintap='bvReply' plain="{{true}}">发送</l-button>
+        <l-button size="mini" bind:lintap='bvPublish' plain="{{true}}">发送</l-button>
 
       </view>
     </view>
