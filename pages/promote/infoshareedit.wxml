@@ -49,8 +49,8 @@
         <label class="text">选取系统视频：</label>
         <l-radio-group placement="column" bind:linchange="bvVideoSelect">
           <block wx:for="{{sysvideos}}" wx:key="key">
-            <l-radio placement="left" color="black" select-color="green" size="40" key="{{item.videourl}}" l-class="radio">
-              <text>{{sysvideos[index].videotitle}}</text>
+            <l-radio placement="left" color="black" select-color="green" size="40" key="{{item.VideoUrl}}" l-class="radio">
+              <text>{{sysvideos[index].VideoTitle}}</text>
             </l-radio>
           </block>
           <label class="text">自选视频：</label>

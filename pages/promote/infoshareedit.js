@@ -232,10 +232,10 @@ Page({
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
-          LikePoints: 0,
-          Commont:0,
-          avatarUrl:this.data.avatarurl,
-          nickName:this.data.nickname,
+          Praise: 0,
+          Commont: 0,
+          avatarUrl: this.data.avatarurl,
+          nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
@@ -257,7 +257,7 @@ Page({
         },
         success: res => {
           utils._SuccessToast("信息更新成功")
-          }
+        }
       })
     } else {
       utils._ErrorToast("超过数量限制")
@@ -277,8 +277,8 @@ Page({
         InfoContent: this.data.infocontent,
         VideoUrl: this.data.infovideo,
         ImagesUrl: this.data.infoimages,
-        avatarUrl:this.data.avatarurl,
-        nickName:this.data.nickname,
+        avatarUrl: this.data.avatarurl,
+        nickName: this.data.nickname,
         PublishDate: new Date().toLocaleString('chinese', {
           hour12: false
         }),
@@ -297,7 +297,7 @@ Page({
       },
       success: res => {
         utils._SuccessToast("信息更新成功")
-        }
+      }
     })
   },
   /**
@@ -305,10 +305,27 @@ Page({
    */
   onLoad: async function (options) {
     this.setData({
-      avatarurl:app.globalData.Guserdata.UserInfo.avatarUrl,
-      nickname:app.globalData.Guserdata.UserInfo.nickName,
-      sysvideos: app.globalData.Gsetting.infovideos,
-      sysimages: app.globalData.Gsetting.infoimages,
+      avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickname: app.globalData.Guserdata.UserInfo.nickName,
+    })
+    // 查询系统视频及图片
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "InfoSetting",
+        command: "and",
+        where: [{
+          Status: "checked",
+        }]
+      },
+      success: res => {
+        console.log("系统视频", res.result.data)
+        this.setData({
+          sysvideos: res.result.data[0].InfoVideos,
+          sysimages: res.result.data[0].InfoImages,
+        })
+        console.log("系统视频", this.data.sysvideos)
+      }
     })
     // 查询本人提交的InfoShare
     wx.cloud.callFunction({

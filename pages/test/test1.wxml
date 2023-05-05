@@ -1,21 +1,29 @@
+<!-- 登录层 -->
+<l-mask show="{{loginshow}}" center="true">
+  <loginmask bind:myevent="onLogin"></loginmask>
+</l-mask>
+<!-- 内容层 -->
 <swiper vertical="true" bindchange="nextVideo">
   <swiper-item wx:for="{{infoshares}}">
-    <video loop="true" enable-progress-gesture="true"	object-fit="fill" src="{{item.VideoUrl}}" id="video{{index}}" />  
-    <view class="video-right" >
+    <video loop="true" enable-progress-gesture="true" object-fit="fill" src="{{item.VideoUrl}}" id="video{{index}}" />
+    <view class="video-right">
       <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-user_id="{{item.UserId}}" bindtap="toOtherUser"></view>
-      <view class="video-right-icon"><l-icon name="like" color="white"/></view>
-      <view class="video-right-icon">1{{item.LikePoints.length}}</view>
-      
 
-      <view class="video-right-icon"><l-icon name="comment" color="white"/></view>
-      <view class="video-right-icon">2{{item.Comment.length}}</view>
-      
+      <view class="video-right-icon" bindtap="bvDonateShow">
+        <l-icon name="like" color="white" />
+      </view>
+      <view class="video-right-text">1{{item.Praise.length}}</view>
 
-      <view class="video-right-icon"><l-icon name="favor" color="white"/></view>
-      <view class="video-right-icon">3{{item.Favor.length}}</view>
+      <view class="video-right-icon" bindtap="bvCommentShow">
+        <l-icon name="comment" color="white" />
+      </view>
+      <view class="video-right-text">2{{item.Comment.length}}</view>
 
-      <view class="video-right-icon"><l-icon name="share" color="white"/></view>
-      <view class="video-right-icon">4{{item.Share.length}}</view>
+      <view class="video-right-icon">
+        <l-button special="{{true}}" open-type="share">
+          <l-icon name="share" color="white" />
+        </l-button>
+      </view>
     </view>
     <view class="video-btm">
       <view class="video-btm-con">
@@ -25,3 +33,88 @@
     </view>
   </swiper-item>
 </swiper>
+<!-- 捐赠层 -->
+<l-popup show="{{donateshow}}" content-align="center">
+  <l-card plaintext="{{true}}" plaintext="{{true}}" l-class="donatecard">
+    <l-radio-group placement="column" bind:linchange="bvDonateSelect">
+      <l-radio placement="left" color="black" select-color="green" size="40" key="1" l-class="radio" cell="{{donate[0]}}" l-class="radio">
+        <text>¥5元50个赞</text>
+      </l-radio>
+      <l-radio placement="left" color="black" select-color="green" size="40" key="2" l-class="radio" cell="{{donate[1]}}" l-class="radio">
+        <text>¥10元110个赞</text>
+      </l-radio>
+      <l-radio placement="left" color="black" select-color="green" size="40" key="3" l-class="radio" cell="{{donate[2]}}" l-class="radio">
+        <text>¥20元230个赞</text>
+      </l-radio>
+      <l-radio placement="left" color="black" select-color="green" size="40" key="4" l-class="radio" cell="{{donate[3]}}" l-class="radio">
+        <text>¥30元350个赞</text>
+      </l-radio>
+    </l-radio-group>
+    <text>\n</text>
+    <view style="display: flex;flex-direction:row;align-items: center;justify-content:center;width: 50vw;padding: 0;">
+      <l-button size="medium" shape="semicircle" plain="{{true}}" bind:lintap="bvToDonate">赞赏</l-button>
+    </view>
+  </l-card>
+</l-popup>
+<!-- 评论层 -->
+<l-popup show="{{commentshow}}" content-align="bottom">
+  <l-card l-class="" full="{{true}}" plaintext="{{true}}">
+    <label style="font-size: 20rpx;">{{comment.length}}条评论</label>
+    <view wx:for="{{comments}}" key="key">
+      <view style="display: flex; flex-direction: row;">
+        <view class="avatar">{{item.avatarUrl}}</view>
+        <view style="display: flex;flex-direction: column;">
+          <view class="nickName">{{item.nickName}}</view>
+          <view class="comment">{{item.Comment}}</view>
+          <view style="display: flex;flex-direction: row;">
+            <view class="comment">{{item.PublishDate}}</view>
+            <view class="comment">{{item.Location}}</view>
+            <view class="reply" bindtap="bvReply">回复</view>
+          </view>
+          <l-collapse>
+            <l-collapse-item l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
+              <!--自定义标题-->
+              <view class="title" slot="title">
+                <view class="ticket-detail-container">使用规则
+                  <l-icon name="down" size="16" color="#999" />
+                </view>
+                <l-button l-class height="50" size="mini" shape="semicircle" plain="{{true}}">立即使用</l-button>
+              </view>
+            </l-collapse-item>
+          </l-collapse>
+        </view>
+      </view>
+    </view>
+
+    <!-- 留言模块 -->
+    <view wx:if="{{replyshow}}" style="display: flex;flex-direction:column;">
+      <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:linblur="bvComment"></l-textarea>
+      <view style="display: flex;flex-direction: row;justify-content: space-between;">
+
+        <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="avatar" src="{{avatarurl}}"></image>
+        </button>
+
+        <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
+
+        <l-button size="mini" bind:lintap='bvReply' plain="{{true}}">发送</l-button>
+
+      </view>
+    </view>
+
+    <!-- 留言管理 -->
+    <view wx:if="{{usertype == 'admin'}}">
+      <view wx:for="{{qaarray}}" wx:key="key">
+        <view wx:if="{{item.Status == ''}}">
+          <label class="title1">问：{{item.Question}}</label>
+          <text>\n</text>
+          <label class="title1">答：</label>
+          <l-textarea type='text' placeholder="请输入回复内容" maxlength='30' bind:linblur="bvAnswer"></l-textarea>
+          <l-button data-id="{{item._id}}" data-openid="{{item.UserId}}" data-question="{{item.Question}}" data-adddate="{{item.AddDate}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
+          <text>\t</text>
+          <l-button bind:lintap='bvUnlock' plain="{{true}}">解除锁定</l-button>
+        </view>
+      </view>
+    </view>
+  </l-card>
+</l-popup>

@@ -59,6 +59,6 @@
     <l-list title="商品管理" icon="setting" url="../manage/productview" />
     <l-list title="管理员订阅消息管理" icon="notification" bind:lintap="bvSubMessage" />
     <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
-    <l-list title="测试页面" icon="address" url="../test/databass" />
+    <l-list title="测试页面" icon="address" url="../test/test1" />
   </l-card>
 </view>

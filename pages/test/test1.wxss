@@ -34,11 +34,15 @@ swiper video {
 }
 
 .video-right-icon {
+  margin-top: 20rpx;
   display: flex;
   justify-content: center;
-  font-size: 28rpx;
 }
-
+.video-right-text {
+  display: flex;
+  justify-content: center;
+  font-size: 20rpx;
+}
 .content {
   font-size: 32rpx;
 }
@@ -54,4 +58,35 @@ swiper video {
 .video-btm-con {
   width: 90vw;
   margin: 0 auto;
+}
+
+.donatecard {
+  font-size: 28rpx;
+  padding-right: 50rpx;
+  border: 0.5rpx solid #3683d6;
+}
+
+.avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border: none;
+  background-size: cover;
+  background-color: white;
+}
+.avatarBtn {
+  width: 60rpx;
+  height: 60rpx;
+  border: 0.5;
+  padding: 0;
+  background-color: white;
+}
+.labal {
+  font-size: 28rpx;
+  color: rgb(0, 0, 0);
+  margin-left: 25rpx;
+}
+
+.input {
+  font-size: 28rpx;
+  height: 60rpx;
 }

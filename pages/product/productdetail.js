@@ -16,7 +16,7 @@ Page({
 
     //通过对页面内容分区域设置隐藏，达到分栏显示效果,hidden要反着写，显示的值为false,不显示的值为true
     DetailHidden: false,
-    QAHidden: true,
+    Hidden: true,
     AttachmentHidden: true,
     pageParam: [],
     productid: "",
