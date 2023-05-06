@@ -126,25 +126,7 @@ Page({
       nickname: e.detail.value,
     })
   },
-  _getComments(id) {
-    // 云函数查询评论内容
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "InfoShareComment",
-        command: "and",
-        where: [{
-          InfoId: id
-        }]
-      },
-      success: res => {
-        console.log(res)
-        this.setData({
-          comments: res.result.data
-        })
-      }
-    })
-  },
+
   bvPublish() {
     if (this.data.avatarurl == "" || this.data.nickname == "") {
       utils._ErrorToast("需要头像和昵称")
@@ -307,6 +289,10 @@ Page({
   },
 
   onLoad(options) {
+    this.setData({
+      avatarurl:app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickname:app.globalData.Guserdata.UserInfo.nickName,
+    })
     // 查询本人提交的InfoShare
     wx.cloud.callFunction({
       name: "NormalQuery",
@@ -321,14 +307,40 @@ Page({
         this.setData({
           infoshares: res.result.data,
         })
+        this._getComments(this.data.infoshares[0].InfoId)
         console.log("本人全部资讯", this.data.infoshares)
       }
     })
-    this._getComments()
+
     // 调用播放视频方法
     this.startUp()
   },
-
+  _getComments(infoid) {
+    // 云函数查询评论内容
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "InfoShareComment",
+        command: "and",
+        where: [{
+          InfoId: infoid,
+          Status:"checked"
+        }]
+      },
+      success: res => {
+        console.log(res)
+        this.setData({
+          comments: res.result.data
+        })
+      },
+      fail: res => {
+        console.log(res)
+        this.setData({
+          comments: []
+        })
+      }
+    })
+  },
   // 进页面时播放视频
   startUp() {
     // 获取video节点

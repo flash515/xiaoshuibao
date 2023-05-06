@@ -4,7 +4,7 @@
 </l-mask>
 <!-- 内容层 -->
 <swiper vertical="true" bindchange="nextVideo">
-  <swiper-item wx:for="{{infoshares}}">
+  <swiper-item wx:for="{{infoshares}}" wx:key="index">
     <video loop="true" enable-progress-gesture="true" object-fit="fill" src="{{item.VideoUrl}}" id="video{{index}}" />
     <view class="video-right">
       <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-user_id="{{item.UserId}}" bindtap="toOtherUser"></view>
@@ -17,7 +17,7 @@
       <view class="video-right-icon" bindtap="bvCommentShow">
         <l-icon name="comment" color="white" />
       </view>
-      <view class="video-right-text">2{{item.Comment.length}}</view>
+      <view class="video-right-text">{{comments.length}}</view>
 
       <view class="video-right-icon">
         <l-button special="{{true}}" open-type="share">
@@ -58,44 +58,37 @@
 </l-popup>
 <!-- 评论层 -->
 <l-popup show="{{commentshow}}" content-align="bottom">
-  <l-card l-class="" full="{{true}}" plaintext="{{true}}">
-    <label style="font-size: 20rpx;">{{comments.length}}条评论</label>
-    <view wx:for="{{comments}}" key="key">
-      <view style="display: flex; flex-direction: row;">
-        <view><image class="avatar" src="{{item.avatarUrl}}"></image></view>
+  <l-card full="{{true}}" plaintext="{{true}}">
+    <label style="display: flex; width: 100%;font-size: 20rpx;justify-content: center;">{{comments.length}}条评论</label>
+    <scroll-view scroll-y="true" enable-flex="true" style="display: flex;flex-direction:column; width: 100%;height: 500rpx; box-sizing: border-box;">
+    <view wx:for="{{comments}}" wx:key="index">
+      <view style="display: flex; flex-direction: row;margin-top: 10rpx;">
+        <view>
+          <image class="avatar" src="{{item.avatarUrl}}"></image>
+        </view>
         <view style="display: flex;flex-direction: column;">
-          <view class="input">{{item.nickName}}</view>
-          <view class="comment" style="font-size: 28rpx;">{{item.Comment}}</view>
-          <view style="display: flex;flex-direction: row;">
-            <view class="comment">{{item.PublishDate}}</view>
-            <view class="reply" bindtap="bvReply">回复</view>
+          <view style="display: flex;flex-direction: row; justify-content: space-between;">
+            <view class="nickname">{{item.nickName}}</view>
+            <view class="nickname">发表于{{item.PublishDate}}</view>
+            <view class="nickname" bindtap="bvReply">回复</view>
           </view>
-          <l-collapse>
-            <l-collapse-item l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
-              <!--自定义标题-->
-              <view class="title" slot="title">
-                <view class="ticket-detail-container">使用规则
-                  <l-icon name="down" size="16" color="#999" />
-                </view>
-                <l-button l-class height="50" size="mini" shape="semicircle" plain="{{true}}">立即使用</l-button>
-              </view>
-            </l-collapse-item>
-          </l-collapse>
+          <view class="comment">{{item.Comment}}</view>
         </view>
       </view>
-    </view>
 
+    </view>
+  </scroll-view>
     <!-- 留言模块 -->
     <view style="display: flex;flex-direction:column;">
       <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:linblur="bvComment"></l-textarea>
       <view style="display: flex;flex-direction: row;justify-content: space-between;">
-
+      <view style="width: 60rpx;">
         <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
           <image class="avatar" src="{{avatarurl}}"></image>
         </button>
+      </view>
 
-        <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
-
+        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
         <l-button size="mini" bind:lintap='bvPublish' plain="{{true}}">发送</l-button>
 
       </view>
@@ -108,8 +101,8 @@
           <label class="title1">问：{{item.Question}}</label>
           <text>\n</text>
           <label class="title1">答：</label>
-          <l-textarea type='text' placeholder="请输入回复内容" maxlength='30' bind:linblur="bvAnswer"></l-textarea>
-          <l-button data-id="{{item._id}}" data-openid="{{item.UserId}}" data-question="{{item.Question}}" data-adddate="{{item.AddDate}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
+          <l-textarea type='text' placeholder="请输入回复内容" maxlength='60' bind:linblur="bvAnswer"></l-textarea>
+          <l-button data-id="{{item._id}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
           <text>\t</text>
           <l-button bind:lintap='bvUnlock' plain="{{true}}">解除锁定</l-button>
         </view>

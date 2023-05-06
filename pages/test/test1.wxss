@@ -86,7 +86,21 @@ swiper video {
   margin-left: 25rpx;
 }
 
-.input {
-  font-size: 28rpx;
+.nickname {
+  font-size: 25rpx;
+  height: 30rpx;
+  color: #3683d6;
+}
+.nicknameinput {
+  font-size: 25rpx;
   height: 60rpx;
+  color: #3683d6;
+}
+
+.commentscard {
+  height: 500rpx;
+}
+.comment {
+  font-size: 28rpx;
+  height: 30rpx;
 }
