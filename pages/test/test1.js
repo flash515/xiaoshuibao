@@ -1,7 +1,10 @@
 const app = getApp()
+const { _indirectuser } = require("../../utils/utils");
 var utils = require("../../utils/utils")
 const wxpay = require("../../utils/WxPay");
+var interval = null //倒计时函数
 Page({
+
   /**
    * 页面的初始数据
    */
@@ -18,21 +21,14 @@ Page({
     time: "获取验证码",
     currentTime: 60,
     disabledstatus: false,
-    inputphone: "",
+    inputphone:"",
     s_phonecode: "",
     u_phonecode: "",
     // 页面相关
-    infoshares: [],
-    tempinfoid:"",
-    comments: [],
-    infoid: "",
-    avatarurl:"",
-    nickname:"",
-    donateshow: false,
-    commentshow: false,
-    replyshow: false,
-    praise: 50,
-    praisepoints: 0,
+    infoid: "9981891683113649825",
+    buylikeshow: false,
+    like: 50,
+    likepoints: 0,
     totalfee: 0,
     infoshow: true,
     inputValue: '',
@@ -40,134 +36,177 @@ Page({
     infovideo: "",
     adddate: "",
     infocontent: "",
-    donate: [{
-      praisepoints: 50,
+    buylikearray: [{
+      likepoints: 50,
       price: 5,
       creatorpoints: 2.5,
       inviterpoints: 0.75,
       indirectinviterpoints: 0.25,
     }, {
-      praisepoints: 110,
+      likepoints: 110,
       price: 10,
       creatorpoints: 5,
       inviterpoints: 1.5,
       indirectinviterpoints: 0.5,
     }, {
-      praisepoints: 230,
+      likepoints: 230,
       price: 20,
       creatorpoints: 10,
       inviterpoints: 3,
       indirectinviterpoints: 1,
     }, {
-      praisepoints: 350,
+      likepoints: 350,
       price: 30,
       creatorpoints: 15,
       inviterpoints: 4.5,
       indirectinviterpoints: 1.5,
     }],
-    viList: [{
-        vio: 'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
-        avatar: 'https://profile-avatar.csdnimg.cn/6ef2193c2e9649c88356336c626e5777_m0_64944135.jpg',
-        name: 'xiaoshen'
-      },
-      {
-        vio: 'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
-        avatar: '	https://profile.csdnimg.cn/7/A/9/1_2201_75886543',
-        name: 'kami'
+    danmuList: [{
+      text: '第 1s 出现的弹幕',
+      color: '#ff0000',
+      time: 1
+    }, {
+      text: '第 3s 出现的弹幕',
+      color: '#ff00ff',
+      time: 3
+    }],
+    sharetitle: "",
+  },
+  bvLoginShow: function (e) {
+    this.setData({
+      loginshow: true
+    })
+  },
+
+  bvInputPhone(e) {
+    this.data.inputphone= e.detail.value
+  },
+  _praiseadd() {
+    const db = wx.cloud.database()
+    const _ = db.command
+    db.collection("INFOSHARE").where({
+      InfoId: this.data.infoid
+    }).update({
+      data: {
+        Praise:_.inc(30)
       }
-    ]
-  },
-  bvDonateShow() {
-    this.setData({
-      donateshow: !this.data.donateshow
     })
+    // wx.cloud.callFunction({
+    //   name: "NormalUpdate",
+    //   data: {
+    //     collectionName: "INFOSHARE",
+    //     key: "InfoId",
+    //     value: this.data.infoid,
+    //     Key1: "Praise",
+    //     value1: 3000
+    //   },
+    //   success: res => {
+    //     console.log(res)
+    //     this.setData({
+    //       donateshow: false
+    //     })
+    //   }
+    // })
   },
-  bvComment(e) {
-    this.setData({
-      comment: e.detail.value,
-    })
-  },
-  bvCommentShow() {
-    this.setData({
-      commentshow: true,
-    })
-    // if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
-    //   // 非会员先调用登录框
-    //   this.setData({
-    //     loginshow: true
-    //   })
-    // } else {
-    //   this.setData({
-    //     commentshow:true,
-    //   })
-    // }
-  },
-  onChooseAvatar(e) {
-
-    console.log(e.detail)
-    const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
-    wx.cloud.uploadFile({
-      cloudPath, // 上传至云端的路径
-      filePath: e.detail.avatarUrl, // 小程序临时文件路径
-      success: res => {
-        // 返回文件 ID
-        console.log(res.fileID)
-        // do something
-        this.setData({
-          avatarurl: res.fileID,
-        })
-      },
-      fail: console.error
-    })
-  },
-  bvNickName(e) {
-    console.log("真机测试才能获取到", e.detail.value)
-    this.setData({
-      nickname: e.detail.value,
-    })
-  },
-
-  bvPublish() {
-    if (this.data.avatarurl == "" || this.data.nickname == "") {
-      utils._ErrorToast("需要头像和昵称")
+  bvSendCode: async function () {
+    if (this.data.inputphone == '') {
+      utils._ErrorToast("请输入手机号码")
     } else {
-      // 新增留言
-      const db = wx.cloud.database()
-      db.collection("InfoShareComment").add({
-        data: {
-          InfoId: this.data.tempinfoid,
-          UserId: app.globalData.Guserid,
-          avatarUrl: this.data.avatarurl,
-          nickName: this.data.nickname,
-          Location: this.data.location,
-          Comment: this.data.comment,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-          Status: "unchecked",
-        },
-        success: res => {
-          this.setData({
-            replyshow: false
-          })
-        },
-        fail: res => {
-          utils._ErrorToast("提交失败请重试")
-        }
-      })
+      if (this.data.disabledstatus == false) {
+        this.setData({
+          disabledstatus: true
+        })
+        this._SendCodeBtn()
+        this.data.s_phonecode = await utils._sendcode(this.data.inputphone)
+        console.log("验证码", this.data.s_phonecode)
+      }else{
+        utils._ErrorToast("已发送，请等待")
+      }
     }
   },
+  
+  _SendCodeBtn() {
+    var that = this;
+    var currentTime = that.data.currentTime
+    var interval = setInterval(function () {
+      currentTime--;
+      that.setData({
+        time: currentTime + '秒'
+      })
+      if (currentTime <= 0) {
+        clearInterval(interval)
+        that.setData({
+          time: '重新发送',
+          currentTime: 60,
+          disabledstatus: false
+        })
+      }
+    }, 1000)
+  },
 
-  bvDonateSelect(e) {
+  bvPhoneCode(e) {
+    this.data.u_phonecode= e.detail.value
+  },
+
+  bvLogin: async function (e) {
+    if (this.data.u_phonecode == this.data.s_phonecode && this.data.u_phonecode != "") {
+      this.setData({
+        loginshow: false,
+        loginbtnshow:false,
+      })
+      utils._NewMember(this.data.inputphone)
+      utils._RegistPointsAdd()
+      utils._SendNewUserSMS()
+      app.globalData.Guserdata.UserInfo.UserPhone=this.data.inputphone
+    }else {
+      utils._ErrorToast("验证码错误")
+    }
+    console.log(app.globalData.Guserdata)
+  },
+
+  bvAddLike(e) {
+
+  },
+  bvBuyLikeShow(){
+    this.setData({
+      buylikeshow: true
+    })
+  },
+  bvBuyLike(e) {
+
+    if (this.data.ordersublock == false && this.data.paymentsublock == false) {
+      this.setData({
+        discountlevel: e.currentTarget.dataset.level,
+        discountid: e.currentTarget.dataset.id,
+        discountname: e.currentTarget.dataset.name,
+        discountstartdate: e.currentTarget.dataset.startdate,
+        discountenddate: e.currentTarget.dataset.enddate,
+        discounttotalfee: e.currentTarget.dataset.price,
+        discounttype: e.currentTarget.dataset.type,
+        // 生成订单号
+        orderid: this._getGoodsRandomNumber(),
+      })
+      this._orderadd()
+      this._paymentadd()
+    } else {
+      utils._ErrorToast("请勿重复提交")
+
+    }
+
+
+    this.setData({
+      buylikeshow: true
+    })
+  },
+  bvPointsSelect(e) {
     console.log(e.detail.cell)
     this.setData({
       totalfee: e.detail.cell.price,
       points: e.detail.cell.points
     })
   },
-
   // 点击支付按钮,发起支付
-  bvToDonate(event) {
+  bvBuyLike(event) {
     const goodsnum = wxpay._getGoodsRandomNumber();
     const body = "资讯打赏";
     const PayVal = this.data.totalfee * 100;
@@ -288,104 +327,129 @@ Page({
     return '#' + rgb.join('')
   },
 
-  onLoad(options) {
-    this.setData({
-      avatarurl:app.globalData.Guserdata.UserInfo.avatarUrl,
-      nickname:app.globalData.Guserdata.UserInfo.nickName,
-    })
-    // 查询本人提交的InfoShare
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "INFOSHARE",
-        command: "and",
-        where: [{
-          InfoStatus: "checked",
-        }]
-      },
-      success: res => {
-        this.setData({
-          infoshares: res.result.data,
-        })
-        this._getComments(this.data.infoshares[0].InfoId)
-        console.log("本人全部资讯", this.data.infoshares)
-      }
-    })
-
-    // 调用播放视频方法
-    this.startUp()
-  },
-  _getComments(infoid) {
-    // 云函数查询评论内容
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "InfoShareComment",
-        command: "and",
-        where: [{
-          InfoId: infoid,
-          Status:"checked"
-        }]
-      },
-      success: res => {
-        console.log(res)
-        this.setData({
-          comments: res.result.data
-        })
-      },
-      fail: res => {
-        console.log(res)
-        this.setData({
-          comments: []
-        })
-      }
-    })
-  },
-  // 进页面时播放视频
-  startUp() {
-    // 获取video节点
-    let createVideoContext = wx.createVideoContext('video0')
-    // 播放视频
-    createVideoContext.play()
-  },
-
-  // 切换视频的时候播放视频
-  // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
-  nextVideo(e) {
-    this.data.tempinfoid=this.data.infoshares[e.detail.current].InfoId
-    console.log(this.data.tempinfoid)
-    // 播放当前页面视频
-    let index = 'video' + e.detail.current
-    this.playVio(index)
-    // 暂停前一个页面视频
-    if (e.detail.current - 1 >= 0) {
-      let index1 = 'video' + (e.detail.current - 1)
-      this.pauseVio(index1)
+  bvEdit: function (e) {
+    if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
+      this.setData({
+        loginshow: true
+      })
+    } else {
+      wx.navigateTo({
+        url: '../promote/infoshareedit',
+      })
     }
-    // 暂停后一个页面视频
-    if (e.detail.current + 1 < this.data.viList.length) {
-      let index2 = 'video' + (e.detail.current + 1)
-      this.pauseVio(index2)
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: async function (options) {
+    console.log("接收到的参数", options)
+    if (options.userid) {
+       // 如果是通过分享链接进入
+       this.data.params = options
+       this.data.remark = "通过小税宝用户分享资讯进入"
+       this.setData({
+         // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
+         tempinviterid: options.userid
+       })
+
+      // 本地函数查询资讯信息
+      const db = wx.cloud.database()
+      db.collection('INFOSHARE').where({
+        InfoId: options.infoid,
+        InfoStatus: 'checked'
+      }).get({
+        success: res => {
+          console.log(res)
+          // 展示名片分享人的名片
+          this.setData({
+              infotitle: res.data[0].InfoTitle,
+              infocontent: res.data[0].InfoContent,
+              infovideo: res.data[0].VideoUrl,
+              infoimages: res.data[0].ImagesUrl,
+              likepoints: res.data[0].LikePoints,
+              publishdate: res.data[0].PublishDate,
+          })
+        }
+      })
+      // 通过分享进入，执行用户登录操作，展示分享人的名片信息
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+    }else {
+      // 在本人小程序中打开
+      console.log("在本人小程序中打开")
+
     }
-    this._getComments(this.data.tempinfoid)
+
   },
 
-  // 播放视频
-  playVio(index) {
-    // 获取video节点
-    let createVideoContext = wx.createVideoContext(index)
-    // 播放视频
-    createVideoContext.play()
+  bindInputBlur(e) {
+    this.inputValue = e.detail.value
   },
 
-  // 暂停视频
-  pauseVio(index) {
-    // 获取video节点
-    let createVideoContext = wx.createVideoContext(index)
-    // 暂停视频
-    createVideoContext.pause()
+  bindVideoEnterPictureInPicture() {
+    console.log('进入小窗模式')
   },
 
+  bindVideoLeavePictureInPicture() {
+    console.log('退出小窗模式')
+  },
+
+  bindPlayVideo() {
+    console.log('1')
+    this.videoContext.play()
+  },
+  bindSendDanmu() {
+    this.videoContext.sendDanmu({
+      text: this.inputValue,
+      color: this.getRandomColor()
+    })
+  },
+
+  videoErrorCallback(e) {
+    console.log('视频错误信息:')
+    console.log(e.detail.errMsg)
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    this.videoContext = wx.createVideoContext('myVideo')
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
   // 分享朋友圈
   onShareTimeline: function () {
     return {
@@ -423,5 +487,4 @@ Page({
       },
     }
   }
-
 })

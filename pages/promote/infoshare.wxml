@@ -2,48 +2,115 @@
 <l-mask show="{{loginshow}}" center="true">
   <loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
-<view wx:if="{{infovideo}}">
-  <video class="videoCss" id="myVideo" src="{{infovideo}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
-</view>
-<view wx:if="{{infoimages}}" wx:for="{{infoimages}}" wx:key="key">
-  <image style="display: block" src="{{item}}" mode="scaleToFill" />
-</view>
+<!-- 内容层 -->
+<swiper vertical="true" bindchange="nextVideo" current-item-id="{{infoid}}">
+  <swiper-item wx:for="{{infoshares}}" wx:key="index">
+    <video loop="true" enable-progress-gesture="true" object-fit="fill" src="{{item.VideoUrl}}" id="video{{index}}" />
+    <view class="video-right">
+      <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-user_id="{{item.UserId}}" bindtap="toOtherUser"></view>
 
-<view class="mainframe">
-  <!-- <view class="page-section tc">
-    <view style="margin: 30rpx auto" class="weui-label">弹幕内容</view>
-    <input bindblur="bindInputBlur" class="weui-input" type="text" placeholder="在此处输入弹幕内容" />
-    <button style="margin: 30rpx auto"  bindtap="bindSendDanmu" class="page-body-button" type="primary" formType="submit">发送弹幕</button>
-    <navigator style="margin: 30rpx auto"  url="picture-in-picture" hover-class="other-navigator-hover">
-      <button type="primary" class="page-body-button" bindtap="bindPlayVideo">小窗模式</button>
-    </navigator>
-  </view> -->
-
-  <view hidden="{{btnhidden}}" style="display:flex; flex-direction:row; justify-content:space-between;" class="mainframe">
-    <l-button size="mini" shape="semicircle" bind:lintap="bvEdit" plain="{{true}}" icon="edit" icon-color="#3683d6">制作</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="like" icon-color="#3683d6" bind:lintap="bvAddLike">{{like}}</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvBuyLikeShow">加速赞</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发</l-button>
-  </view>
-  <view wx:if="{{buylikeshow}}">
-    <l-card plaintext="{{true}}" l-class="buylikecard" plaintext="{{true}}">
-      <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
-        <l-radio-group placement="column" bind:linchange="bvPointsSelect">
-          <l-radio placement="left" color="black" select-color="green" size="40" key="1" l-class="radio" cell="{{buylikearray[0]}}" l-class="radio">
-            <text>50赞，¥5元</text>
-          </l-radio>
-          <l-radio placement="left" color="black" select-color="green" size="40" key="2" l-class="radio" cell="{{buylikearray[1]}}" l-class="radio">
-            <text>110赞，¥10元</text>
-          </l-radio>
-          <l-radio placement="left" color="black" select-color="green" size="40" key="3" l-class="radio" cell="{{buylikearray[2]}}" l-class="radio">
-            <text>230赞，¥20元</text>
-          </l-radio>
-          <l-radio placement="left" color="black" select-color="green" size="40" key="4" l-class="radio" cell="{{buylikearray[3]}}" l-class="radio">
-            <text>350赞，¥30元</text>
-          </l-radio>
-        </l-radio-group>
-        <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvBuyLike">支付</l-button>
+      <view class="video-right-icon" bindtap="bvDonateShow">
+        <l-icon name="like" color="white" />
       </view>
-    </l-card>
-  </view>
-</view>
+      <view class="video-right-text">{{Praise}}</view>
+
+      <view class="video-right-icon" bindtap="bvCommentShow">
+        <l-icon name="comment" color="white" />
+      </view>
+      <view class="video-right-text">{{comments.length}}</view>
+      <view class="video-right-icon">
+        <l-button special="{{true}}" open-type="share">
+          <l-icon name="share" color="white" />
+        </l-button>
+      </view>
+      <view class="video-right-icon">
+        <l-button special="{{true}}" bind:lintap="bvEdit">
+          <l-icon name="edit" color="white" />
+        </l-button>
+      </view>
+    </view>
+    <view class="video-btm">
+      <view class="video-btm-con">
+        <text>{{item.InfoTitle}}@{{item.nickName}}</text>
+        <view class="content">{{item.InfoContent}}</view>
+      </view>
+    </view>
+  </swiper-item>
+</swiper>
+<!-- 捐赠层 -->
+<l-popup show="{{donateshow}}" content-align="center">
+  <l-card plaintext="{{true}}" plaintext="{{true}}" l-class="donatecard">
+    <l-radio-group placement="column" bind:linchange="bvDonateSelect">
+      <l-radio placement="left" color="black" select-color="green" size="40" key="1" l-class="radio" cell="{{donate[0]}}" l-class="radio">
+        <text>¥5元50个赞</text>
+      </l-radio>
+      <l-radio placement="left" color="black" select-color="green" size="40" key="2" l-class="radio" cell="{{donate[1]}}" l-class="radio">
+        <text>¥10元110个赞</text>
+      </l-radio>
+      <l-radio placement="left" color="black" select-color="green" size="40" key="3" l-class="radio" cell="{{donate[2]}}" l-class="radio">
+        <text>¥20元230个赞</text>
+      </l-radio>
+      <l-radio placement="left" color="black" select-color="green" size="40" key="4" l-class="radio" cell="{{donate[3]}}" l-class="radio">
+        <text>¥30元350个赞</text>
+      </l-radio>
+    </l-radio-group>
+    <text>\n</text>
+    <view style="display: flex;flex-direction:row;align-items: center;justify-content:center;width: 50vw;padding: 0;">
+      <l-button size="medium" shape="semicircle" plain="{{true}}" bind:lintap="bvToDonate">{{btnname}}</l-button>
+    </view>
+  </l-card>
+</l-popup>
+<!-- 评论层 -->
+<l-popup show="{{commentshow}}" content-align="bottom">
+  <l-card full="{{true}}" plaintext="{{true}}">
+    <label style="display: flex; width: 100%;font-size: 20rpx;justify-content: center;">{{comments.length}}条评论</label>
+    <scroll-view scroll-y="true" enable-flex="true" style="display: flex;flex-direction:column; width: 100%;height: 500rpx; box-sizing: border-box;">
+    <view wx:for="{{comments}}" wx:key="index">
+      <view style="display: flex; flex-direction: row;margin-top: 10rpx;">
+        <view>
+          <image class="avatar" src="{{item.avatarUrl}}"></image>
+        </view>
+        <view style="display: flex;flex-direction: column;">
+          <view style="display: flex;flex-direction: row; justify-content: space-between;">
+            <view class="nickname">{{item.nickName}}</view>
+            <view class="nickname">发表于{{item.PublishDate}}</view>
+            <view class="nickname" bindtap="bvReply">回复</view>
+          </view>
+          <view class="comment">{{item.Comment}}</view>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+    <!-- 留言模块 -->
+    <view style="display: flex;flex-direction:column;">
+      <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:linblur="bvComment"></l-textarea>
+      <view style="display: flex;flex-direction: row;justify-content: space-between;">
+      <view style="width: 60rpx;">
+        <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="avatar" src="{{avatarurl}}"></image>
+        </button>
+      </view>
+
+        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
+        <l-button size="mini" bind:lintap='bvPublish' plain="{{true}}">发送</l-button>
+
+      </view>
+    </view>
+
+    <!-- 留言管理 -->
+    <view wx:if="{{usertype == 'admin'}}">
+      <view wx:for="{{qaarray}}" wx:key="key">
+        <view wx:if="{{item.Status == ''}}">
+          <label class="title1">问：{{item.Question}}</label>
+          <text>\n</text>
+          <label class="title1">答：</label>
+          <l-textarea type='text' placeholder="请输入回复内容" maxlength='60' bind:linblur="bvAnswer"></l-textarea>
+          <l-button data-id="{{item._id}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
+          <text>\t</text>
+          <l-button bind:lintap='bvUnlock' plain="{{true}}">解除锁定</l-button>
+        </view>
+      </view>
+    </view>
+  </l-card>
+</l-popup>

@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const wxpay = require("../../utils/WxPay")
+const wxpay = require("../../utils/WxPay");
 Page({
   /**
    * 页面的初始数据
@@ -23,49 +23,59 @@ Page({
     u_phonecode: "",
     // 页面相关
     infoshares: [],
-    infoid: "",
+    tempinfoid:"",
     comments: [],
-    currentinfoid: "",
-    avatarurl: "",
-    nickname: "",
+    infoid: "",
+    avatarurl:"",
+    nickname:"",
     donateshow: false,
     commentshow: false,
     replyshow: false,
-    infoshow: true,
-    // 赞赏相关参数
-    isPaying: false,
-    btnname: "赞赏",
+    praise: 50,
+    praisepoints: 0,
     totalfee: 0,
-    praise: 0,
-    Praise: 0,
-    creatorpoints: 0,
-    inviterpoints: 0,
-    indirectinviterpoints: 0,
+    infoshow: true,
+    inputValue: '',
+    infotitle: "",
+    infovideo: "",
+    adddate: "",
+    infocontent: "",
     donate: [{
-      praise: 50,
+      praisepoints: 50,
       price: 5,
       creatorpoints: 2.5,
       inviterpoints: 0.75,
       indirectinviterpoints: 0.25,
     }, {
-      praise: 110,
+      praisepoints: 110,
       price: 10,
       creatorpoints: 5,
       inviterpoints: 1.5,
       indirectinviterpoints: 0.5,
     }, {
-      praise: 230,
+      praisepoints: 230,
       price: 20,
       creatorpoints: 10,
       inviterpoints: 3,
       indirectinviterpoints: 1,
     }, {
-      praise: 350,
+      praisepoints: 350,
       price: 30,
       creatorpoints: 15,
       inviterpoints: 4.5,
       indirectinviterpoints: 1.5,
     }],
+    viList: [{
+        vio: 'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
+        avatar: 'https://profile-avatar.csdnimg.cn/6ef2193c2e9649c88356336c626e5777_m0_64944135.jpg',
+        name: 'xiaoshen'
+      },
+      {
+        vio: 'https://assets.mixkit.co/videos/preview/mixkit-movement-in-a-large-avenue-at-night-in-timelapse-44688-large.mp4',
+        avatar: '	https://profile.csdnimg.cn/7/A/9/1_2201_75886543',
+        name: 'kami'
+      }
+    ]
   },
   bvDonateShow() {
     this.setData({
@@ -93,6 +103,7 @@ Page({
     // }
   },
   onChooseAvatar(e) {
+
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     wx.cloud.uploadFile({
@@ -109,7 +120,6 @@ Page({
       fail: console.error
     })
   },
-
   bvNickName(e) {
     console.log("真机测试才能获取到", e.detail.value)
     this.setData({
@@ -125,7 +135,7 @@ Page({
       const db = wx.cloud.database()
       db.collection("InfoShareComment").add({
         data: {
-          InfoId: this.data.infoid,
+          InfoId: this.data.tempinfoid,
           UserId: app.globalData.Guserid,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
@@ -147,7 +157,6 @@ Page({
       })
     }
   },
-
   bvEdit: function (e) {
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
       this.setData({
@@ -159,25 +168,18 @@ Page({
       })
     }
   },
-
   bvDonateSelect(e) {
     console.log(e.detail.cell)
-    this.data.totalfee = e.detail.cell.price
-    this.data.praise = e.detail.cell.praise
-    this.data.creatorpoints = e.detail.cell.creatorpoints
-    this.data.inviterpoints = e.detail.cell.inviterpoints
-    this.data.indirectinviterpoints = e.detail.cell.indirectinviterpoints
+    this.setData({
+      totalfee: e.detail.cell.price,
+      points: e.detail.cell.points
+    })
   },
 
   // 点击支付按钮,发起支付
   bvToDonate(event) {
-    if (this.data.isPaying) return
-    this.setData({
-      isPaying: true,
-      btnname: "支付中"
-    })
     const goodsnum = wxpay._getGoodsRandomNumber();
-    const body = "资讯赞赏";
+    const body = "资讯打赏";
     const PayVal = this.data.totalfee * 100;
     this._callWXPay(body, goodsnum, PayVal);
   },
@@ -202,9 +204,12 @@ Page({
           ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
           success: (res) => {
             console.log('支付成功', res);
-            that._paymentadd(goodsnum)
-            that._pointsadd()
-            that._praiseadd()
+            wxpay._orderupdate();
+            wxpay._paymentupdate();
+            wxpay._userupdate();
+            that.setData({
+              paymenthidden: true
+            })
           },
           fail: (err) => {
             console.error('支付失败', err);
@@ -215,159 +220,142 @@ Page({
         console.error(err);
       });
   },
-  _praiseadd() {
-    wx.cloud.callFunction({
-      name: "PraiseAdd",
-      data: {
-        collectionName: "INFOSHARE",
-        key: "InfoId",
-        value: this.data.infoid,
-        key1: "Praise",
-        value1: this.data.praise
-      },
-      success: res => {
-        console.log(res)
-        this.setData({
-          donateshow: false
-        })
-      }
-    })
-  },
-  _pointsadd() {
-    // 赞赏点数记录
-    const db = wx.cloud.database()
-    db.collection("POINTS").add({
-      data: {
-        PointsType: "donate",
-        UserId: app.globalData.Guserid,
-        ProductId: this.data.infoid,
-        ProductName: "资讯赞赏",
-        TotalFee: this.data.price,
-        CreatorId: this.data.creatorid,
-        CreatorPoints: this.data.creatorpoints,
-        InviterId: this.data.creatorinviterid,
-        InviterPoints: this.data.inviterpoints,
-        IndirectInviterId: this.data.creatorindirectinviterid,
-        IndirectInviterPoints: this.data.indirectinviterpoints,
-        SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        PointsStatus: "checked",
-      },
-      success: res => {
-        resolve(res)
-      },
-    })
-  },
-
-  _paymentadd(goodsnum) {
-    // 支付成功后增加付款记录
+  _orderadd() {
     let that = this
-    const db = wx.cloud.database()
-    db.collection("PAYMENT").add({
-      data: {
-        OrderId: goodsnum,
-        ProductId: this.data.infoid,
-        ProductName: "资讯赞赏",
-        TotalFee: this.data.totalfee,
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        PaymentStatus: "checked",
-        UserId: app.globalData.Guserid
-      },
-      success: res => {
-        console.log("paymentadd成功")
-        that.setData({
-          isPaying: false,
-          btnname: "赞赏"
-        })
-      },
-      fail: res => {
-        utils._ErrorToast("提交失败请重试")
-      }
-    })
+    if (this.data.ordersublock) {
+      that._hidden()
+    } else {
+      const db = wx.cloud.database()
+      // 新增数据
+      db.collection("DISCOUNTORDER").add({
+        data: {
+          OrderId: this.data.orderid,
+          DiscountLevel: this.data.discountlevel,
+          DiscountId: this.data.discountid,
+          DiscountName: this.data.discountname,
+          DiscountType: this.data.discounttype,
+          DLStartDate: this.data.discountstartdate,
+          DLEndDate: this.data.discountenddate,
+          TotalFee: this.data.discounttotalfee,
+          SysAddDate: new Date().getTime(),
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          PaymentStatus: "unchecked",
+          OrderStatus: "unchecked",
+          Available: false
+        },
+        success: res => {
+          that.setData({
+            ordersublock: true
+          })
+          that._hidden()
+        },
+        fail: res => {
+          utils._ErrorToast("提交失败请重试")
+        }
+      })
+    }
+  },
+  _paymentadd() {
+    let that = this
+    if (this.data.paymentsublock) {
+      that._hidden()
+    } else {
+      const db = wx.cloud.database()
+      db.collection("PAYMENT").add({
+        data: {
+          OrderId: this.data.orderid,
+          ProductId: this.data.discountid,
+          ProductName: this.data.discountname,
+          TotalFee: this.data.discounttotalfee,
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          PaymentStatus: "unchecked",
+          Database: "DISCOUNTORDER"
+        },
+        success: res => {
+          console.log("paymentadd成功")
+          that.setData({
+            paymentsublock: true,
+          })
+          that._hidden()
+        },
+        fail: res => {
+          utils._ErrorToast("提交失败请重试")
+        }
+      })
+    }
+  },
+  getRandomColor() {
+    const rgb = []
+    for (let i = 0; i < 3; ++i) {
+      let color = Math.floor(Math.random() * 256).toString(16)
+      color = color.length === 1 ? '0' + color : color
+      rgb.push(color)
+    }
+    return '#' + rgb.join('')
   },
 
   onLoad: async function (options) {
     console.log("接收到的参数", options)
     if (options.userid) {
-      // 如果是通过分享链接进入
-      this.data.params = options
-      this.data.remark = "通过小税宝用户分享资讯进入"
-      this.setData({
-        // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
-        tempinviterid: options.userid
-      })
+       // 如果是通过分享链接进入
+       this.data.params = options
+       this.data.remark = "通过小税宝用户分享资讯进入"
+       this.setData({
+         // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
+         tempinviterid: options.userid
+       })
 
-      // 本地函数查询分享人的全部资讯信息，当前数量少于20条用本地函数就可以
+      // 本地函数查询资讯信息
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
-        UserId: options.userid,
+        InfoId: options.infoid,
         InfoStatus: 'checked'
       }).get({
         success: res => {
           console.log(res)
-          // 展示接收到的info
+          // 展示名片分享人的名片
           this.setData({
-            infoshares: res.data,
-            currentinfoid: options.infoid
+            infoshares: res.result.data,
           })
         }
       })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-      this.data.creatorid = options.userid
-      let creator = await utils._usercheck(options.userid)
-      this.data.creatorinviterid = creator.UserInfo.InviterId
-      this.data.creatorindirectinviterid = creator.UserInfo.IndirectInviterId
-    } else {
+    }else {
       // 在本人小程序中打开
       console.log("在本人小程序中打开")
-      // 查询公开发布的视频，数量少于20条用本地函数就可以
-      const db = wx.cloud.database()
-      db.collection('INFOSHARE').where({
-        UserId: app.globalData.Guserid,
-        InfoStatus: 'checked'
-      }).get({
-        success: res => {
-          console.log(res)
-          // 展示查询到的结果
-          this.setData({
-            infoshares: res.data,
-            Praise: res.data[0].Praise
-          })
-          this.data.infoid = this.data.infoshares[0].InfoId
-          this._getComments(this.data.infoshares[0].InfoId)
-          console.log("本人全部资讯", this.data.infoshares)
-        }
-      })
+    // 查询公开发布的视频
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "INFOSHARE",
+        command: "and",
+        where: [{
+          InfoStatus: "checked",
+        }]
+      },
+      success: res => {
+        this.setData({
+          infoshares: res.result.data,
+        })
+        this._getComments(this.data.infoshares[0].InfoId)
+        console.log("本人全部资讯", this.data.infoshares)
+      }
+    })
     }
     this.setData({
-      avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
-      nickname: app.globalData.Guserdata.UserInfo.nickName,
+      avatarurl:app.globalData.Guserdata.UserInfo.avatarUrl,
+      nickname:app.globalData.Guserdata.UserInfo.nickName,
     })
+
+
     // 调用播放视频方法
     this.startUp()
   },
-  _getPraise(infoid) {
-    const db = wx.cloud.database()
-    db.collection("INFOSHARE").where({
-      InfoId: infoid
-    }).get({
-      success: res => {
-        console.log(res)
-        this.setData({
-          Praise: res.data[0].Praise
-        })
-      },
-      faile: res => {
-        console.log(res)
-      }
-    })
-  },
-
   _getComments(infoid) {
     // 云函数查询评论内容
     wx.cloud.callFunction({
@@ -377,7 +365,7 @@ Page({
         command: "and",
         where: [{
           InfoId: infoid,
-          Status: "checked"
+          Status:"checked"
         }]
       },
       success: res => {
@@ -405,8 +393,8 @@ Page({
   // 切换视频的时候播放视频
   // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
   nextVideo(e) {
-    this.data.infoid = this.data.infoshares[e.detail.current].InfoId
-    console.log(this.data.infoid)
+    this.data.tempinfoid=this.data.infoshares[e.detail.current].InfoId
+    console.log(this.data.tempinfoid)
     // 播放当前页面视频
     let index = 'video' + e.detail.current
     this.playVio(index)
@@ -416,12 +404,11 @@ Page({
       this.pauseVio(index1)
     }
     // 暂停后一个页面视频
-    if (e.detail.current + 1 < this.data.infoshares.length) {
+    if (e.detail.current + 1 < this.data.viList.length) {
       let index2 = 'video' + (e.detail.current + 1)
       this.pauseVio(index2)
     }
-    this._getComments(this.data.infoid)
-    this._getPraise(this.data.infoid)
+    this._getComments(this.data.tempinfoid)
   },
 
   // 播放视频
@@ -459,7 +446,7 @@ Page({
     }
     return {
       title: this.data.sharetitle,
-      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
+      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.tempinfoid,
       imageUrl: '', //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调

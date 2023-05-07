@@ -25,7 +25,7 @@
   <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
   <l-list title="数字名片" icon="user" url="../promote/namecard" />
-  <l-list title="资讯分享" icon="user" url="../promote/infoshare" />
+  <l-list title="资讯广场" icon="user" url="../promote/infoshare" />
   <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
   <l-list title="小程序推广码" icon="picture" url="../promote/minicode" />
   <l-list title="我的推广海报" icon="picture" url="../promote/poster" />
