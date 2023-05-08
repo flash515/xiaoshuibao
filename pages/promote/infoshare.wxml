@@ -18,11 +18,13 @@
         <l-icon name="comment" color="white" />
       </view>
       <view class="video-right-text">{{comments.length}}</view>
+
       <view class="video-right-icon">
         <l-button special="{{true}}" open-type="share">
           <l-icon name="share" color="white" />
         </l-button>
       </view>
+
       <view class="video-right-icon">
         <l-button special="{{true}}" bind:lintap="bvEdit">
           <l-icon name="edit" color="white" />
@@ -65,51 +67,49 @@
   <l-card full="{{true}}" plaintext="{{true}}">
     <label style="display: flex; width: 100%;font-size: 20rpx;justify-content: center;">{{comments.length}}条评论</label>
     <scroll-view scroll-y="true" enable-flex="true" style="display: flex;flex-direction:column; width: 100%;height: 500rpx; box-sizing: border-box;">
-    <view wx:for="{{comments}}" wx:key="index">
-      <view style="display: flex; flex-direction: row;margin-top: 10rpx;">
-        <view>
-          <image class="avatar" src="{{item.avatarUrl}}"></image>
-        </view>
-        <view style="display: flex;flex-direction: column;">
-          <view style="display: flex;flex-direction: row; justify-content: space-between;">
-            <view class="nickname">{{item.nickName}}</view>
-            <view class="nickname">发表于{{item.PublishDate}}</view>
-            <view class="nickname" bindtap="bvReply">回复</view>
+      <view wx:for="{{comments}}" wx:key="index">
+        <view style="display: flex; flex-direction: row;margin-top: 10rpx;">
+          <view>
+            <image class="avatar" src="{{item.avatarUrl}}"></image>
           </view>
-          <view class="comment">{{item.Comment}}</view>
+          <view style="display: flex;flex-direction: column;width: 100%;">
+            <view style="display: flex;flex-direction: row; justify-content: space-between;">
+              <view class="nickname">{{item.nickName}}</view>
+              <view class="nickname"><text decode='true' space="emsp"> 发表于{{item.PublishDate}}</text></view>
+            </view>
+            <view class="comment"><text decode='true' space="emsp">{{item.Comment}}</text></view>
+            <view wx:if="{{creatorid==userid}}">
+              <l-collapse>
+                <l-collapse-item l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
+                  <!--自定义标题-->
+                  <view class="nickname" slot="title">回复
+                    <l-icon name="down" size="16" color="#999" />
+                  </view>
+                  <l-textarea type='text' auto-height="{{true}}" placeholder="请输入回复内容" maxlength='30' bind:linblur="bvReplyContent"></l-textarea>
+                  <l-button size="mini" data-id="{{item._id}}" bind:lintap='bvReplySend' plain="{{true}}">发送回复</l-button>
+                </l-collapse-item>
+              </l-collapse>
+              <view wx:if="{{item.Reply}}">
+                <view class="nickname"><text decode='true' space="emsp">作者回复于{{item.ReplyDate}}</text></view>
+                <view class="comment"><text decode='true' space="emsp">{{item.Reply}}</text></view>
+              </view>
+            </view>
+          </view>
         </view>
       </view>
-
-    </view>
-  </scroll-view>
+    </scroll-view>
     <!-- 留言模块 -->
-    <view style="display: flex;flex-direction:column;">
+    <view wx:if="{{creatorid!=userid}}" style="display: flex;flex-direction:column;">
       <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:linblur="bvComment"></l-textarea>
       <view style="display: flex;flex-direction: row;justify-content: space-between;">
-      <view style="width: 60rpx;">
-        <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-          <image class="avatar" src="{{avatarurl}}"></image>
-        </button>
-      </view>
-
-        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
-        <l-button size="mini" bind:lintap='bvPublish' plain="{{true}}">发送</l-button>
-
-      </view>
-    </view>
-
-    <!-- 留言管理 -->
-    <view wx:if="{{usertype == 'admin'}}">
-      <view wx:for="{{qaarray}}" wx:key="key">
-        <view wx:if="{{item.Status == ''}}">
-          <label class="title1">问：{{item.Question}}</label>
-          <text>\n</text>
-          <label class="title1">答：</label>
-          <l-textarea type='text' placeholder="请输入回复内容" maxlength='60' bind:linblur="bvAnswer"></l-textarea>
-          <l-button data-id="{{item._id}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
-          <text>\t</text>
-          <l-button bind:lintap='bvUnlock' plain="{{true}}">解除锁定</l-button>
+        <view style="width: 60rpx;">
+          <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+            <image class="avatar" src="{{avatarurl}}"></image>
+          </button>
         </view>
+        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
+        <l-button size="mini" bind:lintap='bvPublish' plain="{{true}}">发送留言</l-button>
+
       </view>
     </view>
   </l-card>

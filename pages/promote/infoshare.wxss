@@ -70,15 +70,20 @@ swiper video {
   width: 60rpx;
   height: 60rpx;
   border: none;
+  padding: 0;
   background-size: cover;
   background-color: white;
 }
 .avatarBtn {
   width: 60rpx;
   height: 60rpx;
-  border: 0.5;
+  border: none;
   padding: 0;
   background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .labal {
   font-size: 28rpx;
@@ -87,12 +92,12 @@ swiper video {
 }
 
 .nickname {
-  font-size: 25rpx;
+  font-size: 28rpx;
   height: 30rpx;
   color: #3683d6;
 }
 .nicknameinput {
-  font-size: 25rpx;
+  font-size: 28rpx;
   height: 60rpx;
   color: #3683d6;
 }

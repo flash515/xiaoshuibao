@@ -26,10 +26,14 @@ Page({
     infoid: "",
     comments: [],
     currentinfoid: "",
+    creatorid: "",
+    userid: "",
     avatarurl: "",
     nickname: "",
+    Praise: 0,
     donateshow: false,
     commentshow: false,
+    replycontent:"",
     replyshow: false,
     infoshow: true,
     // 赞赏相关参数
@@ -37,7 +41,6 @@ Page({
     btnname: "赞赏",
     totalfee: 0,
     praise: 0,
-    Praise: 0,
     creatorpoints: 0,
     inviterpoints: 0,
     indirectinviterpoints: 0,
@@ -115,6 +118,38 @@ Page({
     this.setData({
       nickname: e.detail.value,
     })
+  },
+  bvReplyContent(e) {
+    this.setData({
+      replycontent: e.detail.value
+    })
+
+  },
+  bvReplySend(e) {
+    // 新增回复
+    console.log(e.currentTarget.dataset.id)
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'NormalReply',
+      // 传递给云函数的参数
+      data: {
+        collectionName: "InfoShareComment",
+        id: e.currentTarget.dataset.id,
+        key1: "Reply",
+        value1: this.data.replycontent,
+        key2: "ReplyStatus",
+        value2: "unchecked",
+        key3: "ReplyDate",
+        value3: new Date().toLocaleString('chinese', {
+          hour12: false
+        })
+      },
+      success: res => {
+        console.log(res)
+        utils._SuccessToast("回复发送成功")
+      },
+    })
+
   },
 
   bvPublish() {
@@ -318,7 +353,9 @@ Page({
       })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-      this.data.creatorid = options.userid
+      this.setData({
+        creatorid: options.userid
+      })
       let creator = await utils._usercheck(options.userid)
       this.data.creatorinviterid = creator.UserInfo.InviterId
       this.data.creatorindirectinviterid = creator.UserInfo.IndirectInviterId
@@ -336,7 +373,8 @@ Page({
           // 展示查询到的结果
           this.setData({
             infoshares: res.data,
-            Praise: res.data[0].Praise
+            Praise: res.data[0].Praise,
+            creatorid: app.globalData.Guserid,
           })
           this.data.infoid = this.data.infoshares[0].InfoId
           this._getComments(this.data.infoshares[0].InfoId)
@@ -345,6 +383,7 @@ Page({
       })
     }
     this.setData({
+      userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
     })
@@ -406,6 +445,9 @@ Page({
   // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
   nextVideo(e) {
     this.data.infoid = this.data.infoshares[e.detail.current].InfoId
+    this.setData({
+      creatorid: this.data.infoshares[e.detail.current].UserId
+    })
     console.log(this.data.infoid)
     // 播放当前页面视频
     let index = 'video' + e.detail.current
