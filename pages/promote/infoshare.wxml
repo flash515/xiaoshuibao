@@ -79,7 +79,7 @@
               <view class="nickname"><text decode='true' space="emsp"> 发表于 {{item.PublishDate}}</text></view>
             </view>
             <view class="comment"><text decode='true' space="emsp">{{item.Comment}}</text></view>
-            <view wx:if="{{creatorid==userid}}">
+            <view wx:if="{{userid==item.UserId}}">
               <l-collapse>
                 <l-collapse-item l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
                   <!--自定义标题-->
@@ -100,7 +100,7 @@
       </view>
     </scroll-view>
     <!-- 留言模块 -->
-    <view wx:if="{{creatorid!=userid}}" style="display: flex;flex-direction:column;">
+    <view wx:if="{{userid!=item.UserId}}" style="display: flex;flex-direction:column;">
       <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:lininput="bvComment"></l-textarea>
       <view style="display: flex;flex-direction: row;justify-content: space-between;">
         <view style="width: 60rpx;">

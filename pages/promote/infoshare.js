@@ -182,7 +182,15 @@ Page({
       })
     }
   },
-
+  onLogin(e) {
+    this.setData({
+      loginshow: e.detail.loginshow,
+      userphone: e.detail.userphone,
+    })
+    wx.redirectTo({
+      url: "../promote/infoshareedit"
+    })
+  },
   bvEdit: function (e) {
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
       this.setData({
@@ -361,11 +369,10 @@ Page({
       this.data.creatorindirectinviterid = creator.UserInfo.IndirectInviterId
     } else {
       // 在本人小程序中打开
-      console.log("在本人小程序中打开")
+      console.log("在本人小程序中打开展示全部公开资讯")
       // 查询公开发布的视频，数量少于20条用本地函数就可以
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
-        UserId: app.globalData.Guserid,
         InfoStatus: 'checked'
       }).get({
         success: res => {
@@ -374,7 +381,6 @@ Page({
           this.setData({
             infoshares: res.data,
             Praise: res.data[0].Praise,
-            creatorid: app.globalData.Guserid,
           })
           this.data.infoid = this.data.infoshares[0].InfoId
           this._getComments(this.data.infoshares[0].InfoId)
