@@ -382,9 +382,10 @@ Page({
           this.setData({
             infoshares: res.data,
             Praise: res.data[0].Praise,
+            creatorid:res.data[0].UserId,
           })
-          this.data.infoid = this.data.infoshares[0].InfoId
-          this._getComments(this.data.infoshares[0].InfoId)
+          this.data.infoid = res.data[0].InfoId
+          this._getComments(res.data[0].InfoId)
           console.log("本人全部资讯", this.data.infoshares)
         }
       })
