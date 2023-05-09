@@ -221,7 +221,7 @@ Page({
 
   //发布到资讯广场
   async bvPublish(e) {
-    if (this.data.infoshares.length < 3) {
+    if (app.globalData.Guserdata.UserInfo.UserType=="admin" || this.data.infoshares.length < 3) {
       // 会员只能发布最多3条资讯
       const db = wx.cloud.database()
       db.collection('INFOSHARE').add({
