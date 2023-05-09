@@ -37,7 +37,7 @@
           <text>\n</text>
           <view>
             <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
-              bind:linblur="bvQuestion1"></l-textarea>
+              bind:lininput="bvQuestion1"></l-textarea>
           </view>
           <view>
             <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit1' >发送留言</l-button>
@@ -81,7 +81,7 @@
         <l-collapse-item title="折叠/展开">
           <view>
             <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
-              bind:linblur="bvQuestion2"></l-textarea>
+              bind:lininput="bvQuestion2"></l-textarea>
           </view>
           <view>
             <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit2'>发送留言</l-button>
@@ -124,7 +124,7 @@
         <l-collapse-item title="折叠/展开">
           <view>
             <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
-              bind:linblur="bvQuestion3"></l-textarea>
+              bind:lininput="bvQuestion3"></l-textarea>
           </view>
           <view>
             <l-button icon="to-top" icon-color="#3683d6" size="medium" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit3'>发送留言</l-button>
@@ -168,7 +168,7 @@
         <l-collapse-item title="折叠/展开">
           <view>
             <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示" maxlength='30'
-              bind:linblur="bvQuestion4"></l-textarea>
+              bind:lininput="bvQuestion4"></l-textarea>
           </view>
           <view>
             <l-button icon="to-top" icon-color="#3683d6" shape="semicircle" plain="{{true}}" bind:lintap='bvSubmit4'>发送留言</l-button>

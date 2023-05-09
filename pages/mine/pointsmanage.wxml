@@ -23,12 +23,12 @@
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">转让积分总额：</label>
 
-        <input class="input" type="number" bindblur="bvTransferPoints" />
+        <input class="input" type="number" bindinput="bvTransferPoints" />
         <label class="labal">积分</label>
       </view>
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">转让礼包个数：</label>
-        <input class="input" type="number" bindblur="bvPacketNumber" />
+        <input class="input" type="number" bindinput="bvPacketNumber" />
         <label class="labal">个</label>
       </view>
 
@@ -38,7 +38,7 @@
     <l-card type="avatar" l-class="card" l-title-class="cardtitle" plaintext="{{true}}" title="消费积分兑换推广积分">
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">积分兑换数额：</label>
-        <input class="input" type="number" bindblur="bvExchangePoints" />
+        <input class="input" type="number" bindinput="bvExchangePoints" />
         <label class="labal">积分</label>
       </view>
       <l-button slot="more" size="mini" type="default" bind:lintap="bvTradePointsExchange" shape="semicircle" plain="{{true}}">确定</l-button>
@@ -47,7 +47,7 @@
     <l-card type="avatar" l-class="card" l-title-class="cardtitle" plaintext="{{true}}" title="消费积分折现">
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">折现积分数额：</label>
-        <input class="input" type="number" bindblur="bvWithdrawPoints" />
+        <input class="input" type="number" bindinput="bvWithdrawPoints" />
         <label class="labal">积分</label>
       </view>
       <l-button slot="more" size="mini" type="default" bind:lintap="bvTradePointsWithdraw" shape="semicircle" plain="{{true}}">确定</l-button>

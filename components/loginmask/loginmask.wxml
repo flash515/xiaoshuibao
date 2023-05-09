@@ -2,12 +2,12 @@
     <text>\r\n</text>
     <view class="logininputbox" style="justify-content:flex-start;">
       <view style="padding: 10rpx;">手机号：</view>
-      <input style="width: 200rpx;" type="number" bindblur="bvInputPhone" maxlength="11" value="{{inputphone}}" disabled="{{getnumbersuccess}}"/>
+      <input style="width: 200rpx;" type="number" bindinput="bvInputPhone" maxlength="11" value="{{inputphone}}" disabled="{{getnumbersuccess}}"/>
       <button plain open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">获取手机号</button>
     </view>
     <view wx:if="{{!getnumbersuccess}}" class="logininputbox" style="justify-content:space-between;">
       <view style="padding: 10rpx;">验证码：</view>
-      <input style="width: 200rpx;" type="number" bindblur="bvPhoneCode" maxlength="6" />
+      <input style="width: 200rpx;" type="number" bindinput="bvPhoneCode" maxlength="6" />
       <button plain bindtap="bvSendCode" disabled='{{disabledstatus}}'>{{time}}</button>
     </view>
     <text>\r\n</text>

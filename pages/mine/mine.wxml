@@ -21,25 +21,25 @@
 </l-grid>
 <l-card type="primary" plaintext="{{true}}">
 
-  <l-list title="我的信息" icon="user" url="../mine/userinfo" />
-  <l-list title="推广奖励" icon="setting" url="../mine/promotepolicy" />
-  <l-list title="价格优惠" icon="setting" url="../mine/pricepolicy" />
-  <l-list title="数字名片" icon="user" url="../promote/namecard" />
-  <l-list title="资讯广场" icon="user" url="../promote/infoshare" />
-  <l-list title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
-  <l-list title="小程序推广码" icon="picture" url="../promote/minicode" />
-  <l-list title="我的推广海报" icon="picture" url="../promote/poster" />
+  <l-list id="我的信息" bind:lintap="handlerClick" title="我的信息" icon="user" url="../mine/userinfo" />
+  <l-list id="推广奖励" bind:lintap="handlerClick" title="推广奖励" icon="setting" url="../mine/promotepolicy" />
+  <l-list id="价格优惠" bind:lintap="handlerClick" title="价格优惠" icon="setting" url="../mine/pricepolicy" />
+  <l-list id="数字名片" bind:lintap="handlerClick" title="数字名片" icon="user" url="../promote/namecard" />
+  <l-list id="资讯广场" bind:lintap="handlerClick" title="资讯广场" icon="user" url="../promote/infoshare" />
+  <l-list id="小程序消息订阅" bind:lintap="handlerClick" title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
+  <l-list id="小程序推广码" bind:lintap="handlerClick" title="小程序推广码" icon="picture" url="../promote/minicode" />
+  <l-list id="我的推广海报" bind:lintap="handlerClick" title="我的推广海报" icon="picture" url="../promote/poster" />
   <view wx:if="{{userphone != ''}}">
-    <l-list title="推广详情" icon="user" url="../mine/shareuser" />
-    <l-list title="成为服务商" icon="setting" url="../mine/providerapply" />
+    <l-list id="推广详情" bind:lintap="handlerClick" title="推广详情" icon="user" url="../mine/shareuser" />
+    <l-list id="成为服务商" bind:lintap="handlerClick" title="成为服务商" icon="setting" url="../mine/providerapply" />
   </view>
 </l-card>
 <view wx:if="{{usertype == 'provider'}}">
   <text>\n</text>
   <l-card type="primary" plaintext="{{true}}">
-    <l-list title="服务商功能" icon="notification" right-desc="" tag-position="right" />
-    <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
-    <l-list title="商品管理" icon="setting" url="../manage/productview" />
+    <l-list id="服务商功能" bind:lintap="handlerClick" title="服务商功能" icon="notification" right-desc="" tag-position="right" />
+    <l-list id="税筹项目管理" bind:lintap="handlerClick" title="税筹项目管理" icon="setting" url="../manage/scheme" />
+    <l-list id="商品管理" bind:lintap="handlerClick" title="商品管理" icon="setting" url="../manage/productview" />
   </l-card>
 </view>
 <view wx:if="{{usertype == 'admin'}}">

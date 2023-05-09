@@ -38,6 +38,7 @@ Page({
   bvSortChange(e) {
     console.log(e.currentTarget.dataset.name)
     console.log(e.currentTarget.dataset.index)
+    track.startByClick(e.currentTarget.dataset.name)
     this.setData({
       currentTab: e.currentTarget.dataset.index, //按钮CSS变化
     })
@@ -139,6 +140,7 @@ Page({
   },
 
   bvProductDetail(e) {
+    track.startByClick("详细介绍")
     console.log("准备传递的页面参数", e.currentTarget.dataset.params)
     wx.navigateTo({
       url: "../product/productdetail?" + e.currentTarget.dataset.params
@@ -146,6 +148,7 @@ Page({
     track.startByClick(e.currentTarget.dataset.name);
   },
   bvNewOrder(e) {
+    track.startByClick("我要办理")
     console.log(e.currentTarget.dataset.params);
     wx.navigateTo({
       url: "../order/neworder?" + e.currentTarget.dataset.params

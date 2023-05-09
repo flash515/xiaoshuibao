@@ -83,7 +83,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" bind:linblur="bvOutline" value="{{outline}}"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvOutline" value="{{outline}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -91,7 +91,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" bind:linblur="bvDescription" value="{{description}}"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvDescription" value="{{description}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -99,7 +99,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" bind:linblur="bvSituation" value="{{situation}}"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvSituation" value="{{situation}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -107,7 +107,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" bind:linblur="bvForbid" value="{{forbid}}"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvForbid" value="{{forbid}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -115,7 +115,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" bind:linblur="bvDocList" value="{{doclist}}"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvDocList" value="{{doclist}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -123,7 +123,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" bind:linblur="bvReward" value="{{reward}}"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvReward" value="{{reward}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
@@ -131,7 +131,7 @@
 
   </view>
   <view style="margin-top: 10rpx;">
-    <l-textarea type="text" bind:linblur="bvRewardTime" value="{{rewardtime}}"></l-textarea>
+    <l-textarea type="text" bind:lininput="bvRewardTime" value="{{rewardtime}}"></l-textarea>
   </view>
 
   <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">

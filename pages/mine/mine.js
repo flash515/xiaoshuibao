@@ -58,6 +58,7 @@ Page({
   onShow: function () {
     track.startToTrack()
   },
+  handlerClick(e) {track.startByClick(e.currentTarget.id);},
   /**
    * 生命周期函数--监听页面卸载
    */

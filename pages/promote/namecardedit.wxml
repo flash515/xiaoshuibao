@@ -28,15 +28,15 @@
 <view class="mainframe">
   <l-tabs>
     <l-tabpanel tab="名片信息" key="one" slot="one">
-      <l-input label="企业名称：" value="{{companyname}}" bind:linblur="bvCompanyName" />
-      <l-input label="姓名：" value="{{username}}" bind:linblur="bvUserName" />
-      <l-input label="职位：" value="{{title}}" bind:linblur="bvTitle" />
-      <l-input label="手机：" value="{{handphone}}" bind:linblur="bvHandPhone" />
-      <l-input label="微信：" value="{{wechat}}" bind:linblur="bvWeChat" />
-      <l-input label="座机：" value="{{telephone}}" bind:linblur="bvTelePhone" />
-      <l-input label="邮箱：" value="{{email}}" bind:linblur="bvEmail" />
-      <l-input label="网站：" value="{{website}}" bind:linblur="bvWebsite" />
-      <l-input label="地址：" value="{{address}}" bind:linblur="bvAddress" />
+      <l-input label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName" />
+      <l-input label="姓名：" value="{{username}}" bind:lininput="bvUserName" />
+      <l-input label="职位：" value="{{title}}" bind:lininput="bvTitle" />
+      <l-input label="手机：" value="{{handphone}}" bind:lininput="bvHandPhone" />
+      <l-input label="微信：" value="{{wechat}}" bind:lininput="bvWeChat" />
+      <l-input label="座机：" value="{{telephone}}" bind:lininput="bvTelePhone" />
+      <l-input label="邮箱：" value="{{email}}" bind:lininput="bvEmail" />
+      <l-input label="网站：" value="{{website}}" bind:lininput="bvWebsite" />
+      <l-input label="地址：" value="{{address}}" bind:lininput="bvAddress" />
 
       <view style="display:flex; flex-direction:row;margin-top: 10rpx; justify-content:space-between;align-items:center;font-size: 28rpx;">
         <label class="label">行业分类：</label>
@@ -75,9 +75,9 @@
         </view>
       </view>
       <label class="label">搜索关键词：</label>
-      <l-textarea type="text" indicator="{{true}}" maxlength="40" auto-height="{{true}}" value="{{keywords}}" bind:linblur="bvKeyWords"></l-textarea>
+      <l-textarea type="text" indicator="{{true}}" maxlength="40" auto-height="{{true}}" value="{{keywords}}" bind:lininput="bvKeyWords"></l-textarea>
       <label class="label">企业简介：</label>
-      <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:linblur="bvBusinessScope"></l-textarea>
+      <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-textarea>
 
       <text>\n</text>
     </l-tabpanel>

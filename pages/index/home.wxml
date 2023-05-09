@@ -31,49 +31,49 @@
   <l-list title="代理代办服务" icon="notification" right-desc="更多" tag-position="right" url="../product/allproduct" />
   <l-grid row-num="4">
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=地址挂靠">
+      <navigator id="地址挂靠" bindtap="handlerClick" url="../product/productview?category2=地址挂靠">
         <l-icon name='order' />
         <view class="text">地址挂靠</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='two' slot='two' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=工商注册">
+      <navigator id="工商注册" bindtap="handlerClick" url="../product/productview?category2=工商注册">
         <l-icon name='order' />
         <view class="text">工商注册</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='three' slot='three' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=记账报税">
+      <navigator id="记账报税" bindtap="handlerClick" url="../product/productview?category2=记账报税">
         <l-icon name='order' />
         <view class="text">记账报税</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='four' slot='four' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=个体户托管">
+      <navigator id="个体户托管" bindtap="handlerClick" url="../product/productview?category2=个体户托管">
         <l-icon name='order' />
         <view class="text">个体户托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='five' slot='five' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=公司托管">
+      <navigator id="公司托管" bindtap="handlerClick" url="../product/productview?category2=公司托管">
         <l-icon name='order' />
         <view class="text">公司托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='six' slot='six' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=食品经营许可证">
+      <navigator id="食品经营证" bindtap="handlerClick" url="../product/productview?category2=食品经营许可证">
         <l-icon name='order' />
         <view class="text">食品经营证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='seven' slot='seven' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=道路运输许可证">
+      <navigator id="道路运输证" bindtap="handlerClick" url="../product/productview?category2=道路运输许可证">
         <l-icon name='order' />
         <view class="text">道路运输证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='eight' slot='eight' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=医疗器械许可证">
+      <navigator id="医疗器械证" bindtap="handlerClick" url="../product/productview?category2=医疗器械许可证">
         <l-icon name='order' />
         <view class="text">医疗器械证</view>
       </navigator>
@@ -83,21 +83,21 @@
   <l-list title="辅助工具" icon="notification" />
   <l-grid>
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
-      <navigator url='../tools/meetingroom/meetingroom'>
+      <navigator id="快捷会议室" bindtap="handlerClick" url='../tools/meetingroom/meetingroom'>
         <l-icon name='comment' />
         <view class="text">快捷会议室</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='two' slot='two' l-grid-item-class="grid-item">
-      <navigator class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx9f0f317564969fbf' path='pages/index/index'>
+      <navigator id="经营范围查询" bindtap="handlerClick" class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx9f0f317564969fbf' path='pages/index/index'>
         <l-icon name='research' />
         <view class="text">经营范围查询</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='three' slot='three' l-grid-item-class="grid-item">
-      <navigator class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx5b0ed3b8c0499950' path='pages/index/index'>
+      <navigator id="企业信息查询" bindtap="handlerClick" class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx5b0ed3b8c0499950' path='pages/index/index'>
         <l-icon name='research' />
         <view class="text">企业信息查询</view>
       </navigator>
@@ -106,37 +106,37 @@
   <l-list title="精选服务" icon="notification" />
   <l-grid row-num="2">
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category3=深圳挂靠">
+      <navigator id="深圳挂靠" bindtap="handlerClick" url="../product/productview?category3=深圳挂靠">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/地址服务.jpg"></image>
         <view class="text">深圳挂靠</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='two' slot='two' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category3=深圳注册">
+      <navigator id="深圳注册" bindtap="handlerClick" url="../product/productview?category3=深圳注册">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/工商代办.jpg"></image>
         <view class="text">深圳注册</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='three' slot='three' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category3=江西托管">
+      <navigator id="江西托管" bindtap="handlerClick" url="../product/productview?category3=江西托管">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/企业托管.jpg"></image>
         <view class="text">江西托管</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='four' slot='four' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category3=深圳食品经营">
+      <navigator id="深圳食品经营" bindtap="handlerClick" url="../product/productview?category3=深圳食品经营">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/食品经营.png"></image>
         <view class="text">深圳食品经营</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='five' slot='five' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=道路运输许可证">
+      <navigator id="道路运输许可证" bindtap="handlerClick" url="../product/productview?category2=道路运输许可证">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/道路运输.png"></image>
         <view class="text">道路运输许可证</view>
       </navigator>
     </l-grid-item>
     <l-grid-item key='six' slot='six' l-grid-item-class="grid-item">
-      <navigator url="../product/productview?category2=医疗器械许可证">
+      <navigator id="医疗器械许可证" bindtap="handlerClick" url="../product/productview?category2=医疗器械许可证">
         <image style="width: 120px; height: 50px; background-color: #eeeeee;border-radius: 5px;overflow: hidden;" mode="{{item.mode}}" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/医疗器械.png"></image>
         <view class="text">医疗器械许可证</view>
       </navigator>
@@ -147,7 +147,7 @@
     <l-list title="会员专享服务" icon="notification" right-desc="更多" tag-position="right" />
     <l-grid>
       <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
-        <navigator url="../product/productview?category3=自然人代办">
+        <navigator id="自然人代办" bindtap="handlerClick" url="../product/productview?category3=自然人代办">
           <l-icon name='order' />
           <view class="text">自然人代办</view>
         </navigator>

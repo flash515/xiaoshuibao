@@ -16,7 +16,7 @@ swiper video {
   display: flex;
   flex-direction: column;
   height: 38vh;
-  width: 80rpx;
+  width: 60rpx;
   position: fixed;
   right: 15rpx;
   top: 50vh;
@@ -24,8 +24,8 @@ swiper video {
 }
 
 .video-right-img {
-  height: 80rpx;
-  width: 80rpx;
+  height: 60rpx;
+  width: 60rpx;
   border-radius: 100rpx;
   background-color: aquamarine;
   background-repeat: no-repeat;
@@ -34,7 +34,6 @@ swiper video {
 }
 
 .video-right-icon {
-  margin-top: 20rpx;
   display: flex;
   justify-content: center;
 }

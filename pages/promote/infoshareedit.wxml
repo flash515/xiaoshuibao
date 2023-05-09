@@ -31,15 +31,15 @@
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">微信昵称：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
+          <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
         </view>
       </view>
       <view class="line"></view>
       <view>
-        <l-input type="text" label="资讯标题：" value="{{infotitle}}" bind:linblur="bvInfoTitle">
+        <l-input type="text" label="资讯标题：" value="{{infotitle}}" bind:lininput="bvInfoTitle">
         </l-input>
         <label class="labal">资讯内容：</label>
-        <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:linblur="bvInfoContent">
+        <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
         </l-textarea>
       </view>
     </l-tabpanel>

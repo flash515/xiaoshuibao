@@ -11,9 +11,9 @@
 <text>\r\n\r\n</text>
 <view>{{accessToken}}</view> -->
   <view wx:if="{{usertype==admin}}">
-    <l-input type="text" label="自定义页面：" placeholder="pages/promote/namecard" bind:linblur="bvPage"></l-input>
-    <l-input type="text" label="自定义参数：" placeholder="三个字符以内，不能用中文" bind:linblur="bvParams"></l-input>
-    <l-input type="text" label="自定义颜色：" placeholder="{'r':0,'g':0,'b':0}" bind:linblur="bvColor"></l-input>
+    <l-input type="text" label="自定义页面：" placeholder="pages/promote/namecard" bind:lininput="bvPage"></l-input>
+    <l-input type="text" label="自定义参数：" placeholder="三个字符以内，不能用中文" bind:lininput="bvParams"></l-input>
+    <l-input type="text" label="自定义颜色：" placeholder="{'r':0,'g':0,'b':0}" bind:lininput="bvColor"></l-input>
   </view>
   <view class="btn" bindtap="getUrlLink">一键生成您的专属小税宝推广链接</view>
   <text>\n</text>

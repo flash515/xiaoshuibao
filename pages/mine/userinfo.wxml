@@ -7,14 +7,14 @@
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">手机号：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" type="number" value="{{userphone}}" placeholder="请输入手机号" bindblur="bvInputPhone" />
+          <input class="input" type="number" value="{{userphone}}" placeholder="请输入手机号" bindinput="bvInputPhone" />
         </view>
       </view>
       <view class="line"></view>
       <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
         <label class="labal">验证码：</label>
         <view style="padding-left: 50rpx;">
-          <input class="input" type="number" bindblur="bvPhoneCode" />
+          <input class="input" type="number" bindinput="bvPhoneCode" />
         </view>
         <l-button shape="semicircle" plain="{{true}}" bind:lintap="bvSendCode" size="mini" disabled='{{disabledstatus}}'>{{time}}</l-button>
       </view>
@@ -32,7 +32,7 @@
         <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
           <label class="labal">微信昵称：</label>
           <view style="padding-left: 50rpx;">
-            <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
+            <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
           </view>
         </view>
         <view class="line"></view>

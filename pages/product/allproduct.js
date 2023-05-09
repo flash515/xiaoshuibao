@@ -16,6 +16,7 @@ Page({
   bvSortChange(e) {
     console.log(e.currentTarget.dataset.name)
     console.log(e.currentTarget.dataset.index)
+    track.startByClick(e.currentTarget.dataset.name)
     this.setData({
       currentTab: e.currentTarget.dataset.index,   //按钮CSS变化
     })
@@ -37,6 +38,7 @@ Page({
   },
   bvTagClick(e){
     console.log(e.currentTarget.dataset.name)
+    track.startByClick(e.currentTarget.dataset.name)
     wx.navigateTo({
       url: "../product/productview?"+"category3=" + e.currentTarget.dataset.name
     })
@@ -86,8 +88,9 @@ Page({
    */
   // 点击 tab 时用此方法触发埋点
   onTabItemTap: () => track.startToTrack(),
-  onShow: function () {
+  handlerClick(e) {track.startByClick(e.currentTarget.id);},
 
+  onShow: function () {
     track.startToTrack()
   },
 

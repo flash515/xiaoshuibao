@@ -48,14 +48,14 @@
     </l-tabpanel>
     <l-tabpanel tab="贺卡内容" key="three" slot="three">
       <view>
-        <l-input type="text" label="分享标题：" value="{{sharetitle}}" bind:linblur="bvShareTitle">
+        <l-input type="text" label="分享标题：" value="{{sharetitle}}" bind:lininput="bvShareTitle">
         </l-input>
-        <l-input type="text" label="贺卡标题：" value="{{blesstitle}}" bind:linblur="bvBlessTitle">
+        <l-input type="text" label="贺卡标题：" value="{{blesstitle}}" bind:lininput="bvBlessTitle">
         </l-input>
       </view>
       <view>
         <label class="labal">贺卡内容：</label>
-        <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{blesscontent}}" bind:linblur="bvContent"></l-textarea>
+        <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{blesscontent}}" bind:lininput="bvContent"></l-textarea>
       </view>
     </l-tabpanel>
     <l-tabpanel tab="贺卡标识" key="four" slot="four">

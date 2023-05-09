@@ -51,9 +51,9 @@
             <text class="text">预约见面时间：{{time}}</text>
           </view>
         </picker>
-        <l-input type="text" label="联系人：" value="{{contacts}}" bind:linblur="bvContacts"></l-input>
-        <l-input type="text" label="联系电话：" value="{{phone}}" bind:linblur="bvPhone"></l-input>
-        <l-input type="text" label="预约地点：" value="{{address}}" bind:linblur="bvAddress"></l-input>
+        <l-input type="text" label="联系人：" value="{{contacts}}" bind:lininput="bvContacts"></l-input>
+        <l-input type="text" label="联系电话：" value="{{phone}}" bind:lininput="bvPhone"></l-input>
+        <l-input type="text" label="预约地点：" value="{{address}}" bind:lininput="bvAddress"></l-input>
       </view>
       <l-button type="default" icon="success" icon-color="#3683d6" bindtap="bvBooking" size="mini" shape="semicircle" plain="{{true}}">预约确定</l-button>
     </l-card>

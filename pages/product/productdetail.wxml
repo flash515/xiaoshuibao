@@ -111,7 +111,7 @@
         <label class="title1">留言咨询：</label>
 
         <view>
-          <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示在里" maxlength='30' bind:linblur="bvQuestion"></l-textarea>
+          <l-textarea type='text' placeholder="请输入需要留言咨询的内容(30字以内)，客服回复以后内容将会展示在里" maxlength='30' bind:lininput="bvQuestion"></l-textarea>
         </view>
         <view>
           <l-button icon="to-top" icon-color="#3683d6" shape="semicircle" bind:lintap='bvSubmit' plain="{{true}}">发送留言</l-button>
@@ -124,7 +124,7 @@
               <label class="title1">问：{{item.Question}}</label>
               <text>\n</text>
               <label class="title1">答：</label>
-              <l-textarea type='text' placeholder="请输入回复内容" maxlength='30' bind:linblur="bvAnswer"></l-textarea>
+              <l-textarea type='text' placeholder="请输入回复内容" maxlength='30' bind:lininput="bvAnswer"></l-textarea>
               <l-button data-id="{{item._id}}" data-openid="{{item.UserId}}" data-question="{{item.Question}}" data-adddate="{{item.AddDate}}" bind:lintap='bvReply' plain="{{true}}">发送回复</l-button>
               <text>\t</text>
               <l-button bind:lintap='bvUnlock' plain="{{true}}">解除锁定</l-button>

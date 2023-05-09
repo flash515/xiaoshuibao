@@ -13,26 +13,22 @@
     </view>
     <view class="video-right">
       <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-user_id="{{item.UserId}}" bindtap="toOtherUser"></view>
-
       <view class="video-right-icon" bindtap="bvDonateShow">
-        <l-icon name="like" color="white" />
+        <icon class="iconfont icon-31dianzan"/>
       </view>
       <view class="video-right-text">{{Praise}}</view>
-
       <view class="video-right-icon" bindtap="bvCommentShow">
-        <l-icon name="comment" color="white" />
+        <icon class="iconfont icon-pinglun"/>
       </view>
       <view class="video-right-text">{{comments.length}}</view>
-
       <view class="video-right-icon">
         <l-button special="{{true}}" open-type="share">
-          <l-icon name="share" color="white" />
+          <icon class="iconfont icon-zhuanfa" />
         </l-button>
       </view>
-
       <view class="video-right-icon">
         <l-button special="{{true}}" bind:lintap="bvEdit">
-          <l-icon name="edit" color="white" />
+          <icon class="iconfont icon-bianji" />
         </l-button>
       </view>
     </view>
@@ -80,7 +76,7 @@
           <view style="display: flex;flex-direction: column;width: 100%;">
             <view style="display: flex;flex-direction: row; justify-content: space-between;">
               <view class="nickname">{{item.nickName}}</view>
-              <view class="nickname"><text decode='true' space="emsp"> 发表于{{item.PublishDate}}</text></view>
+              <view class="nickname"><text decode='true' space="emsp"> 发表于 {{item.PublishDate}}</text></view>
             </view>
             <view class="comment"><text decode='true' space="emsp">{{item.Comment}}</text></view>
             <view wx:if="{{creatorid==userid}}">
@@ -90,12 +86,12 @@
                   <view class="nickname" slot="title">回复
                     <l-icon name="down" size="16" color="#999" />
                   </view>
-                  <l-textarea type='text' auto-height="{{true}}" placeholder="请输入回复内容" maxlength='30' bind:linblur="bvReplyContent"></l-textarea>
+                  <l-textarea type='text' auto-height="{{true}}" placeholder="请输入回复内容" maxlength='30' bind:lininput="bvReplyContent"></l-textarea>
                   <l-button size="mini" data-id="{{item._id}}" bind:lintap='bvReplySend' plain="{{true}}">发送回复</l-button>
                 </l-collapse-item>
               </l-collapse>
               <view wx:if="{{item.Reply}}">
-                <view class="nickname"><text decode='true' space="emsp">作者回复于{{item.ReplyDate}}</text></view>
+                <view class="nickname" style="display: flex;justify-content: flex-end;"><text decode='true' space="emsp">作者回复于 {{item.ReplyDate}}</text></view>
                 <view class="comment"><text decode='true' space="emsp">{{item.Reply}}</text></view>
               </view>
             </view>
@@ -105,14 +101,14 @@
     </scroll-view>
     <!-- 留言模块 -->
     <view wx:if="{{creatorid!=userid}}" style="display: flex;flex-direction:column;">
-      <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:linblur="bvComment"></l-textarea>
+      <l-textarea type='text' auto-height="{{true}}" placeholder="善语结善缘，恶言伤人心" maxlength='30' bind:lininput="bvComment"></l-textarea>
       <view style="display: flex;flex-direction: row;justify-content: space-between;">
         <view style="width: 60rpx;">
           <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
             <image class="avatar" src="{{avatarurl}}"></image>
           </button>
         </view>
-        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindblur="bvNickName" />
+        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
         <l-button size="mini" bind:lintap='bvPublish' plain="{{true}}">发送留言</l-button>
 
       </view>
