@@ -191,6 +191,7 @@ Page({
       url: "../promote/infoshareedit"
     })
   },
+  
   bvEdit: function (e) {
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
       this.setData({
