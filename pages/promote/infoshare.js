@@ -187,9 +187,6 @@ Page({
       loginshow: e.detail.loginshow,
       userphone: e.detail.userphone,
     })
-    wx.redirectTo({
-      url: "../promote/infoshareedit"
-    })
   },
   
   bvEdit: function (e) {

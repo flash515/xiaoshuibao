@@ -1,7 +1,7 @@
 <video wx:if="{{infovideo}}" class="videoCss" id="myVideo" src="{{infovideo}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
 
 <view wx:if="{{infoimages}}" wx:for="{{infoimages}}" wx:key="key">
-  <image style="display: block" src="{{item}}" mode="scaleToFill" />
+  <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
   <text>已发布的图文资讯</text>

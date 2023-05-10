@@ -27,7 +27,7 @@
   </view>
 </view>
 <view wx:if="{{cardinfo.CardImages}}" wx:for="{{cardinfo.CardImages}}" wx:key="key">
-  <image style="display: block" src="{{item}}" mode="scaleToFill" />
+  <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
   <view wx:if="{{cardinfo.BusinessScope}}" style="display:flex;flex-direction:column;justify-content:flex-start;">

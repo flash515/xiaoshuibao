@@ -23,7 +23,7 @@
   </view>
 </view>
 <view wx:if="{{cardimages}}" wx:for="{{cardimages}}" wx:key="key">
-  <image style="display: block" src="{{item}}" mode="scaleToFill" />
+  <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
   <l-tabs>
