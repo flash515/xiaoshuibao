@@ -117,9 +117,12 @@ Component({
       }
     },
     onHideMaskTap: function () {
-      this.triggerEvent('myevent', {
-        loginshow: false,
-      });
+      this.setData({
+        loginshow:false
+      })
+      // this.triggerEvent('myevent', {
+      //   loginshow: false,
+      // });
     },
   }
 })

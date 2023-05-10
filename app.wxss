@@ -1,5 +1,5 @@
 /* 轮播图样式 */
-@import './img/iconfont.wxss';
+@import './utils/iconfont.wxss';
 
 .swiper {
   height: 240rpx;
