@@ -38,6 +38,9 @@
       <view>
         <l-input type="text" label="资讯标题：" value="{{infotitle}}" bind:lininput="bvInfoTitle">
         </l-input>
+        <l-radio-group bind:linchange="bvInfoTitleShow">
+          <l-radio key="1" placement="right" >展示资讯标题</l-radio>
+        </l-radio-group>
         <label class="labal">资讯内容：</label>
         <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
         </l-textarea>

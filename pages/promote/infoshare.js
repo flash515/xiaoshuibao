@@ -491,7 +491,7 @@ Page({
   onShareTimeline: function () {
     return {
       title: this.data.sharetitle,
-      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid,
+      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid+ '&infoid=' + this.data.infoid,
       imageUrl: '', //封面
     }
   },

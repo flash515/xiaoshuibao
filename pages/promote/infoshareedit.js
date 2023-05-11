@@ -17,6 +17,7 @@ Page({
     infoselected: false,
     infoid: "",
     infotitle: "",
+    infotitleshow: true,
     infocontent: "",
     infovideo: "", //用户选定的视频，一个
     infoimages: [], //用户选定的图片组，多张
@@ -107,7 +108,7 @@ Page({
   async bvChooseImage(e) {
     // 选择自有背景,使用单个文件上传，返回字符型结果,current是数组
     console.log(e.detail.current)
-    let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infoimage'
+    let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + new Date().getTime()
     var files1 = await utils._UploadFile(e.detail.current[0], cloudpath1)
     this.setData({
       imageview: [files1],
@@ -198,7 +199,7 @@ Page({
 
         // 只上传一个video时
         const filePath = that.data.sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infovideo' + filePath.match(/\.[^.]+?$/)
+        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + new Date().getTime() + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
@@ -215,13 +216,19 @@ Page({
     })
   },
 
-  bvEdit: function (e) {
-
+  bvInfoTitleShow(e) {
+    console.log(e.detail)
+    this.data.infotitleshow = e.detail.checked
   },
 
   //发布到资讯广场
   async bvPublish(e) {
-    if (app.globalData.Guserdata.UserInfo.UserType=="admin" || this.data.infoshares.length < 3) {
+    if (this.data.infotitle == "") {
+      utils._ErrorToast("标题不能为空")
+      return
+    }
+    console.log("测试是否执行")
+    if (app.globalData.Guserdata.UserInfo.UserType == "admin" || this.data.infoshares.length < 3) {
       // 会员只能发布最多3条资讯
       const db = wx.cloud.database()
       db.collection('INFOSHARE').add({
@@ -229,6 +236,7 @@ Page({
           UserId: app.globalData.Guserid,
           InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
           InfoTitle: this.data.infotitle,
+          InfoTitleShow: this.data.infotitleshow,
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
@@ -268,37 +276,44 @@ Page({
   //保存信息
   async bvUpdate(e) {
     // 再次发布是更新
-    const db = wx.cloud.database()
-    db.collection('INFOSHARE').where({
-      InfoId: this.data.infoid
-    }).update({
-      data: {
-        InfoTitle: this.data.infotitle,
-        InfoContent: this.data.infocontent,
-        VideoUrl: this.data.infovideo,
-        ImagesUrl: this.data.infoimages,
-        avatarUrl: this.data.avatarurl,
-        nickName: this.data.nickname,
-        PublishDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        InfoStatus: "unchecked",
-      },
-      success: res => {
-        utils._SuccessToast("资讯更新成功")
-      },
-    })
-    db.collection('USER').where({
-      UserId: app.globalData.Guserid
-    }).update({
-      data: {
-        ["UserInfo.avatarUrl"]: this.data.avatarurl,
-        ["UserInfo.nickName"]: this.data.nickname,
-      },
-      success: res => {
-        utils._SuccessToast("信息更新成功")
-      }
-    })
+    if (this.data.infotitle == "") {
+      utils._ErrorToast("标题不能为空")
+
+    } else {
+      const db = wx.cloud.database()
+      db.collection('INFOSHARE').where({
+        InfoId: this.data.infoid
+      }).update({
+        data: {
+          InfoTitle: this.data.infotitle,
+          InfoTitleShow: this.data.infotitleshow,
+          InfoContent: this.data.infocontent,
+          VideoUrl: this.data.infovideo,
+          ImagesUrl: this.data.infoimages,
+          avatarUrl: this.data.avatarurl,
+          nickName: this.data.nickname,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          InfoStatus: "unchecked",
+        },
+        success: res => {
+          utils._SuccessToast("资讯更新成功")
+        },
+      })
+      db.collection('USER').where({
+        UserId: app.globalData.Guserid
+      }).update({
+        data: {
+          ["UserInfo.avatarUrl"]: this.data.avatarurl,
+          ["UserInfo.nickName"]: this.data.nickname,
+        },
+        success: res => {
+          utils._SuccessToast("信息更新成功")
+        }
+      })
+    }
+
   },
   /**
    * 生命周期函数--监听页面加载
