@@ -4,9 +4,9 @@
   <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
-  <text>已发布的图文资讯</text>
+  <l-card plaintext="{{true}}">
+  <label class="labal">已发布的图文资讯：</label>
   <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
-
     <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
       <block wx:for="{{infoshares}}" wx:key="key">
         <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infoshares[index]}}" l-class="radio">
@@ -14,87 +14,28 @@
         </l-radio>
       </block>
     </l-radio-group>
-
   </scroll-view>
-
-  <l-tabs>
-    <l-tabpanel tab="资讯文案" key="one" slot="one">
-      <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
-        <label class="labal">微信头像：</label>
-        <view style="padding-left: 50rpx;">
-          <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-            <image class="avatar" src="{{avatarurl}}"></image>
-          </button>
-        </view>
-      </view>
-      <view class="line"></view>
-      <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
-        <label class="labal">微信昵称：</label>
-        <view style="padding-left: 50rpx;">
-          <input class="input" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
-        </view>
-      </view>
-      <view class="line"></view>
-      <view>
-        <l-input type="text" label="资讯标题：" value="{{infotitle}}" bind:lininput="bvInfoTitle">
-        </l-input>
-        <l-radio-group bind:linchange="bvInfoTitleShow">
-          <l-radio key="1" placement="right" >展示资讯标题</l-radio>
-        </l-radio-group>
-        <label class="labal">资讯内容：</label>
-        <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
-        </l-textarea>
-      </view>
-    </l-tabpanel>
-
-    <l-tabpanel tab="选择视频" key="two" slot="two">
-
-      <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
-        <label class="text">选取系统视频：</label>
-        <l-radio-group placement="column" bind:linchange="bvVideoSelect">
-          <block wx:for="{{sysvideos}}" wx:key="key">
-            <l-radio placement="left" color="black" select-color="green" size="40" key="{{item.VideoUrl}}" l-class="radio">
-              <text>{{sysvideos[index].VideoTitle}}</text>
-            </l-radio>
-          </block>
-          <label class="text">自选视频：</label>
-          <l-radio placement="left" color="black" select-color="green" size="40" key="{{videotemp}}" l-class="radio">
-            <view wx:if="{{videotemp}}">
-              <text>{{videotemptitle}}</text>
-            </view>
-            <view wx:else style="font-size: 28rpx;padding-left:25rpx;padding-right:25rpx; padding-top: 10rpx;">
-              <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择并上传视频</l-button>
-            </view>
-          </l-radio>
-
-        </l-radio-group>
-      </scroll-view>
-    </l-tabpanel>
-
-    <l-tabpanel tab="选择图片" key="three" slot="three">
-      <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
-        <label class="text">系统图片：</label>
-        <l-radio-group placement="column" none-checked="{{false}}" bind:linchange="bvImageSelect">
-          <block wx:for="{{sysimages}}" wx:key="key">
-            <l-radio placement="left" color="black" select-color="green" size="40" key="{{item}}" l-class="radio">
-              <image src="{{item}}" class="bgarray" />
-            </l-radio>
-          </block>
-
-          <label class="text">自选图片：</label>
-          <l-radio placement="left" color="black" select-color="green" size="40" key="{{imageview}}" l-class="radio">
-            <l-image-picker count="1" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage">
-              <view>
-                <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
-              </view>
-            </l-image-picker>
-          </l-radio>
-        </l-radio-group>
-      </scroll-view>
-
-    </l-tabpanel>
-  </l-tabs>
-  <text>\n</text>
+</l-card>
+  <view>
+    <l-input type="text" label="资讯标题：" value="{{infotitle}}" bind:lininput="bvInfoTitle">
+    </l-input>
+    <l-radio-group bind:linchange="bvInfoTitleShow">
+      <l-radio key="1" placement="right">  <label class="labal">展示资讯标题</label></l-radio>
+    </l-radio-group>
+    <label class="labal">资讯内容：</label>
+    <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
+    </l-textarea>
+  </view>
+  <label class="labal">选择视频：</label>
+  <text>{{videotemptitle}}</text>
+  <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择并上传视频</l-button>
+  <label class="labal">选择图片：</label>
+  <l-image-picker count="1" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage">
+    <view>
+      <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
+    </view>
+  </l-image-picker>
+   <text>\n</text>
   <view style="display:flex; flex-direction:row; justify-content:space-between;">
     <view wx:if="{{infoselected}}" style="display:flex; flex-direction:row; justify-content:space-between;">
       <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvUpdate">更新</l-button>
@@ -103,8 +44,17 @@
       </view>
     </view>
     <view wx:else>
-      <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">创建
-      </l-button>
+      <view style="display: flex;flex-direction: row;justify-content: space-between;">
+        <view style="width: 60rpx;">
+          <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+            <image class="avatar" src="{{avatarurl}}"></image>
+          </button>
+        </view>
+        <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">创建
+        </l-button>
+
+      </view>
 
     </view>
   </view>

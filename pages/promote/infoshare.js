@@ -25,7 +25,7 @@ Page({
     infoshares: [],
     infoid: "",
     comments: [],
-    currentinfoid: "",
+    // currentinfoid: "",
     creatorid: "",
     userid: "",
     avatarurl: "",
@@ -33,7 +33,7 @@ Page({
     Praise: 0,
     donateshow: false,
     commentshow: false,
-    replycontent:"",
+    replycontent: "",
     replyshow: false,
     infoshow: true,
     // 赞赏相关参数
@@ -188,7 +188,7 @@ Page({
       userphone: e.detail.userphone,
     })
   },
-  
+
   bvEdit: function (e) {
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
       this.setData({
@@ -333,7 +333,8 @@ Page({
 
   onLoad: async function (options) {
     console.log("接收到的参数", options)
-    if (options.userid) {
+
+    if (options.infoid) {
       // 如果是通过分享链接进入
       this.data.params = options
       this.data.remark = "通过小税宝用户分享资讯进入"
@@ -345,7 +346,7 @@ Page({
       // 本地函数查询分享人的全部资讯信息，当前数量少于20条用本地函数就可以
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
-        UserId: options.userid,
+        InfoId: options.infoid,
         InfoStatus: 'checked'
       }).get({
         success: res => {
@@ -353,15 +354,14 @@ Page({
           // 展示接收到的info
           this.setData({
             infoshares: res.data,
-            currentinfoid: options.infoid
+            // currentinfoid: options.infoid
+            creatorid: res.data[0].CreatorId
           })
         }
       })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
-      this.setData({
-        creatorid: options.userid
-      })
+      // 查询创作者的推荐人及间接推荐人，以便打赏时记录
       let creator = await utils._usercheck(options.userid)
       this.data.creatorinviterid = creator.UserInfo.InviterId
       this.data.creatorindirectinviterid = creator.UserInfo.IndirectInviterId
@@ -379,7 +379,7 @@ Page({
           this.setData({
             infoshares: res.data,
             Praise: res.data[0].Praise,
-            creatorid:res.data[0].UserId,
+            creatorid: res.data[0].CreatorId,
           })
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
@@ -491,7 +491,7 @@ Page({
   onShareTimeline: function () {
     return {
       title: this.data.sharetitle,
-      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid+ '&infoid=' + this.data.infoid,
+      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: '', //封面
     }
   },

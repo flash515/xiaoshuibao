@@ -24,7 +24,7 @@ exports.main = async (event, context) => {
     var result = await cloud.openapi.wxacode.getUnlimited(param)
     // 将资源上传至云存储空间
     const upload = await cloud.uploadFile({
-      cloudPath: event.userid + '/' + 'tempqrcode.png',
+      cloudPath: event.path,
       fileContent: result.buffer,
     })
     let qrcodefileID = upload.fileID

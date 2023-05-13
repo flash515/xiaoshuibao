@@ -16,7 +16,7 @@
       <view class="video-right-icon" bindtap="bvDonateShow">
         <icon class="iconfont icon-31dianzan" />
       </view>
-      <view class="video-right-text">{{Praise}}</view>
+      <view class="video-right-text">{{item.Praise}}</view>
       <view class="video-right-icon" bindtap="bvCommentShow">
         <icon class="iconfont icon-pinglun" />
       </view>

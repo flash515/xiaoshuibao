@@ -97,7 +97,7 @@ Page({
       name: 'getQRCode',
       data: {
         // userid参数是使用在上传文件夹命名中
-        userid: app.globalData.Guserid,
+        path: 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'tempqrcode.png',
         // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
         scene: app.globalData.Guserid+'&'+this.data.params,
         page: this.data.page,
@@ -217,7 +217,7 @@ Page({
     if (this.data.qrcodeuploadlock) {} else {
       console.log("res6", this.data.tempfilepath)
       const filePath = this.data.tempfilepath
-      const cloudPath = app.globalData.Guserid + '/' + 'qrcode.png'
+      const cloudPath = 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'qrcode.png'
       wx.cloud.uploadFile({
         cloudPath,
         filePath,

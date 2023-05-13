@@ -199,7 +199,7 @@ Page({
 
         // 只上传一个video时
         const filePath = that.data.sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + new Date().getTime() + filePath.match(/\.[^.]+?$/)
+        const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + new Date().getTime() + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
@@ -233,7 +233,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('INFOSHARE').add({
         data: {
-          UserId: app.globalData.Guserid,
+          CreatorId: app.globalData.Guserid,
           InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
           InfoTitle: this.data.infotitle,
           InfoTitleShow: this.data.infotitleshow,
