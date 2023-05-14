@@ -70,6 +70,44 @@ Page({
       indirectinviterpoints: 1.5,
     }],
   },
+  toCreator(e) {
+    console.log(e.currentTarget.dataset.id)
+    const db = wx.cloud.database()
+    if (e.currentTarget.dataset.id == app.globalData.Guserid) {
+      // 如果用户是资讯创建者,显示本人全部发布资讯
+      db.collection('INFOSHARE').where({
+        CreatorId: e.currentTarget.dataset.id,
+      }).get({
+        success: res => {
+          console.log(res)
+          // 展示接收到的info
+          this.setData({
+            infoshares: res.data,
+            // currentinfoid: options.infoid
+            creatorid: res.data[0].CreatorId
+          })
+        }
+      })
+    } else {
+      // 如果用户不是资讯创建者,只打开创建者公开发布资讯
+      db.collection('INFOSHARE').where({
+        CreatorId: e.currentTarget.dataset.id,
+        InfoStatus: 'checked',
+        Private: false
+      }).get({
+        success: res => {
+          console.log(res)
+          // 展示接收到的info
+          this.setData({
+            infoshares: res.data,
+            // currentinfoid: options.infoid
+            creatorid: res.data[0].CreatorId
+          })
+        }
+      })
+    }
+
+  },
   bvDonateShow() {
     this.setData({
       donateshow: !this.data.donateshow
@@ -164,7 +202,6 @@ Page({
           UserId: app.globalData.Guserid,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          Location: this.data.location,
           Comment: this.data.comment,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
@@ -371,7 +408,8 @@ Page({
       // 查询公开发布的视频，数量少于20条用本地函数就可以
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
-        InfoStatus: 'checked'
+        InfoStatus: 'checked',
+        Private: false
       }).get({
         success: res => {
           console.log(res)
@@ -383,7 +421,7 @@ Page({
           })
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
-          console.log("本人全部资讯", this.data.infoshares)
+          console.log("公开资讯", this.data.infoshares)
         }
       })
     }
@@ -451,7 +489,7 @@ Page({
   nextVideo(e) {
     this.data.infoid = this.data.infoshares[e.detail.current].InfoId
     this.setData({
-      creatorid: this.data.infoshares[e.detail.current].UserId
+      creatorid: this.data.infoshares[e.detail.current].CreatorId
     })
     console.log(this.data.infoid)
     // 播放当前页面视频

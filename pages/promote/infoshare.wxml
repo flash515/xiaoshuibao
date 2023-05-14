@@ -12,7 +12,7 @@
       <video loop="true" enable-progress-gesture="true" object-fit="fill" src="{{item.VideoUrl}}" id="video{{index}}" />
     </view>
     <view class="video-right">
-      <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-user_id="{{item.UserId}}" bindtap="toOtherUser"></view>
+      <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-id="{{item.CreatorId}}" bindtap="toCreator"></view>
       <view class="video-right-icon" bindtap="bvDonateShow">
         <icon class="iconfont icon-31dianzan" />
       </view>
@@ -36,7 +36,9 @@
     </view>
     <view class="video-btm">
       <view class="video-btm-con">
-        <text>{{item.InfoTitle}}@{{item.nickName}}</text>
+      <view class="infotitle" style="display: flex;flex-direction: row;">
+        <view wx:if="{{item.InfoTitleShow}}">{{item.InfoTitle}}</view><view>@{{item.nickName}}</view>
+      </view>
         <view class="content">{{item.InfoContent}}</view>
       </view>
     </view>

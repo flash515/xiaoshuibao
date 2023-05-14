@@ -37,18 +37,28 @@
   height: 200rpx;
 }
 .avatar {
-  width: 80rpx;
-  height: 80rpx;
+  width: 60rpx;
+  height: 60rpx;
   border: none;
+  padding: 0;
   background-size: cover;
   background-color: white;
 }
 .avatarBtn {
-  width: 80rpx;
-  height: 80rpx;
-  border: 0.5;
+  width: 60rpx;
+  height: 60rpx;
+  border: none;
   padding: 0;
   background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.nicknameinput {
+  font-size: 28rpx;
+  height: 60rpx;
+  color: #3683d6;
 }
 .labal {
   font-size: 28rpx;
@@ -58,7 +68,6 @@
 
 .input {
   font-size: 28rpx;
-  height: 80rpx;
 }
 
 .line {

@@ -12,17 +12,14 @@ Page({
     nickname: "",
     infoshares: [], //已保存的资讯分享
     infoshare: [], //当前要编辑的资讯
-    sysvideos: [], //系统预存视频
-    sysimages: [], //系统预存图片
     infoselected: false,
     infoid: "",
     infotitle: "",
     infotitleshow: true,
+    private: false,
     infocontent: "",
     infovideo: "", //用户选定的视频，一个
     infoimages: [], //用户选定的图片组，多张
-    likepoints: 0, //资讯获赞数
-    adddate: "", //资讯创建时间
     videourl: '',
     danmuList: [{
       text: '第 1s 出现的弹幕',
@@ -36,8 +33,7 @@ Page({
     tempvideourl: [], //用户上传视频的临时路径
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
-    videotemp: "", //待选择视频的网络路径
-    videotemptitle: "",
+
     videouploadlock: false, //视频上传锁定状态
     imageuploadlock: false, //图片上传锁定状态
     editstatus: false, //编辑状态
@@ -74,6 +70,8 @@ Page({
       infoselected: e.detail.checked,
       infoid: e.detail.cell.InfoId,
       infotitle: e.detail.cell.InfoTitle,
+      infotitleshow: e.detail.cell.InfoTitleShow,
+      private: e.detail.cell.Private,
       infocontent: e.detail.cell.InfoContent,
       infovideo: e.detail.cell.VideoUrl,
       infoimages: e.detail.cell.ImagesUrl,
@@ -207,20 +205,28 @@ Page({
             wx.hideLoading();
             console.log("fileID", res.fileID)
             that.setData({
-              videotemp: res.fileID,
-              videotemptitle: "自选video"
+              infovideo: res.fileID,
             })
           },
         });
       },
     })
   },
-
+  async bvDelVideo(e) {
+    console.log(e.currentTarget.dataset.id)
+    await utils._RemoveFiles([e.currentTarget.dataset.id])
+    this.setData({
+      infovideo:""
+    })
+  },
   bvInfoTitleShow(e) {
     console.log(e.detail)
     this.data.infotitleshow = e.detail.checked
   },
-
+  bvPrivate(e) {
+    console.log(e.detail)
+    this.data.private = e.detail.checked
+  },
   //发布到资讯广场
   async bvPublish(e) {
     if (this.data.infotitle == "") {
@@ -237,6 +243,7 @@ Page({
           InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
           InfoTitle: this.data.infotitle,
           InfoTitleShow: this.data.infotitleshow,
+          Private: this.data.private,
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
@@ -287,6 +294,7 @@ Page({
         data: {
           InfoTitle: this.data.infotitle,
           InfoTitleShow: this.data.infotitleshow,
+          Private: this.data.private,
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
@@ -308,9 +316,7 @@ Page({
           ["UserInfo.avatarUrl"]: this.data.avatarurl,
           ["UserInfo.nickName"]: this.data.nickname,
         },
-        success: res => {
-          utils._SuccessToast("信息更新成功")
-        }
+        success: res => {}
       })
     }
 
@@ -319,28 +325,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
+    //  await utils.UserLogon()
     this.setData({
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
-    })
-    // 查询系统视频及图片
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "InfoSetting",
-        command: "and",
-        where: [{
-          Status: "checked",
-        }]
-      },
-      success: res => {
-        console.log("系统视频", res.result.data)
-        this.setData({
-          sysvideos: res.result.data[0].InfoVideos,
-          sysimages: res.result.data[0].InfoImages,
-        })
-        console.log("系统视频", this.data.sysvideos)
-      }
     })
     // 查询本人提交的InfoShare
     wx.cloud.callFunction({
@@ -349,7 +337,7 @@ Page({
         collectionName: "INFOSHARE",
         command: "and",
         where: [{
-          UserId: app.globalData.Guserid,
+          CreatorId: app.globalData.Guserid,
         }]
       },
       success: res => {
@@ -359,10 +347,6 @@ Page({
         console.log("本人全部资讯", this.data.infoshares)
       }
     })
-  },
-
-  bindInputBlur(e) {
-    this.inputValue = e.detail.value
   },
 
   bindButtonTap() {
@@ -397,7 +381,9 @@ Page({
       color: this.getRandomColor()
     })
   },
-
+  bindInputBlur(e) {
+    this.inputValue = e.detail.value
+  },
   videoErrorCallback(e) {
     console.log('视频错误信息:')
     console.log(e.detail.errMsg)
