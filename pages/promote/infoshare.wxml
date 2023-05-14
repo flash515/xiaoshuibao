@@ -9,7 +9,7 @@
       <image style="display: block;width: 100%;" src="{{item.ImagesUrl}}" mode="scaleToFill" />
     </view>
     <view wx:if="{{item.VideoUrl}}">
-      <video loop="true" enable-progress-gesture="true" object-fit="fill" src="{{item.VideoUrl}}" id="video{{index}}" />
+      <video loop="true" enable-progress-gesture="true" object-fit="contain" src="{{item.VideoUrl}}" id="video{{index}}" />
     </view>
     <view class="video-right">
       <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-id="{{item.CreatorId}}" bindtap="toCreator"></view>
