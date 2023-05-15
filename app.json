@@ -9,6 +9,8 @@
     "pages/manage/productedit",
     "pages/manage/productview",
     "pages/manage/userview",
+    "pages/manage/infomanage",
+    "pages/manage/commentmanage",
     "pages/manage/scheme",
     "pages/manage/manageindex",
     "pages/manage/messgae",

@@ -54,6 +54,8 @@
     <l-list title="资讯广场" icon="user" url="../promote/infosquare" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
+    <l-list title="资讯管理" icon="setting" url="../manage/infomanage" />
+    <l-list title="评论管理" icon="setting" url="../manage/commentmanage" />
     <l-list title="税筹项目管理" icon="setting" url="../manage/scheme" />
     <l-list title="商品类别管理" icon="setting" url="../manage/sortedit" />
     <l-list title="商品管理" icon="setting" url="../manage/productview" />
