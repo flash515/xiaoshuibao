@@ -113,6 +113,7 @@ Page({
       name: "NormalUpdate",
       data: {
         collectionName: "INFOSHARE",
+        key:"InfoId",
         id: e.currentTarget.dataset.id,
         key1: "InfoStatus",
         value1: "checked"
