@@ -16,7 +16,7 @@ Page({
         collectionName: "USER",
         command: "",
         where: [{["UserInfo.UserType"]:"client"}],
-        orderbykey:"sysAddDate",
+        orderbykey:"SysAddDate",
         orderby:"desc",
       },
       success: res => {

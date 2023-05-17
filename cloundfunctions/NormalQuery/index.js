@@ -76,6 +76,5 @@ exports.main = async (event, context) => {
       errMsg: acc.errMsg,
       }
   })
- 
   }
 }
