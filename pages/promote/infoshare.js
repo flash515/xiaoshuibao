@@ -30,7 +30,7 @@ Page({
     userid: "",
     avatarurl: "",
     nickname: "",
-    Praise: 0,
+    videoimage:"",
     donateshow: false,
     commentshow: false,
     replycontent: "",
@@ -293,6 +293,7 @@ Page({
         console.error(err);
       });
   },
+
   _praiseadd() {
     wx.cloud.callFunction({
       name: "PraiseAdd",
@@ -311,6 +312,7 @@ Page({
       }
     })
   },
+
   _pointsadd() {
     // 赞赏点数记录
     const db = wx.cloud.database()
@@ -370,17 +372,13 @@ Page({
 
   onLoad: async function (options) {
     console.log("接收到的参数", options)
-
     if (options.infoid) {
       // 如果是通过分享链接进入
       this.data.params = options
       this.data.remark = "通过小税宝用户分享资讯进入"
-      this.setData({
-        // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
-        tempinviterid: options.userid
-      })
+      this.data.tempinviterid=options.userid
 
-      // 本地函数查询分享人的全部资讯信息，当前数量少于20条用本地函数就可以
+      // 本地函数查询分享的资讯
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
         InfoId: options.infoid,
@@ -391,15 +389,17 @@ Page({
           // 展示接收到的info
           this.setData({
             infoshares: res.data,
-            // currentinfoid: options.infoid
             creatorid: res.data[0].CreatorId
           })
+          this.data.videoimage=res.data[0].VideoImage
+          this.data.infoid = options.infoid
+          this._getComments(options.infoid)
         }
       })
       // 通过分享进入，执行用户登录操作
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       // 查询创作者的推荐人及间接推荐人，以便打赏时记录
-      let creator = await utils._usercheck(options.userid)
+      let creator = await utils._usercheck(this.data.creatorid)
       this.data.creatorinviterid = creator.UserInfo.InviterId
       this.data.creatorindirectinviterid = creator.UserInfo.IndirectInviterId
     } else {
@@ -416,9 +416,9 @@ Page({
           // 展示查询到的结果
           this.setData({
             infoshares: res.data,
-            Praise: res.data[0].Praise,
             creatorid: res.data[0].CreatorId,
           })
+          this.data.videoimage=res.data[0].VideoImage
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
           console.log("公开资讯", this.data.infoshares)
@@ -432,22 +432,6 @@ Page({
     })
     // 调用播放视频方法
     this.startUp()
-  },
-  _getPraise(infoid) {
-    const db = wx.cloud.database()
-    db.collection("INFOSHARE").where({
-      InfoId: infoid
-    }).get({
-      success: res => {
-        console.log(res)
-        this.setData({
-          Praise: res.data[0].Praise
-        })
-      },
-      faile: res => {
-        console.log(res)
-      }
-    })
   },
 
   _getComments(infoid) {
@@ -488,6 +472,7 @@ Page({
   // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
   nextVideo(e) {
     this.data.infoid = this.data.infoshares[e.detail.current].InfoId
+    this.data.videoimage=this.data.infoshares[e.detail.current].VideoImage
     this.setData({
       creatorid: this.data.infoshares[e.detail.current].CreatorId
     })
@@ -506,7 +491,6 @@ Page({
       this.pauseVio(index2)
     }
     this._getComments(this.data.infoid)
-    this._getPraise(this.data.infoid)
   },
 
   // 播放视频
@@ -530,7 +514,7 @@ Page({
     return {
       title: this.data.sharetitle,
       query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
-      imageUrl: '', //封面
+      imageUrl: this.data.videoimage, //封面
     }
   },
 
@@ -545,7 +529,7 @@ Page({
     return {
       title: this.data.sharetitle,
       path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
-      imageUrl: '', //封面，留空自动抓取500*400生成图片
+      imageUrl: this.data.videoimage, //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {

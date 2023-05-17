@@ -11,25 +11,36 @@
     <view wx:if="{{item.VideoUrl}}">
       <video loop="true" enable-progress-gesture="true" object-fit="contain" src="{{item.VideoUrl}}" id="video{{index}}" show-snapshot-button />
     </view>
+
     <view class="video-right">
       <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-id="{{item.CreatorId}}" bindtap="toCreator"></view>
+      <view class="video-right-icon" wx:if="{{userid==item.CreatorId}}">
+        <l-button special="{{true}}" bind:lintap="bvCheck" data-id="{{item.InfoId}}">
+          <l-icon name='eye' color="white" size="20rpx"/>
+        </l-button>
+      </view>
+      <view class="video-right-text" wx:if="{{userid==item.CreatorId}}">播放量</view>
+
       <view class="video-right-icon" bindtap="bvDonateShow">
-        <icon class="iconfont icon-31dianzan" />
+        <icon class="iconfont icon-31dianzan" size="20rpx"/>
       </view>
       <view class="video-right-text">{{item.Praise}}</view>
+
       <view class="video-right-icon" bindtap="bvCommentShow">
-        <icon class="iconfont icon-pinglun" />
+        <icon class="iconfont icon-pinglun" size="20rpx"/>
       </view>
       <view class="video-right-text">{{comments.length}}</view>
+
       <view class="video-right-icon">
         <l-button special="{{true}}" open-type="share">
-          <icon class="iconfont icon-zhuanfa" />
+          <icon class="iconfont icon-zhuanfa" size="20rpx"/>
         </l-button>
       </view>
       <view class="video-right-text">转发</view>
+
       <view class="video-right-icon">
         <l-button special="{{true}}" bind:lintap="bvEdit">
-          <icon class="iconfont icon-bianji" />
+          <icon class="iconfont icon-bianji" size="20rpx"/>
         </l-button>
       </view>
       <view class="video-right-text">创作</view>

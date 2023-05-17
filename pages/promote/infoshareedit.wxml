@@ -23,13 +23,14 @@
   <view class="line"></view>
   <view style="display: flex;flex-direction: column;">
     <label class="labal">选择视频：</label>
-    <view wx:if="{{infovideo}}">
+    <view wx:if="{{thumbtemp}}" style="display: flex;flex-direction: column;justify-content:center;">
+    <image style="display: block;width: 100%;" src="{{thumbtemp}}" mode="aspectFit"></image>
       <l-button plain="{{true}}" data-id="{{infovideo}}" bind:lintap="bvDelVideo">删除视频</l-button>
     </view>
     <view wx:else>
       <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择并上传视频</l-button>
     </view>
-    <label class="labal">选择图片(建议图片尺寸为宽500像素,商400像素)：</label>
+    <label class="labal">选择图片(建议图片尺寸为宽500像素,高400像素)：</label>
     <l-image-picker count="1" size="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" />
     <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
       <label class="labal">资讯标题：</label>

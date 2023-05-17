@@ -34,6 +34,7 @@ swiper video {
 }
 
 .video-right-icon {
+  margin-top: 5rpx;
   display: flex;
   justify-content: center;
 }
@@ -43,7 +44,7 @@ swiper video {
   font-size: 20rpx;
 }
 .infotitle{
-  font-size: 28rpx;
+  font-size: 32rpx;
 }
 .content {
   font-size: 28rpx;

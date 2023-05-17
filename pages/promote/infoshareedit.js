@@ -33,7 +33,8 @@ Page({
     tempvideourl: [], //用户上传视频的临时路径
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
-
+    thumbtemp:"",
+    thumbimage:"",
     videouploadlock: false, //视频上传锁定状态
     imageuploadlock: false, //图片上传锁定状态
     editstatus: false, //编辑状态
@@ -135,7 +136,7 @@ Page({
     })
   },
 
-  bvChooseVideo(e) {
+  async bvChooseVideo(e) {
     let that = this
     console.log("上传视频的方法")
     wx.chooseMedia({
@@ -144,7 +145,7 @@ Page({
       sourceType: ['album', 'camera'], //视频选择来源
       maxDuration: 58, //拍摄限制时间
       camera: 'back', //采用后置摄像头
-      success: function (res) {
+      success: async function (res) {
         //获取临时存放的视频资源
         let tempFilePath = res.tempFiles[0].tempFilePath
         //获取该视频的播放时间
@@ -160,6 +161,9 @@ Page({
         let width = res.tempFiles[0].width
         console.log("视频宽度为" + width)
         //校验大小后，符合进行上传
+        that.setData({
+          thumbtemp:res.tempFiles[0].thumbTempFilePath,
+        })
         if (size > 20) {
           let beyongSize = size - 20 //获取视频超出限制大小的数量
           Toast("上传的视频大小超限,超出" + beyongSize + "MB,请重新上传！")
@@ -167,10 +171,16 @@ Page({
         } else {
           //符合大小限制，进行上传
           console.log("可以上传！！！")
+          // 调用视频上传方法
+          let timestamp=new Date().getTime()
           that.uploadvideo({
             // url: api.uploadfiletofastdfs, //视频上传的接口
             path: tempFilePath, //选取的视频资源临时地址
+            timestamp:timestamp
           });
+          // 
+          let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'video' + timestamp;
+          that.data.thumbimage= await utils._UploadFile(that.data.thumbtemp, cloudpath1)
         }
       },
     })
@@ -197,7 +207,7 @@ Page({
 
         // 只上传一个video时
         const filePath = that.data.sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + new Date().getTime() + filePath.match(/\.[^.]+?$/)
+        const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + data.timestamp + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
@@ -216,7 +226,8 @@ Page({
     console.log(e.currentTarget.dataset.id)
     await utils._RemoveFiles([e.currentTarget.dataset.id])
     this.setData({
-      infovideo:""
+      infovideo:"",
+      thumbtemp:""
     })
   },
   bvInfoTitleShow(e) {
@@ -247,6 +258,7 @@ Page({
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
+          ThumbImage:this.data.thumbimage,
           Praise: 0,
           Commont: 0,
           avatarUrl: this.data.avatarurl,
@@ -298,6 +310,7 @@ Page({
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
+          ThumbImage:this.data.thumbimage,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
