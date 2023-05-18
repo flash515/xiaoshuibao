@@ -1,4 +1,4 @@
-<video wx:if="{{infovideo}}" class="videoCss" id="myVideo" src="{{infovideo}}" binderror="videoErrorCallback" danmu-list="{{danmuList}}" enable-danmu danmu-btn show-center-play-btn="{{true}}" show-play-btn="{{true}}" show-fullscreen-btn="{{true}}" controls picture-in-picture-mode="{{['push', 'pop']}}" bindenterpictureinpicture='bindVideoEnterPictureInPicture' bindleavepictureinpicture='bindVideoLeavePictureInPicture'></video>
+<video class="videoCss" id="myVideo" src="{{infovideo}}" 	object-fit="contain" binderror="videoErrorCallback" show-play-btn="{{true}}" controls></video>
 
 <view wx:if="{{infoimages}}" wx:for="{{infoimages}}" wx:key="key">
   <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
@@ -25,10 +25,13 @@
     <label class="labal">选择视频：</label>
     <view wx:if="{{thumbtemp}}" style="display: flex;flex-direction: column;justify-content:center;">
     <image style="display: block;width: 100%;" src="{{thumbtemp}}" mode="aspectFit"></image>
+    <view style="display: flex;flex-direction: row;justify-content: space-between;">
+      <l-button plain="{{true}}" data-id="{{infovideo}}" bind:lintap="bvPreImage">生成预览图</l-button>
       <l-button plain="{{true}}" data-id="{{infovideo}}" bind:lintap="bvDelVideo">删除视频</l-button>
     </view>
+    </view>
     <view wx:else>
-      <l-button plain="{{true}}" bind:lintap="bvChooseVideo">选择并上传视频</l-button>
+      <l-button plain="{{true}}" bind:lintap="bvChooseMedia">选择并上传视频</l-button>
     </view>
     <label class="labal">选择图片(建议图片尺寸为宽500像素,高400像素)：</label>
     <l-image-picker count="1" size="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" />

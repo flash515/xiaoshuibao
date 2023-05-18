@@ -128,15 +128,7 @@ Page({
     })
   },
 
-  bvVideoSelect(e) {
-    //从系统视频中选取
-    console.log(e.detail.key)
-    this.setData({
-      infovideo: e.detail.key,
-    })
-  },
-
-  async bvChooseVideo(e) {
+  async bvChooseMedia(e) {
     let that = this
     console.log("上传视频的方法")
     wx.chooseMedia({
@@ -222,6 +214,9 @@ Page({
       },
     })
   },
+  
+  bvPreImage(){},
+
   async bvDelVideo(e) {
     console.log(e.currentTarget.dataset.id)
     await utils._RemoveFiles([e.currentTarget.dataset.id])
@@ -230,6 +225,7 @@ Page({
       thumbtemp:""
     })
   },
+
   bvInfoTitleShow(e) {
     console.log(e.detail)
     this.data.infotitleshow = e.detail.checked
@@ -376,24 +372,11 @@ Page({
     })
   },
 
-  bindVideoEnterPictureInPicture() {
-    console.log('进入小窗模式')
-  },
-
-  bindVideoLeavePictureInPicture() {
-    console.log('退出小窗模式')
-  },
-
   bindPlayVideo() {
     console.log('1')
     this.videoContext.play()
   },
-  bindSendDanmu() {
-    this.videoContext.sendDanmu({
-      text: this.inputValue,
-      color: this.getRandomColor()
-    })
-  },
+
   bindInputBlur(e) {
     this.inputValue = e.detail.value
   },
