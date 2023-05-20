@@ -8,7 +8,6 @@ Page({
 
     // 轮播参数
     image: [],
-
     inviterid: "",
     accessToken: "",
     token_url: "",
@@ -19,6 +18,8 @@ Page({
     tempfilepath: "",
     qrcodeuploadlock: false,
     // 附带的参数
+    usertype:"",
+    unionid:"",
     page: 'pages/index/index',
     params: "",
     color:{"r":0,"g":0,"b":0},
@@ -40,6 +41,10 @@ Page({
       },
     })
 
+  },
+  bvUnionId(e) {
+    this.data.unionid = e.detail.value
+    console.log(this.data.unionid)
   },
   bvPage(e) {
     this.data.page = e.detail.value
@@ -99,6 +104,34 @@ Page({
         // userid参数是使用在上传文件夹命名中
         path: 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'tempqrcode.png',
         // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
+        scene: this.data.unionid+'&'+this.data.params,
+        page: this.data.page,
+        color:this.data.color,
+        // userid: "1234",
+        // scene: "5678"
+      },
+      success: res => {
+        that.setData({
+          tempqrcodeurl: res.result
+        })
+        console.log("tempqrcodeurl", this.data.tempqrcodeurl);
+        // 执行下一个方法的方法，把头像合并到小程序码里
+        // that.drawCanvas()
+      }
+    })
+  },
+
+  getUserQRCode() {
+    // 调用云函数
+    // var scene = app.globalData.Guserid; //scene参数不能有参数名，可以拼接你要添加的参数值
+
+    let that = this;
+    wx.cloud.callFunction({
+      name: 'getQRCode',
+      data: {
+        // userid参数是使用在上传文件夹命名中
+        path: 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'tempqrcode.png',
+        // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
         scene: app.globalData.Guserid+'&'+this.data.params,
         page: this.data.page,
         color:this.data.color,
@@ -115,7 +148,6 @@ Page({
       }
     })
   },
-
 
   //通过https方式调用wxacodeunlimit获取二维码，有效，但当前方法用不到了
   getcode(getAccessToken) {
@@ -246,6 +278,7 @@ Page({
       windowW: app.globalData.Gsysteminfo.windowWidth - 40,
       windowH: app.globalData.Gsysteminfo.windowWidth - 40,
       image: app.globalData.Gimagearray,
+      usertype:app.globalData.Guserdata.UserInfo.UserType,
       avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickName: app.globalData.Guserdata.UserInfo.nickName,
     })

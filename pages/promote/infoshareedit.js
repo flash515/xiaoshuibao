@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const scale = wx.getSystemInfoSync().windowWidth / 750
 var interval = null //倒计时函数
 Page({
 
@@ -33,8 +34,8 @@ Page({
     tempvideourl: [], //用户上传视频的临时路径
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
-    thumbtemp:"",
-    thumbimage:"",
+    thumbtemp: "",
+    thumbimage: "",
     videouploadlock: false, //视频上传锁定状态
     imageuploadlock: false, //图片上传锁定状态
     editstatus: false, //编辑状态
@@ -154,7 +155,7 @@ Page({
         console.log("视频宽度为" + width)
         //校验大小后，符合进行上传
         that.setData({
-          thumbtemp:res.tempFiles[0].thumbTempFilePath,
+          thumbtemp: res.tempFiles[0].thumbTempFilePath,
         })
         if (size > 20) {
           let beyongSize = size - 20 //获取视频超出限制大小的数量
@@ -164,15 +165,15 @@ Page({
           //符合大小限制，进行上传
           console.log("可以上传！！！")
           // 调用视频上传方法
-          let timestamp=new Date().getTime()
+          let timestamp = new Date().getTime()
           that.uploadvideo({
             // url: api.uploadfiletofastdfs, //视频上传的接口
             path: tempFilePath, //选取的视频资源临时地址
-            timestamp:timestamp
+            timestamp: timestamp
           });
           // 
           let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'video' + timestamp;
-          that.data.thumbimage= await utils._UploadFile(that.data.thumbtemp, cloudpath1)
+          that.data.thumbimage = await utils._UploadFile(that.data.thumbtemp, cloudpath1)
         }
       },
     })
@@ -214,15 +215,14 @@ Page({
       },
     })
   },
-  
-  bvPreImage(){},
+
 
   async bvDelVideo(e) {
     console.log(e.currentTarget.dataset.id)
     await utils._RemoveFiles([e.currentTarget.dataset.id])
     this.setData({
-      infovideo:"",
-      thumbtemp:""
+      infovideo: "",
+      thumbtemp: ""
     })
   },
 
@@ -254,7 +254,7 @@ Page({
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
-          ThumbImage:this.data.thumbimage,
+          ThumbImage: this.data.thumbimage,
           Praise: 0,
           Commont: 0,
           avatarUrl: this.data.avatarurl,
@@ -306,7 +306,7 @@ Page({
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
-          ThumbImage:this.data.thumbimage,
+          ThumbImage: this.data.thumbimage,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
