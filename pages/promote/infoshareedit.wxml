@@ -10,12 +10,13 @@
     <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
       <block wx:for="{{infoshares}}" wx:key="key">
         <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infoshares[index]}}" l-class="radio">
-          <view style="display: flex;flex-direction: row;">
+          <view style="display: flex;flex-direction: row;align-items:center">
             <view><text>{{infoshares[index].InfoTitle}}</text></view>
             <view wx:if="{{infoshares[index].Private==true}}"><text decode="{{true}}" space="emsp"> 非公开</text></view>
             <view wx:else=""><text decode="{{true}}" space="emsp"> 公开</text></view>
             <view wx:if="{{infoshares[index].InfoStatus=='checked'}}"><text decode="{{true}}" space="emsp"> 已审核</text></view>
             <view wx:else><text decode="{{true}}" space="emsp"> 待审核</text></view>
+            <l-button size="mini" plain="{{true}}" bind:lintap="bvDelinfo">删除</l-button>
           </view>
         </l-radio>
       </block>
@@ -27,7 +28,8 @@
     <view wx:if="{{thumbtemp}}" style="display: flex;flex-direction: column;justify-content:center;">
     <image style="display: block;width: 100%;" src="{{thumbtemp}}" mode="aspectFit"></image>
     <view style="display: flex;flex-direction: row;justify-content: space-between;">
-      <l-button plain="{{true}}" data-id="{{infovideo}}" bind:lintap="bvDelVideo">删除视频</l-button>
+
+      <l-button plain="{{true}}" bind:lintap="bvDelVideo">删除视频</l-button>
     </view>
     </view>
     <view wx:else>

@@ -294,9 +294,25 @@ Page({
       });
   },
 
+  _viewadd(infoid){
+    wx.cloud.callFunction({
+      name: "DataRise",
+      data: {
+        collectionName: "INFOSHARE",
+        key: "InfoId",
+        value: infoid,
+        key1: "View",
+        value1: 1
+      },
+      success: res => {
+        console.log("播放量已更新",res)
+
+      }
+    })
+  },
   _praiseadd() {
     wx.cloud.callFunction({
-      name: "PraiseAdd",
+      name: "DataRise",
       data: {
         collectionName: "INFOSHARE",
         key: "InfoId",
@@ -394,6 +410,7 @@ Page({
           this.data.videoimage=res.data[0].VideoImage
           this.data.infoid = options.infoid
           this._getComments(options.infoid)
+          this._viewadd(this.data.infoid)
         }
       })
       // 通过分享进入，执行用户登录操作
@@ -402,6 +419,7 @@ Page({
       let creator = await utils._usercheck(this.data.creatorid)
       this.data.creatorinviterid = creator.UserInfo.InviterId
       this.data.creatorindirectinviterid = creator.UserInfo.IndirectInviterId
+
     } else {
       // 在本人小程序中打开
       console.log("在本人小程序中打开展示全部公开资讯")
@@ -421,6 +439,7 @@ Page({
           this.data.videoimage=res.data[0].VideoImage
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
+          this._viewadd(this.data.infoid)
           console.log("公开资讯", this.data.infoshares)
         }
       })
@@ -491,6 +510,7 @@ Page({
       this.pauseVio(index2)
     }
     this._getComments(this.data.infoid)
+    this._viewadd(this.data.infoid)
   },
 
   // 播放视频

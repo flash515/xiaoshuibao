@@ -19,7 +19,7 @@
           <l-icon name='eye' color="white" size="20rpx"/>
         </l-button>
       </view>
-      <view class="video-right-text" wx:if="{{userid==item.CreatorId}}">播放量</view>
+      <view class="video-right-text" wx:if="{{userid==item.CreatorId}}">{{item.View}}</view>
 
       <view class="video-right-icon" bindtap="bvDonateShow">
         <icon class="iconfont icon-31dianzan" size="20rpx"/>

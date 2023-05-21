@@ -35,7 +35,7 @@ Page({
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
     thumbtemp: "",
-    thumbimage: "",
+    infocover: "",
     videouploadlock: false, //视频上传锁定状态
     imageuploadlock: false, //图片上传锁定状态
     editstatus: false, //编辑状态
@@ -76,11 +76,27 @@ Page({
       private: e.detail.cell.Private,
       infocontent: e.detail.cell.InfoContent,
       infovideo: e.detail.cell.VideoUrl,
+      infocover: e.detail.cell.InfoCover,
       infoimages: e.detail.cell.ImagesUrl,
       infostatus: e.detail.cell.InfoStatus,
+      thumbtemp: e.detail.cell.InfoCover,
     })
     this.setData({
       sptemp: e.detail.cell.VideoUrl
+    })
+  },
+
+  bvDelinfo(e) {
+    this.bvInfoShareSelect(e)
+    this.bvDelVideo()
+    wx.cloud.deleteFile({
+      fileList: [this.data.infoimages],
+      success: res => {
+        console.log(res)
+        this.setData({
+          infoimages: [],
+        })
+      }
     })
   },
 
@@ -95,20 +111,10 @@ Page({
     })
   },
 
-
-  bvImageSelect(e) {
-    //从系统图片中选取
-    console.log(e.detail.key)
-    this.setData({
-      infoimages: [e.detail.key]
-    })
-    console.log("infoimages", this.data.infoimages)
-  },
-
   async bvChooseImage(e) {
     // 选择自有背景,使用单个文件上传，返回字符型结果,current是数组
     console.log(e.detail.current)
-    let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + new Date().getTime()
+    let cloudpath1 = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infoimage' + new Date().getTime()
     var files1 = await utils._UploadFile(e.detail.current[0], cloudpath1)
     this.setData({
       imageview: [files1],
@@ -171,9 +177,7 @@ Page({
             path: tempFilePath, //选取的视频资源临时地址
             timestamp: timestamp
           });
-          // 
-          let cloudpath1 = 'infoshare/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'video' + timestamp;
-          that.data.thumbimage = await utils._UploadFile(that.data.thumbtemp, cloudpath1)
+
         }
       },
     })
@@ -181,12 +185,15 @@ Page({
 
 
   //视频上传
-  uploadvideo: function (data) {
+  uploadvideo: async function (data) {
     wx.showLoading({
       title: '上传中...',
       mask: true,
     })
     var that = this
+    // 上传视频封面
+    let cloudpath1 = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infocover' + timestamp;
+    that.data.infocover = await utils._UploadFile(that.data.thumbtemp, cloudpath1)
     //    视频压缩
     wx.compressVideo({
       quality: 'high',
@@ -200,7 +207,7 @@ Page({
 
         // 只上传一个video时
         const filePath = that.data.sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'info' + data.timestamp + filePath.match(/\.[^.]+?$/)
+        const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infovideo' + data.timestamp + filePath.match(/\.[^.]+?$/)
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
@@ -216,13 +223,38 @@ Page({
     })
   },
 
+  drawCanvas: function () {
+    // var that = this;
+    let ctx = wx.createCanvasContext('myCanvas');
+    wx.getImageInfo({
+      src: this.data.thumbtemp,
+      success: (res) => {
+        console.log("res2", res)
+        if (res.width * 0.8 < res.height) {
+          var x = res.width
+          var y = res.width * 0.8
+        } else if (res.width * 0.8 == res.height) {
+          var x = res.width
+          var y = res.width * 0.8
+        } else if (res.width * 0.8 > res.height) {
+          var x = res.height * 1.25
+          var y = res.height
+        }
+        ctx.drawImage(res.path, 0, 0, x, y, 0, 0, 500, 400); // 背景
+        ctx.save()
+        ctx.draw();
+      }
+    })
+
+  },
 
   async bvDelVideo(e) {
-    console.log(e.currentTarget.dataset.id)
-    await utils._RemoveFiles([e.currentTarget.dataset.id])
+    await utils._RemoveFiles([this.data.infovideo])
+    await utils._RemoveFiles([this.data.infocover])
     this.setData({
       infovideo: "",
-      thumbtemp: ""
+      thumbtemp: "",
+      infocover: ""
     })
   },
 
@@ -254,7 +286,8 @@ Page({
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
-          ThumbImage: this.data.thumbimage,
+          InfoCover: this.data.infocover,
+          View: 0,
           Praise: 0,
           Commont: 0,
           avatarUrl: this.data.avatarurl,
@@ -306,7 +339,7 @@ Page({
           InfoContent: this.data.infocontent,
           VideoUrl: this.data.infovideo,
           ImagesUrl: this.data.infoimages,
-          ThumbImage: this.data.thumbimage,
+          InfoCover: this.data.infocover,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {

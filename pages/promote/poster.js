@@ -24,54 +24,47 @@ Page({
     windowH: "", // 画布高
     qrcodeurl: "", //小程序码地址
     sendName: "", // 用户名
-    cardPath: "", //背景地址
     headPath: "" //头像地址
   },
-  checkQRCode: function () {
 
-        if (app.globalData.Guserdata.UserInfo.QRCode == undefined || app.globalData.Guserdata.UserInfo.QRCode=="") {
-          wx.showModal({
-            title: '提示',
-            content: '您还没有专属小税宝推广码，请先到推广码页面获取吧！',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('确定')
-                wx.navigateTo({
-                  url: '../promote/minicode',
-                })
-              } else if (res.cancel) {
-                console.log('取消')
-              }
-            }
-          })
-        } else {
-          this.setData({
-            qrcodeurl: app.globalData.Guserdata.UserInfo.QRCode,
-            headPath: app.globalData.Guserdata.UserInfo.QRCode,
-            sendName: "小税宝推广会员" + app.globalData.Guserdata.UserInfo.UserName
-          })
-          this.getPicture()
-        }
-
-
-  },
   /*图片浏览及上传 */
   getPicture: function () {
     // let that = this;
+    if (app.globalData.Guserdata.UserInfo.QRCode == undefined || app.globalData.Guserdata.UserInfo.QRCode=="") {
+      wx.showModal({
+        title: '提示',
+        content: '您还没有专属小税宝推广码，请先到推广码页面获取吧！',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('确定')
+            wx.navigateTo({
+              url: '../promote/minicode',
+            })
+          } else if (res.cancel) {
+            console.log('取消')
+          }
+        }
+      })
+    } else {
+      this.setData({
+        qrcodeurl: app.globalData.Guserdata.UserInfo.QRCode,
+        headPath: app.globalData.Guserdata.UserInfo.QRCode,
+        sendName: "小税宝推广会员" + app.globalData.Guserdata.UserInfo.UserName
+      })
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        success: (res) => {
+          console.log(res);
+          // 选择图片后的完成确认操作
+          this.setData({
+            tempbgpicurl: res.tempFilePaths[0],
+          });
+          console.log(this.data.tempbgpicurl);
+        }
+      })
+    }
 
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['original', 'compressed'],
-      success: (res) => {
-        console.log(res);
-        // 选择图片后的完成确认操作
-        this.setData({
-          tempbgpicurl: res.tempFilePaths[0],
-          cardPath: res.tempFilePaths[0]
-        });
-        console.log(this.data.tempbgpicurl);
-      }
-    })
   },
 
   drawCanvas: function () {
