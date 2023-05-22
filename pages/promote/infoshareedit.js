@@ -1,6 +1,5 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const scale = wx.getSystemInfoSync().windowWidth / 750
 var interval = null //倒计时函数
 Page({
 
@@ -18,30 +17,18 @@ Page({
     infotitle: "",
     infotitleshow: true,
     private: false,
+    infostatus: "unchecked",
     infocontent: "",
-    infovideo: "", //用户选定的视频，一个
-    infoimages: [], //用户选定的图片组，多张
-    videourl: '',
-    danmuList: [{
-      text: '第 1s 出现的弹幕',
-      color: '#ff0000',
-      time: 1
-    }, {
-      text: '第 3s 出现的弹幕',
-      color: '#ff00ff',
-      time: 3
-    }],
+    infoimage: "", //用户选定的图片组，多张
+    infovideo: '',
     tempvideourl: [], //用户上传视频的临时路径
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
     thumbtemp: "",
     infocover: "",
-    videouploadlock: false, //视频上传锁定状态
-    imageuploadlock: false, //图片上传锁定状态
-    editstatus: false, //编辑状态
   },
-  onChooseAvatar(e) {
 
+  onChooseAvatar(e) {
     console.log(e.detail)
     const cloudPath = 'user/' + app.globalData.Guserid + '/' + "avatarUrl" + e.detail.avatarUrl.match(/\.[^.]+?$/)
     wx.cloud.uploadFile({
@@ -75,26 +62,45 @@ Page({
       infotitleshow: e.detail.cell.InfoTitleShow,
       private: e.detail.cell.Private,
       infocontent: e.detail.cell.InfoContent,
-      infovideo: e.detail.cell.VideoUrl,
+      infovideo: e.detail.cell.InfoVideo,
       infocover: e.detail.cell.InfoCover,
-      infoimages: e.detail.cell.ImagesUrl,
+      infoimage: e.detail.cell.InfoImage,
       infostatus: e.detail.cell.InfoStatus,
       thumbtemp: e.detail.cell.InfoCover,
     })
     this.setData({
-      sptemp: e.detail.cell.VideoUrl
+      sptemp: e.detail.cell.InfoVideo
     })
   },
 
-  bvDelinfo(e) {
-    this.bvInfoShareSelect(e)
-    this.bvDelVideo()
-    wx.cloud.deleteFile({
-      fileList: [this.data.infoimages],
+  async bvDelInfo(e) {
+    console.log(e)
+    let that = this
+    await utils._RemoveFiles([e.currentTarget.dataset.video])
+    await utils._RemoveFiles([e.currentTarget.dataset.cover])
+    await utils._RemoveFiles([e.currentTarget.dataset.image])
+    const db = wx.cloud.database()
+    await db.collection('INFOSHARE').where({
+      InfoId: e.currentTarget.dataset.id
+    }).remove({
       success: res => {
-        console.log(res)
-        this.setData({
-          infoimages: [],
+        utils._SuccessToast("资讯删除成功")
+        // 查询本人提交的InfoShare
+        wx.cloud.callFunction({
+          name: "NormalQuery",
+          data: {
+            collectionName: "INFOSHARE",
+            command: "and",
+            where: [{
+              CreatorId: app.globalData.Guserid,
+            }]
+          },
+          success: res => {
+            that.setData({
+              infoshares: res.result.data,
+            })
+            console.log("本人全部资讯", that.data.infoshares)
+          }
         })
       }
     })
@@ -117,21 +123,16 @@ Page({
     let cloudpath1 = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infoimage' + new Date().getTime()
     var files1 = await utils._UploadFile(e.detail.current[0], cloudpath1)
     this.setData({
-      imageview: [files1],
+      infoimage: files1,
     })
-    console.log(this.data.infoimages)
+    console.log(this.data.infoimage)
   },
 
-  bvRemoveImage(e) {
-    console.log(e.detail.current)
-    wx.cloud.deleteFile({
-      fileList: [e.detail.current],
-      success: res => {
-        console.log(res)
-        this.setData({
-          infoimages: [],
-        })
-      }
+  async bvRemoveImage(e) {
+    console.log(e.currentTarget.dataset.image)
+    await utils._RemoveFiles([e.currentTarget.dataset.image])
+    this.setData({
+      infoimage: "",
     })
   },
 
@@ -192,7 +193,7 @@ Page({
     })
     var that = this
     // 上传视频封面
-    let cloudpath1 = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infocover' + timestamp;
+    let cloudpath1 = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infocover' + data.timestamp;
     that.data.infocover = await utils._UploadFile(that.data.thumbtemp, cloudpath1)
     //    视频压缩
     wx.compressVideo({
@@ -249,12 +250,14 @@ Page({
   },
 
   async bvDelVideo(e) {
+    console.log(e)
     await utils._RemoveFiles([this.data.infovideo])
     await utils._RemoveFiles([this.data.infocover])
+    utils._SuccessToast("视频删除成功")
     this.setData({
       infovideo: "",
+      infocover: "",
       thumbtemp: "",
-      infocover: ""
     })
   },
 
@@ -268,6 +271,7 @@ Page({
   },
   //发布到资讯广场
   async bvPublish(e) {
+    let that = this
     if (this.data.infotitle == "") {
       utils._ErrorToast("标题不能为空")
       return
@@ -275,30 +279,52 @@ Page({
     console.log("测试是否执行")
     if (app.globalData.Guserdata.UserInfo.UserType == "admin" || this.data.infoshares.length < 3) {
       // 会员只能发布最多3条资讯
+      // 不公开发布不需要审核
+      if (this.data.private == true) {
+        this.data.infostatus = "checked"
+      }
       const db = wx.cloud.database()
       db.collection('INFOSHARE').add({
         data: {
           CreatorId: app.globalData.Guserid,
           InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
           InfoTitle: this.data.infotitle,
-          InfoTitleShow: this.data.infotitleshow,
-          Private: this.data.private,
           InfoContent: this.data.infocontent,
-          VideoUrl: this.data.infovideo,
-          ImagesUrl: this.data.infoimages,
+          InfoVideo: this.data.infovideo,
+          InfoImage: this.data.infoimage,
           InfoCover: this.data.infocover,
           View: 0,
           Praise: 0,
           Commont: 0,
+          InfoTitleShow: this.data.infotitleshow,
+          Private: this.data.private,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
-          InfoStatus: "unchecked",
+          InfoStatus: this.data.infostatus,
         },
         success: res => {
           utils._SuccessToast("已保存")
+          // 查询本人提交的InfoShare
+          wx.cloud.callFunction({
+            name: "NormalQuery",
+            data: {
+              collectionName: "INFOSHARE",
+              command: "and",
+              where: [{
+                CreatorId: app.globalData.Guserid,
+              }]
+            },
+            success: res => {
+              that.setData({
+                infoshares: res.result.data,
+              })
+              console.log("本人全部资讯", that.data.infoshares)
+            }
+          })
+
         },
         fail: res => {
           utils._ErrorToast("保存失败请重试")
@@ -324,31 +350,51 @@ Page({
   //保存信息
   async bvUpdate(e) {
     // 再次发布是更新
+    let that = this
     if (this.data.infotitle == "") {
       utils._ErrorToast("标题不能为空")
-
     } else {
+      if (this.data.private == true) {
+        this.data.infostatus = "checked"
+      }
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
         InfoId: this.data.infoid
       }).update({
         data: {
           InfoTitle: this.data.infotitle,
+          InfoContent: this.data.infocontent,
+          InfoVideo: this.data.infovideo,
+          InfoImage: this.data.infoimage,
+          InfoCover: this.data.infocover,
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
-          InfoContent: this.data.infocontent,
-          VideoUrl: this.data.infovideo,
-          ImagesUrl: this.data.infoimages,
-          InfoCover: this.data.infocover,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
-          InfoStatus: "unchecked",
+          InfoStatus: this.data.infostatus,
         },
         success: res => {
           utils._SuccessToast("资讯更新成功")
+          // 查询本人提交的InfoShare
+          wx.cloud.callFunction({
+            name: "NormalQuery",
+            data: {
+              collectionName: "INFOSHARE",
+              command: "and",
+              where: [{
+                CreatorId: app.globalData.Guserid,
+              }]
+            },
+            success: res => {
+              that.setData({
+                infoshares: res.result.data,
+              })
+              console.log("本人全部资讯", that.data.infoshares)
+            }
+          })
         },
       })
       db.collection('USER').where({
@@ -399,7 +445,7 @@ Page({
       camera: ['front', 'back'],
       success: res => {
         that.setData({
-          videourl: res.tempFilePath
+          infovideo: res.tempFilePath
         })
       }
     })

@@ -1,28 +1,32 @@
 <!-- 内容层 -->
 <swiper vertical="true" bindchange="nextVideo" current-item-id="{{infoid}}">
   <swiper-item wx:for="{{infoshares}}" wx:key="index">
-    <view wx:if="{{item.ImagesUrl!='' && item.ImagesUrl!=undefined}}">
-      <image style="display: block;width: 100%;" src="{{item.ImagesUrl}}" mode="scaleToFill" />
+    <view wx:if="{{item.InfoImage!='' && item.InfoImage!=undefined}}">
+      <image style="width: 750rpx;height: 600rpx;" src="{{item.InfoImage}}" mode="scaleToFill" />
     </view>
-    <view wx:if="{{item.VideoUrl}}">
-      <video loop="true" enable-progress-gesture="true" object-fit="contain" src="{{item.VideoUrl}}" id="video{{index}}" show-snapshot-button />
+    <view wx:if="{{item.InfoVideo}}">
+      <video loop="true" enable-progress-gesture="true" object-fit="contain" src="{{item.InfoVideo}}" id="video{{index}}" show-snapshot-button />
     </view>
     <view class="video-right">
       <view class="video-right-img" style="margin-bottom: 10rpx; background-image: url({{item.avatarUrl}})" data-id="{{item.CreatorId}}" bindtap="toCreator"></view>
+
       <view class="video-right-icon" bindtap="bvDonateShow">
         <icon class="iconfont icon-31dianzan" />
       </view>
       <view class="video-right-text">{{item.Praise}}</view>
+
       <view class="video-right-icon" bindtap="bvCommentShow">
         <icon class="iconfont icon-pinglun" />
       </view>
       <view class="video-right-text">{{comments.length}}</view>
+
       <view class="video-right-icon">
         <l-button special="{{true}}" bind:lintap="bvCheck" data-id="{{item.InfoId}}">
           <l-icon name='setting' color="white"/>
         </l-button>
       </view>
       <view class="video-right-text">审核</view>
+
     </view>
     <view class="video-btm">
       <view class="video-btm-con">
