@@ -17,7 +17,7 @@
             <view wx:else=""><text decode="{{true}}" space="emsp">【公开】</text></view>
             <view wx:if="{{infoshares[index].InfoStatus=='checked'}}"><text decode="{{true}}" space="emsp">【已审核】</text></view>
             <view wx:else><text decode="{{true}}" space="emsp">【待审核】</text></view>
-            <l-button size="mini" plain="{{true}}" data-id="{{infoshares[index].InfoId}}" data-video="{{infoshares[index].InfoVideo}}" data-image="{{infoshares[index].InfoImage}}" data-cover="{{infoshares[index].InfoCover}}" bind:lintap="bvDelInfo">删除</l-button>
+            <l-button size="mini" plain="{{true}}" data-index="{{index}}" data-id="{{infoshares[index].InfoId}}" data-video="{{infoshares[index].InfoVideo}}" data-image="{{infoshares[index].InfoImage}}" data-cover="{{infoshares[index].InfoCover}}" bind:lintap="bvDelInfo">删除</l-button>
           </view>
         </l-radio>
       </block>
@@ -71,7 +71,7 @@
         <image class="avatar" src="{{avatarurl}}"></image>
       </button>
     </view>
-    <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" />
+    <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" bindblur="bvUploadNickName" />
     <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">创建
     </l-button>
   </view>

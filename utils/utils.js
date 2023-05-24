@@ -24,7 +24,7 @@ var newusertradeinfo = {
   DLUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
-  PromoterLevel: "normal",
+  PromoteLevel: "normal",
   PLUpdateTime: new Date().toLocaleString('chinese', {
     hour12: false
   }),
@@ -563,21 +563,21 @@ function _PLordercheck(validuser, eventid) {
           // 判断是否有效，根据购买规则，只存在有效或过期的情况，不存在购买后未生效的情况
           if (new Date(res.data[0].PLStartDate).getTime() < now && now < new Date(res.data[0].PLEndDate).getTime()) {
             // 在有效期内的PL
-            var PL = res.data[0].PromoterLevel
+            var PL = res.data[0].PromoteLevel
             console.log("PL在有效期内")
 
             resolve(PL)
           } else if (new Date(res.data[0].PLEndDate).getTime() < now) {
             // 已过期的PL,进一步查询有效人数，不符合维持条件就转为member
-            if (res.data[0].PromoterLevel == "platinum" && validuser >= 60) {
+            if (res.data[0].PromoteLevel == "platinum" && validuser >= 60) {
               var PL = "platinum"
               console.log("PL为白金")
               resolve(PL)
-            } else if (res.data[0].PromoterLevel == "gold" && validuser >= 20) {
+            } else if (res.data[0].PromoteLevel == "gold" && validuser >= 20) {
               var PL = "gold"
               console.log("PL为黄金")
               resolve(PL)
-            } else if (res.data[0].PromoterLevel == "silver" && validuser >= 2) {
+            } else if (res.data[0].PromoteLevel == "silver" && validuser >= 2) {
               var PL = "silver"
               console.log("PL白银")
               resolve(PL)

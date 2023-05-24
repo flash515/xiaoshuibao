@@ -19,7 +19,7 @@
     <view wx:if="{{item.TradeInfo.DLStartDate}}">优惠起始日期：{{item.TradeInfo.DLStartDate}}</view>
     <view wx:if="{{item.TradeInfo.DLEndDate}}">优惠终止日期：{{item.TradeInfo.DLEndDate}}</view>
     <view wx:if="{{item.TradeInfo.DLUpdateTime}}">优惠更新时间：{{item.TradeInfo.DLUpdateTime}}</view>
-    <view wx:if="{{item.TradeInfo.PromoterLevel}}">会员推广等级：{{item.TradeInfo.PromoterLevel}}</view>
+    <view wx:if="{{item.TradeInfo.PromoteLevel}}">会员推广等级：{{item.TradeInfo.PromoteLevel}}</view>
     <view wx:if="{{item.TradeInfo.PLUpdateTime}}">推广更新时间：{{item.TradeInfo.PLUpdateTime}}</view>
     <view wx:if="{{item.Params}}">首次登录参数：{{item.Params}}</view>
     <view wx:if="{{item.Remark}}">用户备注：{{item.Remark}}</view>

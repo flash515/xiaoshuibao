@@ -17,7 +17,7 @@ Page({
     sortarray: [],
     productarray: [],
     usertype: "",
-    promoterlevel: "",
+    promotelevel: "",
     discountlevel: "",
 
     // 轮播参数

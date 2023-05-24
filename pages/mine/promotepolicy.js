@@ -13,7 +13,7 @@ Page({
     startdate2: "",
     startdate3: "",
     plstartdate: "",
-    promoterlevel: "",
+    promotelevel: "",
     plname: "",
     // paymentid: "",
     productname: "",
@@ -97,7 +97,7 @@ Page({
       db.collection("PROMOTERORDER").add({
         data: {
           OrderId: this.data.orderid,
-          PromoterLevel: this.data.orderlevel,
+          PromoteLevel: this.data.orderlevel,
           PLName: this.data.ordername,
           PLStartDate: this.data.orderstartdate,
           TotalFee: this.data.orderfee,
@@ -238,7 +238,7 @@ Page({
       UserId: app.globalData.Guserid
     }).update({
       data: {
-        PromoterLevel: this.data.orderlevel,
+        PromoteLevel: this.data.orderlevel,
         PLStartDate: this.data.orderstartdate,
       },
       success: res => {
@@ -312,7 +312,7 @@ Page({
         if (res.data.length != 0) {
           this.setData({
             plname: res.data[0].PLName,
-            promoterlevel: res.data[0].PromoterLevel,
+            promotelevel: res.data[0].PromoteLevel,
             plstartdate: res.data[0].PLStartDate,
             plenddate:res.data[0].PLEndDate,
             paymentstatus: res.data[0].PaymentStatus,
@@ -360,7 +360,7 @@ Page({
     })
   },
   _btn1check() {
-    if (this.data.promoterlevel == "member") {
+    if (this.data.promotelevel == "member") {
       this.setData({
         btn1hidden: false
       })
@@ -368,7 +368,7 @@ Page({
     }
   },
   _btn2check() {
-    if (this.data.promoterlevel == "silver") {
+    if (this.data.promotelevel == "silver") {
       this.setData({
         btn2hidden: false
       })
@@ -376,7 +376,7 @@ Page({
     }
   },
   _btn3check() {
-    if (this.data.promoterlevel == "gold") {
+    if (this.data.promotelevel == "gold") {
       this.setData({
         btn3hidden: false
       })

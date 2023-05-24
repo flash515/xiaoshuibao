@@ -14,7 +14,7 @@
   </l-grid-item>
 </l-grid>
 <!-- 间接分享 -->
-<view wx:if="{{promoterlevel=='platinum'}}">
+<view wx:if="{{promotelevel=='platinum'}}">
 <l-grid row-num="2">
   <l-grid-item key="one" slot="one" bind:linitemtap="IndirectUser">
     <view class="num">{{indirectuser.length}}人</view>
@@ -40,7 +40,7 @@
   </l-tabpanel>
 
   <l-tabpanel tab="有效间接推广详情" key="two" slot="two">
-  <view wx:if="{{promoterlevel=='platinum'}}">
+  <view wx:if="{{promotelevel=='platinum'}}">
     <view wx:for="{{indirectvaliduser}}" wx:key="key">
       <l-card type="primary" plaintext="{{true}}">
         <view>日期：{{item.AddDate}}</view>

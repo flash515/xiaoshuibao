@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    promoterlevel: "",
+    promotelevel: "",
     // 全部直接推荐人数
     directuser: [],
     // 直接推荐用户数组
@@ -27,7 +27,7 @@ Page({
   onLoad: async function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
-      promoterlevel: app.globalData.Guserdata.TradeInfo.PromoterLevel,
+      promotelevel: app.globalData.Guserdata.TradeInfo.PromoteLevel,
     })
     // 查询直接推广用户与间接推广用户
         this.setData({

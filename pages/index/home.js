@@ -14,7 +14,7 @@ Page({
     region: [],
     usertype: "",
     userphone: "",
-    promoterlevel: "",
+    promotelevel: "",
     noticearray: [],
     // 轮播头图
     image: [],
@@ -102,25 +102,25 @@ Page({
     }
 
     // 使用双等号是比较，否则单等号变成赋值
-    if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "member") {
+    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "member") {
       this.setData({
-        promoterlevel: "会员"
+        promotelevel: "会员"
       })
-    } else if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "silver") {
+    } else if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "silver") {
       this.setData({
-        promoterlevel: "白银会员"
+        promotelevel: "白银会员"
       })
-    } else if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "gold") {
+    } else if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "gold") {
       this.setData({
-        promoterlevel: "黄金会员"
+        promotelevel: "黄金会员"
       })
-    } else if (app.globalData.Guserdata.TradeInfo.PromoterLevel == "platinum") {
+    } else if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "platinum") {
       this.setData({
-        promoterlevel: "铂金会员"
+        promotelevel: "铂金会员"
       })
     } else {
       this.setData({
-        promoterlevel: "普客"
+        promotelevel: "普客"
       })
     }
     if (app.globalData.Guserdata.UserInfo.UserType == "client") {

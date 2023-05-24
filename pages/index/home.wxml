@@ -15,7 +15,7 @@
   <view wx:else style="display:flex; flex-direction:column; justify-content:space-between;font-size: 32rpx;color: #3683d6;">
     <view>用户号码：{{userphone}}</view>
     <view>用户类型：{{usertype}}</view>
-    <view>会员级别：{{promoterlevel}}</view>
+    <view>会员级别：{{promotelevel}}</view>
     <!-- <view>
           <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
             选择区域：{{region[0]}}/{{region[1]}}/{{region[2]}}
@@ -143,7 +143,7 @@
     </l-grid-item>
 
   </l-grid>
-  <view wx:if="{{promoterlevel=='member' || promoterlevel=='silver'|| promoterlevel=='gold' || promoterlevel=='platinum'}}">
+  <view wx:if="{{promotelevel=='member' || promotelevel=='silver'|| promotelevel=='gold' || promotelevel=='platinum'}}">
     <l-list title="会员专享服务" icon="notification" right-desc="更多" tag-position="right" />
     <l-grid>
       <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">

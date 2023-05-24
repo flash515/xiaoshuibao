@@ -41,15 +41,39 @@ Page({
         this.setData({
           avatarurl: res.fileID,
         })
+        db.collection('USER').where({
+          UserId: app.globalData.Guserid
+        }).update({
+          data: {
+            ["UserInfo.avatarUrl"]: res.fileID,
+          },
+          success: res => {
+            utils._SuccessToast("头像已更新")
+          }
+        })
       },
       fail: console.error
     })
+
   },
 
   bvNickName(e) {
     console.log("真机测试才能获取到", e.detail.value)
     this.setData({
       nickname: e.detail.value,
+    })
+
+  },
+  bvUploadNickName(e){
+    db.collection('USER').where({
+      UserId: app.globalData.Guserid
+    }).update({
+      data: {
+        ["UserInfo.nickName"]: this.data.nickname,
+      },
+      success: res => {
+        utils._SuccessToast("昵称已更新")
+      }
     })
   },
 
@@ -86,21 +110,9 @@ Page({
       success: res => {
         utils._SuccessToast("资讯删除成功")
         // 查询本人提交的InfoShare
-        wx.cloud.callFunction({
-          name: "NormalQuery",
-          data: {
-            collectionName: "INFOSHARE",
-            command: "and",
-            where: [{
-              CreatorId: app.globalData.Guserid,
-            }]
-          },
-          success: res => {
-            that.setData({
-              infoshares: res.result.data,
-            })
-            console.log("本人全部资讯", that.data.infoshares)
-          }
+        this.data.infoshares.splice(e.currentTarget.dataset.index, 1)
+        this.setData({
+          infoshares: this.data.infoshares
         })
       }
     })
@@ -276,75 +288,82 @@ Page({
       utils._ErrorToast("标题不能为空")
       return
     }
-    console.log("测试是否执行")
-    if (app.globalData.Guserdata.UserInfo.UserType == "admin" || this.data.infoshares.length < 3) {
-      // 会员只能发布最多3条资讯
-      // 不公开发布不需要审核
-      if (this.data.private == true) {
-        this.data.infostatus = "checked"
-      }
-      const db = wx.cloud.database()
-      db.collection('INFOSHARE').add({
-        data: {
-          CreatorId: app.globalData.Guserid,
-          InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
-          InfoTitle: this.data.infotitle,
-          InfoContent: this.data.infocontent,
-          InfoVideo: this.data.infovideo,
-          InfoImage: this.data.infoimage,
-          InfoCover: this.data.infocover,
-          View: 0,
-          Praise: 0,
-          Commont: 0,
-          InfoTitleShow: this.data.infotitleshow,
-          Private: this.data.private,
-          avatarUrl: this.data.avatarurl,
-          nickName: this.data.nickname,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
-          InfoStatus: this.data.infostatus,
-        },
-        success: res => {
-          utils._SuccessToast("已保存")
-          // 查询本人提交的InfoShare
-          wx.cloud.callFunction({
-            name: "NormalQuery",
-            data: {
-              collectionName: "INFOSHARE",
-              command: "and",
-              where: [{
-                CreatorId: app.globalData.Guserid,
-              }]
-            },
-            success: res => {
-              that.setData({
-                infoshares: res.result.data,
-              })
-              console.log("本人全部资讯", that.data.infoshares)
-            }
-          })
-
-        },
-        fail: res => {
-          utils._ErrorToast("保存失败请重试")
-        }
-      })
-      db.collection('USER').where({
-        UserId: app.globalData.Guserid
-      }).update({
-        data: {
-          ["UserInfo.avatarUrl"]: this.data.avatarurl,
-          ["UserInfo.nickName"]: this.data.nickname,
-        },
-        success: res => {
-          utils._SuccessToast("信息更新成功")
-        }
-      })
-    } else {
-      utils._ErrorToast("超过数量限制")
-
+    // 普能会员只能发布最多3条资讯
+    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "member" && this.data.infoshares.length > 2) {
+      utils._ErrorToast("超出会员权限")
+      return
     }
+    // 银级会员只能发布最多10条资讯
+    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "silver" && this.data.infoshares.length > 9) {
+      utils._ErrorToast("超出会员权限")
+      return
+    }
+    // 黄金会员只能发布最多30条资讯
+    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "gold" && this.data.infoshares.length > 29) {
+      utils._ErrorToast("超出会员权限")
+      return
+    }
+    // 铂金会员只能发布最多50条资讯
+    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "platinum" && this.data.infoshares.length > 49) {
+      utils._ErrorToast("超出会员权限")
+      return
+    }
+    console.log("测试是否执行")
+
+    // 会员只能发布最多3条资讯
+    // 不公开发布不需要审核
+    if (this.data.private == true) {
+      this.data.infostatus = "checked"
+    }
+    const db = wx.cloud.database()
+    db.collection('INFOSHARE').add({
+      data: {
+        CreatorId: app.globalData.Guserid,
+        InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
+        InfoTitle: this.data.infotitle,
+        InfoContent: this.data.infocontent,
+        InfoVideo: this.data.infovideo,
+        InfoImage: this.data.infoimage,
+        InfoCover: this.data.infocover,
+        View: 0,
+        Praise: 0,
+        Commont: 0,
+        InfoTitleShow: this.data.infotitleshow,
+        Private: this.data.private,
+        avatarUrl: this.data.avatarurl,
+        nickName: this.data.nickname,
+        PublishDate: new Date().toLocaleString('chinese', {
+          hour12: false
+        }),
+        InfoStatus: this.data.infostatus,
+      },
+      success: res => {
+        utils._SuccessToast("资讯已创建")
+        // 查询本人提交的InfoShare
+        wx.cloud.callFunction({
+          name: "NormalQuery",
+          data: {
+            collectionName: "INFOSHARE",
+            command: "and",
+            where: [{
+              CreatorId: app.globalData.Guserid,
+            }]
+          },
+          success: res => {
+            that.setData({
+              infoshares: res.result.data,
+            })
+            console.log("本人全部资讯", that.data.infoshares)
+          }
+        })
+
+      },
+      fail: res => {
+        utils._ErrorToast("保存失败请重试")
+      }
+    })
+
+
   },
 
   //保存信息
