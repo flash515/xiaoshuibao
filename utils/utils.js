@@ -548,7 +548,7 @@ function _PLordercheck(validuser, eventid) {
     console.log("本地函数查询推荐人的Promoter订单")
     const db = wx.cloud.database()
     const _ = db.command
-    db.collection('PROMOTERORDER').where({
+    db.collection('PROMOTEORDER').where({
       UserId: eventid,
       PaymentStatus: "checked",
       OrderStatus: "checked",

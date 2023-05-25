@@ -63,7 +63,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
             discounthistory: res.result.data
           })
         }
-        else if(e.currentTarget.dataset.name=="PROMOTERORDER"){
+        else if(e.currentTarget.dataset.name=="PROMOTEORDER"){
           this.setData({
             promoterhistory: res.result.data
           })
@@ -117,7 +117,7 @@ if(e.currentTarget.dataset.name=="ORDER"){
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
-        collectionName: "PROMOTERORDER",
+        collectionName: "PROMOTEORDER",
         command: "and",
         where: [{
           UserId: app.globalData.Guserid

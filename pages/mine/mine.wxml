@@ -1,5 +1,6 @@
 <!-- 轮播头图 -->
 <Swiper class="swiper" image="{{image}}"></Swiper>
+<!-- 用户提示信息 -->
 <l-grid show-border="true" row-num="2">
   <l-grid-item key="one" slot="one">
     <navigator url="../mine/shareuser">
@@ -19,8 +20,85 @@
     </view>
   </l-grid-item>
 </l-grid>
-<l-card type="primary" plaintext="{{true}}">
+<!-- 管理员提示信息 -->
+<view wx:if="{{usertype=='admin'}}">
+<l-grid show-border="true" row-num="4">
+  <l-grid-item key="one" slot="one">
+    <navigator url="../manage/productview">
+      <view class="num">{{productcheck.length}}/{{productarray.length}}</view>
+      <view class="text">待审/产品</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="two" slot="two">
+    <navigator url="../manage/productview">
+      <view class="num">{{producqatcheck.length}}/{{producqatarray.length}}</view>
+      <view class="text">待审/问答</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="three" slot="three">
+    <navigator url="../manage/productview">
+      <view class="num">{{ordercheck.length}}/{{orderarray.length}}</view>
+      <view class="text">待审/订单</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="four" slot="four">
+    <navigator url="../manage/productview">
+      <view class="num">{{discountcheck.length}}/{{discountarray.length}}</view>
+      <view class="text">待审/折扣</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="five" slot="five">
+    <navigator url="../manage/productview">
+      <view class="num">{{promotecheck.length}}/{{promotearray.length}}</view>
+      <view class="text">待审/推广</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="six" slot="six">
+    <navigator url="../manage/productview">
+      <view class="num">{{bookingcheck.length}}/{{bookingarray.length}}</view>
+      <view class="text">待审/预约</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="seven" slot="seven">
+    <navigator url="../manage/productview">
+      <view class="num">{{paymentcheck.length}}/{{paymentarray.length}}</view>
+      <view class="text">待审/支付</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="eight" slot="eight">
+    <navigator url="../manage/userview">
+      <view class="num">{{memberarray.length}}/{{userarray.length}}</view>
+      <view class="text">会员/用户</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="nine" slot="nine">
+    <navigator url="../manage/userview">
+      <view class="num">{{userarray.length}}</view>
+      <view class="text">会员</view>
+    </navigator>
 
+  </l-grid-item>
+  <l-grid-item key="ten" slot="ten">
+    <navigator url="../manage/productview">
+      <view class="num">{{inofcheck.length}}/{{inofarray.length}}</view>
+      <view class="text">待审/资讯</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="eleven" slot="eleven">
+    <navigator url="../manage/productview">
+      <view class="num">{{commentcheck.length}}/{{commentarray.length}}</view>
+      <view class="text">待审/评论</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="twelve" slot="twelve">
+    <navigator url="../manage/productview">
+      <view class="num">{{namecardarray.length}}</view>
+      <view class="text">待审/名片</view>
+    </navigator>
+  </l-grid-item>
+</l-grid>
+</view>
+<l-card type="primary" plaintext="{{true}}">
   <l-list id="我的信息" bind:lintap="handlerClick" title="我的信息" icon="user" url="../mine/userinfo" />
   <l-list id="推广奖励" bind:lintap="handlerClick" title="推广奖励" icon="setting" url="../mine/promotepolicy" />
   <l-list id="价格优惠" bind:lintap="handlerClick" title="价格优惠" icon="setting" url="../mine/pricepolicy" />

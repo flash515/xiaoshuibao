@@ -6,17 +6,25 @@
 </view>
 
 <view class="mainframe">
-  <label class="labal">已发布的图文资讯：</label>
-  <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
+  <view wx:if="{{infocover}}" style="display: flex;flex-direction: column;justify-content:center;">
+      <l-button plain="{{true}}" size="long" bind:lintap="bvDelMedia">点击这里删除视频或图片</l-button>
+    </view>
+    <view wx:else>
+      <l-button plain="{{true}}" size="long" bind:lintap="bvChooseMedia">点击这里添加视频或图片</l-button>
+    </view>
+
+  <label class="labal">已发布的资讯：</label>
+  <view class="line"></view>
+  <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 200rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
     <l-radio-group placement="column" bind:linchange="bvInfoShareSelect">
       <block wx:for="{{infoshares}}" wx:key="key">
         <l-radio placement="left" color="black" select-color="green" size="40" key="{{index+1}}" cell="{{infoshares[index]}}" l-class="radio">
           <view style="display: flex;flex-direction: row;align-items:center">
             <view><text>{{infoshares[index].InfoTitle}}</text></view>
-            <view wx:if="{{infoshares[index].Private==true}}"><text decode="{{true}}" space="emsp">【非公开】</text></view>
-            <view wx:else=""><text decode="{{true}}" space="emsp">【公开】</text></view>
-            <view wx:if="{{infoshares[index].InfoStatus=='checked'}}"><text decode="{{true}}" space="emsp">【已审核】</text></view>
-            <view wx:else><text decode="{{true}}" space="emsp">【待审核】</text></view>
+            <view wx:if="{{infoshares[index].Private==true}}"><text decode="{{true}}" space="emsp">_非公开</text></view>
+            <view wx:else=""><text decode="{{true}}" space="emsp">_公开</text></view>
+            <view wx:if="{{infoshares[index].InfoStatus=='checked'}}"><text decode="{{true}}" space="emsp">_已审核</text></view>
+            <view wx:else><text decode="{{true}}" space="emsp">_待审核</text></view>
             <l-button size="mini" plain="{{true}}" data-index="{{index}}" data-id="{{infoshares[index].InfoId}}" data-video="{{infoshares[index].InfoVideo}}" data-image="{{infoshares[index].InfoImage}}" data-cover="{{infoshares[index].InfoCover}}" bind:lintap="bvDelInfo">删除</l-button>
           </view>
         </l-radio>
@@ -24,24 +32,9 @@
     </l-radio-group>
   </scroll-view>
   <view class="line"></view>
-  <text>\n</text>
-  <view style="display: flex;flex-direction: column;">
-    <label class="labal">选择视频：</label>
-    <view wx:if="{{thumbtemp}}" style="display: flex;flex-direction: column;justify-content:center;">
-      <label class="labal">视频封面：</label>
-    <image style="display: block;width: 100%;" src="{{thumbtemp}}" mode="aspectFit"></image>
-    <view style="display: flex;flex-direction: row;justify-content: space-between;">
 
-      <l-button plain="{{true}}" bind:lintap="bvDelVideo">删除视频</l-button>
-    </view>
-    </view>
-    <view wx:else>
-      <l-button plain="{{true}}" bind:lintap="bvChooseMedia">选择并上传视频</l-button>
-    </view>
-    <text>\n</text>
-    <label class="labal">选择图片(建议图片尺寸为宽500像素,高400像素)：</label>
-    <l-image-picker count="1" size="4" bind:linchange="bvChooseImage" data-image="{{infoimage}}" bind:linremove="bvRemoveImage" />
-    <text>\n</text>
+  <view style="display: flex;flex-direction: column;">
+
     <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
       <label class="labal">资讯标题：</label>
       <input type="text" class="input" value="{{infotitle}}" placeholder="请在这里填写资讯标题" bind:input="bvInfoTitle" />
@@ -49,7 +42,7 @@
     <label class="labal">资讯内容：</label>
     <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
     </l-textarea>
-    <text>\n</text>
+
     <label class="labal">资讯设置：</label>
     <l-radio-group bind:linchange="bvInfoTitleShow">
       <l-radio key="1" placement="right"> <label class="labal">不展示标题</label></l-radio>
@@ -59,22 +52,19 @@
     </l-radio-group>
   </view>
   <text>\n</text>
-  <view wx:if="{{infoselected}}" style="display:flex; flex-direction:row; justify-content:space-between;">
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvUpdate">更新</l-button>
-    <view wx:if="{{infostatus=='checked'}}">
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">分享</l-button>
-    </view>
-  </view>
-  <view wx:else style="display: flex;flex-direction: row;justify-content: space-between;">
+  <view style="display:flex; flex-direction:row; justify-content:space-between;">
     <view style="width: 60rpx;">
       <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
         <image class="avatar" src="{{avatarurl}}"></image>
       </button>
     </view>
     <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" bindblur="bvUploadNickName" />
-    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">创建
+    <view wx:if="{{infoselected}}" >
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvUpdate">保存当前资讯</l-button>
+  </view>
+  <view wx:else style="display: flex;flex-direction: row;justify-content: space-between;">
+    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">创建新的资讯
     </l-button>
   </view>
-
-
+  </view>
 </view>

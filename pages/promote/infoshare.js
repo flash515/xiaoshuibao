@@ -30,7 +30,7 @@ Page({
     userid: "",
     avatarurl: "",
     nickname: "",
-    videoimage:"",
+    infocover:"",
     donateshow: false,
     commentshow: false,
     replycontent: "",
@@ -407,7 +407,7 @@ Page({
             infoshares: res.data,
             creatorid: res.data[0].CreatorId
           })
-          this.data.videoimage=res.data[0].VideoImage
+          this.data.infocover=res.data[0].InfoCover
           this.data.infoid = options.infoid
           this._getComments(options.infoid)
           this._viewadd(this.data.infoid)
@@ -417,8 +417,8 @@ Page({
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       // 查询创作者的推荐人及间接推荐人，以便打赏时记录
       let creator = await utils._usercheck(this.data.creatorid)
-      this.data.creatorinviterid = creator.UserInfo.InviterId
-      this.data.creatorindirectinviterid = creator.UserInfo.IndirectInviterId
+      this.data.creatorinviterid = creator[0].UserInfo.InviterId
+      this.data.creatorindirectinviterid = creator[0].UserInfo.IndirectInviterId
 
     } else {
       // 在本人小程序中打开
@@ -436,7 +436,7 @@ Page({
             infoshares: res.data,
             creatorid: res.data[0].CreatorId,
           })
-          this.data.videoimage=res.data[0].VideoImage
+          this.data.infocover=res.data[0].InfoCover
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
           this._viewadd(this.data.infoid)
@@ -491,7 +491,7 @@ Page({
   // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
   nextVideo(e) {
     this.data.infoid = this.data.infoshares[e.detail.current].InfoId
-    this.data.videoimage=this.data.infoshares[e.detail.current].VideoImage
+    this.data.infocover=this.data.infoshares[e.detail.current].InfoCover
     this.setData({
       creatorid: this.data.infoshares[e.detail.current].CreatorId
     })
@@ -534,7 +534,7 @@ Page({
     return {
       title: this.data.sharetitle,
       query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
-      imageUrl: this.data.videoimage, //封面
+      imageUrl: this.data.infocover, //封面
     }
   },
 
@@ -549,7 +549,7 @@ Page({
     return {
       title: this.data.sharetitle,
       path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
-      imageUrl: this.data.videoimage, //封面，留空自动抓取500*400生成图片
+      imageUrl: this.data.infocover, //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调
         if (res.errMsg == 'shareAppMessage:ok') {

@@ -19,13 +19,12 @@ Page({
     private: false,
     infostatus: "unchecked",
     infocontent: "",
-    infoimage: "", //用户选定的图片组，多张
-    infovideo: '',
+    infoimage: "", //用户选定的图片
+    infovideo: "",
+    infocover: "",
     tempvideourl: [], //用户上传视频的临时路径
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
-    thumbtemp: "",
-    infocover: "",
   },
 
   onChooseAvatar(e) {
@@ -64,7 +63,7 @@ Page({
     })
 
   },
-  bvUploadNickName(e){
+  bvUploadNickName(e) {
     db.collection('USER').where({
       UserId: app.globalData.Guserid
     }).update({
@@ -90,7 +89,6 @@ Page({
       infocover: e.detail.cell.InfoCover,
       infoimage: e.detail.cell.InfoImage,
       infostatus: e.detail.cell.InfoStatus,
-      thumbtemp: e.detail.cell.InfoCover,
     })
     this.setData({
       sptemp: e.detail.cell.InfoVideo
@@ -153,46 +151,61 @@ Page({
     console.log("上传视频的方法")
     wx.chooseMedia({
       count: 1, //上传视频的个数
-      mediaType: ['video'], //限制上传的类型为video
+      mediaType: ['mix'], //限制上传的类型为video
       sourceType: ['album', 'camera'], //视频选择来源
       maxDuration: 58, //拍摄限制时间
       camera: 'back', //采用后置摄像头
       success: async function (res) {
-        //获取临时存放的视频资源
+        console.log(res)
+        //获取临时存放的媒体资源
         let tempFilePath = res.tempFiles[0].tempFilePath
-        //获取该视频的播放时间
-        let duration = res.tempFiles[0].duration
-        console.log("视频播放时间为" + duration)
-        //获取视频的大小(MB单位)
-        let size = parseFloat(res.tempFiles[0].size / 1024 / 1024).toFixed(1)
-        console.log("视频大小为" + size)
-        //获取视频的高度
-        let height = res.tempFiles[0].height
-        console.log("视频高度为" + height)
-        //获取视频的宽度
-        let width = res.tempFiles[0].width
-        console.log("视频宽度为" + width)
-        //校验大小后，符合进行上传
-        that.setData({
-          thumbtemp: res.tempFiles[0].thumbTempFilePath,
-        })
-        if (size > 20) {
-          let beyongSize = size - 20 //获取视频超出限制大小的数量
-          Toast("上传的视频大小超限,超出" + beyongSize + "MB,请重新上传！")
-          return
-        } else {
-          //符合大小限制，进行上传
-          console.log("可以上传！！！")
-          // 调用视频上传方法
-          let timestamp = new Date().getTime()
-          that.uploadvideo({
-            // url: api.uploadfiletofastdfs, //视频上传的接口
-            path: tempFilePath, //选取的视频资源临时地址
-            timestamp: timestamp
-          });
+        let timestamp = new Date().getTime()
 
+        if (res.tempFiles[0].fileType == "video") {
+          //获取该视频的播放时间
+          let duration = res.tempFiles[0].duration
+          console.log("视频播放时间为" + duration)
+          //获取视频的大小(MB单位)
+          let size = parseFloat(res.tempFiles[0].size / 1024 / 1024).toFixed(1)
+          console.log("视频大小为" + size)
+          //获取视频的高度
+          let height = res.tempFiles[0].height
+          console.log("视频高度为" + height)
+          //获取视频的宽度
+          let width = res.tempFiles[0].width
+          console.log("视频宽度为" + width)
+
+          //校验大小后，符合进行上传
+          if (size > 20) {
+            let beyongSize = size - 20 //获取视频超出限制大小的数量
+            Toast("上传的视频大小超限,超出" + beyongSize + "MB,请重新上传！")
+            return
+          } else {
+            // 上传视频封面
+            let cloudpath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infocover' + timestamp;
+            var files = await utils._UploadFile(res.tempFiles[0].thumbTempFilePath, cloudpath)
+            that.setData({
+              infocover:files
+            })
+            //符合大小限制，进行上传
+            console.log("可以上传！！！")
+            // 调用视频上传方法
+            that.uploadvideo({
+              // url: api.uploadfiletofastdfs, //视频上传的接口
+              path: tempFilePath, //选取的视频资源临时地址
+              timestamp: timestamp
+            });
+          }
+        } else if (res.tempFiles[0].fileType == "image") {
+          let cloudpath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infoimage' + timestamp
+          var files = await utils._UploadFile(tempFilePath, cloudpath)
+          that.setData({
+            infoimage: files,
+            infocover:files
+          })
+          console.log(that.data.infoimage)
         }
-      },
+      }
     })
   },
 
@@ -204,9 +217,7 @@ Page({
       mask: true,
     })
     var that = this
-    // 上传视频封面
-    let cloudpath1 = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infocover' + data.timestamp;
-    that.data.infocover = await utils._UploadFile(that.data.thumbtemp, cloudpath1)
+
     //    视频压缩
     wx.compressVideo({
       quality: 'high',
@@ -236,40 +247,22 @@ Page({
     })
   },
 
-  drawCanvas: function () {
-    // var that = this;
-    let ctx = wx.createCanvasContext('myCanvas');
-    wx.getImageInfo({
-      src: this.data.thumbtemp,
-      success: (res) => {
-        console.log("res2", res)
-        if (res.width * 0.8 < res.height) {
-          var x = res.width
-          var y = res.width * 0.8
-        } else if (res.width * 0.8 == res.height) {
-          var x = res.width
-          var y = res.width * 0.8
-        } else if (res.width * 0.8 > res.height) {
-          var x = res.height * 1.25
-          var y = res.height
-        }
-        ctx.drawImage(res.path, 0, 0, x, y, 0, 0, 500, 400); // 背景
-        ctx.save()
-        ctx.draw();
-      }
-    })
-
-  },
-
-  async bvDelVideo(e) {
+  async bvDelMedia(e) {
     console.log(e)
-    await utils._RemoveFiles([this.data.infovideo])
-    await utils._RemoveFiles([this.data.infocover])
+    if (this.data.infocover) {
+      await utils._RemoveFiles([this.data.infocover])
+    }
+    if (this.data.infovideo) {
+      await utils._RemoveFiles([this.data.infovideo])
+    }
+    if (this.data.infoimage) {
+      await utils._RemoveFiles([this.data.infoimage])
+    }
     utils._SuccessToast("视频删除成功")
     this.setData({
       infovideo: "",
       infocover: "",
-      thumbtemp: "",
+      infoimage: ""
     })
   },
 
@@ -393,7 +386,7 @@ Page({
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
-          InfoStatus: this.data.infostatus,
+          InfoStatus: "unchecked",
         },
         success: res => {
           utils._SuccessToast("资讯更新成功")
@@ -524,41 +517,4 @@ Page({
   onReachBottom: function () {
 
   },
-  // 分享朋友圈
-  onShareTimeline: function () {
-    return {
-      title: this.data.infotitle,
-      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
-      imageUrl: '', //封面
-    }
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function (res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    return {
-      title: this.data.infotitle,
-      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
-      imageUrl: '', //封面，留空自动抓取500*400生成图片
-      success: function (res) {
-        // 转发成功之后的回调
-        if (res.errMsg == 'shareAppMessage:ok') {
-          console.log(this.data.path.value)
-        }
-      },
-      fail: function () {
-        // 转发失败之后的回调
-        if (res.errMsg == 'shareAppMessage:fail cancel') {
-          // 用户取消转发
-        } else if (res.errMsg == 'shareAppMessage:fail') {
-          // 转发失败，其中 detail message 为详细失败信息
-        }
-      },
-    }
-  }
 })

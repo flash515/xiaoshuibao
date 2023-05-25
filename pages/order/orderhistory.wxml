@@ -75,7 +75,7 @@
     </view>
   </l-tabpanel>
         <l-tabpanel tab="推广等级订单" key="three" slot="three">
-          <l-button class="mainbtn" width="600" data-name="PROMOTERORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
+          <l-button class="mainbtn" width="600" data-name="PROMOTEORDER" bind:lintap="bvRefresh" shape="semicircle" plain="{{true}}">刷新</l-button>
           <view wx:for="{{promoterhistory}}" wx:key="key">
             <l-card type="primary" plaintext="{{true}}">
               <view>订单日期：{{item.AddDate}}</view>
@@ -93,7 +93,7 @@
                 <view wx:if="{{item.OrderStatus =='checked'}}">已确认</view>
               </view>
               <view hidden="{{item.PaymentStatus =='checked'}}">
-                <l-button data-orderid="{{item.OrderId}}" data-productname="{{item.PromoterName}}" data-totalfee="{{item.TotalFee}}" data-database="PROMOTERORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle">支付费用</l-button>
+                <l-button data-orderid="{{item.OrderId}}" data-productname="{{item.PromoterName}}" data-totalfee="{{item.TotalFee}}" data-database="PROMOTEORDER" bind:lintap="bvToPay" icon="order" icon-color="white" shape="semicircle">支付费用</l-button>
               </view>
             </l-card>
           </view>

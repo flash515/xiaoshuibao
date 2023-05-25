@@ -94,7 +94,7 @@ Page({
     } else {
       const db = wx.cloud.database()
       // 新增数据
-      db.collection("PROMOTERORDER").add({
+      db.collection("PROMOTEORDER").add({
         data: {
           OrderId: this.data.orderid,
           PromoteLevel: this.data.orderlevel,
@@ -136,7 +136,7 @@ Page({
           AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
           OrderId: this.data.orderid,
           PaymentStatus: "unchecked",
-          Database: "PROMOTERORDER"
+          Database: "PROMOTEORDER"
         },
         success: res => {
           console.log("payment成功")
@@ -207,7 +207,7 @@ Page({
   },
   _orderupdate() {
     const db = wx.cloud.database()
-    db.collection('PROMOTERORDER').where({
+    db.collection('PROMOTEORDER').where({
       OrderId: this.data.orderid
     }).update({
       data: {
@@ -249,7 +249,7 @@ Page({
   bvOtherPay() {
     // 转到其他付款页面时，需要传递的参数orderid、productid、productname、totalfee、database
     wx.navigateTo({
-      url: '../order/pay?orderid=' + this.data.orderid + '&productid=' + this.data.orderlevel + '&productname=' + this.data.ordername + '&totalfee=' + this.data.orderfee + '&database=PROMOTERORDER'
+      url: '../order/pay?orderid=' + this.data.orderid + '&productid=' + this.data.orderlevel + '&productname=' + this.data.ordername + '&totalfee=' + this.data.orderfee + '&database=PROMOTEORDER'
     })
   },
   // 随机生成支付订单号,订单号不能重复
@@ -301,7 +301,7 @@ Page({
     let that = this
     const db = wx.cloud.database()
     const _ = db.command
-    db.collection('PROMOTERORDER').where({
+    db.collection('PROMOTEORDER').where({
       UserId: app.globalData.Guserid,
       PaymentStatus: "checked",
       OrderStatus: "checked",

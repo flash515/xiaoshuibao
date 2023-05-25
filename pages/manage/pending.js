@@ -121,7 +121,7 @@ Page({
     wx.cloud.callFunction({
       name: "NormalQuery",
       data: {
-        collectionName: "PROMOTERORDER",
+        collectionName: "PROMOTEORDER",
         command: "or",
         where: [{
           PaymentStatus: "unchecked"
