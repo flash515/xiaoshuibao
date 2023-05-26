@@ -46,9 +46,6 @@ Page({
       loginshow: e.detail.loginshow,
       userphone: e.detail.userphone,
     })
-    wx.redirectTo({
-      url: "../promote/namecardedit"
-    })
   },
 
   bvEdit: function (e) {

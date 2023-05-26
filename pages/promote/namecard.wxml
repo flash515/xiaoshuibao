@@ -37,12 +37,13 @@
   <text>\n</text>
 
     <view wx:if="{{tempinviterid}}" style="display:flex; flex-direction:row; justify-content:space-between;">
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">制作</l-button>
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="down" icon-color="#3683d6" catchtap='addContact' bind:lintap="bvSave">收存</l-button>
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="up" icon-color="#3683d6" bind:lintap="bvReplyCard">回递</l-button>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">制作名片</l-button>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="down" icon-color="#3683d6" catchtap='addContact' bind:lintap="bvSave">收存名片</l-button>
+      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="up" icon-color="#3683d6" bind:lintap="bvReplyCard">回递名片</l-button>
     </view>
     <view wx:else style="display:flex; flex-direction:row; justify-content:space-between;">
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">编辑</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">编辑名片</l-button>
+    <view wx:if="{{userid==cardinfo.CreatorId}}"><l-icon name='eye' color="#3683d6" size="20rpx"/>{{cardinfo.View}}</view>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="download" icon-color="#3683d6" bind:lintap="bvReceive">已收名片</l-button>
   </view>
 </view>

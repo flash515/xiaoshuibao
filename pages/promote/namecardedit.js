@@ -267,6 +267,8 @@ Page({
           Category1: this.data.category1,
           Category2: this.data.category2,
           Category3: this.data.category3,
+          View:0,
+          CreatorId:app.globalData.Guserid
         },
         success: res => {
           this.data.publishstatus = true
