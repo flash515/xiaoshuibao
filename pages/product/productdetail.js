@@ -213,7 +213,7 @@ Page({
             DataId: this.data.pageParam.productid,
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
-            Status: "",
+            Status: "unchecked",
             AddDate: new Date().toLocaleString('chinese', {
               hour12: false
             })

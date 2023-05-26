@@ -76,6 +76,100 @@ Page({
     })
     // 管理员执行以下操作
 if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PAYMENT",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter1 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].PaymentStatus == 'unchecked') {
+          fliter1.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        paymentarray: res.result.data,
+        paymentcheck:fliter1
+      })
+      console.log("全部用户",this.data.paymentarray)
+    }
+  })
+
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "ORDER",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter2 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].OrderStatus == 'unchecked') {
+          fliter2.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        orderarray: res.result.data,
+        ordercheck:fliter2
+      })
+      console.log("全部订单",this.data.orderarray)
+    }
+  })
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "DISCOUNTORDER",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter3 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].OrderStatus == 'unchecked') {
+          fliter3.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        discountarray: res.result.data,
+        discountcheck:fliter3
+      })
+      console.log("全部折扣订单",this.data.discountarray)
+    }
+  })
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PROMOTEORDER",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter4 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].OrderStatus == 'unchecked') {
+          fliter4.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        promotearray: res.result.data,
+        promotecheck:fliter4
+      })
+      console.log("全部用户",this.data.promotearray)
+    }
+  })
+
   // 查询用户
   wx.cloud.callFunction({
     name: "NormalQuery",
@@ -88,100 +182,17 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
     },
     success: res => {
       console.log("全部用户",  res)
-      //括号1开始
-      var fliter1 = []
+      var fliter5 = []
       for (let i = 0; i < res.result.data.length; i++) {
         if (res.result.data[i].UserInfo.UserPhone != '') {
-          fliter1.push(res.result.data[i])
+          fliter5.push(res.result.data[i])
         }
       }
       this.setData({
         userarray: res.result.data,
-        memberarray:fliter1
+        memberarray:fliter5
       })
       console.log("全部用户",this.data.userarray)
-    }
-  })
-  // 查询产品
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "PRODUCT",
-      command: "",
-      where: [{}],
-      orderbykey:"AddDate",
-      orderby:"desc",
-    },
-    success: res => {
-      var fliter2 = []
-      for (let i = 0; i < res.result.data.length; i++) {
-        if (res.result.data[i].Status == '在售') {
-          fliter2.push(res.result.data[i])
-        }
-      }
-      this.setData({
-        productarray: res.result.data,
-        productcheck:fliter2
-      })
-      console.log("全部产品",this.data.productarray)
-    }
-  })
-  // 查询产品问答
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "PRODUCTQA",
-      command: "",
-      where: [{}],
-      orderbykey:"AddDate",
-      orderby:"desc",
-    },
-    success: res => {
-      var fliter3 = []
-      for (let i = 0; i < res.result.data.length; i++) {
-        if (res.result.data[i].Status == 'onshow') {
-          fliter3.push(res.result.data[i])
-        }
-      }
-      this.setData({
-        productqaarray: res.result.data,
-        producqatcheck:fliter3
-      })
-      console.log("全部问答",this.data.productqaarray)
-    }
-  })
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "PAYMENT",
-      command: "",
-      where: [{}],
-      orderbykey:"AddDate",
-      orderby:"desc",
-    },
-    success: res => {
-      //括号1开始
-      this.setData({
-        paymentarray: res.result.data,
-      })
-      console.log("全部用户",this.data.paymentarray)
-    }
-  })
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "ORDER",
-      command: "",
-      where: [{}],
-      orderbykey:"AddDate",
-      orderby:"desc",
-    },
-    success: res => {
-      //括号1开始
-      this.setData({
-        orderarray: res.result.data,
-      })
-      console.log("全部用户",this.data.orderarray)
     }
   })
   wx.cloud.callFunction({
@@ -194,9 +205,15 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       orderby:"desc",
     },
     success: res => {
-      //括号1开始
+      var fliter6 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].BookingStatus == 'unchecked') {
+          fliter6.push(res.result.data[i])
+        }
+      }
       this.setData({
         bookingarray: res.result.data,
+        bookingcheck:fliter6
       })
       console.log("全部用户",this.data.bookingarray)
     }
@@ -211,62 +228,17 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       orderby:"desc",
     },
     success: res => {
-      //括号1开始
+      var fliter7 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].Status == 'unchecked') {
+          fliter7.push(res.result.data[i])
+        }
+      }
       this.setData({
         infosharearray: res.result.data,
+        inofcheck:fliter7
       })
       console.log("全部用户",this.data.infosharearray)
-    }
-  })
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "NAMECARD",
-      command: "",
-      where: [{}],
-      orderbykey:"PublishDate",
-      orderby:"desc",
-    },
-    success: res => {
-      //括号1开始
-      this.setData({
-        namecardarray: res.result.data,
-      })
-      console.log("全部用户",this.data.namecardarray)
-    }
-  })
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "DISCOUNTORDER",
-      command: "",
-      where: [{}],
-      orderbykey:"AddDate",
-      orderby:"desc",
-    },
-    success: res => {
-      //括号1开始
-      this.setData({
-        discountarray: res.result.data,
-      })
-      console.log("全部用户",this.data.discountarray)
-    }
-  })
-  wx.cloud.callFunction({
-    name: "NormalQuery",
-    data: {
-      collectionName: "PROMOTEORDER",
-      command: "",
-      where: [{}],
-      orderbykey:"AddDate",
-      orderby:"desc",
-    },
-    success: res => {
-      //括号1开始
-      this.setData({
-        promotearray: res.result.data,
-      })
-      console.log("全部用户",this.data.promotearray)
     }
   })
   wx.cloud.callFunction({
@@ -279,32 +251,89 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       orderby:"desc",
     },
     success: res => {
-      //括号1开始
+      var fliter8 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].Status == 'unchecked') {
+          fliter8.push(res.result.data[i])
+        }
+      }
       this.setData({
         commentarray: res.result.data,
+        commentcheck:fliter8
       })
       console.log("全部用户",this.data.commentarray)
     }
   })
+  
+  // 查询产品
   wx.cloud.callFunction({
     name: "NormalQuery",
     data: {
-      collectionName: "INFOSHARE",
+      collectionName: "PRODUCT",
       command: "",
       where: [{}],
       orderbykey:"AddDate",
       orderby:"desc",
     },
     success: res => {
-      //括号1开始
+      var fliter9 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].Status == '在售') {
+          fliter9.push(res.result.data[i])
+        }
+      }
       this.setData({
-        infoarray: res.result.data,
+        productarray: res.result.data,
+        productcheck:fliter9
       })
-      console.log("全部用户",this.data.infoarray)
+      console.log("全部产品",this.data.productarray)
+    }
+  })
+
+  // 查询产品问答
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "PRODUCTQA",
+      command: "",
+      where: [{}],
+      orderbykey:"AddDate",
+      orderby:"desc",
+    },
+    success: res => {
+      var fliter10 = []
+      for (let i = 0; i < res.result.data.length; i++) {
+        if (res.result.data[i].Status == 'unchecked') {
+          fliter10.push(res.result.data[i])
+        }
+      }
+      this.setData({
+        productqaarray: res.result.data,
+        producqatcheck:fliter10
+      })
+      console.log("全部问答",this.data.productqaarray)
+    }
+  })
+
+
+
+  wx.cloud.callFunction({
+    name: "NormalQuery",
+    data: {
+      collectionName: "NAMECARD",
+      command: "",
+      where: [{}],
+      orderbykey:"PublishDate",
+      orderby:"desc",
+    },
+    success: res => {
+      this.setData({
+        namecardarray: res.result.data,
+      })
+      console.log("全部用户",this.data.namecardarray)
     }
   })
 }
-
   },
       	// 点击 tab 时用此方法触发埋点
 	onTabItemTap: () => track.startToTrack(),

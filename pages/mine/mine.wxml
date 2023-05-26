@@ -24,76 +24,75 @@
 <view wx:if="{{usertype=='admin'}}">
 <l-grid show-border="true" row-num="4">
   <l-grid-item key="one" slot="one">
-    <navigator url="../manage/productview">
-      <view class="num">{{productcheck.length}}/{{productarray.length}}</view>
-      <view class="text">待审/产品</view>
+    <navigator url="">
+      <view class="num">{{paymentcheck.length}}/{{paymentarray.length}}</view>
+      <view class="text">待付/支付</view>
     </navigator>
   </l-grid-item>
   <l-grid-item key="two" slot="two">
-    <navigator url="../manage/productview">
-      <view class="num">{{producqatcheck.length}}/{{producqatarray.length}}</view>
-      <view class="text">待审/问答</view>
+    <navigator url="">
+      <view class="num">{{ordercheck.length}}/{{orderarray.length}}</view>
+      <view class="text">待审/订单</view>
+
     </navigator>
   </l-grid-item>
   <l-grid-item key="three" slot="three">
-    <navigator url="../manage/productview">
-      <view class="num">{{ordercheck.length}}/{{orderarray.length}}</view>
-      <view class="text">待审/订单</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key="four" slot="four">
-    <navigator url="../manage/productview">
+    <navigator url="">
       <view class="num">{{discountcheck.length}}/{{discountarray.length}}</view>
       <view class="text">待审/折扣</view>
     </navigator>
   </l-grid-item>
-  <l-grid-item key="five" slot="five">
-    <navigator url="../manage/productview">
+  <l-grid-item key="four" slot="four">
+    <navigator url="">
       <view class="num">{{promotecheck.length}}/{{promotearray.length}}</view>
       <view class="text">待审/推广</view>
     </navigator>
   </l-grid-item>
-  <l-grid-item key="six" slot="six">
-    <navigator url="../manage/productview">
-      <view class="num">{{bookingcheck.length}}/{{bookingarray.length}}</view>
-      <view class="text">待审/预约</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key="seven" slot="seven">
-    <navigator url="../manage/productview">
-      <view class="num">{{paymentcheck.length}}/{{paymentarray.length}}</view>
-      <view class="text">待审/支付</view>
-    </navigator>
-  </l-grid-item>
-  <l-grid-item key="eight" slot="eight">
+  <l-grid-item key="five" slot="five">
     <navigator url="../manage/userview">
       <view class="num">{{memberarray.length}}/{{userarray.length}}</view>
       <view class="text">会员/用户</view>
     </navigator>
   </l-grid-item>
-  <l-grid-item key="nine" slot="nine">
-    <navigator url="../manage/userview">
-      <view class="num">{{userarray.length}}</view>
-      <view class="text">会员</view>
+  <l-grid-item key="six" slot="six">
+    <navigator url="">
+      <view class="num">{{bookingcheck.length}}/{{bookingarray.length}}</view>
+      <view class="text">待审/预约</view>
     </navigator>
-
   </l-grid-item>
-  <l-grid-item key="ten" slot="ten">
-    <navigator url="../manage/productview">
+  <l-grid-item key="seven" slot="seven">
+    <navigator url="../manage/infomanage">
       <view class="num">{{inofcheck.length}}/{{inofarray.length}}</view>
       <view class="text">待审/资讯</view>
     </navigator>
   </l-grid-item>
-  <l-grid-item key="eleven" slot="eleven">
-    <navigator url="../manage/productview">
+  <l-grid-item key="eight" slot="eight">
+    <navigator url="../manage/commentmanage">
       <view class="num">{{commentcheck.length}}/{{commentarray.length}}</view>
       <view class="text">待审/评论</view>
     </navigator>
   </l-grid-item>
+  <l-grid-item key="nine" slot="nine">
+    <navigator url="../manage/productview">
+      <view class="num">{{productcheck.length}}/{{productarray.length}}</view>
+      <view class="text">在售/产品</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="ten" slot="ten">
+    <navigator url="../manage/productview">
+      <view class="num">{{producqatcheck.length}}/{{producqatarray.length}}</view>
+      <view class="text">待审/问答</view>
+    </navigator>
+  </l-grid-item>
+  <l-grid-item key="eleven" slot="eleven">
+    <navigator url="../promote/companysquare">
+      <view class="num">{{namecardarray.length}}</view>
+      <view class="text">名片</view>
+    </navigator>
+  </l-grid-item>
   <l-grid-item key="twelve" slot="twelve">
     <navigator url="../manage/productview">
-      <view class="num">{{namecardarray.length}}</view>
-      <view class="text">待审/名片</view>
+
     </navigator>
   </l-grid-item>
 </l-grid>
