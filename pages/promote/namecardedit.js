@@ -25,7 +25,9 @@ Page({
     telephone: "",
     website: "",
     address: "",
-    publishstatus: Boolean,
+    // 图片编辑
+    imageedit: "",
+    clipershow:false,
     // 行业分类参数
     inputShow: false,
     boxShow: false,
@@ -154,7 +156,7 @@ Page({
       address: e.detail.value
     })
   },
-  
+
   bvBgSelect(e) {
     // 设定名片背景
     this.setData({
@@ -166,8 +168,15 @@ Page({
   async bvChooseBg(e) {
     // 选择自有背景,使用单个文件上传，返回字符型结果,注意current是数组
     console.log(e.detail.current)
-    let cloudpath1 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone +'/'+app.globalData.Guserdata.UserInfo.UserPhone+ 'cardbg'
-    var files1 = await utils._UploadFile(e.detail.current[0], cloudpath1)
+    this.setData({
+      clipershow:true,
+      imageedit:e.detail.current[0]
+    })
+  },
+
+  async uploadbg(filelist) {
+    let cloudpath1 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardbg'
+    var files1 = await utils._UploadFile(filelist, cloudpath1)
     this.setData({
       bgview: files1,
     })
@@ -186,10 +195,14 @@ Page({
       }
     })
   },
+  linclip(event) {
+    const targetImageUrl = event.detail.url;
+    console.log('生成的图片链接为：', targetImageUrl);
+  },
 
   async bvChooseLogo(e) {
     console.log(e.detail.all)
-    let cloudpath2 = 'namecard/' +app.globalData.Guserdata.UserInfo.UserPhone +'/'+app.globalData.Guserdata.UserInfo.UserPhone+ 'companylogo'
+    let cloudpath2 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'companylogo'
     var files2 = await utils._UploadFiles(e.detail.all, cloudpath2)
     console.log(files2)
     this.setData({
@@ -212,7 +225,7 @@ Page({
 
   async bvChooseImage(e) {
     console.log(e.detail.all)
-    let cloudpath3 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone +'/'+app.globalData.Guserdata.UserInfo.UserPhone+ 'cardimages'
+    let cloudpath3 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardimages'
     var files3 = await utils._UploadFiles(e.detail.all, cloudpath3)
     this.setData({
       cardimages: files3
@@ -240,8 +253,16 @@ Page({
 
   //发布到企业广场
   async bvPublish(e) {
-    await this.bvUpdateNameCard()
-    if (this.data.publishstatus == false || this.data.publishstatus == undefined) {
+    await this.bvSaveNameCard()
+    if (this.data.username == '') {
+      utils._ErrorToast("请填写姓名")
+      return
+    }
+    if (this.data.handphone == '' || this.data.telephone == '') {
+      utils._ErrorToast("缺少手机或电话")
+      return
+    }
+    if (app.globalData.Guserdata.NameCardStatus == undefined) {
       // 首次发布新增记录
       const db = wx.cloud.database()
       db.collection('NAMECARD').add({
@@ -267,8 +288,8 @@ Page({
           Category1: this.data.category1,
           Category2: this.data.category2,
           Category3: this.data.category3,
-          View:0,
-          CreatorId:app.globalData.Guserid
+          View: 0,
+          CreatorId: app.globalData.Guserid
         },
         success: res => {
           this.data.publishstatus = true
@@ -276,7 +297,7 @@ Page({
             UserId: app.globalData.Guserid
           }).update({
             data: {
-              ["NameCard.PublishStatus"]: this.data.publishstatus,
+              ["NameCardStatus"]: "Published",
             },
             success: res => {
               utils._SuccessToast("名片发布成功")
@@ -320,9 +341,9 @@ Page({
   },
 
   //保存名片信息
-  async bvUpdateNameCard(e) {
+  async bvSaveNameCard(e) {
     console.log("保存执行了")
-    this.data.cardinfo={
+    this.data.cardinfo = {
       ["CardBg"]: this.data.cardbg,
       ["CompanyLogo"]: this.data.companylogo,
       ["CardImages"]: this.data.cardimages,
@@ -344,19 +365,7 @@ Page({
         hour12: false
       })
     }
-    const db = wx.cloud.database()
-    db.collection('USER').where({
-      UserId: app.globalData.Guserid
-    }).update({
-      data: {
-        ["NameCard"]: this.data.cardinfo,
-      },
-      success: res => {
-        app.globalData.Guserdata.NameCard = this.data.cardinfo,
-          utils._SuccessToast("名片保存成功")
-      },
-    })
-
+    wx.setStorageSync("NameCard", this.data.cardinfo)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -373,31 +382,31 @@ Page({
         console.log("行业类别更新成功")
       }
     })
-
-    if (app.globalData.Guserdata.NameCard != undefined) {
-      this.setData({
-        cardbg: app.globalData.Guserdata.NameCard.CardBg,
-        companylogo: app.globalData.Guserdata.NameCard.CompanyLogo,
-        cardimages: app.globalData.Guserdata.NameCard.CardImages,
-        companyname: app.globalData.Guserdata.NameCard.CompanyName,
-        username: app.globalData.Guserdata.NameCard.UserName,
-        handphone: app.globalData.Guserdata.NameCard.HandPhone,
-        title: app.globalData.Guserdata.NameCard.Title,
-        wechat: app.globalData.Guserdata.NameCard.WeChat,
-        email: app.globalData.Guserdata.NameCard.Email,
-        website: app.globalData.Guserdata.NameCard.Website,
-        telephone: app.globalData.Guserdata.NameCard.Telephone,
-        businessscope: app.globalData.Guserdata.NameCard.BusinessScope,
-        address: app.globalData.Guserdata.NameCard.Address,
-        updatedate: app.globalData.Guserdata.NameCard.UpdateDate,
-
-        category1: app.globalData.Guserdata.NameCard.Category1,
-        category2: app.globalData.Guserdata.NameCard.Category2,
-        category3: app.globalData.Guserdata.NameCard.Category3,
-        keywords: app.globalData.Guserdata.NameCard.KeyWords,
-        publishstatus: app.globalData.Guserdata.NameCard.PublishStatus,
-      })
-    }
+    wx.getStorage({
+      key: 'NameCard',
+      success: res => {
+        this.setData({
+          cardbg: res.data.CardBg,
+          companylogo: res.data.CompanyLogo,
+          cardimages: res.data.CardImages,
+          companyname: res.data.CompanyName,
+          username: res.data.UserName,
+          handphone: res.data.HandPhone,
+          title: res.data.Title,
+          wechat: res.data.WeChat,
+          email: res.data.Email,
+          website: res.data.Website,
+          telephone: res.data.Telephone,
+          businessscope: res.data.BusinessScope,
+          address: res.data.Address,
+          updatedate: res.data.UpdateDate,
+          category1: res.data.Category1,
+          category2: res.data.Category2,
+          category3: res.data.Category3,
+          keywords: res.data.KeyWords,
+        })
+      }
+    })
   },
 
   /**
@@ -451,7 +460,7 @@ Page({
       // 来自页面内转发按钮
       console.log(res.target)
     }
-    await this.bvUpdateNameCard()
+    this.bvSaveNameCard()
     return {
       title: '恭呈名片，请多关照！',
       path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,

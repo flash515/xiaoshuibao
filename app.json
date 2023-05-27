@@ -68,6 +68,8 @@
     "l-input": "/miniprogram_npm/lin-ui/input/index",
     "l-card": "/miniprogram_npm/lin-ui/card/index",
     "l-image-picker": "/miniprogram_npm/lin-ui/image-picker/index",
+    "l-image-clipper": "/miniprogram_npm/lin-ui/image-clipper/index",
+    "l-image-clipper-tools": "/miniprogram_npm/lin-ui/image-clipper-tools/index",
     "l-segment": "/miniprogram_npm/lin-ui/segment/index",
     "l-segment-item": "/miniprogram_npm/lin-ui/segment-item/index",
     "l-tabs": "/miniprogram_npm/lin-ui/tabs/index",
