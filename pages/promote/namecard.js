@@ -10,22 +10,17 @@ Page({
     // 初始化相关
     params: {},
     tempinviterid: "",
+    creatorid: "",
     remark: "",
     // 登录框参数
     loginshow: false,
-    time: "获取验证码",
-    currentTime: 60,
-    disabledstatus: false,
-    s_phonecode: "",
-    u_phonecode: "",
-    inputphone: "",
     // 名片参数
     type: "",
     cardinfo: [],
     sample: {
       CardBg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg4.jpg?sign=d6efb4092f3b166f2dd79649a46f19a0&t=1682499042",
       CardImages: [],
-      CompanyLogo:["https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/%E5%B8%A6unionid%E5%8F%82%E6%95%B0%E9%80%8F%E6%98%8E.png?sign=a2fe221407105d1394df92016c9ab7b4&t=1682498686"],
+      CompanyLogo: ["https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/oo7kw5rohI15ogf6TCX_SGAxYUao/%E5%B8%A6unionid%E5%8F%82%E6%95%B0%E9%80%8F%E6%98%8E.png?sign=a2fe221407105d1394df92016c9ab7b4&t=1682498686"],
       CompanyName: "小税宝有限公司（样版）",
       BusinessScope: "  小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
       UserName: "小税宝",
@@ -105,38 +100,78 @@ Page({
         // 页面根据tempinviterid的值设置了显隐渲染，所以需要用setData赋值
         tempinviterid: options.userid
       })
-      // 本地函数查询分享人的名片信息
+      // 本地函数查询名片信息
       const db = wx.cloud.database()
-      db.collection('USER').where({
-        UserId: options.userid
+      db.collection('NAMECARD').where({
+        CreatorId: options.creatorid
       }).get({
         success: res => {
           // 展示名片分享人的名片
           this.setData({
-            cardinfo: res.data[0].NameCard
+            cardinfo: res.data[0]
           })
+          this._viewadd(options.creatorid)
         }
       })
       // 通过分享进入，执行用户登录操作，展示分享人的名片信息
       await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
     } else {
+      if (options.creatorid) {
+        // 通过编辑之后返回打开
+        // 本地函数查询名片信息
+        const db = wx.cloud.database()
+        db.collection('NAMECARD').where({
+          CreatorId: options.creatorid
+        }).get({
+          success: res => {
+            // 展示名片分享人的名片
+            this.setData({
+              cardinfo: res.data[0]
+            })
+          }
+        })
+      }else{
       // 在本人小程序中打开
       console.log("在本人小程序中打开")
-      if (app.globalData.Guserdata == undefined || app.globalData.Guserdata.NameCard == undefined) {
+      if (app.globalData.Guserdata.NameCardStatus == undefined || app.globalData.Guserdata == undefined) {
         // 没有名片则展示样本
         console.log("执行了")
         this.setData({
           cardinfo: this.data.sample
         })
       } else {
-        // 有名片展示本人名片
-        this.setData({
-          cardinfo: app.globalData.Guserdata.NameCard
+        // 本地函数查询名片信息
+        const db = wx.cloud.database()
+        db.collection('NAMECARD').where({
+          CreatorId: app.globalData.Guserid
+        }).get({
+          success: res => {
+            // 展示名片分享人的名片
+            this.setData({
+              cardinfo: res.data[0]
+            })
+          }
         })
       }
     }
+    }
   },
+  _viewadd(creatorid){
+    wx.cloud.callFunction({
+      name: "DataRise",
+      data: {
+        collectionName: "NAMECARD",
+        key: "CreatorId",
+        value: creatorid,
+        key1: "View",
+        value1: 1
+      },
+      success: res => {
+        console.log("浏览量已更新",res)
 
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

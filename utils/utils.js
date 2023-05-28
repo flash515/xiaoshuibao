@@ -194,6 +194,7 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 }
 
 async function _setting() { // 通过本地数据库查询指令取得小程序设置参数
+
   var promise = new Promise((resolve, reject) => {
     console.log("setting执行了")
     //获取小程序全局设置

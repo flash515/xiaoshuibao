@@ -253,13 +253,22 @@ Page({
 
   //发布到企业广场
   async bvPublish(e) {
+    let that=this
     await this.bvSaveNameCard()
     if (this.data.username == '') {
       utils._ErrorToast("请填写姓名")
       return
     }
-    if (this.data.handphone == '' || this.data.telephone == '') {
+    if (this.data.handphone == '' && this.data.telephone == '') {
       utils._ErrorToast("缺少手机或电话")
+      return
+    }
+    if (this.data.category1 == '' && this.data.category2 == '' && this.data.category3 == '' ) {
+      utils._ErrorToast("缺少行业分类")
+      return
+    }
+    if (this.data.keywords == '') {
+      utils._ErrorToast("缺少搜索关键词")
       return
     }
     if (app.globalData.Guserdata.NameCardStatus == undefined) {
@@ -301,8 +310,12 @@ Page({
             },
             success: res => {
               utils._SuccessToast("名片发布成功")
+              wx.redirectTo({
+                url: "../promote/namecard?creatorid="+app.globalData.Guserid
+              })
             },
           })
+
         },
       })
     } else {
@@ -452,33 +465,4 @@ Page({
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: async function (res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
-    this.bvSaveNameCard()
-    return {
-      title: '恭呈名片，请多关照！',
-      path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
-      imageUrl: '', //封面，留空自动抓取500*400生成图片
-      success: function (res) {
-        // 转发成功之后的回调
-        if (res.errMsg == 'shareAppMessage:ok') {
-          console.log(this.data.path.value)
-        }
-      },
-      fail: function () {
-        // 转发失败之后的回调
-        if (res.errMsg == 'shareAppMessage:fail cancel') {
-          // 用户取消转发
-        } else if (res.errMsg == 'shareAppMessage:fail') {
-          // 转发失败，其中 detail message 为详细失败信息
-        }
-      },
-    }
-  }
 })

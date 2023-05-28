@@ -26,6 +26,8 @@
   <image style="display: block;width: 100%;" src="{{item}}" mode="scaleToFill" />
 </view>
 <view class="mainframe">
+
+
   <l-tabs>
     <l-tabpanel tab="名片信息" key="one" slot="one">
       <l-input label="企业名称：" value="{{companyname}}" bind:lininput="bvCompanyName" />
@@ -135,8 +137,6 @@
     <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvSaveNameCard">保存名片
     </l-button>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvPublish">发布名片</l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">派发名片</l-button>
-
   </view>
   <text>\n</text>
 </view>

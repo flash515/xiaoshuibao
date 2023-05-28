@@ -45,5 +45,6 @@
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">编辑名片</l-button>
     <view wx:if="{{userid==cardinfo.CreatorId}}"><l-icon name='eye' color="#3683d6" size="20rpx"/>{{cardinfo.View}}</view>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="download" icon-color="#3683d6" bind:lintap="bvReceive">已收名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">派发名片</l-button>
   </view>
 </view>
