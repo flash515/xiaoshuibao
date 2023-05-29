@@ -100,11 +100,10 @@
 <l-card type="primary" plaintext="{{true}}">
   <l-list id="我的信息" bind:lintap="handlerClick" title="我的信息" icon="user" url="../mine/userinfo" />
   <l-list id="小程序消息订阅" bind:lintap="handlerClick" title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
-  <l-list id="小程序推广码" bind:lintap="handlerClick" title="小程序推广码" icon="picture" url="../promote/minicode" />
-  <l-list id="我的推广海报" bind:lintap="handlerClick" title="我的推广海报" icon="picture" url="../promote/poster" />
   <view wx:if="{{userphone != ''}}">
     <l-list id="推广详情" bind:lintap="handlerClick" title="推广详情" icon="user" url="../mine/shareuser" />
     <l-list id="成为服务商" bind:lintap="handlerClick" title="成为服务商" icon="setting" url="../mine/providerapply" />
+    <l-list id="成为兼职员工" bind:lintap="handlerClick" title="成为兼职员工" icon="setting" url="../mine/parttimeapply" />
   </view>
 </l-card>
 <view wx:if="{{usertype == 'provider'}}">
@@ -120,7 +119,6 @@
     <l-list title="管理员功能" icon="notification" right-desc="" tag-position="right" />
     <l-list title="快捷会议室" icon="user" url="../tools/meetingroom/expressmeeting" />
     <l-list title="快捷推广" icon="user" url="../promote/express" />
-    <l-list title="幸运抽奖" icon="user" url="../promote/luckydraw" />
     <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
     <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />

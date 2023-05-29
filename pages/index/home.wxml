@@ -99,14 +99,14 @@
     </l-grid-item>
 
     <l-grid-item key='three' slot='three' l-grid-item-class="grid-item">
-      <navigator id="企业信息查询" bindtap="handlerClick" class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx5b0ed3b8c0499950' path='pages/index/index'>
-        <l-icon name='research' />
-        <view class="text">企业信息查询</view>
+      <navigator id="资讯分享" bindtap="handlerClick" url='../promote/infoshare'>
+        <l-icon name='order' />
+        <view class="text">资讯分享</view>
       </navigator>
     </l-grid-item>
 
     <l-grid-item key='four' slot='four' l-grid-item-class="grid-item">
-      <navigator id="我的名片" bindtap="handlerClick" url='../promote/namecard'>
+      <navigator id="数字名片" bindtap="handlerClick" url='../promote/namecard'>
         <l-icon name='order' />
         <view class="text">数字名片</view>
       </navigator>
@@ -120,9 +120,30 @@
     </l-grid-item>
 
     <l-grid-item key='six' slot='six' l-grid-item-class="grid-item">
-      <navigator id="资讯分享" bindtap="handlerClick" url='../promote/infoshare'>
+      <navigator id="积分礼包" bindtap="handlerClick" url='../promote/pointspacket'>
         <l-icon name='order' />
-        <view class="text">资讯分享</view>
+        <view class="text">积分礼包</view>
+      </navigator>
+    </l-grid-item>
+
+    <l-grid-item key='seven' slot='seven' l-grid-item-class="grid-item">
+      <navigator id="小程序码" bindtap="handlerClick" url='../promote/minicode'>
+        <l-icon name='order' />
+        <view class="text">小程序码</view>
+      </navigator>
+    </l-grid-item>
+
+    <l-grid-item key='eight' slot='eight' l-grid-item-class="grid-item">
+      <navigator id="推广海报" bindtap="handlerClick" url='../promote/poster'>
+        <l-icon name='order' />
+        <view class="text">推广海报</view>
+      </navigator>
+    </l-grid-item>
+
+    <l-grid-item key='nine' slot='nine' l-grid-item-class="grid-item">
+      <navigator id="幸运抽奖" bindtap="handlerClick" url='../promote/luckydraw'>
+        <l-icon name='order' />
+        <view class="text">幸运抽奖</view>
       </navigator>
     </l-grid-item>
   </l-grid>
