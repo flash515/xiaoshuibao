@@ -10,7 +10,6 @@ Page({
     cardinfo: [],
     cardbg: "", //名片背景
     cardbgarray: [], //系统背景
-    bgview: "", //自选背景时的临时文件
     imageview: [], //名片其他图片资料的临时文件
     cardimages: [], //名片其他图片资料
     companylogo: [],
@@ -26,7 +25,9 @@ Page({
     website: "",
     address: "",
     // 图片编辑
-    imageedit: "",
+    imageedit: "", //自选图片的临时路径
+    targetImageUrl:"", //裁剪后的临时路径
+    bgview:"", //自选图片的网络路径
     clipershow:false,
     // 行业分类参数
     inputShow: false,
@@ -165,22 +166,31 @@ Page({
     console.log("cardbg", e.detail.key)
   },
 
-  async bvChooseBg(e) {
+  bvChooseBg(e) {
     // 选择自有背景,使用单个文件上传，返回字符型结果,注意current是数组
     console.log(e.detail.current)
+      this.data.imageedit=e.detail.current[0]
+  },
+  bvClipBg(){
     this.setData({
       clipershow:true,
-      imageedit:e.detail.current[0]
+      imageedit:this.data.imageedit
     })
   },
+  
+  linclip(e) {
+    this.data.targetImageUrl = e.detail.url;
+    console.log('生成的图片链接为：', this.data.targetImageUrl);
+  },
 
-  async uploadbg(filelist) {
+  async bvUploadBg() {
     let cloudpath1 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardbg'
-    var files1 = await utils._UploadFile(filelist, cloudpath1)
+    var files1 = await utils._UploadFile(this.data.targetImageUrl, cloudpath1)
     this.setData({
-      bgview: files1,
+      bgview:files1,
+      cardbg: files1,
     })
-    console.log(this.data.bgview)
+    console.log(this.data.cardbg)
   },
 
   bvRemoveBg(e) {
@@ -191,14 +201,25 @@ Page({
         console.log(res)
         this.setData({
           cardbg: "",
+          imageedit:"",
         })
       }
     })
   },
-  linclip(event) {
-    const targetImageUrl = event.detail.url;
-    console.log('生成的图片链接为：', targetImageUrl);
+  bvDeleteBg(e) {
+    wx.cloud.deleteFile({
+      fileList: this.data.bgview,
+      success: res => {
+        console.log(res)
+        this.setData({
+          bgview:"",
+          cardbg: "",
+          imageedit:"",
+        })
+      }
+    })
   },
+
 
   async bvChooseLogo(e) {
     console.log(e.detail.all)
@@ -228,9 +249,8 @@ Page({
     let cloudpath3 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardimages'
     var files3 = await utils._UploadFiles(e.detail.all, cloudpath3)
     this.setData({
-      cardimages: files3
+      cardimages:files3,
     })
-
   },
 
   bvRemoveImage(e) {

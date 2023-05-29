@@ -99,10 +99,6 @@
 </view>
 <l-card type="primary" plaintext="{{true}}">
   <l-list id="我的信息" bind:lintap="handlerClick" title="我的信息" icon="user" url="../mine/userinfo" />
-  <l-list id="推广奖励" bind:lintap="handlerClick" title="推广奖励" icon="setting" url="../mine/promotepolicy" />
-  <l-list id="价格优惠" bind:lintap="handlerClick" title="价格优惠" icon="setting" url="../mine/pricepolicy" />
-  <l-list id="数字名片" bind:lintap="handlerClick" title="数字名片" icon="user" url="../promote/namecard" />
-  <l-list id="资讯广场" bind:lintap="handlerClick" title="资讯广场" icon="user" url="../promote/infoshare" />
   <l-list id="小程序消息订阅" bind:lintap="handlerClick" title="小程序消息订阅" icon="notification" bind:lintap="bvSubMessage" />
   <l-list id="小程序推广码" bind:lintap="handlerClick" title="小程序推广码" icon="picture" url="../promote/minicode" />
   <l-list id="我的推广海报" bind:lintap="handlerClick" title="我的推广海报" icon="picture" url="../promote/poster" />
@@ -126,9 +122,7 @@
     <l-list title="快捷推广" icon="user" url="../promote/express" />
     <l-list title="幸运抽奖" icon="user" url="../promote/luckydraw" />
     <l-list title="制作名片" icon="user" url="../promote/namecardedit" />
-    <l-list title="企业广场" icon="user" url="../promote/companysquare" />
     <l-list title="资讯编辑" icon="user" url="../promote/infoshareedit" />
-    <l-list title="资讯广场" icon="user" url="../promote/infosquare" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
     <l-list title="用户管理" icon="setting" url="../manage/userview" />
     <l-list title="资讯管理" icon="setting" url="../manage/infomanage" />

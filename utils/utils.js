@@ -193,7 +193,7 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 
 }
 
-async function _setting() { // 通过本地数据库查询指令取得小程序设置参数
+function _setting() { // 通过本地数据库查询指令取得小程序设置参数
 
   var promise = new Promise((resolve, reject) => {
     console.log("setting执行了")
@@ -213,7 +213,7 @@ async function _setting() { // 通过本地数据库查询指令取得小程序�
   return promise;
 }
 
-async function _login() { // 通过云函数获取当前用户本人的小程序unionid
+function _login() { // 通过云函数获取当前用户本人的小程序unionid
   var promise = new Promise((resolve, reject) => {
     console.log("login执行了")
     wx.cloud.callFunction({

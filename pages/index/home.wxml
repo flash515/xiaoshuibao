@@ -78,8 +78,10 @@
         <view class="text">医疗器械证</view>
       </navigator>
     </l-grid-item>
-
   </l-grid>
+  <navigator url="../mine/pricepolicy">
+        <image id="价格优惠" bindtap="handlerClick" style="width: 100%; height: 50px; border-radius: 5px;" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/优惠.jpg"></image>
+      </navigator>
   <l-list title="辅助工具" icon="notification" />
   <l-grid>
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">
@@ -106,7 +108,7 @@
     <l-grid-item key='four' slot='four' l-grid-item-class="grid-item">
       <navigator id="我的名片" bindtap="handlerClick" url='../promote/namecard'>
         <l-icon name='order' />
-        <view class="text">我的名片</view>
+        <view class="text">数字名片</view>
       </navigator>
     </l-grid-item>
 
@@ -124,6 +126,9 @@
       </navigator>
     </l-grid-item>
   </l-grid>
+  <navigator id="推广奖励" bindtap="handlerClick" url="../mine/promotepolicy">
+        <image style="width: 100%; height: 50px; border-radius:5px;" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/推广奖励.jpg"></image>
+      </navigator>
   <l-list title="精选服务" icon="notification" />
   <l-grid row-num="2">
     <l-grid-item key='one' slot='one' l-grid-item-class="grid-item">

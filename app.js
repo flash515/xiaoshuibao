@@ -24,11 +24,12 @@ App({
     this.globalData = {}
 
     // 清除本地存储数据,调试发布后可去除
-    wx.clearStorage({
-      success: (res) => {
-        console.log("清除本地存储数据成功")
-      },
-    })
+    
+    // wx.clearStorage({
+    //   success: (res) => {
+    //     console.log("清除本地存储数据成功")
+    //   },
+    // })
 
     // 登录
     // wx.login({
