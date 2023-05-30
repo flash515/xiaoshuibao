@@ -36,15 +36,26 @@
   </view>
   <text>\n</text>
 
-    <view wx:if="{{tempinviterid}}" style="display:flex; flex-direction:row; justify-content:space-between;">
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">制作名片</l-button>
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="down" icon-color="#3683d6" catchtap='addContact' bind:lintap="bvSave">收存名片</l-button>
-      <l-button size="mini" shape="semicircle" plain="{{true}}" icon="up" icon-color="#3683d6" bind:lintap="bvReplyCard">回递名片</l-button>
-    </view>
-    <view wx:else style="display:flex; flex-direction:row; justify-content:space-between;">
+  <view wx:if="{{tempinviterid}}" style="display:flex; flex-direction:row; justify-content:space-between;">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">制作名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="down" icon-color="#3683d6" catchtap='addContact' bind:lintap="bvSave">收存名片</l-button>
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">转发名片</l-button>
+  </view>
+  <view wx:else style="display:flex; flex-direction:row; justify-content:space-between;">
+    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="eye" icon-color="#3683d6" bind:lintap="bvViewed">{{cardinfo.View}}</l-button>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="edit" icon-color="#3683d6" bind:lintap="bvEdit">编辑名片</l-button>
-    <view wx:if="{{userid==cardinfo.CreatorId}}"><l-icon name='eye' color="#3683d6" size="20rpx"/>{{cardinfo.View}}</view>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="download" icon-color="#3683d6" bind:lintap="bvReceive">已收名片</l-button>
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">派发名片</l-button>
+  </view>
+  <view wx:if="{{viewed[0]}}">
+    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;">
+      <view style="display: flex;flex-direction: column;justify-content:left;" wx:for="{{viewed}}" wx:key="key">
+        <view wx:if="{{item.AddDate}}"><text>日期：{{item.AddDate}}</text></view>
+        <view wx:if="{{item.ViewerCompany}}"><text>公司：{{item.ViewerCompany}}</text></view>
+        <view wx:if="{{item.ViewerName}}"><text>姓名：{{item.ViewerName}}</text></view>
+        <view wx:if="{{item.ViewerTitle}}"><text>职位：{{item.ViewerTitle}}</text></view>
+        <view wx:if="{{item.ViewerHandPhone}}"><text>手机：{{item.ViewerHandPhone}}</text></view>
+        <text>\n</text>
+      </view>
+    </scroll-view>
   </view>
 </view>

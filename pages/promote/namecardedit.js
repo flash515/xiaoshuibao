@@ -25,10 +25,20 @@ Page({
     website: "",
     address: "",
     // 图片编辑
-    imageedit: "", //自选图片的临时路径
-    targetImageUrl:"", //裁剪后的临时路径
-    bgview:"", //自选图片的网络路径
-    clipershow:false,
+    srcbg:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242",
+    srclogo:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242",
+    srcimages:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242",
+    bgcliperbtn:false,
+    logocliperbtn:false,
+    tempbg:"",
+    templogo:"",
+    bgedit: "", //剪裁背景临时路径
+    logoedit: "", //剪裁背景临时路径
+    bgtargetImageUrl:"", //裁剪后的临时路径
+    logotargetImageUrl:"", //裁剪后的临时路径
+    bgview:"", //自选背景的网络路径
+    bgclipershow:false,
+    logoclipershow:false,
     // 行业分类参数
     inputShow: false,
     boxShow: false,
@@ -169,23 +179,30 @@ Page({
   bvChooseBg(e) {
     // 选择自有背景,使用单个文件上传，返回字符型结果,注意current是数组
     console.log(e.detail.current)
-      this.data.imageedit=e.detail.current[0]
+    this.data.tempbg=e.detail.current[0]
+    this.setData({
+      bgcliperbtn:true,
+    })
   },
+
   bvClipBg(){
     this.setData({
-      clipershow:true,
-      imageedit:this.data.imageedit
+      bgclipershow:true,
+      bgedit:this.data.tempbg
     })
   },
   
   linclip(e) {
-    this.data.targetImageUrl = e.detail.url;
-    console.log('生成的图片链接为：', this.data.targetImageUrl);
+    this.data.bgtargetImageUrl = e.detail.url;
+    this.setData({
+      srcbg:[e.detail.url]
+    })
+    console.log('生成的图片链接为：', this.data.bgtargetImageUrl);
   },
 
   async bvUploadBg() {
     let cloudpath1 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardbg'
-    var files1 = await utils._UploadFile(this.data.targetImageUrl, cloudpath1)
+    var files1 = await utils._UploadFile(this.data.srcbg, cloudpath1)
     this.setData({
       bgview:files1,
       cardbg: files1,
@@ -201,7 +218,7 @@ Page({
         console.log(res)
         this.setData({
           cardbg: "",
-          imageedit:"",
+          bgedit:"",
         })
       }
     })
@@ -214,7 +231,7 @@ Page({
         this.setData({
           bgview:"",
           cardbg: "",
-          imageedit:"",
+          bgedit:"",
         })
       }
     })
@@ -296,7 +313,6 @@ Page({
       const db = wx.cloud.database()
       db.collection('NAMECARD').add({
         data: {
-          UserId: app.globalData.Guserid,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
@@ -342,7 +358,7 @@ Page({
       // 再次发布是更新
       const db = wx.cloud.database()
       db.collection('NAMECARD').where({
-        UserId: app.globalData.Guserid
+        CreatorId: app.globalData.Guserid
       }).update({
         data: {
           PublishDate: new Date().toLocaleString('chinese', {

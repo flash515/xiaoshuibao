@@ -17,6 +17,7 @@ Page({
     // 名片参数
     type: "",
     cardinfo: [],
+    viewed:[],
     sample: {
       CardBg: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/bg4.jpg?sign=d6efb4092f3b166f2dd79649a46f19a0&t=1682499042",
       CardImages: [],
@@ -42,8 +43,28 @@ Page({
       userphone: e.detail.userphone,
     })
   },
-
+  bvViewed: function (e) {
+    wx.cloud.callFunction({
+      name: "NormalQuery",
+      data: {
+        collectionName: "NameCardViewed",
+        command: "and",
+        where: [{
+          NameCardCreatorId: app.globalData.Guserid,
+        }],
+        orderbykey:"SysAddDate",
+        orderby:"desc",
+      },
+      success: res => {
+        console.log(res.result.data)
+        this.setData({
+          viewed: res.result.data
+        })
+      }
+    })
+  },
   bvEdit: function (e) {
+    // 待更新，用户手机登录后如何更新参数
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
       // 非会员先调用登录框
       this.setData({
@@ -82,11 +103,6 @@ Page({
     })
   },
 
-  // 回递名片
-  bvReplyCard() {},
-
-
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -110,7 +126,36 @@ Page({
           this.setData({
             cardinfo: res.data[0]
           })
-          this._viewadd(options.creatorid)
+          if (app.globalData.Guserid != options.creatorid) {
+            // 浏览量更新
+            this._viewadd(options.creatorid)
+            // 浏览人已发布的名片信息会发送给被浏览人
+            if (app.globalData.Guserdata.NameCardStatus =="Published") {
+              // 本地函数查询名片信息
+              const db = wx.cloud.database()
+              db.collection('NAMECARD').where({
+                CreatorId: app.globalData.Guserid
+              }).get({
+                success: res => {
+                  // 登记本人名片
+                  db.collection('NameCardViewed').add({
+                    data: {
+                      NameCardCreatorId: options.creatorid,
+                      ViewerId: app.globalData.Guserid,
+                      ViewerCompany: res.data[0].CompanyName,
+                      ViewerName: res.data[0].UserName,
+                      ViewerTitle: res.data[0].Title,
+                      ViewerHandPhone: res.data[0].HandPhone,
+                    },
+                    success: res => {
+                      console.log("被查看信息添加了")
+                    }
+                  })
+                }
+              })
+            }
+          }
+
         }
       })
       // 通过分享进入，执行用户登录操作，展示分享人的名片信息
@@ -130,33 +175,33 @@ Page({
             })
           }
         })
-      }else{
-      // 在本人小程序中打开
-      console.log("在本人小程序中打开")
-      if (app.globalData.Guserdata.NameCardStatus == undefined || app.globalData.Guserdata == undefined) {
-        // 没有名片则展示样本
-        console.log("执行了")
-        this.setData({
-          cardinfo: this.data.sample
-        })
       } else {
-        // 本地函数查询名片信息
-        const db = wx.cloud.database()
-        db.collection('NAMECARD').where({
-          CreatorId: app.globalData.Guserid
-        }).get({
-          success: res => {
-            // 展示名片分享人的名片
-            this.setData({
-              cardinfo: res.data[0]
-            })
-          }
-        })
+        // 在本人小程序中打开
+        console.log("在本人小程序中打开")
+        if (app.globalData.Guserdata.NameCardStatus != "Published") {
+          // 没有名片则展示样本
+          console.log("执行了")
+          this.setData({
+            cardinfo: this.data.sample
+          })
+        } else {
+          // 本地函数查询名片信息
+          const db = wx.cloud.database()
+          db.collection('NAMECARD').where({
+            CreatorId: app.globalData.Guserid
+          }).get({
+            success: res => {
+              // 展示本人名片
+              this.setData({
+                cardinfo: res.data[0]
+              })
+            }
+          })
+        }
       }
     }
-    }
   },
-  _viewadd(creatorid){
+  _viewadd(creatorid) {
     wx.cloud.callFunction({
       name: "DataRise",
       data: {
@@ -167,7 +212,7 @@ Page({
         value1: 1
       },
       success: res => {
-        console.log("浏览量已更新",res)
+        console.log("浏览量已更新", res)
 
       }
     })
@@ -218,7 +263,7 @@ Page({
   onShareTimeline: function () {
     return {
       title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
-      query: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
+      query: '/pages/promote/namecard?userid=' + app.globalData.Guserid+'&creatorid='+this.data.cardinfo.CreatorId,
       imageUrl: '', //封面
     }
   },
@@ -232,7 +277,7 @@ Page({
     }
     return {
       title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
-      path: '/pages/promote/namecard?userid=' + app.globalData.Guserid,
+      path: '/pages/promote/namecard?userid=' + app.globalData.Guserid+'&creatorid='+this.data.cardinfo.CreatorId,
       imageUrl: '', //封面，留空自动抓取500*400生成图片，真机有效，电脑调试会抓取整个页面
       success: function (res) {
         // 转发成功之后的回调

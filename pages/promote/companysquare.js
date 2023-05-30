@@ -11,6 +11,7 @@ Page({
     indexText: "",
     cards: [],
     namecard: [],
+    mycard: [],
     // 轮播头图
     image: [],
     // 登录框相关变量
@@ -166,16 +167,59 @@ Page({
 
   },
   bvNameCardSelect(e) {
-    if (app.globalData.Guserdata.NameCardStatus == undefined) {
+    if (app.globalData.Guserdata.NameCardStatus != "Published") {
       utils._ErrorToast("先发布本人名片")
-
       return
     }
+    console.log("cell", e.detail.cell)
     // 设定名片背景
     this.setData({
       namecard: e.detail.cell
     })
-    console.log("cardbg", e.detail.key)
+    if (app.globalData.Guserid != e.detail.cell.CreatorId) {
+      // 浏览量更新
+      this._viewadd(e.detail.cell.CreatorId)
+      // 浏览人已发布的名片信息会发送给被浏览人
+
+      // 本地函数查询名片信息
+      const db = wx.cloud.database()
+      // 登记本人名片
+      db.collection('NameCardViewed').add({
+        data: {
+          sysAddDate:new Date().getTime(),
+          AddDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          NameCardCreatorId: e.detail.cell.CreatorId,
+          ViewerId: app.globalData.Guserid,
+          ViewerCompany: this.data.mycard.CompanyName,
+          ViewerName: this.data.mycard.UserName,
+          ViewerTitle: this.data.mycard.Title,
+          ViewerHandPhone: this.data.mycard.HandPhone,
+        },
+        success: res => {
+          console.log("被查看信息添加了")
+        }
+      })
+
+    }
+
+  },
+  _viewadd(creatorid) {
+    wx.cloud.callFunction({
+      name: "DataRise",
+      data: {
+        collectionName: "NAMECARD",
+        key: "CreatorId",
+        value: creatorid,
+        key1: "View",
+        value1: 1
+      },
+      success: res => {
+        console.log("浏览量已更新", res)
+
+      }
+    })
   },
   // 长按号码响应函数
   bvPhoneNumTap: function () {
@@ -200,10 +244,24 @@ Page({
       image: app.globalData.Gimagearray,
       userphone: app.globalData.Guserdata.UserInfo.UserPhone,
     })
+    // 云函数查询已发布名片
     // let cards = await utils._NameCardCheck()
     // this.setData({
     //   cards: cards
     // })
+    if (app.globalData.Guserdata.NameCardStatus == "Published") {
+      // 本地函数查询名片信息
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').where({
+        CreatorId: app.globalData.Guserid
+      }).get({
+        success: res => {
+          // 登记本人名片
+          this.data.mycard = res.data[0]
+        }
+      })
+    }
+
   },
 
   /**

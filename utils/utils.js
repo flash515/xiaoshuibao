@@ -896,27 +896,6 @@ async function _RemoveFiles(filelist) {
   })
 }
 
-function _NameCardCheck() { // 通过云函数查询在售商品
-  var promise = new Promise((resolve, reject) => {
-    console.log("productcheck执行了")
-    // 使用云函数避免每次20条数据限制
-    wx.cloud.callFunction({
-      name: "NormalQuery",
-      data: {
-        collectionName: "NAMECARD",
-        command: "and",
-        where: [{
-          Status: "checked"
-        }]
-      },
-      success: res => {
-        wx.setStorageSync('LNameCards', res.result.data)
-        resolve(res.result.data)
-      }
-    })
-  });
-  return promise;
-}
 module.exports = {
   // 提示信息
   _SuccessToast: _SuccessToast,
@@ -934,8 +913,6 @@ module.exports = {
   _discountcheck: _discountcheck,
   _directuser: _directuser,
   _indirectuser: _indirectuser,
-
-  _NameCardCheck: _NameCardCheck,
 
   _balanceupdate: _balanceupdate,
   _pointshistory: _pointshistory,
