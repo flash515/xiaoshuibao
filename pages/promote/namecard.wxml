@@ -47,7 +47,7 @@
     <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" open-type="share">派发名片</l-button>
   </view>
   <view wx:if="{{viewed[0]}}">
-    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;">
+    <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;font-size: 28rpx;">
       <view style="display: flex;flex-direction: column;justify-content:left;" wx:for="{{viewed}}" wx:key="key">
         <view wx:if="{{item.AddDate}}"><text>日期：{{item.AddDate}}</text></view>
         <view wx:if="{{item.ViewerCompany}}"><text>公司：{{item.ViewerCompany}}</text></view>

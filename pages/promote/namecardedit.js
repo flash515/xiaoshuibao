@@ -25,9 +25,7 @@ Page({
     website: "",
     address: "",
     // 图片编辑
-    srcbg:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242",
-    srclogo:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242",
-    srcimages:"https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242",
+
     bgcliperbtn:false,
     logocliperbtn:false,
     tempbg:"",
@@ -181,6 +179,7 @@ Page({
     console.log(e.detail.current)
     this.data.tempbg=e.detail.current[0]
     this.setData({
+      srcbg:e.detail.current[0],
       bgcliperbtn:true,
     })
   },

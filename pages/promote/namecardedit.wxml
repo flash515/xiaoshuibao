@@ -93,9 +93,9 @@
       </scroll-view>
       <!-- 图片编辑 -->
       <label class="label">自选背景：</label>
-      <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg">
+      <l-image-picker count="2" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg">
         <view>
-          <image class="companylogo" src="{{srcbg}}" />
+          <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242" />
         </view>
       </l-image-picker>
       <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{bgclipershow}}" image-url="{{bgedit}}" bindlinclip="linclip">
