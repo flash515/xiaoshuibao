@@ -8,12 +8,19 @@ Page({
    */
   data: {
     cardinfo: [],
-    cardbg: "", //名片背景
     cardbgarray: [], //系统背景
-    imageview: [], //名片其他图片资料的临时文件
+    cardbg: "", //名片背景
+    bgview: "", //自选背景的网络路径
+    tempbg: [],
+    bgedit: "", //剪裁背景临时路径
+
+    companylogo: "",
+    templogo: [],
+    logoedit: "", //剪裁背景临时路径
+
     cardimages: [], //名片其他图片资料
-    companylogo: [],
-    logoview: [], //选择logo时的临时文件
+    tempimages: [], //名片其他图片资料的临时文件
+
     companyname: "",
     businessscope: "",
     username: "",
@@ -26,17 +33,11 @@ Page({
     address: "",
     // 图片编辑
 
-    bgcliperbtn:false,
-    logocliperbtn:false,
-    tempbg:"",
-    templogo:"",
-    bgedit: "", //剪裁背景临时路径
-    logoedit: "", //剪裁背景临时路径
-    bgtargetImageUrl:"", //裁剪后的临时路径
-    logotargetImageUrl:"", //裁剪后的临时路径
-    bgview:"", //自选背景的网络路径
-    bgclipershow:false,
-    logoclipershow:false,
+    bgcliperbtn: false,
+    logocliperbtn: false,
+
+    bgclipershow: false,
+    logoclipershow: false,
     // 行业分类参数
     inputShow: false,
     boxShow: false,
@@ -175,87 +176,109 @@ Page({
   },
 
   bvChooseBg(e) {
-    // 选择自有背景,使用单个文件上传，返回字符型结果,注意current是数组
+    // 选择自有背景,使用单个文件上传，返回字符型结果,注意current是数组,tempbg也是数组
     console.log(e.detail.current)
-    this.data.tempbg=e.detail.current[0]
+    // this.data.tempbg=e.detail.current[0]
     this.setData({
-      srcbg:e.detail.current[0],
-      bgcliperbtn:true,
+      bgcliperbtn: true,
+      tempbg: e.detail.current
+    })
+  },
+  bvChooseLogo(e) {
+    console.log(e.detail.all)
+    this.setData({
+      logocliperbtn: true,
+      templogo: e.detail.current
+    })
+  },
+  bvClipBg() {
+    this.setData({
+      bgclipershow: true,
+      bgedit: this.data.tempbg[0]
+    })
+  },
+  bvClipLogo() {
+    this.setData({
+      logoclipershow: true,
+      logoedit: this.data.templogo[0]
     })
   },
 
-  bvClipBg(){
+  linclipBg(e) {
     this.setData({
-      bgclipershow:true,
-      bgedit:this.data.tempbg
+      tempbg: [e.detail.url]
     })
+    console.log('生成的图片临时链接为：', this.data.tempbg);
   },
-  
-  linclip(e) {
-    this.data.bgtargetImageUrl = e.detail.url;
+
+  linclipLogo(e) {
     this.setData({
-      srcbg:[e.detail.url]
+      templogo: [e.detail.url]
     })
-    console.log('生成的图片链接为：', this.data.bgtargetImageUrl);
+    console.log('生成的图片临时链接为：', this.data.templogo);
   },
 
   async bvUploadBg() {
-    let cloudpath1 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardbg'
-    var files1 = await utils._UploadFile(this.data.srcbg, cloudpath1)
+    // 文件上传时要把tempbg组织换成string
+    let cloudpath1 = 'namecard/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardbg'
+    var files1 = await utils._UploadFile(this.data.tempbg[0], cloudpath1)
     this.setData({
-      bgview:files1,
+      // 额外使用一个bgview是为了删除图片时确保是删除bgview而不是cardbg,避免误删除系统图片
+      bgview: files1,
       cardbg: files1,
     })
     console.log(this.data.cardbg)
   },
+  async bvUploadLogo() {
+    // 文件上传时要把tempbg组织换成string
+    let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'logo'
+    var files2 = await utils._UploadFile(this.data.templogo[0], cloudpath2)
+    this.setData({
+      companylogo: files2,
+    })
+    console.log(this.data.companylogo)
+  },
 
   bvRemoveBg(e) {
     console.log(e.detail.current)
-    wx.cloud.deleteFile({
-      fileList: [e.detail.current],
-      success: res => {
-        console.log(res)
-        this.setData({
-          cardbg: "",
-          bgedit:"",
-        })
-      }
+    this.setData({
+      tempbg: [],
+      bgedit: "",
     })
   },
+  bvRemoveLogo(e) {
+    console.log("companylogo", e.detail.current)
+    this.setData({
+      templogo: [],
+      logoedit: ""
+    })
+
+  },
+
   bvDeleteBg(e) {
     wx.cloud.deleteFile({
       fileList: this.data.bgview,
       success: res => {
         console.log(res)
         this.setData({
-          bgview:"",
+          bgview: "",
           cardbg: "",
-          bgedit:"",
+          bgedit: "",
+          tempbg: [],
         })
       }
     })
   },
-
-
-  async bvChooseLogo(e) {
-    console.log(e.detail.all)
-    let cloudpath2 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'companylogo'
-    var files2 = await utils._UploadFiles(e.detail.all, cloudpath2)
-    console.log(files2)
-    this.setData({
-      companylogo: files2
-    })
-  },
-
-  bvRemoveLogo(e) {
-    console.log("companylogo", e.detail.current)
+  bvDeleteLogo(e) {
     wx.cloud.deleteFile({
       fileList: this.data.companylogo,
       success: res => {
+        console.log(res)
         this.setData({
-          companylogo: [],
+          companylogo: "",
+          logoedit: "",
+          templogo: [],
         })
-        console.log("companylogo", this.data.companylogo)
       }
     })
   },
@@ -265,7 +288,7 @@ Page({
     let cloudpath3 = 'namecard/' + app.globalData.Guserdata.UserInfo.UserPhone + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cardimages'
     var files3 = await utils._UploadFiles(e.detail.all, cloudpath3)
     this.setData({
-      cardimages:files3,
+      cardimages: files3,
     })
   },
 
@@ -289,8 +312,7 @@ Page({
 
   //发布到企业广场
   async bvPublish(e) {
-    let that=this
-    await this.bvSaveNameCard()
+    let that = this
     if (this.data.username == '') {
       utils._ErrorToast("请填写姓名")
       return
@@ -299,7 +321,7 @@ Page({
       utils._ErrorToast("缺少手机或电话")
       return
     }
-    if (this.data.category1 == '' && this.data.category2 == '' && this.data.category3 == '' ) {
+    if (this.data.category1 == '' || this.data.category2 == '' || this.data.category3 == '') {
       utils._ErrorToast("缺少行业分类")
       return
     }
@@ -324,7 +346,7 @@ Page({
           Email: this.data.email,
           Telephone: this.data.telephone,
           Website: this.data.website,
-          HandPhone: this.data.handphone,
+          Handphone: this.data.handphone,
           CompanyName: this.data.companyname,
           Address: this.data.address,
           BusinessScope: this.data.businessscope,
@@ -346,7 +368,7 @@ Page({
             success: res => {
               utils._SuccessToast("名片发布成功")
               wx.redirectTo({
-                url: "../promote/namecard?creatorid="+app.globalData.Guserid
+                url: "../promote/namecard?creatorid=" + app.globalData.Guserid
               })
             },
           })
@@ -372,7 +394,7 @@ Page({
           Email: this.data.email,
           Telephone: this.data.telephone,
           Website: this.data.website,
-          HandPhone: this.data.handphone,
+          Handphone: this.data.handphone,
           CompanyName: this.data.companyname,
           Address: this.data.address,
           BusinessScope: this.data.businessscope,
@@ -383,13 +405,16 @@ Page({
         },
         success: res => {
           utils._SuccessToast("名片发布成功")
+          wx.redirectTo({
+            url: "../promote/namecard?creatorid=" + app.globalData.Guserid
+          })
         },
       })
     }
   },
 
   //保存名片信息
-  async bvSaveNameCard(e) {
+  async bvPreView(e) {
     console.log("保存执行了")
     this.data.cardinfo = {
       ["CardBg"]: this.data.cardbg,
@@ -401,7 +426,7 @@ Page({
       ["Email"]: this.data.email,
       ["Telephone"]: this.data.telephone,
       ["Website"]: this.data.website,
-      ["HandPhone"]: this.data.handphone,
+      ["Handphone"]: this.data.handphone,
       ["CompanyName"]: this.data.companyname,
       ["Address"]: this.data.address,
       ["BusinessScope"]: this.data.businessscope,
@@ -413,13 +438,12 @@ Page({
         hour12: false
       })
     }
-    wx.setStorageSync("NameCard", this.data.cardinfo)
+    wx.setStorageSync('namecard', this.data.cardinfo)
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     const db = wx.cloud.database()
     db.collection('NameCardSetting').doc('0122a5876443793e098bd33e0045f553').get({
       success: res => {
@@ -430,31 +454,45 @@ Page({
         console.log("行业类别更新成功")
       }
     })
-    wx.getStorage({
-      key: 'NameCard',
-      success: res => {
-        this.setData({
-          cardbg: res.data.CardBg,
-          companylogo: res.data.CompanyLogo,
-          cardimages: res.data.CardImages,
-          companyname: res.data.CompanyName,
-          username: res.data.UserName,
-          handphone: res.data.HandPhone,
-          title: res.data.Title,
-          wechat: res.data.WeChat,
-          email: res.data.Email,
-          website: res.data.Website,
-          telephone: res.data.Telephone,
-          businessscope: res.data.BusinessScope,
-          address: res.data.Address,
-          updatedate: res.data.UpdateDate,
-          category1: res.data.Category1,
-          category2: res.data.Category2,
-          category3: res.data.Category3,
-          keywords: res.data.KeyWords,
-        })
-      }
-    })
+    if (app.globalData.Guserdata.NameCardStatus == "Published") {
+      console.log("查询执行了")
+      const db = wx.cloud.database()
+      db.collection('NAMECARD').where({
+        CreatorId: app.globalData.Guserid
+      }).get({
+        success: res => {
+          console.log("res",res)
+          this.setData({
+            cardbg: res.data[0].CardBg,
+            tempbg: [res.data[0].CardBg],
+            companylogo: res.data[0].CompanyLogo,
+            templogo:[res.data[0].CompanyLogo],
+            cardimages: res.data[0].CardImages,
+            tempimages:res.data[0].CardImages,
+            companyname: res.data[0].CompanyName,
+            username: res.data[0].UserName,
+            handphone: res.data[0].Handphone,
+            title: res.data[0].Title,
+            wechat: res.data[0].WeChat,
+            email: res.data[0].Email,
+            website: res.data[0].Website,
+            telephone: res.data[0].Telephone,
+            businessscope: res.data[0].BusinessScope,
+            address: res.data[0].Address,
+            updatedate: res.data[0].UpdateDate,
+            category1: res.data[0].Category1,
+            category2: res.data[0].Category2,
+            category3: res.data[0].Category3,
+            keywords: res.data[0].KeyWords,
+          })
+          console.log("查询到名片")
+        },
+
+      })
+    } else {
+      console.log("缓存执行了")
+
+    }
   },
 
   /**

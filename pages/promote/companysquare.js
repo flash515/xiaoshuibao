@@ -195,7 +195,7 @@ Page({
           ViewerCompany: this.data.mycard.CompanyName,
           ViewerName: this.data.mycard.UserName,
           ViewerTitle: this.data.mycard.Title,
-          ViewerHandPhone: this.data.mycard.HandPhone,
+          ViewerHandPhone: this.data.mycard.Handphone,
         },
         success: res => {
           console.log("被查看信息添加了")

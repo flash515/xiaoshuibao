@@ -120,12 +120,12 @@
     </l-grid-item>
 
     <l-grid-item key='six' slot='six' l-grid-item-class="grid-item">
-      <navigator id="积分礼包" bindtap="handlerClick" url='../promote/pointspacket'>
+      <navigator id="小程序码" bindtap="handlerClick" url='../promote/minicode'>
         <l-icon name='order' />
-        <view class="text">积分礼包</view>
+        <view class="text">小程序码</view>
       </navigator>
     </l-grid-item>
-
+<!-- 
     <l-grid-item key='seven' slot='seven' l-grid-item-class="grid-item">
       <navigator id="小程序码" bindtap="handlerClick" url='../promote/minicode'>
         <l-icon name='order' />
@@ -145,7 +145,7 @@
         <l-icon name='order' />
         <view class="text">幸运抽奖</view>
       </navigator>
-    </l-grid-item>
+    </l-grid-item> -->
   </l-grid>
   <navigator id="推广奖励" bindtap="handlerClick" url="../mine/promotepolicy">
         <image style="width: 100%; height: 50px; border-radius:5px;" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/推广奖励.jpg"></image>

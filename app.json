@@ -20,8 +20,6 @@
     "pages/order/orderdetail",
     "pages/order/orderhistory",
     "pages/order/pay",
-    "pages/mine/pricepolicy",
-    "pages/mine/promotepolicy",
     "pages/mine/booking",
     "pages/mine/mine",
     "pages/mine/shareuser",
@@ -35,7 +33,9 @@
     "pages/tools/meetingroom/meetingroom1",
     "pages/tools/meetingroom/meetingroom2",
     "pages/tools/meetingroom/meetingroom3",
-    "pages/tools/webpage",
+
+    "pages/promote/pricepolicy",
+    "pages/promote/promotepolicy",
     "pages/promote/minicode",
     "pages/promote/poster",
     "pages/promote/pointspacket",
@@ -49,9 +49,6 @@
     "pages/promote/express",
     "pages/promote/luckydraw",
     "pages/test/databass",
-    "pages/test/productdetail",
-    "pages/test/test",
-    "pages/test/test1",
     "components/loginmask/loginmask"
   ],
   "permission": {

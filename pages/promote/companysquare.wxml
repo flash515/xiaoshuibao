@@ -69,7 +69,7 @@
     <view wx:if="{{namecard.CompanyName}}">公司：{{namecard.CompanyName}}</view>
     <view wx:if="{{namecard.UserName}}">姓名：{{namecard.UserName}}</view>
     <view wx:if="{{namecard.WeChat}}">职务：{{namecard.WeChat}}</view>
-    <view wx:if="{{namecard.HandPhone}}" bindlongpress="bvPhoneNumTap">手机：{{namecard.HandPhone}}</view>
+    <view wx:if="{{namecard.Handphone}}" bindlongpress="bvPhoneNumTap">手机：{{namecard.Handphone}}</view>
     <view wx:if="{{namecard.WeChat}}">微信：{{namecard.WeChat}}</view>
     <view wx:if="{{namecard.Telephone}}">座机：{{namecard.Telephone}}</view>
     <view wx:if="{{namecard.Email}}">邮箱：{{namecard.Email}}</view>

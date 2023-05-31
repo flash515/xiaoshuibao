@@ -13,7 +13,7 @@
         <text>\n</text>
         <view><text class="username">{{cardinfo.UserName}}</text><text space="emsp" decode='true' class="title"> {{cardinfo.Title}}</text></view>
         <text>\n</text>
-        <view wx:if="{{cardinfo.HandPhone}}" class="handphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.HandPhone}}</view>
+        <view wx:if="{{cardinfo.Handphone}}" class="handphone" bindlongpress="bvPhoneNumTap">手机：{{cardinfo.Handphone}}</view>
         <view wx:if="{{cardinfo.WeChat}}" class="wechat">微信：{{cardinfo.WeChat}}</view>
         <view wx:if="{{cardinfo.Telephone}}" class="telephone">座机：{{cardinfo.Telephone}}</view>
       </view>
@@ -49,13 +49,15 @@
   <view wx:if="{{viewed[0]}}">
     <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;font-size: 28rpx;">
       <view style="display: flex;flex-direction: column;justify-content:left;" wx:for="{{viewed}}" wx:key="key">
+        <text>\n</text>
+        <view><text>序号：{{viewed.length-index}}</text></view>
         <view wx:if="{{item.AddDate}}"><text>日期：{{item.AddDate}}</text></view>
         <view wx:if="{{item.ViewerCompany}}"><text>公司：{{item.ViewerCompany}}</text></view>
         <view wx:if="{{item.ViewerName}}"><text>姓名：{{item.ViewerName}}</text></view>
         <view wx:if="{{item.ViewerTitle}}"><text>职位：{{item.ViewerTitle}}</text></view>
         <view wx:if="{{item.ViewerHandPhone}}"><text>手机：{{item.ViewerHandPhone}}</text></view>
-        <text>\n</text>
       </view>
     </scroll-view>
   </view>
+  <text>\n</text>
 </view>

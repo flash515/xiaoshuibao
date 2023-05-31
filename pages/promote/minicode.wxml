@@ -2,6 +2,8 @@
 <Swiper class="swiper" image="{{image}}"></Swiper>
 <!-- 用户 userprofile -->
 <view class="mainframe">
+
+
   <view class="btn" bindtap="getUrlLink">一键生成您的专属小税宝推广链接</view>
   <text>\n</text>
   <view hidden="{{urllink.length==0}}">{{urllink}}<text decode="{{true}}">&emsp;</text>
@@ -18,9 +20,9 @@
     <l-input type="text" label="自定参数：" placeholder="三个字符以内，不能用中文" bind:lininput="bvParams"></l-input>
     <l-input type="text" label="自定颜色：" placeholder="{'r':0,'g':0,'b':0}" bind:lininput="bvColor"></l-input>
     <view class="btn" bindtap="getQRCode">生成定制小税宝推广码</view>
-
+  <view wx:if="{{tempqrcodeurl}}">
       <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{tempqrcodeurl}}"></image>
-
+    </view>
   </view>
   <label class="text">点击选择个人头像替换小程序码中LOGO：</label>
   <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">

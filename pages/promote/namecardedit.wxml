@@ -93,7 +93,7 @@
       </scroll-view>
       <!-- 图片编辑 -->
       <label class="label">自选背景：</label>
-      <l-image-picker count="2" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg">
+      <l-image-picker count="1" bind:linchange="bvChooseBg" bind:linremove="bvRemoveBg" urls="{{tempbg}}">
         <view>
           <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%90%8D%E7%89%87%E8%83%8C%E6%99%AF.png?sign=fab490b454f8e1bc5f9d1fec8999a5b9&t=1682560242" />
         </view>
@@ -112,40 +112,38 @@
     </l-tabpanel>
 
     <l-tabpanel tab="公司LOGO" key="three" slot="three">
-        <label class="label">选择公司LOGO：</label>
-        <l-image-picker count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{companylogo}}">
-          <view>
-            <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E9%80%89%E6%8B%A9logo.png?sign=def8ff07d55c4bfed15b3045d31ae164&t=1682560126" />
-          </view>
-        </l-image-picker>
-
-        <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{logoclipershow}}" image-url="{{logoedit}}" bindlinclip="linclip">
-          <l-image-clipper-tools />
-        </l-image-clipper>
-        <view wx:if="{{logocliperbtn}}" style="display: flex;flex-direction: row;justify-content: space-between;">
-          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipLogo">裁剪LOGO
-          </l-button>
-          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadLogo">上传LOGO
-          </l-button>
-          <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteLogo">删除LOGO
-          </l-button>
+      <label class="label">选择公司LOGO：</label>
+      <l-image-picker count="1" bind:linchange="bvChooseLogo" bind:linremove="bvRemoveLogo" urls="{{templogo}}">
+        <view>
+          <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E9%80%89%E6%8B%A9logo.png?sign=def8ff07d55c4bfed15b3045d31ae164&t=1682560126" />
         </view>
+      </l-image-picker>
+
+      <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{logoclipershow}}" image-url="{{logoedit}}" bindlinclip="linclipLogo">
+        <l-image-clipper-tools />
+      </l-image-clipper>
+      <view wx:if="{{logocliperbtn}}" style="display: flex;flex-direction: row;justify-content: space-between;">
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipLogo">裁剪LOGO
+        </l-button>
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadLogo">上传LOGO
+        </l-button>
+        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteLogo">删除LOGO
+        </l-button>
+      </view>
     </l-tabpanel>
 
     <l-tabpanel tab="其他图片" key="four" slot="four">
-        <label class="label">选择其他图片资料：</label>
-        <l-image-picker count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage">
-          <view>
-            <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
-          </view>
-        </l-image-picker>
+      <label class="label">选择其他图片资料：</label>
+      <l-image-picker count="4" bind:linchange="bvChooseImage" bind:linremove="bvRemoveImage" urls="{{tempimages}}">
+        <view>
+          <image class="companylogo" src="https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/namecard/%E5%85%B6%E4%BB%96%E5%9B%BE%E7%89%87.png?sign=1ee0fe0b796001e62e5d4677fdcad93b&t=1682560204" />
+        </view>
+      </l-image-picker>
     </l-tabpanel>
   </l-tabs>
   <text>\n</text>
-  <view style="display:flex; flex-direction:row; justify-content:space-between;">
-    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvSaveNameCard">保存名片
-    </l-button>
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvPublish">发布名片</l-button>
-  </view>
 
+  <l-button size="long" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvPublish">发布名片</l-button>
+
+  <text>\n</text>
 </view>

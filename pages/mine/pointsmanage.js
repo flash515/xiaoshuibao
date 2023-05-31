@@ -17,7 +17,7 @@ Page({
     exchangepoints: 0,
     withdrawpoints: 0,
     packetnumber: 0,
-    transferpacketid:"",
+    transferpacketid: "",
     balanceupdatetime: "",
     consumehistory: [],
     tradehistory: [],
@@ -31,11 +31,11 @@ Page({
       loginshow: true
     })
   },
-  onLogin(e){
+  onLogin(e) {
     this.setData({
-      loginshow:e.detail.loginshow,
-      loginbtnshow:e.detail.loginbtnshow,
-      userphone:e.detail.userphone,
+      loginshow: e.detail.loginshow,
+      loginbtnshow: e.detail.loginbtnshow,
+      userphone: e.detail.userphone,
     })
   },
   bvTransferPoints(e) {
@@ -160,8 +160,10 @@ Page({
    */
 
   onLoad: async function (options) {
-    this.setData({image:app.globalData.Gimagearray})
-    if(app.globalData.Guserdata.UserInfo.UserPhone!=''){
+    this.setData({
+      image: app.globalData.Gimagearray
+    })
+    if (app.globalData.Guserdata.UserInfo.UserPhone != '') {
       this.setData({
         loginbtnshow: false,
         userid: app.globalData.Guserid,
@@ -169,7 +171,7 @@ Page({
         tradebalance: app.globalData.Guserdata.TradeInfo.TradeBalance,
         balanceupdatetime: app.globalData.Guserdata.TradeInfo.BalanceUpdateTime,
       })
-    }else{
+    } else {
       this.setData({
         loginbtnshow: true
       })
@@ -218,7 +220,7 @@ Page({
   },
   _transferpointsadd() {
 
-    this.data.transferpacketid=utils._getGoodsRandomNumber()
+    this.data.transferpacketid = utils._getGoodsRandomNumber()
     console.log(this.data.transferpacketid)
     var promise = new Promise((resolve, reject) => {
       const db = wx.cloud.database()
@@ -227,12 +229,12 @@ Page({
           PointsType: "transfer",
           ProductName: "推广积分转让",
           // 使用的消费积分
-          TransferPacketId:this.data.transferpacketid,
+          TransferPacketId: this.data.transferpacketid,
           TransferId: app.globalData.Guserid,
           TransferPoints: this.data.transferpoints,
           RemainPoints: this.data.transferpoints,
           PacketNumber: this.data.packetnumber,
-          RemainPacket:this.data.packetnumber,
+          RemainPacket: this.data.packetnumber,
           SysAddDate: new Date().getTime(),
           AddDate: new Date().toLocaleString('chinese', {
             hour12: false
@@ -261,11 +263,15 @@ Page({
   onShareAppMessage: async function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
+      if (this.data.transferpoints > this.data.promotebalance) {
+        utils._ErrorToast("超出积分余额")
+        return
+      }
       console.log(res)
       await this._transferpointsadd()
       return {
         title: app.globalData.Guserdata.UserInfo.nickName + '送出的礼包！',
-        path: '/pages/promote/pointspacket?userid=' + app.globalData.Guserid + "&transferpacketid="+this.data.transferpacketid,
+        path: '/pages/promote/pointspacket?userid=' + app.globalData.Guserid + "&transferpacketid=" + this.data.transferpacketid,
         imageUrl: 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/image/%E7%A4%BC%E5%8C%85.png?sign=e79f00decafb4dc8fb227aa48443f5de&t=1679125766', //封面
         success: function (res) {
           // 转发成功之后的回调

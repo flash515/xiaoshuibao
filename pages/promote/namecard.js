@@ -11,6 +11,7 @@ Page({
     params: {},
     tempinviterid: "",
     creatorid: "",
+    title:"恭呈名片,敬请关照!",
     remark: "",
     // 登录框参数
     loginshow: false,
@@ -26,7 +27,7 @@ Page({
       BusinessScope: "  小税宝有限公司成立于2021年，专注于收集和整理各地税务优惠政策、财政奖励政策，并为企业提供企业托管、财税相关服务。",
       UserName: "小税宝",
       Title: "产品经理",
-      HandPhone: "123456",
+      Handphone: "123456",
       WeChat: "123456",
       Email: "123456@163.com",
       Telephone: "0755-12345678",
@@ -145,7 +146,7 @@ Page({
                       ViewerCompany: res.data[0].CompanyName,
                       ViewerName: res.data[0].UserName,
                       ViewerTitle: res.data[0].Title,
-                      ViewerHandPhone: res.data[0].HandPhone,
+                      ViewerHandPhone: res.data[0].Handphone,
                     },
                     success: res => {
                       console.log("被查看信息添加了")
@@ -154,8 +155,8 @@ Page({
                 }
               })
             }
+            this.data.title=app.globalData.Guserdata.UserInfo.nickName+"推荐给您:"
           }
-
         }
       })
       // 通过分享进入，执行用户登录操作，展示分享人的名片信息
@@ -262,7 +263,7 @@ Page({
   // 分享朋友圈
   onShareTimeline: function () {
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      title: this.data.title,
       query: '/pages/promote/namecard?userid=' + app.globalData.Guserid+'&creatorid='+this.data.cardinfo.CreatorId,
       imageUrl: '', //封面
     }
@@ -276,7 +277,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '推荐给您：',
+      title: this.data.title,
       path: '/pages/promote/namecard?userid=' + app.globalData.Guserid+'&creatorid='+this.data.cardinfo.CreatorId,
       imageUrl: '', //封面，留空自动抓取500*400生成图片，真机有效，电脑调试会抓取整个页面
       success: function (res) {
