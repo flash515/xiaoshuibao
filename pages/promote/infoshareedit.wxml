@@ -1,18 +1,4 @@
-<view wx:if="{{infovideo}}">
-<video class="videoCss" id="myVideo" src="{{infovideo}}" 	object-fit="contain" binderror="videoErrorCallback" show-play-btn="{{true}}" controls></video>
-</view>
-<view wx:if="{{infoimage}}">
-  <image style="width: 750rpx;height: 600rpx;" src="{{infoimage}}" mode="scaleToFill" />
-</view>
-
 <view class="mainframe">
-  <view wx:if="{{infocover}}" style="display: flex;flex-direction: column;justify-content:center;">
-      <l-button plain="{{true}}" size="long" bind:lintap="bvDelMedia">点击这里删除视频或图片</l-button>
-    </view>
-    <view wx:else>
-      <l-button plain="{{true}}" size="long" bind:lintap="bvChooseMedia">点击这里添加视频或图片</l-button>
-    </view>
-
   <label class="labal">已发布的资讯：</label>
   <view class="line"></view>
   <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 200rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
@@ -32,8 +18,36 @@
     </l-radio-group>
   </scroll-view>
   <view class="line"></view>
+  <text>\n</text>
+  <view wx:if="{{infovideo}}">
+    <video class="videoCss" id="myVideo" src="{{infovideo}}" object-fit="contain" binderror="videoErrorCallback" show-play-btn="{{true}}" controls></video>
+  </view>
+  <view wx:if="{{infoimage}}">
+    <image style="width: 100%;height: 600rpx;" src="{{infoimage}}" mode="scaleToFill" />
+  </view>
+  <view wx:if="{{infocover}}" style="display: flex;flex-direction: column;justify-content:center;">
+    <l-button plain="{{true}}" size="long" bind:lintap="bvDelMedia">点击这里删除视频或图片</l-button>
+  </view>
+  <view wx:else>
+    <l-button plain="{{true}}" size="long" bind:lintap="bvChooseMedia">点击这里添加视频或图片</l-button>
+  </view>
 
   <view style="display: flex;flex-direction: column;">
+  <view wx:if="{{tempcover}}">
+    <label class="labal">资讯封面：</label>
+    <image style="width: 100%;height: 600rpx;" src="{{tempcover}}"></image>
+  </view>
+    <l-image-clipper width="750" height="600" check-image="{{false}}" lock-ratio="{{false}}" show="{{coverclipershow}}" image-url="{{coveredit}}" bindlinclip="linclipCover">
+      <l-image-clipper-tools />
+    </l-image-clipper>
+    <view wx:if="{{Covercliperbtn}}" style="display: flex;flex-direction: row;justify-content: space-between;">
+      <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipCover">裁剪封面
+      </l-button>
+      <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadCover">上传封面
+      </l-button>
+      <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteCover">删除封面
+      </l-button>
+    </view>
 
     <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
       <label class="labal">资讯标题：</label>
@@ -59,12 +73,9 @@
       </button>
     </view>
     <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" bindblur="bvUploadNickName" />
-    <view wx:if="{{infoselected}}" >
-    <l-button size="mini" shape="semicircle" plain="{{true}}" icon="share" icon-color="#3683d6" bind:lintap="bvUpdate">保存当前资讯</l-button>
-  </view>
-  <view wx:else style="display: flex;flex-direction: row;justify-content: space-between;">
-    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">创建新的资讯
+
+    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">保存并发布资讯
     </l-button>
-  </view>
+
   </view>
 </view>

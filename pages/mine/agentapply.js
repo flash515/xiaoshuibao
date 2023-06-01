@@ -84,8 +84,8 @@ Page({
       contractchecked: e.detail.checked
     })
   },
-  bvProviderApply(e) {
-if(this.applysubmit==true|| this.data.providerapplydate!=''){
+  bvApplyAgent(e) {
+if(this.applysubmit==true|| this.data.agentapplydate!=''){
   utils._ErrorToast("请勿重复提交")
 }else{
     if (this.data.companyname != "" && this.data.companyid != "" && this.data.businessscope != "" && this.data.address != "") {
@@ -100,7 +100,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
             ["UserInfo.CompanyId"]: this.data.companyid,
             ["UserInfo.Address"]: this.data.address,
             ["UserInfo.BusinessScope"]: this.data.businessscope,
-            ["UserInfo.ProviderApplyDate"]: new Date().toLocaleString('chinese', {
+            ["UserInfo.AgentApplyDate"]: new Date().toLocaleString('chinese', {
               hour12: false
             })
           },
@@ -149,7 +149,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
       companyid: app.globalData.Guserdata.UserInfo.CompanyId,
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
       address: app.globalData.Guserdata.UserInfo.Address,
-      providerapplydate:app.globalData.Guserdata.UserInfo.ProviderApplyDate,
+      agentapplydate:app.globalData.Guserdata.UserInfo.AgentApplyDate,
     })
   },
 

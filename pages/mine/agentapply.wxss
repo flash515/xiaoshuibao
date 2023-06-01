@@ -1,0 +1,11 @@
+/* pages/mine/providerapply.wxss */
+button[plain]{ 
+  border:0
+}
+.button{
+font-size: 28rpx;
+}
+.labal {  
+  font-size: 28rpx;  
+  margin-left: 25rpx;  
+}

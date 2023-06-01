@@ -22,6 +22,10 @@ Page({
     infoimage: "", //用户选定的图片
     infovideo: "",
     infocover: "",
+    covercliperbtn: false,
+    coverclipershow: false,
+    tempcover: "",
+    coveredit: "", //剪裁封面临时路径
     tempvideourl: [], //用户上传视频的临时路径
     tempimageview: [], //用户上传图片的临时路径
     sptemp: "", //视频路径转换的中间临时变量
@@ -115,7 +119,42 @@ Page({
       }
     })
   },
+  bvClipCover() {
+    this.setData({
+      coverclipershow: true,
+      coveredit: this.data.tempcover[0]
+    })
+  },
+  linclipCover(e) {
+    // 裁剪图片
+    this.setData({
+      tempcover: [e.detail.url]
+    })
+    console.log('生成的图片临时链接为：', this.data.tempcover);
+  },
+  async bvUploadCover() {
+    // 文件上传时要把tempbg组织换成string
+    let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'logo'
+    var files2 = await utils._UploadFile(this.data.templogo[0], cloudpath2)
+    this.setData({
+      companylogo: files2,
+    })
+    console.log(this.data.companylogo)
+  },
 
+  bvDeleteCover(e) {
+    wx.cloud.deleteFile({
+      fileList: this.data.companylogo,
+      success: res => {
+        console.log(res)
+        this.setData({
+          companylogo: "",
+          logoedit: "",
+          templogo: [],
+        })
+      }
+    })
+  },
   bvInfoTitle(e) {
     this.setData({
       infotitle: e.detail.value
@@ -174,6 +213,10 @@ Page({
           //获取视频的宽度
           let width = res.tempFiles[0].width
           console.log("视频宽度为" + width)
+          that.setData({
+            coveredit: res.tempFiles[0].thumbTempFilePath,
+            coverclipershow:true
+          })
 
           //校验大小后，符合进行上传
           if (size > 20) {
@@ -185,7 +228,7 @@ Page({
             let cloudpath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infocover' + timestamp;
             var files = await utils._UploadFile(res.tempFiles[0].thumbTempFilePath, cloudpath)
             that.setData({
-              infocover:files
+              infocover: files
             })
             //符合大小限制，进行上传
             console.log("可以上传！！！")
@@ -201,7 +244,7 @@ Page({
           var files = await utils._UploadFile(tempFilePath, cloudpath)
           that.setData({
             infoimage: files,
-            infocover:files
+            infocover: files
           })
           console.log(that.data.infoimage)
         }
@@ -425,7 +468,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: async function (options) {
-    //  await utils.UserLogon()
+
     this.setData({
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,

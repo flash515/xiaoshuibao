@@ -26,6 +26,7 @@
     "pages/mine/newbooking",
     "pages/mine/pointsmanage",
     "pages/mine/providerapply",
+    "pages/mine/agentapply",
     "pages/mine/userinfo",
     "pages/scheme/schemelist",
     "pages/tools/meetingroom/expressmeeting",
