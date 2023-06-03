@@ -841,11 +841,11 @@ function _roomapply(promotebalance, tradebalance, balanceupdatetime) {
   });
   return promise;
 }
-async function _UploadFile(file, cloudpath) {
+async function _UploadFile(file, path) {
   // 单个文件上传
   var promise = new Promise((resolve, reject) => {
     const filePath = file
-    const cloudPath = cloudpath + filePath.match(/\.[^.]+?$/)
+    const cloudPath = path + file.match(/\.[^.]+?$/)
     wx.cloud.uploadFile({
       cloudPath,
       filePath,

@@ -129,9 +129,7 @@ Page({
 
 
   onLoad: async function (options) {
-    console.log("接收到的参数", options)
-    // 在本人小程序中打开
-    console.log("在本人小程序中打开展示全部公开资讯")
+
     // 查询公开发布的视频，数量少于20条用本地函数就可以
     const db = wx.cloud.database()
     db.collection('INFOSHARE').where({
@@ -143,11 +141,9 @@ Page({
         // 展示查询到的结果
         this.setData({
           infoshares: res.data,
-
           creatorid: res.data[0].CreatorId,
         })
         this.data.infoid = res.data[0].InfoId
-        this._getComments(res.data[0].InfoId)
         console.log("公开资讯", this.data.infoshares)
       }
     })

@@ -11,7 +11,6 @@ Page({
     avatarurl: "",
     nickname: "",
     infoshares: [], //已保存的资讯分享
-    infoshare: [], //当前要编辑的资讯
     infoselected: false,
     infoid: "",
     infotitle: "",
@@ -19,16 +18,16 @@ Page({
     private: false,
     infostatus: "unchecked",
     infocontent: "",
-    infoimage: "", //用户选定的图片
+    infoimage: "",
     infovideo: "",
     infocover: "",
-    covercliperbtn: false,
-    coverclipershow: false,
     tempcover: "",
+    tempimage: "",
+    tempvideo: "",
+    editbtn: false,
+    clipershow: false,
     coveredit: "", //剪裁封面临时路径
-    tempvideourl: [], //用户上传视频的临时路径
-    tempimageview: [], //用户上传图片的临时路径
-    sptemp: "", //视频路径转换的中间临时变量
+    timestamp: "", //时间戳
   },
 
   onChooseAvatar(e) {
@@ -82,21 +81,39 @@ Page({
 
   bvInfoShareSelect(e) {
     console.log(e.detail)
-    this.setData({
-      infoselected: e.detail.checked,
-      infoid: e.detail.cell.InfoId,
-      infotitle: e.detail.cell.InfoTitle,
-      infotitleshow: e.detail.cell.InfoTitleShow,
-      private: e.detail.cell.Private,
-      infocontent: e.detail.cell.InfoContent,
-      infovideo: e.detail.cell.InfoVideo,
-      infocover: e.detail.cell.InfoCover,
-      infoimage: e.detail.cell.InfoImage,
-      infostatus: e.detail.cell.InfoStatus,
-    })
-    this.setData({
-      sptemp: e.detail.cell.InfoVideo
-    })
+    if (e.detail.checked == true) {
+      this.setData({
+        infoid: e.detail.cell.InfoId,
+        infotitle: e.detail.cell.InfoTitle,
+        infotitleshow: e.detail.cell.InfoTitleShow,
+        private: e.detail.cell.Private,
+        infocontent: e.detail.cell.InfoContent,
+        infovideo: e.detail.cell.InfoVideo,
+        infocover: e.detail.cell.InfoCover,
+        infoimage: e.detail.cell.InfoImage,
+        tempvideo: e.detail.cell.InfoVideo,
+        tempcover: e.detail.cell.InfoCover,
+        tempimage: e.detail.cell.InfoImage,
+        infostatus: e.detail.cell.InfoStatus,
+        editbtn:true
+      })
+    } else {
+      this.setData({
+        infoid: "",
+        infotitle: "",
+        infotitleshow: true,
+        private: false,
+        infostatus: "unchecked",
+        infocontent: "",
+        infoimage: "",
+        infovideo: "",
+        infocover: "",
+        tempcover: "",
+        tempimage: "",
+        tempvideo: "",
+        editbtn:false
+      })
+    }
   },
 
   async bvDelInfo(e) {
@@ -119,42 +136,7 @@ Page({
       }
     })
   },
-  bvClipCover() {
-    this.setData({
-      coverclipershow: true,
-      coveredit: this.data.tempcover[0]
-    })
-  },
-  linclipCover(e) {
-    // 裁剪图片
-    this.setData({
-      tempcover: [e.detail.url]
-    })
-    console.log('生成的图片临时链接为：', this.data.tempcover);
-  },
-  async bvUploadCover() {
-    // 文件上传时要把tempbg组织换成string
-    let cloudpath2 = 'namecard/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'logo'
-    var files2 = await utils._UploadFile(this.data.templogo[0], cloudpath2)
-    this.setData({
-      companylogo: files2,
-    })
-    console.log(this.data.companylogo)
-  },
 
-  bvDeleteCover(e) {
-    wx.cloud.deleteFile({
-      fileList: this.data.companylogo,
-      success: res => {
-        console.log(res)
-        this.setData({
-          companylogo: "",
-          logoedit: "",
-          templogo: [],
-        })
-      }
-    })
-  },
   bvInfoTitle(e) {
     this.setData({
       infotitle: e.detail.value
@@ -163,25 +145,6 @@ Page({
   bvInfoContent(e) {
     this.setData({
       infocontent: e.detail.value
-    })
-  },
-
-  async bvChooseImage(e) {
-    // 选择自有背景,使用单个文件上传，返回字符型结果,current是数组
-    console.log(e.detail.current)
-    let cloudpath1 = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infoimage' + new Date().getTime()
-    var files1 = await utils._UploadFile(e.detail.current[0], cloudpath1)
-    this.setData({
-      infoimage: files1,
-    })
-    console.log(this.data.infoimage)
-  },
-
-  async bvRemoveImage(e) {
-    console.log(e.currentTarget.dataset.image)
-    await utils._RemoveFiles([e.currentTarget.dataset.image])
-    this.setData({
-      infoimage: "",
     })
   },
 
@@ -197,9 +160,6 @@ Page({
       success: async function (res) {
         console.log(res)
         //获取临时存放的媒体资源
-        let tempFilePath = res.tempFiles[0].tempFilePath
-        let timestamp = new Date().getTime()
-
         if (res.tempFiles[0].fileType == "video") {
           //获取该视频的播放时间
           let duration = res.tempFiles[0].duration
@@ -213,10 +173,6 @@ Page({
           //获取视频的宽度
           let width = res.tempFiles[0].width
           console.log("视频宽度为" + width)
-          that.setData({
-            coveredit: res.tempFiles[0].thumbTempFilePath,
-            coverclipershow:true
-          })
 
           //校验大小后，符合进行上传
           if (size > 20) {
@@ -224,73 +180,90 @@ Page({
             Toast("上传的视频大小超限,超出" + beyongSize + "MB,请重新上传！")
             return
           } else {
-            // 上传视频封面
-            let cloudpath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infocover' + timestamp;
-            var files = await utils._UploadFile(res.tempFiles[0].thumbTempFilePath, cloudpath)
-            that.setData({
-              infocover: files
-            })
             //符合大小限制，进行上传
-            console.log("可以上传！！！")
-            // 调用视频上传方法
-            that.uploadvideo({
-              // url: api.uploadfiletofastdfs, //视频上传的接口
-              path: tempFilePath, //选取的视频资源临时地址
-              timestamp: timestamp
-            });
+            console.log("符合大小限制")
+            that.setData({
+              tempcover: res.tempFiles[0].thumbTempFilePath,
+              tempvideo: res.tempFiles[0].tempFilePath,
+              editbtn: true
+            })
           }
         } else if (res.tempFiles[0].fileType == "image") {
-          let cloudpath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infoimage' + timestamp
-          var files = await utils._UploadFile(tempFilePath, cloudpath)
           that.setData({
-            infoimage: files,
-            infocover: files
+            tempcover: res.tempFiles[0].tempFilePath,
+            tempimage: res.tempFiles[0].tempFilePath,
+            editbtn: true
           })
-          console.log(that.data.infoimage)
         }
       }
     })
   },
 
+  bvClipCover() {
+    // 打开裁剪控件
+    this.setData({
+      clipershow: true,
+      coveredit: this.data.tempcover
+    })
+  },
 
-  //视频上传
-  uploadvideo: async function (data) {
+  linclipCover(e) {
+    // 裁剪图片
+    this.setData({
+      tempcover: e.detail.url
+    })
+    console.log('生成的图片临时链接为：', this.data.tempcover);
+  },
+
+  //上传视频和图片
+  bvUploadMedia: async function () {
     wx.showLoading({
       title: '上传中...',
       mask: true,
     })
     var that = this
-
-    //    视频压缩
-    wx.compressVideo({
-      quality: 'high',
-      src: data.path,
-      success: function (res) {
-        let size = parseFloat(res.size / 1024 / 1024).toFixed(1)
-        console.log("压缩后视频大小为" + size)
-        that.setData({
-          sptemp: res.tempFilePath
-        })
-
-        // 只上传一个video时
-        const filePath = that.data.sptemp
-        const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'infovideo' + data.timestamp + filePath.match(/\.[^.]+?$/)
-        wx.cloud.uploadFile({
-          cloudPath,
-          filePath,
-          success: (res) => {
-            wx.hideLoading();
-            console.log("fileID", res.fileID)
-            that.setData({
-              infovideo: res.fileID,
-            })
-          },
-        });
-      },
+    this.data.timestamp = new Date().getTime()
+    // 上传视频封面
+    let coverpath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cover' + this.data.timestamp;
+    let cover = await utils._UploadFile(this.data.tempcover, coverpath)
+    this.setData({
+      infocover: cover
     })
+    console.log(that.data.infocover)
+    if (this.data.tempvideo != '') {
+      //    视频压缩
+      wx.compressVideo({
+        quality: 'high',
+        src: this.data.tempvideo,
+        success: function (res) {
+          let size = parseFloat(res.size / 1024 / 1024).toFixed(1)
+          console.log("压缩后视频大小为" + size)
+          // 只上传一个video时
+          const filePath = res.tempFilePath
+          const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'video' + that.data.timestamp + filePath.match(/\.[^.]+?$/)
+          wx.cloud.uploadFile({
+            cloudPath,
+            filePath,
+            success: (res) => {
+              wx.hideLoading();
+              console.log("fileID", res.fileID)
+              that.data.infovideo = res.fileID
+            },
+          });
+        },
+      })
+    }
+    if (this.data.tempimage != '') {
+      //上传图片资讯
+      let imagepath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'image' + this.data.timestamp
+      that.data.infoimage = await utils._UploadFile(this.data.tempimage, imagepath)
+      wx.hideLoading();
+      console.log(that.data.infoimage)
+    }
+
   },
 
-  async bvDelMedia(e) {
+  async bvDeleteMedia(e) {
     console.log(e)
     if (this.data.infocover) {
       await utils._RemoveFiles([this.data.infocover])
@@ -301,12 +274,16 @@ Page({
     if (this.data.infoimage) {
       await utils._RemoveFiles([this.data.infoimage])
     }
-    utils._SuccessToast("视频删除成功")
+    utils._SuccessToast("删除成功")
     this.setData({
-      infovideo: "",
-      infocover: "",
-      infoimage: ""
+      tempvideo: "",
+      tempcover: "",
+      tempimage: "",
+      infocover:"",
+      editbtn: false,
     })
+    this.data.infovideo = ""
+    this.data.infoimage = ""
   },
 
   bvInfoTitleShow(e) {
@@ -352,67 +329,7 @@ Page({
       this.data.infostatus = "checked"
     }
     const db = wx.cloud.database()
-    db.collection('INFOSHARE').add({
-      data: {
-        CreatorId: app.globalData.Guserid,
-        InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
-        InfoTitle: this.data.infotitle,
-        InfoContent: this.data.infocontent,
-        InfoVideo: this.data.infovideo,
-        InfoImage: this.data.infoimage,
-        InfoCover: this.data.infocover,
-        View: 0,
-        Praise: 0,
-        Commont: 0,
-        InfoTitleShow: this.data.infotitleshow,
-        Private: this.data.private,
-        avatarUrl: this.data.avatarurl,
-        nickName: this.data.nickname,
-        PublishDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
-        InfoStatus: this.data.infostatus,
-      },
-      success: res => {
-        utils._SuccessToast("资讯已创建")
-        // 查询本人提交的InfoShare
-        wx.cloud.callFunction({
-          name: "NormalQuery",
-          data: {
-            collectionName: "INFOSHARE",
-            command: "and",
-            where: [{
-              CreatorId: app.globalData.Guserid,
-            }]
-          },
-          success: res => {
-            that.setData({
-              infoshares: res.result.data,
-            })
-            console.log("本人全部资讯", that.data.infoshares)
-          }
-        })
-
-      },
-      fail: res => {
-        utils._ErrorToast("保存失败请重试")
-      }
-    })
-
-
-  },
-
-  //保存信息
-  async bvUpdate(e) {
-    // 再次发布是更新
-    let that = this
-    if (this.data.infotitle == "") {
-      utils._ErrorToast("标题不能为空")
-    } else {
-      if (this.data.private == true) {
-        this.data.infostatus = "checked"
-      }
-      const db = wx.cloud.database()
+    if (this.data.infoid != "") {
       db.collection('INFOSHARE').where({
         InfoId: this.data.infoid
       }).update({
@@ -461,9 +378,57 @@ Page({
         },
         success: res => {}
       })
+    } else {
+      db.collection('INFOSHARE').add({
+        data: {
+          CreatorId: app.globalData.Guserid,
+          InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
+          InfoTitle: this.data.infotitle,
+          InfoContent: this.data.infocontent,
+          InfoVideo: this.data.infovideo,
+          InfoImage: this.data.infoimage,
+          InfoCover: this.data.infocover,
+          View: 0,
+          Praise: 0,
+          Commont: 0,
+          InfoTitleShow: this.data.infotitleshow,
+          Private: this.data.private,
+          avatarUrl: this.data.avatarurl,
+          nickName: this.data.nickname,
+          PublishDate: new Date().toLocaleString('chinese', {
+            hour12: false
+          }),
+          InfoStatus: this.data.infostatus,
+        },
+        success: res => {
+          utils._SuccessToast("已发布等待审核")
+          // 查询本人提交的InfoShare
+          wx.cloud.callFunction({
+            name: "NormalQuery",
+            data: {
+              collectionName: "INFOSHARE",
+              command: "and",
+              where: [{
+                CreatorId: app.globalData.Guserid,
+              }]
+            },
+            success: res => {
+              that.setData({
+                infoshares: res.result.data,
+              })
+              console.log("本人全部资讯", that.data.infoshares)
+            }
+          })
+
+        },
+        fail: res => {
+          utils._ErrorToast("保存失败请重试")
+        }
+      })
     }
 
   },
+
   /**
    * 生命周期函数--监听页面加载
    */

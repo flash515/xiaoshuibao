@@ -62,7 +62,7 @@
   </l-grid-item>
   <l-grid-item key="seven" slot="seven">
     <navigator url="../manage/infomanage">
-      <view class="num">{{inofcheck.length}}/{{inofarray.length}}</view>
+      <view class="num">{{infocheck.length}}/{{infoarray.length}}</view>
       <view class="text">待审/资讯</view>
     </navigator>
   </l-grid-item>

@@ -215,30 +215,31 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
         bookingarray: res.result.data,
         bookingcheck:fliter6
       })
-      console.log("全部用户",this.data.bookingarray)
+      console.log("全部预约",this.data.bookingarray)
     }
   })
+  // 查询资讯
   wx.cloud.callFunction({
     name: "NormalQuery",
     data: {
       collectionName: "INFOSHARE",
       command: "",
       where: [{}],
-      orderbykey:"AddDate",
+      orderbykey:"PublishDate",
       orderby:"desc",
     },
     success: res => {
       var fliter7 = []
       for (let i = 0; i < res.result.data.length; i++) {
-        if (res.result.data[i].Status == 'unchecked') {
+        if (res.result.data[i].InfoStatus == 'unchecked') {
           fliter7.push(res.result.data[i])
         }
       }
       this.setData({
-        infosharearray: res.result.data,
-        inofcheck:fliter7
+        infoarray: res.result.data,
+        infocheck:fliter7
       })
-      console.log("全部用户",this.data.infosharearray)
+      console.log("全部资讯",this.data.infoarray)
     }
   })
   wx.cloud.callFunction({

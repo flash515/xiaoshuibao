@@ -24,13 +24,14 @@ Page({
     // 页面相关
     infoshares: [],
     infoid: "",
+    infocover:"",
+    infotitle:"",
     comments: [],
     // currentinfoid: "",
     creatorid: "",
     userid: "",
     avatarurl: "",
     nickname: "",
-    infocover:"",
     donateshow: false,
     commentshow: false,
     replycontent: "",
@@ -408,6 +409,7 @@ Page({
             creatorid: res.data[0].CreatorId
           })
           this.data.infocover=res.data[0].InfoCover
+          this.data.infotitle=res.data[0].InfoTitle
           this.data.infoid = options.infoid
           this._getComments(options.infoid)
           this._viewadd(this.data.infoid)
@@ -437,6 +439,7 @@ Page({
             creatorid: res.data[0].CreatorId,
           })
           this.data.infocover=res.data[0].InfoCover
+          this.data.infotitle=res.data[0].InfoTitle
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
           this._viewadd(this.data.infoid)
@@ -492,6 +495,7 @@ Page({
   nextVideo(e) {
     this.data.infoid = this.data.infoshares[e.detail.current].InfoId
     this.data.infocover=this.data.infoshares[e.detail.current].InfoCover
+    this.data.infotitle=this.data.infoshares[e.detail.current].InfoTitle
     this.setData({
       creatorid: this.data.infoshares[e.detail.current].CreatorId
     })
@@ -532,7 +536,7 @@ Page({
   // 分享朋友圈
   onShareTimeline: function () {
     return {
-      title: this.data.sharetitle,
+      title: this.data.infotitle,
       query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: this.data.infocover, //封面
     }
@@ -547,7 +551,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: this.data.sharetitle,
+      title: this.data.infotitle,
       path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: this.data.infocover, //封面，留空自动抓取500*400生成图片
       success: function (res) {
