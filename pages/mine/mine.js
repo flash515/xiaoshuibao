@@ -33,6 +33,8 @@ Page({
     paymentcheck:[],
     userarray:[],
     memberarray:[],
+    inofsharearray:[],
+    inofsharecheck:[],
     inofarray:[],
     inofcheck:[],
     commentarray:[],
@@ -229,15 +231,32 @@ if(app.globalData.Guserdata.UserInfo.UserType=="admin"){
       orderby:"desc",
     },
     success: res => {
-      var fliter7 = []
+      var fliter71temp = []
+      var fliter72temp = []
+      var fliter71 = []
+      var fliter72 = []
       for (let i = 0; i < res.result.data.length; i++) {
-        if (res.result.data[i].InfoStatus == 'unchecked') {
-          fliter7.push(res.result.data[i])
+        if (res.result.data[i].InfoType == 'Media') {
+          fliter71temp.push(res.result.data[i])
+        }else if(res.result.data[i].InfoType == 'Simple'){
+          fliter72temp.push(res.result.data[i])
+        }
+      }
+      for (let i = 0; i < fliter71temp.length; i++) {
+        if (fliter71temp[i].InfoStatus == 'unchecked') {
+          fliter71.push(fliter71temp[i])
+        }
+      }
+      for (let i = 0; i < fliter72temp.length; i++) {
+        if (fliter72temp[i].InfoStatus == 'unchecked') {
+          fliter72.push(fliter72temp[i])
         }
       }
       this.setData({
-        infoarray: res.result.data,
-        infocheck:fliter7
+        infosharearray: fliter71temp,
+        infosharecheck:fliter71,
+        infoarray: fliter72temp,
+        infocheck:fliter72
       })
       console.log("全部资讯",this.data.infoarray)
     }

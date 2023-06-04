@@ -1,6 +1,6 @@
 <!-- 登录层 -->
-<l-mask show="{{loginshow}}" center="true" >
-<loginmask bind:myevent="onLogin"></loginmask>
+<l-mask show="{{loginshow}}" center="true">
+  <loginmask bind:myevent="onLogin"></loginmask>
 </l-mask>
 <!-- 轮播头图 -->
 <Swiper class="swiper" image="{{image}}"></Swiper>
@@ -28,8 +28,8 @@
         </view>
         <view style="display:flex; flex-direction:column;">
           <view wx:if="{{loginbtnshow}}">
-    <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
-  </view>
+            <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvLoginShow">请登录后浏览</l-button>
+          </view>
           <view wx:else style="display:flex; flex-direction:column">
             <view>
               <view wx:if="{{discountlevel == 'DL1'}}">

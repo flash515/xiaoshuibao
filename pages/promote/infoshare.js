@@ -120,19 +120,16 @@ Page({
     })
   },
   bvCommentShow() {
-    this.setData({
-      commentshow: true,
-    })
-    // if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
-    //   // 非会员先调用登录框
-    //   this.setData({
-    //     loginshow: true
-    //   })
-    // } else {
-    //   this.setData({
-    //     commentshow:true,
-    //   })
-    // }
+    if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {
+      // 非会员先调用登录框
+      this.setData({
+        loginshow: true
+      })
+    } else {
+      this.setData({
+        commentshow:true,
+      })
+    }
   },
   onChooseAvatar(e) {
     console.log(e.detail)

@@ -74,7 +74,7 @@
       </button>
     </view>
     <input class="nicknameinput" type="nickname" value="{{nickname}}" placeholder="点击获取昵称" bindinput="bvNickName" bindblur="bvUploadNickName" />
-    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">保存并发布资讯
+    <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvPublish">发布资讯
     </l-button>
   </view>
 </view>

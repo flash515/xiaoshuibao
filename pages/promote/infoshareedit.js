@@ -398,6 +398,7 @@ Page({
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
+          InfoType:"Media",
           InfoStatus: this.data.infostatus,
         },
         success: res => {
@@ -446,6 +447,7 @@ Page({
         command: "and",
         where: [{
           CreatorId: app.globalData.Guserid,
+          InfoType:"Media"
         }]
       },
       success: res => {

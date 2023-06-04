@@ -43,6 +43,8 @@
     "pages/promote/namecardedit",
     "pages/promote/namecard",
     "pages/promote/bless",
+    "pages/promote/infomation",
+    "pages/promote/infoedit",
     "pages/promote/infoshare",
     "pages/promote/infoshareedit",
     "pages/promote/companysquare",

@@ -79,7 +79,7 @@
       </navigator>
     </l-grid-item>
   </l-grid>
-  <navigator url="../mine/pricepolicy">
+  <navigator url="../promote/pricepolicy">
         <image id="价格优惠" bindtap="handlerClick" style="width: 100%; height: 50px; border-radius: 5px;" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/优惠.jpg"></image>
       </navigator>
   <l-list title="辅助工具" icon="notification" />
@@ -92,9 +92,9 @@
     </l-grid-item>
 
     <l-grid-item key='two' slot='two' l-grid-item-class="grid-item">
-      <navigator id="经营范围查询" bindtap="handlerClick" class='miniprogram-btn' target="miniProgram" open-type='navigate' app-id='wx9f0f317564969fbf' path='pages/index/index'>
-        <l-icon name='research' />
-        <view class="text">经营范围查询</view>
+      <navigator id="供求信息" bindtap="handlerClick" url='../promote/infomation'>
+        <l-icon name='order' />
+        <view class="text">供求信息</view>
       </navigator>
     </l-grid-item>
 
@@ -147,7 +147,7 @@
       </navigator>
     </l-grid-item> -->
   </l-grid>
-  <navigator id="推广奖励" bindtap="handlerClick" url="../mine/promotepolicy">
+  <navigator id="推广奖励" bindtap="handlerClick" url="../promote/promotepolicy">
         <image style="width: 100%; height: 50px; border-radius:5px;" src="cloud://xsbmain-9gvsp7vo651fd1a9.7873-xsbmain-9gvsp7vo651fd1a9-1304477809/setting/image/推广奖励.jpg"></image>
       </navigator>
   <l-list title="精选服务" icon="notification" />
