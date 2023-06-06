@@ -223,6 +223,15 @@ Page({
       userphone: e.detail.userphone,
     })
   },
+  
+  bvLink(e){
+    console.log(e.currentTarget.dataset.link)
+    // 注意navigate不能跳转到有导航的页面
+    wx.navigateTo({
+      url: e.currentTarget.dataset.link,
+      // url: '../index/index',
+    })
+  },
 
   bvEdit: function (e) {
     if (app.globalData.Guserdata.UserInfo.UserPhone == '' || app.globalData.Guserdata.UserInfo.UserPhone == undefined) {

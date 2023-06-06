@@ -34,7 +34,7 @@ Page({
 
     // 单次下载允许的最大文件为 200MB
     wx.downloadFile({
-      url: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/%E6%9C%8D%E5%8A%A1%E5%95%86%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE20230601.pdf?sign=b39c9c9f384508c4fb0cb1bfa3dc7f7c&t=1685602870", // 地址已打码，自己换个其他的地址("https://www.xxxxx.com/file/测试通知.pdf")
+      url: "https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.qcloud.la/setting/%E4%BB%A3%E7%90%86%E5%95%86%E5%8D%8F%E8%AE%AE20230601.pdf?sign=8ae87818b8aecce1d67288eadc0f7a06&t=1686023329", // 地址已打码，自己换个其他的地址("https://www.xxxxx.com/file/测试通知.pdf")
       success: function (res) {
         console.log(res, "wx.downloadFile success res")
         if (res.statusCode != 200) {

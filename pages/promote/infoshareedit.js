@@ -14,8 +14,10 @@ Page({
     infoselected: false,
     infoid: "",
     infotitle: "",
-    infotitleshow: true,
-    private: false,
+    link:"../product/allproduct",
+    infotitleshow: false,
+    linkshow:true,
+    private: true,
     infostatus: "unchecked",
     infocontent: "",
     infoimage: "",
@@ -85,7 +87,9 @@ Page({
       this.setData({
         infoid: e.detail.cell.InfoId,
         infotitle: e.detail.cell.InfoTitle,
+        link:e.detail.cell.Link,
         infotitleshow: e.detail.cell.InfoTitleShow,
+        linkshow:e.detail.cell.LinkShow,
         private: e.detail.cell.Private,
         infocontent: e.detail.cell.InfoContent,
         infovideo: e.detail.cell.InfoVideo,
@@ -102,6 +106,7 @@ Page({
         infoid: "",
         infotitle: "",
         infotitleshow: true,
+        linkshow:false,
         private: false,
         infostatus: "unchecked",
         infocontent: "",
@@ -140,6 +145,11 @@ Page({
   bvInfoTitle(e) {
     this.setData({
       infotitle: e.detail.value
+    })
+  },
+  bvLink(e) {
+    this.setData({
+      link: e.detail.value
     })
   },
   bvInfoContent(e) {
@@ -288,11 +298,23 @@ Page({
 
   bvInfoTitleShow(e) {
     console.log(e.detail)
-    this.data.infotitleshow = e.detail.checked
+    this.setData({
+      infotitleshow:e.detail.checked
+    })
   },
   bvPrivate(e) {
     console.log(e.detail)
-    this.data.private = e.detail.checked
+    this.setData({
+      private:e.detail.checked
+    })
+
+  },
+  bvLinkShow(e) {
+    console.log(e.detail)
+    this.setData({
+      linkshow:e.detail.checked
+    })
+
   },
   //发布到资讯广场
   async bvPublish(e) {
@@ -335,12 +357,14 @@ Page({
       }).update({
         data: {
           InfoTitle: this.data.infotitle,
+          Link:this.data.link,
           InfoContent: this.data.infocontent,
           InfoVideo: this.data.infovideo,
           InfoImage: this.data.infoimage,
           InfoCover: this.data.infocover,
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
+          LinkShow:this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
@@ -384,6 +408,7 @@ Page({
           CreatorId: app.globalData.Guserid,
           InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
           InfoTitle: this.data.infotitle,
+          Link:this.data.link,
           InfoContent: this.data.infocontent,
           InfoVideo: this.data.infovideo,
           InfoImage: this.data.infoimage,
@@ -393,6 +418,7 @@ Page({
           Commont: 0,
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
+          LinkShow:this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {

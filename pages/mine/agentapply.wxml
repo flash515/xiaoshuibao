@@ -25,7 +25,7 @@
   <l-textarea type="text" indicator="{{true}}" maxlength="140" auto-height="{{true}}" value="{{businessscope}}" bind:lininput="bvBusinessScope"></l-textarea>
   <text>\n</text>
   <l-radio-group bind:linchange="bvContractCheck">
-    <l-radio key="1">我已阅读并接受<button class="button" bind:tap="previewFile" plain="true">《代理商服务协议》</button>的条款</l-radio>
+    <l-radio key="1">我已阅读并接受<button class="button" bind:tap="previewFile" plain="true">《代理商协议》</button>的条款</l-radio>
   </l-radio-group>
   <text>\n</text>
 

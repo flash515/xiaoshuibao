@@ -36,15 +36,15 @@
       <l-image-clipper-tools />
     </l-image-clipper>
     <view wx:if="{{editbtn}}">
-      <view wx:if="{{infocover}}" >
+      <view wx:if="{{infocover}}">
         <l-button size="long" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvDeleteMedia">删除视频及图片
-      </l-button>
+        </l-button>
       </view>
       <view wx:else style="display: flex;flex-direction: row;justify-content: space-between;">
         <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipCover">裁剪封面
-      </l-button>
+        </l-button>
         <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadMedia">上传视频及图片
-      </l-button>
+        </l-button>
       </view>
     </view>
     <view wx:if="{{!tempcover}}" style="display: flex;flex-direction: column;justify-content:center;">
@@ -54,17 +54,24 @@
       <label class="labal">资讯标题：</label>
       <input type="text" class="input" value="{{infotitle}}" placeholder="请在这里填写资讯标题" bind:input="bvInfoTitle" />
     </view>
+    <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+      <label class="labal">商品链接：</label>
+      <input type="text" class="input" value="{{link}}" placeholder="../product/allproduct" bind:input="bvLink" />
+    </view>
     <label class="labal">资讯内容：</label>
     <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
     </l-textarea>
 
     <label class="labal">资讯设置：</label>
-    <l-radio-group bind:linchange="bvInfoTitleShow">
-      <l-radio key="1" placement="right"> <label class="labal">不展示标题</label></l-radio>
-    </l-radio-group>
-    <l-radio-group bind:linchange="bvPrivate">
-      <l-radio key="1" placement="right"> <label class="labal">不公开发布(只能通过分享资讯链接打开)</label></l-radio>
-    </l-radio-group>
+    <l-checkbox-group bind:linchange="bvInfoTitleShow">
+      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{infotitleshow}}">显示标题</l-checkbox>
+    </l-checkbox-group>
+    <l-checkbox-group bind:linchange="bvLinkShow">
+      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{linkshow}}">显示商品链接</l-checkbox>
+    </l-checkbox-group>
+    <l-checkbox-group bind:linchange="bvPrivate">
+      <l-checkbox placement="right" key="1" l-class="checkbox" checked="{{private}}">非公开发布(只能通过资讯分享链接打开)</l-checkbox>
+    </l-checkbox-group>
   </view>
   <text>\n</text>
   <view style="display:flex; flex-direction:row; justify-content:space-between;">
