@@ -14,9 +14,9 @@ Page({
     infoselected: false,
     infoid: "",
     infotitle: "",
-    link:"../product/allproduct",
+    link: "../product/allproduct",
     infotitleshow: false,
-    linkshow:true,
+    linkshow: true,
     private: true,
     infostatus: "unchecked",
     infocontent: "",
@@ -87,9 +87,9 @@ Page({
       this.setData({
         infoid: e.detail.cell.InfoId,
         infotitle: e.detail.cell.InfoTitle,
-        link:e.detail.cell.Link,
+        link: e.detail.cell.Link,
         infotitleshow: e.detail.cell.InfoTitleShow,
-        linkshow:e.detail.cell.LinkShow,
+        linkshow: e.detail.cell.LinkShow,
         private: e.detail.cell.Private,
         infocontent: e.detail.cell.InfoContent,
         infovideo: e.detail.cell.InfoVideo,
@@ -99,14 +99,14 @@ Page({
         tempcover: e.detail.cell.InfoCover,
         tempimage: e.detail.cell.InfoImage,
         infostatus: e.detail.cell.InfoStatus,
-        editbtn:true
+        editbtn: true
       })
     } else {
       this.setData({
         infoid: "",
         infotitle: "",
         infotitleshow: true,
-        linkshow:false,
+        linkshow: false,
         private: false,
         infostatus: "unchecked",
         infocontent: "",
@@ -116,7 +116,7 @@ Page({
         tempcover: "",
         tempimage: "",
         tempvideo: "",
-        editbtn:false
+        editbtn: false
       })
     }
   },
@@ -289,7 +289,7 @@ Page({
       tempvideo: "",
       tempcover: "",
       tempimage: "",
-      infocover:"",
+      infocover: "",
       editbtn: false,
     })
     this.data.infovideo = ""
@@ -299,20 +299,20 @@ Page({
   bvInfoTitleShow(e) {
     console.log(e.detail)
     this.setData({
-      infotitleshow:e.detail.checked
+      infotitleshow: e.detail.checked
     })
   },
   bvPrivate(e) {
     console.log(e.detail)
     this.setData({
-      private:e.detail.checked
+      private: e.detail.checked
     })
 
   },
   bvLinkShow(e) {
     console.log(e.detail)
     this.setData({
-      linkshow:e.detail.checked
+      linkshow: e.detail.checked
     })
 
   },
@@ -323,29 +323,29 @@ Page({
       utils._ErrorToast("标题不能为空")
       return
     }
-    // 普能会员只能发布最多3条资讯
-    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "member" && this.data.infoshares.length > 2) {
-      utils._ErrorToast("超出会员权限")
-      return
-    }
-    // 银级会员只能发布最多10条资讯
-    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "silver" && this.data.infoshares.length > 9) {
-      utils._ErrorToast("超出会员权限")
-      return
-    }
-    // 黄金会员只能发布最多30条资讯
-    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "gold" && this.data.infoshares.length > 29) {
-      utils._ErrorToast("超出会员权限")
-      return
-    }
-    // 铂金会员只能发布最多50条资讯
-    if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "platinum" && this.data.infoshares.length > 49) {
-      utils._ErrorToast("超出会员权限")
-      return
+    if (app.globalData.Guserdata.UserInfo.UserType == "admin") {} else {
+      // 普能会员只能发布最多3条资讯
+      if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "member" && this.data.infoshares.length > 2) {
+        utils._ErrorToast("超出会员权限")
+        return
+      }
+      // 银级会员只能发布最多10条资讯
+      if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "silver" && this.data.infoshares.length > 9) {
+        utils._ErrorToast("超出会员权限")
+        return
+      }
+      // 黄金会员只能发布最多30条资讯
+      if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "gold" && this.data.infoshares.length > 29) {
+        utils._ErrorToast("超出会员权限")
+        return
+      }
+      // 铂金会员只能发布最多50条资讯
+      if (app.globalData.Guserdata.TradeInfo.PromoteLevel == "platinum" && this.data.infoshares.length > 49) {
+        utils._ErrorToast("超出会员权限")
+        return
+      }
     }
     console.log("测试是否执行")
-
-    // 会员只能发布最多3条资讯
     // 不公开发布不需要审核
     if (this.data.private == true) {
       this.data.infostatus = "checked"
@@ -357,14 +357,14 @@ Page({
       }).update({
         data: {
           InfoTitle: this.data.infotitle,
-          Link:this.data.link,
+          Link: this.data.link,
           InfoContent: this.data.infocontent,
           InfoVideo: this.data.infovideo,
           InfoImage: this.data.infoimage,
           InfoCover: this.data.infocover,
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
-          LinkShow:this.data.linkshow,
+          LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
@@ -408,7 +408,7 @@ Page({
           CreatorId: app.globalData.Guserid,
           InfoId: app.globalData.Guserdata.UserInfo.UserPhone + new Date().getTime(),
           InfoTitle: this.data.infotitle,
-          Link:this.data.link,
+          Link: this.data.link,
           InfoContent: this.data.infocontent,
           InfoVideo: this.data.infovideo,
           InfoImage: this.data.infoimage,
@@ -418,13 +418,13 @@ Page({
           Commont: 0,
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
-          LinkShow:this.data.linkshow,
+          LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {
             hour12: false
           }),
-          InfoType:"Media",
+          InfoType: "Media",
           InfoStatus: this.data.infostatus,
         },
         success: res => {
@@ -473,7 +473,7 @@ Page({
         command: "and",
         where: [{
           CreatorId: app.globalData.Guserid,
-          InfoType:"Media"
+          InfoType: "Media"
         }]
       },
       success: res => {

@@ -46,25 +46,25 @@ Page({
     inviterpoints: 0,
     indirectinviterpoints: 0,
     donate: [{
-      praise: 50,
+      praise: 500,
       price: 5,
       creatorpoints: 2.5,
       inviterpoints: 0.75,
       indirectinviterpoints: 0.25,
     }, {
-      praise: 110,
+      praise: 1100,
       price: 10,
       creatorpoints: 5,
       inviterpoints: 1.5,
       indirectinviterpoints: 0.5,
     }, {
-      praise: 230,
+      praise: 2300,
       price: 20,
       creatorpoints: 10,
       inviterpoints: 3,
       indirectinviterpoints: 1,
     }, {
-      praise: 350,
+      praise: 3500,
       price: 30,
       creatorpoints: 15,
       inviterpoints: 4.5,
@@ -448,6 +448,7 @@ Page({
           this.data.infotitle=res.data[0].InfoTitle
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
+          // 本人打开浏览量也增加
           this._viewadd(this.data.infoid)
           console.log("公开资讯", this.data.infoshares)
         }

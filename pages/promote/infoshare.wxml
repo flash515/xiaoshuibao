@@ -9,7 +9,7 @@
       <image style="width: 750rpx;height: 600rpx;" src="{{item.InfoImage}}" mode="scaleToFill" />
     </view>
     <view wx:if="{{item.InfoVideo}}">
-      <video loop="true" autoplay="true" enable-progress-gesture="true" object-fit="contain" src="{{item.InfoVideo}}" id="video{{index}}" enable-play-gesture="true" controls="true" />
+      <video loop="true" autoplay="false" enable-progress-gesture="true" object-fit="contain" src="{{item.InfoVideo}}" id="video{{index}}" enable-play-gesture="true" controls="true" />
     </view>
 
     <view class="video-right">
@@ -62,16 +62,16 @@
   <l-card plaintext="{{true}}" plaintext="{{true}}" l-class="donatecard">
     <l-radio-group placement="column" bind:linchange="bvDonateSelect">
       <l-radio placement="left" color="black" select-color="green" size="40" key="1" l-class="radio" cell="{{donate[0]}}" l-class="radio">
-        <text>¥5元50个赞</text>
+        <text>¥5元500个赞</text>
       </l-radio>
       <l-radio placement="left" color="black" select-color="green" size="40" key="2" l-class="radio" cell="{{donate[1]}}" l-class="radio">
-        <text>¥10元110个赞</text>
+        <text>¥10元1100个赞</text>
       </l-radio>
       <l-radio placement="left" color="black" select-color="green" size="40" key="3" l-class="radio" cell="{{donate[2]}}" l-class="radio">
-        <text>¥20元230个赞</text>
+        <text>¥20元2300个赞</text>
       </l-radio>
       <l-radio placement="left" color="black" select-color="green" size="40" key="4" l-class="radio" cell="{{donate[3]}}" l-class="radio">
-        <text>¥30元350个赞</text>
+        <text>¥30元3500个赞</text>
       </l-radio>
     </l-radio-group>
     <text>\n</text>
