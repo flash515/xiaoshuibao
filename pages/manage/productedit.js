@@ -497,7 +497,14 @@ Page({
               filePath,
               success: res => {
                 console.log("fileID", res.fileID)
-                this.data.productimage = this.data.productimage.concat(res.fileID)
+                wx.cloud.getTempFileURL({
+                  fileList: [res.fileID],
+                  success: res => {
+                    console.log(res);
+                    this.data.productimage = this.data.productimage.concat(res.fileList[0].tempFileURL)
+                  }
+                })
+
               }
             })
           }

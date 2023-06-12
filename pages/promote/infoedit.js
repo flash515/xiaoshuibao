@@ -30,18 +30,23 @@ Page({
       success: res => {
         // 返回文件 ID
         console.log(res.fileID)
-        // do something
-        this.setData({
-          avatarurl: res.fileID,
-        })
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            ["UserInfo.avatarUrl"]: res.fileID,
-          },
+        wx.cloud.getTempFileURL({
+          fileList: [res.fileID],
           success: res => {
-            utils._SuccessToast("头像已更新")
+            console.log(res);
+            this.setData({
+              avatarurl: res.fileList[0].tempFileURL,
+            })
+            db.collection('USER').where({
+              UserId: app.globalData.Guserid
+            }).update({
+              data: {
+                ["UserInfo.avatarUrl"]: res.fileList[0].tempFileURL,
+              },
+              success: res => {
+                utils._SuccessToast("头像已更新")
+              }
+            })
           }
         })
       },

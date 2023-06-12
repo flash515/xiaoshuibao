@@ -42,7 +42,6 @@
     "pages/promote/pointspacket",
     "pages/promote/namecardedit",
     "pages/promote/namecard",
-    "pages/promote/bless",
     "pages/promote/infomation",
     "pages/promote/infoedit",
     "pages/promote/infoshare",
@@ -51,8 +50,8 @@
     "pages/promote/infosquare",
     "pages/promote/express",
     "pages/promote/luckydraw",
-    "pages/test/databass",
-    "components/loginmask/loginmask"
+    "pages/test/databass"
+
   ],
   "permission": {
     "scope.userLocation": {

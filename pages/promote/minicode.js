@@ -18,11 +18,15 @@ Page({
     tempfilepath: "",
     qrcodeuploadlock: false,
     // 附带的参数
-    usertype:"",
-    unionid:"",
+    usertype: "",
+    unionid: "",
     page: 'pages/index/index',
     params: "",
-    color:{"r":0,"g":0,"b":0},
+    color: {
+      "r": 0,
+      "g": 0,
+      "b": 0
+    },
   },
   onChooseAvatar(e) {
     const {
@@ -57,7 +61,7 @@ Page({
   bvColor(e) {
     console.log(e.detail.value)
     this.data.color = e.detail.value
-        console.log(this.data.color)
+    console.log(this.data.color)
   },
   getUrlLink() {
     // 调用云函数
@@ -102,11 +106,11 @@ Page({
       name: 'getQRCode',
       data: {
         // userid参数是使用在上传文件夹命名中
-        path: 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'tempqrcode.png',
+        path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
         // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-        scene: this.data.unionid+'&'+this.data.params,
+        scene: this.data.unionid + '&' + this.data.params,
         page: this.data.page,
-        color:this.data.color,
+        color: this.data.color,
         // userid: "1234",
         // scene: "5678"
       },
@@ -130,11 +134,11 @@ Page({
       name: 'getQRCode',
       data: {
         // userid参数是使用在上传文件夹命名中
-        path: 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'tempqrcode.png',
+        path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
         // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-        scene: app.globalData.Guserid+'&'+this.data.params,
+        scene: app.globalData.Guserid + '&' + this.data.params,
         page: this.data.page,
-        color:this.data.color,
+        color: this.data.color,
         // userid: "1234",
         // scene: "5678"
       },
@@ -249,22 +253,32 @@ Page({
     if (this.data.qrcodeuploadlock) {} else {
       console.log("res6", this.data.tempfilepath)
       const filePath = this.data.tempfilepath
-      const cloudPath = 'minicode/'+app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone+'qrcode.png'
+      const cloudPath = 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'qrcode.png'
       wx.cloud.uploadFile({
         cloudPath,
         filePath,
         success: res => {
           console.log("fileID", res.fileID)
-          // 获取数据库引用
-          const db = wx.cloud.database()
-          // 更新数据
-          db.collection('USER').where({
-            UserId: app.globalData.Guserid
-          }).update({
-            data: {
-              QRCode: res.fileID
+          wx.cloud.getTempFileURL({
+            fileList: [res.fileID],
+            success: res => {
+
+              console.log("tempFileURL", res.fileList[0].tempFileURL)
+              // 获取数据库引用
+              const db = wx.cloud.database()
+              // 更新数据
+              db.collection('USER').where({
+                UserId: app.globalData.Guserid
+              }).update({
+                data: {
+                  QRCode: res.fileList[0].tempFileURL
+                },
+              })
+
             },
+            fail: console.error
           })
+
         }
       })
       this.data.qrcodeuploadlock = true // 修改上传状态为锁定
@@ -278,7 +292,7 @@ Page({
       windowW: app.globalData.Gsysteminfo.windowWidth - 40,
       windowH: app.globalData.Gsysteminfo.windowWidth - 40,
       image: app.globalData.Gimagearray,
-      usertype:app.globalData.Guserdata.UserInfo.UserType,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       avatarUrl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickName: app.globalData.Guserdata.UserInfo.nickName,
     })

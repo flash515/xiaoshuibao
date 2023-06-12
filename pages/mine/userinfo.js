@@ -38,9 +38,14 @@ Page({
       success: res => {
         // 返回文件 ID
         console.log(res.fileID)
-        // do something
-        this.setData({
-          avatarurl: res.fileID,
+        wx.cloud.getTempFileURL({
+          fileList: [res.fileID],
+          success: res => {
+            console.log(res);
+            this.setData({
+              avatarurl: res.fileList[0].tempFileURL,
+            })
+          }
         })
       },
       fail: console.error

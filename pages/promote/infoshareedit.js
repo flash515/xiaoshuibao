@@ -41,20 +41,26 @@ Page({
       success: res => {
         // 返回文件 ID
         console.log(res.fileID)
-        // do something
-        this.setData({
-          avatarurl: res.fileID,
-        })
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            ["UserInfo.avatarUrl"]: res.fileID,
-          },
+        wx.cloud.getTempFileURL({
+          fileList: [res.fileID],
           success: res => {
-            utils._SuccessToast("头像已更新")
+            console.log(res);
+            this.setData({
+              avatarurl: res.fileList[0].tempFileURL,
+            })
+            db.collection('USER').where({
+              UserId: app.globalData.Guserid
+            }).update({
+              data: {
+                ["UserInfo.avatarUrl"]: res.fileList[0].tempFileURL,
+              },
+              success: res => {
+                utils._SuccessToast("头像已更新")
+              }
+            })
           }
         })
+
       },
       fail: console.error
     })
@@ -245,7 +251,7 @@ Page({
       wx.compressVideo({
         quality: 'high',
         src: this.data.tempvideo,
-        success: function (res) {
+        success: res => {
           let size = parseFloat(res.size / 1024 / 1024).toFixed(1)
           console.log("压缩后视频大小为" + size)
           // 只上传一个video时
@@ -254,10 +260,18 @@ Page({
           wx.cloud.uploadFile({
             cloudPath,
             filePath,
-            success: (res) => {
-              wx.hideLoading();
-              console.log("fileID", res.fileID)
-              that.data.infovideo = res.fileID
+            success: res => {
+              wx.cloud.getTempFileURL({
+                fileList: [res.fileID],
+                success: res => {
+                  console.log(res);
+                  console.log("tempFileURL", res.fileList[0].tempFileURL)
+                  that.data.infovideo = res.fileList[0].tempFileURL
+                  wx.hideLoading();
+                },
+                fail: console.error
+              })
+
             },
           });
         },

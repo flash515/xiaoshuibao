@@ -23,8 +23,8 @@ Page({
     u_phonecode: "",
     // 页面相关
     infomations: [],
-    sales:[],
-    purchases:[],
+    sales: [],
+    purchases: [],
     infoid: "",
     comments: [],
     // currentinfoid: "",
@@ -91,7 +91,7 @@ Page({
       })
     } else {
       this.setData({
-        commentshow:true,
+        commentshow: true,
       })
     }
   },
@@ -104,9 +104,14 @@ Page({
       success: res => {
         // 返回文件 ID
         console.log(res.fileID)
-        // do something
-        this.setData({
-          avatarurl: res.fileID,
+        wx.cloud.getTempFileURL({
+          fileList: [res.fileID],
+          success: res => {
+            console.log(res);
+            this.setData({
+              avatarurl: res.fileList[0].tempFileURL,
+            })
+          }
         })
       },
       fail: console.error
@@ -125,7 +130,7 @@ Page({
     })
 
   },
-  
+
   bvPublishComment() {
     if (this.data.avatarurl == "" || this.data.nickname == "") {
       utils._ErrorToast("需要头像和昵称")
@@ -190,7 +195,7 @@ Page({
   onLogin(e) {
     this.setData({
       loginshow: e.detail.loginshow,
-      loginbtnshow:e.detail.loginbtnshow,
+      loginbtnshow: e.detail.loginbtnshow,
       userphone: e.detail.userphone,
     })
   },
@@ -239,15 +244,15 @@ Page({
         for (var i = 0; i < res.data.length; i++) {
           if (res.data[i].InfomationType == "供应") {
             fliter1.push(res.data[i]);
-          }else if(res.data[i].InfomationType == "求购"){
+          } else if (res.data[i].InfomationType == "求购") {
             fliter2.push(res.data[i]);
           }
         }
         this.setData({
           infomations: res.data,
           creatorid: res.data[0].CreatorId,
-          sales:fliter1,
-          purchases:fliter2,
+          sales: fliter1,
+          purchases: fliter2,
         })
       }
 
