@@ -851,15 +851,8 @@ async function _UploadFile(file, path) {
       filePath,
       success: res => {
         console.log('res', res.fileID)
-        wx.cloud.getTempFileURL({
-          fileList: [res.fileID],
-          success: res => {
-            console.log(res);
-            console.log("tempFileURL", res.fileList[0].tempFileURL)
-            resolve(res.fileList[0].tempFileURL)
-          },
-          fail: console.error
-        })
+        console.log("res.fileID", res.fileID)
+        resolve(res.fileID)
       }
     })
   });
@@ -879,16 +872,8 @@ async function _UploadFiles(filelist, cloudpath) {
           cloudPath,
           filePath,
           success: res => {
-            console.log('res', res.fileID)
-            wx.cloud.getTempFileURL({
-              fileList: [res.fileID],
-              success: res => {
-                console.log(res);
-                console.log("tempFileURL", res.fileList[0].tempFileURL)
-                resolve(res.fileList[0].tempFileURL)
-              },
-              fail: console.error
-            })
+            console.log('res.fileID', res.fileID)
+            resolve(res.fileID)
           }
         })
       }))
@@ -898,23 +883,6 @@ async function _UploadFiles(filelist, cloudpath) {
       resolve(res)
     }, err => {
       console.log(err)
-    })
-  });
-  return promise;
-}
-
-async function getFileURL(filelist) {
-  var promise = new Promise((resolve, reject) => {
-    wx.cloud.getTempFileURL({
-      fileList: filelist,
-      success: res => {
-        // get temp file URL
-        console.log(res.fileList)
-        resolve(res.fileList)
-      },
-      fail: err => {
-        // handle error
-      }
     })
   });
   return promise;
@@ -967,5 +935,4 @@ module.exports = {
   _UploadFile: _UploadFile,
   _UploadFiles: _UploadFiles,
   _RemoveFiles: _RemoveFiles,
-  getFileURL: getFileURL
 }

@@ -259,11 +259,6 @@ Page({
         filePath,
         success: res => {
           console.log("fileID", res.fileID)
-          wx.cloud.getTempFileURL({
-            fileList: [res.fileID],
-            success: res => {
-
-              console.log("tempFileURL", res.fileList[0].tempFileURL)
               // 获取数据库引用
               const db = wx.cloud.database()
               // 更新数据
@@ -271,14 +266,9 @@ Page({
                 UserId: app.globalData.Guserid
               }).update({
                 data: {
-                  QRCode: res.fileList[0].tempFileURL
+                  QRCode: res.fileID
                 },
               })
-
-            },
-            fail: console.error
-          })
-
         }
       })
       this.data.qrcodeuploadlock = true // 修改上传状态为锁定

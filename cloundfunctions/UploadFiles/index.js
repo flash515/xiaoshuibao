@@ -20,14 +20,7 @@ exports.main = async (event, context) => {
           filePath,
           success: res => {
             console.log('res', res.fileID)
-            wx.cloud.getTempFileURL({
-              fileList: [res.fileID],
-              success: res => {
-                console.log(res);
-                resolve(res.fileList[0].tempFileURL)
-              }
-            })
-
+            resolve(res.fileID)
           }
         })
       }))

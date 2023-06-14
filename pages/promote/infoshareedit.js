@@ -41,23 +41,17 @@ Page({
       success: res => {
         // 返回文件 ID
         console.log(res.fileID)
-        wx.cloud.getTempFileURL({
-          fileList: [res.fileID],
+        this.setData({
+          avatarurl: res.fileID,
+        })
+        db.collection('USER').where({
+          UserId: app.globalData.Guserid
+        }).update({
+          data: {
+            ["UserInfo.avatarUrl"]: res.fileID,
+          },
           success: res => {
-            console.log(res);
-            this.setData({
-              avatarurl: res.fileList[0].tempFileURL,
-            })
-            db.collection('USER').where({
-              UserId: app.globalData.Guserid
-            }).update({
-              data: {
-                ["UserInfo.avatarUrl"]: res.fileList[0].tempFileURL,
-              },
-              success: res => {
-                utils._SuccessToast("头像已更新")
-              }
-            })
+            utils._SuccessToast("头像已更新")
           }
         })
 
@@ -261,16 +255,8 @@ Page({
             cloudPath,
             filePath,
             success: res => {
-              wx.cloud.getTempFileURL({
-                fileList: [res.fileID],
-                success: res => {
-                  console.log(res);
-                  console.log("tempFileURL", res.fileList[0].tempFileURL)
-                  that.data.infovideo = res.fileList[0].tempFileURL
-                  wx.hideLoading();
-                },
-                fail: console.error
-              })
+              that.data.infovideo = res.fileID
+              wx.hideLoading();
 
             },
           });
