@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch: function () {
+  onLaunch: async function () {
     // 测试async，await可用
     // (async () => {
     //   const p = await new Promise(resolve => {

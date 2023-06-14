@@ -198,7 +198,7 @@ function _setting() { // 通过本地数据库查询指令取得小程序设置�
   var promise = new Promise((resolve, reject) => {
     console.log("setting执行了")
     //获取小程序全局设置
-    const db = wx.cloud.database()
+    let db = wx.cloud.database();
     db.collection('setting')
       .doc('28ee4e3e60c48c3821c54eee6564dec5')
       .get({
@@ -210,7 +210,7 @@ function _setting() { // 通过本地数据库查询指令取得小程序设置�
         }
       })
   });
-  return promise;
+  return promise
 }
 
 function _login() { // 通过云函数获取当前用户本人的小程序unionid
