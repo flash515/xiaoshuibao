@@ -490,8 +490,9 @@ Page({
   },
   // 进页面时播放视频
   startUp() {
+    console.log("执行了")
     // 获取video节点
-    let createVideoContext = wx.createVideoContext('video0')
+    let createVideoContext = wx.createVideoContext("video0")
     // 播放视频
     createVideoContext.play()
   },
