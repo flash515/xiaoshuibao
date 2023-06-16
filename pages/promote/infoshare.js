@@ -24,8 +24,8 @@ Page({
     // 页面相关
     infoshares: [],
     infoid: "",
-    infocover:"",
-    infotitle:"",
+    infocover: "",
+    infotitle: "",
     comments: [],
     // currentinfoid: "",
     creatorid: "",
@@ -127,7 +127,7 @@ Page({
       })
     } else {
       this.setData({
-        commentshow:true,
+        commentshow: true,
       })
     }
   },
@@ -222,8 +222,8 @@ Page({
       userphone: e.detail.userphone,
     })
   },
-  
-  bvLink(e){
+
+  bvLink(e) {
     console.log(e.currentTarget.dataset.link)
     // 注意navigate不能跳转到有导航的页面
     wx.navigateTo({
@@ -300,7 +300,7 @@ Page({
       });
   },
 
-  _viewadd(infoid){
+  _viewadd(infoid) {
     wx.cloud.callFunction({
       name: "DataRise",
       data: {
@@ -311,7 +311,7 @@ Page({
         value1: 1
       },
       success: res => {
-        console.log("播放量已更新",res)
+        console.log("播放量已更新", res)
 
       }
     })
@@ -398,8 +398,9 @@ Page({
       // 如果是通过分享链接进入
       this.data.params = options
       this.data.remark = "通过小税宝用户分享资讯进入"
-      this.data.tempinviterid=options.userid
-
+      this.data.tempinviterid = options.userid
+      // 通过分享进入，执行用户登录操作
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
       // 本地函数查询分享的资讯
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
@@ -413,15 +414,16 @@ Page({
             infoshares: res.data,
             creatorid: res.data[0].CreatorId
           })
-          this.data.infocover=res.data[0].InfoCover
-          this.data.infotitle=res.data[0].InfoTitle
+          this.data.infocover = res.data[0].InfoCover
+          this.data.infotitle = res.data[0].InfoTitle
           this.data.infoid = options.infoid
           this._getComments(options.infoid)
-          this._viewadd(this.data.infoid)
+          this._viewadd(options.infoid)
+          // 调用播放视频方法
+          this.startUp()
         }
       })
-      // 通过分享进入，执行用户登录操作
-      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+
       // 查询创作者的推荐人及间接推荐人，以便打赏时记录
       let creator = await utils._usercheck(this.data.creatorid)
       this.data.creatorinviterid = creator[0].UserInfo.InviterId
@@ -443,13 +445,15 @@ Page({
             infoshares: res.data,
             creatorid: res.data[0].CreatorId,
           })
-          this.data.infocover=res.data[0].InfoCover
-          this.data.infotitle=res.data[0].InfoTitle
+          this.data.infocover = res.data[0].InfoCover
+          this.data.infotitle = res.data[0].InfoTitle
           this.data.infoid = res.data[0].InfoId
           this._getComments(res.data[0].InfoId)
           // 本人打开浏览量也增加
-          this._viewadd(this.data.infoid)
+          this._viewadd(res.data[0].InfoId)
           console.log("公开资讯", this.data.infoshares)
+          // 调用播放视频方法
+          this.startUp()
         }
       })
     }
@@ -458,8 +462,7 @@ Page({
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
     })
-    // 调用播放视频方法
-    this.startUp()
+
   },
 
   _getComments(infoid) {
@@ -481,7 +484,7 @@ Page({
         })
       },
       fail: res => {
-        console.log(res)
+        console.log("没有评论")
         this.setData({
           comments: []
         })
@@ -490,19 +493,21 @@ Page({
   },
   // 进页面时播放视频
   startUp() {
-    console.log("执行了")
-    // 获取video节点
-    let createVideoContext = wx.createVideoContext("video0")
-    // 播放视频
-    createVideoContext.play()
+    console.log("延迟1.2秒再播放避免出现渲染网络层错误")
+    setTimeout(() => {
+      // 获取video节点
+      let createVideoContext = wx.createVideoContext("video0")
+      // 播放视频
+      createVideoContext.play()
+    }, 1200)
   },
 
   // 切换视频的时候播放视频
   // 注：此方法视频如果过大可能会叠音，所以视频需要压缩，或者可以尝试循环节点关闭视频
   nextVideo(e) {
     this.data.infoid = this.data.infoshares[e.detail.current].InfoId
-    this.data.infocover=this.data.infoshares[e.detail.current].InfoCover
-    this.data.infotitle=this.data.infoshares[e.detail.current].InfoTitle
+    this.data.infocover = this.data.infoshares[e.detail.current].InfoCover
+    this.data.infotitle = this.data.infoshares[e.detail.current].InfoTitle
     this.setData({
       creatorid: this.data.infoshares[e.detail.current].CreatorId
     })
@@ -526,10 +531,13 @@ Page({
 
   // 播放视频
   playVio(index) {
+    console.log("延迟0.3秒再播放避免出现渲染网络层错误")
+    // setTimeout(() => {
     // 获取video节点
     let createVideoContext = wx.createVideoContext(index)
     // 播放视频
     createVideoContext.play()
+  // }, 300)
   },
 
   // 暂停视频
