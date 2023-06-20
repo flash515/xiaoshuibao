@@ -1,5 +1,6 @@
 // 新建页面埋点
 const app = getApp()
+const regeneratorRuntime = require('../utils/regenerator-runtime/runtime')
 // 新用户信息初始化字段
 var newuserinfo = {
   nickName: "",

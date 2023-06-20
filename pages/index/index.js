@@ -1,5 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils");
+const regeneratorRuntime = require('../../utils/regenerator-runtime/runtime')
 Page({
   data: {
     // 初始化相关
