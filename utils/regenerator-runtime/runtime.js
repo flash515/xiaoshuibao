@@ -119,7 +119,7 @@ var runtime = (function (exports) {
   // Helper for defining the .next, .throw, and .return methods of the
   // Iterator interface in terms of a single ._invoke method.
   function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
+    ["next", "throw", "return"].forEach(method=> {
       define(prototype, method, function(arg) {
         return this._invoke(method, arg);
       });

@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch: async function () {
+  onLaunch:function() {
     // 测试async，await可用
     // (async () => {
     //   const p = await new Promise(resolve => {
@@ -8,56 +8,22 @@ App({
     //   });
     //   console.log(p);
     // })();
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.cloud.init({
-        // env 参数说明：
-        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
-        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
-        //   如不填则使用默认环境（第一个创建的环境）
-        env: 'xsbmain-9gvsp7vo651fd1a9',
-        traceUser: true,
-      })
-    }
+
+   wx.cloud.init({
+      env: 'xsbmain-9gvsp7vo651fd1a9',
+      traceUser: false,
+    })
     // 初始化全局参数
     this.globalData = {}
 
     // 清除本地存储数据,调试发布后可去除
-    
-    // wx.clearStorage({
-    //   success: (res) => {
-    //     console.log("清除本地存储数据成功")
-    //   },
-    // })
 
-    // 登录
-    // wx.login({
-    //   success: res => {
-    //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
-    //     console.log("res", res)
-    //   }
-    // })
-    // 获取用户授权信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
-        }
-      }
+    wx.clearStorage({
+      success: (res) => {
+        console.log("清除本地存储数据成功")
+      },
     })
+
     wx.getSystemInfo({ // 获取设备宽高
       success: res => {
         this.globalData.Gsysteminfo = res

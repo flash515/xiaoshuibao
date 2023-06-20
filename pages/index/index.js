@@ -1,6 +1,7 @@
 const app = getApp();
 const utils = require("../../utils/utils");
 const regeneratorRuntime = require('../../utils/regenerator-runtime/runtime')
+
 Page({
   data: {
     // 初始化相关
@@ -9,11 +10,12 @@ Page({
     remark: "",
   },
   onLoad: async function (options) {
+
     //options内容：scene扫码参数，page跳转页面，type跳转类型，path1路径1，path2路径2，userid推荐人ID,productid产品id
     console.log("接收到的参数", options)
     if (options.userid) {
       // 如果是通过链接打开
-      this.data.params=options
+      this.data.params = options
       this.data.tempinviterid = options.userid
       this.data.remark = "通过小税宝用户分享链接进入"
       console.log("通过链接打开接收到的参数", this.data.tempinviterid);
@@ -23,7 +25,7 @@ Page({
       //可以连接多个参数值，&是我们定义的参数链接方式
       // let inviterid = scene.split('&')[0];
       // let userId = scene.split("&")[1];
-      this.data.params=scene
+      this.data.params = scene
       this.data.tempinviterid = scene.split('&')[0]
       this.data.remark = "通过小税宝用户小程序码进入"
       // openid升级unionid后的适配，老名片用完后一年后可删除
@@ -38,7 +40,7 @@ Page({
     }
 
     // 调用方法初始化
-  await utils.UserLogon(this.data.tempinviterid,this.data.params,this.data.remark)
+    await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
     wx.switchTab({
       url: '../index/home',
     })

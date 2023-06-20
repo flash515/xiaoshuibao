@@ -1,6 +1,5 @@
-// 新建页面埋点
 const app = getApp()
-const regeneratorRuntime = require('../utils/regenerator-runtime/runtime')
+import regeneratorRuntime from '../utils/regenerator-runtime/runtime'
 // 新用户信息初始化字段
 var newuserinfo = {
   nickName: "",
@@ -171,7 +170,7 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
 }
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
 
-  _setting();
+  await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
   console.log("data", data);
@@ -195,26 +194,26 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 }
 
 function _setting() { // 通过本地数据库查询指令取得小程序设置参数
-
   var promise = new Promise((resolve, reject) => {
-    console.log("setting执行了")
-    //获取小程序全局设置
-    let db = wx.cloud.database();
-    db.collection('setting')
-      .doc('28ee4e3e60c48c3821c54eee6564dec5')
-      .get({
-        success: res => {
-          console.log("成功获取设置参数", res);
-          app.globalData.Gsetting = res.data;
-          app.globalData.Gimagearray = res.data.swiper
-          resolve(app.globalData.Gimagearray)
-        }
-      })
+  console.log("setting执行了")
+  //获取小程序全局设置
+  let db = wx.cloud.database();
+  db.collection('setting')
+    .doc('28ee4e3e60c48c3821c54eee6564dec5')
+    .get({
+      success: res => {
+        console.log("成功获取设置参数", res);
+        app.globalData.Gsetting = res.data;
+        app.globalData.Gimagearray = res.data.swiper
+        resolve(app.globalData.Gimagearray)
+      }
+    })
   });
   return promise
 }
 
 function _login() { // 通过云函数获取当前用户本人的小程序unionid
+
   var promise = new Promise((resolve, reject) => {
     console.log("login执行了")
     wx.cloud.callFunction({

@@ -6,6 +6,7 @@
   },
   "setting": {
     "urlCheck": false,
+    "es7": true,
     "es6": true,
     "enhance": true,
     "postcss": false,
