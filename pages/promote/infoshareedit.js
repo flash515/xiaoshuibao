@@ -18,6 +18,7 @@ Page({
     infotitleshow: false,
     linkshow: true,
     private: true,
+    memberonly:true,
     infostatus: "unchecked",
     infocontent: "",
     infoimage: "",
@@ -91,6 +92,7 @@ Page({
         infotitleshow: e.detail.cell.InfoTitleShow,
         linkshow: e.detail.cell.LinkShow,
         private: e.detail.cell.Private,
+        memberonly: e.detail.cell.MemberOnly,
         infocontent: e.detail.cell.InfoContent,
         infovideo: e.detail.cell.InfoVideo,
         infocover: e.detail.cell.InfoCover,
@@ -106,8 +108,9 @@ Page({
         infoid: "",
         infotitle: "",
         infotitleshow: true,
-        linkshow: false,
-        private: false,
+        linkshow: true,
+        private: true,
+        memberonly:true,
         infostatus: "unchecked",
         infocontent: "",
         infoimage: "",
@@ -316,6 +319,13 @@ Page({
     })
 
   },
+  bvMemberOnly(e) {
+    console.log(e.detail)
+    this.setData({
+      memberonly: e.detail.checked
+    })
+
+  },
   //发布到资讯广场
   async bvPublish(e) {
     let that = this
@@ -364,6 +374,7 @@ Page({
           InfoCover: this.data.infocover,
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
+          MemberOnly:this.data.memberonly,
           LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
@@ -419,6 +430,7 @@ Page({
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
           LinkShow: this.data.linkshow,
+          MemberOnly:this.data.memberonly,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: new Date().toLocaleString('chinese', {

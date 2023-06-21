@@ -1,5 +1,6 @@
 const app = getApp()
 const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+var utils = require("../../utils/utils");
 const track = require("../../utils/track");
 Page({
 
@@ -7,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    bookingid:"",
     booklock: false,
     adddate: "",
     address: "",
@@ -17,14 +19,6 @@ Page({
     content: "",
     // 轮播头图
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
   bvTime(e) {
     this.setData({
@@ -82,20 +76,10 @@ Page({
             AddDate: new Date().toLocaleString('chinese',{ hour12: false })
           },
           success: res => {
-            console.log('预约提交成功', res.data)
-            wx.showToast({
-              title: '预约提交成功',
-              icon: 'success',
-              duration: 2000 //持续的时间
-            })
+            utils._SuccessToast('预约提交成功')
           },
           fail: res => {
-            console.log("提交失败", res)
-            wx.showToast({
-              title: '预约提交失败',
-              icon: 'error',
-              duration: 2000 //持续的时间
-            })
+            utiles._ErrorToast('预约提交失败')
           }
         }),
         this.data.booklock = true // 修改上传状态为锁定
@@ -103,7 +87,7 @@ Page({
   },
   bvUpdateData(){
     const db = wx.cloud.database()
-    db.collection('BOOKING').doc(this.data.pageParam.id).update({
+    db.collection('BOOKING').doc(this.data.bookingid).update({
         data: {
           BookingContent: this.data.content,
           Address: this.data.address,
@@ -115,20 +99,10 @@ Page({
           UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
         },
         success: res => {
-          console.log('预约更新成功', res.data)
-          wx.showToast({
-            title: '预约更新成功',
-            icon: 'success',
-            duration: 2000 //持续的时间
-          })
+          utils._SuccessToast('预约更新成功')
         },
         fail: res => {
-          console.log("更新失败", res)
-          wx.showToast({
-            title: '预约更新失败',
-            icon: 'error',
-            duration: 2000 //持续的时间
-          })
+          utiles._ErrorToast('预约更新失败')
         }
       })
   },
@@ -139,14 +113,14 @@ Page({
     console.log(options)
     var str = new Date()
     this.setData({
-      pageParam: options,
+      bookingid: options.id,
       image: app.globalData.Gimagearray,
       startdate: str.getFullYear() + "-" + (str.getMonth() + 1) + "-" + str.getDate()
     })
-    console.log(this.data.pageParam.id.length)
-    if (this.data.pageParam.id.length != 0 && this.data.pageParam.id.length != null) {
+    console.log(this.data.bookingid)
+    if (this.data.bookingid != "" && this.data.bookingid != undefined) {
       const db = wx.cloud.database()
-      db.collection('BOOKING').doc(this.data.pageParam.id).get({
+      db.collection('BOOKING').doc(this.data.bookingid).get({
         success: res => {
           console.log(res)
           this.setData({
@@ -163,7 +137,7 @@ Page({
       })
     } else {
       this.setData({
-        content: "业务沟通拜访"
+        content: "业务沟通"
       })
     }
   },

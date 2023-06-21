@@ -1,5 +1,5 @@
 const app = getApp()
-
+var utils = require("../../utils/utils")
 Page({
 
   /**
@@ -13,42 +13,33 @@ Page({
     data: "",
     time: "",
     status: "",
-    btnhidden:false,
+    btnhidden: false,
     // 轮播头图
     image: [],
-    indicatorDots: true,
-    vertical: false,
-    autoplay: true,
-    circular: true,
-    interval: 4000,
-    duration: 500,
-    previousMargin: 0,
-    nextMargin: 0
   },
   bvBookingCancel(e) {
     console.log(e.currentTarget.dataset.id)
+    console.log(e.currentTarget.dataset.index)
     const db = wx.cloud.database()
     db.collection('BOOKING').doc(e.currentTarget.dataset.id).update({
-        data: {
-          BookingStatus: "canceled"
-        },
+      data: {
+        BookingStatus: "canceled"
+      },
       success: res => {
         console.log(res)
+        this.data.bookingarray[e.currentTarget.dataset.index].BookingStatus = "canceled"
         this.setData({
-          btnhidden:true
+          btnhidden: true,
+          bookingarray: this.data.bookingarray
         })
-        wx.showToast({
-          title: '当前预约已取消',
-          icon: 'success',
-          duration: 2000 //持续的时间
-        })
+        utils._SuccessToast('当前预约已取消')
       }
     })
   },
-  bvNewBooking(e){
-wx.navigateTo({
-  url: '../mine/newbooking',
-})
+  bvNewBooking(e) {
+    wx.navigateTo({
+      url: '../mine/newbooking',
+    })
   },
   bvBookingChange(e) {
     console.log(e.currentTarget.dataset.id)
@@ -100,7 +91,7 @@ wx.navigateTo({
   /**
    * 生命周期函数--监听页面卸载
    */
-    onUnload: function () {
+  onUnload: function () {
 
   },
 
