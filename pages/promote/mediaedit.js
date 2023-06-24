@@ -10,6 +10,8 @@ Page({
     // 用户信息
     avatarurl: "",
     nickname: "",
+    width:"",
+    height:"",
     infoshares: [], //已保存的资讯分享
     infoselected: false,
     infoid: "",
@@ -237,7 +239,7 @@ Page({
     var that = this
     this.data.timestamp = new Date().getTime()
     // 上传视频封面
-    let coverpath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cover' + this.data.timestamp;
+    let coverpath = 'mediashare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'cover' + this.data.timestamp;
     let cover = await utils._UploadFile(this.data.tempcover, coverpath)
     this.setData({
       infocover: cover
@@ -253,7 +255,7 @@ Page({
           console.log("压缩后视频大小为" + size)
           // 只上传一个video时
           const filePath = res.tempFilePath
-          const cloudPath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'video' + that.data.timestamp + filePath.match(/\.[^.]+?$/)
+          const cloudPath = 'mediashare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'video' + that.data.timestamp + filePath.match(/\.[^.]+?$/)
           wx.cloud.uploadFile({
             cloudPath,
             filePath,
@@ -268,7 +270,7 @@ Page({
     }
     if (this.data.tempimage != '') {
       //上传图片资讯
-      let imagepath = 'infoshare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'image' + this.data.timestamp
+      let imagepath = 'mediashare/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'image' + this.data.timestamp
       that.data.infoimage = await utils._UploadFile(this.data.tempimage, imagepath)
       wx.hideLoading();
       console.log(that.data.infoimage)
@@ -299,6 +301,15 @@ Page({
     this.data.infoimage = ""
   },
 
+bvDeleteTempMedia(e) {
+    utils._SuccessToast("删除成功")
+    this.setData({
+      tempvideo: "",
+      tempcover: "",
+      tempimage: "",
+      editbtn: false,
+    })
+  },
   bvInfoTitleShow(e) {
     console.log(e.detail)
     this.setData({
@@ -449,6 +460,7 @@ Page({
               command: "and",
               where: [{
                 CreatorId: app.globalData.Guserid,
+                InfoType: "Media"
               }]
             },
             success: res => {
@@ -476,6 +488,8 @@ Page({
     this.setData({
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
+      width:app.globalData.Gsysteminfo.windowWidth/2,
+      height:app.globalData.Gsysteminfo.windowHeight/2,
     })
     // 查询本人提交的InfoShare
     wx.cloud.callFunction({
@@ -493,20 +507,6 @@ Page({
           infoshares: res.result.data,
         })
         console.log("本人全部资讯", this.data.infoshares)
-      }
-    })
-  },
-
-  bindButtonTap() {
-    const that = this
-    wx.chooseMedia()({
-      sourceType: ['album', 'camera'],
-      maxDuration: 60,
-      camera: ['front', 'back'],
-      success: res => {
-        that.setData({
-          infovideo: res.tempFilePath
-        })
       }
     })
   },

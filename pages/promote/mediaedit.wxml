@@ -20,10 +20,12 @@
   <view class="line"></view> 
   <text>\n</text>
   <view wx:if="{{tempvideo}}">
+    <label class="labal">视频预览：</label>
     <video class="videoCss" id="myVideo" src="{{tempvideo}}" object-fit="contain" binderror="videoErrorCallback" show-play-btn="{{true}}" controls></video>
   </view>
   <view wx:if="{{tempimage}}">
-    <image style="width: 100%;height: 600rpx;" src="{{tempimage}}" mode="scaleToFill" />
+    <label class="labal">图片预览：</label>
+    <image style="width: {{width}}px;height: {{height}}px;" src="{{tempimage}}" mode="scaleToFill" />
   </view>
 
 
@@ -41,9 +43,11 @@
         </l-button>
       </view>
       <view wx:else style="display: flex;flex-direction: row;justify-content: space-between;">
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvClipCover">裁剪封面
+        <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvDeleteTempMedia">删除视频及图片
         </l-button>
-        <l-button size="mini" shape="semicircle" icon="checked" icon-color="#3683d6" plain="{{true}}" bind:lintap="bvUploadMedia">上传视频及图片
+        <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvClipCover">裁剪封面
+        </l-button>
+        <l-button size="mini" shape="semicircle" plain="{{true}}" bind:lintap="bvUploadMedia">上传视频及图片
         </l-button>
       </view>
     </view>

@@ -454,7 +454,7 @@
         },
         {
           "name": "",
-          "pathName": "pages/promote/infoshare",
+          "pathName": "pages/promote/mediashare",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -496,7 +496,7 @@
         },
         {
           "name": "",
-          "pathName": "pages/promote/infoshare",
+          "pathName": "pages/promote/mediashare",
           "query": "",
           "launchMode": "default",
           "scene": null

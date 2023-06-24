@@ -45,10 +45,9 @@
     "pages/promote/namecard",
     "pages/promote/infomation",
     "pages/promote/infoedit",
-    "pages/promote/infoshare",
-    "pages/promote/infoshareedit",
+    "pages/promote/mediashare",
+    "pages/promote/mediaedit",
     "pages/promote/companysquare",
-    "pages/promote/infosquare",
     "pages/promote/express",
     "pages/promote/luckydraw",
     "pages/test/databass"

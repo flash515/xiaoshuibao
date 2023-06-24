@@ -13,14 +13,10 @@ Page({
     remark: "",
     indirectinviterid: "",
     userinfo: {},
+    width:"",
+    height:"",
     // 登录框相关变量
     loginshow: false,
-    time: "获取验证码",
-    currentTime: 60,
-    disabledstatus: false,
-    inputphone: "",
-    s_phonecode: "",
-    u_phonecode: "",
     // 页面相关
     infoshares: [],
     infoid: "",
@@ -239,7 +235,7 @@ Page({
       })
     } else {
       wx.navigateTo({
-        url: '../promote/infoshareedit',
+        url: '../promote/mediaedit',
       })
     }
   },
@@ -461,6 +457,8 @@ Page({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
+      width:app.globalData.Gsysteminfo.windowWidth,
+      height:app.globalData.Gsysteminfo.windowHeight,
     })
 
   },
@@ -552,7 +550,7 @@ Page({
   onShareTimeline: function () {
     return {
       title: this.data.infotitle,
-      query: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
+      query: '/pages/promote/mediashare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: this.data.infocover, //封面
     }
   },
@@ -567,7 +565,7 @@ Page({
     }
     return {
       title: this.data.infotitle,
-      path: '/pages/promote/infoshare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
+      path: '/pages/promote/mediashare?userid=' + app.globalData.Guserid + '&infoid=' + this.data.infoid,
       imageUrl: this.data.infocover, //封面，留空自动抓取500*400生成图片
       success: function (res) {
         // 转发成功之后的回调
