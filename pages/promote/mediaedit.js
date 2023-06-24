@@ -129,17 +129,17 @@ Page({
   async bvDelInfo(e) {
     console.log(e)
     let that = this
-    await utils._RemoveFiles([e.currentTarget.dataset.video])
-    await utils._RemoveFiles([e.currentTarget.dataset.cover])
-    await utils._RemoveFiles([e.currentTarget.dataset.image])
+    await utils._RemoveFiles([e.target.dataset.video])
+    await utils._RemoveFiles([e.target.dataset.cover])
+    await utils._RemoveFiles([e.target.dataset.image])
     const db = wx.cloud.database()
     await db.collection('INFOSHARE').where({
-      InfoId: e.currentTarget.dataset.id
+      InfoId: e.target.dataset.id
     }).remove({
       success: res => {
         utils._SuccessToast("资讯删除成功")
         // 查询本人提交的InfoShare
-        this.data.infoshares.splice(e.currentTarget.dataset.index, 1)
+        this.data.infoshares.splice(e.target.dataset.index, 1)
         this.setData({
           infoshares: this.data.infoshares
         })
