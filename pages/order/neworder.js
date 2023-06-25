@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   data: {
@@ -281,11 +282,10 @@ Page({
           TotalFee: this.data.totalfee,
 
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          AddDate:Time.getCurrentTime(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
+          From:"小税宝",
         },
         success: res => {
           that.setData({
@@ -315,10 +315,9 @@ Page({
           Count: this.data.count,
           TotalFee: this.data.totalfee,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus: "unchecked",
+          From:"小税宝",
         },
         success: res => {
           that.setData({
@@ -360,11 +359,10 @@ Page({
           ConsumeId: app.globalData.Guserid,
           ConsumePoints: this.data.consumepoints,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          AddDate: Time.getCurrentTime(),
           PaymentStatus: "unchecked",
           PointsStatus: "unchecked",
+          From:"小税宝",
         },
         success: res => {
           that.setData({

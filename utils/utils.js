@@ -1,4 +1,5 @@
 const app = getApp()
+const Time= require("../utils/getDates");
 import regeneratorRuntime from '../utils/regenerator-runtime/runtime'
 // 新用户信息初始化字段
 var newuserinfo = {
@@ -16,18 +17,12 @@ var newuserinfo = {
 var newusertradeinfo = {
   PromoteBalance: 0,
   TradeBalance: 0,
-  BalanceUpdateTime: new Date().toLocaleString('chinese', {
-    hour12: false
-  }),
+  BalanceUpdateTime: Time.getCurrentTime(),
   DiscountLevel: "DL4",
   DiscountType: "",
-  DLUpdateTime: new Date().toLocaleString('chinese', {
-    hour12: false
-  }),
+  DLUpdateTime: Time.getCurrentTime(),
   PromoteLevel: "normal",
-  PLUpdateTime: new Date().toLocaleString('chinese', {
-    hour12: false
-  }),
+  PLUpdateTime:Time.getCurrentTime(),
   // MemberTime:""
 }
 async function _GetPhoneNumber(code) {
@@ -99,9 +94,7 @@ async function _NewMember(userphone, phoneremark) {
       data: {
         ["UserInfo.UserPhone"]: userphone,
         ["UserInfo.PhoneRemark"]: phoneremark,
-        ["TradeInfo.MemberTime"]: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
+        ["TradeInfo.MemberTime"]: Time.getCurrentTime(),
       },
       success: res => {
         resolve(res)
@@ -129,10 +122,9 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
         IndirectInviterId: app.globalData.Gindirectinviterid,
         IndirectInviterPoints: 10,
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        AddDate:Time.getCurrentTime(),
         PointsStatus: "checked",
+        From:"小税宝",
       },
       success: res => {
         resolve(res)
@@ -194,6 +186,8 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 }
 
 function _setting() { // 通过本地数据库查询指令取得小程序设置参数
+
+  console.log("setting执行了")
   var promise = new Promise((resolve, reject) => {
   console.log("setting执行了")
   //获取小程序全局设置
@@ -291,15 +285,14 @@ function _newuser(params, remark) {
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        AddDate: Time.getCurrentTime(),
         UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
         UserInfo: newuserinfo,
         TradeInfo: newusertradeinfo,
         Remark: remark,
+        From:"小税宝",
       },
       success: res => {
         console.log("新增用户数据执行成功")
@@ -320,10 +313,9 @@ function _newuserpoints() {
         InviterId: app.globalData.Ginviterid,
         InviterPoints: 5,
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        AddDate:Time.getCurrentTime(),
         PointsStatus: "checked",
+        From:"小税宝",
       },
       success: res => {
         console.log("执行到最后位置了", res)

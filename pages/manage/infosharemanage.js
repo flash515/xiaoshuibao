@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 const wxpay = require("../../utils/WxPay")
 Page({
   /**
@@ -93,9 +94,7 @@ Page({
         key2: "ReplyStatus",
         value2: "unchecked",
         key3: "ReplyDate",
-        value3: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
+        value3: Time.getCurrentTime(),
       },
       success: res => {
         console.log(res)

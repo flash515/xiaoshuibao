@@ -1,5 +1,5 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const Time= require("../../utils/getDates");
 const track = require("../../utils/track");
 Page({
   data: {
@@ -67,7 +67,8 @@ Page({
             SchemeType: "增值税",
             Question: this.data.question1,
             Status: "",
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            AddDate: Time.getCurrentTime(),
+            From:"小税宝",
           },
           success: res => {
             wx.showToast({
@@ -110,7 +111,8 @@ Page({
             SchemeType: "企业所得税",
             Question: this.data.question2,
             Status: "",
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            AddDate:Time.getCurrentTime(),
+            From:"小税宝",
           },
           success: res => {
             wx.showToast({
@@ -152,7 +154,8 @@ Page({
             SchemeType: "个人所得税",
             Question: this.data.question3,
             Status: "",
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            AddDate: Time.getCurrentTime(),
+            From:"小税宝",
           },
           success: res => {
             wx.showToast({
@@ -194,7 +197,8 @@ Page({
             SchemeType: "股权转让个税",
             Question: this.data.question4,
             Status: "",
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            AddDate: Time.getCurrentTime(),
+            From:"小税宝",
           },
           success: res => {
             wx.showToast({
@@ -339,9 +343,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
     	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+	onTabItemTap: () => track.startToTrack(),
   onShow: function () {
-    startToTrack()
+    track.startToTrack()
   },
 
   /**

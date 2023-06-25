@@ -1,5 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils");
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -187,15 +188,14 @@ Page({
       db.collection('NameCardViewed').add({
         data: {
           sysAddDate:new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          AddDate: Time.getCurrentTime(),
           NameCardCreatorId: e.detail.cell.CreatorId,
           ViewerId: app.globalData.Guserid,
           ViewerCompany: this.data.mycard.CompanyName,
           ViewerName: this.data.mycard.UserName,
           ViewerTitle: this.data.mycard.Title,
           ViewerHandPhone: this.data.mycard.Handphone,
+          From:"小税宝",
         },
         success: res => {
           console.log("被查看信息添加了")

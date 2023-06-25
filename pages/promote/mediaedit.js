@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 var interval = null //倒计时函数
 Page({
 
@@ -389,9 +390,7 @@ bvDeleteTempMedia(e) {
           LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          PublishDate: Time.getCurrentTime(),
           InfoStatus: "unchecked",
         },
         success: res => {
@@ -444,11 +443,10 @@ bvDeleteTempMedia(e) {
           MemberOnly:this.data.memberonly,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          PublishDate: Time.getCurrentTime(),
           InfoType: "Media",
           InfoStatus: this.data.infostatus,
+          From:"小税宝",
         },
         success: res => {
           utils._SuccessToast("已发布等待审核")

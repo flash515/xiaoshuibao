@@ -1,5 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
   /**
    * 页面的初始数据
@@ -160,9 +161,7 @@ Page({
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: new Date().toLocaleString('chinese', {
-            hour12: false
-          })
+          updatedate: Time.getCurrentTime(),
         },
         success: res => {
           console.log(res)
@@ -214,9 +213,8 @@ Page({
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "unchecked",
-            AddDate: new Date().toLocaleString('chinese', {
-              hour12: false
-            })
+            AddDate: Time.getCurrentTime(),
+            From:"小税宝",
           },
           success: res => {
             console.log('留言发送成功', res.data)

@@ -1,5 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -94,10 +95,11 @@ Page({
           PLName: this.data.ordername,
           PLStartDate: this.data.orderstartdate,
           TotalFee: this.data.orderfee,
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: Time.getCurrentTime(),
           SysAddDate: new Date().getTime(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
+          From:"小税宝",
         },
         success: res => {
           console.log("promoter成功")
@@ -126,10 +128,11 @@ Page({
           ProductId: this.data.orderlevel,
           ProductName: this.data.ordername,
           TotalFee: this.data.orderfee,
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: Time.getCurrentTime(),
           OrderId: this.data.orderid,
           PaymentStatus: "unchecked",
-          Database: "PROMOTEORDER"
+          Database: "PROMOTEORDER",
+          From:"小税宝",
         },
         success: res => {
           console.log("payment成功")

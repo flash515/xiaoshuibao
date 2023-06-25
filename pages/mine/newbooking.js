@@ -1,5 +1,5 @@
 const app = getApp()
-const { startToTrack, startByClick, startByBack } = require("../../utils/track");
+const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils");
 const track = require("../../utils/track");
 Page({
@@ -73,7 +73,8 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
-            AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+            AddDate: Time.getCurrentTime(),
+            From:"小税宝",
           },
           success: res => {
             utils._SuccessToast('预约提交成功')
@@ -96,7 +97,7 @@ Page({
           BookingDate: this.data.date,
           BookingTime: this.data.time,
           BookingStatus: "unchecked",
-          UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
+          UpdateDate: Time.getCurrentTime(),
         },
         success: res => {
           utils._SuccessToast('预约更新成功')
@@ -152,9 +153,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
     	// 点击 tab 时用此方法触发埋点
-	onTabItemTap: () => startToTrack(),
+	onTabItemTap: () => track.startToTrack(),
   onShow: function () {
-    startToTrack()
+    track.startToTrack()
   },
 
   /**
@@ -168,7 +169,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
     onUnload: function () {
-    startByBack()
+    track.startByBack()
   },
 
   /**

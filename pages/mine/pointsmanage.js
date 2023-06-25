@@ -1,5 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -67,10 +68,9 @@ Page({
         ExchangeId: app.globalData.Guserid,
         ExchangePoints: this.data.exchangepoints,
         SysAddDate: new Date().getTime(),
-        AddDate: new Date().toLocaleString('chinese', {
-          hour12: false
-        }),
+        AddDate:Time.getCurrentTime(),
         PointsStatus: "checked",
+        From:"小税宝",
       },
       success: res => {
         utils._SuccessToast("积分兑换成功")
@@ -149,9 +149,7 @@ Page({
       tradebalance: tradepoints,
     })
     this.setData({
-      balanceupdatetime: new Date().toLocaleString('chinese', {
-        hour12: false
-      })
+      balanceupdatetime: Time.getCurrentTime(),
     })
     utils._balanceupdate(this.data.promotebalance, this.data.tradebalance, this.data.balanceupdatetime)
   },
@@ -236,10 +234,9 @@ Page({
           PacketNumber: this.data.packetnumber,
           RemainPacket: this.data.packetnumber,
           SysAddDate: new Date().getTime(),
-          AddDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          AddDate: Time.getCurrentTime(),
           PointsStatus: "checked",
+          From:"小税宝",
         },
         success: res => {
           this.setData({

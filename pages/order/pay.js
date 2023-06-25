@@ -1,5 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
 
   /**
@@ -279,7 +280,8 @@ Page({
               BookingTime: this.data.time,
               BookingContent: "上门取款服务",
               BookingStatus: "unchecked",
-              AddDate: new Date().toLocaleString('chinese',{ hour12: false })
+              AddDate: Time.getCurrentTime(),
+              From:"小税宝",
             },
             success: res => {
               console.log('预约提交成功', res.data)

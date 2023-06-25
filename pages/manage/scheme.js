@@ -1,5 +1,5 @@
 const app = getApp()
-
+const Time= require("../../utils/getDates");
 const track = require("../../utils/track");
 Page({
 
@@ -55,12 +55,13 @@ Page({
       const db = wx.cloud.database()
       db.collection('SCHEME').add({
         data: {
-          AddDate: new Date().toLocaleString('chinese',{ hour12: false }),
+          AddDate: Time.getCurrentTime(),
           SchemeType: this.data.schemetype,
           Condition: this.data.condition,
           Scheme: this.data.scheme,
           RefProduct: this.data.refproduct,
           Status: this.data.status,
+          From:"小税宝",
         },
         success: res => {
           console.log('新增数据成功', res)
@@ -85,7 +86,7 @@ Page({
         Scheme: this.data.scheme,
         RefProduct: this.data.refproduct,
         Status: this.data.status,
-        UpdateDate: new Date().toLocaleString('chinese',{ hour12: false })
+        UpdateDate: Time.getCurrentTime(),
       }
     })
   },

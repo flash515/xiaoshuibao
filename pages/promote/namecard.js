@@ -147,6 +147,7 @@ Page({
                       ViewerName: res.data[0].UserName,
                       ViewerTitle: res.data[0].Title,
                       ViewerHandPhone: res.data[0].Handphone,
+                      From:"小税宝",
                     },
                     success: res => {
                       console.log("被查看信息添加了")

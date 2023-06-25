@@ -1,5 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
+const Time= require("../../utils/getDates");
 Page({
   /**
    * 页面的初始数据
@@ -138,10 +139,9 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: new Date().toLocaleString('chinese', {
-            hour12: false
-          }),
+          PublishDate: Time.getCurrentTime(),
           Status: "unchecked",
+          From:"小税宝",
         },
         success: res => {
           utils._SuccessToast("留言发送成功")
@@ -170,9 +170,7 @@ Page({
         key2: "ReplyStatus",
         value2: "unchecked",
         key3: "ReplyDate",
-        value3: new Date().toLocaleString('chinese', {
-          hour12: false
-        })
+        value3: Time.getCurrentTime(),
       },
       success: res => {
         console.log(res)
@@ -273,13 +271,11 @@ Page({
         }]
       },
       success: res => {
-        console.log(res)
         this.setData({
           comments: res.result.data
         })
       },
       fail: res => {
-        console.log(res)
         this.setData({
           comments: []
         })

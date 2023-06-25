@@ -84,7 +84,8 @@ Page({
         UserName: this.data.username,
         UserPhone: this.data.userphone,
         CompanyName: this.data.companyname,
-        CompanyId: this.data.companyid
+        CompanyId: this.data.companyid,
+        From:"小税宝",
       }
     }).then(this.setData({
       result: "写入数据成功."
