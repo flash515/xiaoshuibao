@@ -1,6 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils");
-const Time= require("../../utils/getDates");
+const Time = require("../../utils/getDates");
 Page({
 
   /**
@@ -53,6 +53,12 @@ Page({
     const _ = db.command
     db.collection('NAMECARD').where(
       _.or([{
+          BusinessScope: {
+            $regex: '.*' + e.detail.value,
+            $options: 'i'
+          }
+        },
+        {
           KeyWords: {
             $regex: '.*' + e.detail.value,
             $options: 'i'
@@ -182,12 +188,12 @@ Page({
       this._viewadd(e.detail.cell.CreatorId)
       // 浏览人已发布的名片信息会发送给被浏览人
 
-      // 本地函数查询名片信息
+      // 本地函数查询本人名片信息
       const db = wx.cloud.database()
       // 登记本人名片
       db.collection('NameCardViewed').add({
         data: {
-          sysAddDate:new Date().getTime(),
+          sysAddDate: new Date().getTime(),
           AddDate: Time.getCurrentTime(),
           NameCardCreatorId: e.detail.cell.CreatorId,
           ViewerId: app.globalData.Guserid,
@@ -195,7 +201,7 @@ Page({
           ViewerName: this.data.mycard.UserName,
           ViewerTitle: this.data.mycard.Title,
           ViewerHandPhone: this.data.mycard.Handphone,
-          From:"小税宝",
+          From: "小税宝",
         },
         success: res => {
           console.log("被查看信息添加了")
