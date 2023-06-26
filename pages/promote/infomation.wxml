@@ -1,3 +1,4 @@
+<wxs src="../../utils/sub.wxs" module="tools" />
 <!-- 登录层 -->
 <l-mask show="{{loginshow}}" center="true">
   <loginmask bind:myevent="onLogin"></loginmask>
@@ -22,8 +23,8 @@
             <image class="avatar" src="{{item.avatarUrl}}"></image>
           </view>
           <view class="nickname">{{item.nickName}}</view>
-          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
-          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{item.PublishDate}}</text></view>
+          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{tools.subNum([item.CreatorPhone])}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.subDate([item.PublishDate])}}</text></view>
         </view>
         <view><text>{{item.InfoContent}}</text></view>
         <view>
@@ -40,8 +41,8 @@
             <image class="avatar" src="{{item.avatarUrl}}"></image>
           </view>
           <view class="nickname">{{item.nickName}}</view>
-          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
-          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{item.PublishDate}}</text></view>
+          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{tools.subNum([item.CreatorPhone])}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.subDate([item.PublishDate])}}</text></view>
         </view>
         <view><text>{{item.InfoContent}}</text></view>
         <view>
@@ -58,8 +59,8 @@
             <image class="avatar" src="{{item.avatarUrl}}"></image>
           </view>
           <view class="nickname">{{item.nickName}}</view>
-          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
-          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{item.PublishDate}}</text></view>
+          <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{tools.subNum([item.CreatorPhone])}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.subDate([item.PublishDate])}}</text></view>
         </view>
         <view><text>{{item.InfoContent}}</text></view>
         <view>
