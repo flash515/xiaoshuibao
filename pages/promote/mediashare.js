@@ -75,6 +75,7 @@ Page({
       // 如果用户是资讯创建者,显示本人全部发布资讯
       db.collection('INFOSHARE').where({
         CreatorId: e.currentTarget.dataset.id,
+        InfoType:"Media",
       }).get({
         success: res => {
           console.log(res)
