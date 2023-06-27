@@ -90,6 +90,7 @@ Page({
       // 如果用户不是资讯创建者,只打开创建者公开发布资讯
       db.collection('INFOSHARE').where({
         CreatorId: e.currentTarget.dataset.id,
+        InfoType:"Media",
         InfoStatus: 'checked',
         Private: false
       }).get({
@@ -427,6 +428,7 @@ Page({
       // 查询公开发布的视频，数量少于20条用本地函数就可以
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
+        InfoType:"Media",
         InfoStatus: 'checked',
         Private: false
       }).get({

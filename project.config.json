@@ -1,9 +1,5 @@
 {
   "description": "项目配置文件，详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
   "setting": {
     "urlCheck": false,
     "es7": true,
@@ -24,8 +20,6 @@
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
-    "useApiHook": false,
-    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [
         "cloundfunctions/getAccessToken/miniprogram_npm/psl/index.js"
@@ -46,12 +40,11 @@
     "useStaticServer": true,
     "lazyloadPlaceholderEnable": false,
     "localPlugins": false,
-    "condition": false
+    "condition": false,
+    "useApiHook": false,
+    "useApiHostProcess": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.17.0",
-  "appid": "wx810b87f0575b9a47",
-  "projectname": "小税宝",
   "cloudfunctionRoot": "cloundfunctions/",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
   "condition": {
@@ -391,5 +384,11 @@
     "tabIndent": "insertSpaces",
     "tabSize": 2
   },
-  "simulatorPluginLibVersion": {}
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "appid": "wx810b87f0575b9a47",
+  "projectname": "小税宝"
 }

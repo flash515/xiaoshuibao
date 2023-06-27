@@ -87,6 +87,29 @@ Page({
 
   bvInfoShareSelect(e) {
     console.log(e.detail)
+    // 取消选取时恢复各参数初始值
+    this.setData({
+      infoselected: false,
+      infoid: "",
+      infotitle: "",
+      link: "../product/allproduct",
+      infotitleshow: false,
+      linkshow: true,
+      private: true,
+      memberonly:true,
+      infostatus: "unchecked",
+      infocontent: "",
+      infoimage: "",
+      infovideo: "",
+      infocover: "",
+      tempcover: "",
+      tempimage: "",
+      tempvideo: "",
+      editbtn: false,
+      clipershow: false,
+      coveredit: "", //剪裁封面临时路径
+      timestamp: "", //时间戳
+    })
     if (e.detail.checked == true) {
       this.setData({
         infoid: e.detail.cell.InfoId,
@@ -106,25 +129,7 @@ Page({
         infostatus: e.detail.cell.InfoStatus,
         editbtn: true
       })
-    } else {
-      this.setData({
-        infoid: "",
-        infotitle: "",
-        infotitleshow: true,
-        linkshow: true,
-        private: true,
-        memberonly:true,
-        infostatus: "unchecked",
-        infocontent: "",
-        infoimage: "",
-        infovideo: "",
-        infocover: "",
-        tempcover: "",
-        tempimage: "",
-        tempvideo: "",
-        editbtn: false
-      })
-    }
+    } 
   },
 
   async bvDelInfo(e) {
@@ -403,6 +408,7 @@ bvDeleteTempMedia(e) {
               command: "and",
               where: [{
                 CreatorId: app.globalData.Guserid,
+                InfoType:"Media",
               }]
             },
             success: res => {
