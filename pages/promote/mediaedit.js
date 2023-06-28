@@ -9,7 +9,7 @@ Page({
    */
   data: {
     // 用户信息
-    usertypy:"",
+    usertype:"",
     avatarurl: "",
     nickname: "",
     width:"",
@@ -491,7 +491,7 @@ bvDeleteTempMedia(e) {
   onLoad: async function (options) {
 
     this.setData({
-      usertypy:app.globalData.Guserdata.UserInfo.UserType,
+      usertype:app.globalData.Guserdata.UserInfo.UserType,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
       width:app.globalData.Gsysteminfo.windowWidth/2,
