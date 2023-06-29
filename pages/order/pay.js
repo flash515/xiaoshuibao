@@ -35,8 +35,8 @@ Page({
     const goodsnum = this.data.orderid;
     const subMchId = '1612084242'; // 子商户号,微信支付商户号,必填
     const body = this.data.productname;
-    const PayVal = this.data.totalfee * 100;
-    this._callWXPay(body, goodsnum, subMchId, PayVal);
+    const payVal = this.data.totalfee * 100;
+    this._callWXPay(body, goodsnum, subMchId, payVal);
   },
   // 请求questionPay云函数,调用支付能力
   _callWXPay(body, goodsnum, subMchId, payVal) {
