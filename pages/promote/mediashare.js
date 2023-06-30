@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+const Time = require("../../utils/getDates");
 const wxpay = require("../../utils/WxPay")
 Page({
   /**
@@ -14,8 +14,8 @@ Page({
     remark: "",
     indirectinviterid: "",
     userinfo: {},
-    width:"",
-    height:"",
+    width: "",
+    height: "",
     // 登录框相关变量
     loginshow: false,
     // 页面相关
@@ -75,7 +75,7 @@ Page({
       // 如果用户是资讯创建者,显示本人全部发布资讯
       db.collection('INFOSHARE').where({
         CreatorId: e.currentTarget.dataset.id,
-        InfoType:"Media",
+        InfoType: "Media",
       }).get({
         success: res => {
           console.log(res)
@@ -91,7 +91,7 @@ Page({
       // 如果用户不是资讯创建者,只打开创建者公开发布资讯
       db.collection('INFOSHARE').where({
         CreatorId: e.currentTarget.dataset.id,
-        InfoType:"Media",
+        InfoType: "Media",
         InfoStatus: 'checked',
         Private: false
       }).get({
@@ -199,7 +199,7 @@ Page({
           Comment: this.data.comment,
           PublishDate: Time.getCurrentTime(),
           Status: "unchecked",
-          From:"小税宝",
+          From: "小税宝",
         },
         success: res => {
           this.setData({
@@ -348,9 +348,9 @@ Page({
         IndirectInviterId: this.data.creatorindirectinviterid,
         IndirectInviterPoints: this.data.indirectinviterpoints,
         SysAddDate: new Date().getTime(),
-        AddDate:Time.getCurrentTime(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
-        From:"小税宝",
+        From: "小税宝",
       },
       success: res => {
         resolve(res)
@@ -371,7 +371,7 @@ Page({
         AddDate: Time.getCurrentTime(),
         PaymentStatus: "checked",
         UserId: app.globalData.Guserid,
-        From:"小税宝",
+        From: "小税宝",
       },
       success: res => {
         console.log("paymentadd成功")
@@ -423,13 +423,56 @@ Page({
       this.data.creatorinviterid = creator[0].UserInfo.InviterId
       this.data.creatorindirectinviterid = creator[0].UserInfo.IndirectInviterId
 
+    } else if (options.scene) {
+      // 如果是通过扫码进入（scene中只有参数值，通过&和顺序区分）
+      let scene = decodeURIComponent(options.scene);
+      //可以连接多个参数值，&是我们定义的参数链接方式
+      // let inviterid = scene.split('&')[0];
+      // let productid = scene.split("&")[1];
+      this.data.params = scene
+      this.data.tempinviterid = scene.split('&')[0]
+      this.data.infoid = scene.split('&')[1]
+      this.data.remark = "通过小税宝用户资讯分享小程序码进入"
+      // 该功能仅管理员使用，默认使用管理员unionid做推荐人
+      if (this.data.tempinviterid == "") {
+        this.data.tempinviterid = "oo7kw5rohI15ogf6TCX_SGAxYUao"
+      }
+      console.log("小程序码进入参数:", this.data.tempinviterid)
+      console.log("infoid:", this.data.infoid)
+      // 通过分享进入，执行用户登录操作
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+      // 本地函数查询分享的资讯
+      const db = wx.cloud.database()
+      db.collection('INFOSHARE').where({
+        InfoId: this.data.infoid,
+        InfoStatus: 'checked'
+      }).get({
+        success: async res => {
+          console.log(res)
+          // 展示接收到的info
+          this.setData({
+            infoshares: res.data,
+            creatorid: res.data[0].CreatorId
+          })
+          this.data.infocover = res.data[0].InfoCover
+          this.data.infotitle = res.data[0].InfoTitle
+          this._getComments(this.data.infoid)
+          this._viewadd(this.data.infoid)
+          // 调用播放视频方法
+          this.startUp()
+          // 查询创作者的推荐人及间接推荐人，以便打赏时记录
+          let creator = await utils._usercheck(this.data.creatorid)
+          this.data.creatorinviterid = creator[0].UserInfo.InviterId
+          this.data.creatorindirectinviterid = creator[0].UserInfo.IndirectInviterId
+        }
+      })
     } else {
       // 在本人小程序中打开
       console.log("在本人小程序中打开展示全部公开资讯")
       // 查询公开发布的视频，数量少于20条用本地函数就可以
       const db = wx.cloud.database()
       db.collection('INFOSHARE').where({
-        InfoType:"Media",
+        InfoType: "Media",
         InfoStatus: 'checked',
         Private: false
       }).get({
@@ -456,8 +499,8 @@ Page({
       userid: app.globalData.Guserid,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
-      width:app.globalData.Gsysteminfo.windowWidth,
-      height:app.globalData.Gsysteminfo.windowHeight,
+      width: app.globalData.Gsysteminfo.windowWidth,
+      height: app.globalData.Gsysteminfo.windowHeight,
     })
 
   },
@@ -534,7 +577,7 @@ Page({
     let createVideoContext = wx.createVideoContext(index)
     // 播放视频
     createVideoContext.play()
-  // }, 300)
+    // }, 300)
   },
 
   // 暂停视频

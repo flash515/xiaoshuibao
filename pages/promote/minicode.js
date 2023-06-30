@@ -22,11 +22,19 @@ Page({
     unionid: "",
     page: 'pages/index/index',
     params: "",
+    productid:"",
+    imageUrl:"",
     color: {
       "r": 0,
       "g": 0,
       "b": 0
     },
+  },
+  onChooseImage(e) {
+    console.log(e.detail)
+    this.setData({
+      imageUrl:e.detail,
+    })
   },
   onChooseAvatar(e) {
     const {
@@ -53,6 +61,10 @@ Page({
   bvPage(e) {
     this.data.page = e.detail.value
     console.log(this.data.page)
+  },
+  bvProductId(e) {
+    this.data.productid = e.detail.value
+    console.log(this.data.productid)
   },
   bvParams(e) {
     this.data.params = e.detail.value
@@ -108,7 +120,7 @@ Page({
         // userid参数是使用在上传文件夹命名中
         path: 'minicode/' + app.globalData.Guserid + '/' + app.globalData.Guserdata.UserInfo.UserPhone + 'tempqrcode.png',
         // 小程序码中包含的用户信息,scene长度不能超过32字符，否则报错
-        scene: this.data.unionid + '&' + this.data.params,
+        scene: this.data.unionid + '&' + this.data.productid+ '&' + this.data.params,
         page: this.data.page,
         color: this.data.color,
         // userid: "1234",
@@ -120,7 +132,7 @@ Page({
         })
         console.log("tempqrcodeurl", this.data.tempqrcodeurl);
         // 执行下一个方法的方法，把头像合并到小程序码里
-        // that.drawCanvas()
+        that.drawCanvas(this.data.imageUrl)
       }
     })
   },
@@ -148,7 +160,7 @@ Page({
         })
         console.log("tempqrcodeurl", this.data.tempqrcodeurl);
         // 执行下一个方法的方法，把头像合并到小程序码里
-        that.drawCanvas()
+        that.drawCanvas(this.data.avatarUrl)
       }
     })
   },
@@ -195,7 +207,7 @@ Page({
     })
   },
 
-  drawCanvas: function () {
+  drawCanvas: function (image) {
     // var that = this;
     let ctx = wx.createCanvasContext('myCanvas');
     wx.getImageInfo({
@@ -214,7 +226,7 @@ Page({
         // 因为 drawImage 的第二个和第三个参数是图片的左上角在画布 canvas 的 x 坐标，y 坐标，所以图片的坐标比圆形的坐标分别都小圆的半径大小就刚刚好能被切成圆形，后面的两个参数就是图片的宽和高，请设定为圆形的直径长度。
 
         wx.getImageInfo({
-          src: this.data.avatarUrl,
+          src: image,
           success: (res) => {
             console.log("res3", res)
             ctx.drawImage(res.path, this.data.windowW * 0.2667, this.data.windowW * 0.2667, this.data.windowW * 0.4667, this.data.windowW * 0.4667); //头像
