@@ -161,7 +161,13 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
   return promise;
 }
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
-
+  wx.cloud.Cloud({
+    // 资源方 AppID
+    resourceAppid: 'wx810b87f0575b9a47',
+    // 资源方环境 ID
+    resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+  })
+  await wx.cloud.init()
   await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)

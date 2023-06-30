@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch:async function() {
+  onLaunch:function() {
     // 测试async，await可用
     // (async () => {
     //   const p = await new Promise(resolve => {
@@ -8,21 +8,19 @@ App({
     //   });
     //   console.log(p);
     // })();
-
-   wx.cloud.init({
-      env: 'xsbmain-9gvsp7vo651fd1a9',
-      traceUser: false,
-    })
+    // wx.cloud.init({
+    //   env: 'xsbmain-9gvsp7vo651fd1a9',
+    //   traceUser: false,
+    // })
     // 初始化全局参数
     this.globalData = {}
 
     // 清除本地存储数据,调试发布后可去除
-
-    wx.clearStorage({
-      success: (res) => {
-        console.log("清除本地存储数据成功")
-      },
-    })
+    // wx.clearStorage({
+    //   success: (res) => {
+    //     console.log("清除本地存储数据成功")
+    //   },
+    // })
 
     wx.getSystemInfo({ // 获取设备宽高
       success: res => {
