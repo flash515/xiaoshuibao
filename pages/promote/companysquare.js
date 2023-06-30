@@ -49,6 +49,7 @@ Page({
     })
   },
   onSearch(e) {
+
     const db = wx.cloud.database()
     const _ = db.command
     db.collection('NAMECARD').where(
@@ -97,6 +98,7 @@ Page({
         })
       }
     })
+
   },
   // 展示弹框
   getbox: function () {

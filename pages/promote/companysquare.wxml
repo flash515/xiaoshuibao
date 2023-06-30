@@ -53,8 +53,11 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{cards[0]}}">
-    <label class="label">搜索到{{cards.length}}条企业信息：</label>
+  <view wx:if="{{cards[0]}}" style="display: flex;flex-direction: column;">
+    <label class="label">普通会员每次展示前20条企业信息</label>
+    <label class="label">白银会员每次展示前50条企业信息</label>
+    <label class="label">黄金会员每次展示前100条企业信息</label>
+    <label class="label">铂金会员每次展示前300条企业信息</label>
     <view class="line"></view>
     <scroll-view scroll-y="true" style="display: flex;flex-direction:column; width: 100%;height: 400rpx; box-sizing: border-box;padding-left: 20rpx;padding-right: 20rpx;">
       <view style="display: flex;flex-direction: row;align-items: center;justify-content:space-between;">
