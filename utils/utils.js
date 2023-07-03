@@ -176,7 +176,7 @@ async function CloudInit() { // 用户登录时的操作
 
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
   console.log("执行了")
-  await CloudInit();
+  // await CloudInit();
   await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
@@ -204,7 +204,7 @@ function _setting() { // 通过本地数据库查询指令取得小程序设置�
   var promise = new Promise((resolve, reject) => {
     console.log("setting执行了")
     //获取小程序全局设置
-    const db = app.globalData.c1.database();
+    const db = wx.cloud.database();
     db.collection('setting')
       .doc('28ee4e3e60c48c3821c54eee6564dec5')
       .get({
@@ -222,7 +222,7 @@ function _setting() { // 通过本地数据库查询指令取得小程序设置�
 function _login() { // 通过云函数获取当前用户本人的小程序unionid
   var promise = new Promise((resolve, reject) => {
     console.log("login执行了")
-    app.globalData.c1.callFunction({
+    wx.cloud.callFunction({
       name: 'login',
       data: {},
       success: res => {
@@ -239,7 +239,7 @@ function _login() { // 通过云函数获取当前用户本人的小程序unioni
 function _usercheck(eventid) { // 通过本地函数查询当前用户是否是老用户
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
-    const db = app.globalData.c1.database()
+    const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: eventid,
     }).get({
@@ -256,7 +256,7 @@ function _invitercheck(inviterid) {
   var promise = new Promise((resolve, reject) => {
     console.log("invitercheck执行了")
     // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
-    const db = app.globalData.c1.database()
+    const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: inviterid
     }).get({

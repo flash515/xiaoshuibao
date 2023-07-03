@@ -137,7 +137,7 @@ Page({
       })
     }
 
-    const db = app.globalData.c1.database()
+    const db = wx.cloud.database()
     db.collection('notice').where({
       Status: "onshow"
     }).get({

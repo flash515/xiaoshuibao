@@ -8,7 +8,10 @@ App({
     //   });
     //   console.log(p);
     // })();
-
+    wx.cloud.init({ 
+      env: 'xsbmain-9gvsp7vo651fd1a9', 
+      traceUser: false, 
+    }) 
     // 初始化全局参数
     this.globalData = {}
 
