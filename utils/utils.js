@@ -1,5 +1,5 @@
 const app = getApp()
-const Time= require("../utils/getDates");
+const Time = require("../utils/getDates");
 import regeneratorRuntime from '../utils/regenerator-runtime/runtime'
 // 新用户信息初始化字段
 var newuserinfo = {
@@ -22,7 +22,7 @@ var newusertradeinfo = {
   DiscountType: "",
   DLUpdateTime: Time.getCurrentTime(),
   PromoteLevel: "normal",
-  PLUpdateTime:Time.getCurrentTime(),
+  PLUpdateTime: Time.getCurrentTime(),
   // MemberTime:""
 }
 async function _GetPhoneNumber(code) {
@@ -122,9 +122,9 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
         IndirectInviterId: app.globalData.Gindirectinviterid,
         IndirectInviterPoints: 10,
         SysAddDate: new Date().getTime(),
-        AddDate:Time.getCurrentTime(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
-        From:"小税宝",
+        From: "小税宝",
       },
       success: res => {
         resolve(res)
@@ -160,8 +160,23 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
   });
   return promise;
 }
-async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
+async function CloudInit() { // 用户登录时的操作
+  var cc = new wx.cloud.Cloud({
+    resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+    traceUser:false,
+  })
+  // var cc = new wx.cloud.Cloud({
+  //   resourceAppid: 'wx810b87f0575b9a47',
+  //   resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+  // })
+  await cc.init()
+  app.globalData.c1 = cc
+  console.log("执行了")
+}
 
+async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
+  console.log("执行了")
+  await CloudInit();
   await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)
@@ -186,31 +201,28 @@ async function UserLogon(tempinviterid, params, remark) { // 用户登录时的�
 }
 
 function _setting() { // 通过本地数据库查询指令取得小程序设置参数
-
-  console.log("setting执行了")
   var promise = new Promise((resolve, reject) => {
-  console.log("setting执行了")
-  //获取小程序全局设置
-  let db = wx.cloud.database();
-  db.collection('setting')
-    .doc('28ee4e3e60c48c3821c54eee6564dec5')
-    .get({
-      success: res => {
-        console.log("成功获取设置参数", res);
-        app.globalData.Gsetting = res.data;
-        app.globalData.Gimagearray = res.data.swiper
-        resolve(app.globalData.Gimagearray)
-      }
-    })
+    console.log("setting执行了")
+    //获取小程序全局设置
+    const db = app.globalData.c1.database();
+    db.collection('setting')
+      .doc('28ee4e3e60c48c3821c54eee6564dec5')
+      .get({
+        success: res => {
+          console.log("成功获取设置参数", res);
+          app.globalData.Gsetting = res.data;
+          app.globalData.Gimagearray = res.data.swiper
+          resolve(app.globalData.Gimagearray)
+        }
+      })
   });
   return promise
 }
 
 function _login() { // 通过云函数获取当前用户本人的小程序unionid
-
   var promise = new Promise((resolve, reject) => {
     console.log("login执行了")
-    wx.cloud.callFunction({
+    app.globalData.c1.callFunction({
       name: 'login',
       data: {},
       success: res => {
@@ -227,7 +239,7 @@ function _login() { // 通过云函数获取当前用户本人的小程序unioni
 function _usercheck(eventid) { // 通过本地函数查询当前用户是否是老用户
   var promise = new Promise((resolve, reject) => {
     console.log("usercheck执行中")
-    const db = wx.cloud.database()
+    const db = app.globalData.c1.database()
     db.collection('USER').where({
       UserId: eventid,
     }).get({
@@ -244,7 +256,7 @@ function _invitercheck(inviterid) {
   var promise = new Promise((resolve, reject) => {
     console.log("invitercheck执行了")
     // 新用户查询直接推荐人和间接推荐人信息，并存入本人USERINFO
-    const db = wx.cloud.database()
+    const db = app.globalData.c1.database()
     db.collection('USER').where({
       UserId: inviterid
     }).get({
@@ -292,7 +304,7 @@ function _newuser(params, remark) {
         UserInfo: newuserinfo,
         TradeInfo: newusertradeinfo,
         Remark: remark,
-        From:"小税宝",
+        From: "小税宝",
       },
       success: res => {
         console.log("新增用户数据执行成功")
@@ -305,6 +317,7 @@ function _newuser(params, remark) {
 
 function _newuserpoints() {
   var promise = new Promise((resolve, reject) => {
+    const db = wx.cloud.database()
     db.collection("POINTS").add({
       data: {
         PointsType: "promote",
@@ -313,9 +326,9 @@ function _newuserpoints() {
         InviterId: app.globalData.Ginviterid,
         InviterPoints: 5,
         SysAddDate: new Date().getTime(),
-        AddDate:Time.getCurrentTime(),
+        AddDate: Time.getCurrentTime(),
         PointsStatus: "checked",
-        From:"小税宝",
+        From: "小税宝",
       },
       success: res => {
         console.log("执行到最后位置了", res)
@@ -890,6 +903,7 @@ async function _RemoveFiles(filelist) {
 }
 
 module.exports = {
+  CloudInit: CloudInit,
   // 提示信息
   _SuccessToast: _SuccessToast,
   _ErrorToast: _ErrorToast,

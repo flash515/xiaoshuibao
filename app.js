@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch:async function() {
+  onLaunch:function() {
     // 测试async，await可用
     // (async () => {
     //   const p = await new Promise(resolve => {
@@ -9,20 +9,15 @@ App({
     //   console.log(p);
     // })();
 
-   wx.cloud.init({
-      env: 'xsbmain-9gvsp7vo651fd1a9',
-      traceUser: false,
-    })
     // 初始化全局参数
     this.globalData = {}
 
     // 清除本地存储数据,调试发布后可去除
-
-    wx.clearStorage({
-      success: (res) => {
-        console.log("清除本地存储数据成功")
-      },
-    })
+    // wx.clearStorage({
+    //   success: (res) => {
+    //     console.log("清除本地存储数据成功")
+    //   },
+    // })
 
     wx.getSystemInfo({ // 获取设备宽高
       success: res => {
@@ -67,6 +62,7 @@ App({
   globalData: {
     //全局变量要考虑新用户初始情况及老用户赋值情况，尽量避免过于概括或过于琐碎
     // 接收到的参数数组,包含推荐人userid,页面路径page，来源编号source等
+    c1:[],
     Gsysteminfo: [], //系统参数
 
     GWidth: "", // 屏幕可用宽度
