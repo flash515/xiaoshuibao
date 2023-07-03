@@ -12,7 +12,8 @@
     "pinyin-pro": "^3.11.0",
     "regenerator-runtime": "^0.13.11",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "wx-server-sdk": "^2.6.3"
   },
   "devDependencies": {
     "regenerator": "^0.14.10"
