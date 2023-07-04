@@ -54,10 +54,7 @@
       <l-button plain="{{true}}" size="long" bind:lintap="bvChooseMedia">点击这里添加视频（小于20M）或图片</l-button>
     </view>
     <text>\n</text>
-    <view wx:if="{{usertype=='admin'}}" style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
-      <label class="labal">商品推荐：</label>
-      <input type="text" class="input" value="{{link}}" placeholder="../product/allproduct" bind:input="bvLink" />
-    </view>
+
     <view style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
       <label class="labal">资讯标题：</label>
       <input type="text" class="input" value="{{infotitle}}" placeholder="请在这里填写资讯标题" bind:input="bvInfoTitle" />
@@ -65,6 +62,10 @@
     <label class="labal">资讯内容：</label>
     <l-textarea indicator="{{true}}" maxlength="140" type="text" placeholder="请在这里填写资讯内容" value="{{infocontent}}" bind:lininput="bvInfoContent">
     </l-textarea>
+    <view wx:if="{{usertype=='admin'}}" style="display:flex; flex-direction:row; justify-content:flex-start;align-items:center">
+      <label class="labal">商品链接：</label>
+      <input type="text" class="input" value="{{link}}" placeholder="../product/allproduct" bind:input="bvLink" />
+    </view>
     <text>\n</text>
     <label class="labal">资讯设置：</label>
     <l-checkbox-group bind:linchange="bvInfoTitleShow">

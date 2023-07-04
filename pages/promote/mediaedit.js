@@ -377,6 +377,8 @@ bvDeleteTempMedia(e) {
     // 不公开发布不需要审核
     if (this.data.private == true) {
       this.data.infostatus = "checked"
+    }else{
+      this.data.infostatus = "unchecked"
     }
     const db = wx.cloud.database()
     if (this.data.infoid != "") {
@@ -397,7 +399,7 @@ bvDeleteTempMedia(e) {
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: Time.getCurrentTime(),
-          InfoStatus: "unchecked",
+          InfoStatus: this.data.InfoStatus,
         },
         success: res => {
           utils._SuccessToast("资讯更新成功")
