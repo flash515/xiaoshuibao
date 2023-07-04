@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch:function() {
+  onLaunch: function () {
     // 测试async，await可用
     // (async () => {
     //   const p = await new Promise(resolve => {
@@ -8,10 +8,10 @@ App({
     //   });
     //   console.log(p);
     // })();
-    wx.cloud.init({ 
-      env: 'xsbmain-9gvsp7vo651fd1a9', 
-      traceUser: false, 
-    }) 
+    wx.cloud.init({
+      env: 'xsbmain-9gvsp7vo651fd1a9',
+      traceUser: false,
+    })
     // 初始化全局参数
     this.globalData = {}
 
@@ -65,7 +65,7 @@ App({
   globalData: {
     //全局变量要考虑新用户初始情况及老用户赋值情况，尽量避免过于概括或过于琐碎
     // 接收到的参数数组,包含推荐人userid,页面路径page，来源编号source等
-    c1:[],
+    c1: [],
     Gsysteminfo: [], //系统参数
 
     GWidth: "", // 屏幕可用宽度
@@ -74,8 +74,8 @@ App({
 
     Gproduct: [], // 在售商品
     Gproductlist: [], // 数据库中全部商品
-
-    Guserid: "", // 用户本人小程序id 
+    Gopenid: "", // 用户本人小程序id
+    Guserid: "", // 用户本人联合id 
     Guserdata: [], //用户个人全部数据,
 
     Gdirect1yearvaliduser: "", //一年内有效推荐用户数

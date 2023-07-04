@@ -8,8 +8,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lin-ui": "^0.9.4",
-    "pinyin-pro": "^3.11.0",
+    "lin-ui": "^0.9.13",
+    "pinyin-pro": "^3.15.4",
     "regenerator-runtime": "^0.13.11",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",

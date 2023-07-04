@@ -3,8 +3,10 @@ const defaultAvatarUrl = 'https://7873-xsbmain-9gvsp7vo651fd1a9-1304477809.tcb.q
 const utils = require("../../../utils/utils")
 Page({
   data: {
-    inviterid: "",
-    starttime: "",
+    params:"",
+    remark:"通过小税宝用户快捷会议邀请进入",
+    tempinviterid:"",
+    openid:"",
     avatarUrl: defaultAvatarUrl,
     nickName: "",
     chatheight: 0,
@@ -15,7 +17,7 @@ Page({
     chatRoomGroupId: 'demo',
     chatRoomGroupName: '快捷会议室二',
     containerStyle: "",
-    getOpenID: null,
+    chatRoomEnvId:"xsbmain-9gvsp7vo651fd1a9"
   },
   formsumit(e) {
     console.log(e)
@@ -35,76 +37,54 @@ Page({
       avatarUrl,
     })
   },
-  onLoad: function (options) {
-
+  onLoad:async function (options) {
     console.log(options)
-    this.data.inviterid = options.userid;
-    app.globalData.Ginviterid = options.userid;
-    this.data.starttime = options.starttime;
-    console.log("方法一如果参数以userid=格式存在，则显示接收到的参数", this.data.inviterid);
-    console.log(Date.parse(new Date()) - this.data.starttime);
-    // 接收参数方法一结束
+    wx.getSystemInfo({
+      success: res => {
+        console.log('system info', res)
+        if (res.safeArea) {
+          const {
+            top,
+            bottom
+          } = res.safeArea
+          this.setData({
+            containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
+          })
 
-    if (Date.parse(new Date()) - this.data.starttime < "3600000") {
-      const db = wx.cloud.database()
-      db.collection('USER').where({
-        UserId: this.data.inviterid
-      }).get({
-        success: res => {
-          app.globalData.Ginviter=res.data[0].UserInfo
+          this.setData({
+            chatheight: res.windowHeight * 750 / res.windowWidth - 180
+          })
+          console.log("containerStyle", this.data.containerStyle)
+          console.log("chatheight", this.data.chatheight)
         }
-      })
-
-      this.setData({
-        // onGetUserInfo: this.onGetUserInfo,
-        getOpenID: this.getOpenID,
-      })
-
-      wx.getSystemInfo({
-        success: res => {
-          console.log('system info', res)
-          if (res.safeArea) {
-            const {
-              top,
-              bottom
-            } = res.safeArea
-            this.setData({
-              containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
-            })
-
-            this.setData({
-              chatheight: res.windowHeight* 750 / res.windowWidth - 180
-            })
-            console.log("containerStyle", this.data.containerStyle)
-            console.log("chatheight", this.data.chatheight)
-          }
-        },
-      })
-    } else {
-      wx.redirectTo({
-        url: '../meetingroom/meetingroom',
-      })
-    }
-  },
-  getOpenID: async function () {
-    if (this.openid) {
-      return this.openid
-    }
-
-    const {
-      result
-    } = await wx.cloud.callFunction({
-      name: 'login',
+      },
     })
-
-    return result.openid
+    this.setData({
+      openid: app.globalData.Gopenid
+    })
+    if (options.userid) {
+      // 如果是通过分享链接进入
+      wx.showLoading({
+        title: '加载中',
+      })
+      this.data.params = options
+      this.data.tempinviterid = options.userid
+      // 通过分享进入，执行用户登录操作
+      await utils.UserLogon(this.data.tempinviterid, this.data.params, this.data.remark)
+      wx.hideLoading()
+      if (new Date().getTime() - options.starttime > 600000) {
+        wx.redirectTo({
+          url: '../meetingroom/meetingroom',
+        })
+      }
+    }
   },
 
-  onShareAppMessage() {
+  onShareAppMessage(res) {
     return {
-      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请60分钟内有效',
-      path: '/pages/tools/meetingroom/meetingroom2?type=express&userid=' + app.globalData.Guserid + '&starttime=' + this.data.starttime,
-      imageUrl: '', //封面
+      title: app.globalData.Guserdata.UserInfo.nickName + '邀请您加入快捷会议室，此邀请10分钟内有效',
+      path: '/pages/tools/meetingroom/meetingroom2?userid=' + app.globalData.Guserid + '&starttime=' + new Date().getTime(),
+      imageUrl: app.globalData.Gsetting.MeetingRoomImage, //封面
     }
   },
 

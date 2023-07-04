@@ -14,9 +14,7 @@ Component({
     avatarUrl: String,
     nickName: String,
     chatheight: Number,
-    getOpenID: {
-      type: Function,
-    },
+    openid: String,
   },
 
   data: {
@@ -30,11 +28,6 @@ Component({
   },
 
   methods: {
-
-    getOpenID() {
-      return this.properties.getOpenID()
-    },
-
     mergeCommonCriteria(criteria) {
       return {
         groupId: this.data.groupId,
@@ -44,11 +37,11 @@ Component({
 
     async initRoom() {
       this.try(async () => {
-        await this.initOpenID()
 
         const {
           envId,
-          collection
+          collection,
+          openid,
         } = this.properties
         this.db = wx.cloud.database({
           env: envId,
@@ -63,6 +56,7 @@ Component({
         console.log('init query chats', initList)
 
         this.setData({
+          openId:openid,
           chats: initList.reverse(),
           scrollTop: 10000,
         })
@@ -71,16 +65,6 @@ Component({
           sendTimeTS: _.gt(initList[initList.length - 1].sendTimeTS),
         } : {})
       }, '初始化失败')
-    },
-
-    async initOpenID() {
-      return this.try(async () => {
-        const openId = await this.getOpenID()
-
-        this.setData({
-          openId,
-        })
-      }, '初始化 openId 失败')
     },
 
     async initWatch(criteria) {

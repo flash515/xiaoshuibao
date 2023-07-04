@@ -163,7 +163,7 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
 async function CloudInit() { // 用户登录时的操作
   var cc = new wx.cloud.Cloud({
     resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    traceUser:false,
+    traceUser: false,
   })
   // var cc = new wx.cloud.Cloud({
   //   resourceAppid: 'wx810b87f0575b9a47',
@@ -228,6 +228,7 @@ function _login() { // 通过云函数获取当前用户本人的小程序unioni
       success: res => {
         // userid使用unionid
         app.globalData.Guserid = res.result.unionid
+        app.globalData.Gopenid = res.result.openid
         console.log("用户unionid:", app.globalData.Guserid)
         resolve(res.result.unionid)
       }
