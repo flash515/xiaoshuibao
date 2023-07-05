@@ -20,7 +20,7 @@ Page({
     // 附带的参数
     usertype: "",
     unionid: "",
-    page: 'pages/index/index',
+    page: '',
     params: "",
     productid:"",
     imageUrl:"",
@@ -100,11 +100,8 @@ Page({
     wx.setClipboardData({
       data: that.data.urllink, //这个是要复制的数据
       success: res => {
-        wx.getClipboardData({
-          success: res => {
-            console.log(res.data) // data
-          }
-        })
+        utils._SuccessToast("已复制")
+
       }
     })
   },

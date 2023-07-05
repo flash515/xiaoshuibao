@@ -9,7 +9,7 @@ Page({
     url: "",
     sortarray: [],
     array: [],
-
+    pagelink:"", //为管理员提供当前页面产品链接
     // 轮播参数
     image: [],
   },
@@ -43,14 +43,23 @@ Page({
       url: "../product/productview?"+"category3=" + e.currentTarget.dataset.name
     })
   },
-
+  bvCopy: function (e) {
+    wx.setClipboardData({
+      data: this.data.pagelink, //这个是要复制的数据
+      success: res => {
+        utils._SuccessToast("已复制")
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let page=getCurrentPages().pop()
     this.setData({
       image: app.globalData.Gimagearray,
-      windowH: (app.globalData.Gsysteminfo.windowHeight - 100) * 750 / app.globalData.Gsysteminfo.windowWidth
+      windowH: (app.globalData.Gsysteminfo.windowHeight - 100) * 750 / app.globalData.Gsysteminfo.windowWidth,
+      pagelink:"/"+page.route
     })
 
     //获取小程序全局设置

@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+const Time = require("../../utils/getDates");
 var interval = null //倒计时函数
 Page({
 
@@ -9,20 +9,20 @@ Page({
    */
   data: {
     // 用户信息
-    usertype:"",
+    usertype: "",
     avatarurl: "",
     nickname: "",
-    width:"",
-    height:"",
+    width: "",
+    height: "",
     infoshares: [], //已保存的资讯分享
     infoselected: false,
     infoid: "",
     infotitle: "",
-    link: "../product/allproduct",
+    link: "",
     infotitleshow: false,
     linkshow: true,
     private: true,
-    memberonly:true,
+    memberonly: true,
     infostatus: "unchecked",
     infocontent: "",
     infoimage: "",
@@ -93,11 +93,11 @@ Page({
       infoselected: false,
       infoid: "",
       infotitle: "",
-      link: "../product/allproduct",
+      link: "",
       infotitleshow: false,
       linkshow: true,
       private: true,
-      memberonly:true,
+      memberonly: true,
       infostatus: "unchecked",
       infocontent: "",
       infoimage: "",
@@ -130,7 +130,7 @@ Page({
         infostatus: e.detail.cell.InfoStatus,
         editbtn: true
       })
-    } 
+    }
   },
 
   async bvDelInfo(e) {
@@ -169,7 +169,17 @@ Page({
       infocontent: e.detail.value
     })
   },
-
+  bvPaste(e) {
+    wx.getClipboardData({
+      success: res => {
+        console.log(res.data) // data
+        this.setData({
+          link: res.data
+        })
+        utils._SuccessToast("已粘贴")
+      }
+    })
+  },
   async bvChooseMedia(e) {
     let that = this
     console.log("上传视频的方法")
@@ -308,7 +318,7 @@ Page({
     this.data.infoimage = ""
   },
 
-bvDeleteTempMedia(e) {
+  bvDeleteTempMedia(e) {
     utils._SuccessToast("删除成功")
     this.setData({
       tempvideo: "",
@@ -377,7 +387,7 @@ bvDeleteTempMedia(e) {
     // 不公开发布不需要审核
     if (this.data.private == true) {
       this.data.infostatus = "checked"
-    }else{
+    } else {
       this.data.infostatus = "unchecked"
     }
     const db = wx.cloud.database()
@@ -394,7 +404,7 @@ bvDeleteTempMedia(e) {
           InfoCover: this.data.infocover,
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
-          MemberOnly:this.data.memberonly,
+          MemberOnly: this.data.memberonly,
           LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
@@ -411,7 +421,7 @@ bvDeleteTempMedia(e) {
               command: "and",
               where: [{
                 CreatorId: app.globalData.Guserid,
-                InfoType:"Media",
+                InfoType: "Media",
               }]
             },
             success: res => {
@@ -449,13 +459,13 @@ bvDeleteTempMedia(e) {
           InfoTitleShow: this.data.infotitleshow,
           Private: this.data.private,
           LinkShow: this.data.linkshow,
-          MemberOnly:this.data.memberonly,
+          MemberOnly: this.data.memberonly,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           PublishDate: Time.getCurrentTime(),
           InfoType: "Media",
           InfoStatus: this.data.infostatus,
-          From:"小税宝",
+          From: "小税宝",
         },
         success: res => {
           utils._SuccessToast("已发布等待审核")
@@ -493,11 +503,11 @@ bvDeleteTempMedia(e) {
   onLoad: async function (options) {
 
     this.setData({
-      usertype:app.globalData.Guserdata.UserInfo.UserType,
+      usertype: app.globalData.Guserdata.UserInfo.UserType,
       avatarurl: app.globalData.Guserdata.UserInfo.avatarUrl,
       nickname: app.globalData.Guserdata.UserInfo.nickName,
-      width:app.globalData.Gsysteminfo.windowWidth/2,
-      height:app.globalData.Gsysteminfo.windowHeight/2,
+      width: app.globalData.Gsysteminfo.windowWidth / 2,
+      height: app.globalData.Gsysteminfo.windowHeight / 2,
     })
     // 查询本人提交的InfoShare
     wx.cloud.callFunction({
