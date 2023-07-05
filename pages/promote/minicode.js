@@ -124,6 +124,7 @@ Page({
         // scene: "5678"
       },
       success: res => {
+        console.log(res)
         that.setData({
           tempqrcodeurl: res.result
         })

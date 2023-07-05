@@ -20,9 +20,13 @@ exports.main = async (event, context) => {
       // 自定义颜色,rgb不能超过185，不然生成的码不能被识别，所以将自动转为黑色码
       lineColor: event.color
     }
+    let wxContext = cloud.getWXContext();  //共享云环境下需要给appid赋值
+    let fromAppId = wxContext.FROM_APPID;  //共享云环境下需要给appid赋值
     // 调用接口
-    var result = await cloud.openapi.wxacode.getUnlimited(param)
-    // 将资源上传至云存储空间
+    var result = await cloud.openapi({
+      appid: fromAppId  //共享云环境下需要给appid赋值
+    }).wxacode.getUnlimited(param)
+    // 生成的小程序码是buffer格式，需要先将buffer保存至云存储空间生成图片再操作
     const upload = await cloud.uploadFile({
       cloudPath: event.path,
       fileContent: result.buffer,

@@ -7,7 +7,11 @@ cloud.init({
  
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const res = await cloud.cloudPay.unifiedOrder({
+  let wxContext = cloud.getWXContext();  //共享云环境下需要给appid赋值
+  let fromAppId = wxContext.FROM_APPID;  //共享云环境下需要给appid赋值
+  const res = await cloud.cloudPay({
+    appid: fromAppId  //共享云环境下需要给appid赋值
+  }).unifiedOrder({
     body: event.body, // 商品描述,必填
     outTradeNo: event.goodsnum, // 商户订单号,必填,不能重复
     spbillCreateIp: '127.0.0.1', // 终端IP，必填

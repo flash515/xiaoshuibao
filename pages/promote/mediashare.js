@@ -256,7 +256,7 @@ Page({
       isPaying: true,
       btnname: "支付中"
     })
-    const goodsnum = wxpay._getGoodsRandomNumber();
+    const goodsnum = wxpay._getGoodsRandomNumber();  //调用WxPay.js里的订单编号，在当前页发起支付
     const body = "资讯赞赏";
     const PayVal = this.data.totalfee * 100;
     this._callWXPay(body, goodsnum, PayVal);
@@ -282,12 +282,22 @@ Page({
           ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
           success: (res) => {
             console.log('支付成功', res);
+            utils._SuccessToast("支付成功")
+            that.setData({
+              isPaying: false,
+              btnname: "支付"
+            })
             that._paymentadd(goodsnum)
             that._pointsadd()
             that._praiseadd()
           },
           fail: (err) => {
             console.error('支付失败', err);
+            utils._ErrorToast("支付不成功")
+            that.setData({
+              isPaying: false,
+              btnname: "支付"
+            })
           },
         });
       })

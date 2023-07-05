@@ -24,7 +24,7 @@
   <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseImage">
     <image class="avatar" src="{{imageUrl}}"></image>
   </button>
-    <view class="btn" bindtap="getQRCode">生成定制小税宝推广码</view>
+    <view class="btn" bindtap="getQRCode">生成管理员定制小税宝推广码</view>
   <view wx:if="{{tempqrcodeurl}}">
       <image style='width:{{windowW}}px;height:{{windowW}}px;' src="{{tempqrcodeurl}}"></image>
     </view>

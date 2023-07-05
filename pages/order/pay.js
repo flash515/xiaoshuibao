@@ -60,6 +60,7 @@ Page({
           ...payment, // 解构参数appId,nonceStr,package,paySign,signType,timeStamp
           success: (res) => {
             console.log('支付成功', res);
+            utils._SuccessToast("支付成功")
             that.setData({
               payalready: true
             })
@@ -86,6 +87,7 @@ Page({
           },
           fail: (err) => {
             console.error('支付失败', err);
+            utils._ErrorToast("支付不成功")
           },
         });
       })
