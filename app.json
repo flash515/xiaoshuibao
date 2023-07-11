@@ -49,8 +49,7 @@
     "pages/promote/companysquare",
     "pages/promote/express",
     "pages/promote/luckydraw",
-    "pages/test/databass",
-    "pages/test/test"
+    "pages/test/databass"
   ],
   "permission": {
     "scope.userLocation": {

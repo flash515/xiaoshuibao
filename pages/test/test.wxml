@@ -1,5 +1,0 @@
-<!--pages/test/test.wxml-->
-<text>pages/test/test.wxml</text>
-<l-button size="large" plain="{{true}}" bind:lintap="bvDaoRu">开始导入</l-button>
-
-<l-button size="large" plain="{{true}}" bind:lintap="clearNameCard">清空数据库</l-button>
