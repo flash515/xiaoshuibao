@@ -74,6 +74,7 @@ Page({
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
             AddDate: Time.getCurrentTime(),
+            UserId:app.globalData.Guserid,
             From:"小税宝",
           },
           success: res => {
