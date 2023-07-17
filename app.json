@@ -56,9 +56,7 @@
     "pages/test/databass"
   ],
   "permission": {
-    "scope.userLocation": {
-      "desc": "请点击确定"
-    }
+
   },
   "usingComponents": {
     "l-list": "/miniprogram_npm/lin-ui/list/index",
