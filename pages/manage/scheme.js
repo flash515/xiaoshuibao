@@ -55,7 +55,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('SCHEME').add({
         data: {
-          AddDate: Time.getCurrentTime(),
+          AddDate: Time.getServerTime(),
           SchemeType: this.data.schemetype,
           Condition: this.data.condition,
           Scheme: this.data.scheme,
@@ -86,7 +86,7 @@ Page({
         Scheme: this.data.scheme,
         RefProduct: this.data.refproduct,
         Status: this.data.status,
-        UpdateDate: Time.getCurrentTime(),
+        UpdateDate: Time.getServerTime(),
       }
     })
   },

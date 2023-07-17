@@ -139,7 +139,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           CreatorPhone:app.globalData.Guserdata.UserInfo.UserPhone,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           InfoStatus: "unchecked",
         },
         success: res => {
@@ -186,7 +186,7 @@ Page({
           CreatorPhone: app.globalData.Guserdata.UserInfo.UserPhone,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           InfoStatus: "unchecked",
           From:"小税宝",
         },

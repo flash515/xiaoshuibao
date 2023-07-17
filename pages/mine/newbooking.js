@@ -73,7 +73,7 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
-            AddDate: Time.getCurrentTime(),
+            AddDate: Time.getServerTime(),
             UserId:app.globalData.Guserid,
             From:"小税宝",
           },
@@ -98,7 +98,7 @@ Page({
           BookingDate: this.data.date,
           BookingTime: this.data.time,
           BookingStatus: "unchecked",
-          UpdateDate: Time.getCurrentTime(),
+          UpdateDate: Time.getServerTime(),
         },
         success: res => {
           utils._SuccessToast('预约更新成功')

@@ -67,7 +67,7 @@ Page({
             SchemeType: "增值税",
             Question: this.data.question1,
             Status: "",
-            AddDate: Time.getCurrentTime(),
+            AddDate: Time.getServerTime(),
             From:"小税宝",
           },
           success: res => {
@@ -111,7 +111,7 @@ Page({
             SchemeType: "企业所得税",
             Question: this.data.question2,
             Status: "",
-            AddDate:Time.getCurrentTime(),
+            AddDate:Time.getServerTime(),
             From:"小税宝",
           },
           success: res => {
@@ -154,7 +154,7 @@ Page({
             SchemeType: "个人所得税",
             Question: this.data.question3,
             Status: "",
-            AddDate: Time.getCurrentTime(),
+            AddDate: Time.getServerTime(),
             From:"小税宝",
           },
           success: res => {
@@ -197,7 +197,7 @@ Page({
             SchemeType: "股权转让个税",
             Question: this.data.question4,
             Status: "",
-            AddDate: Time.getCurrentTime(),
+            AddDate: Time.getServerTime(),
             From:"小税宝",
           },
           success: res => {

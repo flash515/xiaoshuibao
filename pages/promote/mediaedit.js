@@ -408,7 +408,7 @@ Page({
           LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           InfoStatus: this.data.InfoStatus,
         },
         success: res => {
@@ -462,7 +462,7 @@ Page({
           MemberOnly: this.data.memberonly,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: Time.getCurrentTime(),
+          PublishDate: Time.getServerTime(),
           InfoType: "Media",
           InfoStatus: this.data.infostatus,
           From: "小税宝",

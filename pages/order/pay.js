@@ -282,7 +282,7 @@ Page({
               BookingTime: this.data.time,
               BookingContent: "上门取款服务",
               BookingStatus: "unchecked",
-              AddDate: Time.getCurrentTime(),
+              AddDate: Time.getServerTime(),
               UserId:app.globalData.Guserid,
               From:"小税宝",
             },
