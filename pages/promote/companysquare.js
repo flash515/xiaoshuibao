@@ -1,6 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils");
-const Time = require("../../utils/getDates");
+
 Page({
 
   /**
@@ -175,7 +175,8 @@ Page({
   onPageScroll(res) {
 
   },
-  bvNameCardSelect(e) {
+  async bvNameCardSelect(e) {
+    
     if (app.globalData.Guserdata.NameCardStatus != "Published") {
       utils._ErrorToast("先发布本人名片")
       return
@@ -196,7 +197,7 @@ Page({
       db.collection('NameCardViewed').add({
         data: {
           sysAddDate: new Date().getTime(),
-          AddDate: Time.getServerTime(),
+          AddDate:db.serverDate(),
           NameCardCreatorId: e.detail.cell.CreatorId,
           ViewerId: app.globalData.Guserid,
           ViewerCompany: this.data.mycard.CompanyName,

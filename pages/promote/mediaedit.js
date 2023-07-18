@@ -1,7 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time = require("../../utils/getDates");
-var interval = null //倒计时函数
+
 Page({
 
   /**
@@ -356,6 +355,7 @@ Page({
   },
   //发布到资讯广场
   async bvPublish(e) {
+    
     let that = this
     if (this.data.infotitle == "") {
       utils._ErrorToast("标题不能为空")
@@ -408,7 +408,7 @@ Page({
           LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: Time.getServerTime(),
+          PublishDate:db.serverDate(),
           InfoStatus: this.data.InfoStatus,
         },
         success: res => {
@@ -462,7 +462,7 @@ Page({
           MemberOnly: this.data.memberonly,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: Time.getServerTime(),
+          PublishDate:db.serverDate(),
           InfoType: "Media",
           InfoStatus: this.data.infostatus,
           From: "小税宝",

@@ -1,5 +1,4 @@
 const app = getApp()
-const Time= require("../../utils/getDates");
 const track = require("../../utils/track");
 Page({
   data: {
@@ -49,7 +48,8 @@ Page({
       question4: e.detail.value
     })
   },
-  bvSubmit1(e) {
+  async bvSubmit1(e) {
+    
     // 判断是否重复提交
     if (this.data.sublock1) {
       // 锁定时很执行
@@ -67,7 +67,7 @@ Page({
             SchemeType: "增值税",
             Question: this.data.question1,
             Status: "",
-            AddDate: Time.getServerTime(),
+            AddDate:db.serverDate(),
             From:"小税宝",
           },
           success: res => {
@@ -93,7 +93,8 @@ Page({
         })
       }
   },
-  bvSubmit2(e) {
+  async bvSubmit2(e) {
+    
     // 判断是否重复提交
     if (this.data.sublock2) {
       // 锁定时很执行
@@ -111,7 +112,7 @@ Page({
             SchemeType: "企业所得税",
             Question: this.data.question2,
             Status: "",
-            AddDate:Time.getServerTime(),
+            AddDate:db.serverDate(),
             From:"小税宝",
           },
           success: res => {
@@ -136,7 +137,8 @@ Page({
         })
       }
   },
-  bvSubmit3(e) {
+  async bvSubmit3(e) {
+    
     // 判断是否重复提交
     if (this.data.sublock3) {
       // 锁定时很执行
@@ -154,7 +156,7 @@ Page({
             SchemeType: "个人所得税",
             Question: this.data.question3,
             Status: "",
-            AddDate: Time.getServerTime(),
+            AddDate:db.serverDate(),
             From:"小税宝",
           },
           success: res => {
@@ -179,7 +181,8 @@ Page({
         })
     }
   },
-  bvSubmit4(e) {
+  async bvSubmit4(e) {
+    
     // 判断是否重复提交
     if (this.data.sublock4) {
       // 锁定时很执行
@@ -197,7 +200,7 @@ Page({
             SchemeType: "股权转让个税",
             Question: this.data.question4,
             Status: "",
-            AddDate: Time.getServerTime(),
+            AddDate:db.serverDate(),
             From:"小税宝",
           },
           success: res => {

@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+
 Page({
   data: {
     x: 0,
@@ -616,7 +616,8 @@ Page({
   },
 
   // 异步新增数据方法
-  addData() {
+  async addData() {
+    
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
@@ -628,7 +629,7 @@ Page({
       // 新增数据
       db.collection("PRODUCT").add({
           data: {
-            AddDate: Time.getServerTime(),
+            AddDate:db.serverDate(),
             Status: this.data.status,
             ProductName: this.data.productname,
             Outline: this.data.outline,
@@ -677,7 +678,8 @@ Page({
     }
   },
   // 更新数据
-  updateData() {
+  async updateData() {
+    
     // 获取数据库引用
     const db = wx.cloud.database()
     // 新增数据
@@ -715,7 +717,7 @@ Page({
         ProductImage: this.data.productimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
-        UpdateDate: Time.getServerTime(),
+        UpdateDate:db.serverDate(),
       },
       success: res => {
         console.log('更新数据成功', res)

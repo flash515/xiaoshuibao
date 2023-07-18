@@ -17,6 +17,7 @@
     <view>手机尾号：{{tools.subNum([userphone])}}</view>
     <view>用户类型：{{usertype}}</view>
     <view>会员级别：{{promotelevel}}</view>
+
     <!-- <view>
           <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
             选择区域：{{region[0]}}/{{region[1]}}/{{region[2]}}

@@ -1,5 +1,4 @@
 const app = getApp()
-const Time= require("../../utils/getDates");
 var utils = require("../../utils/utils");
 const track = require("../../utils/track");
 Page({
@@ -51,7 +50,8 @@ Page({
       content: e.detail.key,
     })
   },
-  bvBooking() {
+  async bvBooking() {
+    
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
@@ -73,7 +73,7 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
-            AddDate: Time.getServerTime(),
+            AddDate:db.serverDate(),
             UserId:app.globalData.Guserid,
             From:"小税宝",
           },
@@ -87,7 +87,8 @@ Page({
         this.data.booklock = true // 修改上传状态为锁定
     }
   },
-  bvUpdateData(){
+  async bvUpdateData(){
+    
     const db = wx.cloud.database()
     db.collection('BOOKING').doc(this.data.bookingid).update({
         data: {
@@ -98,7 +99,7 @@ Page({
           BookingDate: this.data.date,
           BookingTime: this.data.time,
           BookingStatus: "unchecked",
-          UpdateDate: Time.getServerTime(),
+          UpdateDate:db.serverDate(),
         },
         success: res => {
           utils._SuccessToast('预约更新成功')

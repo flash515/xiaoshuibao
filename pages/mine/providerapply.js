@@ -1,7 +1,7 @@
 // pages/mine/providerapply.js
 const app = getApp()
 const util = require('../../utils/utils')
-const Time= require("../../utils/getDates");
+
 Page({
 
   /**
@@ -12,7 +12,7 @@ Page({
     companyid: "",
     businessscope: "",
     address: "",
-    contractchecked:false,
+    contractchecked: false,
     // 轮播参数
     image: [],
     indicatorDots: true,
@@ -85,58 +85,59 @@ Page({
       contractchecked: e.detail.checked
     })
   },
-  bvProviderApply(e) {
-if(this.applysubmit==true|| this.data.providerapplydate!=''){
-  utils._ErrorToast("请勿重复提交")
-}else{
-    if (this.data.companyname != "" && this.data.companyid != "" && this.data.businessscope != "" && this.data.address != "") {
-      console.log('已完善信息')
-      if (this.data.contractchecked == true) {
-        const db = wx.cloud.database()
-        db.collection('USER').where({
-          UserId: app.globalData.Guserid
-        }).update({
-          data: {
-            ["UserInfo.CompanyName"]: this.data.companyname,
-            ["UserInfo.CompanyId"]: this.data.companyid,
-            ["UserInfo.Address"]: this.data.address,
-            ["UserInfo.BusinessScope"]: this.data.businessscope,
-            ["UserInfo.ProviderApplyDate"]: Time.getServerTime(),
-          },
-          success: res => {
-            utils._SuccessToast("申请信息已发送")
-            this.applysubmit=true
-            //给管理员发送短信
-            var tempmobile = [18954744612]
-            // 调用云函数发短信给推荐人和管理员
-            // wx.cloud.callFunction({
-            //   name: 'sendsms',
-            //   data: {
-            //     templateId: "1569087",
-            //     nocode: true,
-            //     mobile: tempmobile
-            //   },
-            //   success: res => {
-            //     console.log("短信发送结果", res)
-            //   },
-            //   fail: res => {
-            //     console.log(res)
-            //   },
-            // })
-          },
-          fail: res => {
-            utils._ErrorToast("更新信息失败")
-          }
-        })
+  async bvProviderApply(e) {
+    
+    if (this.applysubmit == true || this.data.providerapplydate != '') {
+      utils._ErrorToast("请勿重复提交")
+    } else {
+      if (this.data.companyname != "" && this.data.companyid != "" && this.data.businessscope != "" && this.data.address != "") {
+        console.log('已完善信息')
+        if (this.data.contractchecked == true) {
+          const db = wx.cloud.database()
+          db.collection('USER').where({
+            UserId: app.globalData.Guserid
+          }).update({
+            data: {
+              ["UserInfo.CompanyName"]: this.data.companyname,
+              ["UserInfo.CompanyId"]: this.data.companyid,
+              ["UserInfo.Address"]: this.data.address,
+              ["UserInfo.BusinessScope"]: this.data.businessscope,
+              ["UserInfo.ProviderApplyDate"]:db.serverDate(),
+            },
+            success: res => {
+              utils._SuccessToast("申请信息已发送")
+              this.applysubmit = true
+              //给管理员发送短信
+              var tempmobile = [18954744612]
+              // 调用云函数发短信给推荐人和管理员
+              // wx.cloud.callFunction({
+              //   name: 'sendsms',
+              //   data: {
+              //     templateId: "1569087",
+              //     nocode: true,
+              //     mobile: tempmobile
+              //   },
+              //   success: res => {
+              //     console.log("短信发送结果", res)
+              //   },
+              //   fail: res => {
+              //     console.log(res)
+              //   },
+              // })
+            },
+            fail: res => {
+              utils._ErrorToast("更新信息失败")
+            }
+          })
+
+        } else {
+          utils._ErrorToast("请确认协议条款")
+        }
 
       } else {
-        utils._ErrorToast("请确认协议条款")
+        utils._ErrorToast("请完善信息")
       }
-
-    } else {
-      utils._ErrorToast("请完善信息")
     }
-  }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -148,7 +149,7 @@ if(this.applysubmit==true|| this.data.providerapplydate!=''){
       companyid: app.globalData.Guserdata.UserInfo.CompanyId,
       businessscope: app.globalData.Guserdata.UserInfo.BusinessScope,
       address: app.globalData.Guserdata.UserInfo.Address,
-      providerapplydate:app.globalData.Guserdata.UserInfo.ProviderApplyDate,
+      providerapplydate: app.globalData.Guserdata.UserInfo.ProviderApplyDate,
     })
   },
 

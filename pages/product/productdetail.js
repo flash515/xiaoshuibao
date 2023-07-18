@@ -1,6 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+
 Page({
   /**
    * 页面的初始数据
@@ -143,7 +143,8 @@ pagelink:"", //为管理员提供当前页面产品链接
       }
     })
   },
-  bvReply(e) {
+  async bvReply(e) {
+    
     console.log(e.currentTarget.dataset.id)
     const that = this;
     // 判断是否重复提交
@@ -161,7 +162,7 @@ pagelink:"", //为管理员提供当前页面产品链接
           id: e.currentTarget.dataset.id,
           answer: that.data.answer,
           status: "onshow",
-          updatedate: Time.getServerTime(),
+          updatedate:db.serverDate(),
         },
         success: res => {
           console.log(res)
@@ -197,7 +198,8 @@ pagelink:"", //为管理员提供当前页面产品链接
       replylock: false
     })
   },
-  bvSubmit(e) {
+  async bvSubmit(e) {
+    
     // 判断是否重复提交
     if (this.data.sublock) {
       // 锁定时很执行
@@ -213,7 +215,7 @@ pagelink:"", //为管理员提供当前页面产品链接
             ProductId: this.data.pageParam.productid,
             Question: this.data.question,
             Status: "unchecked",
-            AddDate: Time.getServerTime(),
+            AddDate:db.serverDate(),
             From:"小税宝",
           },
           success: res => {

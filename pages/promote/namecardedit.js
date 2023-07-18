@@ -1,7 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils");
-const Time= require("../../utils/getDates");
-var interval = null //倒计时函数
+
 Page({
 
   /**
@@ -313,6 +312,7 @@ Page({
 
   //发布到企业广场
   async bvPublish(e) {
+    
     let that = this
     if (this.data.username == '') {
       utils._ErrorToast("请填写姓名")
@@ -335,7 +335,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('NAMECARD').add({
         data: {
-          PublishDate: Time.getServerTime(),
+          PublishDate:db.serverDate(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,
@@ -382,7 +382,7 @@ Page({
         CreatorId: app.globalData.Guserid
       }).update({
         data: {
-          PublishDate:Time.getServerTime(),
+          PublishDate:db.serverDate(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,
@@ -411,31 +411,6 @@ Page({
     }
   },
 
-  //保存名片信息
-  async bvPreView(e) {
-    console.log("保存执行了")
-    this.data.cardinfo = {
-      ["CardBg"]: this.data.cardbg,
-      ["CompanyLogo"]: this.data.companylogo,
-      ["CardImages"]: this.data.cardimages,
-      ["UserName"]: this.data.username,
-      ["Title"]: this.data.title,
-      ["WeChat"]: this.data.wechat,
-      ["Email"]: this.data.email,
-      ["Telephone"]: this.data.telephone,
-      ["Website"]: this.data.website,
-      ["Handphone"]: this.data.handphone,
-      ["CompanyName"]: this.data.companyname,
-      ["Address"]: this.data.address,
-      ["BusinessScope"]: this.data.businessscope,
-      ["KeyWords"]: this.data.keywords,
-      ["Category1"]: this.data.category1,
-      ["Category2"]: this.data.category2,
-      ["Category3"]: this.data.category3,
-      ["UpdateDate"]: Time.getServerTime(),
-    }
-    wx.setStorageSync('namecard', this.data.cardinfo)
-  },
   /**
    * 生命周期函数--监听页面加载
    */

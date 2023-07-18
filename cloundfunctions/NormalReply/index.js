@@ -13,9 +13,9 @@ exports.main = async (event, context) => {
       _id: event.id,
     }).update({
       data: {
+        ReplyDate:db.serverDate(),
+        ReplyStatus:"unchecked",
         [event.key1]: event.value1,
-        [event.key2]: event.value2,
-        [event.key3]: event.value3,
       }
     })
   } catch (e) {

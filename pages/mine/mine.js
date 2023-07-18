@@ -1,7 +1,9 @@
 var app = getApp()
 const track = require("../../utils/track");
+
 Page({
   data: {
+    time:"",
     usertype: "",
     userphone:"",
     direct30user: [],
@@ -50,11 +52,13 @@ Page({
       }
     })
   },
-  onLoad: function (options) {
+  onLoad: async function (options) {
+    
     this.setData({
       image: app.globalData.Gimagearray,
       usertype: app.globalData.Guserdata.UserInfo.UserType,
-      userphone:app.globalData.Guserdata.UserInfo.UserPhone
+      userphone:app.globalData.Guserdata.UserInfo.UserPhone,
+
     })
     wx.getSetting({
       withSubscriptions: true,

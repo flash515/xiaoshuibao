@@ -118,7 +118,6 @@
 </view>
 <view wx:if="{{usertype == 'admin'}}">
   <l-card type="primary" plaintext="{{true}}">
-    <l-list title="管理员功能" icon="notification" right-desc="" tag-position="right" />
     <l-list title="快捷会议室" icon="user" url="../tools/meetingroom/expressmeeting" />
     <l-list title="快捷推广" icon="user" url="../promote/express" />
     <l-list title="待办事项" icon="setting" url="../manage/pending" />
@@ -130,7 +129,6 @@
     <l-list title="商品类别管理" icon="setting" url="../manage/sortedit" />
     <l-list title="商品管理" icon="setting" url="../manage/productview" />
     <l-list title="管理员订阅消息管理" icon="notification" bind:lintap="bvSubMessage" />
-    <l-list title="客户订阅消息发送" icon="setting" url="../manage/messgae" />
     <l-list title="名片编辑" icon="user" url="../promote/namecardedit" />
     <l-list title="资讯编辑" icon="user" url="../promote/mediaedit" />
     <l-list title="测试页面" icon="address" url="../test/test1" />

@@ -1,5 +1,5 @@
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+
 const app = getApp()
 Page({
 
@@ -133,7 +133,8 @@ Page({
     })
 
   },
-  bvAccept() {
+  async bvAccept() {
+    
     const db = wx.cloud.database()
     db.collection("POINTS").add({
       data: {
@@ -144,7 +145,7 @@ Page({
         DoneeId: app.globalData.Guserid,
         DoneePoints: this.data.doneepoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         PointsStatus: "checked",
         From:"小税宝",
       },

@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time = require("../../utils/getDates");
+
 const wxpay = require("../../utils/WxPay")
 Page({
   /**
@@ -159,7 +159,8 @@ Page({
     })
 
   },
-  bvReplySend(e) {
+  async bvReplySend(e) {
+    
     // 新增回复
     console.log(e.currentTarget.dataset.id)
     wx.cloud.callFunction({
@@ -171,10 +172,6 @@ Page({
         id: e.currentTarget.dataset.id,
         key1: "Reply",
         value1: this.data.replycontent,
-        key2: "ReplyStatus",
-        value2: "unchecked",
-        key3: "ReplyDate",
-        value3: Time.getServerTime(),
       },
       success: res => {
         console.log(res)
@@ -184,7 +181,8 @@ Page({
 
   },
 
-  bvPublish() {
+  async bvPublish() {
+    
     if (this.data.avatarurl == "" || this.data.nickname == "") {
       utils._ErrorToast("需要头像和昵称")
     } else {
@@ -197,7 +195,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate: Time.getServerTime(),
+          PublishDate:db.serverDate(),
           Status: "unchecked",
           From: "小税宝",
         },
@@ -341,7 +339,8 @@ Page({
     })
   },
 
-  _pointsadd() {
+  async _pointsadd() {
+    
     // 赞赏点数记录
     const db = wx.cloud.database()
     db.collection("POINTS").add({
@@ -358,7 +357,7 @@ Page({
         IndirectInviterId: this.data.creatorindirectinviterid,
         IndirectInviterPoints: this.data.indirectinviterpoints,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         PointsStatus: "checked",
         From: "小税宝",
       },
@@ -368,7 +367,8 @@ Page({
     })
   },
 
-  _paymentadd(goodsnum) {
+  async _paymentadd(goodsnum) {
+    
     // 支付成功后增加付款记录
     let that = this
     const db = wx.cloud.database()
@@ -378,7 +378,7 @@ Page({
         ProductId: this.data.infoid,
         ProductName: "资讯赞赏",
         TotalFee: this.data.totalfee,
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         PaymentStatus: "checked",
         UserId: app.globalData.Guserid,
         From: "小税宝",

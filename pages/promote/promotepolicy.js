@@ -80,7 +80,8 @@ Page({
       this._paymentadd()
     }
   },
-  _orderadd(e) {
+  async _orderadd(e) {
+    
     let that = this
     if (this.data.applysublock) {
       // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
@@ -95,7 +96,7 @@ Page({
           PLName: this.data.ordername,
           PLStartDate: this.data.orderstartdate,
           TotalFee: this.data.orderfee,
-          AddDate: Time.getServerTime(),
+          AddDate:db.serverDate(),
           SysAddDate: new Date().getTime(),
           PaymentStatus: "unchecked",
           OrderStatus: "unchecked",
@@ -116,7 +117,8 @@ Page({
     }
   },
 
-  _paymentadd() {
+  async _paymentadd() {
+    
     let that = this
     if (this.data.paymentsublock) {
       // 控制页面组件显示和隐藏的参数是异步赋值的，因此需要在数据库操作执行前再次检查参数，避免重复提交
@@ -128,7 +130,7 @@ Page({
           ProductId: this.data.orderlevel,
           ProductName: this.data.ordername,
           TotalFee: this.data.orderfee,
-          AddDate: Time.getServerTime(),
+          AddDate:db.serverDate(),
           OrderId: this.data.orderid,
           PaymentStatus: "unchecked",
           Database: "PROMOTEORDER",

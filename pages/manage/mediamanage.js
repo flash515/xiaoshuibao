@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+
 Page({
   /**
    * 页面的初始数据
@@ -81,7 +81,8 @@ Page({
   },
 
 
-  bvReplySend(e) {
+  async bvReplySend(e) {
+    
     // 新增回复
     console.log(e.currentTarget.dataset.id)
     wx.cloud.callFunction({
@@ -93,10 +94,7 @@ Page({
         id: e.currentTarget.dataset.id,
         key1: "Reply",
         value1: this.data.replycontent,
-        key2: "ReplyStatus",
-        value2: "unchecked",
-        key3: "ReplyDate",
-        value3: Time.getServerTime(),
+
       },
       success: res => {
         console.log(res)

@@ -25,7 +25,8 @@ function bvBuy(e) {
     }
     }
 }
-function _orderadd(){
+async function _orderadd(){
+  
   let that = this
   if (this.data.ordersublock) {
     that._hidden()
@@ -43,7 +44,7 @@ function _orderadd(){
         DLEndDate: this.data.discountenddate,
         TotalFee: this.data.discounttotalfee,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         PaymentStatus:"unchecked",
         OrderStatus:"unchecked",
         Available:false,
@@ -61,7 +62,8 @@ function _orderadd(){
     })
   }
 }
-function _paymentadd() {
+async function _paymentadd() {
+  
   let that = this
   if (this.data.paymentsublock) {
     that._hidden()
@@ -73,7 +75,7 @@ function _paymentadd() {
         ProductId: this.data.discountid,
         ProductName: this.data.discountname,
         TotalFee: this.data.discounttotalfee,
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         PaymentStatus: "unchecked",
         Database:"DISCOUNTORDER",
         From:"小税宝",
@@ -190,7 +192,8 @@ function _getGoodsRandomNumber() {
       },
     })
   }
-  function _userupdate(){
+  async function _userupdate(){
+    
     const db = wx.cloud.database()
     db.collection('USER').where({
       UserId: app.globalData.Guserid
@@ -199,7 +202,7 @@ function _getGoodsRandomNumber() {
         ['TradeInfo.DiscountLevel']: this.data.orderlevel,
         ['TradeInfo.DLStartDate']:this.data.orderstartdate,
         ['TradeInfo.DLEndDate']:this.data.orderenddate,
-        ['TradeInfo.DLUpdateTime']:Time.getServerTime(),
+        ['TradeInfo.DLUpdateTime']:db.serverDate(),
       },
       success: res => {
         console.log("用户信息更新成功")

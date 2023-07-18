@@ -1,6 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
+
 Page({
 
   /**
@@ -261,7 +261,8 @@ Page({
       address: e.detail.value,
     })
   },
-  bvBooking(e) {
+  async bvBooking(e) {
+    
     // 判断是否重复提交
     if (this.data.booklock) {
       // 锁定时很执行
@@ -282,7 +283,7 @@ Page({
               BookingTime: this.data.time,
               BookingContent: "上门取款服务",
               BookingStatus: "unchecked",
-              AddDate: Time.getServerTime(),
+              AddDate:db.serverDate(),
               UserId:app.globalData.Guserid,
               From:"小税宝",
             },

@@ -1,7 +1,6 @@
 // pages/index/home.js
 const app = getApp()
 const track = require("../../utils/track");
-
 Page({
 
   /**
@@ -88,6 +87,7 @@ Page({
   onLoad: async function (options) {
     this.setData({
       image: app.globalData.Gimagearray,
+
     })
     if (app.globalData.Guserdata.UserInfo.UserPhone != '') {
       this.setData({

@@ -86,6 +86,7 @@ function _sendcode(userphone) {
 }
 
 async function _NewMember(userphone, phoneremark) {
+  
   var promise = new Promise((resolve, reject) => {
     const db = wx.cloud.database()
     db.collection('USER').where({
@@ -94,7 +95,7 @@ async function _NewMember(userphone, phoneremark) {
       data: {
         ["UserInfo.UserPhone"]: userphone,
         ["UserInfo.PhoneRemark"]: phoneremark,
-        ["TradeInfo.MemberTime"]: Time.getServerTime(),
+        ["TradeInfo.MemberTime"]:db.serverDate(),
       },
       success: res => {
         resolve(res)
@@ -106,6 +107,7 @@ async function _NewMember(userphone, phoneremark) {
 }
 
 async function _RegistPointsAdd() { // 通过云函数获取用户本人的小程序ID
+  
   var promise = new Promise((resolve, reject) => {
     console.log('新会员手机认证积分')
     const db = wx.cloud.database()
@@ -122,7 +124,7 @@ async function _RegistPointsAdd() { // 通过云函数获取用户本人的小�
         IndirectInviterId: app.globalData.Gindirectinviterid,
         IndirectInviterPoints: 10,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         PointsStatus: "checked",
         From: "小税宝",
       },
@@ -279,7 +281,8 @@ function _invitercheck(inviterid) {
   return promise;
 }
 
-function _newuser(params, remark) {
+async function _newuser(params, remark) {
+  
   console.log(params)
   console.log(remark)
   var promise = new Promise((resolve, reject) => {
@@ -298,7 +301,7 @@ function _newuser(params, remark) {
     db.collection("USER").add({
       data: {
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         UserId: app.globalData.Guserid,
         Params: params,
         SystemInfo: app.globalData.Gsysteminfo,
@@ -316,7 +319,8 @@ function _newuser(params, remark) {
   return promise;
 }
 
-function _newuserpoints() {
+async function _newuserpoints() {
+  
   var promise = new Promise((resolve, reject) => {
     const db = wx.cloud.database()
     db.collection("POINTS").add({
@@ -327,7 +331,7 @@ function _newuserpoints() {
         InviterId: app.globalData.Ginviterid,
         InviterPoints: 5,
         SysAddDate: new Date().getTime(),
-        AddDate: Time.getServerTime(),
+        AddDate:db.serverDate(),
         PointsStatus: "checked",
         From: "小税宝",
       },

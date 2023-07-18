@@ -1,7 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-const Time= require("../../utils/getDates");
-var interval = null //倒计时函数
+
 Page({
 
   /**
@@ -139,7 +138,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           CreatorPhone:app.globalData.Guserdata.UserInfo.UserPhone,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           InfoStatus: "unchecked",
         },
         success: res => {
@@ -186,7 +185,7 @@ Page({
           CreatorPhone: app.globalData.Guserdata.UserInfo.UserPhone,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate: Time.getServerTime(),
+          PublishDate: db.serverDate(),
           InfoStatus: "unchecked",
           From:"小税宝",
         },
