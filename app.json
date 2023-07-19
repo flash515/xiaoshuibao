@@ -49,11 +49,10 @@
     "pages/promote/companysquare",
     "pages/promote/express",
     "pages/promote/luckydraw",
+    "pages/tools/excel",
     "pages/test/databass"
   ],
-  "permission": {
-
-  },
+  "permission": {},
   "usingComponents": {
     "l-list": "/miniprogram_npm/lin-ui/list/index",
     "l-price": "/miniprogram_npm/lin-ui/price/index",

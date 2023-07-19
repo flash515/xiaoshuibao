@@ -1,0 +1,4 @@
+<!--pages/test/test.wxml-->
+<text>pages/test/test.wxml</text>
+<button bind:tap="choosefile">选择上传文件</button>
+<button bind:tap="jiexi">导入文件</button>

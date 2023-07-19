@@ -1,7 +1,194 @@
 {
   "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
-  "libVersion": "2.30.3",
+  "libVersion": "2.29.2",
   "setting": {
     "urlCheck": false
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": 1011
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/order",
+          "pathName": "pages/order/order",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/sms",
+          "pathName": "pages/mine/sms",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/room/room",
+          "pathName": "pages/room/room",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/databass",
+          "pathName": "pages/mine/databass",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/userinfo",
+          "pathName": "pages/mine/userinfo",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/tools/sort",
+          "pathName": "pages/tools/sort",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/client",
+          "pathName": "pages/order/client",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/orderhistory",
+          "pathName": "pages/order/orderhistory",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/neworder",
+          "pathName": "pages/order/neworder",
+          "query": "clientrate=0.022",
+          "scene": null
+        },
+        {
+          "name": "pages/product/product",
+          "pathName": "pages/product/product",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/tools/test",
+          "pathName": "pages/tools/test",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/minicode",
+          "pathName": "pages/mine/minicode",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/pay",
+          "pathName": "pages/order/pay",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/index/aboutus",
+          "pathName": "pages/index/aboutus",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/tools/chatroom/chatroom",
+          "pathName": "pages/tools/chatroom/chatroom",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/manage/qamanage",
+          "pathName": "pages/manage/qamanage",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/poster",
+          "pathName": "pages/mine/poster",
+          "query": "app.globalData.Guserid='omLS75Xib_obyxkVAahnBffPytcA'",
+          "scene": null
+        },
+        {
+          "name": "pages/manage/messgae",
+          "pathName": "pages/manage/messgae",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/manage/productview",
+          "pathName": "pages/manage/productview",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/manage/productedit",
+          "pathName": "pages/manage/productedit",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/index/home",
+          "pathName": "pages/index/home",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/pricepolicy",
+          "pathName": "pages/mine/pricepolicy",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/promoterpolicy",
+          "pathName": "pages/mine/promoterpolicy",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/manage/pending",
+          "pathName": "pages/manage/pending",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/newbooking",
+          "pathName": "pages/mine/newbooking",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/tools/excel",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }
