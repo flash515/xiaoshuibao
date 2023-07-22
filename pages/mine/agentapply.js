@@ -1,7 +1,7 @@
 // pages/mine/providerapply.js
 const app = getApp()
 const util = require('../../utils/utils')
-
+var Time=require("../../utils/getDates")
 Page({
 
   /**
@@ -102,7 +102,7 @@ Page({
               ["UserInfo.CompanyId"]: this.data.companyid,
               ["UserInfo.Address"]: this.data.address,
               ["UserInfo.BusinessScope"]: this.data.businessscope,
-              ["UserInfo.AgentApplyDate"]:db.serverDate(),
+              ["UserInfo.AgentApplyDate"]:Time.getCurrentTime(),
             },
             success: res => {
               utils._SuccessToast("申请信息已发送")

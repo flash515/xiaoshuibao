@@ -43,8 +43,8 @@ async function _orderadd(){
         DLStartDate: this.data.discountstartdate,
         DLEndDate: this.data.discountenddate,
         TotalFee: this.data.discounttotalfee,
-        SysAddDate: new Date().getTime(),
-        AddDate:db.serverDate(),
+        SysAddDate:db.serverDate(),
+        AddDate:Time.getCurrentTime(),
         PaymentStatus:"unchecked",
         OrderStatus:"unchecked",
         Available:false,
@@ -75,7 +75,7 @@ async function _paymentadd() {
         ProductId: this.data.discountid,
         ProductName: this.data.discountname,
         TotalFee: this.data.discounttotalfee,
-        AddDate:db.serverDate(),
+        AddDate:Time.getCurrentTime(),
         PaymentStatus: "unchecked",
         Database:"DISCOUNTORDER",
         From:"小税宝",
@@ -202,7 +202,7 @@ function _getGoodsRandomNumber() {
         ['TradeInfo.DiscountLevel']: this.data.orderlevel,
         ['TradeInfo.DLStartDate']:this.data.orderstartdate,
         ['TradeInfo.DLEndDate']:this.data.orderenddate,
-        ['TradeInfo.DLUpdateTime']:db.serverDate(),
+        ['TradeInfo.DLUpdateTime']:Time.getCurrentTime(),
       },
       success: res => {
         console.log("用户信息更新成功")

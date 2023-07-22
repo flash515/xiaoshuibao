@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
       _id: event.id,
     }).update({
       data: {
-        ReplyDate:db.serverDate(),
+        ReplyDate:new Date(),
         ReplyStatus:"unchecked",
         [event.key1]: event.value1,
       }

@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-
+var Time=require("../../utils/getDates")
 Page({
   /**
    * 页面的初始数据
@@ -141,7 +141,7 @@ Page({
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
           Comment: this.data.comment,
-          PublishDate:db.serverDate(),
+          PublishDate:Time.getCurrentTime(),
           Status: "unchecked",
           From:"小税宝",
         },

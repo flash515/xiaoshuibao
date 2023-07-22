@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-
+var Time=require("../../utils/getDates")
 Page({
   data: {
     x: 0,
@@ -629,7 +629,7 @@ Page({
       // 新增数据
       db.collection("PRODUCT").add({
           data: {
-            AddDate:db.serverDate(),
+            AddDate:Time.getCurrentTime(),
             Status: this.data.status,
             ProductName: this.data.productname,
             Outline: this.data.outline,
@@ -717,7 +717,7 @@ Page({
         ProductImage: this.data.productimage,
         AttachmentFile: this.data.attachmentfile,
         Score: this.data.score,
-        UpdateDate:db.serverDate(),
+        UpdateDate:Time.getCurrentTime(),
       },
       success: res => {
         console.log('更新数据成功', res)

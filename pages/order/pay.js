@@ -1,6 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils")
-
+var Time=require("../../utils/getDates")
 Page({
 
   /**
@@ -283,7 +283,7 @@ Page({
               BookingTime: this.data.time,
               BookingContent: "上门取款服务",
               BookingStatus: "unchecked",
-              AddDate:db.serverDate(),
+              AddDate:Time.getCurrentTime(),
               UserId:app.globalData.Guserid,
               From:"小税宝",
             },

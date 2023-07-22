@@ -1,6 +1,6 @@
 const app = getApp()
 var utils = require("../../utils/utils")
-
+var Time=require("../../utils/getDates")
 Page({
 
   /**
@@ -408,7 +408,7 @@ Page({
           LinkShow: this.data.linkshow,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate:db.serverDate(),
+          PublishDate:Time.getCurrentTime(),
           InfoStatus: this.data.InfoStatus,
         },
         success: res => {
@@ -462,7 +462,7 @@ Page({
           MemberOnly: this.data.memberonly,
           avatarUrl: this.data.avatarurl,
           nickName: this.data.nickname,
-          PublishDate:db.serverDate(),
+          PublishDate:Time.getCurrentTime(),
           InfoType: "Media",
           InfoStatus: this.data.infostatus,
           From: "小税宝",

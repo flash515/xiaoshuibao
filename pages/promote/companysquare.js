@@ -1,6 +1,6 @@
 const app = getApp();
 const utils = require("../../utils/utils");
-
+var Time=require("../../utils/getDates")
 Page({
 
   /**
@@ -196,8 +196,8 @@ Page({
       // 登记本人名片
       db.collection('NameCardViewed').add({
         data: {
-          sysAddDate: new Date().getTime(),
-          AddDate:db.serverDate(),
+          SysAddDate: db.serverDate(),
+          AddDate:Time.getCurrentTime(),
           NameCardCreatorId: e.detail.cell.CreatorId,
           ViewerId: app.globalData.Guserid,
           ViewerCompany: this.data.mycard.CompanyName,

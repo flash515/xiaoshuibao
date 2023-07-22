@@ -1,6 +1,7 @@
 const app = getApp()
 var utils = require("../../utils/utils");
 const track = require("../../utils/track");
+var Time=require("../../utils/getDates")
 Page({
 
   /**
@@ -73,7 +74,7 @@ Page({
             BookingTime: this.data.time,
             BookingContent: this.data.content,
             BookingStatus: "unchecked",
-            AddDate:db.serverDate(),
+            AddDate:Time.getCurrentTime(),
             UserId:app.globalData.Guserid,
             From:"小税宝",
           },
@@ -99,7 +100,7 @@ Page({
           BookingDate: this.data.date,
           BookingTime: this.data.time,
           BookingStatus: "unchecked",
-          UpdateDate:db.serverDate(),
+          UpdateDate:Time.getCurrentTime(),
         },
         success: res => {
           utils._SuccessToast('预约更新成功')

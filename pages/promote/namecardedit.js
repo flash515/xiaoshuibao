@@ -1,6 +1,6 @@
 const app = getApp()
 const utils = require("../../utils/utils");
-
+var Time=require("../../utils/getDates")
 Page({
 
   /**
@@ -335,7 +335,7 @@ Page({
       const db = wx.cloud.database()
       db.collection('NAMECARD').add({
         data: {
-          PublishDate:db.serverDate(),
+          PublishDate:Time.getCurrentTime(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,
@@ -382,7 +382,7 @@ Page({
         CreatorId: app.globalData.Guserid
       }).update({
         data: {
-          PublishDate:db.serverDate(),
+          PublishDate:Time.getCurrentTime(),
           CardBg: this.data.cardbg,
           CompanyLogo: this.data.companylogo,
           CardImages: this.data.cardimages,

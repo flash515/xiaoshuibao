@@ -24,7 +24,7 @@
           </view>
           <view class="nickname">{{item.nickName}}</view>
           <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
-          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.subDate([item.PublishDate])}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.formatTime(item.PublishDate,'yyyy-MM-dd')}}</text></view>
         </view>
         <view><text>{{item.InfoContent}}</text></view>
         <view>
@@ -42,7 +42,7 @@
           </view>
           <view class="nickname">{{item.nickName}}</view>
           <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
-          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.subDate([item.PublishDate])}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.formatTime(item.PublishDate,'yyyy-MM-dd')}}</text></view>
         </view>
         <view><text>{{item.InfoContent}}</text></view>
         <view>
@@ -60,7 +60,7 @@
           </view>
           <view class="nickname">{{item.nickName}}</view>
           <view wx:if="{{!loginbtnshow}}" style="color:#3683d6;"><text decode="{{true}}" space="emsp">手机：{{item.CreatorPhone}}</text></view>
-          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.subDate([item.PublishDate])}}</text></view>
+          <view style="color:#3683d6;"><text decode="{{true}}" space="emsp">日期：{{tools.formatTime(item.PublishDate,'yyyy-MM-dd')}}</text></view>
         </view>
         <view><text>{{item.InfoContent}}</text></view>
         <view>
@@ -86,13 +86,13 @@
           <view style="display: flex;flex-direction: column;width: 100%;">
             <view style="display: flex;flex-direction: row; justify-content: space-between;">
               <view class="nickname">{{item.nickName}}</view>
-              <view class="nickname"><text decode='true' space="emsp"> 发表于 {{item.PublishDate}}</text></view>
+              <view class="nickname"><text decode='true' space="emsp"> 发表于{{tools.formatTime(item.PublishDate,'yyyy-MM-dd')}}</text></view>
             </view>
             <view class="comment"><text decode='true' space="emsp">{{item.Comment}}</text></view>
             <view wx:if="{{item.Reply}}" style="display: flex;flex-direction: column;width: 100%;">
               <view style="display: flex;flex-direction: row; justify-content: space-between;">
                 <view class="nickname">作者</view>
-                <view class="nickname"><text decode='true' space="emsp">回复于 {{item.ReplyDate}}</text></view>
+                <view class="nickname"><text decode='true' space="emsp">回复于{{tools.formatTime(item.ReplyDate,'yyyy-MM-dd')}}</text></view>
               </view>
               <view class="comment"><text decode='true' space="emsp">{{item.Reply}}</text></view>
             </view>
