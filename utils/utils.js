@@ -163,14 +163,14 @@ async function _SendNewUserSMS() { // 通过云函数获取用户本人的小程
   return promise;
 }
 async function CloudInit() { // 用户登录时的操作
-  var cc = new wx.cloud.Cloud({
-    resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
-    traceUser: false,
-  })
   // var cc = new wx.cloud.Cloud({
-  //   resourceAppid: 'wx810b87f0575b9a47',
   //   resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+  //   traceUser: false,
   // })
+  var cc = new wx.cloud.Cloud({
+    resourceAppid: 'wx810b87f0575b9a47',
+    resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
+  })
   await cc.init()
   app.globalData.c1 = cc
   console.log("执行了")
@@ -178,7 +178,7 @@ async function CloudInit() { // 用户登录时的操作
 
 async function UserLogon(tempinviterid, params, remark) { // 用户登录时的操作
   console.log("执行了")
-  // await CloudInit();
+  // CloudInit();
   await _setting();
   await _login();
   let data = await _usercheck(app.globalData.Guserid)

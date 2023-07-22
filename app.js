@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch:function () {
+  onLaunch: function () {
     // 测试async，await可用
     // (async () => {
     //   const p = await new Promise(resolve => {
@@ -8,9 +8,9 @@ App({
     //   });
     //   console.log(p);
     // })();
-wx.cloud.init({
-     // resourceAppid:'wx810b87f0575b9a47',
-     // resourceEnv:'xsbmain-9gvsp7vo651fd1a9',
+    wx.cloud.init({
+      // resourceAppid: 'wx810b87f0575b9a47',
+      // resourceEnv: 'xsbmain-9gvsp7vo651fd1a9',
       env: 'xsbmain-9gvsp7vo651fd1a9',
       traceUser: false,
     })
