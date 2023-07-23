@@ -24,20 +24,21 @@ exports.main = async(event, context) => {
       if (rowId > 0 && row) { //第一行是表格标题，所以我们要从第2行开始读
         //3，把解析到的数据存到excelList数据表里
         all_excel_data.push({
-          VisitDate: row[0],
-          Visitor: row[1],
-          Type: row[2], //客户类别
-          Status: row[3],
-          Remark: row[4],
-          Company: row[5], //公司名称
-          CompanyId: row[6], //信用代码
-          Representative: row[7], //法定代表人
-          Tel: row[8], //联系电话
-          MoreTel: row[9], //其他电话
-          Address: row[10], //地址
-          Lon: row[11], //经度
-          Lat: row[12], //纬度
-          Scope: row[13], //经营范围
+          Type: row[0], //客户类别
+          Status: row[1],
+          Remark: row[2],
+          Company: row[3], //公司名称
+          CompanyId: row[4], //信用代码
+          Representative: row[5], //法定代表人
+          Tel: row[6], //联系电话
+          MoreTel: row[7], //其他电话
+          Province: row[8], //其他电话
+          City: row[9], //其他电话
+          District: row[10], //其他电话
+          Address: row[11], //地址
+          Lon: row[12], //经度
+          Lat: row[13], //纬度
+          Scope: row[14], //经营范围
      })
       }
     }

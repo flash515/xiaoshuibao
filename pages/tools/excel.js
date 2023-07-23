@@ -1,4 +1,5 @@
 // pages/test/test.js
+const utils = require('../../utils/utils')
 Page({
 
   /**
@@ -36,6 +37,7 @@ Page({
   },
 
   jiexi(fileid) {
+    utils.showLoading()
     wx.cloud.callFunction({
       name: "ClientExcel",
       data: {
@@ -43,9 +45,11 @@ Page({
       },
       success(res) {
         console.log("导入成功", res)
+        utils.hideLoading()
       },
       fail(res) {
         console.log("导入失败", res)
+        utils.hideLoadingWithErrorTips()
       }
     })
 

@@ -1,6 +1,6 @@
 // pages/mine/providerapply.js
 const app = getApp()
-const util = require('../../utils/utils')
+const utils = require('../../utils/utils')
 var Time=require("../../utils/getDates")
 Page({
 
@@ -31,7 +31,7 @@ Page({
     if (!fileLink) {
       return false
     }
-    util.showLoading()
+    utils.showLoading()
 
     // 单次下载允许的最大文件为 200MB
     wx.downloadFile({
@@ -39,7 +39,7 @@ Page({
       success: function (res) {
         console.log(res, "wx.downloadFile success res")
         if (res.statusCode != 200) {
-          util.hideLoadingWithErrorTips()
+          utils.hideLoadingWithErrorTips()
           return false
         }
         var Path = res.tempFilePath //返回的文件临时地址，用于后面打开本地预览所用
@@ -48,13 +48,13 @@ Page({
           showMenu: true,
           success: function (res) {
             console.log('打开成功');
-            util.hideLoading()
+            utils.hideLoading()
           }
         })
       },
       fail: function (err) {
         console.log(err, "wx.downloadFile fail err");
-        util.hideLoadingWithErrorTips()
+        utils.hideLoadingWithErrorTips()
       }
     })
 
