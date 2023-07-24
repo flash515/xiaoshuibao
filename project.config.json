@@ -232,6 +232,7 @@
     "tabSize": 2
   },
   "simulatorPluginLibVersion": {},
+  "testRoot": "minitest/",
   "packOptions": {
     "ignore": [
       {
@@ -242,7 +243,5 @@
     "include": []
   },
   "appid": "wx810b87f0575b9a47",
-  "projectname": "小税宝",
-  "libVersion": "2.33.0",
-  "testRoot": "minitest/"
+  "projectname": "小税宝"
 }
