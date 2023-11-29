@@ -26,7 +26,7 @@ exports.main = async (event, context) => {
             //传入的条件参数
           Lon: _.gte(event.nowLon - event.range).and(_.lte(event.nowLon + event.range)),
           Lat: _.gte(event.nowLat - event.range).and(_.lte(event.nowLat + event.range)),
-          Status:"存续"
+          //Status:"存续"
 }).orderBy(orderbykey, orderby).count()
     const total = countResult.total
     // 计算需分几次取
@@ -38,7 +38,7 @@ exports.main = async (event, context) => {
             //传入的条件参数
             Lon: _.gte(event.nowLon - event.range).and(_.lte(event.nowLon + event.range)),
             Lat: _.gte(event.nowLat - event.range).and(_.lte(event.nowLat + event.range)),
-            Status:"存续"
+            //Status:"存续"
           }).skip(i * MAX_LIMIT).limit(MAX_LIMIT).orderBy(orderbykey, orderby).get()
       tasks.push(promise)
     }

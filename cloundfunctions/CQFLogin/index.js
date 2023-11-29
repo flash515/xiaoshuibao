@@ -14,7 +14,7 @@ exports.main = async (event, context) => {
     qs: {
       js_code: event.code,
       appid: "wxf43d2aed3e5b6370",
-      secret: "f880fc2af3f06d340166b0750cac2a78",
+      secret: "67db479541ed6d829084764443ca9da0",
       grant_type: "authorization_code"
     },
     headers: {

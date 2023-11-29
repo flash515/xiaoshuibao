@@ -100,6 +100,14 @@ const ProductSortArray = [{
             "Category3Code": "04",
             "Category3Name": "河南托管",
           },
+          {
+            "Category3Code": "05",
+            "Category3Name": "海南托管",
+          },
+          {
+            "Category3Code": "06",
+            "Category3Name": "湖南托管",
+          },
         ]
       },
       {
@@ -117,6 +125,10 @@ const ProductSortArray = [{
           {
             "Category3Code": "03",
             "Category3Name": "浙江托管",
+          },
+          {
+            "Category3Code": "04",
+            "Category3Name": "海南托管",
           },
         ]
       },

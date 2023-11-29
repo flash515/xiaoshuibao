@@ -208,7 +208,8 @@ Page({
           //校验大小后，符合进行上传
           if (size > 20) {
             let beyongSize = size - 20 //获取视频超出限制大小的数量
-            Toast("上传的视频大小超限,超出" + beyongSize + "MB,请重新上传！")
+            utils._ErrorToast("视频请小于20MB")
+            //            Toast("上传的视频大小超限,超出" + beyongSize + "MB,请重新上传！")
             return
           } else {
             //符合大小限制，进行上传
