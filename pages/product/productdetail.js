@@ -131,6 +131,13 @@ pagelink:"", //为管理员提供当前页面产品链接
         success: (result) => {
           console.log("下载成功",result.tempFilePath);
           utils._SuccessToast("下载成功")
+          const filePath = result.tempFilePath
+          wx.openDocument({
+            filePath: filePath,
+            success: function (res) {
+              console.log('打开文档成功')
+            }
+          })
         },
         fail: (res) => {
           console.log("下载失败：",res);
