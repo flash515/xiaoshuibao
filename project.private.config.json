@@ -9,6 +9,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/tools/meetingroom/expressmeeting",
+          "pathName": "pages/tools/meetingroom/expressmeeting",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/manage/sortedit",
           "pathName": "pages/manage/sortedit",
           "query": "",
@@ -102,12 +109,6 @@
         {
           "name": "pages/index/aboutus",
           "pathName": "pages/index/aboutus",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/tools/chatroom/chatroom",
-          "pathName": "pages/tools/chatroom/chatroom",
           "query": "",
           "scene": null
         },

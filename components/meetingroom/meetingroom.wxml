@@ -33,7 +33,7 @@
 
   <!-- message sender -->
   <view class="footer">
-  <view class="message-sender">
+    <view class="message-sender">
     <input class="text-input" type="text" bindinput="ConText" cursor-spacing="20" value="{{textInputValue}}"></input>
     <image src="./photo.png" class="btn-send-image" mode="scaleToFill" bindtap="onChooseImage"></image>
     <button class="button" value="{{textInputValue}}" bindtap="onConfirmSendText">发送</button>
