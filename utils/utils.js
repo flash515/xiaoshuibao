@@ -1,6 +1,6 @@
 const app = getApp()
 const Time = require("../utils/getDates");
-import regeneratorRuntime from '../utils/regenerator-runtime/runtime'
+// import regeneratorRuntime from '../utils/regenerator-runtime/runtime'
 // 新用户信息初始化字段
 var newuserinfo = {
   nickName: "",
