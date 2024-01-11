@@ -9,6 +9,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/promote/pointspacket",
+          "pathName": "pages/promote/pointspacket",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/tools/meetingroom/expressmeeting",
           "pathName": "pages/tools/meetingroom/expressmeeting",
           "query": "",
@@ -43,12 +50,6 @@
         {
           "name": "pages/mine/sms",
           "pathName": "pages/mine/sms",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/room/room",
-          "pathName": "pages/room/room",
           "query": "",
           "scene": null
         },

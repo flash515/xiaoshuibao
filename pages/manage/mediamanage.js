@@ -189,8 +189,6 @@ Page({
       let index2 = 'video' + (e.detail.current + 1)
       this.pauseVio(index2)
     }
-    this._getComments(this.data.infoid)
-    this._getPraise(this.data.infoid)
   },
 
   // 播放视频

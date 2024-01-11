@@ -300,6 +300,11 @@ pagelink:"", //为管理员提供当前页面产品链接
       }
     })
   },
+  bvHongbao: function (e) {
+    wx.navigateTo({
+        url: "../product/productdetail?" + e.currentTarget.dataset.params
+      })
+  },
   onLoad: async function (options) {
     console.log("页面接收参数", options)
     let page=getCurrentPages().pop()
